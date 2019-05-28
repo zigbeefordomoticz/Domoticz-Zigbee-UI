@@ -53,8 +53,7 @@
                     [multiple]="true"
                     [closeOnSelect]="false"
                     [searchable]="true"
-                    bindLabel="ZDeviceName"
-                    bindValue="_NwkId"
+                    bindLabel="Name"
                     placeholder="Choose device"
                     [(ngModel)]="row.devicesSelected"
                     (change)="hasEditing = true"
@@ -62,12 +61,23 @@
                   >
                     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                       <span [ngOptionHighlight]="search">
-                        <b>{{ item.ZDeviceName }}</b> - <b>IEEE</b> : {{ item.WidgetList[0].IEEE }} - <b>Ep</b> :
-                        {{ item.WidgetList[0].Ep }} - <b>Id</b> : {{ item.WidgetList[0]._Id }} - <b>Widget</b> :
-                        {{ item.WidgetList[0].Name }}
+                        <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
+                        <b>Id</b> : {{ item._ID }} -
+                        <b>{{ item.ZDeviceName }}</b>
                       </span>
                     </ng-template>
                   </ng-select>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                [maxWidth]="150"
+                name="{{ 'group.create.coordinator.column' | translate }}"
+                [sortable]="false"
+              >
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  <div class="form-check">
+                    <input [checked]="row.coordinatorInside" class="form-check-input" type="checkbox" />
+                  </div>
                 </ng-template>
               </ngx-datatable-column>
             </ngx-datatable>

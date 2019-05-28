@@ -19,7 +19,7 @@ export class GroupComponent implements OnInit {
   rows: Array<Group>;
   rowsTemp: any[] = [];
   editing = {};
-  devices: Array<DevicesAvailable> = [];
+  devices: Array<DeviceAvailable>;
   temp: any = [];
   hasEditing = false;
 
@@ -31,21 +31,36 @@ export class GroupComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.apiService.getZGroups().subscribe((groups: Array<Group>) => {
-      groups.forEach(group => {
-        const devicesSelected: any[] = [];
-        group.Devices.forEach(device => {
-          devicesSelected.push(device._NwkId);
+    this.apiService.getZGroupDevicesAvalaible().subscribe((devices: Array<DevicesAvailable>) => {
+      const devicesToAdd: Array<DeviceAvailable> = [];
+      devices.forEach(device => {
+        device.WidgetList.forEach(widget => {
+          const deviceToAdd: DeviceAvailable = new DeviceAvailable();
+          deviceToAdd.Ep = widget.Ep;
+          deviceToAdd.IEEE = widget.IEEE;
+          deviceToAdd.Name = widget.Name;
+          deviceToAdd.ZDeviceName = widget.ZDeviceName;
+          deviceToAdd._ID = widget._ID;
+          deviceToAdd._NwkId = device._NwkId;
+          devicesToAdd.push(deviceToAdd);
         });
-        group.devicesSelected = devicesSelected;
       });
-
-      this.apiService.getZGroupDevicesAvalaible().subscribe((devices: Array<DevicesAvailable>) => {
-        this.devices = devices;
-        this.devices.forEach(device => {
-          device.ZDeviceName = device.WidgetList[0].ZDeviceName;
+      this.devices = [...devicesToAdd];
+      this.apiService.getZGroups().subscribe((groups: Array<Group>) => {
+        groups.forEach(group => {
+          const devicesSelected: any[] = [];
+          group.Devices.forEach(device => {
+            const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
+            group.coordinatorInside = false;
+            if (deviceAvailable !== null && deviceAvailable !== undefined) {
+              devicesSelected.push(deviceAvailable);
+            } else {
+              group.coordinatorInside = true;
+            }
+          });
+          group.devicesSelected = devicesSelected;
         });
-        this.devices = [...this.devices];
+
         this.rows = [...groups];
       });
     });

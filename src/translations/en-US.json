@@ -41,6 +41,7 @@
   "group.create.shortid.column": "Short id",
   "group.create.subtitle": "Admin group subtitle",
   "group.create.validate.button": "Validate",
+  "group.create.coordinator.column": "Coordinator",
   "network": "Network",
   "network.stats.header": "Network",
   "network.stats.subtitle": "Network subtitle",
