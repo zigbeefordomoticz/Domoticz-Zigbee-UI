@@ -1,0 +1,13 @@
+<div class="card" *ngIf="stats$ | async as stats">
+  <div class="card-header" translate="network.stats.header"></div>
+  <div class="card-body">
+    <h5 class="card-title" translate="network.stats.subtitle"></h5>
+    <div class="card-text">
+      <li *ngFor="let stat of stats | keyvalue">
+        {{ stat.key | translate }} :
+        <span *ngIf="stat.key === 'StartTime'; else others">{{ stat.value | date: 'dd/MM/yyyy hh:mm:ss' }}</span>
+        <ng-template #others>{{ stat.value }}</ng-template>
+      </li>
+    </div>
+  </div>
+</div>

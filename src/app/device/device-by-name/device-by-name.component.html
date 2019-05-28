@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-sm-10">
+    <div class="card">
+      <div class="card-header" translate="device.byname.header"></div>
+      <div class="card-body">
+        <h5 class="card-title" translate="device.byname.subtitle"></h5>
+        <div class="card-text">
+          <input
+            type="text"
+            placeholder="{{ 'device.byname.placeholder' | translate }}"
+            (keyup)="updateFilter($event)"
+          />
+          <ngx-datatable
+            #table
+            [rows]="rows"
+            class="bootstrap"
+            [columnMode]="'force'"
+            [headerHeight]="40"
+            [summaryRow]="true"
+            [summaryPosition]="'bottom'"
+            [footerHeight]="40"
+            [limit]="10"
+            [rowHeight]="'auto'"
+          >
+            <ngx-datatable-column
+              [maxWidth]="100"
+              name="{{ 'device.byname.shortid.column' | translate }}"
+              prop="_NwkId"
+            >
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row._NwkId }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [maxWidth]="150" name="{{ 'device.byname.ieee.column' | translate }}" prop="IEEE">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.IEEE }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'device.byname.model.column' | translate }}" prop="Model">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.Model }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'device.byname.widget.column' | translate }}" prop="WidgetList">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <div *ngFor="let widget of row.WidgetList">
+                  {{ widget }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'device.byname.devicename.column' | translate }}" prop="ZDeviceName">
+              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                <input
+                  autofocus
+                  (change)="updateValue($event, 'ZDeviceName', rowIndex)"
+                  type="text"
+                  [value]="row.ZDeviceName"
+                />
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              name="{{ 'device.byname.capabilities.column' | translate }}"
+              [maxWidth]="130"
+              prop="MacCapa"
+            >
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <div *ngFor="let capa of row.MacCapa">
+                  {{ capa }}
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'device.byname.status.column' | translate }}" [maxWidth]="100" prop="Status">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.Status }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'device.byname.health.column' | translate }}" [maxWidth]="100" prop="Health">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.Health }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+          <div class="mt-3 float-right">
+            <button
+              [disabled]="!hasEditing"
+              (click)="updateDevices()"
+              class="btn btn-primary"
+              translate="{{ 'device.byname.validate.button' | translate }}"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="card">
+        <div class="card-header" translate="group.create.header"></div>
+        <div class="card-body">
+          <h5 class="card-title" translate="group.create.subtitle"></h5>
+          <div class="card-text">
+            <input
+              type="text"
+              placeholder="{{ 'group.create.placeholder' | translate }}"
+              (keyup)="updateFilter($event)"
+            />
+            <ngx-datatable
+              #table
+              [rows]="rows"
+              class="bootstrap"
+              [columnMode]="'force'"
+              [headerHeight]="40"
+              [summaryRow]="true"
+              [summaryPosition]="'bottom'"
+              [footerHeight]="40"
+              [limit]="10"
+              [rowHeight]="'auto'"
+            >
+              <ngx-datatable-column
+                [maxWidth]="100"
+                name="{{ 'group.create.shortid.column' | translate }}"
+                prop="_GroupId"
+              >
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  {{ row._GroupId }}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column
+                [maxWidth]="200"
+                name="{{ 'group.create.groupname.column' | translate }}"
+                prop="GroupName"
+              >
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  <input
+                    autofocus
+                    (change)="updateValue($event, 'GroupName', rowIndex)"
+                    type="text"
+                    [value]="row.GroupName"
+                  />
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="{{ 'group.create.devices.column' | translate }}" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row">
+                  <ng-select
+                    [items]="devices"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    [searchable]="true"
+                    bindLabel="ZDeviceName"
+                    bindValue="_NwkId"
+                    placeholder="Choose device"
+                    [(ngModel)]="row.devicesSelected"
+                    (change)="hasEditing = true"
+                    appendTo="body"
+                  >
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <span [ngOptionHighlight]="search">
+                        <b>{{ item.ZDeviceName }}</b> - <b>IEEE</b> : {{ item.WidgetList[0].IEEE }} - <b>Ep</b> :
+                        {{ item.WidgetList[0].Ep }} - <b>Id</b> : {{ item.WidgetList[0]._Id }} - <b>Widget</b> :
+                        {{ item.WidgetList[0].Name }}
+                      </span>
+                    </ng-template>
+                  </ng-select>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+            <div class="mt-3 float-right">
+              <button
+                [disabled]="!hasEditing"
+                (click)="updateDevices()"
+                class="btn btn-primary"
+                translate="group.create.validate.button"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
