@@ -49,9 +49,9 @@ export class GroupComponent implements OnInit {
       this.apiService.getZGroups().subscribe((groups: Array<Group>) => {
         groups.forEach(group => {
           const devicesSelected: any[] = [];
+          group.coordinatorInside = false;
           group.Devices.forEach(device => {
             const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
-            group.coordinatorInside = false;
             if (deviceAvailable !== null && deviceAvailable !== undefined) {
               devicesSelected.push(deviceAvailable);
             } else {
