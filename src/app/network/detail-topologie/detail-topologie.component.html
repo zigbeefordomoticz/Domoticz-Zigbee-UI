@@ -1,0 +1,119 @@
+<div class="mt-3 col">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="row">
+        <div class="col">
+          <div class="card" *ngIf="chart">
+            <div class="card-header" translate="network.topo.visu.header"></div>
+            <div class="card-body">
+              <h5 class="card-title" translate="network.topo.visu.subtitle"></h5>
+              <div class="card-text highcharts-root" [chart]="chart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="row">
+        <div class="col">
+          <div class="card" *ngIf="chart">
+            <div class="card-header" translate="network.topo.device.visu.header"></div>
+            <div class="card-body">
+              <h5 class="card-title" translate="network.topo.device.visu.subtitle"></h5>
+              <div class="card-text">
+                <ngx-datatable
+                  [rows]="devices$ | async"
+                  class="bootstrap"
+                  [columnMode]="'force'"
+                  [headerHeight]="40"
+                  [summaryRow]="false"
+                  [footerHeight]="40"
+                  [limit]="10"
+                  [rowHeight]="'auto'"
+                >
+                  <ngx-datatable-column
+                    [maxWidth]="200"
+                    name="{{ 'network.topo.device.deviceid.column' | translate }}"
+                    prop="_DeviceID"
+                  >
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row._DeviceID }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column
+                    [maxWidth]="60"
+                    name="{{ 'network.topo.device.id.column' | translate }}"
+                    prop="ID"
+                  >
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.ID }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column
+                    [maxWidth]="400"
+                    name="{{ 'network.topo.device.name.column' | translate }}"
+                    prop="Name"
+                  >
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.Name }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column
+                    [maxWidth]="80"
+                    name="{{ 'network.topo.device.batterylevel.column' | translate }}"
+                    prop="BatteryLevel"
+                  >
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.BatteryLevel }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column
+                    [maxWidth]="80"
+                    name="{{ 'network.topo.device.signalelevel.column' | translate }}"
+                    prop="SignaleLevel"
+                  >
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.SignaleLevel }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="{{ 'network.topo.device.timedout.column' | translate }}"
+                    [maxWidth]="80"
+                    prop="TimedOut"
+                  >
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.TimedOut }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="{{ 'network.topo.device.type.column' | translate }}"
+                    [maxWidth]="80"
+                    prop="Type"
+                  >
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.Type }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column
+                    name="{{ 'network.topo.device.nvalue.column' | translate }}"
+                    [maxWidth]="80"
+                    prop="nValue"
+                  >
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.nValue }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="{{ 'network.topo.device.svalue.column' | translate }}" prop="sValue">
+                    <ng-template ngx-datatable-cell-template let-row="row">
+                      {{ row.sValue }}
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

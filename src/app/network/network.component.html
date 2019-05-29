@@ -1,4 +1,7 @@
 <div class="container-fluid">
-  <app-topology></app-topology>
-  <app-nwk-stats class="row col-sm-2"></app-nwk-stats>
+  <div class="row">
+    <app-topology (timeStamp)="timeStampChange($event)"></app-topology>
+    <app-nwk-stats></app-nwk-stats>
+  </div>
+  <div *ngIf="timeStamp"><app-detail-topologie [timeStamp]="timeStamp"></app-detail-topologie></div>
 </div>

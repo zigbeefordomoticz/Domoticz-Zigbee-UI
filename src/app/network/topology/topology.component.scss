@@ -1,3 +1,25 @@
-.highcharts-root {
-  height: 500px !important;
+.content-container {
+  position: relative;
+  overflow: auto;
+  height: 150px;
+  min-height: 0;
+}
+
+.content-container {
+  position: relative;
+  min-height: 0;
+}
+
+.vertical-container,
+.horizontal-container {
+  min-height: 0 !important;
+}
+
+.scroll-container {
+  position: relative;
+}
+
+.scrollable-content {
+  padding: 16px;
+  margin: 0;
 }

@@ -38,6 +38,7 @@ export class SettingsComponent implements OnInit {
     this.apiService.putSettings(this.form.value).subscribe((result: any) => {
       this.form.markAsPristine();
       this.notifyService.notify();
+      this.settings$ = this.apiService.getSettings();
     });
   }
 }
