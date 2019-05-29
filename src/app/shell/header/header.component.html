@@ -44,6 +44,7 @@
           <span translate>About</span>
         </a>
       </div>
+
       <div class="navbar-nav ml-auto">
         <div class="nav-item" ngbDropdown placement="bottom-right">
           <a id="language-dropdown" class="nav-link" ngbDropdownToggle>{{ currentLanguage }}</a>
@@ -52,6 +53,10 @@
               {{ language }}
             </button>
           </div>
+          <span class="switch switch-sm">
+            <input [checked]="permitChecked" (click)="permit($event)" type="checkbox" class="switch" id="switch-sm" />
+            <label for="switch-sm" translate="admin.permittojoin.label"></label>
+          </span>
         </div>
       </div>
     </div>

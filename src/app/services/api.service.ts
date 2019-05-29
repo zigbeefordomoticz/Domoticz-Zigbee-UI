@@ -19,7 +19,9 @@ const routes = {
   topologie: '/topologie',
   permitToJoin: '/permit-to-join',
   zdeviceName: '/zdevice-name',
-  zgroupDevicesAvalaible: '/zgroup-list-available-device'
+  zgroupDevicesAvalaible: '/zgroup-list-available-device',
+  reqTopology: '/req-topologie',
+  reqInter: '/req-nwk-inter'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -89,6 +91,20 @@ export class ApiService {
     );
   }
 
+  getReqTopologie(): Observable<any> {
+    return this.httpClient.get(routes.reqTopology).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getReqInter(): Observable<any> {
+    return this.httpClient.get(routes.reqInter).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
   getTopologieByTimeStamp(timestamp: string): Observable<any> {
     return this.httpClient.get(routes.topologie + '/' + timestamp).pipe(
       map((body: any) => body),
@@ -96,7 +112,7 @@ export class ApiService {
     );
   }
 
-  getPermitToJoin(): Observable<PluginStats> {
+  getPermitToJoin(): Observable<any> {
     return this.httpClient.get(routes.permitToJoin).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))

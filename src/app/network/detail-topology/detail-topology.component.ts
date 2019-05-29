@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 const log = new Logger('TopologyComponent');
 
 @Component({
-  selector: 'app-detail-topologie',
-  templateUrl: './detail-topologie.component.html',
-  styleUrls: ['./detail-topologie.component.scss']
+  selector: 'app-detail-topology',
+  templateUrl: './detail-topology.component.html',
+  styleUrls: ['./detail-topology.component.scss']
 })
 export class DetailTopologyComponent implements OnInit, OnChanges {
   @Input() timeStamp: string;
@@ -24,7 +24,7 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.timeStamp.currentValue != changes.timeStamp.previousValue) {
+    if (changes.timeStamp.currentValue !== changes.timeStamp.previousValue) {
       this.apiService.getTopologieByTimeStamp(this.timeStamp).subscribe(result => {
         this.createChart(result);
       });
@@ -33,13 +33,13 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
 
   createChart(data: Array<Object>) {
     const series = data.map(element => {
-      let tab = Object.values(element);
+      const tab = Object.values(element);
       tab.splice(1, 1);
       return tab;
     });
     log.debug(series);
 
-    let chart = new Chart({
+    const chart = new Chart({
       chart: {
         type: 'dependencywheel'
       },
