@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
@@ -15,6 +15,7 @@ const log = new Logger('CreateGroupComponent');
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
+  @ViewChild('table') table: any;
   form: FormGroup;
   rows: Array<Group>;
   rowsTemp: any[] = [];
@@ -64,47 +65,10 @@ export class GroupComponent implements OnInit {
         });
 
         this.rows = [...groups];
+        this.temp = [...groups];
       });
     });
   }
-
-  // ngOnInit() {
-  //   this.form = this.formBuilder.group({
-  //     devicesSelected: ['']
-  //   });
-
-  //   this.apiService.getZGroups().subscribe((result1: any) => {
-  //     result1.forEach((value1: any) => {
-  //       Object.entries(value1).forEach(entry => {
-  //         const value2: any = entry[1];
-  //         const key2: any = entry[0];
-  //         value2.key = key2;
-  //         const devicesSelected: any[] = [];
-  //         Object.entries(value2.Devices).forEach(entry3 => {
-  //           const value3: any = entry3[1];
-
-  //           Object.keys(value3).forEach(values4 => {
-  //             devicesSelected.push(values4);
-  //           });
-  //         });
-  //         value2.devicesSelected = "devicesSelected";
-  //         this.rowsTemp.push(value2);
-  //       });
-  //     });
-  //     this.apiService.getZGroupDevicesAvalaible().subscribe((result: any) => {
-  //       Object.entries(result).forEach(([key, value]) => {
-  //         const item = new Group();
-  //         item.ShortId = key;
-  //         item.Ep = value[0][2];
-  //         item.WidgetName = value[0][0];
-  //         item.IEEE = value[0][1];
-  //         this.devices.push(item);
-  //         this.devices = [...this.devices];
-  //       });
-  //     });
-  //     this.rows = [...this.rowsTemp];
-  //   });
-  // }
 
   updateValue(event: any, cell: any, rowIndex: any) {
     this.hasEditing = true;
@@ -119,39 +83,16 @@ export class GroupComponent implements OnInit {
     const val = event.target.value.toLowerCase();
     const temp = this.temp.filter(function(d: any) {
       let ok = false;
-      if (d.Model) {
-        ok = d.Model.toLowerCase().indexOf(val) !== -1;
+      if (d._GroupId) {
+        ok = d._GroupId.toLowerCase().indexOf(val) !== -1;
       }
-      if (!ok && d.ZDeviceName) {
-        ok = d.ZDeviceName.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.key) {
-        ok = d.key.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.Status) {
-        ok = d.Status.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.IEEE) {
-        ok = d.IEEE.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.WidgetNames) {
-        const widgets = d.WidgetNames as Array<string>;
-        widgets.forEach(function(value: string) {
-          if (!ok && value) {
-            ok = value.toLowerCase().indexOf(val) !== -1;
-          }
-        });
-      }
-      if (!ok && d.MacCapa) {
-        const capas = d.MacCapa as Array<string>;
-        capas.forEach(function(value: string) {
-          if (!ok && value) {
-            ok = value.toLowerCase().indexOf(val) !== -1;
-          }
-        });
+      if (!ok && d.GroupName) {
+        ok = d.GroupName.toLowerCase().indexOf(val) !== -1;
       }
       return ok || !val;
     });
+    this.rows = temp;
+    this.table.offset = 0;
   }
 
   updateDevices() {

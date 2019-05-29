@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <form [formGroup]="form" *ngIf="settings$ | async as data">
-    <div class="row float-right">
+    <div class="float-right">
       <button (click)="updateSettings()" class="btn btn-primary" translate="setting.validate.button"></button>
     </div>
 
@@ -20,6 +20,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="float-right">
+      <button (click)="updateSettings()" class="btn btn-primary" translate="setting.validate.button"></button>
     </div>
   </form>
 </div>

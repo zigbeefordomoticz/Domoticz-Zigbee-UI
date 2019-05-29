@@ -26,20 +26,17 @@ export class SettingsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      settings: this.formBuilder.group({})
-    });
-
+    this.form = this.formBuilder.group({});
     this.settings$ = this.apiService.getSettings();
   }
 
   updateSettings() {
-    if (this.form.invalid || !this.form.dirty) {
+    if (this.form.invalid) {
       this.form.markAsTouched();
       return;
     }
-    this.apiService.putSettings(this.form.get('settings').value).subscribe((result: any) => {
-      this.form.get('settings').markAsPristine();
+    this.apiService.putSettings(this.form.value).subscribe((result: any) => {
+      this.form.markAsPristine();
       this.notifyService.notify();
     });
   }
