@@ -51,11 +51,13 @@ export class GroupComponent implements OnInit {
           const devicesSelected: any[] = [];
           group.coordinatorInside = false;
           group.Devices.forEach(device => {
-            const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
-            if (deviceAvailable !== null && deviceAvailable !== undefined) {
-              devicesSelected.push(deviceAvailable);
-            } else {
+            if (device._NwkId === '0000') {
               group.coordinatorInside = true;
+            } else {
+              const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
+              if (deviceAvailable !== null && deviceAvailable !== undefined) {
+                devicesSelected.push(deviceAvailable);
+              }
             }
           });
           group.devicesSelected = devicesSelected;
