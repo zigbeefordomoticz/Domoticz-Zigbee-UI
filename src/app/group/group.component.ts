@@ -36,14 +36,16 @@ export class GroupComponent implements OnInit {
       const devicesToAdd: Array<DeviceAvailable> = [];
       devices.forEach(device => {
         device.WidgetList.forEach(widget => {
-          const deviceToAdd: DeviceAvailable = new DeviceAvailable();
-          deviceToAdd.Ep = widget.Ep;
-          deviceToAdd.IEEE = widget.IEEE;
-          deviceToAdd.Name = widget.Name;
-          deviceToAdd.ZDeviceName = widget.ZDeviceName;
-          deviceToAdd._ID = widget._ID;
-          deviceToAdd._NwkId = device._NwkId;
-          devicesToAdd.push(deviceToAdd);
+          if (device._NwkId !== '0000') {
+            const deviceToAdd: DeviceAvailable = new DeviceAvailable();
+            deviceToAdd.Ep = widget.Ep;
+            deviceToAdd.IEEE = widget.IEEE;
+            deviceToAdd.Name = widget.Name;
+            deviceToAdd.ZDeviceName = widget.ZDeviceName;
+            deviceToAdd._ID = widget._ID;
+            deviceToAdd._NwkId = device._NwkId;
+            devicesToAdd.push(deviceToAdd);
+          }
         });
       });
       this.devices = [...devicesToAdd];
