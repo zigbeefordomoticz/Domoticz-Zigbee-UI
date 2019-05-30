@@ -35,6 +35,15 @@ export class SettingsComponent implements OnInit {
       this.form.markAsTouched();
       return;
     }
+
+    Object.keys(this.form.value).forEach(key => {
+      if (this.form.value[key].current === true) {
+        this.form.value[key].current = 1;
+      } else if (this.form.value[key].current === false) {
+        this.form.value[key].current = 0;
+      }
+    });
+
     this.apiService.putSettings(this.form.value).subscribe((result: any) => {
       this.form.markAsPristine();
       this.notifyService.notify();
