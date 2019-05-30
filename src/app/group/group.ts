@@ -2,7 +2,7 @@ export class Group {
   _GroupId: string;
   GroupName: string;
   Devices: Array<Device>;
-  devicesSelected: Array<string>;
+  devicesSelected: Array<any>;
   coordinatorInside: boolean;
 }
 

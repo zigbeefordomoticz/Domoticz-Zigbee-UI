@@ -99,6 +99,13 @@ export class GroupComponent implements OnInit {
 
   updateDevices() {
     this.hasEditing = false;
+
+    this.rows.forEach(group => {
+      if (group.coordinatorInside) {
+        group.devicesSelected.push({ Ep: '01', _NwkId: '0000' });
+      }
+    });
+
     this.apiService.putZGroups(this.rows).subscribe(result => {
       log.debug(this.rows);
       this.notifyService.notify();
