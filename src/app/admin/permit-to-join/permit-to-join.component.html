@@ -1,19 +1,29 @@
-<div class="row">
-  <button
-    class="ml-3 btn btn-primary"
-    (click)="updatePermitToJoin(255)"
-    translate="admin.permittojoin.permanent.button"
-    [disabled]="permitToJoin.PermitToJoin === 255"
-  ></button>
-  <button
-    class="ml-3 btn btn-secondary"
-    (click)="updatePermitToJoin(0)"
-    translate="admin.permittojoin.stop.button"
-    [disabled]="permitToJoin.PermitToJoin === 0"
-  ></button>
-  <button
-    class="ml-3 btn btn-success"
-    (click)="updatePermitToJoin(240)"
-    translate="admin.permittojoin.4min.button"
-  ></button>
+<div class="col">
+  <div class="card">
+    <div class="card-header" translate="admin.permittojoin.title"></div>
+    <div class="card-body">
+      <h5 class="card-title" translate="admin.permittojoin.subtitle"></h5>
+      <div class="card-text">
+        <div class="row">
+          <button
+            class="ml-3 btn btn-primary"
+            (click)="updatePermitToJoin(255)"
+            translate="admin.permittojoin.permanent.button"
+            [disabled]="permitToJoin.PermitToJoin === 255"
+          ></button>
+          <button
+            class="ml-3 btn btn-secondary"
+            (click)="updatePermitToJoin(0)"
+            translate="admin.permittojoin.stop.button"
+            [disabled]="permitToJoin.PermitToJoin === 0"
+          ></button>
+          <button
+            class="ml-3 btn btn-success"
+            (click)="updatePermitToJoin(240)"
+            translate="admin.permittojoin.4min.button"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

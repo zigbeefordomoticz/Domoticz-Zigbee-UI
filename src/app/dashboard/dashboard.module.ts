@@ -8,6 +8,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
 import { PluginComponent } from './plugin/plugin.component';
+import { ZigateComponent } from './zigate/zigate.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { PluginComponent } from './plugin/plugin.component';
     DashboardRoutingModule,
     NgxJsonViewerModule
   ],
-  declarations: [DashboardComponent, PluginComponent, PluginStatsComponent]
+  declarations: [DashboardComponent, PluginComponent, PluginStatsComponent, ZigateComponent]
 })
 export class DashboardModule {}

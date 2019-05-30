@@ -1,12 +1,13 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <div class="row">
-        <div class="col-sm-7"><app-plugin></app-plugin></div>
+        <div class="col-sm"><app-plugin></app-plugin></div>
         <div class="col-sm"><app-plugin-stats></app-plugin-stats></div>
+        <div class="col-sm"><app-zigate></app-zigate></div>
       </div>
     </div>
-    <div class="col-sm-5">
+    <div class="mt-3 col-sm">
       <div class="row">
         <button class="ml-3 btn btn-primary" (click)="onClick('devices')" translate="dashboard.device.button"></button>
         <button

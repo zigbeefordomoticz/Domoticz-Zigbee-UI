@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { Plugin } from '../dashboard/plugin/plugin';
+import { Injectable } from '@angular/core';
 import { PluginStats } from '@app/dashboard/plugin-stats/plugin-stats';
-import { Device } from '@app/shared/models/device';
-import { Setting } from '@app/settings/setting';
 import { DevicesAvailable } from '@app/group/group';
+import { Setting } from '@app/settings/setting';
+import { Device } from '@app/shared/models/device';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { Plugin } from '../dashboard/plugin/plugin';
 
 const routes = {
   devices: '/device',
@@ -21,7 +21,10 @@ const routes = {
   zdeviceName: '/zdevice-name',
   zgroupDevicesAvalaible: '/zgroup-list-available-device',
   reqTopology: '/req-topologie',
-  reqInter: '/req-nwk-inter'
+  reqInter: '/req-nwk-inter',
+  swResetZigate: '/sw-reset-zigate',
+  zigateErasePDM: '/zigate-erase-PDM',
+  zigate: '/zigate'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -112,6 +115,13 @@ export class ApiService {
     );
   }
 
+  getNwkStatsByTimeStamp(timestamp: string): Observable<any> {
+    return this.httpClient.get(routes.nwkStat + '/' + timestamp).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
   getPermitToJoin(): Observable<any> {
     return this.httpClient.get(routes.permitToJoin).pipe(
       map((body: any) => body),
@@ -149,6 +159,27 @@ export class ApiService {
 
   putZGroups(groups: any): Observable<any> {
     return this.httpClient.put(routes.zGroups, groups).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getZigate(): Observable<any> {
+    return this.httpClient.get(routes.zigate).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getSwResetZigate(): Observable<any> {
+    return this.httpClient.get(routes.swResetZigate).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getZigateErasePDM(): Observable<any> {
+    return this.httpClient.get(routes.zigateErasePDM).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );
