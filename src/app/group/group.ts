@@ -1,4 +1,4 @@
-export interface Group {
+export class Group {
   _GroupId: string;
   GroupName: string;
   Devices: Array<Device>;

@@ -11,6 +11,9 @@
               placeholder="{{ 'group.create.placeholder' | translate }}"
               (keyup)="updateFilter($event)"
             />
+            <div class="mt-3 float-right">
+              <button (click)="add()" class="btn btn-primary" translate="group.create.add.button"></button>
+            </div>
             <ngx-datatable
               #table
               [rows]="rows"
@@ -23,6 +26,16 @@
               [limit]="10"
               [rowHeight]="'auto'"
             >
+              <ngx-datatable-column [maxWidth]="100">
+                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                  <i
+                    class="fa fa-trash"
+                    title="{{ 'group.create.delete.button' | translate }}"
+                    (click)="delete(row, rowIndex)"
+                  ></i>
+                </ng-template>
+              </ngx-datatable-column>
+
               <ngx-datatable-column
                 [maxWidth]="100"
                 name="{{ 'group.create.shortid.column' | translate }}"

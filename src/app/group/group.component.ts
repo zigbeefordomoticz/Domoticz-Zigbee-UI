@@ -102,4 +102,21 @@ export class GroupComponent implements OnInit {
       this.notifyService.notify();
     });
   }
+
+  delete(row: Group, rowIndex: number) {
+    const index = this.rows.indexOf(row, 0);
+    if (index > -1) {
+      this.rows.splice(index, 1);
+      this.rows = [...this.rows];
+      this.temp = [...this.rows];
+    }
+  }
+
+  add() {
+    const group = new Group();
+    group.GroupName = '';
+    this.rows.push(group);
+    this.rows = [...this.rows];
+    this.temp = [...this.rows];
+  }
 }
