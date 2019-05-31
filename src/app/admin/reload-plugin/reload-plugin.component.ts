@@ -5,7 +5,7 @@ import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Plugin } from '@app/shared/models/plugin';
 
-const log = new Logger('PermitToJoinComponent');
+const log = new Logger('ReloadPluginComponent');
 
 @Component({
   selector: 'app-reload-plugin',

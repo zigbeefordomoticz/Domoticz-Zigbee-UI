@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '@app/services/api.service';
 import { PluginStats } from './plugin-stats';
+import { Logger } from '@app/core';
+
+const log = new Logger('PluginStatsComponent');
 
 @Component({
   selector: 'app-plugin-stats',

@@ -59,6 +59,9 @@
   "group.create.add.button": "Add a new Group",
   "group.create.delete.button": "Delete",
   "group.create.coordinator.column": "Zigate (in the group)",
+  "group.reloadplugin.alert.title": "Plugin Reload",
+  "group.reloadplugin.alert.subject": "Groups have been updated, plugin need to be restarted",
+  "group.reloadplugin.alert.cancel": "Close",
   "network": "Network",
   "network.stats.header": "Network",
   "network.stats.subtitle": "Network subtitle",
@@ -88,6 +91,9 @@
   "setting.subtitle": "Allow you to visualize and edit the various plugin settings. Some might required a restart of the plugin to be taken into account",
   "setting.validate.button": "Validate",
   "settings": "Settings",
+  "setting.reloadplugin.alert.title": "Plugin Reload",
+  "setting.reloadplugin.alert.subject": "Settings have been updated, plugin need to be restarted",
+  "setting.reloadplugin.alert.cancel": "Close",
 
   "Ping": "Enable Ping",
   "enableWebServer": "Enable web User Interface"

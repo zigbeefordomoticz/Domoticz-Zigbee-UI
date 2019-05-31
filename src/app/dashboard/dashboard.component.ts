@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
 import { finalize } from 'rxjs/operators';
+import { Logger } from '@app/core';
+
+const log = new Logger('DashboardComponent');
 
 @Component({
   selector: 'app-dashboard',

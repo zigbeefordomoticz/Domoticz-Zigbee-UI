@@ -4,7 +4,7 @@ import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
 
-const log = new Logger('PermitToJoinComponent');
+const log = new Logger('SwResetComponent');
 
 @Component({
   selector: 'app-sw-reset',

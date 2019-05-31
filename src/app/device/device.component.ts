@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { Logger } from '@app/core';
+
+const log = new Logger('DeviceComponent');
 
 @Component({
   selector: 'app-device',

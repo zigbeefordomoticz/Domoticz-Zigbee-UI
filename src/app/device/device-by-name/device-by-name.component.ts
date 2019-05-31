@@ -7,7 +7,7 @@ import { DeviceByName } from './device-by-name';
 import { PushNotificationsService } from 'ng-push';
 import { NotifyService } from '@app/services/notify.service';
 
-const log = new Logger('ListeComponent');
+const log = new Logger('DeviceByNameComponent');
 
 @Component({
   selector: 'app-device-by-name',

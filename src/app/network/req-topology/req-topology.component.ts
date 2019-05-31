@@ -3,6 +3,9 @@ import { Observable } from 'rxjs';
 import { PluginStats } from '@app/dashboard/plugin-stats/plugin-stats';
 import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
+import { Logger } from '@app/core';
+
+const log = new Logger('ReqTopologyComponent');
 
 @Component({
   selector: 'app-req-topology',

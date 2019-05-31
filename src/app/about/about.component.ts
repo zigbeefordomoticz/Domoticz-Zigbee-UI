@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { environment } from '@env/environment';
+import { Logger } from '@app/core';
+
+const log = new Logger('GroupComponent');
 
 @Component({
   selector: 'app-about',

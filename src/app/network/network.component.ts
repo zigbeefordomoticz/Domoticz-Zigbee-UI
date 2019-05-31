@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Logger } from '@app/core';
+
+const log = new Logger('NetworkComponent');
 
 @Component({
   selector: 'app-network',

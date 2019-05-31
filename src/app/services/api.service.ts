@@ -24,7 +24,8 @@ const routes = {
   reqInter: '/req-nwk-inter',
   swResetZigate: '/sw-reset-zigate',
   zigateErasePDM: '/zigate-erase-PDM',
-  zigate: '/zigate'
+  zigate: '/zigate',
+  restartNeeded: '/restart-needed'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -187,6 +188,13 @@ export class ApiService {
 
   getReloadPlugin(plugin: Plugin): Observable<any> {
     return this.httpClient.get('').pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getRestartNeeded(): Observable<any> {
+    return this.httpClient.get(routes.restartNeeded).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );

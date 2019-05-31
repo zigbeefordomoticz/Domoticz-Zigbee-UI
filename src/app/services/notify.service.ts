@@ -10,8 +10,11 @@ export class NotifyService {
   constructor(private pushNotifications: PushNotificationsService, private translate: TranslateService) {}
 
   notify(notification?: string) {
+    if (notification === null || notification === undefined) {
+      notification = this.translate.instant('update.success');
+    }
     const options = {
-      body: notification === null ? this.translate.instant('update.success') : notification
+      body: notification
     };
     this.pushNotifications.create(this.translate.instant('APP_NAME'), options).subscribe((res: any) => log.debug(res));
   }

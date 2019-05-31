@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { PluginStats } from '@app/dashboard/plugin-stats/plugin-stats';
 import { ApiService } from '@app/services/api.service';
+import { Observable } from 'rxjs';
+import { Logger } from '@app/core';
+
+const log = new Logger('NwkStatsComponent');
 
 @Component({
   selector: 'app-nwk-stats',

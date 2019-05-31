@@ -5,8 +5,9 @@ import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceAvailable, DevicesAvailable, Group } from './group';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-const log = new Logger('CreateGroupComponent');
+const log = new Logger('GroupComponent');
 
 @Component({
   selector: 'app-group',
@@ -15,6 +16,7 @@ const log = new Logger('CreateGroupComponent');
 })
 export class GroupComponent implements OnInit {
   @ViewChild('table') table: any;
+  @ViewChild('content') content: any;
   form: FormGroup;
   rows: Array<Group> = [];
   rowsTemp: any[] = [];
@@ -24,6 +26,7 @@ export class GroupComponent implements OnInit {
   hasEditing = false;
 
   constructor(
+    private modalService: NgbModal,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
@@ -109,6 +112,11 @@ export class GroupComponent implements OnInit {
     this.apiService.putZGroups(this.rows).subscribe(result => {
       log.debug(this.rows);
       this.notifyService.notify();
+      this.apiService.getRestartNeeded().subscribe(restart => {
+        if (restart.RestartNeeded) {
+          this.open(this.content);
+        }
+      });
     });
   }
 
@@ -135,5 +143,9 @@ export class GroupComponent implements OnInit {
   updateCoordinator(event: any, row: Group) {
     this.hasEditing = true;
     row.coordinatorInside = event.currentTarget.checked;
+  }
+
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(result => {}, reason => {});
   }
 }

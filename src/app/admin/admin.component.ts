@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { NotifyService } from '../services/notify.service';
 
-const log = new Logger('SettingsComponent');
+const log = new Logger('AdminComponent');
 
 @Component({
   selector: 'app-admin',

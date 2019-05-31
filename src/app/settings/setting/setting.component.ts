@@ -4,7 +4,7 @@ import { Logger } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Setting } from '../setting';
 
-const log = new Logger('SettingsComponent');
+const log = new Logger('SettingComponent');
 
 @Component({
   selector: 'app-setting',

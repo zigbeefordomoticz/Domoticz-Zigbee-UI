@@ -5,7 +5,7 @@ import { Device } from '@app/shared/models/device';
 import { Chart } from 'angular-highcharts';
 import { Observable } from 'rxjs';
 
-const log = new Logger('TopologyComponent');
+const log = new Logger('DetailTopologyComponent');
 
 @Component({
   selector: 'app-detail-topology',

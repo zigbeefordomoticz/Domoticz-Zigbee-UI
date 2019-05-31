@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { Observable } from 'rxjs';
+import { Logger } from '@app/core';
+
+const log = new Logger('ZigateComponent');
 
 @Component({
   selector: 'app-zigate',

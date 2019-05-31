@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
@@ -6,6 +6,7 @@ import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { Setting } from './setting';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const log = new Logger('SettingsComponent');
 
@@ -15,10 +16,12 @@ const log = new Logger('SettingsComponent');
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  @ViewChild('content') content: any;
   form: FormGroup;
   settings$: Observable<Array<Setting>>;
 
   constructor(
+    private modalService: NgbModal,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
@@ -48,6 +51,15 @@ export class SettingsComponent implements OnInit {
       this.form.markAsPristine();
       this.notifyService.notify();
       this.settings$ = this.apiService.getSettings();
+      this.apiService.getRestartNeeded().subscribe(restart => {
+        if (restart.RestartNeeded) {
+          this.open(this.content);
+        }
+      });
     });
+  }
+
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(result => {}, reason => {});
   }
 }
