@@ -15,6 +15,7 @@
         formControlName="current"
         class="mt-2 w-50 form-control"
       />
+      <input *ngIf="setting.DataType === 'hex'" type="text" formControlName="current" class="mt-2 w-50 form-control" />
       <input *ngIf="setting.DataType === 'bool'" type="checkbox" formControlName="current" class="mt-2 w-50" />
     </div>
   </div>
