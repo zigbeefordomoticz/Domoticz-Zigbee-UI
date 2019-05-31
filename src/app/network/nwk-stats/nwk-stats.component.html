@@ -9,7 +9,7 @@
             <div class="scrollable-content">
               <span class="row" *ngFor="let stat of stats | keyvalue">
                 <button class="btn btn-light" (click)="(aa)">
-                  {{ stat.value | date: 'dd/MM/yyyy hh:mm:ss' }}
+                  {{ stat.value * 1000 | date: 'dd/MM/yyyy hh:mm:ss' }}
                 </button>
               </span>
             </div>

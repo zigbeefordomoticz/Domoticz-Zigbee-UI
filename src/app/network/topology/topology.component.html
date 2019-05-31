@@ -10,7 +10,7 @@
               <div class="scrollable-content">
                 <span class="row" *ngFor="let topologie of topologies | keyvalue">
                   <button class="btn btn-light" (click)="topologyByDate(topologie.value)">
-                    {{ topologie.value | date: 'dd/MM/yyyy hh:mm:ss' }}
+                    {{ topologie.value * 1000 | date: 'dd/MM/yyyy hh:mm:ss' }}
                   </button>
                 </span>
               </div>
