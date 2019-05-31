@@ -15,48 +15,50 @@
     </button>
     <div id="navbar-menu" class="collapse navbar-collapse float-xs-none" [ngbCollapse]="menuHidden">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" routerLink="/dashboard" routerLinkActive="active">
+        <a class="nav-item nav-link mx-3" routerLink="/dashboard" routerLinkActive="active">
           <i class="fas fa-home"></i>
           <span translate>dashboard</span>
         </a>
-        <a class="nav-item nav-link" routerLink="/device" routerLinkActive="active">
+        <a class="nav-item nav-link mx-3" routerLink="/device" routerLinkActive="active">
           <i class="fas fa-tablet"></i>
           <span translate>device</span>
         </a>
-        <a class="nav-item nav-link" routerLink="/group" routerLinkActive="active">
+        <a class="nav-item nav-link mx-3" routerLink="/group" routerLinkActive="active">
           <i class="fas fa-layer-group"></i>
           <span translate>group</span>
         </a>
-        <a class="nav-item nav-link" routerLink="/network" routerLinkActive="active">
+        <a class="nav-item nav-link mx-3" routerLink="/network" routerLinkActive="active">
           <i class="fas fa-wifi"></i>
           <span translate>network</span>
         </a>
-        <a class="nav-item nav-link" routerLink="/admin" routerLinkActive="active">
+        <a class="nav-item nav-link mx-3" routerLink="/admin" routerLinkActive="active">
           <i class="fas fa-user"></i>
           <span translate>admin</span>
         </a>
-        <a class="nav-item nav-link" routerLink="/settings" routerLinkActive="active">
+        <a class="nav-item nav-link mx-3" routerLink="/settings" routerLinkActive="active">
           <i class="fas fa-cog"></i>
           <span translate>settings</span>
         </a>
-        <a class="nav-item nav-link" routerLink="/about" routerLinkActive="active">
+        <a class="nav-item nav-link mx-3" routerLink="/about" routerLinkActive="active">
           <i class="fas fa-question-circle"></i>
           <span translate>About</span>
         </a>
       </div>
 
       <div class="navbar-nav ml-auto">
-        <div class="nav-item" ngbDropdown placement="bottom-right">
-          <a id="language-dropdown" class="nav-link" ngbDropdownToggle>{{ currentLanguage }}</a>
-          <div ngbDropdownMenu aria-labelledby="language-dropdown">
-            <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
-              {{ language }}
-            </button>
-          </div>
-          <span class="switch switch-sm">
+        <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom-right">
+          <div class="switch switch-sm mr-3">
             <input [checked]="permitChecked" (click)="permit($event)" type="checkbox" class="switch" id="switch-sm" />
-            <label for="switch-sm" translate="admin.permittojoin.label"></label>
-          </span>
+            <label class="mb-0" for="switch-sm" translate="admin.permittojoin.label"></label>
+          </div>
+          <div>
+            <a id="language-dropdown" class="nav-link" ngbDropdownToggle>{{ currentLanguage }}</a>
+            <div ngbDropdownMenu aria-labelledby="language-dropdown">
+              <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
+                {{ language }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

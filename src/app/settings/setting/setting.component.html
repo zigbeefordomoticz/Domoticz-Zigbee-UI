@@ -2,10 +2,20 @@
   <div class="row align-items-center">
     <label for="current" translate="{{ setting.Name }}" class="mb-0 col-sm-6"></label>
     <div class="col-sm-6">
-      <input *ngIf="setting.DataType === 'str'" type="text" formControlName="current" class="w-100 form-control" />
-      <input *ngIf="setting.DataType === 'path'" type="text" formControlName="current" class="w-100 form-control" />
-      <input *ngIf="setting.DataType === 'int'" type="number" formControlName="current" class="w-50 form-control" />
-      <input *ngIf="setting.DataType === 'bool'" type="checkbox" formControlName="current" class="w-50" />
+      <input *ngIf="setting.DataType === 'str'" type="text" formControlName="current" class="mt-2 w-100 form-control" />
+      <input
+        *ngIf="setting.DataType === 'path'"
+        type="text"
+        formControlName="current"
+        class="mt-2 w-100 form-control"
+      />
+      <input
+        *ngIf="setting.DataType === 'int'"
+        type="number"
+        formControlName="current"
+        class="mt-2 w-50 form-control"
+      />
+      <input *ngIf="setting.DataType === 'bool'" type="checkbox" formControlName="current" class="mt-2 w-50" />
     </div>
   </div>
 </div>
