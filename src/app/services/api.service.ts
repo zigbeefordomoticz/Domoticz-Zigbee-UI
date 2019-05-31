@@ -7,6 +7,7 @@ import { Device } from '@app/shared/models/device';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Plugin } from '@app/shared/models/plugin';
+import { Location } from '@angular/common';
 
 const routes = {
   devices: '/device',
@@ -30,7 +31,7 @@ const routes = {
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private location: Location) {}
 
   getDevices(): Observable<Array<Device>> {
     return this.httpClient.get(routes.devices).pipe(
@@ -187,10 +188,49 @@ export class ApiService {
   }
 
   getReloadPlugin(plugin: Plugin): Observable<any> {
-    return this.httpClient.get('').pipe(
-      map((body: any) => body),
-      catchError(() => of('Error, could not load json from api'))
-    );
+    let route =
+      plugin.DomoticzProtocol +
+      '://' +
+      plugin.DomoticzHost +
+      ':' +
+      plugin.DomoticzPort +
+      '/json.htm?type=command&param=updatehardware&htype=94&idx=' +
+      plugin.HardwareID +
+      '&name=' +
+      plugin.Name +
+      '&username=' +
+      plugin.DomoticzUsername +
+      '&password=' +
+      plugin.DomoticzPassword +
+      '&address=' +
+      plugin.Address +
+      '&port=' +
+      plugin.Port +
+      '&serialport=' +
+      plugin.SerialPort +
+      '&Mode1=' +
+      plugin.Mode1 +
+      '&Mode2=' +
+      plugin.Mode2 +
+      '&Mode3=' +
+      plugin.Mode3 +
+      '&Mode4=' +
+      plugin.Mode4 +
+      '&Mode5=' +
+      plugin.Mode5 +
+      '&Mode6=' +
+      plugin.Mode6 +
+      '&extra=' +
+      plugin.Key +
+      '&enabled=true&datatimeout=0';
+
+    return this.httpClient
+      .disableApiPrefix()
+      .get(route)
+      .pipe(
+        map((body: any) => body),
+        catchError(() => of('Error, could not load json from api'))
+      );
   }
 
   getRestartNeeded(): Observable<any> {
