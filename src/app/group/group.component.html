@@ -89,7 +89,12 @@
               >
                 <ng-template ngx-datatable-cell-template let-row="row">
                   <div class="form-check">
-                    <input [checked]="row.coordinatorInside" class="form-check-input" type="checkbox" />
+                    <input
+                      (click)="updateCoordinator($event, row)"
+                      [checked]="row.coordinatorInside"
+                      class="form-check-input"
+                      type="checkbox"
+                    />
                   </div>
                 </ng-template>
               </ngx-datatable-column>

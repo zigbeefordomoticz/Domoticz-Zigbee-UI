@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { TranslateService } from '@ngx-translate/core';
-import { PushNotificationsService } from 'ng-push';
-import { Group, Device, DeviceAvailable, DevicesAvailable } from './group';
 import { NotifyService } from '@app/services/notify.service';
+import { TranslateService } from '@ngx-translate/core';
+import { DeviceAvailable, DevicesAvailable, Group } from './group';
 
 const log = new Logger('CreateGroupComponent');
 
@@ -17,7 +16,7 @@ const log = new Logger('CreateGroupComponent');
 export class GroupComponent implements OnInit {
   @ViewChild('table') table: any;
   form: FormGroup;
-  rows: Array<Group>;
+  rows: Array<Group> = [];
   rowsTemp: any[] = [];
   editing = {};
   devices: Array<DeviceAvailable>;
@@ -103,6 +102,7 @@ export class GroupComponent implements OnInit {
     this.rows.forEach(group => {
       if (group.coordinatorInside) {
         group.devicesSelected.push({ Ep: '01', _NwkId: '0000' });
+        return;
       }
     });
 
@@ -113,6 +113,7 @@ export class GroupComponent implements OnInit {
   }
 
   delete(row: Group, rowIndex: number) {
+    this.hasEditing = true;
     const index = this.rows.indexOf(row, 0);
     if (index > -1) {
       this.rows.splice(index, 1);
@@ -122,10 +123,17 @@ export class GroupComponent implements OnInit {
   }
 
   add() {
+    this.hasEditing = true;
     const group = new Group();
     group.GroupName = '';
+    group.coordinatorInside = false;
     this.rows.push(group);
     this.rows = [...this.rows];
     this.temp = [...this.rows];
+  }
+
+  updateCoordinator(event: any, row: Group) {
+    this.hasEditing = true;
+    row.coordinatorInside = event.currentTarget.checked;
   }
 }

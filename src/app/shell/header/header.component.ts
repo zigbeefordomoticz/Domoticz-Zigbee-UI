@@ -32,12 +32,9 @@ export class HeaderComponent implements OnInit {
         this.notifyService.notify();
       });
     } else {
-      this.permitToJoin.PermitToJoin = 1;
+      this.permitToJoin.PermitToJoin = 0;
       this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-        this.permitToJoin.PermitToJoin = 0;
-        this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-          this.notifyService.notify();
-        });
+        this.notifyService.notify();
       });
     }
   }
