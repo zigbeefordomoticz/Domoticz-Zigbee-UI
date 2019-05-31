@@ -6,7 +6,7 @@ import { Setting } from '@app/settings/setting';
 import { Device } from '@app/shared/models/device';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Plugin } from '../dashboard/plugin/plugin';
+import { Plugin } from '@app/shared/models/plugin';
 
 const routes = {
   devices: '/device',
@@ -180,6 +180,13 @@ export class ApiService {
 
   getZigateErasePDM(): Observable<any> {
     return this.httpClient.get(routes.zigateErasePDM).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getReloadPlugin(plugin: Plugin): Observable<any> {
+    return this.httpClient.get('').pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );

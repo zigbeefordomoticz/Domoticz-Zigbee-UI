@@ -1,9 +1,33 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" translate="admin.erasepdm.alert.title"></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" translate="admin.erasepdm.alert.subject"></div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('erase')"
+      translate="admin.erasepdm.alert.erase"
+    ></button>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.dismiss('cancel')"
+      translate="admin.erasepdm.alert.cancel"
+    ></button>
+  </div>
+</ng-template>
+
 <div class="card ml-3">
   <div class="card-header" translate="admin.erasepdm.title"></div>
   <div class="card-body">
     <h5 class="card-title" translate="admin.erasepdm.subtitle"></h5>
     <div class="card-text">
-      <button class="ml-3 btn btn-primary" (click)="erasePdm($event)" translate="admin.erasepdm.button"></button>
+      <button class="ml-3 btn btn-primary" (click)="open(content)" translate="admin.erasepdm.button"></button>
     </div>
   </div>
 </div>

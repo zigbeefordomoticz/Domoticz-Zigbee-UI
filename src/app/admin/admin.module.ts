@@ -5,9 +5,10 @@ import { SharedModule } from '@app/shared';
 import { PermitToJoinComponent } from './permit-to-join/permit-to-join.component';
 import { SwResetComponent } from './sw-reset/sw-reset.component';
 import { ErasePdmComponent } from './erase-pdm/erase-pdm.component';
+import { ReloadPluginComponent } from './reload-plugin/reload-plugin.component';
 
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
-  declarations: [AdminComponent, PermitToJoinComponent, SwResetComponent, ErasePdmComponent]
+  declarations: [AdminComponent, PermitToJoinComponent, SwResetComponent, ErasePdmComponent, ReloadPluginComponent]
 })
 export class AdminModule {}

@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
-
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
-import { Observable } from 'rxjs';
-import { Plugin } from './plugin/plugin';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '@app/services/api.service';
-import { Plugin } from './plugin';
+import { Plugin } from '@app/shared/models/plugin';
 
 @Component({
   selector: 'app-plugin',

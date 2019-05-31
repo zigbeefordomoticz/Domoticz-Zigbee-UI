@@ -3,16 +3,18 @@ import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Plugin } from '@app/shared/models/plugin';
 
 const log = new Logger('PermitToJoinComponent');
 
 @Component({
-  selector: 'app-permit-to-join',
-  templateUrl: './permit-to-join.component.html',
-  styleUrls: ['./permit-to-join.component.scss']
+  selector: 'app-reload-plugin',
+  templateUrl: './reload-plugin.component.html',
+  styleUrls: ['./reload-plugin.component.scss']
 })
-export class PermitToJoinComponent implements OnInit {
+export class ReloadPluginComponent implements OnInit {
   permitToJoin: any;
+  plugin: Plugin;
 
   constructor(
     private notifyService: NotifyService,
@@ -21,14 +23,11 @@ export class PermitToJoinComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.apiService.getPermitToJoin().subscribe(result => {
-      this.permitToJoin = result;
-    });
+    this.apiService.getPlugin().subscribe(result => (this.plugin = result));
   }
 
-  updatePermitToJoin(value: number) {
-    this.permitToJoin.PermitToJoin = value;
-    this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
+  reloadPlugin(event: any) {
+    this.apiService.getReloadPlugin(this.plugin).subscribe((result: any) => {
       this.notifyService.notify();
     });
   }
