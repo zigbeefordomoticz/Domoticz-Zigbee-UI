@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 const log = new Logger('ErasePdmComponent');
 
@@ -14,7 +14,6 @@ const log = new Logger('ErasePdmComponent');
 })
 export class ErasePdmComponent implements OnInit {
   permitToJoin: any;
-  closeResult: string;
 
   constructor(
     private modalService: NgbModal,
