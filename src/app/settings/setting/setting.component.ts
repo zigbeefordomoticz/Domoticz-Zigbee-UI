@@ -23,9 +23,16 @@ export class SettingComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private fgd: FormGroupDirective, private translate: TranslateService) {}
 
   ngOnInit() {
-    const group = this.formBuilder.group({
-      current: ['', Validators.required]
-    });
+    let group;
+    if (this.setting.DataType === 'hex') {
+      group = this.formBuilder.group({
+        current: ['', Validators.compose([Validators.required, Validators.pattern('^[0-9A-Fa-f]+')])]
+      });
+    } else {
+      group = this.formBuilder.group({
+        current: ['', Validators.required]
+      });
+    }
 
     this.fgd.form.addControl(this.setting.Name, group);
     const value = this.setting.current_value !== '' ? this.setting.current_value : this.setting.default_value;
