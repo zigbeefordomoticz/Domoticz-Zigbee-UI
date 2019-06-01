@@ -14,6 +14,7 @@ import { PerfectScrollbarModule, PerfectScrollbarConfigInterface } from 'ngx-per
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { ReqTopologyComponent } from './req-topology/req-topology.component';
 import { ReqNetworkInterComponent } from './req-network-inter/req-network-inter.component';
+import { DetailNwkStatComponent } from './detail-nwk-stat/detail-nwk-stat.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -27,7 +28,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TopologyComponent,
     DetailTopologyComponent,
     ReqTopologyComponent,
-    ReqNetworkInterComponent
+    ReqNetworkInterComponent,
+    DetailNwkStatComponent
   ],
   providers: [
     { provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting, sankey, wheel] },

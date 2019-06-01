@@ -8,7 +8,7 @@
           <perfect-scrollbar class="scroll-container">
             <div class="scrollable-content">
               <span class="row" *ngFor="let stat of stats | keyvalue">
-                <button class="btn btn-light" (click)="(aa)">
+                <button class="btn btn-light" (click)="nwkStatByDate(stat.value)">
                   {{ stat.value * 1000 | date: 'dd/MM/yyyy hh:mm:ss' }}
                 </button>
               </span>

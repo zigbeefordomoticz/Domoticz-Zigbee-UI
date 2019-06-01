@@ -9,13 +9,20 @@ const log = new Logger('NetworkComponent');
   styleUrls: ['./network.component.scss']
 })
 export class NetworkComponent implements OnInit {
-  timeStamp: string;
+  timeStampTopology: string;
+  timeStampNwkStat: string;
 
   constructor() {}
 
   ngOnInit() {}
 
-  timeStampChange(event: any) {
-    this.timeStamp = event;
+  timeStampTopologyChange(event: any) {
+    this.timeStampNwkStat = null;
+    this.timeStampTopology = event;
+  }
+
+  timeStampNwkStatChange(event: any) {
+    this.timeStampTopology = null;
+    this.timeStampNwkStat = event;
   }
 }
