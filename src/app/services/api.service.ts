@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Plugin } from '@app/shared/models/plugin';
 import { Location } from '@angular/common';
+import { DomoticzEnv } from '@app/admin/reload-plugin/domoticz-env';
 
 const routes = {
   devices: '/device',
@@ -26,7 +27,8 @@ const routes = {
   swResetZigate: '/sw-reset-zigate',
   zigateErasePDM: '/zigate-erase-PDM',
   zigate: '/zigate',
-  restartNeeded: '/restart-needed'
+  restartNeeded: '/restart-needed',
+  domoticzEnv: '/domoticz-env'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -187,21 +189,21 @@ export class ApiService {
     );
   }
 
-  getReloadPlugin(plugin: Plugin): Observable<any> {
+  getReloadPlugin(plugin: Plugin, domoticzEnv: DomoticzEnv): Observable<any> {
     let route =
-      plugin.DomoticzProtocol +
+      domoticzEnv.proto +
       '://' +
-      plugin.DomoticzHost +
+      domoticzEnv.host +
       ':' +
-      plugin.DomoticzPort +
+      domoticzEnv.port +
       '/json.htm?type=command&param=updatehardware&htype=94&idx=' +
       plugin.HardwareID +
       '&name=' +
       plugin.Name +
       '&username=' +
-      plugin.DomoticzUsername +
+      domoticzEnv.WebUserName +
       '&password=' +
-      plugin.DomoticzPassword +
+      domoticzEnv.WebPassword +
       '&address=' +
       plugin.Address +
       '&port=' +
@@ -235,6 +237,13 @@ export class ApiService {
 
   getRestartNeeded(): Observable<any> {
     return this.httpClient.get(routes.restartNeeded).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getDomoticzEnv(): Observable<DomoticzEnv> {
+    return this.httpClient.get(routes.domoticzEnv).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );

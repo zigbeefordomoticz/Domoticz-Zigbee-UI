@@ -24,9 +24,4 @@ export interface Plugin {
   Username: string;
   Version: string;
   WebRoot: string;
-  DomoticzPort: string;
-  DomoticzHost: string;
-  DomoticzProtocol: string;
-  DomoticzUsername: string;
-  DomoticzPassword: string;
 }

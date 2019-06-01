@@ -19,14 +19,24 @@
         </div>
       </div>
       <div class="col-sm-1">
-        <button (click)="updateSettings()" class=" w-100 btn btn-primary" translate="setting.validate.button"></button>
+        <button
+          [disabled]="!form.valid"
+          (click)="updateSettings()"
+          class=" w-100 btn btn-primary"
+          translate="setting.validate.button"
+        ></button>
       </div>
     </div>
 
     <div class="row">
       <div class="col-sm"></div>
       <div class="col-sm-1">
-        <button (click)="updateSettings()" class="btn btn-primary w-100" translate="setting.validate.button"></button>
+        <button
+          [disabled]="!form.valid"
+          (click)="updateSettings()"
+          class="btn btn-primary w-100"
+          translate="setting.validate.button"
+        ></button>
       </div>
     </div>
   </form>

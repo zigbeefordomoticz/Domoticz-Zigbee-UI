@@ -1,57 +1,14 @@
-<div class="card ml-3 mt-3">
+<div class="card ml-3">
   <div class="card-header" translate="admin.reloadplugin.title"></div>
   <div class="card-body">
     <h5 class="card-title" translate="admin.reloadplugin.subtitle"></h5>
     <div class="card-text">
-      <form [formGroup]="form">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <label for="current" translate="admin.reloadplugin.host" class="mb-0 col-sm"></label>
-          </div>
-          <div class="col-sm">
-            <input type="text" formControlName="host" class="mt-2 w-100 form-control" />
-          </div>
-          <div class="col-sm">
-            <label for="current" translate="admin.reloadplugin.port" class="mb-0 col-sm"></label>
-          </div>
-          <div class="col-sm">
-            <input type="text" formControlName="port" class="mt-2 w-100 form-control" />
-          </div>
-        </div>
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <label for="current" translate="admin.reloadplugin.username" class="mb-0 col-sm"></label>
-          </div>
-          <div class="col-sm">
-            <input type="text" formControlName="username" class="mt-2 w-100 form-control" />
-          </div>
-          <div class="col-sm">
-            <label for="current" translate="admin.reloadplugin.password" class="mb-0 col-sm"></label>
-          </div>
-          <div class="col-sm">
-            <input type="text" formControlName="password" class="mt-2 w-100 form-control" />
-          </div>
-        </div>
-        <div class="row align-items-center">
-          <div class="col-sm-3">
-            <label for="current" translate="admin.reloadplugin.protocol" class="mb-0 col-sm"></label>
-          </div>
-          <div class="col-sm">
-            <input type="text" formControlName="protocol" class="mt-2 w-25 form-control" />
-          </div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-sm"></div>
-          <div class="col-sm">
-            <button
-              [disabled]="!form.valid"
-              class="w-100 btn btn-primary"
-              (click)="reloadPlugin($event)"
-              translate="admin.reloadplugin.button"
-            ></button>
-          </div>
-        </div>
-      </form>
+      <button
+        [disabled]="disabled"
+        class="w-100 btn btn-primary"
+        (click)="reloadPlugin($event)"
+        translate="admin.reloadplugin.button"
+      ></button>
     </div>
   </div>
 </div>
