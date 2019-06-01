@@ -1,45 +1,54 @@
 <div class="container-fluid">
-  <form [formGroup]="form" *ngIf="settings$ | async as data">
-    <div class="row">
-      <div class="col-sm-11 card-columns">
-        <div *ngFor="let listOfSettings of data">
-          <div class="card">
-            <div class="card-header" translate="{{ listOfSettings._Theme }}"></div>
-            <div class="card-body">
-              <div class="card-title">
-                <h5 translate="setting.subtitle.{{ listOfSettings._Theme }}"></h5>
-              </div>
-              <div class="card-text">
-                <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
-                  <app-setting [setting]="setting"></app-setting>
-                </ng-container>
+  <fieldset class="h-100">
+    <legend translate="setting.help.legend"></legend>
+    <a
+      href="https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.txt.md"
+      translate="setting.help.link"
+    ></a>
+  </fieldset>
+  <div class="mt-3">
+    <form [formGroup]="form" *ngIf="settings$ | async as data">
+      <div class="row">
+        <div class="col-sm-11 card-columns">
+          <div *ngFor="let listOfSettings of data">
+            <div class="card">
+              <div class="card-header" translate="{{ listOfSettings._Theme }}"></div>
+              <div class="card-body">
+                <div class="card-title">
+                  <h5 translate="setting.subtitle.{{ listOfSettings._Theme }}"></h5>
+                </div>
+                <div class="card-text">
+                  <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
+                    <app-setting [setting]="setting"></app-setting>
+                  </ng-container>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-sm-1">
+          <button
+            [disabled]="!form.valid"
+            (click)="updateSettings()"
+            class=" w-100 btn btn-primary"
+            translate="setting.validate.button"
+          ></button>
+        </div>
       </div>
-      <div class="col-sm-1">
-        <button
-          [disabled]="!form.valid"
-          (click)="updateSettings()"
-          class=" w-100 btn btn-primary"
-          translate="setting.validate.button"
-        ></button>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-sm"></div>
-      <div class="col-sm-1">
-        <button
-          [disabled]="!form.valid"
-          (click)="updateSettings()"
-          class="btn btn-primary w-100"
-          translate="setting.validate.button"
-        ></button>
+      <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm-1">
+          <button
+            [disabled]="!form.valid"
+            (click)="updateSettings()"
+            class="btn btn-primary w-100"
+            translate="setting.validate.button"
+          ></button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 
 <ng-template #content let-modal>
