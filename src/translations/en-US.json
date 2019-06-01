@@ -94,6 +94,7 @@
   "network.inter.req.button": "scan",
   "setting.header": "Settings",
   "setting.subtitle": "Allow you to visualize and edit the various plugin settings. Some might required a restart of the plugin to be taken into account",
+  "setting.subtitle.WebInterface": "subtitle for webinterface",
   "setting.validate.button": "Validate",
   "settings": "Settings",
   "setting.reloadplugin.alert.title": "Plugin Reload",

@@ -62,6 +62,7 @@
   "setting.subtitle": "Settings subtitle",
   "setting.validate.button": "Validate",
   "settings": "Settings",
+  "setting.subtitle.WebInterface": "Web Interface subtitle",
 
   "Ping": "Enable Ping",
   "enableWebServer": "Enable web server"
