@@ -4,7 +4,7 @@ import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
 import { Plugin } from '@app/shared/models/plugin';
 import { TranslateService } from '@ngx-translate/core';
-import { DomoticzEnv } from './domoticz-env';
+import { DomoticzEnv } from '@app/shared/models/domoticz-env';
 
 const log = new Logger('ReloadPluginComponent');
 

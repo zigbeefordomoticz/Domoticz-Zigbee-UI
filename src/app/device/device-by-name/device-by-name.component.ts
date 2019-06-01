@@ -2,10 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { TranslateService } from '@ngx-translate/core';
-import { DeviceByName } from './device-by-name';
-import { PushNotificationsService } from 'ng-push';
 import { NotifyService } from '@app/services/notify.service';
+import { TranslateService } from '@ngx-translate/core';
+import { DeviceByName } from '@app/shared/models/device-by-name';
 
 const log = new Logger('DeviceByNameComponent');
 

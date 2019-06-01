@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Logger } from '@app/core';
-import { PluginStats } from '@app/dashboard/plugin-stats/plugin-stats';
 import { ApiService } from '@app/services/api.service';
 import { Observable } from 'rxjs';
+import { PluginStats } from '@app/shared/models/plugin-stats';
 
 const log = new Logger('TopologyComponent');
 

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PluginStats } from '@app/dashboard/plugin-stats/plugin-stats';
 import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
 import { Logger } from '@app/core';
+import { PluginStats } from '@app/shared/models/plugin-stats';
 
 const log = new Logger('ReqNetworkInterComponent');
 

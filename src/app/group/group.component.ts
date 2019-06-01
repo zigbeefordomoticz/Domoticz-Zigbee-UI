@@ -4,8 +4,8 @@ import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
-import { DeviceAvailable, DevicesAvailable, Group } from './group';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Group, DeviceAvailable, DevicesAvailable } from '@app/shared/models/group';
 
 const log = new Logger('GroupComponent');
 

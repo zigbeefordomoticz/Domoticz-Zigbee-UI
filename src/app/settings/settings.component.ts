@@ -5,8 +5,8 @@ import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { Setting } from './setting';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Setting } from '@app/shared/models/setting';
 
 const log = new Logger('SettingsComponent');
 

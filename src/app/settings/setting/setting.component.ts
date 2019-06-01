@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Setting } from '../setting';
+import { Setting } from '@app/shared/models/setting';
 
 const log = new Logger('SettingComponent');
 

@@ -1,14 +1,14 @@
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PluginStats } from '@app/dashboard/plugin-stats/plugin-stats';
-import { DevicesAvailable } from '@app/group/group';
-import { Setting } from '@app/settings/setting';
-import { Device } from '@app/shared/models/device';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { PluginStats } from '@app/shared/models/plugin-stats';
+import { DomoticzEnv } from '@app/shared/models/domoticz-env';
 import { Plugin } from '@app/shared/models/plugin';
-import { Location } from '@angular/common';
-import { DomoticzEnv } from '@app/admin/reload-plugin/domoticz-env';
+import { Device } from '@app/shared/models/device';
+import { Setting } from '@app/shared/models/setting';
+import { DevicesAvailable } from '@app/shared/models/group';
 
 const routes = {
   devices: '/device',
@@ -190,7 +190,7 @@ export class ApiService {
   }
 
   getReloadPlugin(plugin: Plugin, domoticzEnv: DomoticzEnv): Observable<any> {
-    let route =
+    const route =
       domoticzEnv.proto +
       '://' +
       domoticzEnv.host +

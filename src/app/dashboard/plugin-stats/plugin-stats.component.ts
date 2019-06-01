@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '@app/services/api.service';
-import { PluginStats } from './plugin-stats';
 import { Logger } from '@app/core';
+import { PluginStats } from '@app/shared/models/plugin-stats';
 
 const log = new Logger('PluginStatsComponent');
 
