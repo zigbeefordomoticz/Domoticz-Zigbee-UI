@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Setting } from '@app/shared/models/setting';
+import { HeaderService } from '@app/services/header-service';
 
 const log = new Logger('SettingsComponent');
 
@@ -25,7 +26,8 @@ export class SettingsComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
-    private notifyService: NotifyService
+    private notifyService: NotifyService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit() {
@@ -53,6 +55,7 @@ export class SettingsComponent implements OnInit {
       this.settings$ = this.apiService.getSettings();
       this.apiService.getRestartNeeded().subscribe(restart => {
         if (restart.RestartNeeded) {
+          this.headerService.setRestart(true);
           this.open(this.content);
         }
       });

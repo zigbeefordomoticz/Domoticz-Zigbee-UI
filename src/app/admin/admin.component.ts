@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
-import { ApiService } from '@app/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
 import { NotifyService } from '../services/notify.service';
 
 const log = new Logger('AdminComponent');

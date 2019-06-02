@@ -6,6 +6,7 @@ import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Group, DeviceAvailable, DevicesAvailable } from '@app/shared/models/group';
+import { HeaderService } from '@app/services/header-service';
 
 const log = new Logger('GroupComponent');
 
@@ -30,7 +31,8 @@ export class GroupComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
-    private notifyService: NotifyService
+    private notifyService: NotifyService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit() {
@@ -114,6 +116,7 @@ export class GroupComponent implements OnInit {
       this.notifyService.notify();
       this.apiService.getRestartNeeded().subscribe(restart => {
         if (restart.RestartNeeded) {
+          this.headerService.setRestart(true);
           this.open(this.content);
         }
       });

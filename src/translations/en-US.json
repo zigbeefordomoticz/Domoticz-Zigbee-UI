@@ -71,6 +71,8 @@
   "group.reloadplugin.alert.title": "Plugin Reload",
   "group.reloadplugin.alert.subject": "Groups have been updated, plugin need to be restarted",
   "group.reloadplugin.alert.cancel": "Close",
+  "header.popover.title": "Restart needed",
+  "header.popover.text": "U need to restart the plugin",
   "network": "Network",
   "network.stats.header": "Network",
   "network.stats.subtitle": "Network subtitle",

@@ -6,6 +6,7 @@ import { DomoticzEnv } from '@app/shared/models/domoticz-env';
 import { Plugin } from '@app/shared/models/plugin';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { HeaderService } from '@app/services/header-service';
 
 const log = new Logger('ReloadPluginComponent');
 
@@ -20,6 +21,7 @@ export class ReloadPluginComponent implements OnInit {
   disabled = true;
 
   constructor(
+    private headerService: HeaderService,
     private modalService: NgbModal,
     private notifyService: NotifyService,
     private apiService: ApiService,
@@ -43,6 +45,7 @@ export class ReloadPluginComponent implements OnInit {
     }
     this.apiService.getReloadPlugin(this.plugin, this.domoticzEnv).subscribe((result: any) => {
       this.notifyService.notify('Plugin restarted');
+      this.headerService.setRestart(false);
     });
   }
 

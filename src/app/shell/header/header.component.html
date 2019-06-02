@@ -45,6 +45,20 @@
         </a>
       </div>
 
+      <div *ngIf="restart" class="navbar-nav ml-auto">
+        <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom">
+          <div class="mr-3">
+            <a class="nav-item nav-link mx-3" routerLink="/admin" routerLinkActive="active">
+              <i
+                ngbPopover="{{ 'header.popover.text' | translate }}"
+                triggers="mouseenter:mouseleave"
+                popoverTitle="{{ 'header.popover.title' | translate }}"
+                class="fas fa-exclamation"
+              ></i>
+            </a>
+          </div>
+        </div>
+      </div>
       <div class="navbar-nav ml-auto">
         <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom-right">
           <div class="switch switch-sm mr-3">

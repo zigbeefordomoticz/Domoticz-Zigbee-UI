@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { I18nService } from '@app/core';
 import { ApiService } from '../../services/api.service';
 import { NotifyService } from '@app/services/notify.service';
+import { HeaderService } from '@app/services/header-service';
 
 @Component({
   selector: 'app-header',
@@ -13,10 +14,20 @@ export class HeaderComponent implements OnInit {
   menuHidden = true;
   permitToJoin: any;
   permitChecked = false;
+  restart: boolean;
 
-  constructor(private notifyService: NotifyService, private i18nService: I18nService, private apiService: ApiService) {}
+  constructor(
+    private headerService: HeaderService,
+    private notifyService: NotifyService,
+    private i18nService: I18nService,
+    private apiService: ApiService
+  ) {}
 
   ngOnInit() {
+    this.headerService.restart.subscribe(restart => {
+      this.restart = restart;
+    });
+
     this.apiService.getPermitToJoin().subscribe(result => {
       this.permitToJoin = result;
       if (result.PermitToJoin !== 0) {
