@@ -4,6 +4,7 @@ import { ApiService } from '@app/services/api.service';
 import { Device } from '@app/shared/models/device';
 import { Chart } from 'angular-highcharts';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -19,7 +20,7 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
   totalTx: number;
   totalFail: number;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private translate: TranslateService) {}
 
   ngOnInit() {
     this.devices$ = this.apiService.getDevices();
@@ -51,14 +52,14 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
         type: 'column'
       },
       title: {
-        text: 'TEST'
+        text: this.translate.instant('network.stats.detail.visu.chart.title')
       },
       xAxis: {
         type: 'category'
       },
       yAxis: {
         title: {
-          text: 'interference'
+          text: this.translate.instant('network.stats.detail.visu.chart.y-axis')
         }
       },
       credits: {
@@ -68,7 +69,7 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
       series: [
         {
           type: undefined,
-          name: 'Canaux',
+          name: this.translate.instant('network.stats.detail.visu.chart.x-axis'),
           colorByPoint: true,
           data: series
         }
@@ -76,6 +77,6 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
     });
     this.chart = chart;
 
-    chart.ref$.subscribe(console.log);
+    chart.ref$.subscribe();
   }
 }

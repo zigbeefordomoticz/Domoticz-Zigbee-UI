@@ -4,6 +4,7 @@ import { ApiService } from '@app/services/api.service';
 import { Device } from '@app/shared/models/device';
 import { Chart } from 'angular-highcharts';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -17,7 +18,7 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
   chart: Chart;
   devices$: Observable<Array<Device>>;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private translate: TranslateService) {}
 
   ngOnInit() {
     this.devices$ = this.apiService.getDevices();
@@ -44,7 +45,7 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
         type: 'dependencywheel'
       },
       title: {
-        text: 'TEST'
+        text: this.translate.instant('network.topo.device.visu.chart.title')
       },
       credits: {
         enabled: false
@@ -59,6 +60,6 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
     });
     this.chart = chart;
 
-    chart.ref$.subscribe(console.log);
+    chart.ref$.subscribe();
   }
 }
