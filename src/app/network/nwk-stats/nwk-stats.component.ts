@@ -24,4 +24,8 @@ export class NwkStatsComponent implements OnInit {
   nwkStatByDate(timeStamp: string) {
     this.timeStamp.emit(timeStamp);
   }
+
+  deleteNwkStatByDate(timeStamp: string) {
+    this.apiService.deleteNwkStatsByTimeStamp(timeStamp).subscribe();
+  }
 }

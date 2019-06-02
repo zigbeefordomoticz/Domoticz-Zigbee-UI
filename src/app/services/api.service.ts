@@ -126,6 +126,20 @@ export class ApiService {
     );
   }
 
+  deleteTopologieByTimeStamp(timestamp: string): Observable<any> {
+    return this.httpClient.delete(routes.topologie + '/' + timestamp).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  deleteNwkStatsByTimeStamp(timestamp: string): Observable<any> {
+    return this.httpClient.delete(routes.nwkStat + '/' + timestamp).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
   getPermitToJoin(): Observable<any> {
     return this.httpClient.get(routes.permitToJoin).pipe(
       map((body: any) => body),

@@ -24,4 +24,8 @@ export class TopologyComponent implements OnInit {
   topologyByDate(timeStamp: string) {
     this.timeStamp.emit(timeStamp);
   }
+
+  deleteTopologyByDate(timeStamp: string) {
+    this.apiService.deleteTopologieByTimeStamp(timeStamp).subscribe();
+  }
 }

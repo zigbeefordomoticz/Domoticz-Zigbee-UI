@@ -8,10 +8,19 @@
           <div class="content-container">
             <perfect-scrollbar class="scroll-container">
               <div class="scrollable-content">
-                <span class="row" *ngFor="let topologie of topologies | keyvalue">
+                <span class="row d-flex align-items-center" *ngFor="let topologie of topologies | keyvalue">
                   <button class="btn btn-light" (click)="topologyByDate(topologie.value)">
                     {{ topologie.value * 1000 | date: 'dd/MM/yyyy hh:mm:ss' }}
                   </button>
+                  <div class="ml-3">
+                    <button
+                      class="btn btn-light"
+                      title="{{ 'network.topo.visu.delete.button' | translate }}"
+                      (click)="deleteTopologyByDate(topologie.value)"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
                 </span>
               </div>
             </perfect-scrollbar>
