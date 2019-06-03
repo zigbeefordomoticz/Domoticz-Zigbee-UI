@@ -5,7 +5,9 @@
     <div class="card-text">
       <li *ngFor="let plugin of plugins | keyvalue">
         {{ plugin.key | translate }} :
-        <span *ngIf="plugin.key === 'StartTime'; else others">{{ plugin.value | date: 'dd/MM/yyyy hh:mm:ss' }}</span>
+        <span *ngIf="plugin.key === 'StartTime'; else others">{{
+          plugin.value * 1000 | date: 'dd/MM/yyyy hh:mm:ss'
+        }}</span>
         <ng-template #others>{{ plugin.value }}</ng-template>
       </li>
     </div>
