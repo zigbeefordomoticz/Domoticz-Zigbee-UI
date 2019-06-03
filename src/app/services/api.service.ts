@@ -84,14 +84,14 @@ export class ApiService {
     );
   }
 
-  getNwkStats(): Observable<PluginStats> {
+  getNwkStats(): Observable<Array<string>> {
     return this.httpClient.get(routes.nwkStat).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );
   }
 
-  getTopologie(): Observable<PluginStats> {
+  getTopologie(): Observable<Array<string>> {
     return this.httpClient.get(routes.topologie).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
