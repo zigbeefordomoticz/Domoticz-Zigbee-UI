@@ -15,7 +15,8 @@ const log = new Logger('DetailTopologyComponent');
 })
 export class DetailTopologyComponent implements OnInit, OnChanges {
   @Input() timeStamp: string;
-  chart: Chart;
+  chart1: Chart;
+  chart2: Chart;
   devices$: Observable<Array<Device>>;
 
   constructor(private apiService: ApiService, private translate: TranslateService) {}
@@ -27,12 +28,13 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.timeStamp.currentValue !== changes.timeStamp.previousValue) {
       this.apiService.getTopologieByTimeStamp(this.timeStamp).subscribe(result => {
-        this.createChart(result);
+        this.createChart1(result);
+        this.createChart2(result);
       });
     }
   }
 
-  createChart(data: Array<Object>) {
+  createChart1(data: Array<Object>) {
     const series = data.map(element => {
       const tab = Object.values(element);
       tab.splice(1, 1);
@@ -58,7 +60,51 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
         }
       ]
     });
-    this.chart = chart;
+    this.chart1 = chart;
+
+    chart.ref$.subscribe();
+  }
+
+  createChart2(data: Array<Object>) {
+    const series = data.map(element => {
+      const tab = Object.values(element);
+      tab.splice(1, 1);
+      return tab;
+    });
+    log.debug(series);
+
+    const chart = new Chart({
+      chart: {
+        type: 'networkgraph',
+        height: '100%'
+      },
+      title: {
+        text: this.translate.instant('network.topo.device.visu.chart.title')
+      },
+      credits: {
+        enabled: false
+      },
+      plotOptions: {
+        networkgraph: {
+          keys: ['from', 'to', 'weight'],
+          layoutAlgorithm: {
+            enableSimulation: true
+          }
+        }
+      },
+      series: [
+        {
+          type: undefined,
+          keys: ['to', 'from', 'weight'],
+          dataLabels: {
+            enabled: true,
+            linkFormat: ''
+          },
+          data: series
+        }
+      ]
+    });
+    this.chart2 = chart;
 
     chart.ref$.subscribe();
   }
