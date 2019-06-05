@@ -33,7 +33,7 @@
   "admin.reloadplugin.alert.subject": "Be carefull guy !!!!!",
   "admin.reloadplugin.alert.cancel": "Cancel",
   "admin.reloadplugin.alert.erase": "Restart",
-  "dashboard": "Dashboard",
+  "dashboard": "Overall",
   "dashboard.device.button": "Domoticz Widgets (json)",
   "dashboard.plugin.header": "Plugin infos",
   "dashboard.plugin.subtitle": "Provides plugin informations",

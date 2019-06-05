@@ -6,6 +6,18 @@
       translate="setting.help.link"
       target="_blank"
     ></a>
+    <div class="checkbox">
+      <label class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" />
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Remember me</span>
+      </label>
+    </div>
+    <label class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" />
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">Check this custom checkbox</span>
+    </label>
   </fieldset>
   <div class="mt-3">
     <form [formGroup]="form" *ngIf="settings$ | async as data">
