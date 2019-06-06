@@ -1,24 +1,24 @@
 <div [formGroupName]="setting.Name">
-  <div *ngIf="setting.DataType === 'str'" class="row mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="mt-2 col-sm-6"></label>
+  <div *ngIf="setting.DataType === 'str'" class="form-group row mt-2">
+    <label for="current" translate="{{ setting.Name }}" class="mt-2 col-sm-6 col-form-label"></label>
     <div class="col-sm">
       <input type="text" formControlName="current" class="w-100 form-control" />
     </div>
   </div>
-  <div *ngIf="setting.DataType === 'path'" class="row mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="mt-2 col-sm-6"></label>
+  <div *ngIf="setting.DataType === 'path'" class="form-group row mt-2">
+    <label for="current" translate="{{ setting.Name }}" class="mt-2 col-sm-6 col-form-label"></label>
     <div class="col-sm">
       <input type="text" formControlName="current" class="w-100 form-control" />
     </div>
   </div>
-  <div *ngIf="setting.DataType === 'int'" class="row mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="mt-2 col-sm-6"></label>
+  <div *ngIf="setting.DataType === 'int'" class="form-group row mt-2">
+    <label for="current" translate="{{ setting.Name }}" class="mt-2 col-sm-6 col-form-label"></label>
     <div class="col-sm">
       <input type="number" formControlName="current" class="w-50 form-control" />
     </div>
   </div>
-  <div *ngIf="setting.DataType === 'hex'" class="row mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="mt-2 col-sm-6"></label>
+  <div *ngIf="setting.DataType === 'hex'" class="form-group row mt-2">
+    <label for="current" translate="{{ setting.Name }}" class="mt-2 col-sm-6 col-form-label"></label>
     <div class="col-sm">
       <input type="text" formControlName="current" class="w-50 form-control" />
     </div>

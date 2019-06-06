@@ -28,6 +28,10 @@ export class SettingComponent implements OnInit {
       group = this.formBuilder.group({
         current: ['', Validators.compose([Validators.required, Validators.pattern('^[0-9A-Fa-f]+')])]
       });
+    } else if (this.setting.DataType === 'bool') {
+      group = this.formBuilder.group({
+        current: []
+      });
     } else {
       group = this.formBuilder.group({
         current: ['', Validators.required]
