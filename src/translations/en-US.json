@@ -122,6 +122,7 @@
   "setting.reloadplugin.alert.cancel": "Close",
 
   "Ping": "Enable Ping",
+  "setting.header.DomoticzEnvironment": "A TRADUIRE",
   "setting.subtitle.DomoticzEnvironment": "Setting on how to access Domoticz API",
 
   "setting.header.WebInterface": "Web Interface settings",
