@@ -1,120 +1,118 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-11">
-      <div class="card">
-        <div class="card-header" translate="group.create.header"></div>
-        <div class="card-body">
-          <h5 class="card-title" translate="group.create.subtitle"></h5>
-          <div class="card-text">
-            <div class="row">
-              <div class="col-sm">
-                <input
-                  type="text"
-                  placeholder="{{ 'group.create.placeholder' | translate }}"
-                  (keyup)="updateFilter($event)"
-                />
-              </div>
-              <div class="col-sm-2">
-                <button (click)="add()" class="w-100 btn btn-primary" translate="group.create.add.button"></button>
-              </div>
+<div class="row">
+  <div class="col-sm-11">
+    <div class="card">
+      <div class="card-header" translate="group.create.header"></div>
+      <div class="card-body">
+        <h5 class="card-title" translate="group.create.subtitle"></h5>
+        <div class="card-text">
+          <div class="row">
+            <div class="col-sm">
+              <input
+                type="text"
+                placeholder="{{ 'group.create.placeholder' | translate }}"
+                (keyup)="updateFilter($event)"
+              />
             </div>
-            <ngx-datatable
-              #table
-              [rows]="rows"
-              class="bootstrap"
-              [columnMode]="'force'"
-              [headerHeight]="40"
-              [summaryRow]="true"
-              [summaryPosition]="'bottom'"
-              [footerHeight]="40"
-              [limit]="10"
-              [rowHeight]="'auto'"
-            >
-              <ngx-datatable-column [maxWidth]="100">
-                <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                  <i
-                    class="fa fa-trash"
-                    title="{{ 'group.create.delete.button' | translate }}"
-                    (click)="delete(row, rowIndex)"
-                  ></i>
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column
-                [maxWidth]="100"
-                name="{{ 'group.create.shortid.column' | translate }}"
-                prop="_GroupId"
-              >
-                <ng-template ngx-datatable-cell-template let-row="row">
-                  {{ row._GroupId }}
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column
-                [maxWidth]="200"
-                name="{{ 'group.create.groupname.column' | translate }}"
-                prop="GroupName"
-              >
-                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  <input
-                    autofocus
-                    (change)="updateValue($event, 'GroupName', rowIndex)"
-                    type="text"
-                    [value]="row.GroupName"
-                  />
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="{{ 'group.create.devices.column' | translate }}" [sortable]="false">
-                <ng-template ngx-datatable-cell-template let-row="row">
-                  <ng-select
-                    [items]="devices"
-                    [multiple]="true"
-                    [closeOnSelect]="false"
-                    [searchable]="true"
-                    bindLabel="Name"
-                    placeholder="Choose device"
-                    [(ngModel)]="row.devicesSelected"
-                    (change)="hasEditing = true"
-                    appendTo="body"
-                  >
-                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                      <span [ngOptionHighlight]="search">
-                        <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
-                        <b>Id</b> : {{ item._ID }} -
-                        <b>{{ item.ZDeviceName }}</b>
-                      </span>
-                    </ng-template>
-                  </ng-select>
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column
-                [maxWidth]="150"
-                name="{{ 'group.create.coordinator.column' | translate }}"
-                [sortable]="false"
-              >
-                <ng-template ngx-datatable-cell-template let-row="row">
-                  <div class="form-check">
-                    <input
-                      (click)="updateCoordinator($event, row)"
-                      [checked]="row.coordinatorInside"
-                      class="form-check-input"
-                      type="checkbox"
-                    />
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
-            </ngx-datatable>
+            <div class="col-sm-2">
+              <button (click)="add()" class="w-100 btn btn-primary" translate="group.create.add.button"></button>
+            </div>
           </div>
+          <ngx-datatable
+            #table
+            [rows]="rows"
+            class="bootstrap"
+            [columnMode]="'force'"
+            [headerHeight]="40"
+            [summaryRow]="true"
+            [summaryPosition]="'bottom'"
+            [footerHeight]="40"
+            [limit]="10"
+            [rowHeight]="'auto'"
+          >
+            <ngx-datatable-column [maxWidth]="100">
+              <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                <i
+                  class="fa fa-trash"
+                  title="{{ 'group.create.delete.button' | translate }}"
+                  (click)="delete(row, rowIndex)"
+                ></i>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
+              [maxWidth]="100"
+              name="{{ 'group.create.shortid.column' | translate }}"
+              prop="_GroupId"
+            >
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row._GroupId }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [maxWidth]="200"
+              name="{{ 'group.create.groupname.column' | translate }}"
+              prop="GroupName"
+            >
+              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                <input
+                  autofocus
+                  (change)="updateValue($event, 'GroupName', rowIndex)"
+                  type="text"
+                  [value]="row.GroupName"
+                />
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'group.create.devices.column' | translate }}" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <ng-select
+                  [items]="devices"
+                  [multiple]="true"
+                  [closeOnSelect]="false"
+                  [searchable]="true"
+                  bindLabel="Name"
+                  placeholder="Choose device"
+                  [(ngModel)]="row.devicesSelected"
+                  (change)="hasEditing = true"
+                  appendTo="body"
+                >
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <span [ngOptionHighlight]="search">
+                      <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
+                      <b>Id</b> : {{ item._ID }} -
+                      <b>{{ item.ZDeviceName }}</b>
+                    </span>
+                  </ng-template>
+                </ng-select>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [maxWidth]="150"
+              name="{{ 'group.create.coordinator.column' | translate }}"
+              [sortable]="false"
+            >
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <div class="form-check">
+                  <input
+                    (click)="updateCoordinator($event, row)"
+                    [checked]="row.coordinatorInside"
+                    class="form-check-input"
+                    type="checkbox"
+                  />
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
         </div>
       </div>
     </div>
-    <div class="col-sm-1">
-      <button
-        [disabled]="!hasEditing"
-        (click)="updateDevices()"
-        class="w-100 btn btn-primary"
-        translate="group.create.validate.button"
-      ></button>
-    </div>
+  </div>
+  <div class="col-sm-1">
+    <button
+      [disabled]="!hasEditing"
+      (click)="updateDevices()"
+      class="w-100 btn btn-primary"
+      translate="group.create.validate.button"
+    ></button>
   </div>
 </div>
 

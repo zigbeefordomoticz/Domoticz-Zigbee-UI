@@ -1,25 +1,23 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="row">
-        <div class="col-sm"><app-plugin></app-plugin></div>
-        <div class="col-sm"><app-plugin-stats></app-plugin-stats></div>
-        <div class="col-sm"><app-zigate></app-zigate></div>
-      </div>
+<div class="row">
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm"><app-plugin></app-plugin></div>
+      <div class="col-sm"><app-plugin-stats></app-plugin-stats></div>
+      <div class="col-sm"><app-zigate></app-zigate></div>
     </div>
-    <div class="mt-3 col-sm">
-      <div class="row">
-        <button class="ml-3 btn btn-primary" (click)="onClick('devices')" translate="dashboard.device.button"></button>
-        <button
-          class="ml-3 btn btn-secondary"
-          (click)="onClick('zdevices')"
-          translate="dashboard.zdevice.button"
-        ></button>
-        <button class="ml-3 btn btn-success" (click)="onClick('zgroups')" translate="dashboard.zgroup.button"></button>
-      </div>
-      <div class="mt-3 col" [hidden]="isLoading">
-        <ngx-json-viewer *ngIf="json" [expanded]="false" [json]="json"></ngx-json-viewer>
-      </div>
+  </div>
+  <div class="mt-3 col-sm">
+    <div class="row">
+      <button class="ml-3 btn btn-primary" (click)="onClick('devices')" translate="dashboard.device.button"></button>
+      <button
+        class="ml-3 btn btn-secondary"
+        (click)="onClick('zdevices')"
+        translate="dashboard.zdevice.button"
+      ></button>
+      <button class="ml-3 btn btn-success" (click)="onClick('zgroups')" translate="dashboard.zgroup.button"></button>
+    </div>
+    <div class="mt-3 col" [hidden]="isLoading">
+      <ngx-json-viewer *ngIf="json" [expanded]="false" [json]="json"></ngx-json-viewer>
     </div>
   </div>
 </div>

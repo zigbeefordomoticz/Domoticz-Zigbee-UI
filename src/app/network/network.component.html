@@ -1,10 +1,8 @@
-<div class="container-fluid">
-  <div class="row">
-    <app-topology (timeStamp)="timeStampTopologyChange($event)"></app-topology>
-    <app-nwk-stats (timeStamp)="timeStampNwkStatChange($event)"></app-nwk-stats>
-    <app-req-topology></app-req-topology>
-    <app-req-network-inter></app-req-network-inter>
-  </div>
-  <div *ngIf="timeStampTopology"><app-detail-topology [timeStamp]="timeStampTopology"></app-detail-topology></div>
-  <div *ngIf="timeStampNwkStat"><app-detail-nwk-stat [timeStamp]="timeStampNwkStat"></app-detail-nwk-stat></div>
+<div class="row">
+  <app-topology (timeStamp)="timeStampTopologyChange($event)"></app-topology>
+  <app-nwk-stats (timeStamp)="timeStampNwkStatChange($event)"></app-nwk-stats>
+  <app-req-topology></app-req-topology>
+  <app-req-network-inter></app-req-network-inter>
 </div>
+<div *ngIf="timeStampTopology"><app-detail-topology [timeStamp]="timeStampTopology"></app-detail-topology></div>
+<div *ngIf="timeStampNwkStat"><app-detail-nwk-stat [timeStamp]="timeStampNwkStat"></app-detail-nwk-stat></div>
