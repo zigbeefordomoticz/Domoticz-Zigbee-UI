@@ -246,7 +246,7 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
     const chart = new Chart({
       chart: {
         type: 'networkgraph',
-        height: '100%'
+        height: '70%'
       },
       title: {
         text: this.translate.instant('network.topo.device.visu.network.chart.title')
@@ -258,7 +258,8 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
         networkgraph: {
           keys: ['from', 'to', 'weight'],
           layoutAlgorithm: {
-            enableSimulation: true
+            enableSimulation: true,
+            integration: 'verlet'
           }
         }
       },
