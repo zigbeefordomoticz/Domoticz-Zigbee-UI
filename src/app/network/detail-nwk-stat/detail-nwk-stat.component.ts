@@ -46,10 +46,11 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
         series.push({ name: key, y: data[key] });
       }
     });
-
     const chart = new Chart({
       chart: {
-        type: 'column'
+        type: 'column',
+        height: '80%'
+        // width: 16 * 2 * 25
       },
       title: {
         text: this.translate.instant('network.stats.detail.visu.chart.title')
@@ -72,6 +73,7 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
           name: this.translate.instant('network.stats.detail.visu.chart.x-axis'),
           colorByPoint: true,
           data: series
+          // pointWidth: 25
         }
       ]
     });

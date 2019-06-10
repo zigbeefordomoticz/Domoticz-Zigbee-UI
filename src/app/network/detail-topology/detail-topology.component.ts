@@ -45,7 +45,8 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
 
     const chart = new Chart({
       chart: {
-        type: 'dependencywheel'
+        type: 'dependencywheel',
+        height: '80%'
       },
       title: {
         text: this.translate.instant('network.topo.device.visu.chart.title')
@@ -246,7 +247,7 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
     const chart = new Chart({
       chart: {
         type: 'networkgraph',
-        height: '70%'
+        height: '80%'
       },
       title: {
         text: this.translate.instant('network.topo.device.visu.network.chart.title')
