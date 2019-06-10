@@ -1,5 +1,17 @@
 <div class="row">
-  <div class="col-sm"><app-plugin></app-plugin></div>
   <div class="col-sm"><app-plugin-stats></app-plugin-stats></div>
-  <div class="col-sm"><app-zigate></app-zigate></div>
 </div>
+<ngx-gauge
+  [type]="gaugeType"
+  [value]="devices.total"
+  [label]="devices.label"
+  [append]="gaugeAppendText"
+  [thick]="thick"
+>
+</ngx-gauge>
+
+<ngx-gauge [type]="gaugeType" [value]="routers.total" [label]="routers.label" [append]="routers.append" [thick]="thick">
+</ngx-gauge>
+
+<ngx-gauge [type]="gaugeType" [value]="inDbs.total" [label]="inDbs.label" [append]="inDbs.append" [thick]="thick">
+</ngx-gauge>

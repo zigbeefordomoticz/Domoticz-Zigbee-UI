@@ -3,9 +3,11 @@ import { SharedModule } from '@app/shared';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ToolsRoutingModule } from './tools-routing.module';
 import { ToolsComponent } from './tools.component';
+import { PluginComponent } from './plugin/plugin.component';
+import { ZigateComponent } from './zigate/zigate.component';
 
 @NgModule({
   imports: [SharedModule, ToolsRoutingModule, NgxJsonViewerModule],
-  declarations: [ToolsComponent]
+  declarations: [ToolsComponent, PluginComponent, ZigateComponent]
 })
 export class ToolsModule {}

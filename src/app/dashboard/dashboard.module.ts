@@ -3,22 +3,13 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '@app/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
-import { PluginComponent } from './plugin/plugin.component';
-import { ZigateComponent } from './zigate/zigate.component';
+import { NgxGaugeModule } from 'ngx-gauge';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CoreModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    DashboardRoutingModule,
-    NgxJsonViewerModule
-  ],
-  declarations: [DashboardComponent, PluginComponent, PluginStatsComponent, ZigateComponent]
+  imports: [CommonModule, CoreModule, TranslateModule, ReactiveFormsModule, DashboardRoutingModule, NgxGaugeModule],
+  declarations: [DashboardComponent, PluginStatsComponent]
 })
 export class DashboardModule {}
