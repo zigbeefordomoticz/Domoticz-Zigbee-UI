@@ -10,7 +10,7 @@ const log = new Logger('ToolsComponent');
 function transformToTimestamp(key: any, value: any) {
   const datepipe = new DatePipe('en-US');
   if (key === 'LastSeen') {
-    return datepipe.transform(value * 1000, 'dd/MM/yyyy hh:mm:ss');
+    return datepipe.transform(value * 1000, 'dd/MM/yyyy HH:mm:ss');
   } else {
     return value;
   }
