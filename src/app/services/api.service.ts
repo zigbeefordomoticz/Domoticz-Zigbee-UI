@@ -13,6 +13,7 @@ import { DevicesAvailable } from '@app/shared/models/group';
 const routes = {
   devices: '/device',
   zDevices: '/zdevice',
+  zdeviceRaw: '/zdevice-raw',
   zGroups: '/zgroup',
   settings: '/setting',
   plugin: '/plugin',
@@ -44,6 +45,13 @@ export class ApiService {
 
   getZDevices(): Observable<any> {
     return this.httpClient.get(routes.zDevices).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getRawZDevices(): Observable<any> {
+    return this.httpClient.get(routes.zdeviceRaw).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );
