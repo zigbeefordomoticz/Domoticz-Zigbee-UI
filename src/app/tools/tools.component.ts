@@ -11,6 +11,14 @@ function transformToTimestamp(key: any, value: any) {
   const datepipe = new DatePipe('en-US');
   if (key === 'LastSeen') {
     return datepipe.transform(value * 1000, 'dd/MM/yyyy HH:mm:ss');
+  } else if (key === 'TimeStamps') {
+    if (value > 0) {
+      let calc = value * 1000;
+      calc = Number(calc.toFixed(0));
+      return datepipe.transform(calc, 'dd/MM/yyyy HH:mm:ss');
+    } else {
+      return value;
+    }
   } else {
     return value;
   }
