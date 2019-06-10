@@ -3,8 +3,18 @@ import { FormBuilder } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
 import { finalize } from 'rxjs/operators';
 import { Logger } from '@app/core';
+import { DatePipe } from '@angular/common';
 
 const log = new Logger('ToolsComponent');
+
+function transformToTimestamp(key: any, value: any) {
+  const datepipe = new DatePipe('en-US');
+  if (key === 'LastSeen') {
+    return datepipe.transform(value * 1000, 'dd/MM/yyyy hh:mm:ss');
+  } else {
+    return value;
+  }
+}
 
 @Component({
   selector: 'app-tools',
@@ -15,7 +25,7 @@ export class ToolsComponent implements OnInit {
   json: Object | undefined = null;
   isLoading = false;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {}
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private datePipe: DatePipe) {}
 
   ngOnInit() {}
 
@@ -41,7 +51,12 @@ export class ToolsComponent implements OnInit {
         })
       )
       .subscribe((json: Object) => {
-        this.json = json;
+        this.callbackservice(json);
       });
+  }
+
+  callbackservice(json: any) {
+    const jsonStr = JSON.stringify(json);
+    this.json = JSON.parse(jsonStr, transformToTimestamp);
   }
 }
