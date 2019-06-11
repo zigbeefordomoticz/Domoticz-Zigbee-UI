@@ -33,7 +33,7 @@
   "admin.reloadplugin.alert.subject": "Be carefull guy !!!!!",
   "admin.reloadplugin.alert.cancel": "Cancel",
   "admin.reloadplugin.alert.erase": "Restart",
-  "dashboard": "Overall",
+  "dashboard": "Dashboard",
   "dashboard.plugin.header": "Plugin infos",
   "dashboard.plugin.subtitle": "Provides plugin informations",
   "dashboard.stats.header": "Plugin statistics",
@@ -108,7 +108,7 @@
   "network.stats.detail.visu.totalfail": "Fail : ",
   "network.stats.detail.visu.chart.title": "Interferences Diagram",
   "network.stats.detail.visu.chart.y-axis": "Interferences",
-  "network.stats.detail.visu.chart.x-axis": "Canaux",
+  "network.stats.detail.visu.chart.x-axis": "Chanels",
   "setting.header": "Settings",
   "setting.subtitle": "Allow you to visualize and edit the various plugin settings. Some might required a restart of the plugin to be taken into account",
   "setting.validate.button": "Validate",
@@ -125,7 +125,7 @@
   "tools.zdevice-raw.button": "Plugin Raw Devices (json)",
 
   "Ping": "Enable Ping",
-  "setting.header.DomoticzEnvironment": "A TRADUIRE",
+  "setting.header.DomoticzEnvironment": "Domiticz URL",
   "setting.subtitle.DomoticzEnvironment": "Setting on how to access Domoticz API",
 
   "setting.header.WebInterface": "Web Interface settings",
