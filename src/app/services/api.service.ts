@@ -29,12 +29,20 @@ const routes = {
   zigateErasePDM: '/zigate-erase-PDM',
   zigate: '/zigate',
   restartNeeded: '/restart-needed',
-  domoticzEnv: '/domoticz-env'
+  domoticzEnv: '/domoticz-env',
+  pluginHealth: '/plugin-health'
 };
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   constructor(private httpClient: HttpClient, private location: Location) {}
+
+  getPluginhealth(): Observable<Array<any>> {
+    return this.httpClient.get(routes.pluginHealth).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
 
   getDevices(): Observable<Array<Device>> {
     return this.httpClient.get(routes.devices).pipe(

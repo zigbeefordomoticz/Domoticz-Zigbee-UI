@@ -21,9 +21,13 @@ export class DashboardComponent implements OnInit {
   gaugeAppendText = '';
   thick = 15;
 
+  pluginHealth: any;
   constructor(private apiService: ApiService, private translate: TranslateService) {}
 
   ngOnInit() {
+    this.apiService.getPluginhealth().subscribe(res => {
+      this.pluginHealth = res;
+    });
     this.apiService.getZDevices().subscribe(devices => {
       this.devices = devices;
       this.devices.total = this.devices.length;

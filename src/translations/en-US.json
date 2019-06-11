@@ -40,6 +40,7 @@
   "dashboard.stats.subtitle": "Provides Zigate statistics in terms of message transmission and reception",
   "dashboard.zigate.header": "Zigate Informations",
   "dashboard.zigate.subtitle": "Provides Zigate informations",
+  "dashboard.health.title": "Health of plugin",
   "device": "Device Management",
   "device.byname.subtitle": "List all HW devices paired with the plugin, and allow you to enter a friendly name for each of them. In addition you get some device informations",
   "device.byname.capabilities.column": "Capabilities",
