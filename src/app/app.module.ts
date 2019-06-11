@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ShellModule } from './shell/shell.module';
 import { PushNotificationsModule } from 'ng-push';
+import { DeviceByNameComponent } from './dashboard/device-by-name/device-by-name.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { PushNotificationsModule } from 'ng-push';
   ],
   declarations: [AppComponent],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DeviceByNameComponent]
 })
 export class AppModule {}

@@ -1,59 +1,85 @@
-<div class="row mt-3">
-  <div class="col-sm-12 card-columns">
-    <ngx-gauge
-      [type]="gaugeType"
-      [value]="devices?.total"
-      [label]="devices?.label"
-      [append]="gaugeAppendText"
-      [thick]="thick"
-    >
-    </ngx-gauge>
+<div class="row">
+  <ngx-gauge
+    (click)="open(devices)"
+    class="ml-3"
+    [max]="devices?.total"
+    [type]="gaugeType"
+    [value]="devices?.total"
+    [label]="devices?.label"
+    [append]="gaugeAppendText"
+    [thick]="thick"
+  >
+  </ngx-gauge>
 
-    <ngx-gauge
-      [type]="gaugeType"
-      [value]="routers?.total"
-      [label]="routers?.label"
-      [append]="routers?.append"
-      [thick]="thick"
-    >
-    </ngx-gauge>
+  <ngx-gauge
+    (click)="open(routers)"
+    [type]="gaugeType"
+    [value]="routers?.total"
+    [label]="routers?.label"
+    [append]="routers?.append"
+    [thick]="thick"
+  >
+  </ngx-gauge>
 
-    <ngx-gauge
-      [type]="gaugeType"
-      [value]="inDbs?.total"
-      [label]="inDbs?.label"
-      [append]="inDbs?.append"
-      [thick]="thick"
-    >
-    </ngx-gauge>
-    <div *ngIf="pluginHealth.HealthFlag === 0" class="card text-white bg-dark ml-3" style="max-width: 18rem;">
-      <div class="card-header">
-        <h5 class="card-title" translate="dashboard.health.title"></h5>
-      </div>
-      <div class="card-body">
-        <i class="fas fa-power-off"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
-      </div>
+  <ngx-gauge
+    (click)="open(inDbs)"
+    [type]="gaugeType"
+    [value]="inDbs?.total"
+    [label]="inDbs?.label"
+    [append]="inDbs?.append"
+    [thick]="thick"
+  >
+  </ngx-gauge>
+  <ngx-gauge
+    (click)="open(healthsLive)"
+    [type]="gaugeType"
+    [value]="healthsLive?.total"
+    [label]="healthsLive?.label"
+    [append]="healthsLive?.append"
+    [thick]="thick"
+  >
+  </ngx-gauge>
+  <ngx-gauge
+    (click)="open(healthsNotSeen)"
+    [type]="gaugeType"
+    [value]="healthsNotSeen?.total"
+    [label]="healthsNotSeen?.label"
+    [append]="healthsNotSeen?.append"
+    [thick]="thick"
+  >
+  </ngx-gauge>
+  <ngx-gauge
+    (click)="open(healthsOthers)"
+    [type]="gaugeType"
+    [value]="healthsOthers?.total"
+    [label]="healthsOthers?.label"
+    [append]="healthsOthers?.append"
+    [thick]="thick"
+  >
+  </ngx-gauge>
+</div>
+<div class="col-sm-12 card-columns mt-3">
+  <app-plugin-stats class="col-sm"></app-plugin-stats>
+  <div *ngIf="pluginHealth?.HealthFlag === 0" class="card" style="max-width: 18rem;">
+    <div class="card-header" translate="dashboard.health.title"></div>
+    <div class="card-body text-white bg-dark">
+      <i class="fas fa-power-off"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
     </div>
-    <div *ngIf="pluginHealth.HealthFlag === 1" class="card text-white bg-success ml-3" style="max-width: 18rem;">
-      <div class="card-header">
-        <h5 class="card-title" translate="dashboard.health.title"></h5>
-      </div>
-      <div class="card-body"><i class="fas fa-play"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span></div>
+  </div>
+  <div *ngIf="pluginHealth?.HealthFlag === 1" class="card" style="max-width: 18rem;">
+    <div class="card-header" translate="dashboard.health.title"></div>
+    <div class="card-body text-white bg-success">
+      <i class="fas fa-play"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
     </div>
-    <div *ngIf="pluginHealth.HealthFlag === 3" class="card text-white bg-danger ml-3" style="max-width: 18rem;">
-      <div class="card-header">
-        <h5 class="card-title" translate="dashboard.health.title"></h5>
-      </div>
-      <div class="card-body"><i class="fas fa-stop"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span></div>
+  </div>
+  <div *ngIf="pluginHealth?.HealthFlag === 3" class="card text-white bg-danger ml-3" style="max-width: 18rem;">
+    <div class="card-header" translate="dashboard.health.title"></div>
+    <div class="card-body"><i class="fas fa-stop"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span></div>
+  </div>
+  <div *ngIf="pluginHealth?.HealthFlag === 2" class="card text-white bg-warning ml-3" style="max-width: 18rem;">
+    <div class="card-header" translate="dashboard.health.title"></div>
+    <div class="card-body">
+      <i class="fas fa-exclamation"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
     </div>
-    <div *ngIf="pluginHealth.HealthFlag === 2" class="card text-white bg-warning ml-3" style="max-width: 18rem;">
-      <div class="card-header">
-        <h5 class="card-title" translate="dashboard.health.title"></h5>
-      </div>
-      <div class="card-body">
-        <i class="fas fa-exclamation"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
-      </div>
-    </div>
-    <app-plugin-stats class="ml-3"></app-plugin-stats>
   </div>
 </div>

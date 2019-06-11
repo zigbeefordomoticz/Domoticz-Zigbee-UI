@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ControlContainer, FormBuilder, FormGroup, FormGroupDirective } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
-import { TranslateService } from '@ngx-translate/core';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { TranslateService } from '@ngx-translate/core';
+import { ToppyControl } from 'toppy';
 
 const log = new Logger('DeviceByNameComponent');
 
@@ -19,10 +20,9 @@ const log = new Logger('DeviceByNameComponent');
     }
   ]
 })
-export class DeviceByNameComponent implements OnInit {
+export class DeviceByNameComponent implements OnInit, OnChanges {
   @ViewChild('table') table: any;
-  form: FormGroup;
-  devices: Array<DeviceByName> = [];
+  @Input() devices: any;
   rows: any = [];
   editing = {};
   json: any;
@@ -31,20 +31,20 @@ export class DeviceByNameComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
-    private formBuilder: FormBuilder,
-    private fgd: FormGroupDirective,
     private translate: TranslateService,
     private notifyService: NotifyService
   ) {}
 
-  ngOnInit() {
-    this.apiService.getZDeviceName().subscribe((result: any) => {
-      this.json = result;
-      this.devices = result;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.devices.currentValue !== changes.devices.previousValue) {
+      this.json = this.devices;
+      this.devices = this.devices;
       this.rows = this.devices;
       this.temp = [...this.rows];
-    });
+    }
   }
+
+  ngOnInit() {}
 
   updateValue(event: any, cell: any, rowIndex: any) {
     this.hasEditing = true;

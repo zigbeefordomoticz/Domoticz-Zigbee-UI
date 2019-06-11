@@ -1,15 +1,15 @@
-<div class="card" *ngIf="plugin$ | async as plugins">
+<div class="card" *ngIf="plugin$ | async as plugins" style="width: 20rem;">
   <div class="card-header" translate="dashboard.stats.header"></div>
   <div class="card-body">
     <h5 class="card-title" translate="dashboard.stats.subtitle"></h5>
-    <div class="card-text">
-      <li *ngFor="let plugin of plugins | keyvalue">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let plugin of plugins | keyvalue">
         {{ plugin.key | translate }} :
         <span *ngIf="plugin.key === 'StartTime' || plugin.key === 'TimeStamp'; else others">{{
           plugin.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss'
         }}</span>
         <ng-template #others>{{ plugin.value }}</ng-template>
       </li>
-    </div>
+    </ul>
   </div>
 </div>
