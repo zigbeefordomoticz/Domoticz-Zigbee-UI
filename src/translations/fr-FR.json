@@ -33,7 +33,7 @@
   "admin.reloadplugin.alert.subject": "Attention Mec !!!!!",
   "admin.reloadplugin.alert.cancel": "Annuler",
   "admin.reloadplugin.alert.erase": "Redemarrer",
-  "dashboard": "Tous",
+  "dashboard": "Tableau de Bord",
   "dashboard.device.button": "Domoticz Widgets (json)",
   "dashboard.plugin.header": "Plugin infos",
   "dashboard.plugin.subtitle": "Montre les infos du plugin",
@@ -97,7 +97,7 @@
   "network.topo.device.name.column": "Nom",
   "network.topo.device.visu.header": "Liste des Modules",
   "network.topo.device.visu.subtitle": "Donne la liste des modules liés a la Zigate. Vous donne le nom du widget et autres infos liées a Domoticz",
-  "network.topo.device.visu.chart.title": "Illustratin du Maillage",
+  "network.topo.device.visu.chart.title": "Illustration du Maillage",
   "network.topology.req.header": "Scan du Maillage de reseau",
   "network.topology.req.subtitle": "Ceci va créer une illustartion de votre reseau Zigbee, travail en arriere plan",
   "network.topology.req.button": "scan",
@@ -147,5 +147,10 @@
   "setting.header.Others": "Autres réglages",
   "setting.subtitle.Others": "",
   "logLQI": "Frequence de rapport de Maillage(sec)",
-  "networkScan": "Frequence de raport d'Interferances (sec)"
+  "networkScan": "Frequence de raport d'Interferances (sec)",
+  "dashboard.health.title":"Santé du plugin",
+  "tools.zdevice-raw.button":"Liste des equipements raw (json)",
+  "tools.zgroup.button":"Liste des groupes (json)",
+  "tools.zdevice.button":"Liste des equipements (json)
+  "tools.device.button":"Liste des Widgets Domoticz (json)"
 }
