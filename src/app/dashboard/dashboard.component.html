@@ -30,33 +30,37 @@
     [thick]="thick"
   >
   </ngx-gauge>
-  <ngx-gauge
-    (click)="open(healthsLive)"
-    [type]="gaugeType"
-    [value]="healthsLive?.total"
-    [label]="healthsLive?.label"
-    [append]="healthsLive?.append"
-    [thick]="thick"
-  >
-  </ngx-gauge>
-  <ngx-gauge
-    (click)="open(healthsNotSeen)"
-    [type]="gaugeType"
-    [value]="healthsNotSeen?.total"
-    [label]="healthsNotSeen?.label"
-    [append]="healthsNotSeen?.append"
-    [thick]="thick"
-  >
-  </ngx-gauge>
-  <ngx-gauge
-    (click)="open(healthsOthers)"
-    [type]="gaugeType"
-    [value]="healthsOthers?.total"
-    [label]="healthsOthers?.label"
-    [append]="healthsOthers?.append"
-    [thick]="thick"
-  >
-  </ngx-gauge>
+  <fieldset class="scheduler-border" style="border-color: rgb(13, 6, 44); border-style: solid; border-width:2px;">
+    <ngx-gauge
+      (click)="open(healthsLive)"
+      [type]="gaugeType"
+      [value]="healthsLive?.total"
+      [label]="healthsLive?.label"
+      [append]="healthsLive?.append"
+      [thick]="thick"
+    >
+    </ngx-gauge>
+    <ngx-gauge
+      (click)="open(healthsNotSeen)"
+      [type]="gaugeType"
+      [value]="healthsNotSeen?.total"
+      [label]="healthsNotSeen?.label"
+      [append]="healthsNotSeen?.append"
+      [thick]="thick"
+      [foregroundColor]="'orange'"
+    >
+    </ngx-gauge>
+    <ngx-gauge
+      (click)="open(healthsOthers)"
+      [type]="gaugeType"
+      [value]="healthsOthers?.total"
+      [label]="healthsOthers?.label"
+      [append]="healthsOthers?.append"
+      [thick]="thick"
+      [foregroundColor]="'orange'"
+    >
+    </ngx-gauge>
+  </fieldset>
 </div>
 <div class="col-sm-12 card-columns mt-3">
   <app-plugin-stats class="col-sm"></app-plugin-stats>
