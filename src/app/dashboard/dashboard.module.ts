@@ -9,6 +9,9 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
 import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
+import * as more from 'highcharts/highcharts-more.src';
+import * as exporting from 'highcharts/modules/exporting.src';
+import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 
 @NgModule({
   imports: [
@@ -18,8 +21,10 @@ import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
     NgxGaugeModule,
     ToppyModule,
     TranslateModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    ChartModule
   ],
-  declarations: [DashboardComponent, PluginStatsComponent, DeviceByNameComponent]
+  declarations: [DashboardComponent, PluginStatsComponent, DeviceByNameComponent],
+  providers: [{ provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting] }]
 })
 export class DashboardModule {}

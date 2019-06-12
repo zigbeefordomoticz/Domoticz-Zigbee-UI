@@ -1,5 +1,6 @@
-<div class="row">
+<div class="row d-flex">
   <ngx-gauge
+    class="ml-3"
     (click)="open(devices)"
     class="ml-3"
     [max]="devices?.total"
@@ -12,6 +13,7 @@
   </ngx-gauge>
 
   <ngx-gauge
+    class="ml-3"
     (click)="open(routers)"
     [type]="gaugeType"
     [value]="routers?.total"
@@ -22,6 +24,7 @@
   </ngx-gauge>
 
   <ngx-gauge
+    class="ml-3"
     (click)="open(inDbs)"
     [type]="gaugeType"
     [value]="inDbs?.total"
@@ -30,8 +33,9 @@
     [thick]="thick"
   >
   </ngx-gauge>
-  <fieldset class="scheduler-border" style="border-color: rgb(13, 6, 44); border-style: solid; border-width:2px;">
+  <fieldset class="ml-3 scheduler-border" style="border-color: rgb(13, 6, 44); border-style: solid; border-width:2px;">
     <ngx-gauge
+      class="ml-3"
       (click)="open(healthsLive)"
       [type]="gaugeType"
       [value]="healthsLive?.total"
@@ -41,6 +45,7 @@
     >
     </ngx-gauge>
     <ngx-gauge
+      class="ml-3"
       (click)="open(healthsNotSeen)"
       [type]="gaugeType"
       [value]="healthsNotSeen?.total"
@@ -51,6 +56,7 @@
     >
     </ngx-gauge>
     <ngx-gauge
+      class="ml-3"
       (click)="open(healthsOthers)"
       [type]="gaugeType"
       [value]="healthsOthers?.total"
@@ -62,28 +68,32 @@
     </ngx-gauge>
   </fieldset>
 </div>
-<div class="col-sm-12 card-columns mt-3">
-  <app-plugin-stats class="col-sm"></app-plugin-stats>
-  <div *ngIf="pluginHealth?.HealthFlag === 0" class="card" style="max-width: 18rem;">
-    <div class="card-header" translate="dashboard.health.title"></div>
-    <div class="card-body text-white bg-dark">
-      <i class="fas fa-power-off"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
+<div class="mt-5 row">
+  <div class="ml-3 col-sm-4">
+    <app-plugin-stats></app-plugin-stats>
+  </div>
+  <div class="col-sm-4 card-columns mt-3">
+    <div *ngIf="pluginHealth?.HealthFlag === 0" class="card" style="max-width: 18rem;">
+      <div class="card-header" translate="dashboard.health.title"></div>
+      <div class="card-body text-white bg-dark">
+        <i class="fas fa-power-off"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
+      </div>
     </div>
-  </div>
-  <div *ngIf="pluginHealth?.HealthFlag === 1" class="card" style="max-width: 18rem;">
-    <div class="card-header" translate="dashboard.health.title"></div>
-    <div class="card-body text-white bg-success">
-      <i class="fas fa-play"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
+    <div *ngIf="pluginHealth?.HealthFlag === 1" class="card" style="max-width: 18rem;">
+      <div class="card-header" translate="dashboard.health.title"></div>
+      <div class="card-body text-white bg-success">
+        <i class="fas fa-play"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
+      </div>
     </div>
-  </div>
-  <div *ngIf="pluginHealth?.HealthFlag === 3" class="card text-white bg-danger ml-3" style="max-width: 18rem;">
-    <div class="card-header" translate="dashboard.health.title"></div>
-    <div class="card-body"><i class="fas fa-stop"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span></div>
-  </div>
-  <div *ngIf="pluginHealth?.HealthFlag === 2" class="card text-white bg-warning ml-3" style="max-width: 18rem;">
-    <div class="card-header" translate="dashboard.health.title"></div>
-    <div class="card-body">
-      <i class="fas fa-exclamation"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
+    <div *ngIf="pluginHealth?.HealthFlag === 3" class="card text-white bg-danger ml-3" style="max-width: 18rem;">
+      <div class="card-header" translate="dashboard.health.title"></div>
+      <div class="card-body"><i class="fas fa-stop"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span></div>
+    </div>
+    <div *ngIf="pluginHealth?.HealthFlag === 2" class="card text-white bg-warning ml-3" style="max-width: 18rem;">
+      <div class="card-header" translate="dashboard.health.title"></div>
+      <div class="card-body">
+        <i class="fas fa-exclamation"></i> <span translate="{{ pluginHealth?.HealthTxt }}"></span>
+      </div>
     </div>
   </div>
 </div>

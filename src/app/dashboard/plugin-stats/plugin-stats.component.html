@@ -1,4 +1,4 @@
-<div class="card" *ngIf="plugin$ | async as plugins" style="width: 20rem;">
+<!-- <div class="card" *ngIf="plugin$ | async as plugins" style="width: 20rem;">
   <div class="card-header" translate="dashboard.stats.header"></div>
   <div class="card-body">
     <h5 class="card-title" translate="dashboard.stats.subtitle"></h5>
@@ -12,4 +12,5 @@
       </li>
     </ul>
   </div>
-</div>
+</div> -->
+<div [chart]="chart1"></div>
