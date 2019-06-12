@@ -77,12 +77,9 @@ export class GroupComponent implements OnInit {
   }
 
   updateValue(event: any, cell: any, rowIndex: any) {
-    this.hasEditing = true;
-    log.debug('inline editing rowIndex', rowIndex);
     this.editing[rowIndex + '-' + cell] = false;
     this.rows[rowIndex][cell] = event.target.value;
     this.rows = [...this.rows];
-    log.debug('UPDATED!', this.rows[rowIndex][cell]);
   }
 
   updateFilter(event: any) {
@@ -102,29 +99,27 @@ export class GroupComponent implements OnInit {
   }
 
   updateDevices() {
-    this.hasEditing = false;
-
     this.rows.forEach(group => {
       if (group.coordinatorInside) {
         group.devicesSelected.push({ Ep: '01', _NwkId: '0000' });
-        return;
       }
     });
 
-    this.apiService.putZGroups(this.rows).subscribe(result => {
-      log.debug(this.rows);
-      this.notifyService.notify();
-      this.apiService.getRestartNeeded().subscribe(restart => {
-        if (restart.RestartNeeded) {
-          this.headerService.setRestart(true);
-          this.open(this.content);
-        }
+    if (this.isFormValid) {
+      this.apiService.putZGroups(this.rows).subscribe(result => {
+        log.debug(this.rows);
+        this.notifyService.notify();
+        this.apiService.getRestartNeeded().subscribe(restart => {
+          if (restart.RestartNeeded) {
+            this.headerService.setRestart(true);
+            this.open(this.content);
+          }
+        });
       });
-    });
+    }
   }
 
   delete(row: Group, rowIndex: number) {
-    this.hasEditing = true;
     const index = this.rows.indexOf(row, 0);
     if (index > -1) {
       this.rows.splice(index, 1);
@@ -134,7 +129,6 @@ export class GroupComponent implements OnInit {
   }
 
   add() {
-    this.hasEditing = true;
     const group = new Group();
     group.GroupName = '';
     group.coordinatorInside = false;
@@ -144,11 +138,25 @@ export class GroupComponent implements OnInit {
   }
 
   updateCoordinator(event: any, row: Group) {
-    this.hasEditing = true;
     row.coordinatorInside = event.currentTarget.checked;
   }
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(result => {}, reason => {});
+  }
+
+  isFormValid(): boolean {
+    let formvalid = true;
+    this.rows.forEach(group => {
+      if (
+        group.GroupName === null ||
+        group.GroupName === '' ||
+        (group.devicesSelected === undefined || group.devicesSelected.length === 0)
+      ) {
+        formvalid = false;
+      }
+    });
+
+    return formvalid;
   }
 }

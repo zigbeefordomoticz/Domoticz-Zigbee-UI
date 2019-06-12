@@ -72,7 +72,7 @@
                   bindLabel="Name"
                   placeholder="Choose device"
                   [(ngModel)]="row.devicesSelected"
-                  (change)="hasEditing = true"
+                  (change)="isFormValid()"
                   appendTo="body"
                 >
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
@@ -108,7 +108,7 @@
   </div>
   <div class="col-sm-1">
     <button
-      [disabled]="!hasEditing"
+      [disabled]="!isFormValid()"
       (click)="updateDevices()"
       class="w-100 btn btn-primary"
       translate="group.create.validate.button"

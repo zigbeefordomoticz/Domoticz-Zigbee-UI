@@ -4,16 +4,33 @@
       ><img class="img-responsive logo" src="assets/zigate_logo.png" alt="angular logo" />
     </a>
 
+   
+
     <button
-      class="navbar-toggler navbar-toggler-right"
-      type="button"
-      aria-controls="appNavigation"
-      aria-expanded="!menuHidden"
-      aria-label="Toggle navigation"
-      (click)="toggleMenu()"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    class="navbar-toggler navbar-toggler-right"
+    type="button"
+    aria-controls="appNavigation"
+    aria-expanded="!menuHidden"
+    aria-label="Toggle navigation"
+    (click)="toggleMenu()"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="appNavigation" [ngbCollapse]="menuHidden">
+    <div class="navbar-nav mr-auto">
+      <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Inicio</a>
+
+      <div class="nav-item dropdown" ngbDropdown>
+        <a class="nav-link dropdown-toggle" id="dropdownSede" ngbDropdownToggle>Sede</a>
+        <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSede">
+          <a class="dropdown-item" routerLink="/sede-show" routerLinkActive="active" (click)="toggleMenu()">Lista</a>
+          <a class="dropdown-item" routerLink="/sede-admin" routerLinkActive="active" (click)="toggleMenu()">Agregar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
     <div
       id="appNavigation"
@@ -21,22 +38,41 @@
       [ngbCollapse]="menuHidden"
     >
       <ul class="navbar-nav h-100">
+        <li ngbDropdown routerLinkActive="active" class="dropdown">
+          <a ngbDropdownAnchor class="nav-item nav-link"> <span class="font__size--1em" translate>management</span> </a>
+          <ul ngbDropdownMenu>
+            <button class="dropdown-item" routerLink="/device" routerLinkActive="active">
+              <i class="far fa-tablet mr-2"></i> <span translate="device"></span>
+            </button>
+          </ul>
+          <ul ngbDropdownMenu>
+            <button class="dropdown-item" routerLink="/group" routerLinkActive="active">
+              <i class="far fa-layer-group mr-2"></i> <span translate="group"></span>
+            </button>
+          </ul>
+          <ul ngbDropdownMenu>
+            <button class="dropdown-item" routerLink="/group" routerLinkActive="active">
+              <i class="far fa-layer-group mr-2"></i> <span translate="group"></span>
+            </button>
+          </ul>
+        </li>
         <li ngbDropdown routerLinkActive="active" class="dropdown ">
           <a class="nav-item nav-link mx-2" routerLink="/dashboard" routerLinkActive="active">
             <i class="fas fa-home"></i>
             <span translate>dashboard</span>
           </a>
         </li>
-        <li ngbDropdown routerLinkActive="active" class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="dropdownSede" ngbDropdownToggle translate="management"></a>
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSede">
-            <li class="dropdown-item" (click)="toggleMenu()" routerLink="/device" routerLinkActive="active">
-              <i class="fas fa-tablet mr-2"></i> <span translate="device"></span>
-            </li>
-            <li class="dropdown-item" (click)="toggleMenu()" routerLink="/group" routerLinkActive="active">
-              <i class="fas fa-layer-group mr-2"></i> <span translate="group"></span>
-            </li>
-          </ul>
+        <li ngbDropdown routerLinkActive="active" class="dropdown ">
+          <a class="nav-item nav-link mx-2" routerLink="/device" routerLinkActive="active">
+            <i class="fas fa-tablet"></i>
+            <span translate>device</span>
+          </a>
+        </li>
+        <li ngbDropdown routerLinkActive="active" class="dropdown ">
+          <a class="nav-item nav-link mx-2" routerLink="/group" routerLinkActive="active">
+            <i class="fas fa-layer-group"></i>
+            <span translate>group</span>
+          </a>
         </li>
         <li ngbDropdown routerLinkActive="active" class="dropdown ">
           <a class="nav-item nav-link mx-2" routerLink="/network" routerLinkActive="active">

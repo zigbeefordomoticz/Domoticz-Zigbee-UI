@@ -71,6 +71,7 @@
   "group.reloadplugin.alert.cancel": "Close",
   "header.popover.title": "Restart needed",
   "header.popover.text": "Some changes are pending to a plugin restart",
+  "management": "Management",
   "network": "Network",
   "network.stats.header": "Network",
   "network.stats.subtitle": "Network subtitle",
