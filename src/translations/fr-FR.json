@@ -1,5 +1,5 @@
 {
-  "APP_NAME": "Zigate Interface d'administration",
+  "APP_NAME": "Zigate Interface d'aministration",
   "update.success": "Update effectuée avec succes",
   "About": "A Propos",
   "Version": "Version",
@@ -148,9 +148,9 @@
   "setting.subtitle.Others": "",
   "logLQI": "Frequence de rapport de Maillage(sec)",
   "networkScan": "Frequence de raport d'Interferances (sec)",
-  "dashboard.health.title":"Santé du plugin",
-  "tools.zdevice-raw.button":"Liste des equipements raw (json)",
-  "tools.zgroup.button":"Liste des groupes (json)",
-  "tools.zdevice.button":"Liste des equipements (json)
-  "tools.device.button":"Liste des Widgets Domoticz (json)"
+  "dashboard.health.title": "Santé du plugin",
+  "tools.zdevice-raw.button": "Liste des equipements raw (json)",
+  "tools.zgroup.button": "Liste des groupes (json)",
+  "tools.zdevice.button": "Liste des equipements (json)",
+  "tools.device.button": "Liste des Widgets Domoticz (json)"
 }

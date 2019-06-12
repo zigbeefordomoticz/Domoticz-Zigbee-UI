@@ -151,5 +151,5 @@
   "setting.header.Others": "Miscaleneous settings",
   "setting.subtitle.Others": "",
   "logLQI": "Topology report frequency (sec)",
-  "networkScan": "Interferences report frequency (sec)",
+  "networkScan": "Interferences report frequency (sec)"
 }
