@@ -165,6 +165,38 @@
         >
         </ngx-gauge>
       </fieldset>
+      <ngx-gauge
+        (click)="open(batteryInf30)"
+        [max]="batteryInf30?.totalDevices"
+        [type]="gaugeType"
+        [value]="batteryInf30?.total"
+        [label]="batteryInf30?.label"
+        [append]="batteryInf30.append"
+        [thick]="thick"
+        [foregroundColor]="'red'"
+      >
+      </ngx-gauge>
+      <ngx-gauge
+        (click)="open(batterySup30)"
+        [max]="batteryInf30?.totalDevices"
+        [type]="gaugeType"
+        [value]="batterySup30?.total"
+        [label]="batterySup30?.label"
+        [append]="batterySup30.append"
+        [thick]="thick"
+        [foregroundColor]="'orange'"
+      >
+      </ngx-gauge>
+      <ngx-gauge
+      (click)="open(batterySup50)"
+      [max]="batteryInf30?.totalDevices"
+      [type]="gaugeType"
+      [value]="batterySup50?.total"
+      [label]="batterySup50?.label"
+      [append]="batterySup50.append"
+      [thick]="thick"
+    >
+    </ngx-gauge>
     </div>
   </div>
 </div>

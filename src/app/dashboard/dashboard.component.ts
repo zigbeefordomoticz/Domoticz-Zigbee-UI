@@ -28,6 +28,9 @@ export class DashboardComponent implements OnInit {
   totalTraficCrc: any = {};
   maxLoad: any = {};
   currentLoad: any = {};
+  batterySup50: any;
+  batterySup30: any;
+  batteryInf30: any;
 
   gaugeType = 'full';
   gaugeAppendText = '';
@@ -87,6 +90,26 @@ export class DashboardComponent implements OnInit {
       this.healthsOthers.label = this.translate.instant('dashboard.devices.others');
       this.healthsOthers.total = ((this.healthsOthers.length / this.devices.total) * 100).toFixed(0);
       this.healthsOthers.append = '%';
+    });
+
+    this.apiService.getRawZDevices().subscribe(devices => {
+      const devicesOnBattery = devices.filter((device: any) => device.PowerSource !== 'Main');
+      const _batteryInf30 = devicesOnBattery.filter((device: any) => device.Battery < 30);
+      const _batterySup30 = devicesOnBattery.filter((device: any) => device.Battery > 30 && device.Battery < 50);
+      const _batterySup50 = devicesOnBattery.filter((device: any) => device.Battery > 50);
+      this.batteryInf30 = this.devices.filter((it: any) => _batteryInf30.find((iter: any) => iter.IEEE === it.IEEE));
+      this.batterySup50 = this.devices.filter((it: any) => _batterySup50.find((iter: any) => iter.IEEE === it.IEEE));
+      this.batterySup30 = this.devices.filter((it: any) => _batterySup30.find((iter: any) => iter.IEEE === it.IEEE));
+      this.batteryInf30.totalDevices = devicesOnBattery.length;
+      this.batteryInf30.label = this.translate.instant('dashboard.devices.battery.inf.30');
+      this.batteryInf30.total = this.batteryInf30.length;
+      this.batteryInf30.append = this.translate.instant('devices');
+      this.batterySup30.label = this.translate.instant('dashboard.devices.battery.sup.30');
+      this.batterySup30.total = this.batterySup30.length;
+      this.batterySup30.append = this.translate.instant('devices');
+      this.batterySup50.label = this.translate.instant('dashboard.devices.battery.sup.50');
+      this.batterySup50.total = this.batterySup50.length;
+      this.batterySup50.append = this.translate.instant('devices');
     });
   }
 
