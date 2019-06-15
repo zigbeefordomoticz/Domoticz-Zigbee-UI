@@ -31,7 +31,7 @@ export class PluginStatsComponent implements OnInit {
         height: '80%'
       },
       title: {
-        text: this.translate.instant('network.topo.device.visu.chart.title')
+        text: 'Trafic'
       },
       credits: {
         enabled: false
