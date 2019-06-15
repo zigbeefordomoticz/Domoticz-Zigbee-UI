@@ -28,12 +28,22 @@
           </a>
         </li>
         <li ngbDropdown routerLinkActive="active" class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="dropdownSede" ngbDropdownToggle translate="management"></a>
+          <a class="nav-link nav-item dropdown-toggle" id="dropdownSede" ngbDropdownToggle translate="management"></a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSede">
-            <li class="dropdown-item" (click)="toggleMenu()" routerLink="/device" routerLinkActive="active">
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              routerLink="/device"
+              routerLinkActive="active"
+            >
               <i class="fas fa-tablet mr-2"></i> <span translate="device"></span>
             </li>
-            <li class="dropdown-item" (click)="toggleMenu()" routerLink="/group" routerLinkActive="active">
+            <li
+              class="dropdown-item nav-link nav-item"
+              (click)="toggleMenu()"
+              routerLink="/group"
+              routerLinkActive="active"
+            >
               <i class="fas fa-layer-group mr-2"></i> <span translate="group"></span>
             </li>
           </ul>

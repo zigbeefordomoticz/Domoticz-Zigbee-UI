@@ -4,6 +4,14 @@
   margin-bottom: $spacer;
 }
 
+a:not([href]):not([tabindex]) {
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  cursor: pointer;
+}
+
 .logo {
   width: 100px;
 }
@@ -30,9 +38,7 @@ $custom-control-indicator-bg: #dee2e6;
 $custom-control-indicator-disabled-bg: #e9ecef;
 $custom-control-description-disabled-color: #868e96;
 $white: white;
-$theme-colors: (
-  "primary": #08d
-);
+$theme-colors: ("primary": #08d);
 
 //
 // These variables can be used to customize the switch component.
@@ -66,7 +72,7 @@ $switch-transition: 0.2s all !default;
     overflow: hidden;
     padding: 0;
 
-    + label {
+    +label {
       position: relative;
       min-width: calc(#{$switch-height} * 2);
       border-radius: $switch-border-radius;
@@ -80,8 +86,8 @@ $switch-transition: 0.2s all !default;
       text-indent: calc(calc(#{$switch-height} * 2) + 0.5rem);
     }
 
-    + label::before,
-    + label::after {
+    +label::before,
+    +label::after {
       content: "";
       position: absolute;
       top: 0;
@@ -91,14 +97,14 @@ $switch-transition: 0.2s all !default;
       display: block;
     }
 
-    + label::before {
+    +label::before {
       right: 0;
       background-color: $switch-bg;
       border-radius: $switch-border-radius;
       transition: $switch-transition;
     }
 
-    + label::after {
+    +label::after {
       top: $switch-thumb-padding;
       left: $switch-thumb-padding;
       width: calc(#{$switch-height} - calc(#{$switch-thumb-padding} * 2));
@@ -108,25 +114,25 @@ $switch-transition: 0.2s all !default;
       transition: $switch-transition;
     }
 
-    &:checked + label::before {
+    &:checked+label::before {
       background-color: $switch-checked-bg;
     }
 
-    &:checked + label::after {
+    &:checked+label::after {
       margin-left: $switch-height;
     }
 
-    &:focus + label::before {
+    &:focus+label::before {
       outline: none;
       box-shadow: $switch-focus-box-shadow;
     }
 
-    &:disabled + label {
+    &:disabled+label {
       color: $switch-disabled-color;
       cursor: not-allowed;
     }
 
-    &:disabled + label::before {
+    &:disabled+label::before {
       background-color: $switch-disabled-bg;
     }
   }
@@ -136,23 +142,23 @@ $switch-transition: 0.2s all !default;
     font-size: $font-size-sm;
 
     input {
-      + label {
+      +label {
         min-width: calc(#{$switch-height-sm} * 2);
         height: $switch-height-sm;
         line-height: $switch-height-sm;
         text-indent: calc(calc(#{$switch-height-sm} * 2) + 0.5rem);
       }
 
-      + label::before {
+      +label::before {
         width: calc(#{$switch-height-sm} * 2);
       }
 
-      + label::after {
+      +label::after {
         width: calc(#{$switch-height-sm} - calc(#{$switch-thumb-padding} * 2));
         height: calc(#{$switch-height-sm} - calc(#{$switch-thumb-padding} * 2));
       }
 
-      &:checked + label::after {
+      &:checked+label::after {
         margin-left: $switch-height-sm;
       }
     }
@@ -163,29 +169,29 @@ $switch-transition: 0.2s all !default;
     font-size: $font-size-lg;
 
     input {
-      + label {
+      +label {
         min-width: calc(#{$switch-height-lg} * 2);
         height: $switch-height-lg;
         line-height: $switch-height-lg;
         text-indent: calc(calc(#{$switch-height-lg} * 2) + 0.5rem);
       }
 
-      + label::before {
+      +label::before {
         width: calc(#{$switch-height-lg} * 2);
       }
 
-      + label::after {
+      +label::after {
         width: calc(#{$switch-height-lg} - calc(#{$switch-thumb-padding} * 2));
         height: calc(#{$switch-height-lg} - calc(#{$switch-thumb-padding} * 2));
       }
 
-      &:checked + label::after {
+      &:checked+label::after {
         margin-left: $switch-height-lg;
       }
     }
   }
 
-  + .switch {
+  +.switch {
     margin-left: 1rem;
   }
 }
