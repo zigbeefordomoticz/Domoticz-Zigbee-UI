@@ -2,6 +2,8 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@ang
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { Observable } from 'rxjs';
+import { sortDesc } from '@app/shared/fonction';
+import { KeyValue } from '@angular/common';
 
 const log = new Logger('TopologyComponent');
 
@@ -18,6 +20,10 @@ export class TopologyComponent implements OnInit {
 
   ngOnInit() {
     this.topologies$ = this.apiService.getTopologie();
+  }
+
+  sortDesc(a: KeyValue<string, any>, b: KeyValue<string, any>) {
+    return sortDesc(a, b);
   }
 
   topologyByDate(timeStamp: string) {

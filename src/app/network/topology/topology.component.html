@@ -8,7 +8,7 @@
           <div class="content-container">
             <perfect-scrollbar class="scroll-container">
               <div class="scrollable-content">
-                <span class="row d-flex align-items-center" *ngFor="let topologie of topologies | keyvalue">
+                <span class="row d-flex align-items-center" *ngFor="let topologie of topologies | keyvalue: sortDesc">
                   <button class="btn btn-light" (click)="topologyByDate(topologie.value)">
                     {{ topologie.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
                   </button>
