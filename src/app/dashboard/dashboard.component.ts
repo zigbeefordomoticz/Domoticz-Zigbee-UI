@@ -20,6 +20,14 @@ export class DashboardComponent implements OnInit {
   healthsNotSeen: any;
   healthsOthers: any = {};
   pluginHealth: any;
+  pluginStats: any;
+  totalTraficSent: any = {};
+  totalTraficRetx: any = {};
+  totalTraficReceived: any = {};
+  totalTraficCluster: any = {};
+  totalTraficCrc: any = {};
+  maxLoad: any = {};
+  currentLoad: any = {};
 
   gaugeType = 'full';
   gaugeAppendText = '';
@@ -32,6 +40,26 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.apiService.getPluginhealth().subscribe(res => {
       this.pluginHealth = res;
+    });
+    this.apiService.getPluginStats().subscribe(res => {
+      this.pluginStats = res;
+      this.totalTraficSent.label = 'Total Trafic Sent';
+      this.totalTraficSent.total = res.Sent;
+      this.totalTraficRetx.label = 'ReTx';
+      this.totalTraficRetx.total = ((res.ReTx / res.Sent) * 100).toFixed(0);
+      this.totalTraficRetx.append = '%';
+      this.totalTraficReceived.label = 'Total Trafic Received';
+      this.totalTraficReceived.total = res.Received;
+      this.totalTraficCluster.label = 'Cluster';
+      this.totalTraficCluster.total = ((res.Cluster / res.Received) * 100).toFixed(0);
+      this.totalTraficCluster.append = '%';
+      this.totalTraficCrc.label = 'CRC';
+      this.totalTraficCrc.total = ((res.CRC / res.Received) * 100).toFixed(0);
+      this.totalTraficCrc.append = '%';
+      this.maxLoad.label = 'Max load';
+      this.maxLoad.total = res.MaxLoad;
+      this.currentLoad.label = 'Current load';
+      this.currentLoad.total = res.CurrentLoad;
     });
     this.apiService.getZDevices().subscribe(devices => {
       this.devices = devices;
