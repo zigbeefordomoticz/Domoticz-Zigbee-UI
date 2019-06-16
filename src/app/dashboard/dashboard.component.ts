@@ -28,15 +28,27 @@ export class DashboardComponent implements OnInit {
   totalTraficCrc: any = {};
   maxLoad: any = {};
   currentLoad: any = {};
+  devicesOnBattery: any;
   batterySup50: any;
   batterySup30: any;
   batteryInf30: any;
 
+  advancedPieLoad: any;
+  advancedPieSent: any;
+  advancedPieReceived: any;
+  advancedPieDevice: any;
+  advancedPieState: any;
+  advancedPieBattery: any;
+
   gaugeType = 'full';
   gaugeAppendText = '';
-  thick = 15;
 
+  thick = 15;
   toppyControl: ToppyControl;
+
+  animations = true;
+  gradient = false;
+  tooltipDisabled = false;
 
   constructor(private apiService: ApiService, private translate: TranslateService, private toppy: Toppy) {}
 
@@ -44,6 +56,7 @@ export class DashboardComponent implements OnInit {
     this.apiService.getPluginhealth().subscribe(res => {
       this.pluginHealth = res;
     });
+
     this.apiService.getPluginStats().subscribe(res => {
       this.pluginStats = res;
       this.totalTraficSent.label = this.translate.instant('dashboard.trafic.total.trafic.sent');
@@ -63,7 +76,24 @@ export class DashboardComponent implements OnInit {
       this.maxLoad.total = res.MaxLoad;
       this.currentLoad.label = this.translate.instant('dashboard.trafic.currentload');
       this.currentLoad.total = res.CurrentLoad;
+      this.advancedPieLoad = [
+        { name: 'maxLoad', value: res.MaxLoad - res.CurrentLoad },
+        { name: 'currentLoad', value: res.CurrentLoad }
+      ];
+      this.advancedPieSent = [
+        { name: this.translate.instant('dashboard.trafic.total.trafic.sent'), value: res.Sent - res.ReTx },
+        { name: this.translate.instant('dashboard.trafic.retx'), value: res.ReTx }
+      ];
+      this.advancedPieReceived = [
+        {
+          name: this.translate.instant('dashboard.trafic.total.trafic.received'),
+          value: res.Received - res.Cluster - res.CRC
+        },
+        { name: this.translate.instant('dashboard.trafic.cluster'), value: res.Cluster },
+        { name: this.translate.instant('dashboard.trafic.crc'), value: res.CRC }
+      ];
     });
+
     this.apiService.getZDevices().subscribe(devices => {
       this.devices = devices;
       this.devices.total = this.devices.length;
@@ -90,17 +120,35 @@ export class DashboardComponent implements OnInit {
       this.healthsOthers.label = this.translate.instant('dashboard.devices.others');
       this.healthsOthers.total = ((this.healthsOthers.length / this.devices.total) * 100).toFixed(0);
       this.healthsOthers.append = '%';
+      this.advancedPieDevice = [
+        {
+          name: this.translate.instant('dashboard.devices.routers'),
+          value: this.routers.length
+        },
+        { name: 'Others', value: this.devices.length - this.routers.length }
+      ];
+      this.advancedPieState = [
+        {
+          name: this.translate.instant('dashboard.devices.live'),
+          value: this.healthsLive.length
+        },
+        {
+          name: this.translate.instant('dashboard.devices.notseen'),
+          value: this.healthsNotSeen.length
+        },
+        { name: this.translate.instant('dashboard.devices.others'), value: this.healthsOthers.length }
+      ];
     });
 
     this.apiService.getRawZDevices().subscribe(devices => {
-      const devicesOnBattery = devices.filter((device: any) => device.PowerSource !== 'Main');
-      const _batteryInf30 = devicesOnBattery.filter((device: any) => device.Battery < 30);
-      const _batterySup30 = devicesOnBattery.filter((device: any) => device.Battery > 30 && device.Battery < 50);
-      const _batterySup50 = devicesOnBattery.filter((device: any) => device.Battery > 50);
+      this.devicesOnBattery = devices.filter((device: any) => device.PowerSource !== 'Main');
+      const _batteryInf30 = this.devicesOnBattery.filter((device: any) => device.Battery < 30);
+      const _batterySup30 = this.devicesOnBattery.filter((device: any) => device.Battery > 30 && device.Battery < 50);
+      const _batterySup50 = this.devicesOnBattery.filter((device: any) => device.Battery > 50);
       this.batteryInf30 = this.devices.filter((it: any) => _batteryInf30.find((iter: any) => iter.IEEE === it.IEEE));
       this.batterySup50 = this.devices.filter((it: any) => _batterySup50.find((iter: any) => iter.IEEE === it.IEEE));
       this.batterySup30 = this.devices.filter((it: any) => _batterySup30.find((iter: any) => iter.IEEE === it.IEEE));
-      this.batteryInf30.totalDevices = devicesOnBattery.length;
+      this.batteryInf30.totalDevices = this.devicesOnBattery.length;
       this.batteryInf30.label = this.translate.instant('dashboard.devices.battery.inf.30');
       this.batteryInf30.total = this.batteryInf30.length;
       this.batteryInf30.append = this.translate.instant('devices');
@@ -110,10 +158,46 @@ export class DashboardComponent implements OnInit {
       this.batterySup50.label = this.translate.instant('dashboard.devices.battery.sup.50');
       this.batterySup50.total = this.batterySup50.length;
       this.batterySup50.append = this.translate.instant('devices');
+      this.advancedPieBattery = [
+        {
+          name: this.translate.instant('dashboard.devices.battery.inf.30'),
+          value: this.batteryInf30.length
+        },
+        {
+          name: this.translate.instant('dashboard.devices.battery.sup.30'),
+          value: this.batterySup30.length
+        },
+        { name: this.translate.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length }
+      ];
     });
   }
 
-  open(event: any) {
+  open(name: string, event: any) {
+    let devices;
+    if (name === 'device') {
+      if (event.name === 'Routers') {
+        devices = this.routers;
+      } else {
+        devices = this.devicesOnBattery;
+      }
+    } else if (name === 'state') {
+      if (event.name === 'Live') {
+        devices = this.healthsLive;
+      } else if (event.name === 'Others') {
+        devices = this.healthsOthers;
+      } else {
+        devices = this.healthsNotSeen;
+      }
+    } else if (name === 'battery') {
+      if (event.name === 'Battery < 30%') {
+        devices = this.batteryInf30;
+      } else if (event.name === 'Battery > 30%') {
+        devices = this.batterySup30;
+      } else {
+        devices = this.batterySup50;
+      }
+    }
+
     this.toppyControl = this.toppy
       .position(
         new GlobalPosition({
@@ -126,13 +210,14 @@ export class DashboardComponent implements OnInit {
         closeOnDocClick: true,
         closeOnEsc: true
       })
-      .content(DeviceByNameComponent, { devices: event })
+      .content(DeviceByNameComponent, { devices: devices })
       .create();
 
     this.toppyControl.listen('t_compins').subscribe(comp => {});
 
     this.toppyControl.open();
   }
+
   close() {
     this.toppyControl.close();
   }

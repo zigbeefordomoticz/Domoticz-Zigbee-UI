@@ -12,9 +12,13 @@ import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
 import * as more from 'highcharts/highcharts-more.src';
 import * as exporting from 'highcharts/modules/exporting.src';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
+    BrowserAnimationsModule,
+    NgxChartsModule,
     DashboardRoutingModule,
     CommonModule,
     ReactiveFormsModule,
