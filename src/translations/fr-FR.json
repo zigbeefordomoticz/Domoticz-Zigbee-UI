@@ -146,7 +146,7 @@
   "numDeviceListVersion": "Nombre d'historique du fichier DeviceList",
   "setting.header.Others": "Autres réglages",
   "setting.subtitle.Others": "",
-  "logLQI": "Frequence de rapport de Maillage(sec)",
+  "logLQI": "Delai (sec) avant de lancer un rapport de Maillage",
   "networkScan": "Frequence de raport d'Interferances (sec)",
   "dashboard.health.title": "Santé du plugin",
   "tools.zdevice-raw.button": "Liste des equipements raw (json)",

@@ -168,6 +168,6 @@
   "numDeviceListVersion": "Number of DeviceList history",
   "setting.header.Others": "Miscaleneous settings",
   "setting.subtitle.Others": "",
-  "logLQI": "Topology report frequency (sec)",
+  "logLQI": "Delay before starting a Topology scan (sec)",
   "networkScan": "Interferences report frequency (sec)"
 }
