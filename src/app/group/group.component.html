@@ -30,12 +30,8 @@
             [rowHeight]="'auto'"
           >
             <ngx-datatable-column [maxWidth]="100">
-              <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                <i
-                  class="fa fa-trash"
-                  title="{{ 'group.create.delete.button' | translate }}"
-                  (click)="delete(row, rowIndex)"
-                ></i>
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                <i class="fa fa-trash" title="{{ 'group.create.delete.button' | translate }}" (click)="delete(row)"></i>
               </ng-template>
             </ngx-datatable-column>
 
@@ -53,13 +49,8 @@
               name="{{ 'group.create.groupname.column' | translate }}"
               prop="GroupName"
             >
-              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                <input
-                  autofocus
-                  (change)="updateValue($event, 'GroupName', rowIndex)"
-                  type="text"
-                  [value]="row.GroupName"
-                />
+              <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <input autofocus (change)="updateValue($event, row._GroupId)" type="text" [value]="row.GroupName" />
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="{{ 'group.create.devices.column' | translate }}" [sortable]="false">

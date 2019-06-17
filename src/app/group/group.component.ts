@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Group, DeviceAvailable, DevicesAvailable } from '@app/shared/models/group';
 import { HeaderService } from '@app/services/header-service';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 const log = new Logger('GroupComponent');
 
@@ -16,12 +17,11 @@ const log = new Logger('GroupComponent');
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
-  @ViewChild('table') table: any;
+  @ViewChild('table') table: DatatableComponent;
   @ViewChild('content') content: any;
   form: FormGroup;
   rows: Array<Group> = [];
   rowsTemp: any[] = [];
-  editing = {};
   devices: Array<DeviceAvailable>;
   temp: any = [];
   hasEditing = false;
@@ -76,10 +76,10 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  updateValue(event: any, cell: any, rowIndex: any) {
-    this.editing[rowIndex + '-' + cell] = false;
-    this.rows[rowIndex][cell] = event.target.value;
-    this.rows = [...this.rows];
+  updateValue(event: any, GroupId: string) {
+    this.hasEditing = true;
+    const rowUpdated = this.rows.find((row: any) => row._GroupId === GroupId);
+    rowUpdated.GroupName = event.target.value;
   }
 
   updateFilter(event: any) {
@@ -108,6 +108,7 @@ export class GroupComponent implements OnInit {
     if (this.isFormValid) {
       this.apiService.putZGroups(this.rows).subscribe(result => {
         log.debug(this.rows);
+        this.hasEditing = false;
         this.notifyService.notify();
         this.apiService.getRestartNeeded().subscribe(restart => {
           if (restart.RestartNeeded) {
@@ -119,7 +120,7 @@ export class GroupComponent implements OnInit {
     }
   }
 
-  delete(row: Group, rowIndex: number) {
+  delete(row: Group) {
     const index = this.rows.indexOf(row, 0);
     if (index > -1) {
       this.rows.splice(index, 1);
@@ -157,6 +158,6 @@ export class GroupComponent implements OnInit {
       }
     });
 
-    return formvalid;
+    return formvalid || this.hasEditing;
   }
 }

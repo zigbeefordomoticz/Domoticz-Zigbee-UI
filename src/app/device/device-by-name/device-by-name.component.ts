@@ -24,7 +24,6 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   @ViewChild('table') table: any;
   @Input() devices: any;
   rows: any = [];
-  editing = {};
   json: any;
   temp: Array<DeviceByName> = [];
   hasEditing = false;
@@ -46,13 +45,10 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
 
   ngOnInit() {}
 
-  updateValue(event: any, cell: any, rowIndex: any) {
+  updateValue(event: any, nwkId: string) {
     this.hasEditing = true;
-    log.debug('inline editing rowIndex', rowIndex);
-    this.editing[rowIndex + '-' + cell] = false;
-    this.rows[rowIndex][cell] = event.target.value;
-    this.rows = [...this.rows];
-    log.debug('UPDATED!', this.rows[rowIndex][cell]);
+    const rowUpdated = this.rows.find((row: any) => row._NwkId === nwkId);
+    rowUpdated.ZDeviceName = event.target.value;
   }
 
   updateDevices() {

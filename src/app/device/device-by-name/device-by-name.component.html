@@ -49,13 +49,8 @@
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="{{ 'device.byname.devicename.column' | translate }}" prop="ZDeviceName">
-              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                <input
-                  autofocus
-                  (change)="updateValue($event, 'ZDeviceName', rowIndex)"
-                  type="text"
-                  [value]="row.ZDeviceName"
-                />
+              <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <input autofocus (change)="updateValue($event, row._NwkId)" type="text" [value]="row.ZDeviceName" />
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column
