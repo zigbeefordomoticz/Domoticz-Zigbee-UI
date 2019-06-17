@@ -39,6 +39,12 @@ export class DashboardComponent implements OnInit {
   advancedPieDevice: any;
   advancedPieState: any;
   advancedPieBattery: any;
+  advancedPieLoadLabel: string;
+  advancedPieSentLabel: string;
+  advancedPieReceivedLabel: string;
+  advancedPieDeviceLabel: string;
+  advancedPieStateLabel: string;
+  advancedPieBatteryLabel: string;
 
   gaugeType = 'full';
   gaugeAppendText = '';
@@ -49,6 +55,21 @@ export class DashboardComponent implements OnInit {
   animations = true;
   gradient = false;
   tooltipDisabled = false;
+  colorSchemeROG = {
+    domain: ['red', 'orange', 'green']
+  };
+  colorSchemeGRO = {
+    domain: ['green', 'red', 'orange']
+  };
+  colorSchemeGOR = {
+    domain: ['green', 'orange', 'red']
+  };
+  colorSchemeGO = {
+    domain: ['green', 'orange']
+  };
+  colorSchemeGR = {
+    domain: ['green', 'red']
+  };
 
   constructor(private apiService: ApiService, private translate: TranslateService, private toppy: Toppy) {}
 
@@ -170,6 +191,13 @@ export class DashboardComponent implements OnInit {
         { name: this.translate.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length }
       ];
     });
+
+    this.advancedPieLoadLabel = this.translate.instant('dashboard.trafic.maxload.label');
+    this.advancedPieSentLabel = this.translate.instant('dashboard.trafic.total.trafic.sent.label');
+    this.advancedPieReceivedLabel = this.translate.instant('dashboard.trafic.total.trafic.received.label');
+    this.advancedPieDeviceLabel = this.translate.instant('dashboard.devices.label');
+    this.advancedPieStateLabel = this.translate.instant('dashboard.devices.state.label');
+    this.advancedPieBatteryLabel = this.translate.instant('dashboard.devices.battery.label');
   }
 
   open(name: string, event: any) {

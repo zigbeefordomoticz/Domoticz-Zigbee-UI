@@ -36,6 +36,8 @@
             [animations]="animations"
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
+            [scheme]="colorSchemeGR"
+            [label]="advancedPieSentLabel"
           >
           </ngx-charts-advanced-pie-chart>
         </div>
@@ -46,6 +48,8 @@
             [animations]="animations"
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
+            [scheme]="colorSchemeGOR"
+            [label]="advancedPieReceivedLabel"
           >
           </ngx-charts-advanced-pie-chart>
         </div>
@@ -56,6 +60,8 @@
             [animations]="animations"
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
+            [scheme]="colorSchemeGO"
+            [label]="advancedPieLoadLabel"
           >
           </ngx-charts-advanced-pie-chart>
         </div>
@@ -140,6 +146,8 @@
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
             (select)="open('device', $event)"
+            [scheme]="colorSchemeGO"
+            [label]="advancedPieDeviceLabel"
           >
           </ngx-charts-advanced-pie-chart>
         </div>
@@ -151,6 +159,8 @@
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
             (select)="open('state', $event)"
+            [scheme]="colorSchemeGRO"
+            [label]="advancedPieStateLabel"
           >
           </ngx-charts-advanced-pie-chart>
         </div>
@@ -162,6 +172,8 @@
             [gradient]="gradient"
             [tooltipDisabled]="tooltipDisabled"
             (select)="open('battery', $event)"
+            [scheme]="colorSchemeROG"
+            [label]="advancedPieBatteryLabel"
           >
           </ngx-charts-advanced-pie-chart>
         </div>
