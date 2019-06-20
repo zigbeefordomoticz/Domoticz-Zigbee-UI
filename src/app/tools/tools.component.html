@@ -6,8 +6,10 @@
   <button class="ml-3 btn btn-success" (click)="onClick('zgroups')" translate="tools.zgroup.button"></button>
   <button class="ml-3 btn btn-dark" (click)="onClick('zdevice-raw')" translate="tools.zdevice-raw.button"></button>
 </div>
-<div class="mt-3 col" *ngIf="json" [hidden]="isLoading">
-  <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
+<div class="row">
+  <div class="mt-3 col" *ngIf="json" [hidden]="isLoading">
+    <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
+  </div>
+  <div class="mt-3 col-sm" *ngIf="isInfosPluginLoading"><app-plugin></app-plugin></div>
+  <div class="mt-3 col-sm" *ngIf="isInfosZigate"><app-zigate></app-zigate></div>
 </div>
-<div class="mt-3 col-sm" *ngIf="isInfosPluginLoading"><app-plugin></app-plugin></div>
-<div class="mt-3 col-sm" *ngIf="isInfosZigate"><app-zigate></app-zigate></div>

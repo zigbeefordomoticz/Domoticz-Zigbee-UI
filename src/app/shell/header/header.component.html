@@ -48,11 +48,26 @@
             </li>
           </ul>
         </li>
-        <li ngbDropdown routerLinkActive="active" class="dropdown ">
-          <a class="nav-item nav-link mx-2" routerLink="/network" routerLinkActive="active">
-            <i class="fas fa-wifi"></i>
-            <span translate>network</span>
-          </a>
+        <li ngbDropdown routerLinkActive="active" class="nav-item dropdown">
+          <a class="nav-link nav-item dropdown-toggle" id="dropdownSede" ngbDropdownToggle translate="network"></a>
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownSede">
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              routerLink="/network/topology"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-wifi mr-2"></i> <span translate="network.topo"></span>
+            </li>
+            <li
+              class="dropdown-item nav-link nav-item"
+              (click)="toggleMenu()"
+              routerLink="/network/energy-level"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-broadcast-tower mr-2"></i> <span translate="network.energy"></span>
+            </li>
+          </ul>
         </li>
         <li ngbDropdown routerLinkActive="active" class="dropdown ">
           <a class="nav-item nav-link mx-2" routerLink="/admin" routerLinkActive="active">

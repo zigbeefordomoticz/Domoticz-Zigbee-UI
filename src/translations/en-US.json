@@ -99,6 +99,8 @@
   "network.stats.header": "Network",
   "network.stats.subtitle": "Network subtitle",
   "network.stats.visu.delete.button": "Delete",
+  "network.topo": "Topology",
+  "network.energy": "Energy level",
   "network.topo.header": "Network Topology",
   "network.topo.subtitle": "List of Network Topology. Select one to get the Mesh diagram",
   "network.topo.visu.header": "Topology diagram",
