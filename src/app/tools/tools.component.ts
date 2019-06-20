@@ -32,12 +32,17 @@ function transformToTimestamp(key: any, value: any) {
 export class ToolsComponent implements OnInit {
   json: Object | undefined = null;
   isLoading = false;
+  isInfosPluginLoading = false;
+  isInfosZigate = false;
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder, private datePipe: DatePipe) {}
 
   ngOnInit() {}
 
   onClick(device: string) {
+    this.isInfosPluginLoading = false;
+    this.isInfosZigate = false;
+    this.json = null;
     let service;
     if (device === 'devices') {
       service = this.apiService.getDevices();
@@ -50,6 +55,12 @@ export class ToolsComponent implements OnInit {
     }
     if (device === 'zdevice-raw') {
       service = this.apiService.getRawZDevices();
+    }
+    if (device === 'infos') {
+      this.isInfosPluginLoading = true;
+    }
+    if (device === 'zigate') {
+      this.isInfosZigate = true;
     }
 
     service

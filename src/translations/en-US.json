@@ -147,6 +147,8 @@
   "tools.zdevice.button": "Plugin Devices (json)",
   "tools.zgroup.button": "Plugin Groups (json)",
   "tools.zdevice-raw.button": "Plugin Raw Devices (json)",
+  "tools.infos.plugin.button": "Infos plugin",
+  "tools.zigate.infos.button": "Infos zigate",
 
   "Ping": "Enable Ping",
   "setting.header.DomoticzEnvironment": "Domiticz URL",
