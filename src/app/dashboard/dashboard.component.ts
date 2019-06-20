@@ -159,10 +159,7 @@ export class DashboardComponent implements OnInit {
         },
         { name: this.translate.instant('dashboard.devices.others'), value: this.healthsOthers.length }
       ];
-    });
-
-    this.apiService.getRawZDevices().subscribe(devices => {
-      this.devicesOnBattery = devices.filter((device: any) => device.PowerSource !== 'Main');
+      this.devicesOnBattery = devices.filter((device: any) => device.Battery !== '');
       const _batteryInf30 = this.devicesOnBattery.filter((device: any) => device.Battery < 30);
       const _batterySup30 = this.devicesOnBattery.filter((device: any) => device.Battery > 30 && device.Battery < 50);
       const _batterySup50 = this.devicesOnBattery.filter((device: any) => device.Battery > 50);
@@ -219,7 +216,7 @@ export class DashboardComponent implements OnInit {
     } else if (name === 'battery') {
       if (event.name === 'Battery < 30%') {
         devices = this.batteryInf30;
-      } else if (event.name === 'Battery > 30%') {
+      } else if (event.name === 'Battery < 50%') {
         devices = this.batterySup30;
       } else {
         devices = this.batterySup50;
