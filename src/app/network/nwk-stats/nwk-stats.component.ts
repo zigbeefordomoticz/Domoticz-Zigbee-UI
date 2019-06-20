@@ -15,7 +15,7 @@ const log = new Logger('NwkStatsComponent');
 export class NwkStatsComponent implements OnInit {
   stats$: Observable<Array<string>>;
   listSubject$ = new Subject();
-  @Output() timeStamp = new EventEmitter();
+  timeStamp: string;
 
   constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) {}
 
@@ -28,7 +28,7 @@ export class NwkStatsComponent implements OnInit {
   }
 
   nwkStatByDate(timeStamp: string) {
-    this.timeStamp.emit(timeStamp);
+    this.timeStamp = timeStamp;
   }
 
   deleteNwkStatByDate(timeStamp: string) {

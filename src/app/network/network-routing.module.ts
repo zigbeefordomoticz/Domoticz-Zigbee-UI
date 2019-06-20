@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
+import { RouterModule, Routes } from '@angular/router';
 import { extract } from '@app/core';
-import { NetworkComponent } from './network.component';
+import { NwkStatsComponent } from './nwk-stats/nwk-stats.component';
+import { TopologyComponent } from './topology/topology.component';
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
-  { path: '', component: NetworkComponent, data: { title: extract('network') } },
-  { path: 'topology', component: NetworkComponent, data: { title: extract('network.topo') } },
-  { path: 'energy-level', component: NetworkComponent, data: { title: extract('network.energy') } }
+  { path: 'topology', component: TopologyComponent, data: { title: extract('network.topo') } },
+  { path: 'energy-level', component: NwkStatsComponent, data: { title: extract('network.energy') } }
 ];
 
 @NgModule({

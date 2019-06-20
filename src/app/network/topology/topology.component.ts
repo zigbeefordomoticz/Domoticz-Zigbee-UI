@@ -13,7 +13,7 @@ const log = new Logger('TopologyComponent');
   styleUrls: ['./topology.component.scss']
 })
 export class TopologyComponent implements OnInit {
-  @Output() timeStamp = new EventEmitter();
+  timeStamp: string;
   topologies$: Observable<Array<string>>;
 
   constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) {}
@@ -27,7 +27,7 @@ export class TopologyComponent implements OnInit {
   }
 
   topologyByDate(timeStamp: string) {
-    this.timeStamp.emit(timeStamp);
+    this.timeStamp = timeStamp;
   }
 
   deleteTopologyByDate(timeStamp: string) {
