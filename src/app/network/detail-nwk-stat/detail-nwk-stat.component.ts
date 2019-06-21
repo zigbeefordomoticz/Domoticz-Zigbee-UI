@@ -158,7 +158,7 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
     const chart = new Chart({
       chart: {
         type: 'column',
-        height: '30%'
+        height: '20%'
         // width: 16 * 2 * 25
       },
       title: {
@@ -224,12 +224,12 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
 
     const chart = new Chart({
       chart: {
-        height: '50%',
+        height: '90%',
         polar: true,
         type: 'line'
       },
       pane: {
-        size: '80%'
+        //       size: '150%',
       },
       title: {
         text: this.translate.instant('network.stats.detail.visu.chart.title')
@@ -249,8 +249,8 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
         pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
       },
       legend: {
-        align: 'right',
-        verticalAlign: 'middle'
+        align: 'left',
+        verticalAlign: 'bottom'
       },
       credits: {
         enabled: false
@@ -260,7 +260,7 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
         rules: [
           {
             condition: {
-              maxWidth: 500
+              maxWidth: 600
             },
             chartOptions: {
               legend: {
