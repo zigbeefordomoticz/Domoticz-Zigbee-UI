@@ -60,6 +60,7 @@
   "dashboard.devices.state.label": "à traduire",
   "dashboard.devices.notseen": "Not seen",
   "dashboard.devices.others": "End Devices",
+  "dashboard.devices.enddevice": "Battery",
   "dashboard.devices.battery.label": "à traduire",
   "dashboard.devices.battery.inf.30": "Battery < 30%",
   "dashboard.devices.battery.sup.30": "Battery < 50%",

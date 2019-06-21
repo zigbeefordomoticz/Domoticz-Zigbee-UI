@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ const log = new Logger('DashboardComponent');
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   devices: any;
   routers: any;
   inDbs: any;
@@ -138,7 +138,7 @@ export class DashboardComponent implements OnInit {
       this.healthsOthers = this.devices.filter((device: any) => {
         return device.Health !== 'Not seen last 24hours' && device.Health !== 'Live';
       });
-      this.healthsOthers.label = this.translate.instant('dashboard.devices.others');
+      this.healthsOthers.label = this.translate.instant('dashboard.devices.enddevice');
       this.healthsOthers.total = ((this.healthsOthers.length / this.devices.total) * 100).toFixed(0);
       this.healthsOthers.append = '%';
       this.advancedPieDevice = [
@@ -146,7 +146,10 @@ export class DashboardComponent implements OnInit {
           name: this.translate.instant('dashboard.devices.routers'),
           value: this.routers.length
         },
-        { name: 'Others', value: this.devices.length - this.routers.length }
+        {
+          name: this.translate.instant('dashboard.devices.enddevice'),
+          value: this.devices.length - this.routers.length
+        }
       ];
       this.advancedPieState = [
         {
@@ -200,23 +203,23 @@ export class DashboardComponent implements OnInit {
   open(name: string, event: any) {
     let devices;
     if (name === 'device') {
-      if (event.name === 'Routers') {
+      if (event.name === this.translate.instant('dashboard.devices.routers')) {
         devices = this.routers;
       } else {
         devices = this.devicesOnBattery;
       }
     } else if (name === 'state') {
-      if (event.name === 'Live') {
+      if (event.name === this.translate.instant('dashboard.devices.live')) {
         devices = this.healthsLive;
-      } else if (event.name === 'Others') {
+      } else if (event.name === this.translate.instant('dashboard.devices.others')) {
         devices = this.healthsOthers;
       } else {
         devices = this.healthsNotSeen;
       }
     } else if (name === 'battery') {
-      if (event.name === 'Battery < 30%') {
+      if (event.name === this.translate.instant('dashboard.devices.battery.inf.30')) {
         devices = this.batteryInf30;
-      } else if (event.name === 'Battery < 50%') {
+      } else if (event.name === this.translate.instant('dashboard.devices.battery.sup.30')) {
         devices = this.batterySup30;
       } else {
         devices = this.batterySup50;
@@ -232,7 +235,7 @@ export class DashboardComponent implements OnInit {
         })
       )
       .config({
-        closeOnDocClick: true,
+        closeOnDocClick: false,
         closeOnEsc: true
       })
       .content(DeviceByNameComponent, { devices: devices })
@@ -244,6 +247,12 @@ export class DashboardComponent implements OnInit {
   }
 
   close() {
-    this.toppyControl.close();
+    if (this.toppyControl) {
+      this.toppyControl.close();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.close();
   }
 }
