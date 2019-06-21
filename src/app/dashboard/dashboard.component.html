@@ -29,9 +29,10 @@
     <div class="card">
       <div class="card-header" translate="dashboard.trafic.title"></div>
       <div class="card-body d-flex">
-        <div class="chart-container">
+        <div class="d-inline-flex">
           <ngx-charts-advanced-pie-chart
             [view]="[undefined, 200]"
+            class="pie-chart-container"
             [results]="advancedPieSent"
             [animations]="animations"
             [gradient]="gradient"
@@ -41,9 +42,10 @@
           >
           </ngx-charts-advanced-pie-chart>
         </div>
-        <div class="chart-container">
+        <div class="d-inline-flex">
           <ngx-charts-advanced-pie-chart
             [view]="[undefined, 200]"
+            class="pie-chart-container"
             [results]="advancedPieReceived"
             [animations]="animations"
             [gradient]="gradient"
@@ -53,9 +55,10 @@
           >
           </ngx-charts-advanced-pie-chart>
         </div>
-        <div class="chart-container">
+        <div class="d-inline-flex">
           <ngx-charts-advanced-pie-chart
             [view]="[undefined, 200]"
+            class="pie-chart-container"
             [results]="advancedPieLoad"
             [animations]="animations"
             [gradient]="gradient"
@@ -65,7 +68,8 @@
           >
           </ngx-charts-advanced-pie-chart>
         </div>
-        <!-- <ngx-gauge
+      </div>
+      <!-- <ngx-gauge
           [type]="gaugeType"
           [max]="totalTraficSent?.total"
           [value]="totalTraficSent?.total"
@@ -128,7 +132,6 @@
           [thick]="thick"
         >
         </ngx-gauge> -->
-      </div>
     </div>
   </div>
 </div>
@@ -138,7 +141,7 @@
     <div class="card">
       <div class="card-header" translate="dashboard.devices.title"></div>
       <div class="card-body d-flex">
-        <div class="chart-container">
+        <div class="d-inline-flex">
           <ngx-charts-advanced-pie-chart
             [view]="[undefined, 200]"
             [results]="advancedPieDevice"
@@ -151,7 +154,7 @@
           >
           </ngx-charts-advanced-pie-chart>
         </div>
-        <div class="chart-container">
+        <div class="d-inline-flex">
           <ngx-charts-advanced-pie-chart
             [view]="[undefined, 200]"
             [results]="advancedPieState"
@@ -164,7 +167,7 @@
           >
           </ngx-charts-advanced-pie-chart>
         </div>
-        <div class="chart-container">
+        <div class="d-inline-flex">
           <ngx-charts-advanced-pie-chart
             [view]="[undefined, 200]"
             [results]="advancedPieBattery"
@@ -276,12 +279,12 @@
         >
         </ngx-gauge> -->
       </div>
-    </div>
-  </div>
-</div>
 
-<!-- <div class="mt-5 row">
+      <!-- <div class="mt-5 row">
   <div class="ml-3 col-sm-4">
     <app-plugin-stats></app-plugin-stats>
   </div>
 </div> -->
+    </div>
+  </div>
+</div>
