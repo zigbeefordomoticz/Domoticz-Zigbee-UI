@@ -152,6 +152,12 @@
   "tools.zdevice-raw.button": "Plugin Raw Devices (json)",
   "tools.infos.plugin.button": "Infos plugin",
   "tools.zigate.infos.button": "Infos zigate",
+  "tools.plugin-health.button": "a traduire",
+  "tools.zgroup-list-available-device.button": "a traduire",
+  "tools.settings.button": "a traduire",
+  "tools.plugin-stat.button": "a traduire",
+  "tools.zdevice-name.button": "a traduire",
+  "tools.domoticz-env.button": "a traduire",
 
   "Ping": "Enable Ping",
   "setting.header.DomoticzEnvironment": "Domiticz URL",

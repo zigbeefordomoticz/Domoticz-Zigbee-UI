@@ -62,6 +62,24 @@ export class ToolsComponent implements OnInit {
     if (device === 'zigate') {
       this.isInfosZigate = true;
     }
+    if (device === 'plugin-health') {
+      service = this.apiService.getPluginhealth();
+    }
+    if (device === 'zgroup-list-available-device') {
+      service = this.apiService.getZGroupDevicesAvalaible();
+    }
+    if (device === 'settings') {
+      service = this.apiService.getSettings();
+    }
+    if (device === 'plugin-stat') {
+      service = this.apiService.getPluginStats();
+    }
+    if (device === 'zdevice-name') {
+      service = this.apiService.getZDeviceName();
+    }
+    if (device === 'domoticz-env') {
+      service = this.apiService.getDomoticzEnv();
+    }
 
     service
       .pipe(
