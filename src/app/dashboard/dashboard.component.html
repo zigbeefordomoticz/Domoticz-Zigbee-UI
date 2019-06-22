@@ -28,263 +28,96 @@
   <div class="col-sm">
     <div class="card">
       <div class="card-header" translate="dashboard.trafic.title"></div>
-      <div class="card-body d-flex">
-        <div class="d-inline-flex">
-          <ngx-charts-advanced-pie-chart
-            [view]="[undefined, 200]"
-            class="pie-chart-container"
-            [results]="advancedPieSent"
-            [animations]="animations"
-            [gradient]="gradient"
-            [tooltipDisabled]="tooltipDisabled"
-            [scheme]="colorSchemeGR"
-            [label]="advancedPieSentLabel"
-          >
-          </ngx-charts-advanced-pie-chart>
-        </div>
-        <div class="d-inline-flex">
-          <ngx-charts-advanced-pie-chart
-            [view]="[undefined, 200]"
-            class="pie-chart-container"
-            [results]="advancedPieReceived"
-            [animations]="animations"
-            [gradient]="gradient"
-            [tooltipDisabled]="tooltipDisabled"
-            [scheme]="colorSchemeGOR"
-            [label]="advancedPieReceivedLabel"
-          >
-          </ngx-charts-advanced-pie-chart>
-        </div>
-        <div class="d-inline-flex">
-          <ngx-charts-advanced-pie-chart
-            [view]="[undefined, 200]"
-            class="pie-chart-container"
-            [results]="advancedPieLoad"
-            [animations]="animations"
-            [gradient]="gradient"
-            [tooltipDisabled]="tooltipDisabled"
-            [scheme]="colorSchemeGO"
-            [label]="advancedPieLoadLabel"
-          >
-          </ngx-charts-advanced-pie-chart>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <ngx-charts-advanced-pie-chart
+              [view]="[undefined, 150]"
+              [results]="advancedPieSent"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              [scheme]="colorSchemeGR"
+              [label]="advancedPieSentLabel"
+            >
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="col-sm-4">
+            <ngx-charts-advanced-pie-chart
+              [view]="[undefined, 150]"
+              [results]="advancedPieReceived"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              [scheme]="colorSchemeGOR"
+              [label]="advancedPieReceivedLabel"
+            >
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="col-sm-4">
+            <ngx-charts-advanced-pie-chart
+              [view]="[undefined, 150]"
+              [results]="advancedPieLoad"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              [scheme]="colorSchemeGO"
+              [label]="advancedPieLoadLabel"
+            >
+            </ngx-charts-advanced-pie-chart>
+          </div>
         </div>
       </div>
-      <!-- <ngx-gauge
-          [type]="gaugeType"
-          [max]="totalTraficSent?.total"
-          [value]="totalTraficSent?.total"
-          [label]="totalTraficSent?.label"
-          [append]="totalTraficSent?.append"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          class="ml-3"
-          [type]="gaugeType"
-          [value]="totalTraficRetx?.total"
-          [label]="totalTraficRetx?.label"
-          [append]="totalTraficRetx?.append"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          class="ml-3"
-          [type]="gaugeType"
-          [max]="totalTraficReceived?.total"
-          [value]="totalTraficReceived?.total"
-          [label]="totalTraficReceived?.label"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          class="ml-3"
-          [type]="gaugeType"
-          [value]="totalTraficCluster?.total"
-          [label]="totalTraficCluster?.label"
-          [append]="totalTraficCluster?.append"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          class="ml-3"
-          [type]="gaugeType"
-          [value]="totalTraficCrc?.total"
-          [label]="totalTraficCrc?.label"
-          [append]="totalTraficCrc?.append"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          class="ml-3"
-          [max]="maxLoad?.total"
-          [type]="gaugeType"
-          [value]="maxLoad?.total"
-          [label]="maxLoad?.label"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          class="ml-3"
-          [type]="gaugeType"
-          [max]="maxLoad?.total"
-          [value]="currentLoad?.total"
-          [label]="currentLoad?.label"
-          [thick]="thick"
-        >
-        </ngx-gauge> -->
     </div>
   </div>
 </div>
-
-<div class="row mt-3 d-flex">
+<div class="row mt-3">
   <div class="col-sm">
     <div class="card">
       <div class="card-header" translate="dashboard.devices.title"></div>
-      <div class="card-body d-flex">
-        <div class="d-inline-flex">
-          <ngx-charts-advanced-pie-chart
-            [view]="[undefined, 200]"
-            [results]="advancedPieDevice"
-            [animations]="animations"
-            [gradient]="gradient"
-            [tooltipDisabled]="tooltipDisabled"
-            (select)="open('device', $event)"
-            [scheme]="colorSchemeGO"
-            [label]="advancedPieDeviceLabel"
-          >
-          </ngx-charts-advanced-pie-chart>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <ngx-charts-advanced-pie-chart
+              [view]="[undefined, 150]"
+              [results]="advancedPieDevice"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              (select)="open('device', $event)"
+              [scheme]="colorSchemeGO"
+              [label]="advancedPieDeviceLabel"
+            >
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="col-sm-4">
+            <ngx-charts-advanced-pie-chart
+              [view]="[undefined, 150]"
+              [results]="advancedPieState"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              (select)="open('state', $event)"
+              [scheme]="colorSchemeGRO"
+              [label]="advancedPieStateLabel"
+            >
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="col-sm-4">
+            <ngx-charts-advanced-pie-chart
+              [view]="[undefined, 150]"
+              [results]="advancedPieBattery"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              (select)="open('battery', $event)"
+              [scheme]="colorSchemeROG"
+              [label]="advancedPieBatteryLabel"
+            >
+            </ngx-charts-advanced-pie-chart>
+          </div>
         </div>
-        <div class="d-inline-flex">
-          <ngx-charts-advanced-pie-chart
-            [view]="[undefined, 200]"
-            [results]="advancedPieState"
-            [animations]="animations"
-            [gradient]="gradient"
-            [tooltipDisabled]="tooltipDisabled"
-            (select)="open('state', $event)"
-            [scheme]="colorSchemeGRO"
-            [label]="advancedPieStateLabel"
-          >
-          </ngx-charts-advanced-pie-chart>
-        </div>
-        <div class="d-inline-flex">
-          <ngx-charts-advanced-pie-chart
-            [view]="[undefined, 200]"
-            [results]="advancedPieBattery"
-            [animations]="animations"
-            [gradient]="gradient"
-            [tooltipDisabled]="tooltipDisabled"
-            (select)="open('battery', $event)"
-            [scheme]="colorSchemeROG"
-            [label]="advancedPieBatteryLabel"
-          >
-          </ngx-charts-advanced-pie-chart>
-        </div>
-        <!-- <ngx-gauge
-          (click)="open(devices)"
-          [max]="70"
-          [type]="gaugeType"
-          [value]="devices?.total"
-          [label]="devices?.label"
-          [append]="gaugeAppendText"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          class="ml-3"
-          (click)="open(routers)"
-          [type]="gaugeType"
-          [value]="routers?.total"
-          [label]="routers?.label"
-          [append]="routers?.append"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          class="ml-3"
-          (click)="open(inDbs)"
-          [type]="gaugeType"
-          [value]="inDbs?.total"
-          [label]="inDbs?.label"
-          [append]="inDbs?.append"
-          [thick]="thick"
-        >
-        </ngx-gauge>
-        <fieldset
-          class="scheduler-border"
-          style="display: inline; border-color: rgb(13, 6, 44); border-style: solid; border-width:2px;"
-        >
-          <ngx-gauge
-            (click)="open(healthsLive)"
-            [type]="gaugeType"
-            [value]="healthsLive?.total"
-            [label]="healthsLive?.label"
-            [append]="healthsLive?.append"
-            [thick]="thick"
-          >
-          </ngx-gauge>
-          <ngx-gauge
-            class="ml-3"
-            (click)="open(healthsNotSeen)"
-            [type]="gaugeType"
-            [value]="healthsNotSeen?.total"
-            [label]="healthsNotSeen?.label"
-            [append]="healthsNotSeen?.append"
-            [thick]="thick"
-            [foregroundColor]="'orange'"
-          >
-          </ngx-gauge>
-          <ngx-gauge
-            class="ml-3"
-            (click)="open(healthsOthers)"
-            [type]="gaugeType"
-            [value]="healthsOthers?.total"
-            [label]="healthsOthers?.label"
-            [append]="healthsOthers?.append"
-            [thick]="thick"
-            [foregroundColor]="'orange'"
-          >
-          </ngx-gauge>
-        </fieldset>
-        <ngx-gauge
-          (click)="open(batteryInf30)"
-          [max]="batteryInf30?.totalDevices"
-          [type]="gaugeType"
-          [value]="batteryInf30?.total"
-          [label]="batteryInf30?.label"
-          [append]="batteryInf30?.append"
-          [thick]="thick"
-          [foregroundColor]="'red'"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          (click)="open(batterySup30)"
-          [max]="batteryInf30?.totalDevices"
-          [type]="gaugeType"
-          [value]="batterySup30?.total"
-          [label]="batterySup30?.label"
-          [append]="batterySup30?.append"
-          [thick]="thick"
-          [foregroundColor]="'orange'"
-        >
-        </ngx-gauge>
-        <ngx-gauge
-          (click)="open(batterySup50)"
-          [max]="batteryInf30?.totalDevices"
-          [type]="gaugeType"
-          [value]="batterySup50?.total"
-          [label]="batterySup50?.label"
-          [append]="batterySup50?.append"
-          [thick]="thick"
-        >
-        </ngx-gauge> -->
       </div>
-
-      <!-- <div class="mt-5 row">
-  <div class="ml-3 col-sm-4">
-    <app-plugin-stats></app-plugin-stats>
-  </div>
-</div> -->
     </div>
   </div>
 </div>

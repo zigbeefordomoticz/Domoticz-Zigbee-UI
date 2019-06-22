@@ -98,8 +98,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.currentLoad.label = this.translate.instant('dashboard.trafic.currentload');
       this.currentLoad.total = res.CurrentLoad;
       this.advancedPieLoad = [
-        { name: 'maxLoad', value: res.MaxLoad - res.CurrentLoad },
-        { name: 'currentLoad', value: res.CurrentLoad }
+        { name: this.translate.instant('dashboard.trafic.maxload'), value: res.MaxLoad - res.CurrentLoad },
+        { name: this.translate.instant('dashboard.trafic.currentload'), value: res.CurrentLoad }
       ];
       this.advancedPieSent = [
         { name: this.translate.instant('dashboard.trafic.total.trafic.sent'), value: res.Sent - res.ReTx },
