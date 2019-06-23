@@ -18,8 +18,6 @@
             class="bootstrap"
             [columnMode]="'force'"
             [headerHeight]="40"
-            [summaryRow]="true"
-            [summaryPosition]="'bottom'"
             [footerHeight]="40"
             [limit]="5"
             [rowHeight]="'auto'"
@@ -43,13 +41,6 @@
                 {{ row.Model }}
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'device.byname.widget.column' | translate }}" prop="WidgetList">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                <div *ngFor="let widget of row.WidgetList">
-                  {{ widget.WidgetName }}
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
             <ngx-datatable-column name="{{ 'device.byname.devicename.column' | translate }}" prop="ZDeviceName">
               <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                 {{ row.ZDeviceName }}
@@ -58,6 +49,15 @@
             <ngx-datatable-column name="{{ 'device.byname.status.column' | translate }}" [maxWidth]="100" prop="Status">
               <ng-template ngx-datatable-cell-template let-row="row">
                 {{ row.Status }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              name="{{ 'device.byname.battery.column' | translate }}"
+              [maxWidth]="100"
+              prop="Battery"
+            >
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.Battery }}
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="{{ 'device.byname.health.column' | translate }}" [maxWidth]="100" prop="Health">

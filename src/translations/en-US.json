@@ -71,6 +71,7 @@
   "device.byname.devicename.column": "Friendly Name",
   "device.byname.header": "List of Zigate managed devices",
   "device.byname.health.column": "Health",
+  "device.byname.battery.column": "Battery",
   "device.byname.ieee.column": "IEEE",
   "device.byname.model.column": "Model",
   "device.byname.placeholder": "type filter here ....",
