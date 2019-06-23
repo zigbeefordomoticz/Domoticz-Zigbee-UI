@@ -43,8 +43,8 @@
   "dashboard.zgroup.button": "Groupes du Plugin (json)",
   "dashboard.zigate.header": "Informations de la Zigate",
   "dashboard.zigate.subtitle": "Donne les informations de la Zigate",
-
   "dashboard.health.title": "Santé du plugin",
+  "dashboard.health.starttime": "Lancé à ",
   "dashboard.trafic.title": "Etat du Trafic ( Emission, Réception, Type et Charge)",
   "dashboard.trafic.total.trafic.sent.label": "Emis",
   "dashboard.trafic.total.trafic.sent": "Tx",
