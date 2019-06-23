@@ -39,6 +39,7 @@
               [tooltipDisabled]="tooltipDisabled"
               [scheme]="colorSchemeGR"
               [label]="advancedPieSentLabel"
+              [percentageFormatting]="percentageFormatting"
             >
             </ngx-charts-advanced-pie-chart>
           </div>
@@ -51,6 +52,7 @@
               [tooltipDisabled]="tooltipDisabled"
               [scheme]="colorSchemeGOR"
               [label]="advancedPieReceivedLabel"
+              [percentageFormatting]="percentageFormatting"
             >
             </ngx-charts-advanced-pie-chart>
           </div>
@@ -63,6 +65,7 @@
               [tooltipDisabled]="tooltipDisabled"
               [scheme]="colorSchemeGO"
               [label]="advancedPieLoadLabel"
+              [percentageFormatting]="percentageFormatting"
             >
             </ngx-charts-advanced-pie-chart>
           </div>
@@ -87,6 +90,7 @@
               (select)="open('device', $event)"
               [scheme]="colorSchemeGO"
               [label]="advancedPieDeviceLabel"
+              [percentageFormatting]="percentageFormatting"
             >
             </ngx-charts-advanced-pie-chart>
           </div>
@@ -100,6 +104,7 @@
               (select)="open('state', $event)"
               [scheme]="colorSchemeGRO"
               [label]="advancedPieStateLabel"
+              [percentageFormatting]="percentageFormatting"
             >
             </ngx-charts-advanced-pie-chart>
           </div>
@@ -113,6 +118,7 @@
               (select)="open('battery', $event)"
               [scheme]="colorSchemeROG"
               [label]="advancedPieBatteryLabel"
+              [percentageFormatting]="percentageFormatting"
             >
             </ngx-charts-advanced-pie-chart>
           </div>

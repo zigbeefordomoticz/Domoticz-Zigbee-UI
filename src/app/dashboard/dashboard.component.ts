@@ -200,6 +200,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.advancedPieBatteryLabel = this.translate.instant('dashboard.devices.battery.label');
   }
 
+  percentageFormatting(value: any) {
+    return Math.round(value);
+  }
+
   open(name: string, event: any) {
     let devices;
     if (name === 'device') {
