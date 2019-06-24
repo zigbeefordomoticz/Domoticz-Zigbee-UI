@@ -30,7 +30,8 @@ const routes = {
   zigate: '/zigate',
   restartNeeded: '/restart-needed',
   domoticzEnv: '/domoticz-env',
-  pluginHealth: '/plugin-health'
+  pluginHealth: '/plugin-health',
+  rescanGroup: '/rescan-groups'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -207,6 +208,13 @@ export class ApiService {
 
   getSwResetZigate(): Observable<any> {
     return this.httpClient.get(routes.swResetZigate).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getRescanGroup(): Observable<any> {
+    return this.httpClient.get(routes.rescanGroup).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );
