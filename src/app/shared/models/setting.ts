@@ -4,6 +4,7 @@ export interface Setting {
   current_value: any;
   default_value: any;
   restart_need: boolean;
+  Advanced: boolean;
 }
 
 export interface Settings {

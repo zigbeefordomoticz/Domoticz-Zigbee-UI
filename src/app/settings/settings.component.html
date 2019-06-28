@@ -1,4 +1,16 @@
 <fieldset class="h-100">
+  <button
+    *ngIf="!advanced"
+    (click)="advancedSettings()"
+    class="float-right btn btn-dark"
+    translate="setting.advanced.button"
+  ></button>
+  <button
+    *ngIf="advanced"
+    (click)="advancedSettings()"
+    class="float-right btn btn-dark"
+    translate="setting.normal.button"
+  ></button>
   <legend translate="setting.help.legend"></legend>
   <a
     href="https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.txt.md"
@@ -19,7 +31,7 @@
               </div>
               <div class="card-text">
                 <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
-                  <app-setting [setting]="setting"></app-setting>
+                  <app-setting [setting]="setting" [advanced]="advanced"></app-setting>
                 </ng-container>
               </div>
             </div>

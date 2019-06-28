@@ -1,4 +1,4 @@
-<div [formGroupName]="setting.Name">
+<div *ngIf="setting.Advanced === false || advanced === setting.Advanced" [formGroupName]="setting.Name">
   <div *ngIf="setting.DataType === 'str'" class="form-group row mt-2">
     <label for="current" translate="{{ setting.Name }}" class="col-sm-6 col-form-label"></label>
     <div class="col-sm">

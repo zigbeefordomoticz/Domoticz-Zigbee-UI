@@ -150,6 +150,8 @@
   "setting.help.link": "Informations de réglages sur le Wiki",
   "setting.help.legend": "Ici tous les réglages du Plugin que vous pouvez mettre a jour.",
   "settings": "Réglages",
+  "setting.advanced.button": "Paramètres avancés",
+  "setting.normal.button": "paramètres standards",
   "setting.reloadplugin.alert.title": "Plugin Reload",
   "setting.reloadplugin.alert.subject": "Settings have been updated, plugin need to be restarted",
   "setting.reloadplugin.alert.cancel": "Fermer",

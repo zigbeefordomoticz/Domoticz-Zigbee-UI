@@ -19,6 +19,7 @@ const log = new Logger('SettingComponent');
 })
 export class SettingComponent implements OnInit {
   @Input() setting: Setting;
+  @Input() advanced: boolean;
 
   constructor(private formBuilder: FormBuilder, private fgd: FormGroupDirective, private translate: TranslateService) {}
 

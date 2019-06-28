@@ -145,6 +145,8 @@
   "setting.header": "Settings",
   "setting.subtitle": "Allow you to visualize and edit the various plugin settings. Some might required a restart of the plugin to be taken into account",
   "setting.validate.button": "Validate",
+  "setting.advanced.button": "Advanced settings",
+  "setting.normal.button": "Normal settings",
   "setting.help.link": "Settings informations on Wiki",
   "setting.help.legend": "Here are all plugin settings that you can update.",
   "settings": "Settings",

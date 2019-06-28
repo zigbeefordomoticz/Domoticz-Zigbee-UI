@@ -20,6 +20,7 @@ export class SettingsComponent implements OnInit {
   @ViewChild('content') content: any;
   form: FormGroup;
   settings$: Observable<Array<Setting>>;
+  advanced = false;
 
   constructor(
     private modalService: NgbModal,
@@ -33,6 +34,10 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({});
     this.settings$ = this.apiService.getSettings();
+  }
+
+  advancedSettings() {
+    this.advanced = !this.advanced;
   }
 
   updateSettings() {
