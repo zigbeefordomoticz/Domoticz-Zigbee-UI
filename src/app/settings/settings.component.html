@@ -1,16 +1,15 @@
 <fieldset class="h-100">
-  <button
-    *ngIf="!advanced"
-    (click)="advancedSettings()"
-    class="float-right btn btn-dark"
-    translate="setting.advanced.button"
-  ></button>
-  <button
-    *ngIf="advanced"
-    (click)="advancedSettings()"
-    class="float-right btn btn-dark"
-    translate="setting.normal.button"
-  ></button>
+  <div class="switch switch-sm mr-2 pr-2 float-right">
+    <input
+      [checked]="advanced"
+      (click)="advancedSettings($event)"
+      type="checkbox"
+      class="switch"
+      id="switch-advanced"
+    />
+    <label class="mb-0" for="switch-advanced" translate="setting.advanced.button"></label>
+  </div>
+
   <legend translate="setting.help.legend"></legend>
   <a
     href="https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.txt.md"

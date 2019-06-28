@@ -36,8 +36,12 @@ export class SettingsComponent implements OnInit {
     this.settings$ = this.apiService.getSettings();
   }
 
-  advancedSettings() {
-    this.advanced = !this.advanced;
+  advancedSettings(event: any) {
+    if (event.currentTarget.checked) {
+      this.advanced = true;
+    } else {
+      this.advanced = false;
+    }
   }
 
   updateSettings() {
