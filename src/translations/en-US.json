@@ -132,11 +132,11 @@
   "network.topology.req.header": "Topology scan",
   "network.topology.req.subtitle": "This will trigger a Topology scan, which will be workout in backgroud",
   "network.topology.req.button": "scan",
-  "network.inter.req.header": "Interference scan",
-  "network.inter.req.subtitle": "This will trigger an Interference scan",
+  "network.inter.req.header": "Short Energy scan",
+  "network.inter.req.subtitle": "An Energy scan report will be provided. It will report energy level between routers and Zigate. In other terms how much power is received by the Zigate. Higher is the number, better it is",
   "network.inter.req.button": "scan",
-  "network.full.req.header": "Scan full du niveau d'energie par Canal",
-  "network.full.req.subtitle": "Ceci va créer un scan full réseau",
+  "network.full.req.header": "Full Energy scan",
+  "network.full.req.subtitle": "As for the short energy scan, the report will provide energy level between all routers and Zigate, handling all cross-communications. This will report might take a while when the number of routers is high, n((n-1)/2), for 5 routers it is 10 combinations, for 10 routers 45",
   "network.full.req.button": "scan full",
   "network.stats.detail.visu.header": "Energy level",
   "network.stats.detail.visu.subtitle": "",
@@ -197,5 +197,7 @@
   "setting.header.Others": "Miscaleneous settings",
   "setting.subtitle.Others": "",
   "logLQI": "Delay before starting a Topology scan (sec)",
-  "networkScan": "Interferences report frequency (sec)"
+  "networkScan": "Interferences report frequency (sec)",
+  "setting.header.VerboseLogging": "Verbose and Logging",
+  "setting.subtitle.VerboseLogging": "Will allow you to enable/disable some Logging features."
 }
