@@ -18,6 +18,7 @@ import { NwkStatsComponent } from './nwk-stats/nwk-stats.component';
 import { ReqNetworkInterComponent } from './req-network-inter/req-network-inter.component';
 import { ReqTopologyComponent } from './req-topology/req-topology.component';
 import { TopologyComponent } from './topology/topology.component';
+import { ReqNetworkFullComponent } from './req-network-full/req-network-full.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -31,7 +32,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DetailTopologyComponent,
     ReqTopologyComponent,
     ReqNetworkInterComponent,
-    DetailNwkStatComponent
+    DetailNwkStatComponent,
+    ReqNetworkFullComponent
   ],
   providers: [
     { provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting, sankey, wheel, network] },

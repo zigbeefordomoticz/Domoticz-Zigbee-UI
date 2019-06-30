@@ -31,7 +31,8 @@ const routes = {
   restartNeeded: '/restart-needed',
   domoticzEnv: '/domoticz-env',
   pluginHealth: '/plugin-health',
-  rescanGroup: '/rescan-groups'
+  rescanGroup: '/rescan-groups',
+  reqNwkfull: '/req-nwk-full'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -124,6 +125,13 @@ export class ApiService {
 
   getReqInter(): Observable<any> {
     return this.httpClient.get(routes.reqInter).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getNwkFull(): Observable<any> {
+    return this.httpClient.get(routes.reqNwkfull).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );
