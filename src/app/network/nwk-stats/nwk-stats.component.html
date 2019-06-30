@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-3">
-    <div class="ml-3 card" *ngIf="stats$ | async as stats">
+    <div class="card" *ngIf="stats$ | async as stats">
       <div class="card-header" translate="network.stats.header"></div>
       <div class="card-body">
         <h5 class="card-title" translate="network.stats.subtitle"></h5>
@@ -10,10 +10,12 @@
               <perfect-scrollbar class="scroll-container">
                 <div class="scrollable-content">
                   <span class="row d-flex align-items-center" *ngFor="let stat of stats | keyvalue: sortDesc">
-                    <button class="btn btn-light" (click)="nwkStatByDate(stat.value)">
-                      {{ stat.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
-                    </button>
-                    <div class="ml-3">
+                    <div class="col-sm-9">
+                      <button class="btn btn-light" (click)="nwkStatByDate(stat.value)">
+                        {{ stat.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+                      </button>
+                    </div>
+                    <div class="col-sm-3">
                       <button
                         class="btn btn-light"
                         title="{{ 'network.stats.visu.delete.button' | translate }}"
