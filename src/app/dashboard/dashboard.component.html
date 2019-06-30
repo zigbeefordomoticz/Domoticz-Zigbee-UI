@@ -65,43 +65,52 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm-4">
-            <ngx-charts-advanced-pie-chart
-              [view]="[undefined, 150]"
-              [results]="advancedPieSent"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              [scheme]="colorSchemeGR"
-              [label]="advancedPieSentLabel"
-              [percentageFormatting]="percentageFormatting"
-            >
-            </ngx-charts-advanced-pie-chart>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [view]="[undefined, 150]"
+                [results]="advancedPieSent"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                [scheme]="colorSchemeGR"
+                [label]="advancedPieSentLabel"
+                [percentageFormatting]="percentageFormatting"
+              >
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row" translate="dashboard.sent.comment"></div>
           </div>
           <div class="col-sm-4">
-            <ngx-charts-advanced-pie-chart
-              [view]="[undefined, 150]"
-              [results]="advancedPieReceived"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              [scheme]="colorSchemeGOR"
-              [label]="advancedPieReceivedLabel"
-              [percentageFormatting]="percentageFormatting"
-            >
-            </ngx-charts-advanced-pie-chart>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [view]="[undefined, 150]"
+                [results]="advancedPieReceived"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                [scheme]="colorSchemeGOR"
+                [label]="advancedPieReceivedLabel"
+                [percentageFormatting]="percentageFormatting"
+              >
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row" translate="dashboard.received.comment"></div>
           </div>
           <div class="col-sm-4">
-            <ngx-charts-advanced-pie-chart
-              [view]="[undefined, 150]"
-              [results]="advancedPieLoad"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              [scheme]="colorSchemeGO"
-              [label]="advancedPieLoadLabel"
-              [percentageFormatting]="percentageFormatting"
-            >
-            </ngx-charts-advanced-pie-chart>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [view]="[undefined, 150]"
+                [results]="advancedPieLoad"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                [scheme]="colorSchemeGO"
+                [label]="advancedPieLoadLabel"
+                [percentageFormatting]="percentageFormatting"
+              >
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row" translate="dashboard.load.comment"></div>
           </div>
         </div>
       </div>
@@ -115,46 +124,57 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm-4">
-            <ngx-charts-advanced-pie-chart
-              [view]="[undefined, 150]"
-              [results]="advancedPieDevice"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              (select)="open('device', $event)"
-              [scheme]="colorSchemeGO"
-              [label]="advancedPieDeviceLabel"
-              [percentageFormatting]="percentageFormatting"
-            >
-            </ngx-charts-advanced-pie-chart>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [view]="[undefined, 150]"
+                [results]="advancedPieDevice"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                (select)="open('device', $event)"
+                [scheme]="colorSchemeGO"
+                [label]="advancedPieDeviceLabel"
+                [percentageFormatting]="percentageFormatting"
+              >
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row" translate="dashboard.devices.comment"></div>
           </div>
           <div class="col-sm-4">
-            <ngx-charts-advanced-pie-chart
-              [view]="[undefined, 150]"
-              [results]="advancedPieState"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              (select)="open('state', $event)"
-              [scheme]="colorSchemeGRO"
-              [label]="advancedPieStateLabel"
-              [percentageFormatting]="percentageFormatting"
-            >
-            </ngx-charts-advanced-pie-chart>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [view]="[undefined, 150]"
+                [results]="advancedPieState"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                (select)="open('state', $event)"
+                [scheme]="colorSchemeGRO"
+                [label]="advancedPieStateLabel"
+                [percentageFormatting]="percentageFormatting"
+              >
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row" translate="dashboard.health.comment">
+            </div>
           </div>
           <div class="col-sm-4">
-            <ngx-charts-advanced-pie-chart
-              [view]="[undefined, 150]"
-              [results]="advancedPieBattery"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              (select)="open('battery', $event)"
-              [scheme]="colorSchemeROG"
-              [label]="advancedPieBatteryLabel"
-              [percentageFormatting]="percentageFormatting"
-            >
-            </ngx-charts-advanced-pie-chart>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [view]="[undefined, 150]"
+                [results]="advancedPieBattery"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                (select)="open('battery', $event)"
+                [scheme]="colorSchemeROG"
+                [label]="advancedPieBatteryLabel"
+                [percentageFormatting]="percentageFormatting"
+              >
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row" translate="dashboard.battery.comment">
+            </div>
           </div>
         </div>
       </div>
