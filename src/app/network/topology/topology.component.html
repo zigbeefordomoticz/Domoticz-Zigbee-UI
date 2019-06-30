@@ -10,12 +10,12 @@
               <perfect-scrollbar class="scroll-container">
                 <div class="scrollable-content">
                   <span class="row d-flex align-items-center" *ngFor="let topologie of topologies | keyvalue: sortDesc">
-                    <div class="col-sm">
+                    <div class="col-sm-9">
                       <button class="btn btn-light" (click)="topologyByDate(topologie.value)">
                         {{ topologie.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
                       </button>
                     </div>
-                    <div class="col-sm">
+                    <div class="col-sm-3">
                       <button
                         class="btn btn-light"
                         title="{{ 'network.topo.visu.delete.button' | translate }}"
