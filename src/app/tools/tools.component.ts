@@ -81,15 +81,17 @@ export class ToolsComponent implements OnInit {
       service = this.apiService.getDomoticzEnv();
     }
 
-    service
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe((json: Object) => {
-        this.callbackservice(json);
-      });
+    if (service) {
+      service
+        .pipe(
+          finalize(() => {
+            this.isLoading = false;
+          })
+        )
+        .subscribe((json: Object) => {
+          this.callbackservice(json);
+        });
+    }
   }
 
   callbackservice(json: any) {
