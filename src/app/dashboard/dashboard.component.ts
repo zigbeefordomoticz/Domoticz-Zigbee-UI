@@ -4,6 +4,8 @@ import { ApiService } from '@app/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
+import { Observable } from 'rxjs';
+import { Plugin } from '@app/shared/models/plugin';
 
 const log = new Logger('DashboardComponent');
 
@@ -19,7 +21,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   healthsLive: any;
   healthsNotSeen: any;
   healthsOthers: any = {};
-  pluginHealth: any;
   pluginStats: any;
   totalTraficSent: any = {};
   totalTraficRetx: any = {};
@@ -74,10 +75,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private apiService: ApiService, private translate: TranslateService, private toppy: Toppy) {}
 
   ngOnInit() {
-    this.apiService.getPluginhealth().subscribe(res => {
-      this.pluginHealth = res;
-    });
-
     this.apiService.getPluginStats().subscribe(res => {
       this.pluginStats = res;
       this.totalTraficSent.label = this.translate.instant('dashboard.trafic.total.trafic.sent');

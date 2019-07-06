@@ -38,6 +38,8 @@
   "admin.reloadplugin.alert.cancel": "Annuler",
   "admin.reloadplugin.alert.erase": "Redémarrer",
   "dashboard": "Dashboard",
+  "dashboard.plugin.version": "Plugin version : ",
+  "dashboard.firmware.version": "Firmware version : ",
   "dashboard.device.button": "Domoticz widgets (json)",
   "dashboard.plugin.header": "Plugin infos",
   "dashboard.plugin.subtitle": "Montre les infos du plugin",
