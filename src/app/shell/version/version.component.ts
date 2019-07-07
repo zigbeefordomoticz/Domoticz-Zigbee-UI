@@ -12,10 +12,12 @@ import { Plugin } from '@app/shared/models/plugin';
 export class VersionComponent implements OnInit {
   plugin$: Observable<Plugin>;
   pluginHealth$: Observable<any>;
+  pluginStats$: Observable<any>;
 
   constructor(private apiService: ApiService, private translate: TranslateService) {}
 
   ngOnInit(): void {
+    this.pluginStats$ = this.apiService.getPluginStats();
     this.plugin$ = this.apiService.getPlugin();
     this.pluginHealth$ = this.apiService.getPluginhealth();
   }

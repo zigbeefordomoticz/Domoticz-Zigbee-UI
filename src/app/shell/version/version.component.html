@@ -1,12 +1,50 @@
-<footer class="navbar navbar-fixed-bottom">
-  <div class="bg-light fixed-bottom">
-    <div class="row" *ngIf="plugin$ | async as plugin">
-      <div class="col-sm-8" *ngIf="pluginHealth$ | async as pluginHealth">
-        <span translate="{{ pluginHealth?.HealthTxt }}"></span>&nbsp;<span translate="dashboard.health.starttime"></span
-        >{{ plugin?.TimeStamp * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+<footer class="navbar navbar-fixed-bottom" *ngIf="pluginHealth$ | async as pluginHealth">
+  <div *ngIf="pluginStats$ | async as pluginStats">
+    <div
+      [ngClass]="
+        pluginHealth?.HealthFlag === 1
+          ? 'bg-success fixed-bottom'
+          : pluginHealth?.HealthFlag === 2
+          ? 'bg-warning fixed-bottom'
+          : 'bg-danger fixed-bottom'
+      "
+    >
+      <div class="row" *ngIf="plugin$ | async as plugin">
+        <div class="col-sm-4 text-white">
+          <span translate="dashboard.health.starttime"></span
+          >{{ pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+        </div>
+        <div class="col-sm-4 text-center text-white"><span translate="{{ pluginHealth?.HealthTxt }}"></span></div>
+
+        <div class="col-sm-2" *ngIf="plugin?.PluginUpdate">
+          <a
+            class="text-danger"
+            style="cursor: pointer;"
+            placement="top"
+            ngbPopover="{{ 'dashboard.plugin.update.available' | translate }}"
+            popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}"
+          >
+            <span translate="dashboard.plugin.version"></span>{{ plugin.PluginVersion }}
+          </a>
+        </div>
+        <div class="col-sm-2" *ngIf="plugin?.FirmwareUpdate">
+          <a
+            class="text-danger"
+            style="cursor: pointer;"
+            placement="top"
+            ngbPopover="{{ 'dashboard.firmware.update.available' | translate }}"
+            popoverTitle="{{ 'dashboard.firmware.update.available.title' | translate }}"
+          >
+            <span translate="dashboard.firmware.version"></span>{{ plugin.FirmwareVersion }}
+          </a>
+        </div>
+        <div *ngIf="!plugin?.PluginUpdate" class="col-sm-2 text-white">
+          <span translate="dashboard.plugin.version"></span>{{ plugin.PluginVersion }}
+        </div>
+        <div *ngIf="!plugin?.FirmwareUpdate" class="col-sm-2 text-white">
+          <span translate="dashboard.firmware.version"></span>{{ plugin.FirmwareVersion }}
+        </div>
       </div>
-      <div class="col-sm-2"><span translate="dashboard.plugin.version"></span>{{ plugin.PluginVersion }}</div>
-      <div class="col-sm-2"><span translate="dashboard.firmware.version"></span>{{ plugin.FirmwareVersion }}</div>
     </div>
   </div>
 </footer>
