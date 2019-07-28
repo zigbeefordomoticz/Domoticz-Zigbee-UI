@@ -185,7 +185,7 @@
   "tools.domoticz-env.button": "domoticz-env (json)",
 
   "Ping": "Enable Ping",
-  "setting.header.DomoticzEnvironment": "Domiticz URL",
+  "setting.header.DomoticzEnvironment": "Domoticz URL",
   "setting.subtitle.DomoticzEnvironment": "Setting on how to access Domoticz API",
 
   "setting.header.WebInterface": "Web Interface settings",
