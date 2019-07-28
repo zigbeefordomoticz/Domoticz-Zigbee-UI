@@ -2,12 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Setting } from '@app/shared/models/setting';
 import { HeaderService } from '@app/services/header-service';
+import { NotifyService } from '@app/services/notify.service';
+import { Settings } from '@app/shared/models/setting';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const log = new Logger('SettingsComponent');
 
@@ -19,21 +17,23 @@ const log = new Logger('SettingsComponent');
 export class SettingsComponent implements OnInit {
   @ViewChild('content') content: any;
   form: FormGroup;
-  settings$: Observable<Array<Setting>>;
+  settings: Array<Settings>;
   advanced = false;
 
   constructor(
     private modalService: NgbModal,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
-    private translate: TranslateService,
     private notifyService: NotifyService,
     private headerService: HeaderService
   ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({});
-    this.settings$ = this.apiService.getSettings();
+    this.apiService.getSettings().subscribe(res => {
+      this.settings = res;
+      this.settings.sort((n1, n2) => n1._Order - n2._Order);
+    });
   }
 
   advancedSettings(event: any) {
@@ -61,7 +61,10 @@ export class SettingsComponent implements OnInit {
     this.apiService.putSettings(this.form.value).subscribe((result: any) => {
       this.form.markAsPristine();
       this.notifyService.notify();
-      this.settings$ = this.apiService.getSettings();
+      this.apiService.getSettings().subscribe(res => {
+        this.settings = res;
+        this.settings.sort((n1, n2) => n1._Order - n2._Order);
+      });
       this.apiService.getRestartNeeded().subscribe(restart => {
         if (restart.RestartNeeded) {
           this.headerService.setRestart(true);

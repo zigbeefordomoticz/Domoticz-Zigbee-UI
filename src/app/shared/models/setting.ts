@@ -10,4 +10,5 @@ export interface Setting {
 export interface Settings {
   ListOfSettings: Array<Setting>;
   _Theme: string;
+  _Order: number;
 }
