@@ -38,40 +38,44 @@ export class GroupComponent implements OnInit {
   ngOnInit() {
     this.apiService.getZGroupDevicesAvalaible().subscribe((devices: Array<DevicesAvailable>) => {
       const devicesToAdd: Array<DeviceAvailable> = [];
-      devices.forEach(device => {
-        device.WidgetList.forEach(widget => {
-          if (device._NwkId !== '0000') {
-            const deviceToAdd: DeviceAvailable = new DeviceAvailable();
-            deviceToAdd.Ep = widget.Ep;
-            deviceToAdd.IEEE = widget.IEEE;
-            deviceToAdd.Name = widget.Name;
-            deviceToAdd.ZDeviceName = widget.ZDeviceName;
-            deviceToAdd._ID = widget._ID;
-            deviceToAdd._NwkId = device._NwkId;
-            devicesToAdd.push(deviceToAdd);
-          }
-        });
-      });
-      this.devices = [...devicesToAdd];
-      this.apiService.getZGroups().subscribe((groups: Array<Group>) => {
-        groups.forEach(group => {
-          const devicesSelected: any[] = [];
-          group.coordinatorInside = false;
-          group.Devices.forEach(device => {
-            if (device._NwkId === '0000') {
-              group.coordinatorInside = true;
-            } else {
-              const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
-              if (deviceAvailable !== null && deviceAvailable !== undefined) {
-                devicesSelected.push(deviceAvailable);
-              }
+      if (devices && devices.length > 0) {
+        devices.forEach(device => {
+          device.WidgetList.forEach(widget => {
+            if (device._NwkId !== '0000') {
+              const deviceToAdd: DeviceAvailable = new DeviceAvailable();
+              deviceToAdd.Ep = widget.Ep;
+              deviceToAdd.IEEE = widget.IEEE;
+              deviceToAdd.Name = widget.Name;
+              deviceToAdd.ZDeviceName = widget.ZDeviceName;
+              deviceToAdd._ID = widget._ID;
+              deviceToAdd._NwkId = device._NwkId;
+              devicesToAdd.push(deviceToAdd);
             }
           });
-          group.devicesSelected = devicesSelected;
         });
+        this.devices = [...devicesToAdd];
+      }
 
-        this.rows = [...groups];
-        this.temp = [...groups];
+      this.apiService.getZGroups().subscribe((groups: Array<Group>) => {
+        if (groups && groups.length > 0) {
+          groups.forEach(group => {
+            const devicesSelected: any[] = [];
+            group.coordinatorInside = false;
+            group.Devices.forEach(device => {
+              if (device._NwkId === '0000') {
+                group.coordinatorInside = true;
+              } else {
+                const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
+                if (deviceAvailable !== null && deviceAvailable !== undefined) {
+                  devicesSelected.push(deviceAvailable);
+                }
+              }
+            });
+            group.devicesSelected = devicesSelected;
+          });
+          this.rows = [...groups];
+          this.temp = [...groups];
+        }
       });
     });
   }
