@@ -105,6 +105,9 @@ export class GroupComponent implements OnInit {
   updateDevices() {
     this.rows.forEach(group => {
       if (group.coordinatorInside) {
+        if (!group.devicesSelected) {
+          group.devicesSelected = [];
+        }
         group.devicesSelected.push({ Ep: '01', _NwkId: '0000' });
       }
     });
