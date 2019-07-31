@@ -156,7 +156,7 @@ export class GroupComponent implements OnInit {
       if (
         group.GroupName === null ||
         group.GroupName === '' ||
-        (group.devicesSelected === undefined || group.devicesSelected.length === 0)
+        (!group.coordinatorInside && (group.devicesSelected === undefined || group.devicesSelected.length === 0))
       ) {
         formvalid = false;
       }
