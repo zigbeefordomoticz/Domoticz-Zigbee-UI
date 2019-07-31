@@ -69,7 +69,7 @@
   "dashboard.devices.indb": "In Db",
   "dashboard.devices.state.label": "Health",
   "dashboard.devices.live": "live",
-  "dashboard.devices.notseen": "Not seen last 24h",
+  "dashboard.devices.notseen": "not reachable",
   "dashboard.devices.others": "unknown",
   "dashboard.devices.enddevice": "end devices",
   "dashboard.devices.battery.label": "Battery",
