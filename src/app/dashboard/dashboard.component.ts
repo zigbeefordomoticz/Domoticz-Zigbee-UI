@@ -128,12 +128,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.healthsLive.label = this.translate.instant('dashboard.devices.live');
       this.healthsLive.total = ((this.healthsLive.length / this.devices.total) * 100).toFixed(0);
       this.healthsLive.append = '%';
-      this.healthsNotSeen = this.devices.filter((device: any) => device.Health === 'Not seen last 24hours');
+      this.healthsNotSeen = this.devices.filter((device: any) => {
+        return device.Health === 'Not seen last 24hours' || device.Health === 'Not Reachable';
+      });
       this.healthsNotSeen.label = this.translate.instant('dashboard.devices.notseen');
       this.healthsNotSeen.total = ((this.healthsNotSeen.length / this.devices.total) * 100).toFixed(0);
       this.healthsNotSeen.append = '%';
       this.healthsOthers = this.devices.filter((device: any) => {
-        return device.Health !== 'Not seen last 24hours' && device.Health !== 'Live';
+        return (
+          device.Health !== 'Not seen last 24hours' && device.Health !== 'Not Reachable' && device.Health !== 'Live'
+        );
       });
       this.healthsOthers.label = this.translate.instant('dashboard.devices.enddevice');
       this.healthsOthers.total = ((this.healthsOthers.length / this.devices.total) * 100).toFixed(0);
