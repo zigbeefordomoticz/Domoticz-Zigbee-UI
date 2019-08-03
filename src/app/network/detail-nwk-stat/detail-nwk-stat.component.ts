@@ -93,6 +93,12 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
     const averages: Array<any> = [];
     const totals: Array<any> = [];
 
+    data.forEach(nwk => {
+      const tempChannels = nwk.Channels;
+      tempChannels.sort((n1, n2) => Number(n1.Channel) - Number(n2.Channel));
+      nwk.Channels = tempChannels;
+    });
+
     data[0].Channels.forEach(channel => {
       channels.push(channel.Channel);
     });
@@ -205,6 +211,12 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
   createChart2(data: Array<NwkStat>) {
     const tab: Array<any> = [];
     const channels: Array<any> = [];
+
+    data.forEach(nwk => {
+      const tempChannels = nwk.Channels;
+      tempChannels.sort((n1, n2) => Number(n1.Channel) - Number(n2.Channel));
+      nwk.Channels = tempChannels;
+    });
 
     data[0].Channels.forEach(channel => {
       channels.push(channel.Channel);
