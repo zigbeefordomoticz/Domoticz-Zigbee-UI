@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -32,7 +32,8 @@ const routes = {
   domoticzEnv: '/domoticz-env',
   pluginHealth: '/plugin-health',
   rescanGroup: '/rescan-groups',
-  reqNwkfull: '/req-nwk-full'
+  reqNwkfull: '/req-nwk-full',
+  pluginRestart: '/plugin-restart'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -235,10 +236,21 @@ export class ApiService {
     );
   }
 
-  getReloadPlugin(plugin: Plugin, domoticzEnv: DomoticzEnv): Observable<any> {
+  getReloadPlugin() {
+    return this.httpClient.get(routes.pluginRestart).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getReloadPluginOld(plugin: Plugin, domoticzEnv: DomoticzEnv): Observable<any> {
     const route =
       domoticzEnv.proto +
       '://' +
+      domoticzEnv.WebUserName +
+      ':' +
+      domoticzEnv.WebPassword +
+      '@' +
       domoticzEnv.host +
       ':' +
       domoticzEnv.port +
@@ -272,9 +284,16 @@ export class ApiService {
       plugin.Key +
       '&enabled=true&datatimeout=0';
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'text/plain'
+      })
+    };
+
     return this.httpClient
       .disableApiPrefix()
-      .get(route)
+      .get(route, httpOptions)
       .pipe(
         map((body: any) => body),
         catchError(() => of('Error, could not load json from api'))

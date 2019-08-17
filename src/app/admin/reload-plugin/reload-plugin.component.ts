@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { HeaderService } from '@app/services/header-service';
 import { NotifyService } from '@app/services/notify.service';
-import { DomoticzEnv } from '@app/shared/models/domoticz-env';
-import { Plugin } from '@app/shared/models/plugin';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { HeaderService } from '@app/services/header-service';
 
 const log = new Logger('ReloadPluginComponent');
 
@@ -16,10 +14,6 @@ const log = new Logger('ReloadPluginComponent');
   styleUrls: ['./reload-plugin.component.scss']
 })
 export class ReloadPluginComponent implements OnInit {
-  plugin: Plugin;
-  domoticzEnv: DomoticzEnv;
-  disabled = true;
-
   constructor(
     private headerService: HeaderService,
     private modalService: NgbModal,
@@ -28,22 +22,10 @@ export class ReloadPluginComponent implements OnInit {
     private translate: TranslateService
   ) {}
 
-  ngOnInit() {
-    this.apiService.getPlugin().subscribe(plugin => {
-      this.plugin = plugin;
-      this.apiService.getDomoticzEnv().subscribe(env => {
-        this.domoticzEnv = env;
-        this.disabled = false;
-      });
-    });
-  }
+  ngOnInit() {}
 
   reloadPlugin() {
-    if (this.plugin === null || this.domoticzEnv === null) {
-      this.disabled = true;
-      return;
-    }
-    this.apiService.getReloadPlugin(this.plugin, this.domoticzEnv).subscribe((result: any) => {
+    this.apiService.getReloadPlugin().subscribe((result: any) => {
       this.notifyService.notify('Plugin restarted');
       this.headerService.setRestart(false);
     });
