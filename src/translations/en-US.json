@@ -27,7 +27,7 @@
   "admin.swreset.subtitle": "Will restart Zigate (no loss of paired devices)",
   "admin.swreset.button": "soft reset",
   "admin.erasepdm.title": "Erase Zigate",
-  "admin.erasepdm.subtitle": "Will erase the permanent data memory of Zigate (You will lose all paired devices)",
+  "admin.erasepdm.subtitle": "Will erase the permanent data memory of Zigate (You will lose all paired devices) You must enable the eraseZigatePDM parameter in Advanced Setting before",
   "admin.erasepdm.button": "erase",
   "admin.erasepdm.alert.title": "Erase Zigate, Are you sure ?",
   "admin.erasepdm.alert.subject": "ATTENTION, last chance !!!!!",

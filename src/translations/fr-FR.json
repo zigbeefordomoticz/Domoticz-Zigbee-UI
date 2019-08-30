@@ -27,7 +27,7 @@
   "admin.swreset.subtitle": "Va démarrer la Zigate (pas de perte de dispositifs appairés)",
   "admin.swreset.button": "Redémarrage logiciel",
   "admin.erasepdm.title": "Efface la Zigate",
-  "admin.erasepdm.subtitle": "Va effacer la mémoire de la Zigate (perte de tous les dispositifs appairés précèdemment)",
+  "admin.erasepdm.subtitle": "Va effacer la mémoire de la Zigate (perte de tous les dispositifs appairés précèdemment). Assurez vous d'avoir activer le paramètre eraseZigatePDM avant dans les Paramètres avancés",
   "admin.erasepdm.button": "Effacer",
   "admin.erasepdm.alert.title": "Efface la Zigate, Êtes vous sûr ?",
   "admin.erasepdm.alert.subject": "Attention, êtes vous sûr !!!!!",

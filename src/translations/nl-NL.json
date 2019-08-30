@@ -27,7 +27,7 @@
   "admin.swreset.subtitle": "Zal Zigate herstarten (Er zullen geen gekoppelde apparaten verloren gaan)",
   "admin.swreset.button": "Zachte reset",
   "admin.erasepdm.title": "Wis Zigate",
-  "admin.erasepdm.subtitle": "Zal alle permanente data verwijderen uit het geheugen van Zigate (Alle gekoppelde apparaten worden gewist)",
+  "admin.erasepdm.subtitle": "Zal alle permanente data verwijderen uit het geheugen van Zigate (Alle gekoppelde apparaten worden gewist). Make sure that you have enabled eraseZigatePDM in advanced setting before.",
   "admin.erasepdm.button": "Verwijderen",
   "admin.erasepdm.alert.title": "Wis Zigate, weet je het zeker?",
   "admin.erasepdm.alert.subject": "ATTENTIE, laatste kans !!!!!",
