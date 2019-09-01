@@ -163,7 +163,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
         { name: this.translate.instant('dashboard.devices.others'), value: this.healthsOthers.length }
       ];
-      this.devicesOnBattery = devices.filter((device: any) => device.Battery !== '');
+      this.devicesOnBattery = devices.filter((device: any) => device.LogicalType !== 'Router');
       const _batteryInf30 = this.devicesOnBattery.filter((device: any) => device.Battery < 30);
       const _batterySup30 = this.devicesOnBattery.filter((device: any) => device.Battery > 30 && device.Battery < 50);
       const _batterySup50 = this.devicesOnBattery.filter((device: any) => device.Battery > 50);
