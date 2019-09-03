@@ -116,6 +116,7 @@
   "group.reloadplugin.alert.cancel": "Fermer",
   "header.popover.title": "Redémarrage nécessaire",
   "header.popover.text": "Les changements ont besoin d'un redémarrage du plugin",
+  "management": "Management",
   "network": "Réseau",
   "network.stats.header": "Réseau",
   "network.stats.subtitle": "Rapports de niveau d'énergie",

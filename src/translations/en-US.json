@@ -202,7 +202,7 @@
   "allowOTA": "Enable OTA",
   "batteryOTA": "allow battery powered devices OTA",
   "waitingOTA": "delay when starting the OTA process",
-  "setting.header.GroupManagement": "Groupmgmnt settings",
+  "setting.header.GroupManagement": "Group management settings",
   "setting.subtitle.GroupManagement": "Here are all setting to enable and configure the Group management feature.",
   "enablegroupmanagement": "Enable Groups",
   "enableReadAttributes": "Enable Polling",
