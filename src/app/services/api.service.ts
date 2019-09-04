@@ -9,6 +9,8 @@ import { Plugin } from '@app/shared/models/plugin';
 import { Device } from '@app/shared/models/device';
 import { Setting } from '@app/shared/models/setting';
 import { DevicesAvailable } from '@app/shared/models/group';
+import { Command } from '@app/shared/models/command';
+import { Capabilities } from '@app/shared/models/capabilities';
 
 const routes = {
   devices: '/device',
@@ -33,7 +35,9 @@ const routes = {
   pluginHealth: '/plugin-health',
   rescanGroup: '/rescan-groups',
   reqNwkfull: '/req-nwk-full',
-  pluginRestart: '/plugin-restart'
+  pluginRestart: '/plugin-restart',
+  devCommand: '/dev-command',
+  devCap: '/dev-cap'
 };
 
 @Injectable({ providedIn: 'root' })
@@ -309,6 +313,21 @@ export class ApiService {
 
   getDomoticzEnv(): Observable<DomoticzEnv> {
     return this.httpClient.get(routes.domoticzEnv).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  getDevCap(id: string): Observable<Capabilities> {
+    const route = routes.devCap + '/' + id;
+    return this.httpClient.get(route).pipe(
+      map((body: any) => body),
+      catchError(() => of('Error, could not load json from api'))
+    );
+  }
+
+  putDevCommand(command: Command): Observable<any> {
+    return this.httpClient.put(routes.devCommand, command).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load json from api'))
     );

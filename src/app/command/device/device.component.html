@@ -1,0 +1,26 @@
+<form [formGroup]="form">
+  <div *ngIf="capabilities">
+    <div class="row" *ngFor="let capa of capabilities.Capabilities">
+      <div class="row mt-1" *ngIf="capa === 'Off'">
+        <button class="ml-3 btn btn-primary" (click)="onClick('Off')">Off</button>
+      </div>
+      <div class="row mt-1" *ngIf="capa === 'On'">
+        <button class="ml-3 btn btn-primary" (click)="onClick('On')">On</button>
+      </div>
+      <div class="row mt-1" *ngIf="capa === 'Toggle'">
+        <button class="ml-3 btn btn-primary" (click)="onClick('Toggle')">Toggle</button>
+      </div>
+      <div *ngIf="capa === 'RGBWW'"></div>
+      <div class="row mt-2" *ngIf="capa === 'LevelControl'">
+        <label for="level" class="col-sm-3 col-form-label">Level</label>
+        <div class="col-sm">
+          <input type="number" min="0" formControlName="level" class="w-100" />
+          <div *ngIf="form.controls['level'].errors">
+            saisie incorrecte
+          </div>
+        </div>
+        <button class="ml-3 btn btn-primary" (click)="onClick('LevelControl')">set Level</button>
+      </div>
+    </div>
+  </div>
+</form>
