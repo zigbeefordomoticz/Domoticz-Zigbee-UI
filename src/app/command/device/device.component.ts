@@ -30,7 +30,7 @@ export class DeviceComponent implements OnInit {
   }
 
   onClick(action: string) {
-    const command = { NwkId: this.device._NwkId, Command: action };
+    const command = { NwkId: this.device._NwkId, Command: action, Value: '', Color: '' };
     this.apiService.putDevCommand(command).subscribe();
   }
 }
