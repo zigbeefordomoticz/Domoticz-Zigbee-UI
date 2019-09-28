@@ -26,6 +26,18 @@
   >
   </ng-select>
 
+  <ng-select
+    *ngIf="deviceSelected && capabilities"
+    [items]="capabilities.Types"
+    [multiple]="false"
+    [closeOnSelect]="true"
+    [searchable]="true"
+    placeholder="Choose type"
+    (change)="setType($event)"
+    appendTo="body"
+  >
+  </ng-select>
+
   <div *ngIf="action === 'LevelControl'">
     <label for="level">Level</label>
     <div>
@@ -36,7 +48,7 @@
     </div>
   </div>
 
-  <div *ngIf="deviceSelected && action && form.valid">
+  <div *ngIf="deviceSelected && action && type && form.valid">
     <button class="ml-3 btn btn-primary" (click)="callAction()">Send</button>
   </div>
 </form>

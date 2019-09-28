@@ -18,6 +18,7 @@ export class DebugCommandComponent implements OnInit {
   capabilities: Capabilities;
   deviceSelected: DeviceByName;
   action: string;
+  type: string;
   form: FormGroup;
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
@@ -35,6 +36,7 @@ export class DebugCommandComponent implements OnInit {
   callCapabilities(event: DeviceByName) {
     this.capabilities = null;
     this.action = null;
+    this.type = null;
     this.deviceSelected = event;
     this.apiService.getDevCap(event._NwkId).subscribe(capabilities => {
       this.capabilities = capabilities;
@@ -43,10 +45,15 @@ export class DebugCommandComponent implements OnInit {
 
   setAction(action: string) {
     this.action = action;
+    this.type = null;
   }
 
-  callAction(action: string) {
-    const command = { NwkId: this.deviceSelected._NwkId, Command: action, Value: '', Color: '' };
+  setType(type: string) {
+    this.type = type;
+  }
+
+  callAction() {
+    const command = { NwkId: this.deviceSelected._NwkId, Command: this.action, Value: '', Color: '' };
     this.apiService.putDevCommand(command).subscribe();
   }
 }

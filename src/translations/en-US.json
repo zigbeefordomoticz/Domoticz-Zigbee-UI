@@ -219,5 +219,9 @@
   "setting.header.VerboseLogging": "Verbose and Logging",
   "setting.subtitle.VerboseLogging": "Will allow you to enable/disable some Logging features.",
   "setting.header.Experimental": "Experimental parameters",
-  "setting.subtitle.Experimental": "Use it only if you have been asked to"
+  "setting.subtitle.Experimental": "Use it only if you have been asked to",
+  "device.byname.alert.title": "Delete device ?",
+  "device.byname.alert.subject": "Are u sure ?",
+  "device.byname.alert.delete": "Delete",
+  "device.byname.alert.cancel": "Cancel"
 }

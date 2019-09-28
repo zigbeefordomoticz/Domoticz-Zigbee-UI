@@ -221,5 +221,9 @@
   "tools.settings.button": "Parametres (json)",
   "tools.plugin-stat.button": "Traffic (json)",
   "setting.header.Experimental": "Paramètres exprimentaux",
-  "setting.subtitle.Experimental": "Utilisez seulement si on vous a indiqué de le faire"
+  "setting.subtitle.Experimental": "Utilisez seulement si on vous a indiqué de le faire",
+  "device.byname.alert.title": "Delete device ?",
+  "device.byname.alert.subject": "Are u sure ?",
+  "device.byname.alert.delete": "Delete",
+  "device.byname.alert.cancel": "Cancel"
 }
