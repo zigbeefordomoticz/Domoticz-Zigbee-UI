@@ -17,8 +17,8 @@ const log = new Logger('GroupComponent');
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent implements OnInit {
-  @ViewChild('table') table: DatatableComponent;
-  @ViewChild('content') content: any;
+  @ViewChild('table', {static: false}) table: DatatableComponent;
+  @ViewChild('content', {static: false}) content: any;
   form: FormGroup;
   rows: Array<Group> = [];
   rowsTemp: any[] = [];

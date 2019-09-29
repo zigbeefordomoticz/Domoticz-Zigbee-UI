@@ -22,7 +22,7 @@ const log = new Logger('DeviceByNameComponent');
   ]
 })
 export class DeviceByNameComponent implements OnInit, OnChanges {
-  @ViewChild('table') table: any;
+  @ViewChild('table', { static: false }) table: any;
   @Input() devices: any;
   rows: any = [];
   json: any;
