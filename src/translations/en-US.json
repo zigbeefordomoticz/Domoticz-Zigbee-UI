@@ -184,6 +184,7 @@
   "tools.plugin-stat.button": "Traffic (json)",
   "tools.zdevice-name.button": "zDevice-name (json)",
   "tools.domoticz-env.button": "domoticz-env (json)",
+  "debug-command": "Debug command",
   "tools.debugcommand.title": "tile for command",
   "tools.debugcommand.subtitle": "subtitle for command",
   "tools.debugcommand.device": "choose device",
