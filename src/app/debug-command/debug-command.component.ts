@@ -26,8 +26,7 @@ export class DebugCommandComponent implements OnInit {
       level: [null, [Validators.nullValidator, Validators.min(0), Validators.max(100)]],
       type: [null, Validators.required],
       action: [null, Validators.required],
-      deviceSelected: [null, Validators.required],
-      colorPicker: [null]
+      deviceSelected: [null, Validators.required]
     });
 
     this.apiService.getZDevices().subscribe(devices => {
@@ -50,7 +49,7 @@ export class DebugCommandComponent implements OnInit {
 
   callAction() {
     let colorTosend = null;
-    if (this.colorPicker.startsWith('rgba')) {
+    if (this.colorPicker.startsWith('rgba') && this.testRGB) {
       let value = this.colorPicker.replace('rgba(', '');
       value = value.replace(')', '');
       const valueTab = value.split(',');
