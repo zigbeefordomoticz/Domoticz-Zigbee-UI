@@ -17,6 +17,7 @@ export class DebugCommandComponent implements OnInit {
   routers: DeviceByName[];
   capabilities: Capabilities;
   form: FormGroup;
+  colorPicker = 'rgba(30,96,239,0.54)';
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
 
@@ -25,7 +26,8 @@ export class DebugCommandComponent implements OnInit {
       level: [null, [Validators.nullValidator, Validators.min(0), Validators.max(100)]],
       type: [null, Validators.required],
       action: [null, Validators.required],
-      deviceSelected: [null, Validators.required]
+      deviceSelected: [null, Validators.required],
+      colorPicker: [null]
     });
 
     this.apiService.getZDevices().subscribe(devices => {
@@ -47,13 +49,31 @@ export class DebugCommandComponent implements OnInit {
   }
 
   callAction() {
+    let colorTosend = null;
+    if (this.colorPicker.startsWith('rgba')) {
+      let value = this.colorPicker.replace('rgba(', '');
+      value = value.replace(')', '');
+      const valueTab = value.split(',');
+      if (valueTab.length === 4) {
+        this.form.get('level').patchValue(Number(valueTab[3]) * 100);
+        colorTosend = 'rgb(' + valueTab[0] + ',' + valueTab[1] + ',' + valueTab[2] + ')';
+      }
+    }
+
     const command = {
       NwkId: this.form.get('deviceSelected').value._NwkId,
       Command: this.form.get('action').value,
       Value: this.form.get('level').value,
-      Color: '',
+      Color: colorTosend,
       Type: this.form.get('type').value
     };
     this.apiService.putDevCommand(command).subscribe();
+  }
+
+  get testRGB(): boolean {
+    if (this.form.get('type').value) {
+      return (this.form.get('type').value as string).startsWith('ColorControl');
+    }
+    return false;
   }
 }
