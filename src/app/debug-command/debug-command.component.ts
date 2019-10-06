@@ -16,16 +16,16 @@ const log = new Logger('CommandComponent');
 export class DebugCommandComponent implements OnInit {
   routers: DeviceByName[];
   capabilities: Capabilities;
-  deviceSelected: DeviceByName;
-  action: string;
-  type: string;
   form: FormGroup;
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      level: ['', [Validators.min(0), Validators.max(100)]]
+      level: [0, [Validators.min(0), Validators.max(100)]],
+      type: [null, Validators.required],
+      action: [null, Validators.required],
+      deviceSelected: [null, Validators.required]
     });
 
     this.apiService.getZDevices().subscribe(devices => {
@@ -34,26 +34,26 @@ export class DebugCommandComponent implements OnInit {
   }
 
   callCapabilities(event: DeviceByName) {
+    this.form.get('action').patchValue(null);
+    this.form.get('type').patchValue(null);
     this.capabilities = null;
-    this.action = null;
-    this.type = null;
-    this.deviceSelected = event;
     this.apiService.getDevCap(event._NwkId).subscribe(capabilities => {
       this.capabilities = capabilities;
     });
   }
 
   setAction(action: string) {
-    this.action = action;
-    this.type = null;
-  }
-
-  setType(type: string) {
-    this.type = type;
+    this.form.get('type').patchValue(null);
   }
 
   callAction() {
-    const command = { NwkId: this.deviceSelected._NwkId, Command: this.action, Value: '', Color: '' };
+    const command = {
+      NwkId: this.form.get('deviceSelected').value._NwkId,
+      Command: this.form.get('action').value,
+      Value: this.form.get('level').value,
+      Color: '',
+      Type: this.form.get('type').value
+    };
     this.apiService.putDevCommand(command).subscribe();
   }
 }

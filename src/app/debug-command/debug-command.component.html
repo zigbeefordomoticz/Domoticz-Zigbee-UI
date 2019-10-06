@@ -8,6 +8,7 @@
     placeholder="Choose device"
     (change)="callCapabilities($event)"
     appendTo="body"
+    formControlName="deviceSelected"
   >
     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
       <span [ngOptionHighlight]="search"> <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span>
@@ -15,7 +16,7 @@
   </ng-select>
 
   <ng-select
-    *ngIf="deviceSelected && capabilities"
+    *ngIf="form.get('deviceSelected').value"
     [items]="capabilities.Capabilities"
     [multiple]="false"
     [closeOnSelect]="true"
@@ -23,22 +24,23 @@
     placeholder="Choose action"
     (change)="setAction($event)"
     appendTo="body"
+    formControlName="action"
   >
   </ng-select>
 
   <ng-select
-    *ngIf="deviceSelected && capabilities"
+    *ngIf="form.get('deviceSelected').value && form.get('action').value"
     [items]="capabilities.Types"
     [multiple]="false"
     [closeOnSelect]="true"
     [searchable]="true"
     placeholder="Choose type"
-    (change)="setType($event)"
     appendTo="body"
+    formControlName="type"
   >
   </ng-select>
 
-  <div *ngIf="action === 'LevelControl'">
+  <div *ngIf="form.get('type').value === 'LvlControl'">
     <label for="level">Level</label>
     <div>
       <input type="number" min="0" formControlName="level" class="w-100" />
@@ -48,7 +50,10 @@
     </div>
   </div>
 
-  <div *ngIf="deviceSelected && action && type && form.valid">
+  <div>
+    <button class="ml-3 btn btn-secondary" (click)="form.reset()">Cancel</button>
+  </div>
+  <div *ngIf="form.valid">
     <button class="ml-3 btn btn-primary" (click)="callAction()">Send</button>
   </div>
 </form>
