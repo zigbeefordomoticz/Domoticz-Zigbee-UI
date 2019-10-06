@@ -209,6 +209,7 @@
   "setting.subtitle.Others": "",
   "logLQI": "Delai (sec) avant de lancer un rapport de Maillage",
   "networkScan": "Fréquence de rapport d'Interférences (sec)",
+  "tools": "Outils",
   "tools.zdevice-raw.button": "Liste des equipements raw (json)",
   "tools.zgroup.button": "Liste des groupes (json)",
   "tools.zdevice.button": "Liste des équipements (json)",
