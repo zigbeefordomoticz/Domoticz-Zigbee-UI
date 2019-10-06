@@ -221,6 +221,17 @@
   "tools.zgroup-list-available-device.button": "zGroup-lst-devices (json)",
   "tools.settings.button": "Parametres (json)",
   "tools.plugin-stat.button": "Traffic (json)",
+
+  "tools.debugcommand.title": "tile for command",
+  "tools.debugcommand.subtitle": "subtitle for command",
+  "tools.debugcommand.device": "choose device",
+  "tools.debugcommand.button.cancel": "cancel",
+  "tools.debugcommand.action": "choose action",
+  "tools.debugcommand.type": "choose type",
+  "tools.debugcommand.level": "Level",
+  "tools.debugcommand.level.error": "between 0 and 100",
+  "tools.debugcommand.button.send": "send",
+
   "setting.header.Experimental": "Paramètres exprimentaux",
   "setting.subtitle.Experimental": "Utilisez seulement si on vous a indiqué de le faire",
   "device.byname.alert.title": "Delete device ?",

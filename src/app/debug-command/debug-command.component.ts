@@ -22,7 +22,7 @@ export class DebugCommandComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      level: [0, [Validators.min(0), Validators.max(100)]],
+      level: [null, [Validators.nullValidator, Validators.min(0), Validators.max(100)]],
       type: [null, Validators.required],
       action: [null, Validators.required],
       deviceSelected: [null, Validators.required]

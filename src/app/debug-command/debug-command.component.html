@@ -1,59 +1,93 @@
 <form [formGroup]="form">
-  <ng-select
-    [items]="routers"
-    [multiple]="false"
-    [closeOnSelect]="true"
-    [searchable]="true"
-    bindLabel="ZDeviceName"
-    placeholder="Choose device"
-    (change)="callCapabilities($event)"
-    appendTo="body"
-    formControlName="deviceSelected"
-  >
-    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-      <span [ngOptionHighlight]="search"> <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span>
-    </ng-template>
-  </ng-select>
-
-  <ng-select
-    *ngIf="form.get('deviceSelected').value"
-    [items]="capabilities.Capabilities"
-    [multiple]="false"
-    [closeOnSelect]="true"
-    [searchable]="true"
-    placeholder="Choose action"
-    (change)="setAction($event)"
-    appendTo="body"
-    formControlName="action"
-  >
-  </ng-select>
-
-  <ng-select
-    *ngIf="form.get('deviceSelected').value && form.get('action').value"
-    [items]="capabilities.Types"
-    [multiple]="false"
-    [closeOnSelect]="true"
-    [searchable]="true"
-    placeholder="Choose type"
-    appendTo="body"
-    formControlName="type"
-  >
-  </ng-select>
-
-  <div *ngIf="form.get('type').value === 'LvlControl'">
-    <label for="level">Level</label>
-    <div>
-      <input type="number" min="0" formControlName="level" class="w-100" />
-      <div *ngIf="form.controls['level'].errors">
-        saisie incorrecte
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-header" translate="tools.debugcommand.title"></div>
+      <div class="card-body">
+        <h5 class="card-title" translate="tools.debugcommand.subtitle"></h5>
+        <div class="card-text">
+          <div class="row">
+            <div class="col-sm-6">
+              <ng-select
+                [items]="routers"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                bindLabel="ZDeviceName"
+                placeholder="{{ 'tools.debugcommand.device' | translate }}"
+                (change)="callCapabilities($event)"
+                appendTo="body"
+                formControlName="deviceSelected"
+              >
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">
+                    <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
+                  >
+                </ng-template>
+              </ng-select>
+            </div>
+            <div class="col-sm">
+              <button
+                class="ml-3 btn btn-secondary"
+                (click)="form.reset()"
+                translate="tools.debugcommand.button.cancel"
+              ></button>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-sm-6">
+              <ng-select
+                *ngIf="form.get('deviceSelected').value && capabilities"
+                [items]="capabilities.Capabilities"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                placeholder="{{ 'tools.debugcommand.action' | translate }}"
+                (change)="setAction($event)"
+                appendTo="body"
+                formControlName="action"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-sm-6">
+              <ng-select
+                *ngIf="form.get('deviceSelected').value && form.get('action').value"
+                [items]="capabilities.Types"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                placeholder="{{ 'tools.debugcommand.type' | translate }}"
+                appendTo="body"
+                formControlName="type"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="row mt-2" *ngIf="form.get('type').value === 'LvlControl'">
+            <div class="col-sm-6">
+              <div>
+                <input
+                  type="number"
+                  min="0"
+                  formControlName="level"
+                  placeholder="{{ 'tools.debugcommand.level' | translate }}"
+                  class="w-100"
+                />
+                <div *ngIf="form.controls['level'].errors" translate="tools.debugcommand.level.error"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <button
+              class="ml-3 btn btn-primary"
+              (click)="callAction()"
+              [disabled]="!form.valid"
+              translate="tools.debugcommand.button.send"
+            ></button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div>
-    <button class="ml-3 btn btn-secondary" (click)="form.reset()">Cancel</button>
-  </div>
-  <div *ngIf="form.valid">
-    <button class="ml-3 btn btn-primary" (click)="callAction()">Send</button>
   </div>
 </form>
