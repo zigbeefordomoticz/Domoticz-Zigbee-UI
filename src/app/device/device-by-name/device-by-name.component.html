@@ -22,7 +22,7 @@
             [limit]="10"
             [rowHeight]="'auto'"
           >
-            <ngx-datatable-column [maxWidth]="50">
+            <ngx-datatable-column [maxWidth]="50" name="{{ 'device.byname.trash.column' | translate }}" prop="ConsistencyCheck">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 <i
                   *ngIf="row.ConsistencyCheck !== 'ok'"

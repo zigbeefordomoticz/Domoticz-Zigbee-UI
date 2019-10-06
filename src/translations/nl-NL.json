@@ -88,6 +88,7 @@
   "device.byname.header": "Lijst van Apparaten gemanaged door Zigate",
   "device.byname.health.column": "Gezondheid",
   "device.byname.battery.column": "Batterij",
+  "device.byname.trash.column": "Del.",
   "device.byname.ieee.column": "IEEE",
   "device.byname.model.column": "Model",
   "device.byname.placeholder": "type filter hier ....",

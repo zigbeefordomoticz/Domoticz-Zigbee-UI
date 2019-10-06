@@ -87,6 +87,7 @@
   "device.byname.capabilities.column": "Capabilities",
   "device.byname.devicename.column": "Friendly Name",
   "device.byname.header": "List of devices managed by Zigate",
+  "device.byname.trash.column": "Del.",
   "device.byname.health.column": "Health",
   "device.byname.battery.column": "Battery",
   "device.byname.ieee.column": "IEEE",

@@ -91,6 +91,7 @@
   "device.byname.devicename.column": "Surnom",
   "device.byname.header": "Listes des dispositifs liés à la Zigate",
   "device.byname.battery.column": "Batterie",
+  "device.byname.trash.column": "Sup.",
   "device.byname.health.column": "Santé",
   "device.byname.ieee.column": "IEEE",
   "device.byname.model.column": "Modèle",
