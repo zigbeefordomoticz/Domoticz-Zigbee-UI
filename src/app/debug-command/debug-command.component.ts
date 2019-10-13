@@ -26,7 +26,8 @@ export class DebugCommandComponent implements OnInit {
       level: [null, [Validators.nullValidator, Validators.min(0), Validators.max(100)]],
       type: [null, Validators.required],
       action: [null, Validators.required],
-      deviceSelected: [null, Validators.required]
+      deviceSelected: [null, Validators.required],
+      effect: [null, Validators.compose([Validators.nullValidator, Validators.pattern('^[0-9A-Fa-f]+')])]
     });
 
     this.apiService.getZDevices().subscribe(devices => {
@@ -45,6 +46,11 @@ export class DebugCommandComponent implements OnInit {
 
   setAction(action: string) {
     this.form.get('type').patchValue(null);
+    if (this.form.get('action').value === 'IdentifyEffect') {
+      this.form.get('type').disable();
+    } else {
+      this.form.get('type').enable();
+    }
   }
 
   callAction() {
@@ -62,7 +68,7 @@ export class DebugCommandComponent implements OnInit {
     const command = {
       NwkId: this.form.get('deviceSelected').value._NwkId,
       Command: this.form.get('action').value,
-      Value: this.form.get('level').value,
+      Value: this.form.get('type').enabled ? this.form.get('level').value : this.form.get('effect').value,
       Color: colorTosend,
       Type: this.form.get('type').value
     };

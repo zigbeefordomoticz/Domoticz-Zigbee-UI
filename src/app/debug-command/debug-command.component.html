@@ -50,10 +50,27 @@
                 </ng-select>
               </div>
             </div>
+            <div class="row mt-2" *ngIf="form.get('action').value === 'IdentifyEffect'">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="effect"
+                    placeholder="{{ 'tools.debugcommand.effect' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div *ngIf="form.controls['effect'].errors" translate="tools.debugcommand.effect.error"></div>
+                </div>
+              </div>
+            </div>
             <div class="row mt-2">
               <div class="col-sm-6">
                 <ng-select
-                  *ngIf="form.get('deviceSelected').value && form.get('action').value"
+                  *ngIf="
+                    form.get('deviceSelected').value &&
+                    form.get('action').value &&
+                    form.get('action').value !== 'IdentifyEffect'
+                  "
                   [items]="capabilities.Types"
                   [multiple]="false"
                   [closeOnSelect]="true"
@@ -86,7 +103,7 @@
                     min="0"
                     formControlName="level"
                     placeholder="{{ 'tools.debugcommand.level' | translate }}"
-                    class="w-100"
+                    class="w-100 form-control"
                   />
                   <div *ngIf="form.controls['level'].errors" translate="tools.debugcommand.level.error"></div>
                 </div>
