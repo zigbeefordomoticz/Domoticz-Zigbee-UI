@@ -29,7 +29,7 @@
             >
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 <i
-                  *ngIf="row.ConsistencyCheck !== 'ok'"
+                  *ngIf="row.ConsistencyCheck === 'not in DZ' || row.ConsistencyCheck === 'Bad Pairing'"
                   class="fa fa-trash"
                   title="{{ 'device.byname.delete.colum' | translate }}"
                   (click)="rowToDelete = row; open(content)"
