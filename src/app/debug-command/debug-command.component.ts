@@ -62,13 +62,18 @@ export class DebugCommandComponent implements OnInit {
     let colorTosend = null;
     let valueToSend = null;
     if (this.testRGB) {
-      if (this.colorPicker.startsWith('rgba') && this.testRGB) {
+      if (this.colorPicker.startsWith('rgba')) {
         let value = this.colorPicker.replace('rgba(', '');
         value = value.replace(')', '');
         const valueTab = value.split(',');
         if (valueTab.length === 4) {
           valueToSend = Number(valueTab[3]) * 100;
           colorTosend = 'rgb(' + valueTab[0] + ',' + valueTab[1] + ',' + valueTab[2] + ')';
+        }
+      } else {
+        if (this.colorPicker.startsWith('rgb')) {
+          valueToSend = 100;
+          colorTosend = this.colorPicker;
         }
       }
     }
