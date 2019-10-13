@@ -29,7 +29,7 @@
               <div class="col-sm">
                 <button
                   class="ml-3 btn btn-secondary"
-                  (click)="form.reset()"
+                  (click)="form.reset(); capaSelected = null"
                   translate="tools.debugcommand.button.cancel"
                 ></button>
               </div>
@@ -39,6 +39,7 @@
                 <ng-select
                   *ngIf="form.get('deviceSelected').value && capabilities"
                   [items]="capabilities.Capabilities"
+                  bindLabel="actuator"
                   [multiple]="false"
                   [closeOnSelect]="true"
                   [searchable]="true"
@@ -50,27 +51,10 @@
                 </ng-select>
               </div>
             </div>
-            <div class="row mt-2" *ngIf="form.get('action').value === 'IdentifyEffect'">
-              <div class="col-sm-6">
-                <div>
-                  <input
-                    type="text"
-                    formControlName="effect"
-                    placeholder="{{ 'tools.debugcommand.effect' | translate }}"
-                    class="w-100 form-control"
-                  />
-                  <div *ngIf="form.controls['effect'].errors" translate="tools.debugcommand.effect.error"></div>
-                </div>
-              </div>
-            </div>
             <div class="row mt-2">
               <div class="col-sm-6">
                 <ng-select
-                  *ngIf="
-                    form.get('deviceSelected').value &&
-                    form.get('action').value &&
-                    form.get('action').value !== 'IdentifyEffect'
-                  "
+                  *ngIf="capaSelected && capaSelected.Type"
                   [items]="capabilities.Types"
                   [multiple]="false"
                   [closeOnSelect]="true"
@@ -82,7 +66,7 @@
                 </ng-select>
               </div>
             </div>
-            <div class="row mt-2" *ngIf="testRGB">
+            <div class="row mt-2" *ngIf="capaSelected && testRGB">
               <div class="col-sm-6">
                 <div>
                   <span
@@ -95,14 +79,27 @@
                 </div>
               </div>
             </div>
-            <div class="row mt-2" *ngIf="form.get('type').value === 'LvlControl'">
+            <div class="row mt-2" *ngIf="capaSelected && capaSelected.Value === 'hex'">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="effect"
+                    placeholder="{{ 'tools.debugcommand.value' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div *ngIf="form.controls['effect'].errors" translate="tools.debugcommand.effect.error"></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2" *ngIf="capaSelected && capaSelected.Value === 'int'">
               <div class="col-sm-6">
                 <div>
                   <input
                     type="number"
                     min="0"
                     formControlName="level"
-                    placeholder="{{ 'tools.debugcommand.level' | translate }}"
+                    placeholder="{{ 'tools.debugcommand.value' | translate }}"
                     class="w-100 form-control"
                   />
                   <div *ngIf="form.controls['level'].errors" translate="tools.debugcommand.level.error"></div>

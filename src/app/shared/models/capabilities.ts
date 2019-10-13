@@ -1,5 +1,11 @@
 export class Capabilities {
-  Capabilities: string[];
+  Capabilities: Capability[];
   NwkId: string;
   Types: string[];
+}
+
+export interface Capability {
+  actuator: string;
+  Value: any;
+  Type: boolean;
 }
