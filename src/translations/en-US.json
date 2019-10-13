@@ -186,7 +186,7 @@
   "tools.domoticz-env.button": "domoticz-env (json)",
   "debug-command": "Direct commands",
   "tools.debugcommand.title": "Direct commands",
-  "tools.debugcommand.subtitle": "Allow to interact directly with a device, with a set of commands based on the device capabilities. (1) Select the device, (2) Select the action you want to perform, (3) Select a potential device type which can influence the way to interact with the device, (4) Optionaly you might have to enter a Value or select a Color.",
+  "tools.debugcommand.subtitle": "Allow to interact directly with a device, with a set of commands based on the device capabilities.\n (1) Select the device,\n (2) Select the action you want to perform,\n (3) Select a potential device type which can influence the way to interact with the device,\n (4) Optionaly you might have to enter a Value or select a Color.",
   "tools.debugcommand.device": "Select device",
   "tools.debugcommand.button.cancel": "Cancel",
   "tools.debugcommand.action": "Select action",
