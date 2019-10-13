@@ -60,20 +60,20 @@ export class DebugCommandComponent implements OnInit {
 
   callAction() {
     let colorTosend = null;
+    let valueToSend = null;
     if (this.testRGB) {
       if (this.colorPicker.startsWith('rgba') && this.testRGB) {
         let value = this.colorPicker.replace('rgba(', '');
         value = value.replace(')', '');
         const valueTab = value.split(',');
         if (valueTab.length === 4) {
-          this.form.get('level').patchValue(Number(valueTab[3]) * 100);
+          valueToSend = Number(valueTab[3]) * 100;
           colorTosend = 'rgb(' + valueTab[0] + ',' + valueTab[1] + ',' + valueTab[2] + ')';
         }
       }
     }
 
-    let valueToSend = null;
-    if (this.capaSelected.Value) {
+    if (!valueToSend && this.capaSelected.Value) {
       if (this.capaSelected.Value === 'hex') {
         valueToSend = this.form.get('effect').value;
       }
