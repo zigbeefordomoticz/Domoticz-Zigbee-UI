@@ -87,6 +87,7 @@
   "device.byname.capabilities.column": "Capabilities",
   "device.byname.devicename.column": "Friendly Name",
   "device.byname.header": "List of devices managed by Zigate",
+  "device.byname.trash.column": "Del.",
   "device.byname.health.column": "Health",
   "device.byname.battery.column": "Battery",
   "device.byname.ieee.column": "IEEE",
@@ -183,6 +184,17 @@
   "tools.plugin-stat.button": "Traffic (json)",
   "tools.zdevice-name.button": "zDevice-name (json)",
   "tools.domoticz-env.button": "domoticz-env (json)",
+  "debug-command": "Direct commands",
+  "tools.debugcommand.title": "Direct commands",
+  "tools.debugcommand.subtitle": "Allow to interact directly with a device, with a set of commands based on the device capabilities.<br>(1) Select the device,<br>(2) Select the action you want to perform,<br>(3) Select a potential device type which can influence the way to interact with the device,<br>(4) Optionaly you might have to enter a Value or select a Color.",
+  "tools.debugcommand.device": "Select device",
+  "tools.debugcommand.button.cancel": "Cancel",
+  "tools.debugcommand.action": "Select action",
+  "tools.debugcommand.type": "Select type",
+  "tools.debugcommand.value": "Value",
+  "tools.debugcommand.level.error": "between 0 and 100",
+  "tools.debugcommand.effect.error": "between 0x00 to 0xff",
+  "tools.debugcommand.button.send": "Send",
 
   "Ping": "Enable Ping",
   "setting.header.DomoticzEnvironment": "Domoticz URL",
@@ -219,5 +231,9 @@
   "setting.header.VerboseLogging": "Verbose and Logging",
   "setting.subtitle.VerboseLogging": "Will allow you to enable/disable some Logging features.",
   "setting.header.Experimental": "Experimental parameters",
-  "setting.subtitle.Experimental": "Use it only if you have been asked to"
+  "setting.subtitle.Experimental": "Use it only if you have been asked to",
+  "device.byname.alert.title": "Delete device ?",
+  "device.byname.alert.subject": "Are u sure ?",
+  "device.byname.alert.delete": "Delete",
+  "device.byname.alert.cancel": "Cancel"
 }

@@ -10,7 +10,9 @@ const routes: Routes = [
     { path: 'network', loadChildren: 'app/network/network.module#NetworkModule' },
     { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule' },
     { path: 'settings', loadChildren: 'app/settings/settings.module#SettingsModule' },
-    { path: 'tools', loadChildren: 'app/tools/tools.module#ToolsModule' }
+    { path: 'tools', loadChildren: 'app/tools/tools.module#ToolsModule' },
+    { path: 'command', loadChildren: 'app/command/command.module#CommandModule' },
+    { path: 'debug-command', loadChildren: 'app/debug-command/debug-command.module#DebugCommandModule' }
   ]),
   // Fallback when no prior route is matched
   { path: '**', redirectTo: '', pathMatch: 'full' }

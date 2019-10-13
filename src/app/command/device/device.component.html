@@ -1,0 +1,21 @@
+<form [formGroup]="form">
+  <div *ngIf="capabilities">
+    <div class="row" *ngFor="let capa of capabilities.Capabilities">
+      <div class="row mt-2" *ngIf="capa === 'LevelControl'; else elseOther">
+        <label for="level" class="col-sm-3 col-form-label">Level</label>
+        <div class="col-sm">
+          <input type="number" min="0" formControlName="level" class="w-100" />
+          <div *ngIf="form.controls['level'].errors">
+            saisie incorrecte
+          </div>
+        </div>
+        <button class="ml-3 btn btn-primary" (click)="onClick('LevelControl')">set Level</button>
+      </div>
+      <ng-template class="row mt-2" #elseOther>
+        <div class="row mt-2">
+          <button class="ml-3 btn btn-primary" (click)="onClick(capa)">{{ capa }}</button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</form>

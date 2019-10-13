@@ -6,6 +6,7 @@ import { NotifyService } from '@app/services/notify.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { TranslateService } from '@ngx-translate/core';
 import { ToppyControl } from 'toppy';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const log = new Logger('DeviceByNameComponent');
 
@@ -21,17 +22,19 @@ const log = new Logger('DeviceByNameComponent');
   ]
 })
 export class DeviceByNameComponent implements OnInit, OnChanges {
-  @ViewChild('table') table: any;
+  @ViewChild('table', { static: false }) table: any;
   @Input() devices: any;
   rows: any = [];
   json: any;
   temp: Array<DeviceByName> = [];
   hasEditing = false;
+  rowToDelete: any;
 
   constructor(
     private apiService: ApiService,
     private translate: TranslateService,
-    private notifyService: NotifyService
+    private notifyService: NotifyService,
+    private modalService: NgbModal
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,6 +47,27 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {}
+
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      result => {
+        this.delete();
+      },
+      reason => {}
+    );
+  }
+
+  delete() {
+    this.apiService.deleteZDeviceName(this.rowToDelete._NwkId).subscribe(() => {
+      const index = this.rows.indexOf(this.rowToDelete, 0);
+      this.rowToDelete = null;
+      if (index > -1) {
+        this.rows.splice(index, 1);
+        this.rows = [...this.rows];
+        this.temp = [...this.rows];
+      }
+    });
+  }
 
   updateValue(event: any, nwkId: string) {
     this.hasEditing = true;
