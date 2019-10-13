@@ -229,9 +229,10 @@
   "tools.debugcommand.button.cancel": "cancel",
   "tools.debugcommand.action": "choose action",
   "tools.debugcommand.type": "choose type",
-  "tools.debugcommand.level": "Level",
+  "tools.debugcommand.value": "Value",
   "tools.debugcommand.level.error": "between 0 and 100",
-  "tools.debugcommand.button.send": "send",
+  "tools.debugcommand.effect.error": "between 0x00 to 0xff",
+  "tools.debugcommand.button.send": "Send",
 
   "setting.header.Experimental": "Paramètres exprimentaux",
   "setting.subtitle.Experimental": "Utilisez seulement si on vous a indiqué de le faire",
