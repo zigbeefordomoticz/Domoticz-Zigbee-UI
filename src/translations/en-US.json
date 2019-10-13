@@ -195,7 +195,7 @@
   "tools.debugcommand.level": "Level",
   "tools.debugcommand.level.error": "between 0 and 100",
   "tools.debugcommand.effect.error": "between 0x00 to 0xff",
-  "tools.debugcommand.button.send": "send",
+  "tools.debugcommand.button.send": "Send",
 
   "Ping": "Enable Ping",
   "setting.header.DomoticzEnvironment": "Domoticz URL",
