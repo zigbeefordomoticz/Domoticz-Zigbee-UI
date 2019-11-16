@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { Logger } from '@app/core';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 
 const log = new Logger('DeviceComponent');
@@ -15,7 +14,7 @@ const log = new Logger('DeviceComponent');
 })
 export class DeviceComponent implements OnInit {
   form: FormGroup;
-  devices: any;
+  devices: DeviceByName[];
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
 
@@ -25,7 +24,7 @@ export class DeviceComponent implements OnInit {
       permit: this.formBuilder.group({})
     });
 
-    this.apiService.getZDeviceName().subscribe((result: any) => {
+    this.apiService.getZDeviceName().subscribe(result => {
       this.devices = result;
     });
   }

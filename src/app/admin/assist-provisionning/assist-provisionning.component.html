@@ -1,0 +1,56 @@
+<div class="col-sm">
+  <div class="card">
+    <div class="card-header" translate="admin.assistprovisionning.title"></div>
+    <div class="card-body">
+      <h5 class="card-title" translate="admin.assistprovisionning.subtitle"></h5>
+      <div class="card-text">
+        <div class="row">
+          <button
+            class="ml-3 btn btn-primary"
+            (click)="open(content)"
+            translate="admin.assistprovisionning.go.button"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" translate="admin.assistprovisionning.alert.title"></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <ngx-spinner [fullScreen]="false" type="line-scale-party" size="medium" bdColor="white" color="red"></ngx-spinner>
+  </div>
+  <div class="modal-body"></div>
+  <span class="row ml-2" translate="admin.assistprovisionning.alert.subject"></span>
+  <div *ngFor="let widget of widgets">
+    <fieldset class="row border p-2">
+      <span class="col-sm-3"
+        >{{ 'admin.assistprovisionning.alert.state' | translate }} <b>{{ widget.state }}</b>
+      </span>
+      <span class="col-sm-3"
+        >{{ 'admin.assistprovisionning.alert.description' | translate }} <b>{{ widget.desc }}</b></span
+      >
+      <span class="col-sm-3"
+        >{{ 'admin.assistprovisionning.alert.nwkid' | translate }} <b>{{ widget.device._NwkId }}</b></span
+      >
+      <span class="col-sm-3"
+        >{{ 'admin.assistprovisionning.alert.widgets' | translate }} <b>{{ widget.device.WidgetList }}</b></span
+      >
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('cancel')"
+      translate="admin.assistprovisionning.alert.cancel"
+    ></button>
+  </div>
+</ng-template>

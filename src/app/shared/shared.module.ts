@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { LoaderComponent } from './loader/loader.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [CommonModule, NgBootstrapFormValidationModule, NgSelectModule, TranslateModule, NgxDatatableModule],
@@ -19,7 +20,8 @@ import { LoaderComponent } from './loader/loader.component';
     NgSelectModule,
     TranslateModule,
     NgxDatatableModule,
-    DatePipe
+    DatePipe,
+    NgxSpinnerModule
   ]
 })
 export class SharedModule {}
