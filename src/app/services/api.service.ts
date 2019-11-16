@@ -1,17 +1,19 @@
 import { Location } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { PluginStats } from '@app/shared/models/plugin-stats';
-import { DomoticzEnv } from '@app/shared/models/domoticz-env';
-import { Plugin } from '@app/shared/models/plugin';
-import { Device } from '@app/shared/models/device';
-import { Setting } from '@app/shared/models/setting';
-import { DevicesAvailable } from '@app/shared/models/group';
-import { Command } from '@app/shared/models/command';
-import { Capabilities } from '@app/shared/models/capabilities';
 import { Logger } from '@app/core';
+import { Capabilities } from '@app/shared/models/capabilities';
+import { Command } from '@app/shared/models/command';
+import { Device } from '@app/shared/models/device';
+import { DomoticzEnv } from '@app/shared/models/domoticz-env';
+import { DevicesAvailable } from '@app/shared/models/group';
+import { NewDevice } from '@app/shared/models/new-hardware';
+import { Plugin } from '@app/shared/models/plugin';
+import { PluginStats } from '@app/shared/models/plugin-stats';
+import { Setting } from '@app/shared/models/setting';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { DeviceByName } from '@app/shared/models/device-by-name';
 
 const routes = {
   devices: '/device',
@@ -38,7 +40,9 @@ const routes = {
   reqNwkfull: '/req-nwk-full',
   pluginRestart: '/plugin-restart',
   devCommand: '/dev-command',
-  devCap: '/dev-cap'
+  devCap: '/dev-cap',
+  newHardware: '/new-hrdwr/',
+  receiveNewHardware: '/rcv-nw-hrdwr'
 };
 
 const log = new Logger('ApiService');
@@ -187,7 +191,7 @@ export class ApiService {
     );
   }
 
-  getZDeviceName(): Observable<PluginStats> {
+  getZDeviceName(): Observable<DeviceByName[]> {
     return this.httpClient.get(routes.zdeviceName).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
@@ -338,6 +342,23 @@ export class ApiService {
 
   putDevCommand(command: Command): Observable<any> {
     return this.httpClient.put(routes.devCommand, command).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getNewHardware(enable: boolean): Observable<any> {
+    const enabled = enable ? 'enable' : 'disable';
+    const route = routes.newHardware + enabled;
+
+    return this.httpClient.get(route).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getReceiveNewHardware(): Observable<NewDevice> {
+    return this.httpClient.get(routes.receiveNewHardware).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
