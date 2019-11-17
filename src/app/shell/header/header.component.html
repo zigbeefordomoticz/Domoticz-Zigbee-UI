@@ -69,12 +69,49 @@
             </li>
           </ul>
         </li>
-        <li ngbDropdown routerLinkActive="active" class="dropdown ">
-          <a class="nav-item nav-link mx-2" routerLink="/admin" routerLinkActive="active">
-            <i class="fas fa-user"></i>
-            <span translate>admin</span>
-          </a>
+
+        <li ngbDropdown routerLinkActive="active" class="nav-item dropdown">
+          <a class="nav-link nav-item dropdown-toggle" id="dropdown4" ngbDropdownToggle translate="admin"></a>
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown4">
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              [routerLink]="['/admin']"
+              [queryParams]="{ action: 'pairing' }"
+              routerLinkActive="active"
+            >
+              <i class="fab fa-usb mr-2"></i> <span translate="admin.pairing"></span>
+            </li>
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              [routerLink]="['/admin']"
+              [queryParams]="{ action: 'group' }"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-layer-group mr-2"></i> <span translate="admin.group"></span>
+            </li>
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              [routerLink]="['/admin']"
+              [queryParams]="{ action: 'zigate' }"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-user mr-2"></i> <span translate="admin.zigate"></span>
+            </li>
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              [routerLink]="['/admin']"
+              [queryParams]="{ action: 'plugin' }"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-power-off mr-2"></i> <span translate="admin.plugin"></span>
+            </li>
+          </ul>
         </li>
+
         <li ngbDropdown routerLinkActive="active" class="dropdown ">
           <a class="nav-item nav-link mx-2" routerLink="/settings" routerLinkActive="active">
             <i class="fas fa-cog"></i>
@@ -113,7 +150,12 @@
       <div *ngIf="restart" class="navbar-nav ml-auto">
         <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom">
           <div class="mr-3">
-            <a class="nav-item nav-link mx-2" routerLink="/admin" routerLinkActive="active">
+            <a
+              class="nav-item nav-link mx-2"
+              [routerLink]="['/admin']"
+              [queryParams]="{ action: 'plugin' }"
+              routerLinkActive="active"
+            >
               <i
                 ngbPopover="{{ 'header.popover.text' | translate }}"
                 triggers="mouseenter:mouseleave"

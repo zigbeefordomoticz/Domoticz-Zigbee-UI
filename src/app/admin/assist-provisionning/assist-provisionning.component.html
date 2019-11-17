@@ -44,6 +44,16 @@
           <div class="row">
             {{ 'admin.assistprovisionning.alert.widgets' | translate }}&nbsp;<b>{{ widget.device.WidgetList }}</b>
           </div>
+          <div class="row">
+            <div *ngFor="let ep of widget.eps">
+              {{ 'admin.assistprovisionning.alert.ep' | translate }}&nbsp;<b>{{ ep.Ep }}</b>
+              <li *ngFor="let cluster of ep.Clusters">
+                {{ 'admin.assistprovisionning.alert.cluster' | translate }}&nbsp;<b
+                  >{{ cluster.ClusterId }} ({{ cluster.ClusterDesc }})</b
+                >
+              </li>
+            </div>
+          </div>
         </div>
       </fieldset>
     </div>

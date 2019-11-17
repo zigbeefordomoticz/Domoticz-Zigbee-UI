@@ -79,7 +79,12 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
         this.apiService.getZDeviceName().subscribe(result => {
           this.devices = result;
           const device = this.devices.find(deviceByName => deviceByName._NwkId === value.NwkId);
-          const widget: Widget = { device: device, state: value.ProvisionStatus, desc: value.ProvisionStatusDesc };
+          const widget: Widget = {
+            device: device,
+            eps: value.Ep,
+            state: value.ProvisionStatus,
+            desc: value.ProvisionStatusDesc
+          };
           this.widgets.push(widget);
         });
       }
