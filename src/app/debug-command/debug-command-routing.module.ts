@@ -5,7 +5,7 @@ import { DebugCommandComponent } from './debug-command.component';
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
-  { path: '', component: DebugCommandComponent, data: { title: extract('command') } }
+  { path: '', component: DebugCommandComponent, data: { title: extract('debug-command') } }
 ];
 
 @NgModule({
