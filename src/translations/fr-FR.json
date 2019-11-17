@@ -16,6 +16,7 @@
   "admin.assistprovisionning.alert.state": "state : ",
   "admin.assistprovisionning.alert.description": "description : ",
   "admin.assistprovisionning.alert.nwkid": "NwkId : ",
+  "admin.assistprovisionning.alert.ieee": "IEEE : ",
   "admin.assistprovisionning.alert.widgets": "Widget List : ",
   "admin.assistprovisionning.alert.cancel": "Cancel",
   "admin.assistprovisionning.alert.ep": "Ep",

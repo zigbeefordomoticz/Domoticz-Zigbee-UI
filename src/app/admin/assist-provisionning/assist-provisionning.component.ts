@@ -4,12 +4,11 @@ import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { DeviceByName } from '@app/shared/models/device-by-name';
-import { Widget } from '@app/shared/models/widget';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { timer } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
-import { NewHardware, NewDevice } from '../../shared/models/new-hardware';
+import { NewDevice, NewHardware } from '../../shared/models/new-hardware';
 
 const log = new Logger('PermitToJoinComponent');
 

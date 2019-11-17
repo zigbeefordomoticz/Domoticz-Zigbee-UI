@@ -43,6 +43,9 @@
             {{ 'admin.assistprovisionning.alert.nwkid' | translate }}&nbsp;<b>{{ hardware.NwkId }}</b>
           </div>
           <div class="row">
+            {{ 'admin.assistprovisionning.alert.ieee' | translate }}&nbsp;<b>{{ hardware.IEEE }}</b>
+          </div>
+          <div class="row">
             {{ 'admin.assistprovisionning.alert.profile' | translate }}&nbsp;<b
               >{{ hardware.ProfileId }} ({{ hardware.ProfileIdDesc }})</b
             >
@@ -63,11 +66,11 @@
           <div class="row">
             <div *ngFor="let ep of hardware.Ep">
               {{ 'admin.assistprovisionning.alert.ep' | translate }}&nbsp;<b>{{ ep.Ep }}</b>
-              <li class="ml-2" *ngFor="let cluster of ep.Clusters">
-                {{ 'admin.assistprovisionning.alert.cluster' | translate }}&nbsp;<b
+              <span class="ml-2 row" *ngFor="let cluster of ep.Clusters">
+                - {{ 'admin.assistprovisionning.alert.cluster' | translate }}&nbsp;<b
                   >{{ cluster.ClusterId }} ({{ cluster.ClusterDesc }})</b
                 >
-              </li>
+              </span>
             </div>
           </div>
           <div class="row">
