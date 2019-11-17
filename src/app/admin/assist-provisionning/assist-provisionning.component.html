@@ -30,19 +30,19 @@
   <div class="modal-body"></div>
   <span class="row ml-2" translate="admin.assistprovisionning.alert.subject"></span>
   <div *ngFor="let widget of widgets">
-    <fieldset class="row border p-2">
-      <span class="col-sm-3"
-        >{{ 'admin.assistprovisionning.alert.state' | translate }} <b>{{ widget.state }}</b>
-      </span>
-      <span class="col-sm-3"
-        >{{ 'admin.assistprovisionning.alert.description' | translate }} <b>{{ widget.desc }}</b></span
-      >
-      <span class="col-sm-3"
-        >{{ 'admin.assistprovisionning.alert.nwkid' | translate }} <b>{{ widget.device._NwkId }}</b></span
-      >
-      <span class="col-sm-3"
-        >{{ 'admin.assistprovisionning.alert.widgets' | translate }} <b>{{ widget.device.WidgetList }}</b></span
-      >
+    <fieldset class="ml-2 border p-2">
+      <div class="row">
+        {{ 'admin.assistprovisionning.alert.state' | translate }}&nbsp;<b>{{ widget.state }}</b>
+      </div>
+      <div class="row">
+        {{ 'admin.assistprovisionning.alert.description' | translate }}&nbsp;<b>{{ widget.desc }}</b>
+      </div>
+      <div class="row">
+        {{ 'admin.assistprovisionning.alert.nwkid' | translate }}&nbsp;<b>{{ widget.device._NwkId }}</b>
+      </div>
+      <div class="row">
+        {{ 'admin.assistprovisionning.alert.widgets' | translate }}&nbsp;<b>{{ widget.device.WidgetList }}</b>
+      </div>
     </fieldset>
   </div>
   <div class="modal-footer">

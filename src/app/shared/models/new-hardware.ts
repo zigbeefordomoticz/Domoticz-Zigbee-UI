@@ -5,5 +5,5 @@ export class NewHardware {
 }
 
 export class NewDevice {
-  hardwares: Map<string, NewHardware>;
+  NewDevices: NewHardware[];
 }

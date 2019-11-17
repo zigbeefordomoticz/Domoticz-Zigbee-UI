@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { NotifyService } from '@app/services/notify.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { timer } from 'rxjs';
-import { concatMap, map, filter } from 'rxjs/operators';
-import { NewDevice } from '../../shared/models/new-hardware';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Widget } from '@app/shared/models/widget';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { timer } from 'rxjs';
+import { concatMap, map } from 'rxjs/operators';
+import { NewHardware, NewDevice } from '../../shared/models/new-hardware';
 
 const log = new Logger('PermitToJoinComponent');
 
@@ -52,11 +52,8 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
             .pipe(
               map(receive => {
                 this.newDevices = receive;
-                if (this.newDevices.hardwares && this.newDevices.hardwares.size > 0) {
-                  this.apiService.getZDeviceName().subscribe(result => {
-                    this.devices = result;
-                    this.createwidgets();
-                  });
+                if (this.newDevices.NewDevices && this.newDevices.NewDevices.length > 0) {
+                  this.createwidgets();
                 }
               })
             )
@@ -77,27 +74,15 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
   }
 
   createwidgets() {
-    // const dev = {
-    //   IEEE: 'aaa',
-    //   MacCapa: 'aaa',
-    //   Model: 'string',
-    //   Health: 'string',
-    //   Status: 'string',
-    //   WidgetList: ['widget1', 'widget2'],
-    //   ZDeviceName: 'string',
-    //   _NwkId: 'string'
-    // } as DeviceByName;
-    // const widget: Widget = { device: dev, state: 'Failed', desc: 'description', toto: { bite: 'bite' } };
-    // this.widgets.push(widget);
-
-    if (this.devices && this.newDevices) {
-      this.newDevices.hardwares.forEach((value, key) => {
-        if (value.ProvisionStatus && value.ProvisionStatus !== 'Failed') {
+    this.newDevices.NewDevices.forEach(value => {
+      if (value.ProvisionStatus) {
+        this.apiService.getZDeviceName().subscribe(result => {
+          this.devices = result;
           const device = this.devices.find(deviceByName => deviceByName._NwkId === value.NwkId);
           const widget: Widget = { device: device, state: value.ProvisionStatus, desc: value.ProvisionStatusDesc };
           this.widgets.push(widget);
-        }
-      });
-    }
+        });
+      }
+    });
   }
 }
