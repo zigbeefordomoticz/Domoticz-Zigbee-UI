@@ -92,7 +92,7 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
 
     if (this.devices && this.newDevices) {
       this.newDevices.hardwares.forEach((value, key) => {
-        if (value.ProvisionStatus && value.ProvisionStatus === 'Failed') {
+        if (value.ProvisionStatus && value.ProvisionStatus !== 'Failed') {
           const device = this.devices.find(deviceByName => deviceByName._NwkId === value.NwkId);
           const widget: Widget = { device: device, state: value.ProvisionStatus, desc: value.ProvisionStatusDesc };
           this.widgets.push(widget);
