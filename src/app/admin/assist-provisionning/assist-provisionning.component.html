@@ -29,30 +29,49 @@
   </div>
   <div class="modal-body">
     <span class="row ml-2" translate="admin.assistprovisionning.alert.subject"></span>
-    <div *ngFor="let widget of widgets" class="mt-1">
+    <div *ngFor="let hardware of devicePaired" class="mt-1">
       <fieldset class="border p-2">
         <div class="ml-2">
           <div class="row">
-            {{ 'admin.assistprovisionning.alert.state' | translate }}&nbsp;<b>{{ widget.state }}</b>
+            {{ 'admin.assistprovisionning.alert.state' | translate }}&nbsp;<b
+              >{{ hardware.ProvisionStatus }} ({{
+                'admin.assistprovisionning.alert.' + hardware.ProvisionStatus | translate
+              }})</b
+            >
           </div>
           <div class="row">
-            {{ 'admin.assistprovisionning.alert.description' | translate }}&nbsp;<b>{{ widget.desc }}</b>
+            {{ 'admin.assistprovisionning.alert.nwkid' | translate }}&nbsp;<b>{{ hardware.NwkId }}</b>
           </div>
           <div class="row">
-            {{ 'admin.assistprovisionning.alert.nwkid' | translate }}&nbsp;<b>{{ widget.device._NwkId }}</b>
+            {{ 'admin.assistprovisionning.alert.profile' | translate }}&nbsp;<b
+              >{{ hardware.ProfileId }} ({{ hardware.ProfileIdDesc }})</b
+            >
           </div>
           <div class="row">
-            {{ 'admin.assistprovisionning.alert.widgets' | translate }}&nbsp;<b>{{ widget.device.WidgetList }}</b>
+            {{ 'admin.assistprovisionning.alert.device' | translate }}&nbsp;<b
+              >{{ hardware.ZDeviceID }} ({{ hardware.ZDeviceIDDesc }})</b
+            >
           </div>
           <div class="row">
-            <div *ngFor="let ep of widget.eps">
+            {{ 'admin.assistprovisionning.alert.model' | translate }}&nbsp;<b>{{ hardware.Model }}</b>
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.plugincertified' | translate }}&nbsp;<b>{{
+              hardware.PluginCertified
+            }}</b>
+          </div>
+          <div class="row">
+            <div *ngFor="let ep of hardware.Ep">
               {{ 'admin.assistprovisionning.alert.ep' | translate }}&nbsp;<b>{{ ep.Ep }}</b>
-              <li *ngFor="let cluster of ep.Clusters">
+              <li class="ml-2" *ngFor="let cluster of ep.Clusters">
                 {{ 'admin.assistprovisionning.alert.cluster' | translate }}&nbsp;<b
                   >{{ cluster.ClusterId }} ({{ cluster.ClusterDesc }})</b
                 >
               </li>
             </div>
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.widgets' | translate }}&nbsp;<b>{{ hardware?.device?.WidgetList }}</b>
           </div>
         </div>
       </fieldset>

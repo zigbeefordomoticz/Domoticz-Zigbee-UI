@@ -21,7 +21,7 @@ const log = new Logger('PermitToJoinComponent');
 export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   newDevices: NewDevice;
   devices: DeviceByName[];
-  widgets: Widget[] = [];
+  devicePaired: NewHardware[];
 
   constructor(
     private notifyService: NotifyService,
@@ -35,13 +35,13 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
   ngOnInit() {
     this.newDevices = null;
     this.devices = null;
-    this.widgets = [];
+    this.devicePaired = [];
   }
 
   open(content: any) {
     this.newDevices = null;
     this.devices = null;
-    this.widgets = [];
+    this.devicePaired = [];
     this.spinner.show();
     this.subs.sink = this.apiService
       .getNewHardware(true)
@@ -78,14 +78,8 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
       if (value.ProvisionStatus) {
         this.apiService.getZDeviceName().subscribe(result => {
           this.devices = result;
-          const device = this.devices.find(deviceByName => deviceByName._NwkId === value.NwkId);
-          const widget: Widget = {
-            device: device,
-            eps: value.Ep,
-            state: value.ProvisionStatus,
-            desc: value.ProvisionStatusDesc
-          };
-          this.widgets.push(widget);
+          value.device = this.devices.find(deviceByName => deviceByName._NwkId === value.NwkId);
+          this.devicePaired.push(value);
         });
       }
     });

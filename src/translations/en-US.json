@@ -20,6 +20,13 @@
   "admin.assistprovisionning.alert.cancel": "Cancel",
   "admin.assistprovisionning.alert.ep": "Ep",
   "admin.assistprovisionning.alert.cluster": "ClusterId",
+  "admin.assistprovisionning.alert.profile": "Profile",
+  "admin.assistprovisionning.alert.device": "Device",
+  "admin.assistprovisionning.alert.model": "Model",
+  "admin.assistprovisionning.alert.plugincertified": "Plugin Cert",
+  "admin.assistprovisionning.alert.Failed": "Failed",
+  "admin.assistprovisionning.alert.inDB": "in database",
+  "admin.assistprovisionning.alert.Unexpected": "unexpected",
 
   "admin.rescan.group.title": "Rescan Groups",
   "admin.rescan.group.subtitle": "Will rescan groups",
