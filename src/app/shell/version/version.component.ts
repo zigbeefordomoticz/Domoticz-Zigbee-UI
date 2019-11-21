@@ -17,8 +17,8 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
   pluginStats: PluginStats;
   received = 0;
   sent = 0;
-  receivedPerSecond: number;
-  sentPerSecond: number;
+  receivedPerSecond: string;
+  sentPerSecond: string;
 
   constructor(private apiService: ApiService) {
     super();
@@ -27,14 +27,14 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
   ngOnInit(): void {
     this.plugin$ = this.apiService.getPlugin();
 
-    this.subs.sink = timer(0, 1000)
+    this.subs.sink = timer(0, 5000)
       .pipe(concatMap(() => forkJoin([this.apiService.getPluginhealth(), this.apiService.getPluginStats()])))
       .pipe(
         map(([pluginHealth, pluginStats]) => {
           this.pluginHealth = pluginHealth;
           this.pluginStats = pluginStats;
-          this.receivedPerSecond = pluginStats.Received - this.received;
-          this.sentPerSecond = pluginStats.Sent - this.sent;
+          this.receivedPerSecond = Number((pluginStats.Received - this.received) / 5).toFixed(0);
+          this.sentPerSecond = Number((pluginStats.Sent - this.sent) / 5).toFixed(0);
           this.sent = pluginStats.Sent;
           this.received = pluginStats.Received;
         })
