@@ -1,24 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { ApiService } from '../../services/api.service';
 import { Plugin } from '@app/shared/models/plugin';
+import { Observable, timer, forkJoin } from 'rxjs';
+import { concatMap, map, mergeMap } from 'rxjs/operators';
+import { ApiService } from '../../services/api.service';
+import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
+import { PluginStats } from '@app/shared/models/plugin-stats';
 
 @Component({
   selector: 'app-version',
   templateUrl: './version.component.html',
   styleUrls: ['./version.component.scss']
 })
-export class VersionComponent implements OnInit {
+export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   plugin$: Observable<Plugin>;
-  pluginHealth$: Observable<any>;
-  pluginStats$: Observable<any>;
+  pluginHealth: any;
+  pluginStats: PluginStats;
+  received = 0;
+  sent = 0;
+  receivedPerSecond: number;
+  sentPerSecond: number;
 
-  constructor(private apiService: ApiService, private translate: TranslateService) {}
+  constructor(private apiService: ApiService) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.pluginStats$ = this.apiService.getPluginStats();
     this.plugin$ = this.apiService.getPlugin();
-    this.pluginHealth$ = this.apiService.getPluginhealth();
+
+    this.subs.sink = timer(0, 1000)
+      .pipe(concatMap(() => forkJoin([this.apiService.getPluginhealth(), this.apiService.getPluginStats()])))
+      .pipe(
+        map(([pluginHealth, pluginStats]) => {
+          this.pluginHealth = pluginHealth;
+          this.pluginStats = pluginStats;
+          this.receivedPerSecond = pluginStats.Received - this.received;
+          this.sentPerSecond = pluginStats.Sent - this.sent;
+          this.sent = pluginStats.Sent;
+          this.received = pluginStats.Received;
+        })
+      )
+      .subscribe();
   }
 }

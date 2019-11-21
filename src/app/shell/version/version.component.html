@@ -1,5 +1,5 @@
-<footer class="navbar navbar-fixed-bottom" *ngIf="pluginHealth$ | async as pluginHealth">
-  <div *ngIf="pluginStats$ | async as pluginStats">
+<footer class="navbar navbar-fixed-bottom">
+  <div *ngIf="pluginStats">
     <div
       [ngClass]="
         pluginHealth?.HealthFlag === 1
@@ -10,9 +10,12 @@
       "
     >
       <div class="row" *ngIf="plugin$ | async as plugin">
-        <div class="col-sm-4 text-white">
+        <div class="col-sm-2 text-white">
           <span translate="dashboard.health.starttime"></span
           >{{ pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+        </div>
+        <div class="col-sm-2 text-center text-white">
+          <span>Rx/s : {{ receivedPerSecond }} Tx/s : {{ sentPerSecond }}</span>
         </div>
         <div class="col-sm-4 text-center text-white"><span translate="{{ pluginHealth?.HealthTxt }}"></span></div>
 
