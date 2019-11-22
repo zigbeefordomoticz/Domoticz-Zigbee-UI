@@ -63,6 +63,7 @@
   "admin.reloadplugin.alert.cancel": "Annuler",
   "admin.reloadplugin.alert.erase": "Redémarrer",
   "dashboard": "Dashboard",
+  "dashboard.button.refresh": "Refresh",
   "dashboard.plugin.version": "Version plugin: ",
   "dashboard.firmware.version": "Version Firmware: ",
   "dashboard.plugin.update.available": "Une nouvelle version du plugin est disponible.",

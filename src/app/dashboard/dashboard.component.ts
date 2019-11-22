@@ -6,6 +6,7 @@ import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
 import { Observable } from 'rxjs';
 import { Plugin } from '@app/shared/models/plugin';
+import { VersionService } from '@app/services/version-service';
 
 const log = new Logger('DashboardComponent');
 
@@ -72,9 +73,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     domain: ['green', 'red']
   };
 
-  constructor(private apiService: ApiService, private translate: TranslateService, private toppy: Toppy) {}
+  constructor(
+    private apiService: ApiService,
+    private translate: TranslateService,
+    private toppy: Toppy,
+    private versionService: VersionService
+  ) {}
 
   ngOnInit() {
+    this.getInfos();
+  }
+
+  getInfos() {
     this.apiService.getPluginStats().subscribe(res => {
       this.pluginStats = res;
       this.totalTraficSent.label = this.translate.instant('dashboard.trafic.total.trafic.sent');
@@ -255,6 +265,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.toppyControl) {
       this.toppyControl.close();
     }
+  }
+
+  refresh() {
+    this.getInfos();
+    this.versionService.setReload(true);
   }
 
   ngOnDestroy(): void {

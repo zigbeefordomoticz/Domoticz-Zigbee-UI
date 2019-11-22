@@ -1,25 +1,26 @@
-<footer class="navbar navbar-fixed-bottom">
-  <div *ngIf="pluginStats">
+<footer class="navbar navbar-fixed-bottom" *ngIf="fork$ | async as fork">
+  <div>
     <div
       [ngClass]="
-        pluginHealth?.HealthFlag === 1
+        fork.pluginHealth?.HealthFlag === 1
           ? 'bg-success fixed-bottom'
-          : pluginHealth?.HealthFlag === 2
+          : fork.pluginHealth?.HealthFlag === 2
           ? 'bg-warning fixed-bottom'
           : 'bg-danger fixed-bottom'
       "
     >
-      <div class="row" *ngIf="plugin$ | async as plugin">
+      <div class="row">
         <div class="col-sm-2 text-white">
           <span translate="dashboard.health.starttime"></span
-          >{{ pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+          >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
         </div>
         <div class="col-sm-2 text-center text-white">
-          <span>Rx/s : {{ receivedPerSecond }} Tx/s : {{ sentPerSecond }}</span>
+          <span>Rx/s : {{ fork.pluginStats.Rxps }} Tx/s : {{ fork.pluginStats.Txps }}</span>
         </div>
-        <div class="col-sm-4 text-center text-white"><span translate="{{ pluginHealth?.HealthTxt }}"></span></div>
 
-        <div class="col-sm-2" *ngIf="plugin?.PluginUpdate">
+        <div class="col-sm-4 text-center text-white"><span translate="{{ fork.pluginHealth?.HealthTxt }}"></span></div>
+
+        <div class="col-sm-2" *ngIf="fork.plugin?.PluginUpdate">
           <a
             class="text-danger"
             style="cursor: pointer;"
@@ -27,10 +28,10 @@
             ngbPopover="{{ 'dashboard.plugin.update.available' | translate }}"
             popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}"
           >
-            <span translate="dashboard.plugin.version"></span>{{ plugin.PluginVersion }}
+            <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
           </a>
         </div>
-        <div class="col-sm-2" *ngIf="plugin?.FirmwareUpdate">
+        <div class="col-sm-2" *ngIf="fork.plugin?.FirmwareUpdate">
           <a
             class="text-danger"
             style="cursor: pointer;"
@@ -38,14 +39,14 @@
             ngbPopover="{{ 'dashboard.firmware.update.available' | translate }}"
             popoverTitle="{{ 'dashboard.firmware.update.available.title' | translate }}"
           >
-            <span translate="dashboard.firmware.version"></span>{{ plugin.FirmwareVersion }}
+            <span translate="dashboard.firmware.version"></span>{{ fork.plugin.FirmwareVersion }}
           </a>
         </div>
-        <div *ngIf="!plugin?.PluginUpdate" class="col-sm-2 text-white">
-          <span translate="dashboard.plugin.version"></span>{{ plugin.PluginVersion }}
+        <div *ngIf="!fork.plugin?.PluginUpdate" class="col-sm-2 text-white">
+          <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
         </div>
-        <div *ngIf="!plugin?.FirmwareUpdate" class="col-sm-2 text-white">
-          <span translate="dashboard.firmware.version"></span>{{ plugin.FirmwareVersion }}
+        <div *ngIf="!fork.plugin?.FirmwareUpdate" class="col-sm-2 text-white">
+          <span translate="dashboard.firmware.version"></span>{{ fork.plugin.FirmwareVersion }}
         </div>
       </div>
     </div>
