@@ -15,7 +15,10 @@
           >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
         </div>
         <div class="col-sm-2 text-center text-white">
-          <span>Rx/s : {{ fork.pluginStats.Rxps }} Tx/s : {{ fork.pluginStats.Txps }}</span>
+          <span
+            >Uptime : {{ fork.pluginStats.Uptime }}&nbsp;Rx/s : {{ fork.pluginStats.Rxps }} Tx/s :
+            {{ fork.pluginStats.Txps }}
+          </span>
         </div>
 
         <div class="col-sm-4 text-center text-white"><span translate="{{ fork.pluginHealth?.HealthTxt }}"></span></div>

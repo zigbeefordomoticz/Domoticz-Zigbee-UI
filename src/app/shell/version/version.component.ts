@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../services/api.service';
 import { VersionService } from '../../services/version-service';
 
@@ -16,16 +16,10 @@ export class VersionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInfos();
-    // this.versionService.reload.subscribe(reload => {
-    //   if (reload) {
-    //     this.getInfos();
-    //   }
-    // });
   }
 
   private getInfos() {
     this.fork$ = this.versionService.reload.asObservable().pipe(
-      //startWith(false),
       switchMap(_ =>
         forkJoin([
           this.apiService.getPluginhealth(),
