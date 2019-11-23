@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { VersionService } from '@app/services/version-service';
 import { TranslateService } from '@ngx-translate/core';
+import { Chart } from 'angular-highcharts';
+import * as Highcharts from 'highcharts';
 import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
-import { Observable } from 'rxjs';
-import { Plugin } from '@app/shared/models/plugin';
-import { VersionService } from '@app/services/version-service';
+import { PluginStats } from '../shared/models/plugin-stats';
 
 const log = new Logger('DashboardComponent');
 
@@ -16,13 +17,14 @@ const log = new Logger('DashboardComponent');
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  chart: Chart;
   devices: any;
   routers: any;
   inDbs: any;
   healthsLive: any;
   healthsNotSeen: any;
   healthsOthers: any = {};
-  pluginStats: any;
+  pluginStats: PluginStats;
   totalTraficSent: any = {};
   totalTraficRetx: any = {};
   totalTraficReceived: any = {};
@@ -73,6 +75,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     domain: ['green', 'red']
   };
 
+  date: Date;
+
   constructor(
     private apiService: ApiService,
     private translate: TranslateService,
@@ -85,8 +89,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getInfos() {
+    this.date = new Date();
     this.apiService.getPluginStats().subscribe(res => {
       this.pluginStats = res;
+      this.createChart();
       this.totalTraficSent.label = this.translate.instant('dashboard.trafic.total.trafic.sent');
       this.totalTraficSent.total = res.Sent;
       this.totalTraficRetx.label = this.translate.instant('dashboard.trafic.retx');
@@ -213,6 +219,101 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   percentageFormatting(value: any) {
     return Math.round(value);
+  }
+
+  createChart() {
+    const tx: number[] = [];
+    const rx: number[] = [];
+    const load: number[] = [];
+    const x = [];
+
+    const sorted = this.pluginStats.Trend.sort((t1, t2) => {
+      const name1 = t1._TS;
+      const name2 = t2._TS;
+      if (name1 > name2) {
+        return 1;
+      }
+      if (name1 < name2) {
+        return -1;
+      }
+      return 0;
+    });
+
+    sorted.forEach(trend => {
+      tx.push(trend.Txps);
+      x.push(trend._TS);
+      rx.push(trend.Rxps);
+      load.push(trend.Load);
+    });
+
+    const chart = new Chart({
+      chart: {
+        type: 'area',
+        height: '20%'
+      },
+      title: {
+        text: this.translate.instant('dashboard.trend.chart.title')
+      },
+      xAxis: {
+        allowDecimals: false,
+        labels: {
+          formatter: function() {
+            return this.value + '';
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: this.translate.instant('dashboard.trend.chart.yaxis')
+        },
+        labels: {
+          formatter: function() {
+            return this.value + '';
+          }
+        }
+      },
+      tooltip: {
+        pointFormat: '{series.name} <b>{point.y:,.0f}</b><br/>{point.x}'
+      },
+      credits: {
+        enabled: false
+      },
+      plotOptions: {
+        area: {
+          pointStart: 1,
+          marker: {
+            enabled: false,
+            symbol: 'circle',
+            radius: 2,
+            states: {
+              hover: {
+                enabled: true
+              }
+            }
+          }
+        }
+      },
+      series: [
+        {
+          name: 'Txps',
+          data: tx,
+          type: 'area'
+        },
+        {
+          name: 'Rxps',
+          data: rx,
+          type: 'area'
+        },
+        {
+          name: 'Load',
+          data: load,
+          type: 'area'
+        }
+      ]
+    });
+    this.chart = chart;
+
+    chart.ref$.subscribe();
   }
 
   open(name: string, event: any) {

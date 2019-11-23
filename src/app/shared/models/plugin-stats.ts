@@ -25,4 +25,5 @@ export interface Trend {
   Rxps: number;
   Txps: number;
   _TS: number;
+  Load: number;
 }
