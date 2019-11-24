@@ -29,26 +29,21 @@
             ></ng-template
           >
           <ng-template #other>
-            <ng-container
-              *ngIf="fork.pluginStats.Rxpm >= 0.5 || fork.pluginStats.Txpm >= 0.5; then perMinute; else perHour"
+            <span *ngIf="fork.pluginStats.Rxpm >= 0.5 || fork.pluginStats.Txpm >= 0.5; else perHour"
+              >{{ 'dashboard.rxpm' | translate }} : {{ fork.pluginStats.Rxpm }}&nbsp;&nbsp;&nbsp;{{
+                'dashboard.txpm' | translate
+              }}
+              : {{ fork.pluginStats.Txpm }}&nbsp;&nbsp;&nbsp;</span
             >
-              <ng-template #perMinute
-                ><span
-                  >{{ 'dashboard.rxpm' | translate }} : {{ fork.pluginStats.Rxpm }}&nbsp;&nbsp;&nbsp;{{
-                    'dashboard.txpm' | translate
-                  }}
-                  : {{ fork.pluginStats.Txpm }}&nbsp;&nbsp;&nbsp;</span
-                ></ng-template
-              >
-              <ng-template #perHour
-                ><span
-                  >{{ 'dashboard.rxph' | translate }} : {{ fork.pluginStats.Rxph }}&nbsp;&nbsp;&nbsp;{{
-                    'dashboard.txph' | translate
-                  }}
-                  : {{ fork.pluginStats.Txph }}&nbsp;&nbsp;&nbsp;</span
-                ></ng-template
-              >
-            </ng-container>
+
+            <ng-template #perHour
+              ><span
+                >{{ 'dashboard.rxph' | translate }} : {{ fork.pluginStats.Rxph }}&nbsp;&nbsp;&nbsp;{{
+                  'dashboard.txph' | translate
+                }}
+                : {{ fork.pluginStats.Txph }}&nbsp;&nbsp;&nbsp;</span
+              ></ng-template
+            >
           </ng-template>
           <span>{{ 'dashboard.maxload' | translate }} : {{ fork.pluginStats.MaxLoad }} </span>
         </div>
