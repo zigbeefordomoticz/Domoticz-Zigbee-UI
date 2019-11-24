@@ -30,12 +30,7 @@
           >
           <ng-template #other>
             <ng-container
-              *ngIf="
-                (fork.pluginStats.Rxps < 0.5 && fork.pluginStats.Rxpm >= 0.5) ||
-                  (fork.pluginStats.Txps < 0.5 && fork.pluginStats.Txpm >= 0.5);
-                then perMinute;
-                else perHour
-              "
+              *ngIf="fork.pluginStats.Rxpm >= 0.5 || fork.pluginStats.Txpm >= 0.5; then perMinute; else perHour"
             >
               <ng-template #perMinute
                 ><span
