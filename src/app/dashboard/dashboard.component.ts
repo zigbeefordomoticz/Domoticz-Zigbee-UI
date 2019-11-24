@@ -251,7 +251,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const chart = new Chart({
       chart: {
         type: 'area',
-        height: '10%'
+        height: '30%'
       },
       title: {
         text: ''

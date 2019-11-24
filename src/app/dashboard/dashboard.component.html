@@ -47,17 +47,7 @@
           </div>
           <div class="col-sm-4">
             <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [view]="[400, 150]"
-                [results]="advancedPieLoad"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                [scheme]="colorSchemeGO"
-                [label]="advancedPieLoadLabel"
-                [percentageFormatting]="percentageFormatting"
-              >
-              </ngx-charts-advanced-pie-chart>
+              <div class="col-sm" [chart]="chart"></div>
             </div>
             <div class="row">
               <div class="col-sm border-left border-3" translate="dashboard.load.comment"></div>
@@ -135,23 +125,6 @@
               <div class="col-sm-1"></div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row mt-3">
-  <div class="col-sm">
-    <div class="card">
-      <div class="card-header" translate="dashboard.trend.title"></div>
-      <div class="card-body">
-        <div class="row">
-          <div class="col-sm" [chart]="chart"></div>
-        </div>
-        <div class="row">
-          <div class="col-sm border-left border-3" translate="dashboard.trend.comment"></div>
-          <div class="col-sm-1"></div>
         </div>
       </div>
     </div>
