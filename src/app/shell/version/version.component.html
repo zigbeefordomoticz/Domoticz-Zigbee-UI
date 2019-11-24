@@ -15,19 +15,31 @@
           >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
         </div>
         <div class="col-sm-3 text-center text-white">
-          <span *ngIf="fork.pluginStats.Rxps >= 0.5">Rx/s : {{ fork.pluginStats.Rxps }}&nbsp;&nbsp;&nbsp;;</span>
-          <span *ngIf="fork.pluginStats.Txps >= 0.5">Tx/s : {{ fork.pluginStats.Txps }}&nbsp;&nbsp;&nbsp;</span>
-          <span *ngIf="fork.pluginStats.Rxps < 0.5 && fork.pluginStats.Rxpm >= 0.5"
-            >Rx/m : {{ fork.pluginStats.Rxpm }}&nbsp;&nbsp;&nbsp;</span
+          <span *ngIf="fork.pluginStats.Rxps >= 0.5 || fork.pluginStats.Txps >= 0.5"
+            >{{ 'dashboard.rxps' | translate }} : {{ fork.pluginStats.Rxps }}&nbsp;&nbsp;&nbsp;{{
+              'dashboard.txps' | translate
+            }}
+            : {{ fork.pluginStats.Txps }}&nbsp;&nbsp;&nbsp;</span
           >
-          <span *ngIf="fork.pluginStats.Txps < 0.5 && fork.pluginStats.Txpm >= 0.5"
-            >Tx/m : {{ fork.pluginStats.Txpm }}&nbsp;&nbsp;&nbsp;</span
+          <span
+            *ngIf="
+              (fork.pluginStats.Rxps < 0.5 && fork.pluginStats.Rxpm >= 0.5) ||
+              (fork.pluginStats.Txps < 0.5 && fork.pluginStats.Txpm >= 0.5)
+            "
+            >{{ 'dashboard.rxpm' | translate }} : {{ fork.pluginStats.Rxpm }}&nbsp;&nbsp;&nbsp;{{
+              'dashboard.txpm' | translate
+            }}
+            : {{ fork.pluginStats.Txpm }}&nbsp;&nbsp;&nbsp;</span
           >
-          <span *ngIf="fork.pluginStats.Rxps < 0.5 && fork.pluginStats.Rxpm < 0.5"
-            >Rx/h : {{ fork.pluginStats.Rxph }}&nbsp;&nbsp;&nbsp;</span
-          >
-          <span *ngIf="fork.pluginStats.Txps < 0.5 && fork.pluginStats.Txpm < 0.5"
-            >Tx/h : {{ fork.pluginStats.Txph }}&nbsp;&nbsp;&nbsp;</span
+          <span
+            *ngIf="
+              (fork.pluginStats.Rxps < 0.5 && fork.pluginStats.Rxpm < 0.5) ||
+              (fork.pluginStats.Txps < 0.5 && fork.pluginStats.Txpm < 0.5)
+            "
+            >{{ 'dashboard.rxph' | translate }} : {{ fork.pluginStats.Rxph }}&nbsp;&nbsp;&nbsp;{{
+              'dashboard.txph' | translate
+            }}
+            : {{ fork.pluginStats.Txph }}</span
           >
           <span>{{ 'dashboard.maxload' | translate }} : {{ fork.pluginStats.MaxLoad }} </span>
         </div>
