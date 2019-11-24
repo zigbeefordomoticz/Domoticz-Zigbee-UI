@@ -222,10 +222,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   createChart() {
-    const tx: number[] = [];
-    const rx: number[] = [];
-    const load: number[] = [];
-    const x = [];
+    const tx: any[] = [];
+    const rx: any[] = [];
+    const load: any[] = [];
 
     const sorted = this.pluginStats.Trend.sort((t1, t2) => {
       const name1 = t1._TS;
@@ -239,17 +238,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return 0;
     });
 
+    let secondsToSubstract = sorted.length * 5;
     sorted.forEach(trend => {
-      tx.push(trend.Txps);
-      x.push(trend._TS);
-      rx.push(trend.Rxps);
-      load.push(trend.Load);
+      const dateFin = new Date(this.date);
+      const datePlot = new Date(dateFin.setSeconds(dateFin.getSeconds() - secondsToSubstract));
+      secondsToSubstract = secondsToSubstract - 5;
+      tx.push({ x: datePlot, y: trend.Txps });
+      rx.push({ x: datePlot, y: trend.Rxps });
+      load.push({ x: datePlot, y: trend.Load });
     });
 
     const chart = new Chart({
       chart: {
         type: 'area',
-        height: '20%'
+        height: '10%'
       },
       title: {
         text: this.translate.instant('dashboard.trend.chart.title')
@@ -258,9 +260,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         allowDecimals: false,
         labels: {
           formatter: function() {
-            return this.value + '';
+            const date = new Date(this.value);
+            return (
+              date.getHours() +
+              (date.getMinutes() > 9 ? ':' + date.getMinutes() : ':0' + date.getMinutes()) +
+              (date.getSeconds() > 9 ? ':' + date.getSeconds() : ':0' + date.getSeconds())
+            );
           }
-        }
+        },
+        type: 'datetime'
       },
       yAxis: {
         title: {
@@ -273,14 +281,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       },
       tooltip: {
-        pointFormat: '{series.name} <b>{point.y:,.0f}</b><br/>{point.x}'
+        pointFormat: '{series.name} <b>{point.y}</b>'
       },
       credits: {
         enabled: false
       },
       plotOptions: {
         area: {
-          pointStart: 1,
           marker: {
             enabled: false,
             symbol: 'circle',
@@ -297,17 +304,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
         {
           name: 'Txps',
           data: tx,
-          type: 'area'
+          type: 'area',
+          color: 'blue'
         },
         {
           name: 'Rxps',
           data: rx,
-          type: 'area'
+          type: 'area',
+          color: 'green'
         },
         {
           name: 'Load',
           data: load,
-          type: 'area'
+          type: 'area',
+          color: 'orange'
         }
       ]
     });

@@ -141,4 +141,19 @@
   </div>
 </div>
 
-<div [chart]="chart" class="text-center"></div>
+<div class="row mt-3">
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-header" translate="dashboard.trend.title"></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm" [chart]="chart"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm border-left border-3" translate="dashboard.trend.comment"></div>
+          <div class="col-sm-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
