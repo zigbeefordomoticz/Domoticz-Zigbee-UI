@@ -15,13 +15,21 @@
           >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
         </div>
         <div class="col-sm-3 text-center text-white">
-          <span
-            >{{ 'dashboard.uptime' | translate }} : {{ fork.pluginStats.Uptime }}&nbsp;&nbsp;&nbsp;Rx/s :
-            {{ fork.pluginStats.Rxps }} Tx/s : {{ fork.pluginStats.Txps }}&nbsp;&nbsp;&nbsp;{{
-              'dashboard.maxload' | translate
-            }}
-            : {{ fork.pluginStats.MaxLoad }}
-          </span>
+          <span *ngIf="fork.pluginStats.Rxps >= 0.5">Rx/s : {{ fork.pluginStats.Rxps }}&nbsp;&nbsp;&nbsp;;</span>
+          <span *ngIf="fork.pluginStats.Txps >= 0.5">Tx/s : {{ fork.pluginStats.Txps }}&nbsp;&nbsp;&nbsp;</span>
+          <span *ngIf="fork.pluginStats.Rxps < 0.5 && fork.pluginStats.Rxpm >= 0.5"
+            >Rx/m : {{ fork.pluginStats.Rxpm }}&nbsp;&nbsp;&nbsp;</span
+          >
+          <span *ngIf="fork.pluginStats.Txps < 0.5 && fork.pluginStats.Txpm >= 0.5"
+            >Tx/m : {{ fork.pluginStats.Txpm }}&nbsp;&nbsp;&nbsp;</span
+          >
+          <span *ngIf="fork.pluginStats.Rxps < 0.5 && fork.pluginStats.Rxpm < 0.5"
+            >Rx/h : {{ fork.pluginStats.Rxph }}&nbsp;&nbsp;&nbsp;</span
+          >
+          <span *ngIf="fork.pluginStats.Txps < 0.5 && fork.pluginStats.Txpm < 0.5"
+            >Tx/h : {{ fork.pluginStats.Txph }}&nbsp;&nbsp;&nbsp;</span
+          >
+          <span>{{ 'dashboard.maxload' | translate }} : {{ fork.pluginStats.MaxLoad }} </span>
         </div>
 
         <div class="col-sm-3 text-center text-white"><span translate="{{ fork.pluginHealth?.HealthTxt }}"></span></div>

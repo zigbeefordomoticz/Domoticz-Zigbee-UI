@@ -254,7 +254,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         height: '10%'
       },
       title: {
-        text: this.translate.instant('dashboard.trend.chart.title')
+        text: ''
       },
       xAxis: {
         allowDecimals: false,

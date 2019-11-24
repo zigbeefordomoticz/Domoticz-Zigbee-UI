@@ -64,7 +64,6 @@
   "admin.reloadplugin.alert.erase": "Herstart",
   "dashboard": "Dashboard",
   "dashboard.button.refresh": "Refresh",
-  "dashboard.trend.title": "Title",
   "dashboard.trend.comment": "Comment",
   "dashboard.trend.chart.title": "Title Chart",
   "dashboard.trend.chart.yaxis": "Yaxis title",
