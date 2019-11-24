@@ -16,7 +16,7 @@
         </div>
         <div class="col-sm-3 text-center text-white">
           <ng-container
-            *ngIf="fork.pluginStats.Rxps >= 0.5 || fork.pluginStats.Txps >= 0.5; then perSecond; else other"
+            *ngIf="fork.pluginStats.Rxps >= 0.5 && fork.pluginStats.Txps >= 0.5; then perSecond; else other"
           >
           </ng-container>
 
@@ -29,7 +29,7 @@
             ></ng-template
           >
           <ng-template #other>
-            <span *ngIf="fork.pluginStats.Rxpm >= 0.5 || fork.pluginStats.Txpm >= 0.5; else perHour"
+            <span *ngIf="fork.pluginStats.Rxpm >= 0.5 && fork.pluginStats.Txpm >= 0.5; else perHour"
               >{{ 'dashboard.rxpm' | translate }} : {{ fork.pluginStats.Rxpm }}&nbsp;&nbsp;&nbsp;{{
                 'dashboard.txpm' | translate
               }}
