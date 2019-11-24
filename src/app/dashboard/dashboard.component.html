@@ -5,7 +5,7 @@
         {{ 'dashboard.trafic.title' | translate }}
         <button class="btn btn-primary float-right" (click)="refresh()" translate="dashboard.button.refresh"></button>
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="pluginStats">
         <div class="row">
           <div class="col-sm-4">
             <div class="row">
@@ -46,9 +46,7 @@
             </div>
           </div>
           <div class="col-sm-4">
-            <div class="row">
-              <div class="col-sm" [chart]="chart"></div>
-            </div>
+            <div class="col-sm" [chart]="chart"></div>
             <div class="row">
               <div class="col-sm border-left border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
               <div class="col-sm-1"></div>
@@ -63,7 +61,7 @@
   <div class="col-sm">
     <div class="card">
       <div class="card-header" translate="dashboard.devices.title"></div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="pluginStats">
         <div class="row">
           <div class="col-sm-4">
             <div class="row">

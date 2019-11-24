@@ -4,10 +4,10 @@ import { ApiService } from '@app/services/api.service';
 import { VersionService } from '@app/services/version-service';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
-import * as Highcharts from 'highcharts';
+import { forkJoin } from 'rxjs';
 import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
-import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
 import { PluginStats } from '../shared/models/plugin-stats';
+import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
 
 const log = new Logger('DashboardComponent');
 
@@ -90,7 +90,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getInfos() {
     this.date = new Date();
-    this.apiService.getPluginStats().subscribe(res => {
+    this.advancedPieLoadLabel = this.translateService.instant('dashboard.trafic.maxload.label');
+    this.advancedPieSentLabel = this.translateService.instant('dashboard.trafic.total.trafic.sent.label');
+    this.advancedPieReceivedLabel = this.translateService.instant('dashboard.trafic.total.trafic.received.label');
+    this.advancedPieDeviceLabel = this.translateService.instant('dashboard.devices.label');
+    this.advancedPieStateLabel = this.translateService.instant('dashboard.devices.state.label');
+    this.advancedPieBatteryLabel = this.translateService.instant('dashboard.devices.battery.label');
+    forkJoin([this.apiService.getPluginStats(), this.apiService.getZDevices()]).subscribe(([res, devices]) => {
       this.pluginStats = res;
       this.createChart();
       this.totalTraficSent.label = this.translateService.instant('dashboard.trafic.total.trafic.sent');
@@ -126,9 +132,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         { name: this.translateService.instant('dashboard.trafic.cluster'), value: res.Cluster },
         { name: this.translateService.instant('dashboard.trafic.crc'), value: res.CRC }
       ];
-    });
-
-    this.apiService.getZDevices().subscribe(devices => {
       this.devices = devices;
       this.devices.total = this.devices.length;
       this.devices.label = this.translateService.instant('devices');
@@ -208,13 +211,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         { name: this.translateService.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length }
       ];
     });
-
-    this.advancedPieLoadLabel = this.translateService.instant('dashboard.trafic.maxload.label');
-    this.advancedPieSentLabel = this.translateService.instant('dashboard.trafic.total.trafic.sent.label');
-    this.advancedPieReceivedLabel = this.translateService.instant('dashboard.trafic.total.trafic.received.label');
-    this.advancedPieDeviceLabel = this.translateService.instant('dashboard.devices.label');
-    this.advancedPieStateLabel = this.translateService.instant('dashboard.devices.state.label');
-    this.advancedPieBatteryLabel = this.translateService.instant('dashboard.devices.battery.label');
   }
 
   percentageFormatting(value: any) {
@@ -227,12 +223,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const load: any[] = [];
 
     const sorted = this.pluginStats.Trend.sort((t1, t2) => {
-      const name1 = t1._TS;
-      const name2 = t2._TS;
-      if (name1 > name2) {
+      const ts1 = t1._TS;
+      const ts2 = t2._TS;
+      if (ts1 > ts2) {
         return 1;
       }
-      if (name1 < name2) {
+      if (ts1 < ts2) {
         return -1;
       }
       return 0;
