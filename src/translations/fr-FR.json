@@ -72,8 +72,6 @@
   "dashboard.txpm": "txpm",
   "dashboard.rxph": "rxph",
   "dashboard.txph": "txph",
-  "dashboard.rx": "Rx",
-  "dashboard.tx": "Tx",
   "dashboard.load": "Load",
   "dashboard.plugin.version": "Version plugin: ",
   "dashboard.firmware.version": "Version Firmware: ",

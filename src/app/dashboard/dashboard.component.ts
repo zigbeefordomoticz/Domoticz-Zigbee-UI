@@ -247,10 +247,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const chart = new Chart({
       chart: {
         type: 'area',
-        height: '30%'
+        height: '150'
       },
       title: {
         text: ''
+      },
+      legend: {
+        align: 'center',
+        verticalAlign: 'top',
+        floating: true
       },
       xAxis: {
         allowDecimals: false,
@@ -268,7 +273,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       yAxis: {
         title: {
-          text: this.translateService.instant('dashboard.trend.chart.yaxis')
+          text: ''
         },
         labels: {
           formatter: function() {
@@ -298,13 +303,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       series: [
         {
-          name: this.translateService.instant('dashboard.tx'),
+          name: this.translateService.instant('dashboard.txps'),
           data: tx,
           type: 'area',
           color: 'blue'
         },
         {
-          name: this.translateService.instant('dashboard.rx'),
+          name: this.translateService.instant('dashboard.rxps'),
           data: rx,
           type: 'area',
           color: 'green'
