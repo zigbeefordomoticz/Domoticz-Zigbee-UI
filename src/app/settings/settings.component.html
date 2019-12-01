@@ -22,7 +22,7 @@
     <div class="row">
       <div class="col-sm-11 card-columns">
         <div *ngFor="let listOfSettings of settings">
-          <div class="card">
+          <div class="card" *ngIf="hasBasicSettings(listOfSettings.ListOfSettings)">
             <div class="card-header" translate="setting.header.{{ listOfSettings._Theme }}"></div>
             <div class="card-body">
               <div class="card-title">

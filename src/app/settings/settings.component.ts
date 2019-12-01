@@ -4,7 +4,7 @@ import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { NotifyService } from '@app/services/notify.service';
-import { Settings } from '@app/shared/models/setting';
+import { Settings, Setting } from '@app/shared/models/setting';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const log = new Logger('SettingsComponent');
@@ -76,5 +76,13 @@ export class SettingsComponent implements OnInit {
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(result => {}, reason => {});
+  }
+
+  hasBasicSettings(settings: Setting[]): boolean {
+    if (this.advanced) {
+      return true;
+    } else {
+      return settings.filter(setting => setting.Advanced === false).length > 0;
+    }
   }
 }
