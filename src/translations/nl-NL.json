@@ -206,6 +206,7 @@
   "setting.reloadplugin.alert.subject": "De instellingen zijn bijgewerkt, de plugin moet opnieuw worden opgestart",
   "setting.reloadplugin.alert.cancel": "Sluiten",
   "tools": "Gereedschappen",
+  "tools.export": "Export",
   "tools.device.button": "Domoticz Widgets (json)",
   "tools.zdevice.button": "Plugin apparaten (json)",
   "tools.zgroup.button": "Plugin Groepen (json)",

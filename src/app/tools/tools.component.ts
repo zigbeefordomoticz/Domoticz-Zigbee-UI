@@ -4,6 +4,7 @@ import { ApiService } from '@app/services/api.service';
 import { finalize } from 'rxjs/operators';
 import { Logger } from '@app/core';
 import { DatePipe } from '@angular/common';
+import { FileSaverService } from 'ngx-filesaver';
 
 const log = new Logger('ToolsComponent');
 
@@ -35,7 +36,12 @@ export class ToolsComponent implements OnInit {
   isInfosPluginLoading = false;
   isInfosZigate = false;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private datePipe: DatePipe) {}
+  constructor(
+    private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe,
+    private fileSaverService: FileSaverService
+  ) {}
 
   ngOnInit() {}
 
@@ -97,5 +103,12 @@ export class ToolsComponent implements OnInit {
   callbackservice(json: any) {
     const jsonStr = JSON.stringify(json);
     this.json = JSON.parse(jsonStr, transformToTimestamp);
+  }
+
+  export(json: any) {
+    const fileName = 'export.json';
+    const fileType = this.fileSaverService.genType(fileName);
+    const txtBlob = new Blob([JSON.stringify(json)], { type: fileType });
+    this.fileSaverService.save(txtBlob, fileName);
   }
 }

@@ -207,6 +207,7 @@
   "setting.reloadplugin.alert.subject": "Settings have been updated, plugin need to be restarted",
   "setting.reloadplugin.alert.cancel": "Close",
   "tools": "Tools",
+  "tools.export": "Export",
   "tools.device.button": "Domoticz Widgets (json)",
   "tools.zdevice.button": "Plugin Devices (json)",
   "tools.zgroup.button": "Plugin Groups (json)",
