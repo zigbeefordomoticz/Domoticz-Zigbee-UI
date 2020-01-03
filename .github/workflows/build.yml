@@ -29,4 +29,5 @@ jobs:
 
       - name: npm run build prod
         run: |
+          npm ci
           npm run build 
