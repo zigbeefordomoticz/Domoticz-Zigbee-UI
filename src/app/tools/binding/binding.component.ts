@@ -18,10 +18,10 @@ export class BindingComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      source_ieee: [null, Validators.required],
-      source_ep: [null, Validators.required],
-      dest_ieee: [null, Validators.required],
-      dest_ep: [null, Validators.required],
+      sourceIeee: [null, Validators.required],
+      sourceEp: [null, Validators.required],
+      destIeee: [null, Validators.required],
+      destEp: [null, Validators.required],
       cluster: [null, Validators.required]
     });
   }
