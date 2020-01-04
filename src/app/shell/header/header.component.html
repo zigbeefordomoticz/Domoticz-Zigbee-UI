@@ -124,7 +124,7 @@
             <li
               class="dropdown-item nav-item nav-link"
               (click)="toggleMenu()"
-              routerLink="/tools"
+              routerLink="/tools/link"
               routerLinkActive="active"
             >
               <i class="fas fa-toolbox mr-2"></i> <span translate="tools"></span>
@@ -132,10 +132,18 @@
             <li
               class="dropdown-item nav-item nav-link"
               (click)="toggleMenu()"
-              routerLink="/debug-command"
+              routerLink="/tools/debug-command"
               routerLinkActive="active"
             >
               <i class="fas fa-lightbulb mr-2"></i> <span translate="debug-command"></span>
+            </li>
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              routerLink="/tools/binding"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-compress-arrows-alt mr-2"></i> <span translate="binding"></span>
             </li>
           </ul>
         </li>

@@ -6,7 +6,7 @@ import { Capabilities, Capability } from '@app/shared/models/capabilities';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-const log = new Logger('CommandComponent');
+const log = new Logger('DebugCommandComponent');
 
 @Component({
   selector: 'app-debug-command',

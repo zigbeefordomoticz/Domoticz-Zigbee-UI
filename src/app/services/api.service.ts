@@ -14,6 +14,7 @@ import { Setting } from '@app/shared/models/setting';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { Binding } from '../shared/models/binding';
 
 const routes = {
   devices: '/device',
@@ -42,7 +43,8 @@ const routes = {
   devCommand: '/dev-command',
   devCap: '/dev-cap',
   newHardware: '/new-hrdwr/',
-  receiveNewHardware: '/rcv-nw-hrdwr'
+  receiveNewHardware: '/rcv-nw-hrdwr',
+  binding: '/binding'
 };
 
 const log = new Logger('ApiService');
@@ -359,6 +361,13 @@ export class ApiService {
 
   getReceiveNewHardware(): Observable<NewDevice> {
     return this.httpClient.get(routes.receiveNewHardware).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putBinding(binding: Binding): Observable<any> {
+    return this.httpClient.put(routes.binding, binding).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
