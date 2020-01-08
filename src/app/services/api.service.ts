@@ -15,6 +15,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Binding } from '../shared/models/binding';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 const routes = {
   devices: '/device',
@@ -52,7 +54,12 @@ const log = new Logger('ApiService');
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  constructor(private httpClient: HttpClient, private location: Location) {}
+  constructor(
+    private httpClient: HttpClient,
+    private location: Location,
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {}
 
   getPluginhealth(): Observable<Array<any>> {
     return this.httpClient.get(routes.pluginHealth).pipe(
@@ -383,6 +390,7 @@ export class ApiService {
 
   private handleError(error: any) {
     log.error(error);
+    this.toastr.error(error.status + ' ' + error.statusText, this.translate.instant('api.global.error.title'));
     return throwError(error);
   }
 }

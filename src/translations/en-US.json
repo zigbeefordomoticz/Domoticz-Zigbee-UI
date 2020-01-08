@@ -300,5 +300,7 @@
   "device.byname.alert.title": "Delete device ?",
   "device.byname.alert.subject": "Are u sure ?",
   "device.byname.alert.delete": "Delete",
-  "device.byname.alert.cancel": "Cancel"
+  "device.byname.alert.cancel": "Cancel",
+
+  "api.global.error.title": "Error from backend"
 }
