@@ -44,7 +44,8 @@ const routes = {
   devCap: '/dev-cap',
   newHardware: '/new-hrdwr/',
   receiveNewHardware: '/rcv-nw-hrdwr',
-  binding: '/binding'
+  binding: '/binding',
+  rawCommand: '/raw-command'
 };
 
 const log = new Logger('ApiService');
@@ -368,6 +369,13 @@ export class ApiService {
 
   putBinding(binding: Binding): Observable<any> {
     return this.httpClient.put(routes.binding, binding).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putCommandRaw(command: Command): Observable<any> {
+    return this.httpClient.put(routes.rawCommand, command).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

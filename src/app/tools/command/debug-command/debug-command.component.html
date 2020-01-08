@@ -102,7 +102,7 @@
                     placeholder="{{ 'tools.debugcommand.value' | translate }}"
                     class="w-100 form-control"
                   />
-                  <div *ngIf="form.controls['level'].errors" translate="tools.debugcommand.level.error"></div>
+                  <div *ngIf="!form.controls['level'].valid" translate="tools.debugcommand.level.error"></div>
                 </div>
               </div>
             </div>

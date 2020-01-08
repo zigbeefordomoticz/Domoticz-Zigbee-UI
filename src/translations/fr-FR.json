@@ -279,6 +279,13 @@
   "tools.binding.destEp": "Dest ep",
   "tools.binding.cluster": "Cluster",
   "tools.binding.button.put": "Send Binding",
+  "command": "Command",
+  "tools.rawcommand.title": "raw command title",
+  "tools.rawcommand.subtitle": "raw command subtitle",
+  "tools.rawcommand.command": "Command input",
+  "tools.rawcommand.error": "Input required",
+  "tools.rawcommand.payload": "payload input",
+  "tools.rawcommand.button.put": "Send",
 
   "setting.header.Experimental": "Paramètres exprimentaux",
   "setting.subtitle.Experimental": "Utilisez seulement si on vous a indiqué de le faire",

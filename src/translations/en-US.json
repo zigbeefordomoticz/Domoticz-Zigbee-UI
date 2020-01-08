@@ -241,6 +241,13 @@
   "tools.binding.destEp": "Target ep",
   "tools.binding.cluster": "Cluster",
   "tools.binding.button.put": "Binding",
+  "command": "Command",
+  "tools.rawcommand.title": "raw command title",
+  "tools.rawcommand.subtitle": "raw command subtitle",
+  "tools.rawcommand.command": "Command input",
+  "tools.rawcommand.error": "Input required",
+  "tools.rawcommand.payload": "payload input",
+  "tools.rawcommand.button.put": "Send",
 
   "Ping": "Enable Ping",
   "setting.header.DomoticzEnvironment": "Domoticz URL",

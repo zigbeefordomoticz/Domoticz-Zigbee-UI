@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-sm">
+    <form [formGroup]="form">
+      <div class="card">
+        <div class="card-header" translate="tools.rawcommand.title"></div>
+        <div class="card-body">
+          <h5 class="card-title" [innerHTML]="'tools.rawcommand.subtitle' | translate"></h5>
+          <div class="card-text">
+            <div class="row">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="Command"
+                    placeholder="{{ 'tools.rawcommand.command' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div
+                    *ngIf="form.controls['Command'].dirty && !form.controls['Command'].valid"
+                    translate="tools.rawcommand.error"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="payload"
+                    placeholder="{{ 'tools.rawcommand.payload' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div
+                    *ngIf="form.controls['payload'].dirty && !form.controls['payload'].valid"
+                    translate="tools.rawcommand.error"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <button
+                class="ml-3 btn btn-primary"
+                (click)="putCommand()"
+                [disabled]="!form.valid"
+                translate="tools.rawcommand.button.put"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
