@@ -1,6 +1,5 @@
 {
   "APP_NAME": "Zigate Interface d'aministration",
-  "update.success": "Mise à Jour effectuée avec succes",
   "About": "A Propos",
   "Version": "Version",
   "admin": "Admin",
@@ -292,5 +291,10 @@
   "device.byname.alert.title": "Delete device ?",
   "device.byname.alert.subject": "Are u sure ?",
   "device.byname.alert.delete": "Delete",
-  "device.byname.alert.cancel": "Cancel"
+  "device.byname.alert.cancel": "Cancel",
+
+  "api.global.error.title": "Error from backend",
+  "api.global.succes.update.title": "Update sucessful",
+  "api.global.succes.erasepdm.title": "ErasePdm sucessful",
+  "api.global.succes.pluginrestarted.title": "Plugin restarted"
 }

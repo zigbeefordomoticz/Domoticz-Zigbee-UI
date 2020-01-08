@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
-import { NotifyService } from '@app/services/notify.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('ReloadPluginComponent');
 
@@ -17,7 +17,7 @@ export class ReloadPluginComponent implements OnInit {
   constructor(
     private headerService: HeaderService,
     private modalService: NgbModal,
-    private notifyService: NotifyService,
+    private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
   ) {}
@@ -26,7 +26,7 @@ export class ReloadPluginComponent implements OnInit {
 
   reloadPlugin() {
     this.apiService.getReloadPlugin().subscribe((result: any) => {
-      this.notifyService.notify('Plugin restarted');
+      this.toastr.success(this.translate.instant('api.global.succes.pluginrestarted.title'));
       this.headerService.setRestart(false);
     });
   }

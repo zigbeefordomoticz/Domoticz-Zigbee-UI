@@ -6,7 +6,6 @@ import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { merge } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
-import { PushNotificationsService } from 'ng-push';
 
 const log = new Logger('App');
 
@@ -21,11 +20,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     private translateService: TranslateService,
-    private i18nService: I18nService,
-    private pushNotifications: PushNotificationsService
-  ) {
-    this.pushNotifications.requestPermission();
-  }
+    private i18nService: I18nService
+  ) {}
 
   ngOnInit() {
     // Setup logger

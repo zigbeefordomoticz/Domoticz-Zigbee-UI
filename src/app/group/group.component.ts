@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Group, DeviceAvailable, DevicesAvailable } from '@app/shared/models/group';
 import { HeaderService } from '@app/services/header-service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('GroupComponent');
 
@@ -31,7 +31,7 @@ export class GroupComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
-    private notifyService: NotifyService,
+    private toastr: ToastrService,
     private headerService: HeaderService
   ) {}
 
@@ -116,7 +116,7 @@ export class GroupComponent implements OnInit {
       this.apiService.putZGroups(this.rows).subscribe(result => {
         log.debug(this.rows);
         this.hasEditing = false;
-        this.notifyService.notify();
+        this.toastr.success(this.translate.instant('api.global.succes.update.title'));
         this.apiService.getRestartNeeded().subscribe(restart => {
           if (restart.RestartNeeded) {
             this.headerService.setRestart(true);

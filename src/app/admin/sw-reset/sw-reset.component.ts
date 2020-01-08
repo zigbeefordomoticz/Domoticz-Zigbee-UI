@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('SwResetComponent');
 
@@ -14,17 +14,13 @@ const log = new Logger('SwResetComponent');
 export class SwResetComponent implements OnInit {
   permitToJoin: any;
 
-  constructor(
-    private notifyService: NotifyService,
-    private apiService: ApiService,
-    private translate: TranslateService
-  ) {}
+  constructor(private toastr: ToastrService, private apiService: ApiService, private translate: TranslateService) {}
 
   ngOnInit() {}
 
   swReset(event: any) {
     this.apiService.getSwResetZigate().subscribe((result: any) => {
-      this.notifyService.notify();
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
 }

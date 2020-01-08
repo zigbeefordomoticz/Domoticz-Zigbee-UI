@@ -2,11 +2,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
-import { TranslateService } from '@ngx-translate/core';
-import { ToppyControl } from 'toppy';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('DeviceByNameComponent');
 
@@ -33,8 +32,8 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   constructor(
     private apiService: ApiService,
     private translate: TranslateService,
-    private notifyService: NotifyService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -79,7 +78,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     this.apiService.putZDeviceName(this.json).subscribe((result: any) => {
       log.debug(result);
       this.hasEditing = false;
-      this.notifyService.notify();
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
 

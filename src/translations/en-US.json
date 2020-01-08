@@ -1,6 +1,5 @@
 {
   "APP_NAME": "Zigate Admin Interface",
-  "update.success": "Update done successfully",
   "About": "About",
   "Version": "Version",
   "admin": "Admin",
@@ -302,5 +301,8 @@
   "device.byname.alert.delete": "Delete",
   "device.byname.alert.cancel": "Cancel",
 
-  "api.global.error.title": "Error from backend"
+  "api.global.error.title": "Error from backend",
+  "api.global.succes.update.title": "Update sucessful",
+  "api.global.succes.erasepdm.title": "ErasePdm sucessful",
+  "api.global.succes.pluginrestarted.title": "Plugin restarted"
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('ErasePdmComponent');
 
@@ -17,7 +17,7 @@ export class ErasePdmComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private notifyService: NotifyService,
+    private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
   ) {}
@@ -26,7 +26,7 @@ export class ErasePdmComponent implements OnInit {
 
   erasePdm() {
     this.apiService.getZigateErasePDM().subscribe((result: any) => {
-      this.notifyService.notify();
+      this.toastr.success(this.translate.instant('api.global.succes.erasepdm.title'));
     });
   }
 

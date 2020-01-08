@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 import { NewDevice, NewHardware } from '../../shared/models/new-hardware';
@@ -23,7 +23,7 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
   devicePaired: NewHardware[];
 
   constructor(
-    private notifyService: NotifyService,
+    private toastr: ToastrService,
     private apiService: ApiService,
     private modalService: NgbModal,
     private spinner: NgxSpinnerService

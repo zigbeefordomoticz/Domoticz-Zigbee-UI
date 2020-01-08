@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
-import { NotifyService } from '@app/services/notify.service';
-import { Settings, Setting } from '@app/shared/models/setting';
+import { Setting, Settings } from '@app/shared/models/setting';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('SettingsComponent');
 
@@ -24,8 +25,9 @@ export class SettingsComponent implements OnInit {
     private modalService: NgbModal,
     private apiService: ApiService,
     private formBuilder: FormBuilder,
-    private notifyService: NotifyService,
-    private headerService: HeaderService
+    private toastr: ToastrService,
+    private headerService: HeaderService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -60,7 +62,7 @@ export class SettingsComponent implements OnInit {
 
     this.apiService.putSettings(this.form.value).subscribe((result: any) => {
       this.form.markAsPristine();
-      this.notifyService.notify();
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
       this.apiService.getSettings().subscribe(res => {
         this.settings = res;
         this.settings.sort((n1, n2) => n1._Order - n2._Order);

@@ -1,6 +1,5 @@
 {
   "APP_NAME": "Zigate Admin Interface",
-  "update.success": "Update succevol afgerond",
   "About": "Over",
   "Version": "Versie",
   "admin": "Admin",
@@ -283,5 +282,10 @@
   "setting.header.VerboseLogging": "Verbose en Loggen",
   "setting.subtitle.VerboseLogging": "Hiermee kunt u sommige Logging-functies in- of uitschakelen.",
   "setting.header.Experimental": "Experimental parameters",
-  "setting.subtitle.Experimental": "Use it only if you have been asked to"
+  "setting.subtitle.Experimental": "Use it only if you have been asked to",
+
+  "api.global.error.title": "Error from backend",
+  "api.global.succes.update.title": "Update succevol afgerond",
+  "api.global.succes.erasepdm.title": "ErasePdm sucessful",
+  "api.global.succes.pluginrestarted.title": "Plugin restarted"
 }
