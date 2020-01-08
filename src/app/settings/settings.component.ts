@@ -75,7 +75,10 @@ export class SettingsComponent implements OnInit {
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(result => {}, reason => {});
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      result => {},
+      reason => {}
+    );
   }
 
   hasBasicSettings(settings: Setting[]): boolean {
