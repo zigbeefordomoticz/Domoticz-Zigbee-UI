@@ -19,7 +19,7 @@ export class RawCommandComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({
       Command: [null, Validators.required],
-      payload: [null, Validators.required]
+      payload: [null]
     });
   }
 
