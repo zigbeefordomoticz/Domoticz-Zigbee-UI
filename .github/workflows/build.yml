@@ -13,6 +13,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+      
+      - name: Delete branch
+        uses: dawidd6/action-delete-branch@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branches: gh-pages
 
       - name: Cache node modules
         uses: actions/cache@v1
