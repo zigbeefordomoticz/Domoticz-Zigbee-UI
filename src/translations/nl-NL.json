@@ -269,7 +269,7 @@
   "setting.subtitle.GroupManagement": "Instellingen om de Groepsbeheerfunctie in te schakelen en te configureren.",
   "enablegroupmanagement": "Aanzetten Groepen",
   "enableReadAttributes": "Polling Aanzetten",
-  "internetAccess": "Toesten van internettoegang",
+  "internetAccess": "Internettoegang toestaan",
   "setting.header.PluginConfiguration": "Plugin omgevingsinstellingen",
   "setting.subtitle.PluginConfiguration": "Alle instellingen voor Plugin-omgeving",
   "numDeviceListVersion": "Hoeveel regels Apparaatlijst-geschiedenis behouden",
