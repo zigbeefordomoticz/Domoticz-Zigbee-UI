@@ -39,6 +39,8 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
       this.createChart2(value);
     });
 
+    this.devices$ = this.apiService.getDevices();
+
     this.apiService.getZDeviceName().subscribe(result => {
       this.devices = result;
     });
