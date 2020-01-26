@@ -17,6 +17,7 @@ import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Binding } from '../shared/models/binding';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { Relation } from '../shared/models/relation';
 
 const routes = {
   devices: '/device',
@@ -159,7 +160,7 @@ export class ApiService {
     );
   }
 
-  getTopologieByTimeStamp(timestamp: string): Observable<any> {
+  getTopologieByTimeStamp(timestamp: string): Observable<Relation[]> {
     return this.httpClient.get(routes.topologie + '/' + timestamp).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))

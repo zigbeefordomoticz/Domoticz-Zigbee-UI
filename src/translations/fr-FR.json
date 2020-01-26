@@ -163,6 +163,7 @@
   "network.topo.visu.subtitle": "L'illustration de votre maillage montre tout les liens entre 2 dispositifs. Si vous déplacez le curseur sur un lien vous verrez la liaison ainsi que la qualité de la liaison",
   "network.topo.visu.network.header": "Illustration Réseau",
   "network.topo.visu.network.subtitle": "Créer un graphique de votre réseau Zigbee.",
+  "network.topo.visu.network.filter": "Name of node to filter",
   "network.topo.device.visu.network.chart.title": "Illustration Réseau",
   "network.topo.visu.delete.button": "Effacer",
   "network.topo.device.batterylevel.column": "Batterie",

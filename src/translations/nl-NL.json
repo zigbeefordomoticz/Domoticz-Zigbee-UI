@@ -160,6 +160,7 @@
   "network.topo.visu.subtitle": "Het Topologiediagram toont alle koppelingen tussen 2 knooppunten. Als u de cursor op een link plaatst, ziet u de richting van de link en de kwaliteit van de link",
   "network.topo.visu.network.header": "Netwerk diagram",
   "network.topo.visu.network.subtitle": "Maakt een netwerkdiagram van u Zigbee omgeving.",
+  "network.topo.visu.network.filter": "Name of node to filter",
   "network.topo.device.visu.network.chart.title": "Netwerk diagram",
   "network.topo.visu.delete.button": "Verwijder",
   "network.topo.device.batterylevel.column": "Batterij",

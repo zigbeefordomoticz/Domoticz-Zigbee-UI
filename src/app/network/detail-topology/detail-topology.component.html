@@ -20,7 +20,31 @@
             <div class="card-header" translate="network.topo.visu.network.header"></div>
             <div class="card-body">
               <h5 class="card-title" translate="network.topo.visu.network.subtitle"></h5>
-              <div class="card-text" [chart]="chart2"></div>
+              <div class="card-text">
+                <div>
+                  <form [formGroup]="form">
+                    <ng-select
+                      [items]="devices"
+                      [multiple]="false"
+                      [closeOnSelect]="true"
+                      [searchable]="true"
+                      bindLabel="ZDeviceName"
+                      bindValue="ZDeviceName"
+                      placeholder="{{ 'network.topo.visu.network.filter' | translate }}"
+                      appendTo="body"
+                      formControlName="nodeToFilter"
+                    >
+                      <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                        <span [ngOptionHighlight]="search">
+                          <b>Name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Model</b> :
+                          {{ item.Model }} -
+                        </span>
+                      </ng-template>
+                    </ng-select>
+                  </form>
+                </div>
+                <div [chart]="chart2"></div>
+              </div>
             </div>
           </div>
         </div>

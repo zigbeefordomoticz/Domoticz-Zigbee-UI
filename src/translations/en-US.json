@@ -161,6 +161,7 @@
   "network.topo.visu.subtitle": "The Topology diagram shows all links between 2 nodes. If you leave the cursor on a link you'll see the link direction as well as the link quality",
   "network.topo.visu.network.header": "Network graph",
   "network.topo.visu.network.subtitle": "Will draw a network graph of your Zigbee environment.",
+  "network.topo.visu.network.filter": "Name of node to filter",
   "network.topo.device.visu.network.chart.title": "Network graph",
   "network.topo.visu.delete.button": "Delete",
   "network.topo.device.batterylevel.column": "Battery",
