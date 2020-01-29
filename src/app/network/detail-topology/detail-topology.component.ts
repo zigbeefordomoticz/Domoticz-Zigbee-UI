@@ -43,6 +43,17 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
 
     this.apiService.getZDeviceName().subscribe(result => {
       this.devices = result;
+      const zigate = {
+        IEEE: '',
+        MacCapa: '',
+        Model: '',
+        Health: '',
+        Status: '',
+        WidgetList: [''],
+        ZDeviceName: 'Zigate',
+        _NwkId: ''
+      };
+      this.devices.unshift(zigate);
     });
   }
 
