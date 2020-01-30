@@ -68,7 +68,7 @@ export class SettingsComponent implements OnInit {
         this.settings.sort((n1, n2) => n1._Order - n2._Order);
       });
       this.apiService.getRestartNeeded().subscribe(restart => {
-        if (restart.RestartNeeded) {
+        if (restart.RestartNeeded && restart.RestartNeeded === true) {
           this.headerService.setRestart(true);
           this.open(this.content);
         }
