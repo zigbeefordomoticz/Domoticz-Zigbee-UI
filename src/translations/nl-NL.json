@@ -287,6 +287,7 @@
 
   "api.global.error.title": "Fout van backend",
   "api.global.succes.update.title": "Update succevol afgerond",
+  "api.global.reset.zigate.title": "Soft rest successfull",
   "api.global.succes.erasepdm.title": "Pdm wissen succesvol",
   "api.global.succes.pluginrestarted.title": "Plugin opnieuw gestart"
 }
