@@ -19,7 +19,7 @@ export class SwResetComponent implements OnInit {
   ngOnInit() {}
 
   swReset(event: any) {
-    this.apiService.getSwResetZigate().subscribe((result: any) => {
+    this.apiService.getSwResetZigate().subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
