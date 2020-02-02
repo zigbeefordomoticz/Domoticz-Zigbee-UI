@@ -294,7 +294,7 @@
   "device.byname.alert.cancel": "Annuler",
   "api.global.error.title": "Erreur du backend",
   "api.global.succes.update.title": "Mise à jour réussie",
-  "api.global.reset.zigate.title": "Soft rest successfull",
+  "api.global.reset.zigate.title": "Soft reset successfull",
   "api.global.succes.erasepdm.title": "ErasePdm réussie",
   "api.global.succes.pluginrestarted.title": "Plugin redémarré"
 }

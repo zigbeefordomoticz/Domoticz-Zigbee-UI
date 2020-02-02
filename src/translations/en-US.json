@@ -307,7 +307,7 @@
 
   "api.global.error.title": "Error from backend",
   "api.global.succes.update.title": "Update sucessful",
-  "api.global.reset.zigate.title": "Soft rest successfull",
+  "api.global.reset.zigate.title": "Soft reset successfull",
   "api.global.succes.erasepdm.title": "ErasePdm sucessful",
   "api.global.succes.pluginrestarted.title": "Plugin restarted"
 }
