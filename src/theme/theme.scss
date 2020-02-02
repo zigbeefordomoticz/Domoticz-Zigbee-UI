@@ -213,3 +213,7 @@ $switch-transition: 0.2s all !default;
     visibility: hidden;
   }
 }
+
+button[disabled] {
+  cursor: not-allowed;
+}
