@@ -115,7 +115,7 @@
   "dashboard.received.comment": "Total number of messages received. Cluster is a type of message with information. CRC error should be 0. Otherwise it indicates communication errors",
   "dashboard.trend.comment": "Last 10 minutes actitivies by every 5s.<br>Messages sent and received, ZiGate load queue",
   "dashboard.devices.comment": "Total of devices managed by the plugin. Router is main powered device which participates in the mesh network. End device is a battery based device",
-  "dashboard.health.comment": "Live: indicates the number of devices alive, Not seen last 24h: indicates the number of devices not seen in the last 24hours, unknown: indicates the number of devices with status unknown. After a plugin restart, all devices are moved to status unknown until a message is received by ZiGate.",
+  "dashboard.health.comment": "Live: indicates the number of devices alive, Away: indicates the number of devices away from the network, no news: indicates the number of devices which haven't reported on the last 6 hours, unknown: indicates the number of devices with status unknown. After a plugin restart, all devices are moved to status unknown until a message is received by ZiGate.",
   "dashboard.battery.comment": "For devices equiped with a battery, here after is reported the battery status.",
   "device": "Device Management",
   "device.byname.subtitle": "List all HW devices paired with the plugin, and allow you to enter a friendly name for each device. It shows the friendly device name in the network section instead of a four digit code.",
