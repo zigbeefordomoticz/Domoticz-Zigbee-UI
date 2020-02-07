@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   inDbs: any;
   healthsLive: any;
   healthsNotSeen: any;
+  healthsNotReachable: any;
   healthsOthers: any = {};
   pluginStats: PluginStats;
   totalTraficSent: any = {};
@@ -147,8 +148,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.healthsLive.label = this.translateService.instant('dashboard.devices.live');
       this.healthsLive.total = ((this.healthsLive.length / this.devices.total) * 100).toFixed(0);
       this.healthsLive.append = '%';
+      this.healthsNotReachable = this.devices.filter((device: any) => {
+        return device.Health === 'Not Reachable';
+      });
+      this.healthsNotReachable.label = this.translateService.instant('dashboard.devices.notReachable');
+      this.healthsNotReachable.total = ((this.healthsNotReachable.length / this.devices.total) * 100).toFixed(0);
+      this.healthsNotReachable.append = '%';
       this.healthsNotSeen = this.devices.filter((device: any) => {
-        return device.Health === 'Not seen last 24hours' || device.Health === 'Not Reachable';
+        return device.Health === 'Not seen last 24hours';
       });
       this.healthsNotSeen.label = this.translateService.instant('dashboard.devices.notseen');
       this.healthsNotSeen.total = ((this.healthsNotSeen.length / this.devices.total) * 100).toFixed(0);
@@ -175,6 +182,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         {
           name: this.translateService.instant('dashboard.devices.live'),
           value: this.healthsLive.length
+        },
+        {
+          name: this.translateService.instant('dashboard.devices.notReachable'),
+          value: this.healthsNotReachable.length
         },
         {
           name: this.translateService.instant('dashboard.devices.notseen'),
@@ -340,6 +351,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         devices = this.healthsLive;
       } else if (event.name === this.translateService.instant('dashboard.devices.others')) {
         devices = this.healthsOthers;
+      } else if (event.name === this.translateService.instant('dashboard.devices.notReachable')) {
+        devices = this.healthsNotReachable;
       } else {
         devices = this.healthsNotSeen;
       }

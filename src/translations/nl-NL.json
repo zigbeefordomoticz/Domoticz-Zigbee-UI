@@ -103,6 +103,7 @@
   "dashboard.devices.state.label": "Gezondheid",
   "dashboard.devices.live": "live",
   "dashboard.devices.notseen": "24h uur niet gezien",
+  "dashboard.devices.notReachable": "not reachable",
   "dashboard.devices.others": "onbekend",
   "dashboard.devices.enddevice": "eindapparaat",
   "dashboard.devices.battery.label": "Batterij",
