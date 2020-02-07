@@ -63,8 +63,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   colorSchemeROG = {
     domain: ['red', 'orange', 'green']
   };
-  colorSchemeGRO = {
-    domain: ['green', 'red', 'orange']
+  colorSchemeGROG = {
+    domain: ['green', 'red', 'orange', 'grey']
   };
   colorSchemeGOR = {
     domain: ['green', 'blue', 'red']
