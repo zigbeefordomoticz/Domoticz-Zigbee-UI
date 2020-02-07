@@ -105,7 +105,7 @@
   "dashboard.devices.indb": "En Base",
   "dashboard.devices.state.label": "Santé",
   "dashboard.devices.live": "vivant",
-  "dashboard.devices.notseen": "no news",
+  "dashboard.devices.notseen": "sans nouvelles",
   "dashboard.devices.notReachable": "non joignable",
   "dashboard.devices.others": "inconnu",
   "dashboard.devices.enddevice": "dispositifs terminaux",
