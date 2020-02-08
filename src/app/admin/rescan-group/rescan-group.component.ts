@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
+import { HeaderService } from '@app/services/header-service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('ReloadPluginComponent');
 
@@ -13,16 +14,22 @@ const log = new Logger('ReloadPluginComponent');
 })
 export class RescanGroupComponent implements OnInit {
   constructor(
-    private notifyService: NotifyService,
+    private toastr: ToastrService,
     private apiService: ApiService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit() {}
 
   rescanGroup() {
-    this.apiService.getRescanGroup().subscribe((result: any) => {
-      this.notifyService.notify(this.translate.instant('admin.rescan.group.notify'));
+    this.apiService.getRescanGroup().subscribe(() => {
+      this.toastr.success(this.translate.instant('admin.rescan.group.notify'));
+      this.apiService.getRestartNeeded().subscribe(restart => {
+        if (restart.RestartNeeded) {
+          this.headerService.setRestart(true);
+        }
+      });
     });
   }
 }

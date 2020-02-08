@@ -2,10 +2,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-import { ToppyControl } from 'toppy';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('DeviceByNameComponent');
 
@@ -21,17 +21,19 @@ const log = new Logger('DeviceByNameComponent');
   ]
 })
 export class DeviceByNameComponent implements OnInit, OnChanges {
-  @ViewChild('table') table: any;
-  @Input() devices: any;
+  @ViewChild('table', { static: false }) table: any;
+  @Input() devices: DeviceByName[];
   rows: any = [];
   json: any;
-  temp: Array<DeviceByName> = [];
+  temp: DeviceByName[] = [];
   hasEditing = false;
+  rowToDelete: any;
 
   constructor(
     private apiService: ApiService,
     private translate: TranslateService,
-    private notifyService: NotifyService
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,6 +47,27 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
 
   ngOnInit() {}
 
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      result => {
+        this.delete();
+      },
+      reason => {}
+    );
+  }
+
+  delete() {
+    this.apiService.deleteZDeviceName(this.rowToDelete._NwkId).subscribe(() => {
+      const index = this.rows.indexOf(this.rowToDelete, 0);
+      this.rowToDelete = null;
+      if (index > -1) {
+        this.rows.splice(index, 1);
+        this.rows = [...this.rows];
+        this.temp = [...this.rows];
+      }
+    });
+  }
+
   updateValue(event: any, nwkId: string) {
     this.hasEditing = true;
     const rowUpdated = this.rows.find((row: any) => row._NwkId === nwkId);
@@ -55,7 +78,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     this.apiService.putZDeviceName(this.json).subscribe((result: any) => {
       log.debug(result);
       this.hasEditing = false;
-      this.notifyService.notify();
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
 

@@ -23,6 +23,21 @@
             [rowHeight]="'auto'"
           >
             <ngx-datatable-column
+              [maxWidth]="50"
+              name="{{ 'device.byname.trash.column' | translate }}"
+              prop="ConsistencyCheck"
+            >
+              <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                <i
+                  *ngIf="row.ConsistencyCheck === 'not in DZ' || row.ConsistencyCheck === 'Bad Pairing'"
+                  class="fa fa-trash"
+                  title="{{ 'device.byname.delete.colum' | translate }}"
+                  (click)="rowToDelete = row; open(content)"
+                ></i>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column
               [maxWidth]="100"
               name="{{ 'device.byname.shortid.column' | translate }}"
               prop="_NwkId"
@@ -88,3 +103,27 @@
     ></button>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" translate="device.byname.alert.title"></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" translate="device.byname.alert.subject"></div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('erase')"
+      translate="device.byname.alert.delete"
+    ></button>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.dismiss('cancel')"
+      translate="device.byname.alert.cancel"
+    ></button>
+  </div>
+</ng-template>

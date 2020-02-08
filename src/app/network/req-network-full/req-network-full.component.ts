@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
 import { Logger } from '@app/core';
+import { ApiService } from '@app/services/api.service';
 import { PluginStats } from '@app/shared/models/plugin-stats';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
 
 const log = new Logger('ReqNetworkInterComponent');
 
@@ -15,13 +16,13 @@ const log = new Logger('ReqNetworkInterComponent');
 export class ReqNetworkFullComponent implements OnInit {
   stats$: Observable<PluginStats>;
 
-  constructor(private apiService: ApiService, private notifyService: NotifyService) {}
+  constructor(private apiService: ApiService, private toastr: ToastrService, private translate: TranslateService) {}
 
   ngOnInit() {}
 
   reqFull() {
     this.apiService.getNwkFull().subscribe(result => {
-      this.notifyService.notify();
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
 }

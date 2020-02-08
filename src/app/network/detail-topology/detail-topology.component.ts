@@ -6,6 +6,12 @@ import { Chart } from 'angular-highcharts';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Highcharts from 'highcharts';
+import { filter } from 'rxjs/operators';
+import { Relation } from '@app/shared/models/relation';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { DeviceAvailable } from '@app/shared/models/group';
+import { DeviceByName } from '@app/shared/models/device-by-name';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -14,29 +20,58 @@ const log = new Logger('DetailTopologyComponent');
   templateUrl: './detail-topology.component.html',
   styleUrls: ['./detail-topology.component.scss']
 })
-export class DetailTopologyComponent implements OnInit, OnChanges {
+export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;
   chart1: Chart;
   chart2: Chart;
-  devices$: Observable<Array<Device>>;
+  devices$: Observable<Device[]>;
+  form: FormGroup;
+  datas: Relation[];
+  devices: DeviceByName[];
 
-  constructor(private apiService: ApiService, private translate: TranslateService) {}
+  constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {
+    super();
+  }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      nodeToFilter: [null]
+    });
+
+    this.form.get('nodeToFilter').valueChanges.subscribe((value: string) => {
+      this.createChart2(value);
+    });
+
     this.devices$ = this.apiService.getDevices();
+
+    this.apiService.getZDeviceName().subscribe(result => {
+      this.devices = result;
+      const zigate = {
+        IEEE: '',
+        MacCapa: '',
+        Model: '',
+        Health: '',
+        Status: '',
+        WidgetList: [''],
+        ZDeviceName: 'Zigate',
+        _NwkId: ''
+      };
+      this.devices.unshift(zigate);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.timeStamp.currentValue !== changes.timeStamp.previousValue) {
       this.apiService.getTopologieByTimeStamp(this.timeStamp).subscribe(result => {
-        this.createChart1(result);
-        this.createChart2(result);
+        this.datas = result;
+        this.createChart1();
+        this.createChart2();
       });
     }
   }
 
-  createChart1(data: Array<Object>) {
-    const series = data.map(element => {
+  createChart1() {
+    const series = this.datas.map(element => {
       const tab = Object.values(element);
       tab.splice(1, 1);
       return tab;
@@ -64,15 +99,23 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
     });
     this.chart1 = chart;
 
-    chart.ref$.subscribe();
+    this.subs.add(chart.ref$.subscribe());
   }
 
-  createChart2(data: Array<Object>) {
-    const datas = data.map(element => {
+  createChart2(nodeToFilter?: string) {
+    let datas = this.datas.map(element => {
       const tab = Object.values(element);
       tab.splice(1, 1);
       return tab;
     });
+
+    if (nodeToFilter) {
+      datas = datas.filter(
+        element =>
+          element[0].toLowerCase() === nodeToFilter.toLowerCase() ||
+          element[1].toLowerCase() === nodeToFilter.toLowerCase()
+      );
+    }
 
     const series1: any = [
       {
@@ -113,7 +156,7 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
     });
     this.chart2 = chart;
 
-    chart.ref$.subscribe();
+    this.subs.add(chart.ref$.subscribe());
   }
 
   test(series: any) {

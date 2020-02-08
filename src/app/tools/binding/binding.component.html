@@ -1,0 +1,102 @@
+<div class="row">
+  <div class="col-sm">
+    <form [formGroup]="form">
+      <div class="card">
+        <div class="card-header" translate="tools.binding.title"></div>
+        <div class="card-body">
+          <h5 class="card-title" [innerHTML]="'tools.binding.subtitle' | translate"></h5>
+          <div class="card-text">
+            <div class="row">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="sourceIeee"
+                    placeholder="{{ 'tools.binding.sourceIeee' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div
+                    *ngIf="form.controls['sourceIeee'].dirty && !form.controls['sourceIeee'].valid"
+                    translate="tools.binding.error"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="sourceEp"
+                    placeholder="{{ 'tools.binding.sourceEp' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div
+                    *ngIf="form.controls['sourceEp'].dirty && !form.controls['sourceEp'].valid"
+                    translate="tools.binding.error"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="destIeee"
+                    placeholder="{{ 'tools.binding.destIeee' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div
+                    *ngIf="form.controls['destIeee'].dirty && !form.controls['destIeee'].valid"
+                    translate="tools.binding.error"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="destEp"
+                    placeholder="{{ 'tools.binding.destEp' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div
+                    *ngIf="form.controls['destEp'].dirty && !form.controls['destEp'].valid"
+                    translate="tools.binding.error"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm-6">
+                <div>
+                  <input
+                    type="text"
+                    formControlName="cluster"
+                    placeholder="{{ 'tools.binding.cluster' | translate }}"
+                    class="w-100 form-control"
+                  />
+                  <div
+                    *ngIf="form.controls['cluster'].dirty && !form.controls['cluster'].valid"
+                    translate="tools.binding.error"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <button
+                class="ml-3 btn btn-primary"
+                (click)="putBinding()"
+                [disabled]="!form.valid"
+                translate="tools.binding.button.put"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

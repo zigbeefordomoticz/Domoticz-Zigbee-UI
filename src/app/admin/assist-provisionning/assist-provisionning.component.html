@@ -1,0 +1,91 @@
+<div class="col-sm">
+  <div class="card">
+    <div class="card-header" translate="admin.assistprovisionning.title"></div>
+    <div class="card-body">
+      <h5 class="card-title" translate="admin.assistprovisionning.subtitle"></h5>
+      <div class="card-text">
+        <div class="row">
+          <button
+            class="ml-3 btn btn-primary"
+            (click)="open(content)"
+            translate="admin.assistprovisionning.go.button"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" translate="admin.assistprovisionning.alert.title"></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body mt-3">
+    <ngx-spinner [fullScreen]="false" type="line-scale" size="medium" bdColor="white" color="red"></ngx-spinner>
+  </div>
+  <div class="modal-body">
+    <span class="row ml-2" translate="admin.assistprovisionning.alert.subject"></span>
+    <div *ngFor="let hardware of devicePaired" class="mt-1">
+      <fieldset class="border p-2">
+        <div class="ml-2">
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.state' | translate }}&nbsp;<b
+              >{{ hardware.ProvisionStatus }} ({{
+                'admin.assistprovisionning.alert.' + hardware.ProvisionStatus | translate
+              }})</b
+            >
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.nwkid' | translate }}&nbsp;<b>{{ hardware.NwkId }}</b>
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.ieee' | translate }}&nbsp;<b>{{ hardware.IEEE }}</b>
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.profile' | translate }}&nbsp;<b
+              >{{ hardware.ProfileId }} ({{ hardware.ProfileIdDesc }})</b
+            >
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.device' | translate }}&nbsp;<b
+              >{{ hardware.ZDeviceID }} ({{ hardware.ZDeviceIDDesc }})</b
+            >
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.model' | translate }}&nbsp;<b>{{ hardware.Model }}</b>
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.plugincertified' | translate }}&nbsp;<b>{{
+              hardware.PluginCertified
+            }}</b>
+          </div>
+          <div class="row">
+            <div *ngFor="let ep of hardware.Ep">
+              {{ 'admin.assistprovisionning.alert.ep' | translate }}&nbsp;<b>{{ ep.Ep }}</b>
+              <span class="ml-2 row" *ngFor="let cluster of ep.Clusters">
+                - {{ 'admin.assistprovisionning.alert.cluster' | translate }}&nbsp;<b
+                  >{{ cluster.ClusterId }} ({{ cluster.ClusterDesc }})</b
+                >
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            {{ 'admin.assistprovisionning.alert.widgets' | translate }}&nbsp;<b>{{ hardware?.device?.WidgetList }}</b>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('cancel')"
+      translate="admin.assistprovisionning.alert.cancel"
+    ></button>
+  </div>
+</ng-template>

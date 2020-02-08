@@ -4,6 +4,7 @@ import { ApiService } from '@app/services/api.service';
 import { PluginStats } from '@app/shared/models/plugin-stats';
 import { Chart } from 'angular-highcharts';
 import { TranslateService } from '@ngx-translate/core';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('PluginStatsComponent');
 
@@ -12,11 +13,13 @@ const log = new Logger('PluginStatsComponent');
   templateUrl: './plugin-stats.component.html',
   styleUrls: ['./plugin-stats.component.scss']
 })
-export class PluginStatsComponent implements OnInit {
+export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   plugin: PluginStats;
   chart1: Chart;
 
-  constructor(private apiService: ApiService, private translate: TranslateService) {}
+  constructor(private apiService: ApiService, private translate: TranslateService) {
+    super();
+  }
 
   ngOnInit() {
     this.apiService.getPluginStats().subscribe(res => {
@@ -58,6 +61,6 @@ export class PluginStatsComponent implements OnInit {
     });
     this.chart1 = chart;
 
-    chart.ref$.subscribe();
+    this.subs.add(chart.ref$.subscribe());
   }
 }

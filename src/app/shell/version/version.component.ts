@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../services/api.service';
-import { Plugin } from '@app/shared/models/plugin';
+import { VersionService } from '../../services/version-service';
 
 @Component({
   selector: 'app-version',
@@ -10,15 +10,27 @@ import { Plugin } from '@app/shared/models/plugin';
   styleUrls: ['./version.component.scss']
 })
 export class VersionComponent implements OnInit {
-  plugin$: Observable<Plugin>;
-  pluginHealth$: Observable<any>;
-  pluginStats$: Observable<any>;
+  fork$: Observable<any>;
 
-  constructor(private apiService: ApiService, private translate: TranslateService) {}
+  constructor(private apiService: ApiService, private versionService: VersionService) {}
 
   ngOnInit(): void {
-    this.pluginStats$ = this.apiService.getPluginStats();
-    this.plugin$ = this.apiService.getPlugin();
-    this.pluginHealth$ = this.apiService.getPluginhealth();
+    this.getInfos();
+  }
+
+  private getInfos() {
+    this.fork$ = this.versionService.reload.asObservable().pipe(
+      switchMap(_ =>
+        forkJoin([
+          this.apiService.getPluginhealth(),
+          this.apiService.getPluginStats(),
+          this.apiService.getPlugin()
+        ]).pipe(
+          map(([pluginHealth, pluginStats, plugin]) => {
+            return { pluginHealth, pluginStats, plugin };
+          })
+        )
+      )
+    );
   }
 }

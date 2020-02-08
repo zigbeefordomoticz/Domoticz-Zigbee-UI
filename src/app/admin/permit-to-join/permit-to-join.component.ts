@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { NotifyService } from '@app/services/notify.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('PermitToJoinComponent');
 
@@ -14,11 +14,7 @@ const log = new Logger('PermitToJoinComponent');
 export class PermitToJoinComponent implements OnInit {
   permitToJoin: any;
 
-  constructor(
-    private notifyService: NotifyService,
-    private apiService: ApiService,
-    private translate: TranslateService
-  ) {}
+  constructor(private toastr: ToastrService, private apiService: ApiService, private translate: TranslateService) {}
 
   ngOnInit() {
     this.apiService.getPermitToJoin().subscribe(result => {
@@ -29,7 +25,7 @@ export class PermitToJoinComponent implements OnInit {
   updatePermitToJoin(value: number) {
     this.permitToJoin.PermitToJoin = value;
     this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-      this.notifyService.notify();
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
 }
