@@ -11,6 +11,7 @@ import { Relation } from '@app/shared/models/relation';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { DeviceAvailable } from '@app/shared/models/group';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -19,7 +20,7 @@ const log = new Logger('DetailTopologyComponent');
   templateUrl: './detail-topology.component.html',
   styleUrls: ['./detail-topology.component.scss']
 })
-export class DetailTopologyComponent implements OnInit, OnChanges {
+export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;
   chart1: Chart;
   chart2: Chart;
@@ -28,7 +29,9 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
   datas: Relation[];
   devices: DeviceByName[];
 
-  constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {}
+  constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {
+    super();
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -96,7 +99,7 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
     });
     this.chart1 = chart;
 
-    chart.ref$.subscribe();
+    this.subs.add(chart.ref$.subscribe());
   }
 
   createChart2(nodeToFilter?: string) {
@@ -153,7 +156,7 @@ export class DetailTopologyComponent implements OnInit, OnChanges {
     });
     this.chart2 = chart;
 
-    chart.ref$.subscribe();
+    this.subs.add(chart.ref$.subscribe());
   }
 
   test(series: any) {

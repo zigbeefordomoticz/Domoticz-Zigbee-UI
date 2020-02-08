@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Highcharts from 'highcharts';
 import { NwkStat, Channel } from './nwk';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -15,7 +16,7 @@ const log = new Logger('DetailTopologyComponent');
   templateUrl: './detail-nwk-stat.component.html',
   styleUrls: ['./detail-nwk-stat.component.scss']
 })
-export class DetailNwkStatComponent implements OnInit, OnChanges {
+export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;
   chart: Chart;
   chart2: Chart;
@@ -23,7 +24,9 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
   totalTx: number;
   totalFail: number;
 
-  constructor(private apiService: ApiService, private translate: TranslateService) {}
+  constructor(private apiService: ApiService, private translate: TranslateService) {
+    super();
+  }
 
   ngOnInit() {
     this.devices$ = this.apiService.getDevices();
@@ -205,7 +208,7 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
     });
     this.chart = chart;
 
-    chart.ref$.subscribe();
+    this.subs.add(chart.ref$.subscribe());
   }
 
   createChart2(data: Array<NwkStat>) {
@@ -289,7 +292,7 @@ export class DetailNwkStatComponent implements OnInit, OnChanges {
     });
     this.chart2 = chart;
 
-    chart.ref$.subscribe();
+    this.subs.add(chart.ref$.subscribe());
   }
 }
 // const series1: any = [

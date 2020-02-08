@@ -8,6 +8,7 @@ import { forkJoin } from 'rxjs';
 import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { PluginStats } from '../shared/models/plugin-stats';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('DashboardComponent');
 
@@ -16,7 +17,7 @@ const log = new Logger('DashboardComponent');
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   chart: Chart;
   devices: any;
   routers: any;
@@ -83,7 +84,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private toppy: Toppy,
     private versionService: VersionService,
     private translateService: TranslateService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.getInfos();
@@ -335,7 +338,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
     this.chart = chart;
 
-    chart.ref$.subscribe();
+    this.subs.add(chart.ref$.subscribe());
   }
 
   open(name: string, event: any) {
@@ -381,7 +384,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .content(DeviceByNameComponent, { devices: devices })
       .create();
 
-    this.toppyControl.listen('t_compins').subscribe(comp => {});
+    this.subs.add(this.toppyControl.listen('t_compins').subscribe(comp => {}));
 
     this.toppyControl.open();
   }
