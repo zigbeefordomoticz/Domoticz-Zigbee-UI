@@ -4,13 +4,13 @@ import { Shell } from '@app/shell/shell.service';
 
 const routes: Routes = [
   Shell.childRoutes([
-    { path: 'about', loadChildren: 'app/about/about.module#AboutModule' },
-    { path: 'device', loadChildren: 'app/device/device.module#DeviceModule' },
-    { path: 'group', loadChildren: 'app/group/group.module#GroupModule' },
-    { path: 'network', loadChildren: 'app/network/network.module#NetworkModule' },
-    { path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule' },
-    { path: 'settings', loadChildren: 'app/settings/settings.module#SettingsModule' },
-    { path: 'tools', loadChildren: 'app/tools/tools.module#ToolsModule' }
+    { path: 'about', loadChildren: () => import('app/about/about.module').then(m => m.AboutModule) },
+    { path: 'device', loadChildren: () => import('app/device/device.module').then(m => m.DeviceModule) },
+    { path: 'group', loadChildren: () => import('app/group/group.module').then(m => m.GroupModule) },
+    { path: 'network', loadChildren: () => import('app/network/network.module').then(m => m.NetworkModule) },
+    { path: 'admin', loadChildren: () => import('app/admin/admin.module').then(m => m.AdminModule) },
+    { path: 'settings', loadChildren: () => import('app/settings/settings.module').then(m => m.SettingsModule) },
+    { path: 'tools', loadChildren: () => import('app/tools/tools.module').then(m => m.ToolsModule) }
   ]),
   // Fallback when no prior route is matched
   { path: '**', redirectTo: '', pathMatch: 'full' }
