@@ -16,7 +16,7 @@ const log = new Logger('SettingsComponent');
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  @ViewChild('content', { static: false }) content: any;
+  @ViewChild('content') content: any;
   form: FormGroup;
   settings: Array<Settings>;
   advanced = false;
