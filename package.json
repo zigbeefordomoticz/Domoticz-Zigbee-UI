@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points; npm run prettier -s",
+    "postinstall": "npm run prettier -s",
     "ng": "ng",
     "build": "npm run env -s && ng build --prod",
     "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
@@ -46,7 +46,7 @@
     "ng-bootstrap-form-validation": "^5.0.0",
     "ngx-color-picker": "^9.0.0",
     "ngx-filesaver": "^8.1.0",
-    "ngx-gauge": "^1.0.0-beta.11",
+    "@ben33880/gauge": "^1.0.0-beta.11",
     "ngx-json-viewer": "^2.4.0",
     "ngx-perfect-scrollbar": "^9.0.0",
     "ngx-spinner": "^8.1.0",
