@@ -13,7 +13,6 @@ import * as exporting from 'highcharts/modules/exporting.src';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxGaugeModule } from '@ben33880/gauge';
 
 @NgModule({
   imports: [
@@ -22,7 +21,6 @@ import { NgxGaugeModule } from '@ben33880/gauge';
     DashboardRoutingModule,
     CommonModule,
     ReactiveFormsModule,
-    NgxGaugeModule,
     ToppyModule,
     TranslateModule,
     NgxDatatableModule,
