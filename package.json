@@ -46,7 +46,6 @@
     "ng-bootstrap-form-validation": "^5.0.0",
     "ngx-color-picker": "^9.0.0",
     "ngx-filesaver": "^8.1.0",
-    "@ben33880/gauge": "^1.0.0-beta.11",
     "ngx-json-viewer": "^2.4.0",
     "ngx-perfect-scrollbar": "^9.0.0",
     "ngx-spinner": "^8.1.0",
