@@ -9,80 +9,60 @@
             <div class="row">
               <div class="col-sm-6">
                 <div>
-                  <input
-                    type="text"
-                    formControlName="sourceIeee"
-                    placeholder="{{ 'tools.binding.sourceIeee' | translate }}"
-                    class="w-100 form-control"
-                  />
-                  <div
-                    *ngIf="form.controls['sourceIeee'].dirty && !form.controls['sourceIeee'].valid"
-                    translate="tools.binding.error"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-sm-6">
-                <div>
-                  <input
-                    type="text"
-                    formControlName="sourceEp"
-                    placeholder="{{ 'tools.binding.sourceEp' | translate }}"
-                    class="w-100 form-control"
-                  />
-                  <div
-                    *ngIf="form.controls['sourceEp'].dirty && !form.controls['sourceEp'].valid"
-                    translate="tools.binding.error"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-sm-6">
-                <div>
-                  <input
-                    type="text"
-                    formControlName="destIeee"
-                    placeholder="{{ 'tools.binding.destIeee' | translate }}"
-                    class="w-100 form-control"
-                  />
-                  <div
-                    *ngIf="form.controls['destIeee'].dirty && !form.controls['destIeee'].valid"
-                    translate="tools.binding.error"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-sm-6">
-                <div>
-                  <input
-                    type="text"
-                    formControlName="destEp"
-                    placeholder="{{ 'tools.binding.destEp' | translate }}"
-                    class="w-100 form-control"
-                  />
-                  <div
-                    *ngIf="form.controls['destEp'].dirty && !form.controls['destEp'].valid"
-                    translate="tools.binding.error"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-sm-6">
-                <div>
-                  <input
-                    type="text"
-                    formControlName="cluster"
+                  <ng-select
+                    [items]="clusters$ | async"
+                    [multiple]="false"
+                    [closeOnSelect]="true"
                     placeholder="{{ 'tools.binding.cluster' | translate }}"
-                    class="w-100 form-control"
-                  />
-                  <div
-                    *ngIf="form.controls['cluster'].dirty && !form.controls['cluster'].valid"
-                    translate="tools.binding.error"
-                  ></div>
+                    appendTo="body"
+                    formControlName="cluster"
+                  >
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm-6">
+                <div>
+                  <ng-select
+                    [items]="devicesSource"
+                    [multiple]="false"
+                    (change)="filterDevices($event)"
+                    [closeOnSelect]="true"
+                    placeholder="{{ 'tools.binding.sourceEp' | translate }}"
+                    appendTo="body"
+                    bindLabel="ZDeviceName"
+                    formControlName="source"
+                  >
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <span [ngOptionHighlight]="search">
+                        <b>Device name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> :
+                        {{ item.Ep }} - <b>Nwkid</b> : {{ item.NwkId }}
+                      </span>
+                    </ng-template>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm-6">
+                <div>
+                  <ng-select
+                    [items]="devicesTargetFiltered"
+                    [multiple]="false"
+                    [closeOnSelect]="true"
+                    bindLabel="ZDeviceName"
+                    placeholder="{{ 'tools.binding.destEp' | translate }}"
+                    appendTo="body"
+                    formControlName="target"
+                  >
+                    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                      <span [ngOptionHighlight]="search">
+                        <b>Device name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> :
+                        {{ item.Ep }} - <b>Nwkid</b> : {{ item.NwkId }}
+                      </span>
+                    </ng-template>
+                  </ng-select>
                 </div>
               </div>
             </div>

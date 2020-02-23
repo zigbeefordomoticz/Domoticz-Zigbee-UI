@@ -18,6 +18,7 @@ import { Binding } from '../shared/models/binding';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Relation } from '../shared/models/relation';
+import { DeviceBind } from '@app/shared/models/device-bind';
 
 const routes = {
   devices: '/device',
@@ -48,7 +49,9 @@ const routes = {
   newHardware: '/new-hrdwr/',
   receiveNewHardware: '/rcv-nw-hrdwr',
   binding: '/binding',
-  rawCommand: '/raw-command'
+  rawCommand: '/raw-command',
+  bindLSTcluster: '/bindLSTcluster',
+  bindLSTdevice: '/bindLSTdevice'
 };
 
 const log = new Logger('ApiService');
@@ -384,6 +387,21 @@ export class ApiService {
 
   putCommandRaw(command: Command): Observable<any> {
     return this.httpClient.put(routes.rawCommand, command).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getBindLSTcluster(): Observable<string[]> {
+    return this.httpClient.get(routes.bindLSTcluster).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getBindLSTdevice(id: string): Observable<DeviceBind[]> {
+    const route = routes.bindLSTdevice + '/' + id;
+    return this.httpClient.get(route).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

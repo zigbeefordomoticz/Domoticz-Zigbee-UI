@@ -38,7 +38,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       nodeToFilter: [null]
     });
 
-    this.form.get('nodeToFilter').valueChanges.subscribe((value: string) => {
+    this.subs.sink = this.form.get('nodeToFilter').valueChanges.subscribe((value: string) => {
       this.createChart2(value);
     });
 
