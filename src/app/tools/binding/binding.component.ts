@@ -41,6 +41,7 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     this.clusters$ = this.apiService.getBindLSTcluster();
 
     this.subs.sink = this.form.get('cluster').valueChanges.subscribe(change => {
+      log.debug('change:', change);
       this.apiService.getBindLSTdevice(this.form.get('cluster').value).subscribe(devices => {
         this.devicesSource = devices;
         this.devicesTarget = devices;
@@ -63,7 +64,10 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     };
     this.apiService.putBinding(values).subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
-      this.form.reset();
+      this.form.reset('', {
+        onlySelf: true,
+        emitEvent: false
+      });
     });
   }
 
@@ -75,9 +79,13 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
       destEp: this.form.get('target').value.Ep,
       cluster: this.form.get('cluster').value
     };
+
     this.apiService.putUnBinding(values).subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
-      this.form.reset();
+      this.form.reset('', {
+        onlySelf: true,
+        emitEvent: false
+      });
     });
   }
 }
