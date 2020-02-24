@@ -241,6 +241,7 @@
   "tools.binding.destEp": "Dest ep",
   "tools.binding.cluster": "Cluster",
   "tools.binding.button.put": "Binding verzenden",
+  "tools.unbinding.button.put": "Unbinding",
   "command": "Commando",
   "tools.rawcommand.title": "ruwe opdrachttitel",
   "tools.rawcommand.subtitle": "ruwe opdracht-subtitel",

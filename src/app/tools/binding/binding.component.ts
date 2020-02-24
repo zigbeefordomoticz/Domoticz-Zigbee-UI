@@ -66,4 +66,18 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
       this.form.reset();
     });
   }
+
+  putUnBinding() {
+    const values = {
+      sourceIeee: this.form.get('source').value.IEEE,
+      sourceEp: this.form.get('source').value.Ep,
+      destIeee: this.form.get('target').value.IEEE,
+      destEp: this.form.get('target').value.Ep,
+      cluster: this.form.get('cluster').value
+    };
+    this.apiService.putUnBinding(values).subscribe(() => {
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+      this.form.reset();
+    });
+  }
 }

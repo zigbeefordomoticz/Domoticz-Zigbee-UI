@@ -49,6 +49,7 @@ const routes = {
   newHardware: '/new-hrdwr/',
   receiveNewHardware: '/rcv-nw-hrdwr',
   binding: '/binding',
+  unbinding: '/unbinding',
   rawCommand: '/raw-command',
   bindLSTcluster: '/bindLSTcluster',
   bindLSTdevice: '/bindLSTdevice'
@@ -402,6 +403,13 @@ export class ApiService {
   getBindLSTdevice(id: string): Observable<DeviceBind[]> {
     const route = routes.bindLSTdevice + '/' + id;
     return this.httpClient.get(route).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putUnBinding(unbinding: Binding): Observable<any> {
+    return this.httpClient.put(routes.unbinding, unbinding).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

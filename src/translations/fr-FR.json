@@ -280,6 +280,7 @@
   "tools.binding.destEp": "Séléctionnez le dispositif cible",
   "tools.binding.cluster": "Cluster",
   "tools.binding.button.put": "Couplage",
+  "tools.unbinding.button.put": "Dé-couplage",
   "command": "Commande",
   "tools.rawcommand.title": "Commande brut",
   "tools.rawcommand.subtitle": "Allow to send a ZiGate command directly to zigate in raw mode. you must follow the ZiGate protocol accordingly.( http://shorturl.at/hvBHJ )",

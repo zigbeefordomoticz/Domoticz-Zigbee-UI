@@ -242,6 +242,7 @@
   "tools.binding.destEp": "Select target device",
   "tools.binding.cluster": "Cluster",
   "tools.binding.button.put": "Binding",
+  "tools.unbinding.button.put": "Unbinding",
   "command": "Command",
   "tools.rawcommand.title": "ZiGate command (raw)",
   "tools.rawcommand.subtitle": "Allow to send a ZiGate command directly to zigate in raw mode. you must follow the ZiGate protocol accordingly.( http://shorturl.at/hvBHJ )",
