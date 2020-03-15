@@ -304,5 +304,6 @@
   "zigatePartOfGroup0000": "Creation du Group 0000",
   "allowRemoveZigateDevice": "Suppression dans la Zigate",
   "resetPermit2Join": "Reset permit to join at startup",
-  "blueLedOnOff": "Zigate Led On/Off"
+  "blueLedOnOff": "Zigate Led On/Off",
+  "forcePollingAfterAction": "Get device status after action"
 }
