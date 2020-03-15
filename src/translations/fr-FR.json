@@ -303,5 +303,5 @@
   "resetPermit2Join": "Reset permit to join at startup",
   "forcePollingAfterAction": "Get device status after action",
   "enableReadAttributes": "Activer interrogation des dispositifs",
-  "blueLedOnOf": "Active ou désactive la Led Bleu"
+  "blueLedOnOff": "Active ou désactive la Led Bleu"
 }
