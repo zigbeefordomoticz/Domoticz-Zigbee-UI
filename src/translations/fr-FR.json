@@ -234,7 +234,7 @@
   "setting.header.GroupManagement": "Réglages des Groupes",
   "setting.subtitle.GroupManagement": "ici tous les réglages pour activer et configurer les Groupes.",
   "enablegroupmanagement": "Activer les Groupes",
-  "setting.header.PluginConfiguration": "Réglage de l'environement du Plugin",
+  "setting.header.PluginConfiguration": "Réglage de l'environnement du Plugin",
   "setting.subtitle.PluginConfiguration": "Ici tous les réglages de l'environnement du Plugin",
   "numDeviceListVersion": "Nombre d'historique du fichier DeviceList",
   "setting.header.VerboseLogging": "Logs",
@@ -298,5 +298,11 @@
   "api.global.succes.update.title": "Mise à jour réussie",
   "api.global.reset.zigate.title": "Soft reset ZiGate lancé",
   "api.global.succes.erasepdm.title": "ErasePdm ZiGate lancé",
-  "api.global.succes.pluginrestarted.title": "Plugin redémarré"
+  "api.global.succes.pluginrestarted.title": "Plugin redémarré",
+
+  "useDomoticzLog": "Usage des Logs Domoticz",
+  "zigatePartOfGroup0000": "Creation du Group 0000",
+  "allowRemoveZigateDevice": "Suppression dans la Zigate",
+  "resetPermit2Join": "Reset permit to join at startup",
+  "blueLedOnOff": "Zigate Led On/Off"
 }
