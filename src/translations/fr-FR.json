@@ -222,8 +222,6 @@
   "setting.header.OverTheAirUpgrade": "Réglages mise à jour sans fils (OTA)",
   "setting.subtitle.OverTheAirUpgrade": "Ici tout les réglages pour les mises à jours sans fils (OTA).",
   "allowOTA": "Activer OTA",
-  "enableReadAttributes": "Activer interrogation des dispositifs",
-  "blueLedOnOf": "Active ou désactive la Led Bleu",
   "setting.header.Legrand": "Réglages Legrand Netatmo",
   "setting.subtitle.Legrand": "Permet d'activer des modes spécifiques aux equipements Legrand Netatmo",
   "setting.header.Schneider Wiser": "Réglages Schneider Wiser",
@@ -299,11 +297,11 @@
   "api.global.reset.zigate.title": "Soft reset ZiGate lancé",
   "api.global.succes.erasepdm.title": "ErasePdm ZiGate lancé",
   "api.global.succes.pluginrestarted.title": "Plugin redémarré",
-
   "useDomoticzLog": "Usage des Logs Domoticz",
   "zigatePartOfGroup0000": "Creation du Group 0000",
   "allowRemoveZigateDevice": "Suppression dans la Zigate",
   "resetPermit2Join": "Reset permit to join at startup",
-  "blueLedOnOff": "Zigate Led On/Off",
-  "forcePollingAfterAction": "Get device status after action"
+  "forcePollingAfterAction": "Get device status after action",
+  "enableReadAttributes": "Activer interrogation des dispositifs",
+  "blueLedOnOf": "Active ou désactive la Led Bleu"
 }
