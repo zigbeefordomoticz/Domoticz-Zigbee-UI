@@ -147,25 +147,28 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.inDbs.label = this.translateService.instant('dashboard.devices.indb');
       this.inDbs.total = ((this.inDbs.length / this.devices.total) * 100).toFixed(0);
       this.inDbs.append = '%';
-      this.healthsLive = this.devices.filter((device: any) => device.Health === 'Live');
+      this.healthsLive = this.devices.filter((device: any) => device.Health === 'Live' && device.Status !== 'notDB');
       this.healthsLive.label = this.translateService.instant('dashboard.devices.live');
       this.healthsLive.total = ((this.healthsLive.length / this.devices.total) * 100).toFixed(0);
       this.healthsLive.append = '%';
       this.healthsNotReachable = this.devices.filter((device: any) => {
-        return device.Health === 'Not Reachable';
+        return device.Health === 'Not Reachable' && device.Status !== 'notDB';
       });
       this.healthsNotReachable.label = this.translateService.instant('dashboard.devices.notReachable');
       this.healthsNotReachable.total = ((this.healthsNotReachable.length / this.devices.total) * 100).toFixed(0);
       this.healthsNotReachable.append = '%';
       this.healthsNotSeen = this.devices.filter((device: any) => {
-        return device.Health === 'Not seen last 24hours';
+        return device.Health === 'Not seen last 24hours' && device.Status !== 'notDB';
       });
       this.healthsNotSeen.label = this.translateService.instant('dashboard.devices.notseen');
       this.healthsNotSeen.total = ((this.healthsNotSeen.length / this.devices.total) * 100).toFixed(0);
       this.healthsNotSeen.append = '%';
       this.healthsOthers = this.devices.filter((device: any) => {
         return (
-          device.Health !== 'Not seen last 24hours' && device.Health !== 'Not Reachable' && device.Health !== 'Live'
+          device.Health !== 'Not seen last 24hours' &&
+          device.Health !== 'Not Reachable' &&
+          device.Health !== 'Live' &&
+          device.Status !== 'notDB'
         );
       });
       this.healthsOthers.label = this.translateService.instant('dashboard.devices.enddevice');
@@ -196,7 +199,9 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         },
         { name: this.translateService.instant('dashboard.devices.others'), value: this.healthsOthers.length }
       ];
-      this.devicesOnBattery = devices.filter((device: any) => device.LogicalType !== 'Router');
+      this.devicesOnBattery = devices.filter(
+        (device: any) => device.LogicalType !== 'Router' && device.Status !== 'notDB'
+      );
       const _batteryInf30 = this.devicesOnBattery.filter((device: any) => device.Battery < 30);
       const _batterySup30 = this.devicesOnBattery.filter((device: any) => device.Battery > 30 && device.Battery < 50);
       const _batterySup50 = this.devicesOnBattery.filter((device: any) => device.Battery > 50);
