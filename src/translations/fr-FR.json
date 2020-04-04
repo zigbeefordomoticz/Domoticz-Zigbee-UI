@@ -88,6 +88,7 @@
   "dashboard.zigate.subtitle": "Donne les informations de la ZiGate",
   "dashboard.health.title": "Santé du plugin",
   "dashboard.health.starttime": "Lancé à ",
+  "dashboard.health.OTA": "OTA shortId ",
   "dashboard.trafic.title": "Etat du Trafic ( Émission, Réception, Type et Charge)",
   "dashboard.trafic.total.trafic.sent.label": "Émis",
   "dashboard.trafic.total.trafic.sent": "Tx",

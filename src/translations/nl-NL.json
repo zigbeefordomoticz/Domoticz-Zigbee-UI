@@ -85,6 +85,7 @@
   "dashboard.zigate.subtitle": "Geeft Zigate informatie",
   "dashboard.health.title": "Gezondheid van de plugin",
   "dashboard.health.starttime": "Opgestart op:",
+  "dashboard.health.OTA": "OTA shortId ",
   "dashboard.trafic.title": "Berichtenverkeer status ( Verzenden en Ontvangen, Types and Belasting)",
   "dashboard.trafic.total.trafic.sent.label": "Verzonden",
   "dashboard.trafic.total.trafic.sent": "Tx",
