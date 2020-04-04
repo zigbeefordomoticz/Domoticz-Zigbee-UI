@@ -52,7 +52,7 @@
 
         <div class="col-sm-1 text-center text-white"><span translate="{{ fork.pluginHealth?.HealthTxt }}"></span></div>
 
-        <div class="col-sm-2 text-center text-white">
+        <div class="col-sm-2 text-center text-white" *ngIf="fork.pluginHealth?.OTAupdateDevice">
           <span translate="dashboard.health.OTA"></span
           ><span>{{ fork.pluginHealth?.OTAupdateDevice }} {{ fork.pluginHealth?.OTAupdateProgress }}</span>
         </div>
