@@ -49,13 +49,16 @@
       </div>
 
       <div class="order-3 p-2 text-center text-white"><span translate="{{ fork.pluginHealth?.HealthTxt }}"></span></div>
+      <div *ngIf="fork.pluginHealth?.GroupStatus" class="order-4 p-2 text-center text-white">
+        <span>{{ 'dashboard.health.group' | translate }} {{ fork.pluginHealth?.GroupStatus }}</span>
+      </div>
 
-      <div class="order-4 p-2 text-center text-white" *ngIf="fork.pluginHealth?.OTAupdateDevice">
+      <div class="order-5 p-2 text-center text-white" *ngIf="fork.pluginHealth?.OTAupdateDevice">
         <span translate="dashboard.health.OTA"></span
         ><span>{{ fork.pluginHealth?.OTAupdateDevice }} {{ fork.pluginHealth?.OTAupdateProgress }}</span>
       </div>
 
-      <div class="order-5 p-2" *ngIf="fork.plugin?.PluginUpdate">
+      <div class="order-6 p-2" *ngIf="fork.plugin?.PluginUpdate">
         <a
           class="text-danger"
           style="cursor: pointer;"
@@ -66,7 +69,7 @@
           <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
         </a>
       </div>
-      <div class="mr-2 order-6 p-2" *ngIf="fork.plugin?.FirmwareUpdate">
+      <div class="mr-2 order-7 p-2" *ngIf="fork.plugin?.FirmwareUpdate">
         <a
           class="text-danger"
           style="cursor: pointer;"
@@ -77,10 +80,10 @@
           <span translate="dashboard.firmware.version"></span>{{ fork.plugin.FirmwareVersion }}
         </a>
       </div>
-      <div *ngIf="!fork.plugin?.PluginUpdate" class="order-5 p-2 text-white">
+      <div *ngIf="!fork.plugin?.PluginUpdate" class="order-6 p-2 text-white">
         <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
       </div>
-      <div *ngIf="!fork.plugin?.FirmwareUpdate" class="mr-2 order-6 p-2 text-white">
+      <div *ngIf="!fork.plugin?.FirmwareUpdate" class="mr-2 order-7 p-2 text-white">
         <span translate="dashboard.firmware.version"></span>{{ fork.plugin.FirmwareVersion }}
       </div>
     </div>
