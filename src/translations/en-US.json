@@ -71,7 +71,7 @@
   "dashboard.rxph": "Rx/h",
   "dashboard.txph": "Tx/h",
   "dashboard.load": "Load",
-  "dashboard.maxload": "MaxLoad on ZiGate",
+  "dashboard.maxload": "MaxLoad",
   "dashboard.plugin.version": "Plugin: ",
   "dashboard.firmware.version": "Firmware: ",
   "dashboard.plugin.update.available": "There is an update available for the plugin. Stop the plugin and do a git pull in order to update it.",
