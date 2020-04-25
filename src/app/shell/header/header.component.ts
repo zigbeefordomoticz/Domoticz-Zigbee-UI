@@ -4,6 +4,9 @@ import { HeaderService } from '@app/services/header-service';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from '../../services/api.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Settings } from '@app/shared/models/setting';
+import { Setting } from '../../shared/models/setting';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +18,8 @@ export class HeaderComponent implements OnInit {
   permitToJoin: any;
   permitChecked = false;
   restart: boolean;
+  settings: Array<Settings>;
+  settingsToSave: Array<Setting> = [];
 
   constructor(
     private headerService: HeaderService,
@@ -34,6 +39,12 @@ export class HeaderComponent implements OnInit {
       if (result.PermitToJoin !== 0) {
         this.permitChecked = true;
       }
+    });
+    this.apiService.getSettings().subscribe(res => {
+      this.settings = res;
+      this.settings.forEach(setting => {
+        this.settingsToSave = this.settingsToSave.concat(setting.ListOfSettings);
+      });
     });
   }
 
@@ -57,6 +68,7 @@ export class HeaderComponent implements OnInit {
 
   setLanguage(language: string) {
     this.i18nService.language = language;
+    this.updateSettings(language);
   }
 
   get currentLanguage(): string {
@@ -65,5 +77,18 @@ export class HeaderComponent implements OnInit {
 
   get languages(): string[] {
     return this.i18nService.supportedLanguages;
+  }
+
+  updateSettings(language: string) {
+    const settingsToSend: any = {};
+    this.settingsToSave.forEach(setting => {
+      const name = setting.Name;
+      let value = setting.current_value;
+      if (name === 'Lang') {
+        value = language;
+      }
+      settingsToSend[name] = { current: value };
+    });
+    this.apiService.putSettings(settingsToSend).subscribe();
   }
 }
