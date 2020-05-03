@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { I18nService } from '@app/core';
 import { HeaderService } from '@app/services/header-service';
-import { ToastrService } from 'ngx-toastr';
-import { ApiService } from '../../services/api.service';
-import { TranslateService } from '@ngx-translate/core';
+import { Plugin } from '@app/shared/models/plugin';
 import { Settings } from '@app/shared/models/setting';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { ApiService } from '../../services/api.service';
 import { Setting } from '../../shared/models/setting';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit {
   restart: boolean;
   settings: Array<Settings>;
   settingsToSave: Array<Setting> = [];
+  plugin$: Observable<Plugin>;
 
   constructor(
     private headerService: HeaderService,
@@ -30,6 +32,8 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.plugin$ = this.apiService.getPlugin();
+
     this.headerService.restart.subscribe(restart => {
       this.restart = restart;
     });

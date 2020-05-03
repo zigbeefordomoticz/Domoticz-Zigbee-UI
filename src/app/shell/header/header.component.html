@@ -24,7 +24,7 @@
         <li ngbDropdown routerLinkActive="active" class="dropdown ">
           <a class="nav-item nav-link mx-2" routerLink="/dashboard" routerLinkActive="active">
             <i class="fas fa-home"></i>
-            <span translate>dashboard</span>
+            <span *ngIf="plugin$ | async as plugins">{{ plugins.Name }}</span>
           </a>
         </li>
         <li ngbDropdown routerLinkActive="active" class="nav-item dropdown">
