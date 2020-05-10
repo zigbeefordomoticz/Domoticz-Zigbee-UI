@@ -1,6 +1,7 @@
 <div class="row card-columns">
   <app-assist-provisionning *ngIf="action === 'pairing'"></app-assist-provisionning>
   <app-permit-to-join *ngIf="action === 'pairing'"></app-permit-to-join>
+  <app-permit-to-join-router *ngIf="action === 'pairing'"></app-permit-to-join-router>
   <app-sw-reset *ngIf="action === 'zigate'"></app-sw-reset>
   <!-- <app-erase-pdm *ngIf="action === 'zigate'"></app-erase-pdm> -->
   <app-reload-plugin *ngIf="action === 'plugin'"></app-reload-plugin>
