@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   restart: boolean;
   settings: Array<Settings>;
   settingsToSave: Array<Setting> = [];
-  plugin$: Observable<Plugin>;
+  plugin: Plugin;
 
   constructor(
     private headerService: HeaderService,
@@ -32,7 +32,9 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.plugin$ = this.apiService.getPlugin();
+    setTimeout(() => {
+      this.plugin = JSON.parse(sessionStorage.getItem('plugin'));
+    }, 500);
 
     this.headerService.restart.subscribe(restart => {
       this.restart = restart;
