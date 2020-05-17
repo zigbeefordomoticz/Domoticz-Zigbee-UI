@@ -157,17 +157,18 @@ export class GroupComponent implements OnInit {
   }
 
   isFormValid(): boolean {
-    let formvalid = true;
+    let retour = true;
     this.rows.forEach(group => {
-      if (
-        group.GroupName === null ||
-        group.GroupName === '' ||
-        (!group.coordinatorInside && (group.devicesSelected === undefined || group.devicesSelected.length === 0))
-      ) {
-        formvalid = false;
+      if (!group.GroupName) {
+        retour = false;
+        return;
+      }
+      if (!group.coordinatorInside && (!group.devicesSelected || group.devicesSelected.length === 0)) {
+        retour = false;
+        return;
       }
     });
 
-    return formvalid || this.hasEditing;
+    return retour;
   }
 }

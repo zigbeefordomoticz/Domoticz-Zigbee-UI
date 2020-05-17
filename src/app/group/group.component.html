@@ -31,7 +31,12 @@
           >
             <ngx-datatable-column [maxWidth]="100">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                <i class="fa fa-trash" title="{{ 'group.create.delete.button' | translate }}" (click)="delete(row)"></i>
+                <i
+                  class="fa fa-trash"
+                  style="cursor: pointer;"
+                  title="{{ 'group.create.delete.button' | translate }}"
+                  (click)="delete(row)"
+                ></i>
               </ng-template>
             </ngx-datatable-column>
 
