@@ -52,7 +52,8 @@ const routes = {
   unbinding: '/unbinding',
   rawCommand: '/raw-command',
   bindLSTcluster: '/bindLSTcluster',
-  bindLSTdevice: '/bindLSTdevice'
+  bindLSTdevice: '/bindLSTdevice',
+  ScanDeviceForGrp: '/ScanDeviceForGrp'
 };
 
 const log = new Logger('ApiService');
@@ -410,6 +411,13 @@ export class ApiService {
 
   putUnBinding(unbinding: Binding): Observable<any> {
     return this.httpClient.put(routes.unbinding, unbinding).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putScanDeviceForGrp(nwkids: string[]): Observable<any> {
+    return this.httpClient.put(routes.ScanDeviceForGrp, nwkids).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

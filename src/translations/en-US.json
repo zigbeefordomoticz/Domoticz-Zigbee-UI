@@ -28,6 +28,12 @@
   "admin.assistprovisionning.alert.inDB": "Successful (check if widgets have been created)",
   "admin.assistprovisionning.alert.Unexpected": "Unexpected (Contact support)",
 
+  "admin.scan.group.device.title": "Scan Groups Devices",
+  "admin.scan.group.device.subtitle": "Will scan devices - groups",
+  "admin.scan.group.device.button": "Scan",
+  "admin.scan.group.device.placeholder": "choose device to scan",
+  "admin.scan.group.device.notify": "Rescan will start at next restart",
+
   "admin.rescan.group.title": "Rescan Groups",
   "admin.rescan.group.subtitle": "Will rescan groups",
   "admin.rescan.group.button": "Rescan",

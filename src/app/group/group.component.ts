@@ -8,6 +8,7 @@ import { Group, DeviceAvailable, DevicesAvailable } from '@app/shared/models/gro
 import { HeaderService } from '@app/services/header-service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
+import { UnsubscribeOnDestroyAdapter } from '../shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('GroupComponent');
 
@@ -16,7 +17,7 @@ const log = new Logger('GroupComponent');
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.scss']
 })
-export class GroupComponent implements OnInit {
+export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild('table') table: DatatableComponent;
   @ViewChild('content') content: any;
   form: FormGroup;
@@ -34,7 +35,9 @@ export class GroupComponent implements OnInit {
     private translate: TranslateService,
     private toastr: ToastrService,
     private headerService: HeaderService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.apiService.getZGroupDevicesAvalaible().subscribe((devices: Array<DevicesAvailable>) => {

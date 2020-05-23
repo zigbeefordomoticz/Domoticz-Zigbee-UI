@@ -27,6 +27,13 @@
   "admin.assistprovisionning.alert.Failed": "Appairage echoué (regardes les logs pour plus de détails)",
   "admin.assistprovisionning.alert.inDB": "Appairage effectué (vérifiez si les widgets sont bien créées dans Domoticz)",
   "admin.assistprovisionning.alert.Unexpected": "Erreur inattendue (contacter le support)",
+
+  "admin.scan.group.device.title": "Scan Groups Devices",
+  "admin.scan.group.device.subtitle": "Will scan devices - groups",
+  "admin.scan.group.device.button": "Scan",
+  "admin.scan.group.device.placeholder": "choose device to scan",
+  "admin.scan.group.device.notify": "Rescan will start at next restart",
+
   "admin.rescan.group.title": "Réanalyse des Groupes",
   "admin.rescan.group.subtitle": "Va réanalyser les groupes",
   "admin.rescan.group.button": "réanalyse",

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('PermitToJoinRouterComponent');
 
@@ -14,7 +15,7 @@ const log = new Logger('PermitToJoinRouterComponent');
   templateUrl: './permit-to-join-router.component.html',
   styleUrls: ['./permit-to-join-router.component.scss']
 })
-export class PermitToJoinRouterComponent implements OnInit {
+export class PermitToJoinRouterComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   permitToJoin: any;
   routers: DeviceByName[];
   form: FormGroup;
@@ -24,14 +25,16 @@ export class PermitToJoinRouterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiService: ApiService,
     private translate: TranslateService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
       deviceSelected: [null, Validators.required]
     });
 
-    forkJoin([this.apiService.getPermitToJoin(), this.apiService.getZDevices()]).subscribe(
+    this.subs.sink = forkJoin([this.apiService.getPermitToJoin(), this.apiService.getZDevices()]).subscribe(
       ([permitToJoin, devices]) => {
         this.permitToJoin = permitToJoin;
         this.routers = devices.filter((router: any) => router.LogicalType === 'Router');

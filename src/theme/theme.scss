@@ -217,3 +217,9 @@ $switch-transition: 0.2s all !default;
 button[disabled] {
   cursor: not-allowed;
 }
+
+ng-select {
+  .ng-dropdown-panel {
+    width: auto !important;
+  }
+}

@@ -9,6 +9,7 @@ import { PermitToJoinComponent } from './permit-to-join/permit-to-join.component
 import { ReloadPluginComponent } from './reload-plugin/reload-plugin.component';
 import { RescanGroupComponent } from './rescan-group/rescan-group.component';
 import { SwResetComponent } from './sw-reset/sw-reset.component';
+import { ScanGroupDeviceComponent } from './scan-group-device/scan-group-device.component';
 
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
@@ -20,7 +21,8 @@ import { SwResetComponent } from './sw-reset/sw-reset.component';
     ErasePdmComponent,
     ReloadPluginComponent,
     RescanGroupComponent,
-    AssistProvisionningComponent
+    AssistProvisionningComponent,
+    ScanGroupDeviceComponent
   ]
 })
 export class AdminModule {}
