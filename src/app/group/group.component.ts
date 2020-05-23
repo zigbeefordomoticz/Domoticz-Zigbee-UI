@@ -25,6 +25,7 @@ export class GroupComponent implements OnInit {
   devices: Array<DeviceAvailable>;
   temp: any = [];
   hasEditing = false;
+  waiting = false;
 
   constructor(
     private modalService: NgbModal,
@@ -55,29 +56,8 @@ export class GroupComponent implements OnInit {
         });
         this.devices = [...devicesToAdd];
       }
-
-      this.apiService.getZGroups().subscribe((groups: Array<Group>) => {
-        if (groups && groups.length > 0) {
-          groups.forEach(group => {
-            const devicesSelected: any[] = [];
-            group.coordinatorInside = false;
-            group.Devices.forEach(device => {
-              if (device._NwkId === '0000') {
-                group.coordinatorInside = true;
-              } else {
-                const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
-                if (deviceAvailable !== null && deviceAvailable !== undefined) {
-                  devicesSelected.push(deviceAvailable);
-                }
-              }
-            });
-            group.devicesSelected = devicesSelected;
-          });
-          this.rows = [...groups];
-          this.temp = [...groups];
-        }
-      });
     });
+    this.getGroups();
   }
 
   updateValue(event: any, GroupId: string) {
@@ -123,6 +103,12 @@ export class GroupComponent implements OnInit {
             this.open(this.content);
           }
         });
+
+        this.waiting = true;
+        setTimeout(() => {
+          this.getGroups();
+          this.waiting = false;
+        }, 1000);
       });
     }
   }
@@ -169,6 +155,30 @@ export class GroupComponent implements OnInit {
       }
     });
 
-    return retour;
+    return !this.waiting && retour;
+  }
+
+  private getGroups() {
+    this.apiService.getZGroups().subscribe((groups: Array<Group>) => {
+      if (groups && groups.length > 0) {
+        groups.forEach(group => {
+          const devicesSelected: any[] = [];
+          group.coordinatorInside = false;
+          group.Devices.forEach(device => {
+            if (device._NwkId === '0000') {
+              group.coordinatorInside = true;
+            } else {
+              const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
+              if (deviceAvailable !== null && deviceAvailable !== undefined) {
+                devicesSelected.push(deviceAvailable);
+              }
+            }
+          });
+          group.devicesSelected = devicesSelected;
+        });
+        this.rows = [...groups];
+        this.temp = [...groups];
+      }
+    });
   }
 }
