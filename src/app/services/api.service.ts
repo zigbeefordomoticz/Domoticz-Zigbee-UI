@@ -51,9 +51,9 @@ const routes = {
   binding: '/binding',
   unbinding: '/unbinding',
   rawCommand: '/raw-command',
-  bindLSTcluster: '/bindLSTcluster',
-  bindLSTdevice: '/bindLSTdevice',
-  ScanDeviceForGrp: '/ScanDeviceForGrp'
+  bindLSTcluster: '/bind-lst-cluster',
+  bindLSTdevice: '/bind-lst-device',
+  ScanDeviceForGrp: '/scan-device-for-grp'
 };
 
 const log = new Logger('ApiService');
