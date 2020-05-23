@@ -53,7 +53,7 @@ const routes = {
   rawCommand: '/raw-command',
   bindLSTcluster: '/bind-lst-cluster',
   bindLSTdevice: '/bind-lst-device',
-  ScanDeviceForGrp: '/scan-device-for-grp'
+  scanDeviceForGrp: '/scan-device-for-grp'
 };
 
 const log = new Logger('ApiService');
@@ -417,7 +417,7 @@ export class ApiService {
   }
 
   putScanDeviceForGrp(nwkids: string[]): Observable<any> {
-    return this.httpClient.put(routes.ScanDeviceForGrp, nwkids).pipe(
+    return this.httpClient.put(routes.scanDeviceForGrp, nwkids).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
