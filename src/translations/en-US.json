@@ -151,7 +151,7 @@
   "group.create.header": "Admin group",
   "group.create.placeholder": "type filter here ....",
   "group.create.shortid.column": "Group id",
-  "group.create.subtitle": "Allow edit, create and remove groups. To apply changes, a restart in the admin section of the web interface is required.",
+  "group.create.subtitle": "Allow edit, create and remove groups. Apply changes and then refresh the page to get confirmed that the changes have been taken. Do not do all changes at once, but prefer to do it step by step with small changes",
   "group.create.validate.button": "Validate",
   "group.create.add.button": "Add a new Group",
   "group.create.delete.button": "Delete",
