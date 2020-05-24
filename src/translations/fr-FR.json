@@ -28,16 +28,17 @@
   "admin.assistprovisionning.alert.inDB": "Appairage effectué (vérifiez si les widgets sont bien créées dans Domoticz)",
   "admin.assistprovisionning.alert.Unexpected": "Erreur inattendue (contacter le support)",
 
-  "admin.scan.group.device.title": "Réanalyse séléctive",
-  "admin.scan.group.device.subtitle": "Va réanalyser piur un ou plusieurs equipements séléctionés leur appartenances à des groupes",
+  "admin.scan.group.device.title": "Analyse séléctive",
+  "admin.scan.group.device.subtitle": "Analyser un ou plusieurs équipements l'appartenance à des groupes. Le resultat sera disponible dans la gestion des groupes",
   "admin.scan.group.device.button": "Analyser",
-  "admin.scan.group.device.placeholder": "Séléctionner l'equipement(s) à analyser",
+  "admin.scan.group.device.placeholder": "Séléctionner le ou les équipement(s) à analyser",
   "admin.scan.group.device.notify": "Analyse lancée",
 
   "admin.rescan.group.title": "Analyse compléte des Groupes",
-  "admin.rescan.group.subtitle": "Va analyser l'appartenance de tous les equipements sur secteur à un ou plusieurs groupes. Le resultat sera disponible dans la gestion des groupes",
+  "admin.rescan.group.subtitle": "Analyser pour chaque équipements sur secteur l'appartenance à des groupes. Le resultat sera disponible dans la gestion des groupes",
   "admin.rescan.group.button": "Analyser",
   "admin.rescan.group.notify": "Analyse lancée",
+
   "admin.reloadplugin.title": "Redémarrer le plugin",
   "admin.reloadplugin.subtitle": "Va Redémarrer le plugin",
   "admin.reloadplugin.button": "Redémarrer",

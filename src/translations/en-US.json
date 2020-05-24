@@ -28,14 +28,14 @@
   "admin.assistprovisionning.alert.inDB": "Successful (check if widgets have been created)",
   "admin.assistprovisionning.alert.Unexpected": "Unexpected (Contact support)",
 
-  "admin.scan.group.device.title": "Scan a selected list of Devices for groups memebership",
-  "admin.scan.group.device.subtitle": "Will launche a scan for to each selected devices for their grups membership. You can select from one to many, and the result will populate the groups",
+  "admin.scan.group.device.title": "Scan a selected list of devices for groups memberships",
+  "admin.scan.group.device.subtitle": "Launch a scan for each selected devices for their groups memberships. You can select from one to many, and the result will be available in the group management",
   "admin.scan.group.device.button": "Scan",
   "admin.scan.group.device.placeholder": "Select device(s) to scan",
   "admin.scan.group.device.notify": "Scan started !",
 
-  "admin.rescan.group.title": "Rescan all devices for Group Memberships",
-  "admin.rescan.group.subtitle": "Will launch a scan of all devices for their membership to groups. It will then populate the groups",
+  "admin.rescan.group.title": "Scan all devices for group memberships",
+  "admin.rescan.group.subtitle": "Launch a scan of all devices for their membership to groups, and the result will be available in the group management",
   "admin.rescan.group.button": "Full scan",
   "admin.rescan.group.notify": "Full scan started !",
 
