@@ -312,7 +312,7 @@
   "api.global.succes.pluginrestarted.title": "Plugin redémarré",
   "useDomoticzLog": "Usage des Logs Domoticz",
   "zigatePartOfGroup0000": "Creation du Group 0000",
-  "allowRemoveZigateDevice": "Suppression dans la Zigate",
+  "allowRemoveZigateDevice": "Suppression dans la ZiGate",
   "resetPermit2Join": "Reset permit to join at startup",
   "forcePollingAfterAction": "Get device status after action",
   "enableReadAttributes": "Activer interrogation des dispositifs",

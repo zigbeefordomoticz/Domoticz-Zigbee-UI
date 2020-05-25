@@ -326,7 +326,7 @@
 
   "useDomoticzLog": "Use Domoticz Log",
   "zigatePartOfGroup0000": "Create Group 0000",
-  "allowRemoveZigateDevice": "Removal on Zigate",
+  "allowRemoveZigateDevice": "Removal on ZiGate",
   "resetPermit2Join": "Reset permit to join at startup",
   "blueLedOnOff": "Enable ZiGate Blue Led",
   "forcePollingAfterAction": "Get device status after action"
