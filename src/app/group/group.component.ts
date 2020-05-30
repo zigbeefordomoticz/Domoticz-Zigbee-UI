@@ -23,7 +23,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   form: FormGroup;
   rows: Array<Group> = [];
   rowsTemp: any[] = [];
-  devices: Array<DeviceAvailable>;
+  devices: DeviceAvailable[];
   temp: any = [];
   hasEditing = false;
   waiting = false;
@@ -58,9 +58,9 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
           });
         });
         this.devices = [...devicesToAdd];
+        this.getGroups();
       }
     });
-    this.getGroups();
   }
 
   updateValue(event: any, GroupId: string) {
@@ -162,7 +162,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   }
 
   private getGroups() {
-    this.apiService.getZGroups().subscribe((groups: Array<Group>) => {
+    this.apiService.getZGroups().subscribe(groups => {
       if (groups && groups.length > 0) {
         groups.forEach(group => {
           const devicesSelected: any[] = [];

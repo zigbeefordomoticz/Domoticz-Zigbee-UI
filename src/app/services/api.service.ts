@@ -6,7 +6,7 @@ import { Capabilities } from '@app/shared/models/capabilities';
 import { Command } from '@app/shared/models/command';
 import { Device } from '@app/shared/models/device';
 import { DomoticzEnv } from '@app/shared/models/domoticz-env';
-import { DevicesAvailable } from '@app/shared/models/group';
+import { DevicesAvailable, Group } from '@app/shared/models/group';
 import { NewDevice } from '@app/shared/models/new-hardware';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
@@ -95,7 +95,7 @@ export class ApiService {
     );
   }
 
-  getZGroups(): Observable<any> {
+  getZGroups(): Observable<Group[]> {
     return this.httpClient.get(routes.zGroups).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
