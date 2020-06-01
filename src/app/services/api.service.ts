@@ -26,6 +26,7 @@ const routes = {
   zdeviceRaw: '/zdevice-raw',
   zGroups: '/zgroup',
   settings: '/setting',
+  settingsDebug: '/setting-debug',
   plugin: '/plugin',
   pluginStat: '/plugin-stat',
   nwkStat: '/nwk-stat',
@@ -111,6 +112,20 @@ export class ApiService {
 
   putSettings(settings: Array<Setting>): Observable<any> {
     return this.httpClient.put(routes.settings, settings).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getSettingsDebug(): Observable<any> {
+    return this.httpClient.get(routes.settingsDebug).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putSettingsDebug(settings: Array<Setting>): Observable<any> {
+    return this.httpClient.put(routes.settingsDebug, settings).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

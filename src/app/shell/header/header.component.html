@@ -145,6 +145,14 @@
             >
               <i class="fas fa-compress-arrows-alt mr-2"></i> <span translate="binding"></span>
             </li>
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              routerLink="/tools/debug"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-wrench mr-2"></i> <span translate="debug"></span>
+            </li>
           </ul>
         </li>
         <li ngbDropdown routerLinkActive="active" class="dropdown ">

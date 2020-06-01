@@ -11,6 +11,8 @@ import { ZigateComponent } from './zigate/zigate.component';
 import { BindingComponent } from './binding/binding.component';
 import { RawCommandComponent } from './command/raw-command/raw-command.component';
 import { CommandComponent } from './command/command.component';
+import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
+import { DebugSettingComponent } from './debug-settings/debug-setting/debug-setting.component';
 
 @NgModule({
   imports: [SharedModule, ToolsRoutingModule, NgxJsonViewerModule, FileSaverModule, ColorPickerModule],
@@ -21,7 +23,9 @@ import { CommandComponent } from './command/command.component';
     DebugCommandComponent,
     BindingComponent,
     RawCommandComponent,
-    CommandComponent
+    CommandComponent,
+    DebugSettingsComponent,
+    DebugSettingComponent
   ]
 })
 export class ToolsModule {}
