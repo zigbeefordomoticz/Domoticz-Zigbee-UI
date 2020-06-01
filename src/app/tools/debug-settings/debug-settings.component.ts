@@ -63,7 +63,7 @@ export class DebugSettingsComponent implements OnInit {
     this.apiService.putSettingsDebug(this.form.value).subscribe((result: any) => {
       this.form.markAsPristine();
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
-      this.apiService.getSettings().subscribe(res => {
+      this.apiService.getSettingsDebug().subscribe(res => {
         this.settings = res;
         this.settings.sort((n1, n2) => n1._Order - n2._Order);
       });
