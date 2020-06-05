@@ -344,6 +344,9 @@
   "moveToHueSatu": "Transition for Hue",
   "moveToColourTemp": "Transition for Color Temp",
   "moveToColourRGB": "Transition for RGB color",
-  "moveToLevel": "Transition for Move to Level"
+  "moveToLevel": "Transition for Move to Level",
 
+  "OnIfOneOn": "Group is On if one device is On (otherwise needs all devices On)",
+  "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
+  "resetSwitchSelectorPushButton": "Number of sec after the Selector is reset to Off"
 }

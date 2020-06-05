@@ -334,6 +334,11 @@
   "moveToHueSatu": "Transition pour Hue",
   "moveToColourTemp": "Transition pour Température",
   "moveToColourRGB": "Transition pour Couleur RVB",
-  "moveToLevel": "Transition pour variateur"
+  "moveToLevel": "Transition pour variateur",
+
+  "OnIfOneOn": "Groupe est Allumé si un equipement Allumé (Sinon, tous les équipements doivent etre Allumés)",
+  
+  "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
+  "resetSwitchSelectorPushButton": "Nombre de sec avant de basculer le Selecteur Off"
 
 }
