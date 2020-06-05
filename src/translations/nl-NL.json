@@ -245,6 +245,8 @@
   "tools.debugcommand.effect.error": "tussen 0x00 tot 0xff",
   "tools.debugcommand.button.send": "Verzenden",
 
+  "debug": "Debug",
+  "tool.debugsetting.help.legend": "Logging and debuging, use advanced to get access to the Debug parameters",
   "tool.debugsetting.advanced.button": "Geavanceerde instellingen",
   "tool.debugsetting.normal.button": "Normale instellingen",
   "tool.debugsetting.reloadplugin.alert.title": "Plug-in herstart",
@@ -311,5 +313,13 @@
   "api.global.succes.update.title": "Update succevol afgerond",
   "api.global.reset.zigate.title": "Zachte reset succesvol",
   "api.global.succes.erasepdm.title": "Pdm wissen succesvol",
-  "api.global.succes.pluginrestarted.title": "Plugin opnieuw gestart"
+  "api.global.succes.pluginrestarted.title": "Plugin opnieuw gestart",
+
+  "setting.header.CommandTransition": "Command transitions for Lights",
+  "setting.subtitle.CommandTransition": "You can specify the transition time in 10th of seconds with which the transition from current to target stage. For example how many 10th of second it will take to move from the current Color to the Color I requested via Domoticz. Color temp is used for White Color",
+  "moveToHueSatu": "Transition for Hue",
+  "moveToColourTemp": "Transition for Color Temp",
+  "moveToColourRGB": "Transition for RGB color",
+  "moveToLevel": "Transition for Move to Level"
+
 }

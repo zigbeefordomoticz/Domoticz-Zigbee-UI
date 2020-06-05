@@ -262,6 +262,7 @@
   "tools.rawcommand.error": "Input required",
   "tools.rawcommand.payload": "Data",
   "tools.rawcommand.button.put": "Submit",
+
   "debug": "Debug",
   "tool.debugsetting.advanced.button": "Advanced settings",
   "tool.debugsetting.help.legend": "These are all plugin settings which can be updated.",
@@ -336,5 +337,13 @@
   "allowRemoveZigateDevice": "Removal on ZiGate",
   "resetPermit2Join": "Reset permit to join at startup",
   "blueLedOnOff": "Enable ZiGate Blue Led",
-  "forcePollingAfterAction": "Get device status after action"
+  "forcePollingAfterAction": "Get device status after action",
+
+  "setting.header.CommandTransition": "Command transitions for Lights",
+  "setting.subtitle.CommandTransition": "You can specify the transition time in 10th of seconds with which the transition from current to target stage. For example how many 10th of second it will take to move from the current Color to the Color I requested via Domoticz. Color temp is used for White Color",
+  "moveToHueSatu": "Transition for Hue",
+  "moveToColourTemp": "Transition for Color Temp",
+  "moveToColourRGB": "Transition for RGB color",
+  "moveToLevel": "Transition for Move to Level"
+
 }
