@@ -315,15 +315,16 @@
   "api.global.succes.erasepdm.title": "Pdm wissen succesvol",
   "api.global.succes.pluginrestarted.title": "Plugin opnieuw gestart",
 
-  "setting.header.CommandTransition": "Command transitions for Lights",
-  "setting.subtitle.CommandTransition": "You can specify the transition time in 10th of seconds with which the transition from current to target stage. For example how many 10th of second it will take to move from the current Color to the Color I requested via Domoticz. Color temp is used for White Color",
-  "moveToHueSatu": "Transition for Hue",
-  "moveToColourTemp": "Transition for Color Temp",
-  "moveToColourRGB": "Transition for RGB color",
-  "moveToLevel": "Transition for Move to Level",
+  "setting.header.CommandTransition": "Overgangstijden voor apparaat commando's",
+  "setting.subtitle.CommandTransition": "Je kan de overgangstijd naar de volgende licht instelling in tienden van seconden instellen. Bij voorbeeld hoeveel tienden van seconden duurt het om van de huidige kleur naar de nieuwe kleur te gaan zoals ingesteld in Domoticz. Voor wit licht wordt de kleur temperatuur gebruikt",
 
-  "OnIfOneOn": "Group is On if one device is On (otherwise needs all devices On)",
-  "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
-  "resetSwitchSelectorPushButton": "Number of sec after the Selector is reset to Off"
+  "moveToHueSatu": "Overgangstijd voor Hue",
+  "moveToColourTemp": "Overgangstijd voor kleur temperatuur ",
+  "moveToColourRGB": "Overgangstijd voor RGB kleur",
+  "moveToLevel": "Overgangstijd voor dim niveau",
+
+  "OnIfOneOn": "Groep is aan wanneer één apparaat aan is (Anders moeten alle apparaten aan zijn)",
+  "forceSwitchSelectorPushButton": "Zet de selector switch eerst op 'off' wanneer dezelfde status wordt geselecteerd. (Workaround voor Domoticz issue #4143)",
+  "resetSwitchSelectorPushButton": "Aantal seconden totdat de selector switch reset naar 'off'"
 
 }
