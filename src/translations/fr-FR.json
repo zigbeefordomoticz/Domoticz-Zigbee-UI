@@ -281,6 +281,14 @@
   "tools.debugcommand.level.error": "entre 0 et 100",
   "tools.debugcommand.effect.error": "entre 0x00 à 0xff",
   "tools.debugcommand.button.send": "Envoyer",
+
+  "tool.debugsetting.advanced.button": "Paramètres avancés",
+  "tool.debugsetting.normal.button": "paramètres standards",
+  "tool.debugsetting.validate.button": "Validate",
+  "tool.debugsetting.reloadplugin.alert.title": "Redémarrage du plugin",
+  "tool.debugsetting.reloadplugin.alert.subject": "Les réglages on été mis à jour, le plugin doit être redémarré",
+  "tool.debugsetting.reloadplugin.alert.cancel": "Fermer",
+
   "binding": "Couplage (Bindings)",
   "tools.binding.title": "Couplage de dispositifs",
   "tools.binding.subtitle": "Permet le couplage d'un cluster d'un dispositif source avec un dispositf cible",

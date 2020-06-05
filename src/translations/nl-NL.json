@@ -244,6 +244,13 @@
   "tools.debugcommand.level.error": "tussen 0 en 100",
   "tools.debugcommand.effect.error": "tussen 0x00 tot 0xff",
   "tools.debugcommand.button.send": "Verzenden",
+
+  "tool.debugsetting.advanced.button": "Geavanceerde instellingen",
+  "tool.debugsetting.normal.button": "Normale instellingen",
+  "tool.debugsetting.reloadplugin.alert.title": "Plug-in herstart",
+  "tool.debugsetting.reloadplugin.alert.subject": "De instellingen zijn bijgewerkt, de plugin moet opnieuw worden opgestart",
+  "tool.debugsetting.reloadplugin.alert.cancel": "Sluiten",
+
   "binding": "Verbinding",
   "tools.binding.title": "Verbindingstitel",
   "tools.binding.subtitle": "Verbindings- subtitel",
