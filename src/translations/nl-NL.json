@@ -309,6 +309,11 @@
   "setting.header.Experimental": "Experimentele parameters",
   "setting.subtitle.Experimental": "Alleen gebruiken wanneer hier naar wordt gevraagd",
 
+  "device.byname.alert.title": "Delete device ?",
+  "device.byname.alert.subject": "Are u sure ?",
+  "device.byname.alert.delete": "Delete",
+  "device.byname.alert.cancel": "Cancel",
+
   "api.global.error.title": "Fout van backend",
   "api.global.succes.update.title": "Update succevol afgerond",
   "api.global.reset.zigate.title": "Zachte reset succesvol",
