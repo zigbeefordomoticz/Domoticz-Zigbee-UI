@@ -325,7 +325,7 @@
   "zigatePartOfGroup0000": "Creation du Group 0000",
   "allowRemoveZigateDevice": "Suppression dans la ZiGate",
   "resetPermit2Join": "Reset permit to join at startup",
-  "forcePollingAfterAction": "Get device status after action",
+  "forcePollingAfterAction": "Interogation du statut du device après un ordre",
   "enableReadAttributes": "Activer interrogation des dispositifs",
   "blueLedOnOff": "Active ou désactive la Led Bleu",
 
