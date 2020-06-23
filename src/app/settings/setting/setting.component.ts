@@ -20,6 +20,7 @@ const log = new Logger('SettingComponent');
 export class SettingComponent implements OnInit {
   @Input() setting: Setting;
   @Input() advanced: boolean;
+  list: string[];
 
   constructor(private formBuilder: FormBuilder, private fgd: FormGroupDirective, private translate: TranslateService) {}
 
@@ -33,6 +34,11 @@ export class SettingComponent implements OnInit {
       group = this.formBuilder.group({
         current: []
       });
+    } else if (this.setting.DataType === 'list') {
+      group = this.formBuilder.group({
+        current: [null, Validators.required]
+      });
+      this.list = this.setting.list.split(',');
     } else {
       group = this.formBuilder.group({
         current: ['', Validators.required]

@@ -32,4 +32,11 @@
     />
     <label class="ml-3 custom-control-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
   </div>
+  <div *ngIf="setting.DataType === 'list'" class="row mt-2 custom-control">
+    <label class="ml-3 custom-control-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
+    <div class="col-sm">
+      <ng-select [items]="list" [multiple]="false" [closeOnSelect]="true" appendTo="body" formControlName="current">
+      </ng-select>
+    </div>
+  </div>
 </div>
