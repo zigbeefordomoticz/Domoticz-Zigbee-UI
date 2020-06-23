@@ -40,6 +40,7 @@ export class SettingComponent implements OnInit {
         current: [null, Validators.required]
       });
 
+      this.list = [];
       this.setting.list.forEach(v => {
         const key = Object.keys(v)[0];
         const valeur = Object.values(v)[0];
