@@ -3,6 +3,7 @@ import { ControlContainer, FormBuilder, FormGroupDirective, Validators } from '@
 import { Logger } from '@app/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Setting } from '@app/shared/models/setting';
+import { KeyValue } from '@angular/common';
 
 const log = new Logger('SettingComponent');
 
@@ -20,7 +21,7 @@ const log = new Logger('SettingComponent');
 export class SettingComponent implements OnInit {
   @Input() setting: Setting;
   @Input() advanced: boolean;
-  list: string[];
+  list: { label: string; value: any }[] = [];
 
   constructor(private formBuilder: FormBuilder, private fgd: FormGroupDirective, private translate: TranslateService) {}
 
@@ -38,7 +39,12 @@ export class SettingComponent implements OnInit {
       group = this.formBuilder.group({
         current: [null, Validators.required]
       });
-      this.list = this.setting.list.split(',');
+
+      this.setting.list.forEach(v => {
+        const key = Object.keys(v)[0];
+        const valeur = Object.values(v)[0];
+        this.list.push({ label: key, value: valeur });
+      });
     } else {
       group = this.formBuilder.group({
         current: ['', Validators.required]

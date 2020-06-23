@@ -33,9 +33,17 @@
     <label class="ml-3 custom-control-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
   </div>
   <div *ngIf="setting.DataType === 'list'" class="row mt-2 custom-control">
-    <label class="ml-3 custom-control-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
+    <label for="current" translate="{{ setting.Name }}" class="col-sm-6 col-form-label"></label>
     <div class="col-sm">
-      <ng-select [items]="list" [multiple]="false" [closeOnSelect]="true" appendTo="body" formControlName="current">
+      <ng-select
+        [items]="list"
+        bindLabel="label"
+        bindValue="value"
+        multiple]="false"
+        [closeOnSelect]="true"
+        appendTo="body"
+        formControlName="current"
+      >
       </ng-select>
     </div>
   </div>
