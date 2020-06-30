@@ -7,7 +7,7 @@ import { Command } from '@app/shared/models/command';
 import { Device } from '@app/shared/models/device';
 import { DomoticzEnv } from '@app/shared/models/domoticz-env';
 import { DevicesAvailable, Group } from '@app/shared/models/group';
-import { NewDevice } from '@app/shared/models/new-hardware';
+import { NewDevice, Cluster } from '@app/shared/models/new-hardware';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
 import { Setting } from '@app/shared/models/setting';
@@ -409,7 +409,7 @@ export class ApiService {
     );
   }
 
-  getBindLSTcluster(): Observable<string[]> {
+  getBindLSTcluster(): Observable<Cluster[]> {
     return this.httpClient.get(routes.bindLSTcluster).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))

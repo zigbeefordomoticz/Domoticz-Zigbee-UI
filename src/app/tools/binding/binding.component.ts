@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { DeviceBind } from '@app/shared/models/device-bind';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { ToastrService } from 'ngx-toastr';
+import { Cluster } from '@app/shared/models/new-hardware';
+import { map } from 'rxjs/operators';
 
 const log = new Logger('BindingComponent');
 
@@ -17,7 +19,7 @@ const log = new Logger('BindingComponent');
 })
 export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   form: FormGroup;
-  clusters$: Observable<string[]>;
+  clusters$: Observable<Cluster[]>;
   devicesSource: DeviceBind[];
   devicesTarget: DeviceBind[];
   devicesTargetFiltered: DeviceBind[];
@@ -38,7 +40,14 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
       cluster: [null, Validators.required]
     });
 
-    this.clusters$ = this.apiService.getBindLSTcluster();
+    this.clusters$ = this.apiService.getBindLSTcluster().pipe(
+      map(clusters => {
+        return clusters.map(cluster => {
+          cluster.fullName = cluster.ClusterId + ' ' + cluster.ClusterDesc;
+          return cluster;
+        });
+      })
+    );
 
     this.subs.sink = this.form.get('cluster').valueChanges.subscribe(change => {
       log.debug('change:', change);

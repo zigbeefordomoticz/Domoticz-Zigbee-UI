@@ -18,6 +18,7 @@ export class NewHardware {
 export interface Cluster {
   ClusterId: string;
   ClusterDesc: string;
+  fullName: string;
 }
 
 export interface Ep {
