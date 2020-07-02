@@ -10,9 +10,10 @@ const log = new Logger('ToolsComponent');
 
 function transformToTimestamp(key: any, value: any) {
   const datepipe = new DatePipe('en-US');
+  const keyToTransform = ['TimeStamps', 'TimeStamp', 'Stamp', 'Time'];
   if (key === 'LastSeen') {
     return datepipe.transform(value * 1000, 'dd/MM/yyyy HH:mm:ss');
-  } else if (key === 'TimeStamps') {
+  } else if (keyToTransform.indexOf(key) > -1) {
     if (value > 0) {
       let calc = value * 1000;
       calc = Number(calc.toFixed(0));
