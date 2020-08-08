@@ -79,6 +79,11 @@
                 </div>
               </ng-template>
             </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'device.byname.lqi.column' | translate }}" [maxWidth]="100" prop="LQI">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.LQI }}
+              </ng-template>
+            </ngx-datatable-column>
             <ngx-datatable-column name="{{ 'device.byname.status.column' | translate }}" [maxWidth]="100" prop="Status">
               <ng-template ngx-datatable-cell-template let-row="row">
                 {{ row.Status }}

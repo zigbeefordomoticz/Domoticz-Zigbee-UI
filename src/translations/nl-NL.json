@@ -38,7 +38,7 @@
   "admin.rescan.group.subtitle": "Start een scan van alle apparaten op groepslidmaatschappen. Het resultaat wordt zichtbaar in het group management menu.",
   "admin.rescan.group.button": "Volledige scan",
   "admin.rescan.group.notify": "Volledige scan gestart!",
-  
+
   "admin.reloadplugin.title": "Herstart plugin",
   "admin.reloadplugin.subtitle": "Zal de plugin herstarten",
   "admin.reloadplugin.button": "Herstart",
@@ -142,6 +142,7 @@
   "device.byname.placeholder": "typ filter hier ....",
   "device.byname.shortid.column": "Korte id",
   "device.byname.status.column": "Status",
+  "device.byname.lqi.column": "LQI",
   "device.byname.validate.button": "Valideer",
   "device.byname.widget.column": "Domoticz Widget",
   "error_required": "Benodigd",
@@ -331,5 +332,4 @@
   "OnIfOneOn": "Groep is aan wanneer één apparaat aan is (Anders moeten alle apparaten aan zijn)",
   "forceSwitchSelectorPushButton": "Zet de selector switch eerst op 'off' wanneer dezelfde status wordt geselecteerd. (Workaround voor Domoticz issue #4143)",
   "resetSwitchSelectorPushButton": "Aantal seconden totdat de selector switch reset naar 'off'"
-
 }

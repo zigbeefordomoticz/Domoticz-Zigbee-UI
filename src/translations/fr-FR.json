@@ -145,6 +145,7 @@
   "device.byname.placeholder": "Votre recherche ....",
   "device.byname.shortid.column": "Short ID",
   "device.byname.status.column": "Status",
+  "device.byname.lqi.column": "LQI",
   "device.byname.validate.button": "Validé",
   "device.byname.widget.column": "Domoticz Widget",
   "error_required": "Obigatoire",
@@ -337,8 +338,7 @@
   "moveToLevel": "Transition pour variateur",
 
   "OnIfOneOn": "Groupe est Allumé si un equipement Allumé (Sinon, tous les équipements doivent etre Allumés)",
-  
+
   "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
   "resetSwitchSelectorPushButton": "Nombre de sec avant de basculer le Selecteur Off"
-
 }

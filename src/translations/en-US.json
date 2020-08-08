@@ -142,6 +142,7 @@
   "device.byname.placeholder": "type filter here ....",
   "device.byname.shortid.column": "Short id",
   "device.byname.status.column": "status",
+  "device.byname.lqi.column": "LQI",
   "device.byname.validate.button": "Validate",
   "device.byname.widget.column": "Domoticz Widget",
   "error_required": "required",
