@@ -6,7 +6,6 @@ import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgBootstrapFormValidationModule } from 'ng-bootstrap-form-validation';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,7 +20,6 @@ import { ShellModule } from './shell/shell.module';
     //    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
     TranslateModule.forRoot(),
-    NgBootstrapFormValidationModule.forRoot(),
     NgbModule,
     CoreModule,
     SharedModule,
