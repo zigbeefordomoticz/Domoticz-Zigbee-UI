@@ -43,7 +43,6 @@
     "core-js": "^3.6.4",
     "file-saver": "^2.0.2",
     "highcharts": "^8.0.0",
-    "ng-bootstrap-form-validation": "^5.0.0",
     "ngx-color-picker": "^9.1.0",
     "ngx-filesaver": "^9.0.0",
     "ngx-json-viewer": "^2.4.0",
