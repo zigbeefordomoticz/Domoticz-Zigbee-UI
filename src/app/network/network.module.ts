@@ -10,7 +10,7 @@ import {
   PerfectScrollbarModule,
   PERFECT_SCROLLBAR_CONFIG
 } from 'ngx-perfect-scrollbar';
-import * as wheel from './dependency-wheel.src';
+import * as wheel from 'highcharts/modules/dependency-wheel.src';
 import { DetailNwkStatComponent } from './detail-nwk-stat/detail-nwk-stat.component';
 import { DetailTopologyComponent } from './detail-topology/detail-topology.component';
 import { NetworkRoutingModule } from './network-routing.module';
