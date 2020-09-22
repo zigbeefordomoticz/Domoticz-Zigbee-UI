@@ -87,6 +87,9 @@ export class ToolsComponent implements OnInit {
     if (device === 'domoticz-env') {
       service = this.apiService.getDomoticzEnv();
     }
+    if (device === 'log-error-history') {
+      service = this.apiService.getLogErrorHistory();
+    }
 
     if (service) {
       service
