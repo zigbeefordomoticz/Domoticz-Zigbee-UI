@@ -54,7 +54,8 @@ const routes = {
   rawCommand: '/raw-command',
   bindLSTcluster: '/bind-lst-cluster',
   bindLSTdevice: '/bind-lst-device',
-  scanDeviceForGrp: '/scan-device-for-grp'
+  scanDeviceForGrp: '/scan-device-for-grp',
+  logErrorHistory: '/log-error-history'
 };
 
 const log = new Logger('ApiService');
@@ -140,6 +141,13 @@ export class ApiService {
 
   getPluginStats(): Observable<PluginStats> {
     return this.httpClient.get(routes.pluginStat).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getLogErrorHistory(): Observable<PluginStats> {
+    return this.httpClient.get(routes.logErrorHistory).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
@@ -249,6 +257,7 @@ export class ApiService {
       catchError(error => this.handleError(error))
     );
   }
+
 
   putZGroups(groups: any): Observable<any> {
     return this.httpClient.put(routes.zGroups, groups).pipe(

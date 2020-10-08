@@ -234,6 +234,7 @@
   "tools.plugin-stat.button": "Traffic (json)",
   "tools.zdevice-name.button": "zDevice-name (json)",
   "tools.domoticz-env.button": "domoticz-env (json)",
+  "tools.log-error-history.button" : "Log Error History (json)",
   "debug-command": "Direct commands",
   "tools.debugcommand.title": "Direct commands",
   "tools.debugcommand.subtitle": "Allow to interact directly with a device, with a set of commands based on the device capabilities.<br>(1) Select the device,<br>(2) Select the action you want to perform,<br>(3) Select a potential device type which can influence the way to interact with the device,<br>(4) Optionaly you might have to enter a Value or select a Color.",
