@@ -1,24 +1,23 @@
-import { Location } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Logger } from '@app/core';
 import { Capabilities } from '@app/shared/models/capabilities';
 import { Command } from '@app/shared/models/command';
 import { Device } from '@app/shared/models/device';
+import { DeviceBind } from '@app/shared/models/device-bind';
+import { DeviceByName } from '@app/shared/models/device-by-name';
 import { DomoticzEnv } from '@app/shared/models/domoticz-env';
 import { DevicesAvailable, Group } from '@app/shared/models/group';
-import { NewDevice, Cluster } from '@app/shared/models/new-hardware';
+import { Cluster, NewDevice } from '@app/shared/models/new-hardware';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
 import { Setting } from '@app/shared/models/setting';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Binding } from '../shared/models/binding';
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
 import { Relation } from '../shared/models/relation';
-import { DeviceBind } from '@app/shared/models/device-bind';
 
 const routes = {
   devices: '/device',
@@ -62,12 +61,7 @@ const log = new Logger('ApiService');
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  constructor(
-    private httpClient: HttpClient,
-    private location: Location,
-    private toastr: ToastrService,
-    private translate: TranslateService
-  ) {}
+  constructor(private httpClient: HttpClient, private toastr: ToastrService, private translate: TranslateService) {}
 
   getPluginhealth(): Observable<Array<any>> {
     return this.httpClient.get(routes.pluginHealth).pipe(
@@ -257,7 +251,6 @@ export class ApiService {
       catchError(error => this.handleError(error))
     );
   }
-
 
   putZGroups(groups: any): Observable<any> {
     return this.httpClient.put(routes.zGroups, groups).pipe(

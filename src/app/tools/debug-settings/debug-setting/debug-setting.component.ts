@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Setting } from '@app/shared/models/setting';
 
 const log = new Logger('DebugSettingComponent');
@@ -21,7 +20,7 @@ export class DebugSettingComponent implements OnInit {
   @Input() setting: Setting;
   @Input() advanced: boolean;
 
-  constructor(private formBuilder: FormBuilder, private fgd: FormGroupDirective, private translate: TranslateService) {}
+  constructor(private formBuilder: FormBuilder, private fgd: FormGroupDirective) {}
 
   ngOnInit() {
     let group;

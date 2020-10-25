@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { TranslateService } from '@ngx-translate/core';
 import { Capabilities, Capability } from '@app/shared/models/capabilities';
 import { DeviceByName } from '@app/shared/models/device-by-name';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 const log = new Logger('DebugCommandComponent');
 
@@ -20,7 +19,7 @@ export class DebugCommandComponent implements OnInit {
   colorPicker = 'rgba(30,96,239,0.54)';
   capaSelected: Capability;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
