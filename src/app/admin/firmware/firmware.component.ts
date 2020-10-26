@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
-import { DeviceBind } from '@app/shared/models/device-bind';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -21,8 +20,6 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
   form: FormGroup;
   manufacturerList$: Observable<string[]>;
   devicesList$: Observable<DevicesByManufacturer[]>;
-  devices: DevicesByManufacturer[];
-
   firmwares: any;
   tempFirmwares: any;
 
@@ -81,6 +78,8 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
     update.NwkId = (this.form.get('device').value as DevicesByManufacturer).Nwkid;
 
     this.apiService.putOtaFirmware(update).subscribe(() => {
+      this.devicesList$ = null;
+      this.firmwares = null;
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
       this.form.reset('', {
         onlySelf: true,

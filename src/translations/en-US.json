@@ -44,7 +44,8 @@
   "admin.firmware.subtitle": "firmware subtitle",
   "admin.firmware.button.update": "update button",
   "admin.firmware.list": "list of firmware",
-  "admin.firmware.devices": "list of devices",
+  "admin.firmware.manufacturer.list": "list of manufacturer",
+  "admin.firmware.devices.list": "list of devices",
 
   "admin.reloadplugin.title": "Restart plugin",
   "admin.reloadplugin.subtitle": "Will restart the plugin",
