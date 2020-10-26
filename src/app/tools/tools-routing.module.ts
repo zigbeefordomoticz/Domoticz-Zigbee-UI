@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { extract } from '@app/core';
 import { BindingComponent } from './binding/binding.component';
 import { CommandComponent } from './command/command.component';
-import { ToolsComponent } from './tools.component';
 import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
+import { ToolsComponent } from './tools.component';
 
 const routes: Routes = [
   { path: 'command', component: CommandComponent, data: { title: extract('command') } },

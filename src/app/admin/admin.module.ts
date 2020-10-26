@@ -10,11 +10,13 @@ import { ReloadPluginComponent } from './reload-plugin/reload-plugin.component';
 import { RescanGroupComponent } from './rescan-group/rescan-group.component';
 import { SwResetComponent } from './sw-reset/sw-reset.component';
 import { ScanGroupDeviceComponent } from './scan-group-device/scan-group-device.component';
+import { FirmwareComponent } from './firmware/firmware.component';
 
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
   declarations: [
     AdminComponent,
+    FirmwareComponent,
     PermitToJoinComponent,
     PermitToJoinRouterComponent,
     SwResetComponent,

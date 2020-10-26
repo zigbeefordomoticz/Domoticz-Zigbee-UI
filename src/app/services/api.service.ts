@@ -18,6 +18,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Binding } from '../shared/models/binding';
 import { Relation } from '../shared/models/relation';
+import { DevicesByManufacturer, FirmwareManufacturer, FirmwareUpdate } from '../shared/models/firmware';
 
 const routes = {
   devices: '/device',
@@ -54,7 +55,10 @@ const routes = {
   bindLSTcluster: '/bind-lst-cluster',
   bindLSTdevice: '/bind-lst-device',
   scanDeviceForGrp: '/scan-device-for-grp',
-  logErrorHistory: '/log-error-history'
+  logErrorHistory: '/log-error-history',
+  otaFirmwareList: '/ota-firmware-list',
+  otaFirmwareDeviceList: '/ota-firmware-device-list/',
+  otaFirmwareUpdate: '/ota-firmware-update'
 };
 
 const log = new Logger('ApiService');
@@ -435,6 +439,27 @@ export class ApiService {
 
   putScanDeviceForGrp(nwkids: string[]): Observable<any> {
     return this.httpClient.put(routes.scanDeviceForGrp, nwkids).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getOtaFirmware(): Observable<FirmwareManufacturer> {
+    return this.httpClient.get(routes.otaFirmwareList).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getDeviceByOtaFirmware(ManufCode: string): Observable<DevicesByManufacturer[]> {
+    return this.httpClient.get(routes.otaFirmwareDeviceList.concat(ManufCode)).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putOtaFirmware(nwkids: any): Observable<FirmwareUpdate> {
+    return this.httpClient.put(routes.otaFirmwareUpdate, nwkids).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

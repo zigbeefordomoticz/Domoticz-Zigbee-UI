@@ -1,0 +1,79 @@
+<div class="card">
+  <form [formGroup]="form">
+    <div class="card-header" translate="admin.firmware.title"></div>
+    <div class="card-body">
+      <h5 class="card-title" [innerHTML]="'admin.firmware.subtitle' | translate"></h5>
+      <div class="card-text">
+        <div class="row">
+          <div class="col-sm">
+            <div>
+              <ng-select
+                [items]="manufacturerList$ | async"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                placeholder="{{ 'admin.firmware.list' | translate }}"
+                appendTo="body"
+                formControlName="manufacturer"
+              >
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm">
+            <div *ngIf="firmwares">
+              <ng-select
+                [items]="firmwares"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                placeholder="{{ 'admin.firmware.devices' | translate }}"
+                appendTo="body"
+                bindLabel="FileName"
+                formControlName="firmware"
+              >
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">
+                    <b>File name</b> : {{ item.FileName }} - <b>ImageType</b> : {{ item.ImageType }} -
+                    <b>ApplicationBuild</b> : {{ item.ApplicationBuild }} - <b>ApplicationRelease</b> :
+                    {{ item.ApplicationRelease }} - <b>StackBuild</b> : {{ item.StackBuild }} - <b>StackRelease</b> :
+                    {{ item.StackRelease }}
+                  </span>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm">
+            <div *ngIf="devicesList$">
+              <ng-select
+                [items]="devicesList$ | async"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                placeholder="{{ 'admin.firmware.devices' | translate }}"
+                appendTo="body"
+                bindLabel="DeviceName"
+                formControlName="device"
+              >
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">
+                    <b>DeviceName</b> : {{ item.DeviceName }} - <b>Ep</b> : {{ item.Ep }} - <b>Nwkid</b> :
+                    {{ item.Nwkid }} - <b>SWBUILD_1</b> : {{ item.SWBUILD_1 }} - <b>SWBUILD_3</b> : {{ item.SWBUILD_3 }}
+                  </span>
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <button
+            class="ml-3 btn btn-primary"
+            (click)="updateFirmware()"
+            [disabled]="!form.valid"
+            translate="admin.firmware.button.update"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
