@@ -28,17 +28,9 @@
                 [closeOnSelect]="true"
                 placeholder="{{ 'admin.firmware.list' | translate }}"
                 appendTo="body"
-                bindLabel="FileName"
+                bindLabel="label"
                 formControlName="firmware"
               >
-                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                  <span [ngOptionHighlight]="search">
-                    <b>File name</b> : {{ item.FileName }} - <b>ImageType</b> : {{ item.ImageType }} -
-                    <b>ApplicationBuild</b> : {{ item.ApplicationBuild }} - <b>ApplicationRelease</b> :
-                    {{ item.ApplicationRelease }} - <b>StackBuild</b> : {{ item.StackBuild }} - <b>StackRelease</b> :
-                    {{ item.StackRelease }}
-                  </span>
-                </ng-template>
               </ng-select>
             </div>
           </div>
@@ -52,15 +44,9 @@
                 [closeOnSelect]="true"
                 placeholder="{{ 'admin.firmware.devices.list' | translate }}"
                 appendTo="body"
-                bindLabel="DeviceName"
+                bindLabel="label"
                 formControlName="device"
               >
-                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                  <span [ngOptionHighlight]="search">
-                    <b>DeviceName</b> : {{ item.DeviceName }} - <b>Ep</b> : {{ item.Ep }} - <b>Nwkid</b> :
-                    {{ item.Nwkid }} - <b>SWBUILD_1</b> : {{ item.SWBUILD_1 }} - <b>SWBUILD_3</b> : {{ item.SWBUILD_3 }}
-                  </span>
-                </ng-template>
               </ng-select>
             </div>
           </div>

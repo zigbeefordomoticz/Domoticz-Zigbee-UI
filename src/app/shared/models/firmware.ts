@@ -7,6 +7,7 @@ export interface Firmware {
   StackBuild: string;
   StackRelease: string;
   Version: string;
+  label: string;
 }
 
 export interface FirmwareManufacturer {
@@ -19,6 +20,7 @@ export interface DevicesByManufacturer {
   Nwkid: string;
   SWBUILD_1: string;
   SWBUILD_3: string;
+  label: string;
 }
 
 export class FirmwareUpdate {

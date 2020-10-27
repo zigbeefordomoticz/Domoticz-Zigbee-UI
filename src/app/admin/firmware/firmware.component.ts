@@ -20,7 +20,7 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
   form: FormGroup;
   manufacturerList$: Observable<string[]>;
   devicesList$: Observable<DevicesByManufacturer[]>;
-  firmwares: any;
+  firmwares: Firmware[];
   tempFirmwares: any;
 
   constructor(
@@ -53,6 +53,9 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
         if (manufacturer) {
           this.form.get('firmware').reset();
           this.firmwares = this.tempFirmwares[manufacturer];
+          this.firmwares.forEach(firm => {
+            firm.label = this.getLabelFirmware(firm);
+          });
         } else {
           this.firmwares = null;
         }
@@ -63,7 +66,15 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       .valueChanges.pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((firmware: Firmware) => {
         if (firmware) {
-          this.devicesList$ = this.apiService.getDeviceByOtaFirmware(firmware.ManufCode);
+          this.form.get('device').reset();
+          this.devicesList$ = this.apiService.getDeviceByOtaFirmware(firmware.ManufCode).pipe(
+            map(devices => {
+              devices.forEach(device => {
+                device.label = this.getLabelDevice(device);
+              });
+              return devices;
+            })
+          );
         } else {
           this.devicesList$ = null;
         }
@@ -86,5 +97,33 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
         emitEvent: false
       });
     });
+  }
+
+  private getLabelFirmware(firmware: Firmware): string {
+    return 'FileName : '
+      .concat(firmware.FileName)
+      .concat(' - ImageType : ')
+      .concat(firmware.ImageType)
+      .concat(' - ApplicationBuild : ')
+      .concat(firmware.ApplicationBuild)
+      .concat(' - ApplicationRelease : ')
+      .concat(firmware.ApplicationRelease)
+      .concat(' - StackBuild : ')
+      .concat(firmware.StackBuild)
+      .concat(' - StackRelease : ')
+      .concat(firmware.StackRelease);
+  }
+
+  private getLabelDevice(device: DevicesByManufacturer): string {
+    return 'DeviceName : '
+      .concat(device.DeviceName)
+      .concat(' - Ep : ')
+      .concat(device.Ep)
+      .concat(' - Nwkid : ')
+      .concat(device.Nwkid)
+      .concat(' - SWBUILD_1 : ')
+      .concat(device.SWBUILD_1)
+      .concat(' - SWBUILD_3 : ')
+      .concat(device.SWBUILD_3);
   }
 }
