@@ -102,10 +102,7 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       this.devicesList$ = null;
       this.firmwares = null;
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
-      this.form.reset('', {
-        onlySelf: true,
-        emitEvent: false
-      });
+      this.form.reset();
     });
   }
 
