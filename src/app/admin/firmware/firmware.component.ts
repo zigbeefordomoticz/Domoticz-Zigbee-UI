@@ -48,7 +48,7 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
 
     this.subs.sink = this.form
       .get('manufacturer')
-      .valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+      .valueChanges.pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((manufacturer: string) => {
         this.form.get('firmware').reset();
         this.form.get('device').reset();
@@ -64,7 +64,7 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
 
     this.subs.sink = this.form
       .get('firmware')
-      .valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+      .valueChanges.pipe(debounceTime(300), distinctUntilChanged())
       .subscribe((firmware: Firmware) => {
         this.form.get('device').reset();
         if (firmware) {
