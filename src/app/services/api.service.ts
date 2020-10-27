@@ -458,8 +458,8 @@ export class ApiService {
     );
   }
 
-  putOtaFirmware(nwkids: any): Observable<FirmwareUpdate> {
-    return this.httpClient.put(routes.otaFirmwareUpdate, nwkids).pipe(
+  putOtaFirmware(devicesToUpdate: FirmwareUpdate[]): Observable<FirmwareUpdate> {
+    return this.httpClient.put(routes.otaFirmwareUpdate, devicesToUpdate).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

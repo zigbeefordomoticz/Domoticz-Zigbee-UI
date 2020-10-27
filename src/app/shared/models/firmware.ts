@@ -21,6 +21,9 @@ export interface DevicesByManufacturer {
   SWBUILD_1: string;
   SWBUILD_3: string;
   label: string;
+  OTALastTime: string;
+  OTAType: string;
+  OTAVersion: string;
 }
 
 export class FirmwareUpdate {

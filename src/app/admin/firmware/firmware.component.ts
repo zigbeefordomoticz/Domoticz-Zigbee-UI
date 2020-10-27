@@ -83,13 +83,20 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
   }
 
   updateFirmware() {
-    const update = new FirmwareUpdate();
-    update.Brand = this.form.get('manufacturer').value;
-    update.Ep = (this.form.get('device').value as DevicesByManufacturer).Ep;
-    update.FileName = (this.form.get('firmware').value as Firmware).FileName;
-    update.NwkId = (this.form.get('device').value as DevicesByManufacturer).Nwkid;
+    const devicesToUpdate: FirmwareUpdate[] = [];
+    const manufacturer = this.form.get('manufacturer').value;
+    const fileName = (this.form.get('firmware').value as Firmware).FileName;
+    const devices = this.form.get('device').value as DevicesByManufacturer[];
+    devices.forEach(device => {
+      const deviceToUpdate = new FirmwareUpdate();
+      deviceToUpdate.Brand = manufacturer;
+      deviceToUpdate.Ep = device.Ep;
+      deviceToUpdate.FileName = fileName;
+      deviceToUpdate.NwkId = device.Nwkid;
+      devicesToUpdate.push(deviceToUpdate);
+    });
 
-    this.apiService.putOtaFirmware(update).subscribe(() => {
+    this.apiService.putOtaFirmware(devicesToUpdate).subscribe(() => {
       this.devicesList$ = null;
       this.firmwares = null;
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
@@ -122,6 +129,12 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       .concat(device.Ep)
       .concat(' - Nwkid : ')
       .concat(device.Nwkid)
+      .concat(' - OTALastTime : ')
+      .concat(device.OTALastTime)
+      .concat(' - OTAType : ')
+      .concat(device.OTAType)
+      .concat(' - OTAVersion : ')
+      .concat(device.OTAVersion)
       .concat(' - SWBUILD_1 : ')
       .concat(device.SWBUILD_1)
       .concat(' - SWBUILD_3 : ')

@@ -40,7 +40,7 @@
             <div *ngIf="devicesList$">
               <ng-select
                 [items]="devicesList$ | async"
-                [multiple]="false"
+                [multiple]="true"
                 [closeOnSelect]="true"
                 placeholder="{{ 'admin.firmware.devices.list' | translate }}"
                 appendTo="body"
