@@ -50,8 +50,9 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       .get('manufacturer')
       .valueChanges.pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((manufacturer: string) => {
+        this.form.get('firmware').reset();
+        this.form.get('device').reset();
         if (manufacturer) {
-          this.form.get('firmware').reset();
           this.firmwares = this.tempFirmwares[manufacturer];
           this.firmwares.forEach(firm => {
             firm.label = this.getLabelFirmware(firm);
@@ -65,8 +66,8 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       .get('firmware')
       .valueChanges.pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((firmware: Firmware) => {
+        this.form.get('device').reset();
         if (firmware) {
-          this.form.get('device').reset();
           this.devicesList$ = this.apiService.getDeviceByOtaFirmware(firmware.ManufCode).pipe(
             map(devices => {
               devices.forEach(device => {
