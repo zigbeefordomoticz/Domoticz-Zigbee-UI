@@ -36,7 +36,8 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
     this.form = this.formBuilder.group({
       manufacturer: [null, Validators.required],
       firmware: [null, Validators.required],
-      device: [null, Validators.required]
+      device: [null, Validators.required],
+      force: [false]
     });
 
     this.manufacturerList$ = this.apiService.getOtaFirmware().pipe(
@@ -93,6 +94,7 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       deviceToUpdate.Ep = device.Ep;
       deviceToUpdate.FileName = fileName;
       deviceToUpdate.NwkId = device.Nwkid;
+      deviceToUpdate.ForceUpdate = this.form.get('force').value;
       devicesToUpdate.push(deviceToUpdate);
     });
 

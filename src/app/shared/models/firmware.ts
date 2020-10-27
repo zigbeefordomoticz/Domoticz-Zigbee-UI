@@ -31,4 +31,5 @@ export class FirmwareUpdate {
   'Ep': string;
   'Brand': string;
   'FileName': string;
+  'ForceUpdate': boolean;
 }

@@ -46,6 +46,7 @@
   "admin.firmware.list": "list of firmware",
   "admin.firmware.manufacturer.list": "list of manufacturer",
   "admin.firmware.devices.list": "list of devices",
+  "admin.firmware.force": "force update",
 
   "admin.reloadplugin.title": "Restart plugin",
   "admin.reloadplugin.subtitle": "Will restart the plugin",
