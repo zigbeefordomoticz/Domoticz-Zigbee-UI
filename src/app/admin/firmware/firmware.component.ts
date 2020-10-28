@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -22,12 +23,15 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
   devicesList$: Observable<DevicesByManufacturer[]>;
   firmwares: Firmware[];
   tempFirmwares: any;
+  devicesModal: DevicesByManufacturer[];
+  firmwareModal: Firmware;
 
   constructor(
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -104,6 +108,17 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
       this.form.reset();
     });
+  }
+
+  open(content: any) {
+    this.firmwareModal = this.form.get('firmware').value as Firmware;
+    this.devicesModal = this.form.get('device').value as DevicesByManufacturer[];
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      result => {
+        this.updateFirmware();
+      },
+      reason => {}
+    );
   }
 
   private getLabelFirmware(firmware: Firmware): string {

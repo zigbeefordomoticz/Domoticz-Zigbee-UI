@@ -58,7 +58,7 @@
         <div class="row mt-2">
           <button
             class="ml-3 btn btn-primary"
-            (click)="updateFirmware()"
+            (click)="open(content)"
             [disabled]="!form.valid"
             translate="admin.firmware.button.update"
           ></button>
@@ -67,3 +67,37 @@
     </div>
   </form>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" translate="admin.firmware.alert.title"></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {{ 'admin.firmware.alert.subject' | translate }}
+    <div class="col-sm mt-2">{{ 'admin.firmware.alert.brand' | translate }} {{ form.get('manufacturer').value }}</div>
+    <div class="col-sm mt-2">{{ 'admin.firmware.alert.filename' | translate }} {{ firmwareModal.FileName }}</div>
+    <div class="col-sm mt-2">
+      {{ 'admin.firmware.alert.list.devices' | translate }}
+      <div class="col-sm mt-2" *ngFor="let device of devicesModal">
+        {{ 'admin.firmware.alert.device' | translate }} : {{ device.DeviceName }} - Nwkid : {{ device.Nwkid }}
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('ok')"
+      translate="admin.firmware.alert.ok"
+    ></button>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.dismiss('cancel')"
+      translate="admin.firmware.alert.cancel"
+    ></button>
+  </div>
+</ng-template>
