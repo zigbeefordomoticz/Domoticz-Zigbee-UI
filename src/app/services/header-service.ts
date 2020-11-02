@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class HeaderService {
   public restart = new BehaviorSubject(false);
-  public log_error = new BehaviorSubject(false);
+  public logError = new BehaviorSubject(false);
 
   constructor() {}
 
@@ -13,6 +13,6 @@ export class HeaderService {
   }
 
   setError(log_error: any) {
-    this.log_error.next(log_error);
+    this.logError.next(log_error);
   }
 }
