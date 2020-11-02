@@ -12,7 +12,7 @@ export class HeaderService {
     this.restart.next(restart);
   }
 
-  setError(log_error: any) {
-    this.logError.next(log_error);
+  setError(logError: any) {
+    this.logError.next(logError);
   }
 }
