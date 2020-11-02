@@ -56,6 +56,7 @@ const routes = {
   bindLSTdevice: '/bind-lst-device',
   scanDeviceForGrp: '/scan-device-for-grp',
   logErrorHistory: '/log-error-history',
+  clearErrorHistory: '/clear-error-history',
   otaFirmwareList: '/ota-firmware-list',
   otaFirmwareDeviceList: '/ota-firmware-device-list/',
   otaFirmwareUpdate: '/ota-firmware-update'
@@ -146,6 +147,13 @@ export class ApiService {
 
   getLogErrorHistory(): Observable<PluginStats> {
     return this.httpClient.get(routes.logErrorHistory).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  clearLogErrorHistory(): Observable<PluginStats> {
+    return this.httpClient.get(routes.clearErrorHistory).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

@@ -13,6 +13,7 @@ import { PluginComponent } from './plugin/plugin.component';
 import { ToolsRoutingModule } from './tools-routing.module';
 import { ToolsComponent } from './tools.component';
 import { ZigateComponent } from './zigate/zigate.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   imports: [SharedModule, ToolsRoutingModule, NgxJsonViewerModule, FileSaverModule, ColorPickerModule],
@@ -25,7 +26,8 @@ import { ZigateComponent } from './zigate/zigate.component';
     RawCommandComponent,
     CommandComponent,
     DebugSettingsComponent,
-    DebugSettingComponent
+    DebugSettingComponent,
+    ErrorComponent
   ]
 })
 export class ToolsModule {}

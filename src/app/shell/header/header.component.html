@@ -21,7 +21,7 @@
       [ngbCollapse]="menuHidden"
     >
       <ul class="navbar-nav h-100">
-        <li ngbDropdown routerLinkActive="active" class="dropdown ">
+        <li ngbDropdown routerLinkActive="active" class="dropdown">
           <a class="nav-item nav-link mx-2" routerLink="/dashboard" routerLinkActive="active">
             <i class="fas fa-home"></i>
             <span>{{ plugin?.Name }}</span>
@@ -120,7 +120,7 @@
           </ul>
         </li>
 
-        <li ngbDropdown routerLinkActive="active" class="dropdown ">
+        <li ngbDropdown routerLinkActive="active" class="dropdown">
           <a class="nav-item nav-link mx-2" routerLink="/settings" routerLinkActive="active">
             <i class="fas fa-cog"></i>
             <span translate>settings</span>
@@ -161,9 +161,17 @@
             >
               <i class="fas fa-wrench mr-2"></i> <span translate="debug"></span>
             </li>
+            <li
+            class="dropdown-item nav-item nav-link"
+            (click)="toggleMenu()"
+            routerLink="/tools/error"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-bug mr-2"></i> <span translate="error"></span>
+          </li>
           </ul>
         </li>
-        <li ngbDropdown routerLinkActive="active" class="dropdown ">
+        <li ngbDropdown routerLinkActive="active" class="dropdown">
           <a class="nav-item nav-link mx-2" routerLink="/about" routerLinkActive="active">
             <i class="fas fa-question-circle"></i>
             <span translate>About</span>
@@ -185,6 +193,25 @@
                 triggers="mouseenter:mouseleave"
                 popoverTitle="{{ 'header.popover.title' | translate }}"
                 class="fa fa-2x fa-exclamation-circle blink"
+              ></i>
+            </a>
+          </div>
+        </div>
+      </div>      
+      <div *ngIf="logError" class="navbar-nav ml-auto">
+        <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom">
+          <div class="mr-3">
+            <a
+              class="nav-item nav-link mx-2"
+              [routerLink]="['/admin']"
+              [queryParams]="{ action: 'plugin' }"
+              routerLinkActive="active"
+            >
+              <i
+                ngbPopover="{{ 'error.popover.text' | translate }}"
+                triggers="mouseenter:mouseleave"
+                popoverTitle="{{ 'error.popover.title' | translate }}"
+                class="fa fa-2x fa-exclamation-triangle blink"
               ></i>
             </a>
           </div>

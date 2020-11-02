@@ -288,7 +288,7 @@
   "tools.zgroup-list-available-device.button": "zGroup-lst-devices (json)",
   "tools.settings.button": "Parametres (json)",
   "tools.plugin-stat.button": "Traffic (json)",
-  "tools.log-error-history.button": "Historique des erreurs (json)",
+  
   "debug-command": "Commandes zigate",
   "tools.debugcommand.title": "Commandes zigate",
   "tools.debugcommand.subtitle": "Permet de transmettre directement des commandes/ordres à un dispositif via la zigate.<br>(1) Choisir le dispositif,<br>(2) choisir l'action à effectuer,<br> Choisir un type de dispositif,<br>(4)Eventuelement une valeur supplementaire.",
@@ -300,6 +300,12 @@
   "tools.debugcommand.level.error": "entre 0 et 100",
   "tools.debugcommand.effect.error": "entre 0x00 à 0xff",
   "tools.debugcommand.button.send": "Envoyer",
+  
+  "error": "Erreur(s)",
+  "tools.error.log-history.button": "Historique des erreurs (json)",
+  "tools.error.log-history.clear": "Effacer les erreurs",
+  "error.popover.title": "Erreur(s) détectée(s)",
+  "error.popover.text": "Voir Outils, Erreur(s)",
 
   "debug": "Debug",
 
