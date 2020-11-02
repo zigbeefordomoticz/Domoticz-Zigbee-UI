@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { ApiService } from '@app/services/api.service';
-import { finalize } from 'rxjs/operators';
-import { Logger } from '@app/core';
 import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { Logger } from '@app/core';
+import { ApiService } from '@app/services/api.service';
 import { FileSaverService } from 'ngx-filesaver';
+import { finalize } from 'rxjs/operators';
 
 const log = new Logger('ToolsComponent');
 
@@ -37,12 +36,7 @@ export class ToolsComponent implements OnInit {
   isInfosPluginLoading = false;
   isInfosZigate = false;
 
-  constructor(
-    private apiService: ApiService,
-    private formBuilder: FormBuilder,
-    private datePipe: DatePipe,
-    private fileSaverService: FileSaverService
-  ) {}
+  constructor(private apiService: ApiService, private fileSaverService: FileSaverService) {}
 
   ngOnInit() {}
 

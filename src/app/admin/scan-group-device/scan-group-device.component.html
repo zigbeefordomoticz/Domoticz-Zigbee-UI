@@ -1,37 +1,35 @@
-<form [formGroup]="form">
-  <div class="row">
-    <div class="col-sm">
-      <div class="card">
-        <div class="card-header" translate="admin.scan.group.device.title"></div>
-        <div class="card-body">
-          <h5 class="card-title" translate="admin.scan.group.device.subtitle"></h5>
-          <div class="card-text">
-            <ng-select
-              [items]="devices"
-              [multiple]="true"
-              [closeOnSelect]="false"
-              [searchable]="true"
-              bindLabel="Name"
-              placeholder="{{ 'admin.scan.group.device.placeholder' | translate }}"
-              formControlName="deviceSelected"
-            >
-              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                <span [ngOptionHighlight]="search">
-                  <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
-                  <b>Id</b> : {{ item._ID }} -
-                  <b>{{ item.ZDeviceName }}</b>
-                </span>
-              </ng-template>
-            </ng-select>
-            <button
-              [disabled]="!form.valid"
-              class="ml-3 mt-3 btn btn-primary"
-              (click)="scan()"
-              translate="admin.scan.group.device.button"
-            ></button>
-          </div>
+<div class="col-sm">
+  <form [formGroup]="form">
+    <div class="card">
+      <div class="card-header" translate="admin.scan.group.device.title"></div>
+      <div class="card-body">
+        <h5 class="card-title" translate="admin.scan.group.device.subtitle"></h5>
+        <div class="card-text">
+          <ng-select
+            [items]="devices"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [searchable]="true"
+            bindLabel="Name"
+            placeholder="{{ 'admin.scan.group.device.placeholder' | translate }}"
+            formControlName="deviceSelected"
+          >
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              <span [ngOptionHighlight]="search">
+                <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
+                <b>Id</b> : {{ item._ID }} -
+                <b>{{ item.ZDeviceName }}</b>
+              </span>
+            </ng-template>
+          </ng-select>
+          <button
+            [disabled]="!form.valid"
+            class="ml-3 mt-3 btn btn-primary"
+            (click)="scan()"
+            translate="admin.scan.group.device.button"
+          ></button>
         </div>
       </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>

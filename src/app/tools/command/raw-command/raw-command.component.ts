@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('RawCommandComponent');
 
@@ -14,7 +13,7 @@ const log = new Logger('RawCommandComponent');
 export class RawCommandComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

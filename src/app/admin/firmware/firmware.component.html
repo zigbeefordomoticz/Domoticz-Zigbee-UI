@@ -1,0 +1,103 @@
+<div class="card">
+  <form [formGroup]="form">
+    <div class="card-header" translate="admin.firmware.title"></div>
+    <div class="card-body">
+      <h5 class="card-title" [innerHTML]="'admin.firmware.subtitle' | translate"></h5>
+      <div class="card-text">
+        <div class="row">
+          <div class="col-sm">
+            <div>
+              <ng-select
+                [items]="manufacturerList$ | async"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                placeholder="{{ 'admin.firmware.manufacturer.list' | translate }}"
+                appendTo="body"
+                formControlName="manufacturer"
+              >
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm">
+            <div *ngIf="firmwares">
+              <ng-select
+                [items]="firmwares"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                placeholder="{{ 'admin.firmware.list' | translate }}"
+                appendTo="body"
+                bindLabel="label"
+                formControlName="firmware"
+              >
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm">
+            <div *ngIf="devicesList$">
+              <ng-select
+                [items]="devicesList$ | async"
+                [multiple]="true"
+                [closeOnSelect]="true"
+                placeholder="{{ 'admin.firmware.devices.list' | translate }}"
+                appendTo="body"
+                bindLabel="label"
+                formControlName="device"
+              >
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2 custom-control custom-checkbox">
+          <input formControlName="force" id="force" type="checkbox" class="custom-control-input form-control" />
+          <label class="ml-3 custom-control-label" for="force" translate="admin.firmware.force"></label>
+        </div>
+        <div class="row mt-2">
+          <button
+            class="ml-3 btn btn-primary"
+            (click)="open(content)"
+            [disabled]="!form.valid"
+            translate="admin.firmware.button.update"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" translate="admin.firmware.alert.title"></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    {{ 'admin.firmware.alert.subject' | translate }}
+    <div class="col-sm mt-2">{{ 'admin.firmware.alert.brand' | translate }} {{ form.get('manufacturer').value }}</div>
+    <div class="col-sm mt-2">{{ 'admin.firmware.alert.filename' | translate }} {{ firmwareModal.FileName }}</div>
+    <div class="col-sm mt-2">
+      {{ 'admin.firmware.alert.list.devices' | translate }}
+      <div class="col-sm mt-2" *ngFor="let device of devicesModal">
+        {{ 'admin.firmware.alert.device' | translate }} : {{ device.DeviceName }} - Nwkid : {{ device.Nwkid }}
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="modal.close('ok')"
+      translate="admin.firmware.alert.ok"
+    ></button>
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.dismiss('cancel')"
+      translate="admin.firmware.alert.cancel"
+    ></button>
+  </div>
+</ng-template>
