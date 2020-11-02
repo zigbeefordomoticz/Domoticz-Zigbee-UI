@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   permitToJoin: any;
   permitChecked = false;
   restart: boolean;
-  log_error: boolean;
+  logError: boolean;
   settings: Array<Settings>;
   settingsToSave: Array<Setting> = [];
   plugin: Plugin;
@@ -41,8 +41,8 @@ export class HeaderComponent implements OnInit {
       this.restart = restart;
     });
 
-    this.headerService.log_error.subscribe(log_error => {
-      this.log_error = log_error;
+    this.headerService.logError.subscribe(logError => {
+      this.logError = logError;
     });
 
     this.apiService.getPermitToJoin().subscribe(result => {
