@@ -234,7 +234,7 @@
   "tools.plugin-stat.button": "Verkeer (json)",
   "tools.zdevice-name.button": "zApparaat-naam (json)",
   "tools.domoticz-env.button": "domoticz-env (json)",
-  "tools.log-error-history.button" : "Log foutengeschiedenis (json)",
+
   "debug-command": "Debug commando",
   "tools.debugcommand.title": "Verstuur commando",
   "tools.debugcommand.subtitle": "Verstuur een commando naar een apparaat. (1) Selecteer het apparaat, (2) Selecteer het commando (3) Selecteer het apparaat type. Dit beinvloed de manier hoe er met het apparaat wordt gecommuniceerd. (4) Geef een waarde in of selecteer een kleur (optioneel)",
@@ -246,6 +246,12 @@
   "tools.debugcommand.level.error": "tussen 0 en 100",
   "tools.debugcommand.effect.error": "tussen 0x00 tot 0xff",
   "tools.debugcommand.button.send": "Verzenden",
+
+  "error": "Error(s)",
+  "tools.error.log-history.button" : "Log foutengeschiedenis (json)",
+  "tools.error.log-history.clear" : "Log verwijderen",
+  "error.popover.title": "Erreur(s) détectée(s)",
+  "error.popover.text": "Voir Outils, Erreur(s)",
 
   "debug": "Debug",
   "tool.debugsetting.help.legend": "Logging and debuging, use advanced to get access to the Debug parameters",

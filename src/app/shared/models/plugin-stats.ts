@@ -19,6 +19,7 @@ export interface PluginStats {
   Txpm: number;
   Txps: number;
   Uptime: number;
+  Error: boolean;
 }
 
 export interface Trend {

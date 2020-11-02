@@ -9,6 +9,7 @@ import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { PluginStats } from '../shared/models/plugin-stats';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { HeaderService } from '@app/services/header-service';
 
 const log = new Logger('DashboardComponent');
 
@@ -83,6 +84,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     private apiService: ApiService,
     private toppy: Toppy,
     private versionService: VersionService,
+    private headerService: HeaderService,
     private translateService: TranslateService
   ) {
     super();
@@ -229,6 +231,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         },
         { name: this.translateService.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length }
       ];
+      this.headerService.setError(res.Error);
     });
   }
 

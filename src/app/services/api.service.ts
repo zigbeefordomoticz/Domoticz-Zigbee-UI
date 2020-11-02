@@ -55,7 +55,8 @@ const routes = {
   bindLSTcluster: '/bind-lst-cluster',
   bindLSTdevice: '/bind-lst-device',
   scanDeviceForGrp: '/scan-device-for-grp',
-  logErrorHistory: '/log-error-history'
+  logErrorHistory: '/log-error-history',
+  clearErrorHistory: '/clear-error-history'
 };
 
 const log = new Logger('ApiService');
@@ -148,6 +149,13 @@ export class ApiService {
 
   getLogErrorHistory(): Observable<PluginStats> {
     return this.httpClient.get(routes.logErrorHistory).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  clearLogErrorHistory(): Observable<PluginStats> {
+    return this.httpClient.get(routes.clearErrorHistory).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

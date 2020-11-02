@@ -6,7 +6,7 @@ import { Logger } from '@app/core';
 import { DatePipe } from '@angular/common';
 import { FileSaverService } from 'ngx-filesaver';
 
-const log = new Logger('ToolsComponent');
+const log = new Logger('ErrorComponent');
 
 function transformToTimestamp(key: any, value: any) {
   const datepipe = new DatePipe('en-US');
@@ -27,11 +27,11 @@ function transformToTimestamp(key: any, value: any) {
 }
 
 @Component({
-  selector: 'app-tools',
-  templateUrl: './tools.component.html',
-  styleUrls: ['./tools.component.scss']
+  selector: 'app-error',
+  templateUrl: './error.component.html',
+  styleUrls: ['./error.component.scss']
 })
-export class ToolsComponent implements OnInit {
+export class ErrorComponent implements OnInit {
   json: Object | undefined = null;
   isLoading = false;
   isInfosPluginLoading = false;
@@ -51,41 +51,12 @@ export class ToolsComponent implements OnInit {
     this.isInfosZigate = false;
     this.json = null;
     let service;
-    if (device === 'devices') {
-      service = this.apiService.getDevices();
+
+    if (device === 'log-error-history') {
+      service = this.apiService.getLogErrorHistory();
     }
-    if (device === 'zdevices') {
-      service = this.apiService.getZDevices();
-    }
-    if (device === 'zgroups') {
-      service = this.apiService.getZGroups();
-    }
-    if (device === 'zdevice-raw') {
-      service = this.apiService.getRawZDevices();
-    }
-    if (device === 'infos') {
-      this.isInfosPluginLoading = true;
-    }
-    if (device === 'zigate') {
-      this.isInfosZigate = true;
-    }
-    if (device === 'plugin-health') {
-      service = this.apiService.getPluginhealth();
-    }
-    if (device === 'zgroup-list-available-device') {
-      service = this.apiService.getZGroupDevicesAvalaible();
-    }
-    if (device === 'settings') {
-      service = this.apiService.getSettings();
-    }
-    if (device === 'plugin-stat') {
-      service = this.apiService.getPluginStats();
-    }
-    if (device === 'zdevice-name') {
-      service = this.apiService.getZDeviceName();
-    }
-    if (device === 'domoticz-env') {
-      service = this.apiService.getDomoticzEnv();
+    if (device === 'clear-error-history') {
+      service = this.apiService.clearLogErrorHistory();
     }
 
     if (service) {

@@ -13,6 +13,7 @@ import { RawCommandComponent } from './command/raw-command/raw-command.component
 import { CommandComponent } from './command/command.component';
 import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
 import { DebugSettingComponent } from './debug-settings/debug-setting/debug-setting.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   imports: [SharedModule, ToolsRoutingModule, NgxJsonViewerModule, FileSaverModule, ColorPickerModule],
@@ -25,7 +26,8 @@ import { DebugSettingComponent } from './debug-settings/debug-setting/debug-sett
     RawCommandComponent,
     CommandComponent,
     DebugSettingsComponent,
-    DebugSettingComponent
+    DebugSettingComponent,
+    ErrorComponent
   ]
 })
 export class ToolsModule {}
