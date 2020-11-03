@@ -305,7 +305,7 @@
   "tools.error.log-history.button": "Historique des erreurs (json)",
   "tools.error.log-history.clear": "Effacer les erreurs",
   "error.popover.title": "Erreur(s) détectée(s)",
-  "error.popover.text": "Voir Outils, Erreur(s)",
+  "error.popover.text": "Cliquer pour voir l'historique",
 
   "debug": "Debug",
 
