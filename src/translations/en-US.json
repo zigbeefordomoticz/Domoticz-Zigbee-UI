@@ -285,8 +285,8 @@
   "error": "Error(s)",
   "tools.error.log-history.button" : "Log Error History (json)",
   "tools.error.log-history.clear" : "Clear Error History",
-  "error.popover.title": "Erreur(s) détectée(s)",
-  "error.popover.text": "Voir Outils, Erreur(s)",
+  "error.popover.title": "Error(s) detected",
+  "error.popover.text": "Clic to see the log",
 
   "debug": "Debug",
   "tool.debugsetting.advanced.button": "Advanced settings",
