@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { Logger } from '@app/core';
 import { DatePipe } from '@angular/common';
 import { FileSaverService } from 'ngx-filesaver';
+import { HeaderService } from '@app/services/header-service';
 
 const log = new Logger('ErrorComponent');
 
@@ -41,6 +42,7 @@ export class ErrorComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
+    private headerService: HeaderService,
     private fileSaverService: FileSaverService
   ) {}
 
@@ -57,6 +59,7 @@ export class ErrorComponent implements OnInit {
     }
     if (device === 'clear-error-history') {
       service = this.apiService.clearLogErrorHistory();
+      this.headerService.setError(false);
     }
 
     if (service) {
