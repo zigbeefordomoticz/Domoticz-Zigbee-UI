@@ -10,6 +10,10 @@ const routes: Routes = [
     { path: 'network', loadChildren: () => import('app/network/network.module').then(m => m.NetworkModule) },
     { path: 'admin', loadChildren: () => import('app/admin/admin.module').then(m => m.AdminModule) },
     { path: 'settings', loadChildren: () => import('app/settings/settings.module').then(m => m.SettingsModule) },
+    {
+      path: 'manufacturer',
+      loadChildren: () => import('app/manufacturer/manufacturer.module').then(m => m.ManufacturerModule)
+    },
     { path: 'tools', loadChildren: () => import('app/tools/tools.module').then(m => m.ToolsModule) }
   ]),
   // Fallback when no prior route is matched

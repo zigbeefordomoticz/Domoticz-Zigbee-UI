@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
   permitToJoin: any;
   permitChecked = false;
   restart: boolean;
+  showManufacturer: boolean;
   logError: boolean;
   settings: Array<Settings>;
   settingsToSave: Array<Setting> = [];
@@ -39,6 +40,10 @@ export class HeaderComponent implements OnInit {
 
     this.headerService.restart.subscribe(restart => {
       this.restart = restart;
+    });
+
+    this.headerService.showManufacturer.subscribe(showManufacturer => {
+      this.showManufacturer = showManufacturer;
     });
 
     this.headerService.logError.subscribe(logError => {

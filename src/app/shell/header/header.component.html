@@ -162,19 +162,25 @@
               <i class="fas fa-wrench mr-2"></i> <span translate="debug"></span>
             </li>
             <li
-            class="dropdown-item nav-item nav-link"
-            (click)="toggleMenu()"
-            routerLink="/tools/error"
-            routerLinkActive="active"
-          >
-            <i class="fas fa-bug mr-2"></i> <span translate="error"></span>
-          </li>
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              routerLink="/tools/error"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-bug mr-2"></i> <span translate="error"></span>
+            </li>
           </ul>
         </li>
         <li ngbDropdown routerLinkActive="active" class="dropdown">
           <a class="nav-item nav-link mx-2" routerLink="/about" routerLinkActive="active">
             <i class="fas fa-question-circle"></i>
             <span translate>About</span>
+          </a>
+        </li>
+        <li ngbDropdown routerLinkActive="active" class="dropdown" *ngIf="showManufacturer">
+          <a class="nav-item nav-link mx-2" routerLink="/manufacturer" routerLinkActive="active">
+            <i class="fas fa-industry"></i>
+            <span translate>manufacturer</span>
           </a>
         </li>
       </ul>
@@ -197,15 +203,11 @@
             </a>
           </div>
         </div>
-      </div>      
+      </div>
       <div *ngIf="logError" class="navbar-nav ml-auto">
         <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom">
           <div class="mr-3">
-            <a
-              class="nav-item nav-link mx-2"
-              [routerLink]="['/tools/error']"
-              routerLinkActive="active"
-            >
+            <a class="nav-item nav-link mx-2" [routerLink]="['/tools/error']" routerLinkActive="active">
               <i
                 ngbPopover="{{ 'error.popover.text' | translate }}"
                 triggers="mouseenter:mouseleave"

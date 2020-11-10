@@ -18,6 +18,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Binding } from '../shared/models/binding';
 import { Relation } from '../shared/models/relation';
+import { CasaiaDevice } from '../shared/models/casaia-device';
 import { DevicesByManufacturer, FirmwareManufacturer, FirmwareUpdate } from '../shared/models/firmware';
 
 const routes = {
@@ -59,7 +60,9 @@ const routes = {
   clearErrorHistory: '/clear-error-history',
   otaFirmwareList: '/ota-firmware-list',
   otaFirmwareDeviceList: '/ota-firmware-device-list/',
-  otaFirmwareUpdate: '/ota-firmware-update'
+  otaFirmwareUpdate: '/ota-firmware-update',
+  casiaListDevices: '/casaia-list-devices',
+  casiaIrcode: '/casaia-update-ircode'
 };
 
 const log = new Logger('ApiService');
@@ -468,6 +471,20 @@ export class ApiService {
 
   putOtaFirmware(devicesToUpdate: FirmwareUpdate[]): Observable<FirmwareUpdate> {
     return this.httpClient.put(routes.otaFirmwareUpdate, devicesToUpdate).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getCasiaDevices(): Observable<CasaiaDevice[]> {
+    return this.httpClient.get(routes.casiaListDevices).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putCasiaIrcode(ircode: FirmwareUpdate[]): Observable<FirmwareUpdate> {
+    return this.httpClient.put(routes.casiaIrcode, ircode).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
