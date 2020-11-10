@@ -37,8 +37,10 @@ export class AppComponent implements OnInit, OnDestroy {
     log.debug('init');
 
     this.apiService.getCasiaDevices().subscribe(devices => {
-      localStorage.setItem('casaiaDevice', JSON.stringify(devices));
-      this.headerService.setShowManufacturer(true);
+      if (devices.length > 0) {
+        localStorage.setItem('casaiaDevice', JSON.stringify(devices));
+        this.headerService.setShowManufacturer(true);
+      }
     });
 
     // Setup translations
