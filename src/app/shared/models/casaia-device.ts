@@ -5,3 +5,12 @@ export class CasaiaDevice {
   Name: string;
   NwkId: string;
 }
+
+export class UpdateCasaiaDevice {
+  IRCode: string;
+  NwkId: string;
+  constructor(IRCode: string, NwkId: string) {
+    this.IRCode = IRCode;
+    this.NwkId = NwkId;
+  }
+}

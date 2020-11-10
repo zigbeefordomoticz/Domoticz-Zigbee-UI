@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { merge } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
+import { HeaderService } from './services/header-service';
 
 const log = new Logger('App');
 
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private translateService: TranslateService,
     private apiService: ApiService,
-    private i18nService: I18nService
+    private i18nService: I18nService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit() {
@@ -33,6 +35,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     log.debug('init');
+
+    this.apiService.getCasiaDevices().subscribe(devices => {
+      localStorage.setItem('casaiaDevice', JSON.stringify(devices));
+      this.headerService.setShowManufacturer(true);
+    });
 
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);

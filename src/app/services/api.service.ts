@@ -18,7 +18,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Binding } from '../shared/models/binding';
 import { Relation } from '../shared/models/relation';
-import { CasaiaDevice } from '../shared/models/casaia-device';
+import { CasaiaDevice, UpdateCasaiaDevice } from '../shared/models/casaia-device';
 import { DevicesByManufacturer, FirmwareManufacturer, FirmwareUpdate } from '../shared/models/firmware';
 
 const routes = {
@@ -483,8 +483,8 @@ export class ApiService {
     );
   }
 
-  putCasiaIrcode(ircode: FirmwareUpdate[]): Observable<FirmwareUpdate> {
-    return this.httpClient.put(routes.casiaIrcode, ircode).pipe(
+  putCasiaIrcode(update: UpdateCasaiaDevice[]): Observable<void> {
+    return this.httpClient.put(routes.casiaIrcode, update).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

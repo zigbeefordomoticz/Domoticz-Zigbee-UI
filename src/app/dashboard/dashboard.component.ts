@@ -91,10 +91,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   ngOnInit() {
-    this.apiService.getCasiaDevices().subscribe(devices => {
-      localStorage.setItem('casaiaDevice', JSON.stringify(devices));
-      this.headerService.setShowManufacturer(true);
-    });
     this.getInfos();
   }
 

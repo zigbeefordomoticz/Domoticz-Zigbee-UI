@@ -1,13 +1,71 @@
-<ngx-datatable
-  #table
-  [rows]="rows"
-  [columns]="columns"
-  class="bootstrap"
-  [columnMode]="'force'"
-  [headerHeight]="40"
-  [summaryRow]="true"
-  [summaryPosition]="'bottom'"
-  [footerHeight]="40"
-  [limit]="10"
-  [rowHeight]="'auto'"
-></ngx-datatable>
+<div class="row">
+  <div class="col-sm-11">
+    <div class="card">
+      <div class="card-header" translate="manufacturer.header"></div>
+      <div class="card-body">
+        <h5 class="card-title" translate="manufacturer.subtitle"></h5>
+        <div class="card-text">
+          <input
+            type="text"
+            placeholder="{{ 'manufacturer.placeholder' | translate }}"
+            (keyup)="updateFilter($event)"
+          />
+          <ngx-datatable
+            #table
+            [rows]="rows"
+            [columns]="columns"
+            class="bootstrap"
+            [columnMode]="'force'"
+            [headerHeight]="40"
+            [summaryRow]="true"
+            [summaryPosition]="'bottom'"
+            [footerHeight]="40"
+            [limit]="10"
+            [rowHeight]="'auto'"
+          >
+            <ngx-datatable-column name="{{ 'manufacturer.nwkid' | translate }}" prop="NwkId">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.NwkId }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'manufacturer.name' | translate }}" prop="Name">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.Name }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'manufacturer.ieee' | translate }}" prop="IEEE">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.IEEE }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'manufacturer.model' | translate }}" prop="Model">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.Model }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'manufacturer.ircode' | translate }}" prop="IRCode">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <input
+                  autofocus
+                  (change)="updateIRCode($event, row.NwkId)"
+                  type="text"
+                  size="4"
+                  maxlength="4"
+                  [value]="row.IRCode"
+                />
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-1">
+    <button
+      [disabled]="!hasEditing"
+      (click)="updateCasaiaDevices()"
+      class="w-100 btn btn-primary"
+      translate="{{ 'validate.button' | translate }}"
+    ></button>
+  </div>
+</div>

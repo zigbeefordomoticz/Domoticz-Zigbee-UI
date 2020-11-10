@@ -1,12 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { HeaderService } from '@app/services/header-service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { CasaiaDevice } from '../shared/models/casaia-device';
+import { CasaiaDevice, UpdateCasaiaDevice } from '../shared/models/casaia-device';
 
 const log = new Logger('ManufacturerComponent');
 
@@ -16,21 +13,60 @@ const log = new Logger('ManufacturerComponent');
   styleUrls: ['./manufacturer.component.scss']
 })
 export class ManufacturerComponent implements OnInit {
-  form: FormGroup;
+  @ViewChild('table') table: any;
   rows: CasaiaDevice[];
-  columns = [{ prop: 'IEEE' }, { prop: 'IRCode' }, { prop: 'Model' }, { prop: 'Name' }, { prop: 'NwkId' }];
+  temp: CasaiaDevice[] = [];
+  columns = [{ prop: 'NwkId' }, { prop: 'Name' }, { prop: 'IEEE' }, { prop: 'Model' }, { prop: 'IRCode' }];
+  hasEditing = false;
 
-  constructor(
-    private modalService: NgbModal,
-    private apiService: ApiService,
-    private formBuilder: FormBuilder,
-    private toastr: ToastrService,
-    private headerService: HeaderService,
-    private translate: TranslateService
-  ) {}
+  constructor(private apiService: ApiService, private toastr: ToastrService, private translate: TranslateService) {}
 
   ngOnInit() {
-    this.form = this.formBuilder.group({});
     this.rows = JSON.parse(localStorage.getItem('casaiaDevice'));
+    this.temp = [...this.rows];
+  }
+
+  updateIRCode(event: any, nwkId: string) {
+    this.hasEditing = true;
+    const rowUpdated = this.rows.find((row: any) => row.NwkId === nwkId);
+    rowUpdated.IRCode = event.target.value;
+  }
+
+  updateCasaiaDevices() {
+    const update: UpdateCasaiaDevice[] = [];
+    this.rows.forEach(row => {
+      update.push(new UpdateCasaiaDevice(row.IRCode, row.NwkId));
+    });
+
+    this.apiService.putCasiaIrcode(update).subscribe((result: any) => {
+      this.hasEditing = false;
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+    });
+  }
+
+  updateFilter(event: any) {
+    const val = event.target.value.toLowerCase();
+    const temp = this.temp.filter(function(d: any) {
+      let ok = false;
+      if (d.Model) {
+        ok = d.Model.toLowerCase().indexOf(val) !== -1;
+      }
+      if (!ok && d.NwkId) {
+        ok = d.NwkId.toLowerCase().indexOf(val) !== -1;
+      }
+      if (!ok && d.IEEE) {
+        ok = d.IEEE.toLowerCase().indexOf(val) !== -1;
+      }
+      if (!ok && d.Name) {
+        ok = d.Name.toLowerCase().indexOf(val) !== -1;
+      }
+      if (!ok && d.IRCode) {
+        ok = d.IRCode.toLowerCase().indexOf(val) !== -1;
+      }
+      return ok || !val;
+    });
+
+    this.rows = temp;
+    this.table.offset = 0;
   }
 }
