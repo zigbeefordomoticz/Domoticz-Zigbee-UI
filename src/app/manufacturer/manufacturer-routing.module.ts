@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { extract } from '@app/core';
-import { ManufacturerComponent } from './manufacturer.component';
+import { CasaiaComponent } from './casaia/casaia.component';
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
-  { path: '', component: ManufacturerComponent, data: { title: extract('manufacturer') } }
+  { path: 'casaia', component: CasaiaComponent, data: { title: extract('manufacturer') } }
 ];
 
 @NgModule({

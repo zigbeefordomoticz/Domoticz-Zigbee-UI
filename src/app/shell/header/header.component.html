@@ -171,16 +171,24 @@
             </li>
           </ul>
         </li>
+        <li ngbDropdown routerLinkActive="active" class="nav-item dropdown" *ngIf="showManufacturer">
+          <a class="nav-link nav-item dropdown-toggle" id="dropdown2" ngbDropdownToggle translate="manufacturer"></a>
+          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown2">
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              routerLink="/manufacturer/casaia"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-industry mr-2"></i> <span translate="manufacturer.casaia"></span>
+            </li>
+          </ul>
+        </li>
+
         <li ngbDropdown routerLinkActive="active" class="dropdown">
           <a class="nav-item nav-link mx-2" routerLink="/about" routerLinkActive="active">
             <i class="fas fa-question-circle"></i>
             <span translate>About</span>
-          </a>
-        </li>
-        <li ngbDropdown routerLinkActive="active" class="dropdown" *ngIf="showManufacturer">
-          <a class="nav-item nav-link mx-2" routerLink="/manufacturer" routerLinkActive="active">
-            <i class="fas fa-industry"></i>
-            <span translate>manufacturer</span>
           </a>
         </li>
       </ul>

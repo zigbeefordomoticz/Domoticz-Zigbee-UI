@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { CasaiaDevice, UpdateCasaiaDevice } from '../shared/models/casaia-device';
 
-const log = new Logger('ManufacturerComponent');
+const log = new Logger('CasaiaComponent');
 
 @Component({
-  selector: 'app-manufacturer',
-  templateUrl: './manufacturer.component.html',
-  styleUrls: ['./manufacturer.component.scss']
+  selector: 'app-manufacturer-casaia',
+  templateUrl: './casaia.component.html',
+  styleUrls: ['./casaia.component.scss']
 })
-export class ManufacturerComponent implements OnInit {
+export class CasaiaComponent implements OnInit {
   @ViewChild('table') table: any;
   rows: CasaiaDevice[];
   temp: CasaiaDevice[] = [];

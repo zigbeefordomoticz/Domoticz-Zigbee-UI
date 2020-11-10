@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '@app/shared';
 import { ManufacturerRoutingModule } from './manufacturer-routing.module';
-import { ManufacturerComponent } from './manufacturer.component';
+import { CasaiaComponent } from './casaia/casaia.component';
 
 @NgModule({
   imports: [ManufacturerRoutingModule, SharedModule],
-  declarations: [ManufacturerComponent]
+  declarations: [CasaiaComponent]
 })
 export class ManufacturerModule {}
