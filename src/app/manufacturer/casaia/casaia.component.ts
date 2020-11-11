@@ -21,8 +21,7 @@ export class CasaiaComponent implements OnInit {
   constructor(private apiService: ApiService, private toastr: ToastrService, private translate: TranslateService) {}
 
   ngOnInit() {
-    this.rows = JSON.parse(localStorage.getItem('casaiaDevice'));
-    this.temp = [...this.rows];
+    this.getCasaiaDevices();
   }
 
   updateIRCode(event: any, nwkId: string) {
@@ -39,6 +38,7 @@ export class CasaiaComponent implements OnInit {
 
     this.apiService.putCasiaIrcode(update).subscribe((result: any) => {
       this.hasEditing = false;
+      this.getCasaiaDevices();
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
@@ -67,5 +67,12 @@ export class CasaiaComponent implements OnInit {
 
     this.rows = temp;
     this.table.offset = 0;
+  }
+
+  private getCasaiaDevices() {
+    this.apiService.getCasiaDevices().subscribe(devices => {
+      this.rows = devices;
+      this.temp = [...this.rows];
+    });
   }
 }
