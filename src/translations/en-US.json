@@ -282,9 +282,21 @@
   "tools.rawcommand.payload": "Data",
   "tools.rawcommand.button.put": "Submit",
 
+  "manufacturer": "Manufacturer",
+  "manufacturer.casaia": "Casa.ia",
+  "manufacturer.casaia.header": "title",
+  "manufacturer.casaia.subtitle": "subtitle",
+  "manufacturer.casaia.placeholder": "placeholder",
+  "manufacturer.casaia.nwkid": "nwkid",
+  "manufacturer.casaia.name": "name",
+  "manufacturer.casaia.ieee": "ieee",
+  "manufacturer.casaia.model": "model",
+  "manufacturer.casaia.ircode": "ircode",
+  "manufacturer.casaia.validate.button": "validate",
+
   "error": "Error(s)",
-  "tools.error.log-history.button" : "Log Error History (json)",
-  "tools.error.log-history.clear" : "Clear Error History",
+  "tools.error.log-history.button": "Log Error History (json)",
+  "tools.error.log-history.clear": "Clear Error History",
   "error.popover.title": "Error(s) detected",
   "error.popover.text": "Clic to see the log",
 

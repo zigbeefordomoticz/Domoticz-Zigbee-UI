@@ -16,7 +16,6 @@ export class CasaiaComponent implements OnInit {
   @ViewChild('table') table: any;
   rows: CasaiaDevice[];
   temp: CasaiaDevice[] = [];
-  columns = [{ prop: 'NwkId' }, { prop: 'Name' }, { prop: 'IEEE' }, { prop: 'Model' }, { prop: 'IRCode' }];
   hasEditing = false;
 
   constructor(private apiService: ApiService, private toastr: ToastrService, private translate: TranslateService) {}

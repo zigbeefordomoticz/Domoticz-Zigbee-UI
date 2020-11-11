@@ -5,7 +5,7 @@ import { CasaiaComponent } from './casaia/casaia.component';
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
-  { path: 'casaia', component: CasaiaComponent, data: { title: extract('manufacturer') } }
+  { path: 'casaia', component: CasaiaComponent, data: { title: extract('manufacturer.casaia') } }
 ];
 
 @NgModule({
