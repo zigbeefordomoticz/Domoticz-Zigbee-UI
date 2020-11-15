@@ -14,6 +14,6 @@ export const environment = {
   production: false,
   version: env.npm_package_version + '-dev',
   defaultLanguage: 'en-US',
-  supportedLanguages: ['en-US', 'fr-FR', 'nl-NL'],
+  supportedLanguages: ['en-US', 'fr-FR', 'nl-NL', 'es-ES'],
   api_url: '/rest-zigate/1'
 };
