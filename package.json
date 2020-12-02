@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "npm run prettier -s",
+    "postinstall": "ngcc --tsconfig 'tsconfig.app.json' && npm run prettier -s",
     "ng": "ng",
     "build": "npm run env -s && ng build --prod",
     "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
