@@ -23,13 +23,11 @@
             class="bootstrap"
             [columnMode]="'force'"
             [headerHeight]="40"
-            [summaryRow]="true"
-            [summaryPosition]="'bottom'"
-            [footerHeight]="40"
+            [footerHeight]="'auto'"
             [limit]="10"
             [rowHeight]="'auto'"
           >
-            <ngx-datatable-column [maxWidth]="100">
+            <ngx-datatable-column [sortable]="false" [maxWidth]="100">
               <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                 <i
                   class="fa fa-trash"
