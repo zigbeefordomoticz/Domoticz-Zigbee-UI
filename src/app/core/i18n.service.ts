@@ -33,7 +33,7 @@ export class I18nService {
     translateService.setTranslation('en-US', enUS);
     translateService.setTranslation('fr-FR', frFR);
     translateService.setTranslation('nl-NL', nlNL);
-    translateService.setTranslation('nl-NL', esEs);
+    translateService.setTranslation('es-ES', esEs);
   }
 
   /**
