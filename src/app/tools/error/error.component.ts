@@ -11,7 +11,7 @@ const log = new Logger('ErrorComponent');
 
 function transformToTimestamp(key: any, value: any) {
   const datepipe = new DatePipe('en-US');
-  const keyToTransform = ['TimeStamps', 'TimeStamp', 'Stamp', 'Time'];
+  const keyToTransform = ['TimeStamps', 'TimeStamp', 'Stamp', 'Time', 'StartTime'];
   if (key === 'LastSeen') {
     return datepipe.transform(value * 1000, 'dd/MM/yyyy HH:mm:ss');
   } else if (keyToTransform.indexOf(key) > -1) {
@@ -81,7 +81,7 @@ export class ErrorComponent implements OnInit {
   }
 
   export(json: any) {
-    const fileName = 'export.json';
+    const fileName = 'errors.json';
     const fileType = this.fileSaverService.genType(fileName);
     const txtBlob = new Blob([JSON.stringify(json)], { type: fileType });
     this.fileSaverService.save(txtBlob, fileName);
