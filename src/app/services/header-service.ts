@@ -6,6 +6,7 @@ export class HeaderService {
   public restart = new BehaviorSubject(false);
   public showManufacturer = new BehaviorSubject(false);
   public logError = new BehaviorSubject(false);
+  public polling = new BehaviorSubject(false);
 
   constructor() {}
 
@@ -19,5 +20,9 @@ export class HeaderService {
 
   setError(logError: any) {
     this.logError.next(logError);
+  }
+
+  setPolling(poll: boolean) {
+    this.polling.next(poll);
   }
 }

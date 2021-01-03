@@ -5,16 +5,19 @@ import { Plugin } from '@app/shared/models/plugin';
 import { Settings } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, timer } from 'rxjs';
+import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { ApiService } from '../../services/api.service';
 import { Setting } from '../../shared/models/setting';
+import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   menuHidden = true;
   permitToJoin: any;
   permitChecked = false;
@@ -24,6 +27,7 @@ export class HeaderComponent implements OnInit {
   settings: Array<Settings>;
   settingsToSave: Array<Setting> = [];
   plugin: Plugin;
+  poll = false;
 
   constructor(
     private headerService: HeaderService,
@@ -31,37 +35,70 @@ export class HeaderComponent implements OnInit {
     private i18nService: I18nService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     setTimeout(() => {
       this.plugin = JSON.parse(sessionStorage.getItem('plugin'));
     }, 500);
 
-    this.headerService.restart.subscribe(restart => {
-      this.restart = restart;
-    });
+    this.subs.add(
+      this.headerService.restart.subscribe(restart => {
+        this.restart = restart;
+      })
+    );
 
-    this.headerService.showManufacturer.subscribe(showManufacturer => {
-      this.showManufacturer = showManufacturer;
-    });
+    this.subs.add(
+      this.headerService.showManufacturer.subscribe(showManufacturer => {
+        this.showManufacturer = showManufacturer;
+      })
+    );
 
-    this.headerService.logError.subscribe(logError => {
-      this.logError = logError;
-    });
+    this.subs.add(
+      this.headerService.logError.subscribe(logError => {
+        this.logError = logError;
+      })
+    );
 
-    this.apiService.getPermitToJoin().subscribe(result => {
-      this.permitToJoin = result;
-      if (result.PermitToJoin !== 0) {
-        this.permitChecked = true;
-      }
-    });
+    this.subs.add(
+      this.headerService.polling.subscribe(poll => {
+        this.poll = poll;
+        this.subs.add(
+          timer(1, environment.refresh)
+            .pipe(
+              switchMap(() => this.getPermitToJoin()),
+              retry(),
+              share(),
+              takeUntil(this.headerService.polling.pipe(filter(val => val === false)))
+            )
+            .subscribe()
+        );
+      })
+    );
+
+    if (!this.poll) {
+      this.getPermitToJoin().subscribe();
+    }
+
     this.apiService.getSettings().subscribe(res => {
       this.settings = res;
       this.settings.forEach(setting => {
         this.settingsToSave = this.settingsToSave.concat(setting.ListOfSettings);
       });
     });
+  }
+
+  private getPermitToJoin(): Observable<any> {
+    return this.apiService.getPermitToJoin().pipe(
+      map(result => {
+        this.permitToJoin = result;
+        if (result.PermitToJoin !== 0) {
+          this.permitChecked = true;
+        }
+      })
+    );
   }
 
   permit(event: any) {

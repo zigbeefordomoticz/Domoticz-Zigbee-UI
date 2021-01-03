@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["highcharts", "subsink", "file-saver"],
+            "allowedCommonJsDependencies": ["highcharts", "subsink", "file-saver", "mousetrap"],
             "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",

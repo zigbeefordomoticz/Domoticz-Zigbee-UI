@@ -5,10 +5,12 @@ import { I18nService, Logger, untilDestroyed } from '@app/core';
 import { Plugin } from '@app/shared/models/plugin';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxMousetrapService } from 'ngx-mousetrap';
 import { merge } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
 import { HeaderService } from './services/header-service';
+import { UnsubscribeOnDestroyAdapter } from './shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('App');
 
@@ -17,7 +19,7 @@ const log = new Logger('App');
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -25,8 +27,14 @@ export class AppComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private apiService: ApiService,
     private i18nService: I18nService,
-    private headerService: HeaderService
-  ) {}
+    private headerService: HeaderService,
+    private mouseTrapService: NgxMousetrapService
+  ) {
+    super();
+  }
+
+  keysBoundActive = environment.keysBoundActive;
+  keysBoundInactive = environment.keysBoundInactive;
 
   ngOnInit() {
     // Setup logger
@@ -49,6 +57,18 @@ export class AppComponent implements OnInit, OnDestroy {
       this.titleService.setTitle(plugin?.Name.concat(' - ').concat(this.translateService.instant('dashboard')));
       this.setTitle();
     });
+
+    this.subs.sink = this.mouseTrapService.register(this.keysBoundActive).subscribe(evt => {
+      log.info('Activate refresh ' + evt.key);
+      this.headerService.setPolling(true);
+    });
+
+    this.subs.add(
+      this.mouseTrapService.register(this.keysBoundInactive).subscribe(evt => {
+        log.info('De activate refresh ' + evt.key);
+        this.headerService.setPolling(false);
+      })
+    );
   }
 
   ngOnDestroy() {
