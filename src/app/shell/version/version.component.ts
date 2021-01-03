@@ -33,6 +33,7 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
           this.apiService.getPlugin()
         ]).pipe(
           map(([pluginHealth, pluginStats, plugin]) => {
+            this.headerService.setError(pluginStats.Error);
             return { pluginHealth, pluginStats, plugin };
           })
         )
