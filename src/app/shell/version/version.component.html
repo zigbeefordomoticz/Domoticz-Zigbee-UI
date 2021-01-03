@@ -1,4 +1,4 @@
-<footer class="navbar navbar-fixed-bottom" *ngIf="fork$ | async as fork" style="line-height: 1">
+<footer class="navbar navbar-fixed-bottom" style="line-height: 1">
   <div
     [ngClass]="
       fork.pluginHealth?.HealthFlag === 3
@@ -48,7 +48,9 @@
         <span>{{ 'dashboard.maxload' | translate }} : {{ fork.pluginStats.MaxLoad }} </span>
       </div>
 
-      <div class="order-3 p-2 text-center text-white"><span translate="{{ fork.pluginHealth?.HealthTxt }}"></span></div>
+      <div class="order-3 p-2 text-center text-white">
+        <span translate="{{ fork.pluginHealth?.HealthTxt }}"></span>
+      </div>
       <div *ngIf="fork.pluginHealth?.GroupStatus" class="order-4 p-2 text-center text-white">
         <span>{{ 'dashboard.health.group' | translate }} {{ fork.pluginHealth?.GroupStatus }}</span>
       </div>

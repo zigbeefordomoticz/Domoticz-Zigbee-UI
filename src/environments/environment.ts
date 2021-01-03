@@ -18,5 +18,5 @@ export const environment = {
   api_url: '/rest-zigate/1',
   keysBoundActive: 'alt+z+i+g',
   keysBoundInactive: 'alt+s+t+o+p',
-  refresh: 1000
+  refresh: 10000
 };

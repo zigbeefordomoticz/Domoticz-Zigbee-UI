@@ -15,6 +15,7 @@ import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-ad
 export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   fork$: Observable<any>;
   poll = false;
+  fork: any;
 
   constructor(
     private apiService: ApiService,
@@ -25,19 +26,15 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
   }
 
   ngOnInit(): void {
-    this.fork$ = this.versionService.reload.asObservable().pipe(
-      switchMap(_ =>
-        forkJoin([
-          this.apiService.getPluginhealth(),
-          this.apiService.getPluginStats(),
-          this.apiService.getPlugin()
-        ]).pipe(
-          map(([pluginHealth, pluginStats, plugin]) => {
-            this.headerService.setError(pluginStats.Error);
-            return { pluginHealth, pluginStats, plugin };
-          })
-        )
-      )
+    this.fork$ = forkJoin([
+      this.apiService.getPluginhealth(),
+      this.apiService.getPluginStats(),
+      this.apiService.getPlugin()
+    ]).pipe(
+      map(([pluginHealth, pluginStats, plugin]) => {
+        this.headerService.setError(pluginStats.Error);
+        this.fork = { pluginHealth, pluginStats, plugin };
+      })
     );
 
     this.subs.sink = this.headerService.polling.subscribe(poll => {
@@ -53,5 +50,13 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
           .subscribe()
       );
     });
+
+    this.versionService.reload.subscribe(reload => {
+      this.fork$.subscribe();
+    });
+
+    if (!this.poll) {
+      this.fork$.subscribe();
+    }
   }
 }
