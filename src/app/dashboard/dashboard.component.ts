@@ -434,6 +434,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   ngOnDestroy(): void {
+    super.ngOnDestroy();
     this.close();
   }
 }
