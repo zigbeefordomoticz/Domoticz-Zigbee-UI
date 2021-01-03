@@ -97,7 +97,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     this.subs.sink = this.headerService.polling.subscribe(poll => {
       this.poll = poll;
       this.subs.add(
-        timer(1, environment.refresh)
+        timer(7, environment.refresh)
           .pipe(
             switchMap(() => this.getStats()),
             retry(),
