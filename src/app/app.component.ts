@@ -35,6 +35,7 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
 
   keysBoundActive = environment.keysBoundActive;
   keysBoundInactive = environment.keysBoundInactive;
+  activateRefresh = false;
 
   ngOnInit() {
     // Setup logger
@@ -59,13 +60,13 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     });
 
     this.subs.sink = this.mouseTrapService.register(this.keysBoundActive).subscribe(evt => {
-      log.info('Activate refresh ' + evt.key);
-      this.headerService.setPolling(true);
+      this.activateRefresh = !this.activateRefresh;
+      this.headerService.setPolling(this.activateRefresh);
     });
 
     this.subs.add(
       this.mouseTrapService.register(this.keysBoundInactive).subscribe(evt => {
-        log.info('De activate refresh ' + evt.key);
+        this.activateRefresh = false;
         this.headerService.setPolling(false);
       })
     );

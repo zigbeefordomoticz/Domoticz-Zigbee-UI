@@ -94,11 +94,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     return this.apiService.getPermitToJoin().pipe(
       map(result => {
         this.permitToJoin = result;
-        if (result.PermitToJoin !== 0) {
-          this.permitChecked = true;
-        } else {
-          this.permitChecked = false;
-        }
+        this.permitChecked = result.PermitToJoin !== 0;
       })
     );
   }
