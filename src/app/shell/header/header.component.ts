@@ -96,6 +96,8 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
         this.permitToJoin = result;
         if (result.PermitToJoin !== 0) {
           this.permitChecked = true;
+        } else {
+          this.permitChecked = false;
         }
       })
     );
