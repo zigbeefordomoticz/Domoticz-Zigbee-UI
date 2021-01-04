@@ -34,7 +34,7 @@ export class DebugSettingsComponent implements OnInit {
     this.form = this.formBuilder.group({});
     this.apiService.getSettingsDebug().subscribe(res => {
       this.settings = res;
-      this.settings.sort((n1, n2) => n1._Order - n2._Order);
+      this.settings[0].ListOfSettings.sort((n1, n2) => (n1.DataType === 'bool' ? 1 : -1));
     });
   }
 

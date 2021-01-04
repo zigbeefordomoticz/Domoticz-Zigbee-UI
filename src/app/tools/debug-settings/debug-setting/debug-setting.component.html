@@ -1,26 +1,26 @@
 <div *ngIf="setting.Advanced === false || advanced === setting.Advanced" [formGroupName]="setting.Name">
-  <div *ngIf="setting.DataType === 'str'" class="form-group row mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="col-sm-6 col-form-label"></label>
+  <div *ngIf="setting.DataType === 'str'" class="form-group row mt-1">
+    <label for="current" translate="{{ setting.Name }}" class="ml-3 col-form-label"></label>
+    <div class="col-sm">
+      <input type="text" formControlName="current" class="w-25 form-control" />
+    </div>
+  </div>
+  <div *ngIf="setting.DataType === 'path'" class="form-group row mt-1">
+    <label for="current" translate="{{ setting.Name }}" class="ml-3 col-form-label"></label>
     <div class="col-sm">
       <input type="text" formControlName="current" class="w-100 form-control" />
     </div>
   </div>
-  <div *ngIf="setting.DataType === 'path'" class="form-group row mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="col-sm-6 col-form-label"></label>
+  <div *ngIf="setting.DataType === 'int'" class="form-group row mt-1">
+    <label for="current" translate="{{ setting.Name }}" class="ml-3 col-form-label"></label>
     <div class="col-sm">
-      <input type="text" formControlName="current" class="w-100 form-control" />
+      <input type="number" formControlName="current" class="w-25 form-control" />
     </div>
   </div>
-  <div *ngIf="setting.DataType === 'int'" class="form-group row mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="col-sm-6 col-form-label"></label>
+  <div *ngIf="setting.DataType === 'hex'" class="form-group row mt-1">
+    <label for="current" translate="{{ setting.Name }}" class="ml-3 col-form-label"></label>
     <div class="col-sm">
-      <input type="number" formControlName="current" class="w-50 form-control" />
-    </div>
-  </div>
-  <div *ngIf="setting.DataType === 'hex'" class="form-group row mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="col-sm-6 col-form-label"></label>
-    <div class="col-sm">
-      <input type="text" formControlName="current" class="w-50 form-control" />
+      <input type="text" formControlName="current" class="w-25 form-control" />
     </div>
   </div>
   <div *ngIf="setting.DataType === 'bool'" class="row mt-2 custom-control custom-checkbox">
