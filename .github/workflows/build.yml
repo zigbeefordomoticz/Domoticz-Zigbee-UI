@@ -1,6 +1,6 @@
 name: Build
 
-on: 
+on:
   push:
     branches: beta
 
@@ -9,11 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
       - uses: actions/checkout@v1
-      
+
       - name: Delete branch
         uses: dawidd6/action-delete-branch@master
         with:
@@ -35,8 +35,8 @@ jobs:
       - name: npm run build prod
         run: |
           npm ci
-          npm run build 
-      
+          npm run build
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
