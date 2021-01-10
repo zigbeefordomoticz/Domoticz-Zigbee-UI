@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Setting } from '@app/shared/models/setting';
-import { KeyValue } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('SettingComponent');
 
@@ -58,5 +57,13 @@ export class SettingComponent implements OnInit {
       .get(this.setting.Name)
       .get('current')
       .patchValue(value);
+  }
+
+  compareNumeric(a: any, b: string): boolean {
+    if (isNaN(a.value)) {
+      return a.value === b;
+    } else {
+      return a.value === Number(b);
+    }
   }
 }

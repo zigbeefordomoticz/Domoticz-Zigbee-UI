@@ -26,7 +26,14 @@
   <div *ngIf="setting.DataType === 'list'" class="form-group row mt-2">
     <label for="current" translate="{{ setting.Name }}" class="col-sm-6 col-form-label"></label>
     <div class="col-sm">
-      <ng-select [items]="list" bindLabel="label" bindValue="value" [closeOnSelect]="true" formControlName="current">
+      <ng-select
+        [items]="list"
+        [compareWith]="compareNumeric"
+        bindLabel="label"
+        bindValue="value"
+        [closeOnSelect]="true"
+        formControlName="current"
+      >
       </ng-select>
     </div>
   </div>
