@@ -64,7 +64,12 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="{{ 'device.byname.devicename.column' | translate }}" prop="ZDeviceName">
               <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-                <input autofocus (change)="updateValue($event, row._NwkId)" type="text" [value]="row.ZDeviceName" />
+                <input
+                  autofocus
+                  (change)="updateValue($event, 'ZDeviceName', row._NwkId)"
+                  type="text"
+                  [value]="row.ZDeviceName"
+                />
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column
@@ -91,6 +96,11 @@
             <ngx-datatable-column name="{{ 'device.byname.health.column' | translate }}" [maxWidth]="100" prop="Health">
               <ng-template ngx-datatable-cell-template let-row="row">
                 {{ row.Health }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'device.byname.devicename.param' | translate }}" prop="ZDeviceName">
+              <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <textarea (change)="updateValue($event, 'Param', row._NwkId)" rows="1" [value]="row.Param"></textarea>
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>

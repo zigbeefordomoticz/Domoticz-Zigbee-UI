@@ -68,10 +68,14 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     });
   }
 
-  updateValue(event: any, nwkId: string) {
+  updateValue(event: any, col: string, nwkId: string) {
     this.hasEditing = true;
     const rowUpdated = this.rows.find((row: any) => row._NwkId === nwkId);
-    rowUpdated.ZDeviceName = event.target.value;
+    if (rowUpdated) {
+      rowUpdated[col] = event.target.value;
+    } else {
+      log.error('row not found');
+    }
   }
 
   updateDevices() {

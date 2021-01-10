@@ -7,4 +7,5 @@ export interface DeviceByName {
   WidgetList: Array<string>;
   ZDeviceName: string;
   _NwkId: string;
+  Param?: string;
 }
