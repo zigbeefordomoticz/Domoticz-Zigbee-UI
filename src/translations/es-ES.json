@@ -156,7 +156,7 @@
   "device.byname.battery.column": "Batería",
   "device.byname.ieee.column": "IEEE",
   "device.byname.model.column": "Model",
-  "device.byname.devicename.param": "Parameter",
+  "device.byname.devicename.param": "Parámetros",
   "device.byname.placeholder": "Escriba filtro aquí ....",
   "device.byname.shortid.column": "Id corta",
   "device.byname.status.column": "status",

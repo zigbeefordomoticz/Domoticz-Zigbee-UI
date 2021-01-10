@@ -156,7 +156,7 @@
   "device.byname.trash.column": "Verwijder",
   "device.byname.ieee.column": "IEEE",
   "device.byname.model.column": "Model",
-  "device.byname.devicename.param": "Parameter",
+  "device.byname.devicename.param": "Extra parameters",
   "device.byname.placeholder": "typ filter hier ....",
   "device.byname.shortid.column": "Korte id",
   "device.byname.status.column": "Status",

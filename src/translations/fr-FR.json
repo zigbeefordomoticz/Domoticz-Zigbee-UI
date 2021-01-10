@@ -159,7 +159,7 @@
   "device.byname.health.column": "Santé",
   "device.byname.ieee.column": "IEEE",
   "device.byname.model.column": "Modèle",
-  "device.byname.devicename.param": "Parameter",
+  "device.byname.devicename.param": "Paramètres",
   "device.byname.placeholder": "Votre recherche ....",
   "device.byname.shortid.column": "Short ID",
   "device.byname.status.column": "Status",
