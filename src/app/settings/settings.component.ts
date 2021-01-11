@@ -3,10 +3,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
-import { Setting, Settings } from '@app/shared/models/setting';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { Setting, Settings } from '@app/shared/models/setting';
 
 const log = new Logger('SettingsComponent');
 
@@ -36,6 +36,18 @@ export class SettingsComponent implements OnInit {
       this.settings = res;
       this.settings.sort((n1, n2) => n1._Order - n2._Order);
     });
+  }
+
+  reinitSettings() {
+    this.settings.forEach(setting => {
+      const aSettings: Setting[] = [];
+      setting.ListOfSettings.forEach(aSetting => {
+        aSetting.current_value = aSetting.default_value;
+        aSettings.push(Object.assign({}, aSetting));
+      });
+      setting.ListOfSettings = aSettings;
+    });
+    this.settings = [...this.settings];
   }
 
   advancedSettings(event: any) {
