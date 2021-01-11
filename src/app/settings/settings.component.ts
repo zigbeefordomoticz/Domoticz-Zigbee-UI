@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
@@ -16,7 +16,9 @@ const log = new Logger('SettingsComponent');
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  @ViewChild('content') content: any;
+  @ViewChild('contentRestart') contentRestart: any;
+  @ViewChild('contentRestart') contentReset: any;
+  @ViewChild('contentRestart') contentErase: any;
   form: FormGroup;
   settings: Array<Settings>;
   advanced = false;
@@ -48,6 +50,7 @@ export class SettingsComponent implements OnInit {
       setting.ListOfSettings = aSettings;
     });
     this.settings = [...this.settings];
+    this.form.markAsTouched();
   }
 
   advancedSettings(event: any) {
@@ -80,9 +83,13 @@ export class SettingsComponent implements OnInit {
         this.settings.sort((n1, n2) => n1._Order - n2._Order);
       });
       this.apiService.getRestartNeeded().subscribe(restart => {
-        if (restart.RestartNeeded && restart.RestartNeeded === true) {
+        if (restart.RestartNeeded === 1) {
           this.headerService.setRestart(true);
-          this.open(this.content);
+          this.open(this.contentRestart);
+        } else if (restart.RestartNeeded === 2) {
+          this.open(this.contentReset);
+        } else if (restart.RestartNeeded === 3) {
+          this.open(this.contentErase);
         }
       });
     });

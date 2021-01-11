@@ -1,20 +1,43 @@
 <fieldset class="h-100">
-  <div class="switch switch-sm mr-2 pr-2 float-right">
-    <input
-      [checked]="advanced"
-      (click)="advancedSettings($event)"
-      type="checkbox"
-      class="switch"
-      id="switch-advanced"
-    />
-    <label class="mb-0" for="switch-advanced" translate="tool.debugsetting.advanced.button"></label>
-  </div>
-  <legend translate="tool.debugsetting.help.legend"></legend>
+  <legend>
+    <div class="row">
+      <div class="col-sm-4" translate>tool.debugsetting.help.legend</div>
+      <div class="col-sm-8">
+        <div class="d-flex flex-row-reverse align-items-center">
+          <div class="p-2">
+            <button
+              [disabled]="!form.valid"
+              (click)="updateSettings()"
+              class="btn btn-primary"
+              translate="tool.debugsetting.validate.button"
+            ></button>
+          </div>
+          <div class="p-2 ml-3">
+            <button
+              (click)="reinitSettings()"
+              class="btn btn-secondary"
+              translate="tool.debugsetting.reinit.button"
+            ></button>
+          </div>
+          <div class="switch switch-sm mr-2 pr-2 float-right">
+            <input
+              [checked]="advanced"
+              (click)="advancedSettings($event)"
+              type="checkbox"
+              class="switch"
+              id="switch-advanced"
+            />
+            <label class="mb-0" for="switch-advanced" translate="tool.debugsetting.advanced.button"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </legend>
 </fieldset>
 <div class="mt-3">
   <form [formGroup]="form" *ngIf="settings">
     <div class="row">
-      <div class="col-sm-11">
+      <div class="col-sm-12">
         <div *ngFor="let listOfSettings of settings">
           <div class="card" *ngIf="hasBasicSettings(listOfSettings.ListOfSettings)">
             <div class="card-header" translate="setting.header.{{ listOfSettings._Theme }}"></div>
@@ -36,44 +59,60 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-1">
-        <button
-          [disabled]="!form.valid"
-          (click)="updateSettings()"
-          class="w-100 btn btn-primary"
-          translate="tool.debugsetting.validate.button"
-        ></button>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm"></div>
-      <div class="col-sm-1">
-        <button
-          [disabled]="!form.valid"
-          (click)="updateSettings()"
-          class="btn btn-primary w-100"
-          translate="tool.debugsetting.validate.button"
-        ></button>
-      </div>
     </div>
   </form>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #contentRestart let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" translate="tool.debugsetting.reloadplugin.alert.title"></h4>
+    <h4 class="modal-title" id="modal-basic-title" translate="setting.reloadplugin.alert.title"></h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body" translate="tool.debugsetting.reloadplugin.alert.subject"></div>
+  <div class="modal-body" translate="setting.reloadplugin.alert.subject"></div>
   <div class="modal-footer">
     <button
       type="button"
       class="btn btn-outline-dark"
       (click)="modal.dismiss('cancel')"
-      translate="tool.debugsetting.reloadplugin.alert.cancel"
+      translate="setting.reloadplugin.alert.cancel"
+    ></button>
+  </div>
+</ng-template>
+
+<ng-template #contentReset let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" translate="setting.resetplugin.alert.title"></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" translate="setting.resetplugin.alert.subject"></div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.dismiss('cancel')"
+      translate="setting.resetplugin.alert.cancel"
+    ></button>
+  </div>
+</ng-template>
+
+<ng-template #contentErase let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" translate="setting.eraseplugin.alert.title"></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" translate="setting.eraseplugin.alert.subject"></div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.dismiss('cancel')"
+      translate="setting.eraseplugin.alert.cancel"
     ></button>
   </div>
 </ng-template>

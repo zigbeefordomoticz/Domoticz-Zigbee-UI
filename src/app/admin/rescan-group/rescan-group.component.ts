@@ -26,7 +26,7 @@ export class RescanGroupComponent implements OnInit {
     this.apiService.getRescanGroup().subscribe(() => {
       this.toastr.success(this.translate.instant('admin.rescan.group.notify'));
       this.apiService.getRestartNeeded().subscribe(restart => {
-        if (restart.RestartNeeded) {
+        if (restart.RestartNeeded === 1) {
           this.headerService.setRestart(true);
         }
       });

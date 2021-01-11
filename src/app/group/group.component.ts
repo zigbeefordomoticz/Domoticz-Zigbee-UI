@@ -101,7 +101,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
         this.hasEditing = false;
         this.toastr.success(this.translate.instant('api.global.succes.update.title'));
         this.apiService.getRestartNeeded().subscribe(restart => {
-          if (restart.RestartNeeded) {
+          if (restart.RestartNeeded === 1) {
             this.headerService.setRestart(true);
             this.open(this.content);
           }

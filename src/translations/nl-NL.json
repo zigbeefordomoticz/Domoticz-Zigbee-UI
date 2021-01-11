@@ -228,6 +228,7 @@
   "setting.header": "Instellingen",
   "setting.subtitle": "Hier kunt u verschillende plug-in instellingen wijzigen. Sommige wijzigingen vereisen mogelijk een herstart van de plug-in.",
   "setting.validate.button": "Valideer",
+  "setting.reinit.button": "Reinit",
   "setting.advanced.button": "Geavanceerde instellingen",
   "setting.normal.button": "Normale instellingen",
   "setting.help.link": "Informatie over de instellingen vind je in de WIKI",
@@ -290,6 +291,8 @@
   "tool.debugsetting.reloadplugin.alert.title": "Plug-in herstart",
   "tool.debugsetting.reloadplugin.alert.subject": "De instellingen zijn bijgewerkt, de plugin moet opnieuw worden opgestart",
   "tool.debugsetting.reloadplugin.alert.cancel": "Sluiten",
+  "tool.debugsetting.reinit.button": "Reinit",
+  "tool.debugsetting.validate.button": "validate",
 
   "binding": "Verbinding",
   "tools.binding.title": "Verbindingstitel",

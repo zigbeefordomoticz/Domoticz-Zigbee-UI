@@ -16,7 +16,9 @@ const log = new Logger('DebugSettingsComponent');
   styleUrls: ['./debug-settings.component.scss']
 })
 export class DebugSettingsComponent implements OnInit {
-  @ViewChild('content') content: any;
+  @ViewChild('contentRestart') contentRestart: any;
+  @ViewChild('contentRestart') contentReset: any;
+  @ViewChild('contentRestart') contentErase: any;
   form: FormGroup;
   settings: Array<Settings>;
   advanced = false;
@@ -36,6 +38,18 @@ export class DebugSettingsComponent implements OnInit {
       this.settings = res;
       this.settings[0].ListOfSettings.sort((n1, n2) => (n1.DataType === 'bool' ? 1 : -1));
     });
+  }
+
+  reinitSettings() {
+    this.settings.forEach(setting => {
+      const aSettings: Setting[] = [];
+      setting.ListOfSettings.forEach(aSetting => {
+        aSetting.current_value = aSetting.default_value;
+        aSettings.push(Object.assign({}, aSetting));
+      });
+      setting.ListOfSettings = aSettings;
+    });
+    this.settings = [...this.settings];
   }
 
   advancedSettings(event: any) {
@@ -68,9 +82,13 @@ export class DebugSettingsComponent implements OnInit {
         this.settings.sort((n1, n2) => n1._Order - n2._Order);
       });
       this.apiService.getRestartNeeded().subscribe(restart => {
-        if (restart.RestartNeeded && restart.RestartNeeded === true) {
+        if (restart.RestartNeeded === 1) {
           this.headerService.setRestart(true);
-          this.open(this.content);
+          this.open(this.contentRestart);
+        } else if (restart.RestartNeeded === 2) {
+          this.open(this.contentReset);
+        } else if (restart.RestartNeeded === 3) {
+          this.open(this.contentErase);
         }
       });
     });
