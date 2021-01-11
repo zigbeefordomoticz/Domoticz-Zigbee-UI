@@ -1,42 +1,42 @@
-<fieldset class="h-100">
-  <legend>
-    <div class="row">
-      <div class="col-sm-4" translate>setting.help.legend</div>
-      <div class="col-sm-8">
-        <div class="d-flex flex-row-reverse align-items-center">
-          <div class="p-2">
-            <button
-              [disabled]="!form.valid"
-              (click)="updateSettings()"
-              class="btn btn-primary"
-              translate="setting.validate.button"
-            ></button>
-          </div>
-          <div class="p-2 ml-3">
-            <button (click)="reinitSettings()" class="btn btn-secondary" translate="setting.reinit.button"></button>
-          </div>
-          <div class="switch switch-sm">
-            <input
-              [checked]="advanced"
-              (click)="advancedSettings($event)"
-              type="checkbox"
-              class="switch"
-              id="switch-advanced"
-            />
-            <label class="mb-0" for="switch-advanced" translate="setting.advanced.button"></label>
+<form [formGroup]="form" *ngIf="settings">
+  <fieldset class="h-100">
+    <legend>
+      <div class="row">
+        <div class="col-sm-4" translate>setting.help.legend</div>
+        <div class="col-sm-8">
+          <div class="d-flex flex-row-reverse align-items-center">
+            <div class="p-2">
+              <button
+                [disabled]="!form.valid"
+                (click)="updateSettings()"
+                class="btn btn-primary"
+                translate="setting.validate.button"
+              ></button>
+            </div>
+            <div class="p-2 ml-3">
+              <button (click)="reinitSettings()" class="btn btn-secondary" translate="setting.reinit.button"></button>
+            </div>
+            <div class="switch switch-sm">
+              <input
+                [checked]="advanced"
+                (click)="advancedSettings($event)"
+                type="checkbox"
+                class="switch"
+                id="switch-advanced"
+              />
+              <label class="mb-0" for="switch-advanced" translate="setting.advanced.button"></label>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </legend>
-  <a
-    href="https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.json.md"
-    translate="setting.help.link"
-    target="_blank"
-  ></a>
-</fieldset>
-<div class="mt-3">
-  <form [formGroup]="form" *ngIf="settings">
+    </legend>
+    <a
+      href="https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.json.md"
+      translate="setting.help.link"
+      target="_blank"
+    ></a>
+  </fieldset>
+  <div class="mt-3">
     <div class="row">
       <div class="col-sm-12 card-columns">
         <div *ngFor="let listOfSettings of settings">
@@ -56,8 +56,8 @@
         </div>
       </div>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 
 <ng-template #contentRestart let-modal>
   <div class="modal-header">
