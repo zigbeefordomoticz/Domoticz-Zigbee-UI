@@ -231,7 +231,7 @@
   "setting.header": "Réglages",
   "setting.subtitle": "Vous permet de visualiser et de modifier les différents réglages du plugin. Certains réglages peuvent nécessiter un redémarrage du plugin pour être pris en compte",
   "setting.validate.button": "Valider",
-  "setting.reinit.button": "Reinitialiser",
+  "setting.reinit.button": "Paramètres (défaut)",
   "setting.help.link": "Informations de réglages sur le Wiki",
   "setting.help.legend": "Ici tous les réglages du Plugin que vous pouvez mettre à jour.",
   "settings": "Réglages",

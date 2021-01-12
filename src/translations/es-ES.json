@@ -228,7 +228,7 @@
   "setting.header": "Configuraciones",
   "setting.subtitle": "Le permite visualizar y editar las distintas configuraciones del plugin. Algunos requieren reiniciar el plugin.",
   "setting.validate.button": "Validar",
-  "setting.reinit.button": "Reinit",
+  "setting.reinit.button": "Settings (default)",
   "setting.advanced.button": "Ajustes avanzados",
   "setting.normal.button": "Ajustes normales",
   "setting.help.link": "Puede encontrar más información sobre la configuración en el Wiki",

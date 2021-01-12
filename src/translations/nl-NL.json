@@ -228,7 +228,7 @@
   "setting.header": "Instellingen",
   "setting.subtitle": "Hier kunt u verschillende plug-in instellingen wijzigen. Sommige wijzigingen vereisen mogelijk een herstart van de plug-in.",
   "setting.validate.button": "Valideer",
-  "setting.reinit.button": "Reinit",
+  "setting.reinit.button": "Settings (default)",
   "setting.advanced.button": "Geavanceerde instellingen",
   "setting.normal.button": "Normale instellingen",
   "setting.help.link": "Informatie over de instellingen vind je in de WIKI",
