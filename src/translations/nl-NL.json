@@ -239,11 +239,11 @@
   "setting.reloadplugin.alert.title": "Plug-in herstart",
   "setting.reloadplugin.alert.subject": "De instellingen zijn bijgewerkt, de plugin moet opnieuw worden opgestart",
   "setting.reloadplugin.alert.cancel": "Sluiten",
-  "setting.resetplugin.alert.title": "Zigate Reset",
-  "setting.resetplugin.alert.subject": "Settings have been updated, zigate need to be reset",
+  "setting.resetplugin.alert.title": "ZiGate Reset",
+  "setting.resetplugin.alert.subject": "Settings have been updated, ZiGate need to be reset (most likely , all deices wll required to be re-pair)",
   "setting.resetplugin.alert.cancel": "Close",
   "setting.eraseplugin.alert.title": "Erase PDM",
-  "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased",
+  "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased (all devices will required to be pair again)",
   "setting.eraseplugin.alert.cancel": "Close",
   "tools": "Gereedschappen",
   "tools.export": "Exporteer",
@@ -377,5 +377,9 @@
 
   "OnIfOneOn": "Groep is aan wanneer één apparaat aan is (Anders moeten alle apparaten aan zijn)",
   "forceSwitchSelectorPushButton": "Zet de selector switch eerst op 'off' wanneer dezelfde status wordt geselecteerd. (Workaround voor Domoticz issue #4143)",
-  "resetSwitchSelectorPushButton": "Aantal seconden totdat de selector switch reset naar 'off'"
+  "resetSwitchSelectorPushButton": "Aantal seconden totdat de selector switch reset naar 'off'",
+
+  "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",
+  "setting.subtitle.ManufSpecifiqDevicePolling": "0 stands for disable otherwise it indicates the polling frequency in seconds, For Manufacturer Specific it will allow to retreive device states whcih are not provided automatically by the device"
+
 }

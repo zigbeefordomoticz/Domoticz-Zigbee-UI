@@ -239,11 +239,11 @@
   "setting.reloadplugin.alert.title": "Recarga del plugin",
   "setting.reloadplugin.alert.subject": "La configuración se ha actualizado, el plugin debe ser reiniciado",
   "setting.reloadplugin.alert.cancel": "Cerrar",
-  "setting.resetplugin.alert.title": "Zigate Reset",
-  "setting.resetplugin.alert.subject": "Settings have been updated, zigate need to be reset",
+  "setting.resetplugin.alert.title": "ZiGate Reset",
+  "setting.resetplugin.alert.subject": "Settings have been updated, ZiGate need to be reset (most likely , all deices wll required to be re-pair)",
   "setting.resetplugin.alert.cancel": "Close",
   "setting.eraseplugin.alert.title": "Erase PDM",
-  "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased",
+  "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased (all devices will required to be pair again)",
   "setting.eraseplugin.alert.cancel": "Close",
   "tools": "Utiles",
   "tools.export": "Exportar",
@@ -394,5 +394,9 @@
 
   "OnIfOneOn": "El grupo está encendido si un dispositivo está encendido (de lo contrario, necesita todos los dispositivos encendidos)",
   "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
-  "resetSwitchSelectorPushButton": "Cantidad de segundos después de que el selector se restablece a apagado"
+  "resetSwitchSelectorPushButton": "Cantidad de segundos después de que el selector se restablece a apagado",
+
+  "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",
+  "setting.subtitle.ManufSpecifiqDevicePolling": "0 stands for disable otherwise it indicates the polling frequency in seconds, For Manufacturer Specific it will allow to retreive device states whcih are not provided automatically by the device"
+
 }

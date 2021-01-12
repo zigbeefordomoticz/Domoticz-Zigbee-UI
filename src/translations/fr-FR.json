@@ -242,11 +242,11 @@
   "setting.reloadplugin.alert.title": "Redémarrage du plugin",
   "setting.reloadplugin.alert.subject": "Les réglages on été mis à jour, le plugin doit être redémarré",
   "setting.reloadplugin.alert.cancel": "Fermer",
-  "setting.resetplugin.alert.title": "Zigate Reset",
-  "setting.resetplugin.alert.subject": "Settings have been updated, zigate need to be reset",
+  "setting.resetplugin.alert.title": "ZiGate Reset",
+  "setting.resetplugin.alert.subject": "Un paramètre a été modifié et nécessite un restart de la ZiGate. Attention cela peut entrainer un ré-appairage de tous les dispositifs",
   "setting.resetplugin.alert.cancel": "Close",
   "setting.eraseplugin.alert.title": "Erase PDM",
-  "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased",
+  "setting.eraseplugin.alert.subject": "Un paramètre a été modifié et nécessite un Erase PDM (nécessite un ré-appairage de tous les dispositifs)",
   "setting.eraseplugin.alert.cancel": "Close",
   "Ping": "Activer le Ping",
   "setting.header.DomoticzEnvironment": "Domoticz URL",
@@ -385,5 +385,9 @@
   "OnIfOneOn": "Groupe est Allumé si un equipement Allumé (Sinon, tous les équipements doivent etre Allumés)",
 
   "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
-  "resetSwitchSelectorPushButton": "Nombre de sec avant de basculer le Selecteur Off"
+  "resetSwitchSelectorPushButton": "Nombre de sec avant de basculer le Selecteur Off",
+
+  "setting.header.ManufSpecifiqDevicePolling": "Interrogation des dispositifs spéciaux",
+  "setting.subtitle.ManufSpecifiqDevicePolling": "0 pour désactivé, correspond à la période en secondes avec laquelle on va interroger les dispositifs pour récupérer des informations qui ne sont pas envoyées automatiquement par celui-ci" 
+
 }

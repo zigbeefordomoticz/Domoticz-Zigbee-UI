@@ -239,11 +239,11 @@
   "setting.reloadplugin.alert.title": "Plugin Reload",
   "setting.reloadplugin.alert.subject": "Settings have been updated, plugin need to be restarted",
   "setting.reloadplugin.alert.cancel": "Close",
-  "setting.resetplugin.alert.title": "Zigate Reset",
-  "setting.resetplugin.alert.subject": "Settings have been updated, zigate need to be reset",
+  "setting.resetplugin.alert.title": "ZiGate Reset",
+  "setting.resetplugin.alert.subject": "Settings have been updated, ZiGate need to be reset (most likely , all deices wll required to be re-pair)",
   "setting.resetplugin.alert.cancel": "Close",
   "setting.eraseplugin.alert.title": "Erase PDM",
-  "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased",
+  "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased (all devices will required to be pair again)",
   "setting.eraseplugin.alert.cancel": "Close",
   "tools": "Tools",
   "tools.export": "Export",
@@ -330,7 +330,7 @@
   "setting.subtitle.DeviceManagement": "Here are all settings related to Devices and how ZiGate interact with them",
   "setting.header.ZigateConfiguration": "ZiGate settings",
   "Certification": "Certification ( FCC or CE )",
-  "channel": "Zigate channel (0 default)",
+  "channel": "ZiGate channel (0 default)",
   "setting.subtitle.ZigateConfiguration": "Here are all settings related to the ZiGate hardware.",
   "setting.header.OverTheAirUpgrade": "Over The Air Upgrade settings",
   "setting.subtitle.OverTheAirUpgrade": "These are all settings related to the Over The Air upgrade functionnality.",
@@ -394,5 +394,9 @@
 
   "OnIfOneOn": "Group is On if one device is On (otherwise needs all devices On)",
   "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
-  "resetSwitchSelectorPushButton": "Number of sec after the Selector is reset to Off"
+  "resetSwitchSelectorPushButton": "Number of sec after the Selector is reset to Off",
+
+  "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",
+  "setting.subtitle.ManufSpecifiqDevicePolling": "0 stands for disable otherwise it indicates the polling frequency in seconds, For Manufacturer Specific it will allow to retreive device states whcih are not provided automatically by the device"
+
 }
