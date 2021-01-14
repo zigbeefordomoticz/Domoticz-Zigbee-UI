@@ -44,7 +44,9 @@ export class SettingsComponent implements OnInit {
     this.settings.forEach(setting => {
       const aSettings: Setting[] = [];
       setting.ListOfSettings.forEach(aSetting => {
-        aSetting.current_value = aSetting.default_value;
+        if (aSetting.DataType !== 'path') {
+          aSetting.current_value = aSetting.default_value;
+        }
         aSettings.push(Object.assign({}, aSetting));
       });
       setting.ListOfSettings = aSettings;
