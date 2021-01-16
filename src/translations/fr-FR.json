@@ -333,7 +333,7 @@
   "tool.debugsetting.advanced.button": "Paramètres avancés",
   "tool.debugsetting.normal.button": "paramètres standards",
   "tool.debugsetting.validate.button": "Valider",
-  "tool.debugsetting.reinit.button": "Reinit",
+  "tool.debugsetting.reinit.button": "Paramètres (défaut)",
   "tool.debugsetting.reloadplugin.alert.title": "Redémarrage du plugin",
   "tool.debugsetting.reloadplugin.alert.subject": "Les réglages on été mis à jour, le plugin doit être redémarré",
   "tool.debugsetting.reloadplugin.alert.cancel": "Fermer",

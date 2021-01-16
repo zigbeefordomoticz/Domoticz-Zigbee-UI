@@ -297,7 +297,7 @@
   "tool.debugsetting.reloadplugin.alert.title": "Plug-in herstart",
   "tool.debugsetting.reloadplugin.alert.subject": "De instellingen zijn bijgewerkt, de plugin moet opnieuw worden opgestart",
   "tool.debugsetting.reloadplugin.alert.cancel": "Sluiten",
-  "tool.debugsetting.reinit.button": "Reinit",
+  "tool.debugsetting.reinit.button": "Serrings (default)",
   "tool.debugsetting.validate.button": "validate",
 
   "binding": "Verbinding",

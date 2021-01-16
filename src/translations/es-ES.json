@@ -312,7 +312,7 @@
   "tool.debugsetting.advanced.button": "Ajustes avanzados",
   "tool.debugsetting.help.legend": "Todas estas son configuraciones del plugin que se pueden actualizar.",
   "tool.debugsetting.validate.button": "Validar",
-  "tool.debugsetting.reinit.button": "Reinit",
+  "tool.debugsetting.reinit.button": "Settings (default)",
   "tool.debugsetting.reloadplugin.alert.title": "Recarga del plugin",
   "tool.debugsetting.reloadplugin.alert.subject": "La configuración se ha actualizado, el plugin debe ser reiniciado",
   "tool.debugsetting.reloadplugin.alert.cancel": "Cerrar",
