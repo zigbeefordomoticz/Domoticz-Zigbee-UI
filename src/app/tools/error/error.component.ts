@@ -56,6 +56,7 @@ export class ErrorComponent implements OnInit {
 
     if (device === 'log-error-history') {
       service = this.apiService.getLogErrorHistory();
+      this.headerService.setError(false);
     }
     if (device === 'clear-error-history') {
       service = this.apiService.clearLogErrorHistory();
