@@ -176,7 +176,7 @@
   "device.byname.shortid.column": "Short ID",
   "device.byname.status.column": "Statut",
   "device.byname.lqi.column": "LQI",
-  "device.byname.validate.button": "Validé",
+  "device.byname.validate.button": "Valider",
   "device.byname.widget.column": "Dispositif DomoticZ",
   "error_required": "Obigatoire",
 
