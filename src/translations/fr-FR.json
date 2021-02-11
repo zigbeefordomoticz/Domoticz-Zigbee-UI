@@ -3,7 +3,6 @@
   "About": "A Propos",
   "Version": "Version",
 
-
   "admin": "Admin",
   "admin.pairing": "Appairage",
   "admin.permittojoin.label": "Appairer un objet avec l'assistant'",
@@ -38,7 +37,6 @@
   "admin.assistprovisionning.alert.inDB": "Appairage effectué (vérifier si les dispositifs sont bien créées dans DomoticZ)",
   "admin.assistprovisionning.alert.Unexpected": "Erreur inattendue (recommencer et si le problème persiste, contacter le support)",
 
-
   "admin.group": "Groupe",
   "admin.scan.group.device.title": "Analyse sélective",
   "admin.scan.group.device.subtitle": "Interroge un ou plusieurs routeurs pour connaître leur(s) appartenance(s) à un ou plusieurs groupes. Le résultat sera disponible dans la gestion des groupes.",
@@ -50,7 +48,6 @@
   "admin.rescan.group.subtitle": "Interroge chaque routeur pour connaître son appartenance à un ou plusieurs groupes. Le résultat sera disponible dans la gestion des groupes.",
   "admin.rescan.group.button": "Analyser",
   "admin.rescan.group.notify": "Analyse lancée",
-
 
   "admin.firmware": "Firmware",
   "admin.firmware.title": "Les firmware des objets",
@@ -69,7 +66,6 @@
   "admin.firmware.alert.device": "Objet ",
   "admin.firmware.alert.brand": "Fabricant ",
 
-
   "admin.plugin": "Plugin",
   "admin.reloadplugin.title": "Redémarrer le plugin",
   "admin.reloadplugin.subtitle": "Lancer le redémarrage du plugin",
@@ -79,7 +75,6 @@
   "admin.reloadplugin.password": "Mot de Passe",
   "admin.reloadplugin.host": "Nom d'hôte",
   "admin.reloadplugin.protocol": "Protocole",
-
 
   "admin.zigate": "ZiGate",
   "admin.swreset.title": "Réinitialisation logicielle de la ZiGate",
@@ -96,7 +91,6 @@
   "admin.reloadplugin.alert.subject": "Cette action va redémarrer le plugin. Ceci n’entraînera pas de perte de données.",
   "admin.reloadplugin.alert.cancel": "Annuler",
   "admin.reloadplugin.alert.erase": "Redémarrer",
-
 
   "dashboard": "Tableau de bord",
   "dashboard.button.refresh": "Rafraîchir",
@@ -153,13 +147,18 @@
   "dashboard.devices.battery.inf.30": "< 30%",
   "dashboard.devices.battery.sup.30": "< 50%",
   "dashboard.devices.battery.sup.50": "> 50%",
-  "dashboard.sent.comment": "Nombre total de messages émis<br>ReTx est le nombre de messages ayant nécessité une re-transmission suite à échec d'envoi.",
-  "dashboard.received.comment": "Nombre total de messages reçus<br>Cluster est un type de message comportant une information du capteur. CRC error est le nombre de messages reçus non-décodables.",
-  "dashboard.trend.comment": "Nombre max de messages dans la file d'attente d'envoi<br> Current indique le nombre de messages actuellement en attente.",
-  "dashboard.devices.comment": "Nombre d'objets actifs<br> Les routeurs sont des objets qui participent au maillage du réseau. Les objets terminaux sont des objets sur batterie en général.",
-  "dashboard.health.comment": "Santé des objets.<br>Vivant indique le nombre d'objets pour lesquels un message a été reçu récemment, Perdu: indique le nombre d'objets qui ne sont plus sur le réseau, Pas vu: indique le nombre d'objets qui n'ont pas donné d'information sur les dernières 6 heures, Indéfini: indique le nombre d'objets qui sont dans un état indéterminé. Après un redémarrage du plugin, tous les objets sont placés dans l'état inconnu, c'est après avoir reçu un message qu'ils passeront à l'état vivant.",
+  "dashboard.sent.title": "Nombre total de messages émis",
+  "dashboard.received.title": "Nombre total de messages reçus",
+  "dashboard.trend.title": "Nombre max de messages dans la file d'attente d'envoi",
+  "dashboard.device.title": "Nombre d'objets actifs",
+  "dashboard.healthgraph.title": "Santé des objets",
+  "dashboard.battery.title": "Batterie",
+  "dashboard.sent.comment": "ReTx est le nombre de messages ayant nécessité une re-transmission suite à échec d'envoi.",
+  "dashboard.received.comment": "Cluster est un type de message comportant une information du capteur. CRC error est le nombre de messages reçus non-décodables.",
+  "dashboard.trend.comment": "Current indique le nombre de messages actuellement en attente.",
+  "dashboard.devices.comment": "Les routeurs sont des objets qui participent au maillage du réseau. Les objets terminaux sont des objets sur batterie en général.",
+  "dashboard.health.comment": "Vivant indique le nombre d'objets pour lesquels un message a été reçu récemment, Perdu: indique le nombre d'objets qui ne sont plus sur le réseau, Pas vu: indique le nombre d'objets qui n'ont pas donné d'information sur les dernières 6 heures, Indéfini: indique le nombre d'objets qui sont dans un état indéterminé. Après un redémarrage du plugin, tous les objets sont placés dans l'état inconnu, c'est après avoir reçu un message qu'ils passeront à l'état vivant.",
   "dashboard.battery.comment": "État de charge de la batterie des objets ayant une batterie.",
-
 
   "management": "Gestion",
   "device": "Gestion des objets",
@@ -181,7 +180,6 @@
   "device.byname.widget.column": "Dispositif DomoticZ",
   "error_required": "Obigatoire",
 
-
   "group": "Gestion des Groupes",
   "group.create.devices.column": "Objets appartenant au groupe",
   "group.create.groupname.column": "Nom du Groupe",
@@ -198,7 +196,6 @@
   "group.reloadplugin.alert.cancel": "Fermer",
   "header.popover.title": "Redémarrage nécessaire",
   "header.popover.text": "Les changements ont besoin d'un redémarrage du plugin",
-
 
   "network": "Réseau",
   "network.stats.header": "Réseau",
@@ -244,7 +241,6 @@
   "network.stats.detail.visu.chart.title": "Illustration des niveaux d'interférences",
   "network.stats.detail.visu.chart.y-axis": "Niveau d'interférences",
   "network.stats.detail.visu.chart.x-axis": "Canaux",
-
 
   "settings": "Réglages",
   "setting.header": "Réglages",
@@ -342,7 +338,6 @@
   "api.global.succes.erasepdm.title": "ErasePdm ZiGate lancé",
   "api.global.succes.pluginrestarted.title": "Plugin redémarré",
 
-
   "tools": "Outils",
   "tools.export": "Exporter",
   "tools.zdevice-raw.button": "Liste des objets raw (json)",
@@ -422,5 +417,4 @@
   "resetSwitchSelectorPushButton": "Nombre de sec avant de basculer le Sélecteur Off",
   "setting.header.ManufSpecifiqDevicePolling": "Interrogation des objets spéciaux",
   "setting.subtitle.ManufSpecifiqDevicePolling": "0 pour désactivé, correspond à la période en secondes avec laquelle on va interroger les objets pour récupérer des informations qui ne sont pas envoyées automatiquement par celui-ci."
-
 }
