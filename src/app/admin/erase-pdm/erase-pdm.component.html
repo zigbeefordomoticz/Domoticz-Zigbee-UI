@@ -26,7 +26,7 @@
   <div class="card">
     <div class="card-header" translate="admin.erasepdm.title"></div>
     <div class="card-body">
-      <h5 class="card-title" translate="admin.erasepdm.subtitle"></h5>
+      <h5 class="card-title" [innerHTML]="'admin.erasepdm.subtitle' | translate"></h5>
       <div class="card-text">
         <button class="ml-3 btn btn-primary" (click)="open(content)" translate="admin.erasepdm.button"></button>
       </div>

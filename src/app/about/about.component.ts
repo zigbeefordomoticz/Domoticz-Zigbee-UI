@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { environment } from '@env/environment';
-import { Logger } from '@app/core';
+import { I18nService, Logger } from '@app/core';
 
-const log = new Logger('GroupComponent');
+const log = new Logger('AboutComponent');
 
 @Component({
   selector: 'app-about',
@@ -13,7 +13,7 @@ const log = new Logger('GroupComponent');
 export class AboutComponent implements OnInit {
   version: string = environment.version;
 
-  constructor() {}
+  constructor(public readonly i18nService: I18nService) {}
 
   ngOnInit() {}
 }

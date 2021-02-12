@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header" translate="admin.swreset.title"></div>
     <div class="card-body">
-      <h5 class="card-title" translate="admin.swreset.subtitle"></h5>
+      <h5 class="card-title" [innerHTML]="'admin.swreset.subtitle' | translate"></h5>
       <div class="card-text">
         <button class="ml-3 btn btn-primary" (click)="swReset($event)" translate="admin.swreset.button"></button>
       </div>

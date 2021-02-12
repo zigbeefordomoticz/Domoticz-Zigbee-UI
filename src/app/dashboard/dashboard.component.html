@@ -14,6 +14,10 @@
         <div class="row">
           <div class="col-sm-4">
             <div class="row">
+              <div class="row">
+                <div class="col-sm" [innerHTML]="'dashboard.sent.title' | translate"></div>
+                <div class="col-sm-1"></div>
+              </div>
               <ngx-charts-advanced-pie-chart
                 [view]="[400, 150]"
                 [results]="advancedPieSent"
@@ -27,12 +31,16 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" translate="dashboard.sent.comment"></div>
+              <div class="col-sm" [innerHTML]="'dashboard.sent.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
           <div class="col-sm-4">
             <div class="row">
+              <div class="row">
+                <div class="col-sm" [innerHTML]="'dashboard.received.title' | translate"></div>
+                <div class="col-sm-1"></div>
+              </div>
               <ngx-charts-advanced-pie-chart
                 [view]="[400, 150]"
                 [results]="advancedPieReceived"
@@ -46,11 +54,15 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" translate="dashboard.received.comment"></div>
+              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.received.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
           <div class="col-sm-4">
+            <div class="row">
+              <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
             <div class="col-sm" [chart]="chart"></div>
             <div class="row">
               <div class="col-sm border-left border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
@@ -70,6 +82,10 @@
         <div class="row">
           <div class="col-sm-4">
             <div class="row">
+              <div class="col-sm" [innerHTML]="'dashboard.device.title' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
               <ngx-charts-advanced-pie-chart
                 [view]="[400, 150]"
                 [results]="advancedPieDevice"
@@ -84,11 +100,15 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" translate="dashboard.devices.comment"></div>
+              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.devices.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
           <div class="col-sm-4">
+            <div class="row">
+              <div class="col-sm" [innerHTML]="'dashboard.healthgraph.title' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
                 [view]="[400, 150]"
@@ -104,11 +124,15 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" translate="dashboard.health.comment"></div>
+              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
           <div class="col-sm-4">
+            <div class="row">
+              <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
                 [view]="[400, 150]"
@@ -124,7 +148,7 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" translate="dashboard.battery.comment"></div>
+              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
