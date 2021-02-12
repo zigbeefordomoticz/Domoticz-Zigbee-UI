@@ -20,6 +20,10 @@ const log = new Logger('App');
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
+  keysBoundActive = environment.keysBoundActive;
+  keysBoundInactive = environment.keysBoundInactive;
+  activateRefresh = false;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -32,10 +36,6 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
   ) {
     super();
   }
-
-  keysBoundActive = environment.keysBoundActive;
-  keysBoundInactive = environment.keysBoundInactive;
-  activateRefresh = false;
 
   ngOnInit() {
     // Setup logger
