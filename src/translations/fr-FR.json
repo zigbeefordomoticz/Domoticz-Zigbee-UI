@@ -166,7 +166,7 @@
   "device.byname.capabilities.column": "Fonctions",
   "device.byname.devicename.column": "Surnom",
   "device.byname.header": "Gestions des objets",
-  "device.byname.battery.column": "Batterie",
+  "device.byname.battery.column": "cdBatterie",
   "device.byname.trash.column": "Sup.",
   "device.byname.health.column": "Santé",
   "device.byname.ieee.column": "IEEE",
