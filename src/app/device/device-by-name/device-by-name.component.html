@@ -25,6 +25,11 @@
         [footerHeight]="'auto'"
         [limit]="10"
         [rowHeight]="'auto'"
+        [messages]="{
+          emptyMessage: 'NODATA' | translate,
+          totalMessage: 'TOTAL' | translate,
+          selectedMessage: 'SELECTED' | translate
+        }"
       >
         <ngx-datatable-column
           [sortable]="false"

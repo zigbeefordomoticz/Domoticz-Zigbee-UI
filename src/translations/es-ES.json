@@ -2,6 +2,11 @@
   "APP_NAME": "Interfaz de Gestión de ZiGate",
   "About": "Sobre",
   "Version": "Versión",
+
+  "NODATA": "No data to display",
+  "TOTAL": "Total",
+  "SELECTED": "selected",
+
   "admin": "Admin",
   "admin.pairing": "Aprovisionamiento",
   "admin.group": "Groupo",
