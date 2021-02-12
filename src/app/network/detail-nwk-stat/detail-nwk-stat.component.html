@@ -3,7 +3,7 @@
     <div class="card" *ngIf="chart">
       <div class="card-header" translate="network.stats.detail.visu.header"></div>
       <div class="card-body">
-        <h5 class="card-title" translate="network.stats.detail.visu.subtitle"></h5>
+        <h5 class="card-title" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></h5>
         <div class="card-text">
           <div [chart]="chart" class="text-center"></div>
         </div>
@@ -17,7 +17,7 @@
     <div class="card" *ngIf="chart2">
       <div class="card-header" translate="network.stats.detail.visu.header"></div>
       <div class="card-body">
-        <h5 class="card-title" translate="network.stats.detail.visu.subtitle"></h5>
+        <h5 class="card-title" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></h5>
         <div class="card-text">
           <div [chart]="chart2"></div>
         </div>

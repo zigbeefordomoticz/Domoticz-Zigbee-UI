@@ -1,7 +1,7 @@
 <div class="card" *ngIf="plugin$ | async as plugins">
   <div class="card-header" translate="dashboard.plugin.header"></div>
   <div class="card-body">
-    <h5 class="card-title" translate="dashboard.plugin.subtitle"></h5>
+    <h5 class="card-title" [innerHTML]="'dashboard.zigate.subtitle' | translate"></h5>
     <div class="card-text">
       <li *ngFor="let plugin of plugins | keyvalue">
         {{ plugin.key | translate }} :

@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header" translate="admin.reloadplugin.title"></div>
     <div class="card-body">
-      <h5 class="card-title" translate="admin.reloadplugin.subtitle"></h5>
+      <h5 class="card-title" [innerHTML]="'admin.reloadplugin.subtitle' | translate"></h5>
       <div class="card-text">
         <button class="w-100 btn btn-primary" (click)="open(content)" translate="admin.reloadplugin.button"></button>
       </div>

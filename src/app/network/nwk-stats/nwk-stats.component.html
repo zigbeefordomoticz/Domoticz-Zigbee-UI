@@ -3,7 +3,7 @@
     <div class="card" *ngIf="stats$ | async as stats">
       <div class="card-header" translate="network.stats.header"></div>
       <div class="card-body">
-        <h5 class="card-title" translate="network.stats.subtitle"></h5>
+        <h5 class="card-title" [innerHTML]="'network.stats.subtitle' | translate"></h5>
         <div class="card-text">
           <div class="vertical-container">
             <div class="content-container">

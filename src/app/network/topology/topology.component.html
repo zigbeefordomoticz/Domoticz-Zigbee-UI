@@ -3,7 +3,7 @@
     <div class="card" *ngIf="topologies$ | async as topologies">
       <div class="card-header" translate="network.topo.header"></div>
       <div class="card-body">
-        <h5 class="card-title" translate="network.topo.subtitle"></h5>
+        <h5 class="card-title" [innerHTML]="'network.topo.subtitle' | translate"></h5>
         <div class="card-text">
           <div class="vertical-container">
             <div class="content-container">

@@ -6,7 +6,7 @@
           <div class="card" *ngIf="chart1">
             <div class="card-header" translate="network.topo.visu.header"></div>
             <div class="card-body">
-              <h5 class="card-title" translate="network.topo.visu.subtitle"></h5>
+              <h5 class="card-title" [innerHTML]="'network.topo.visu.subtitle' | translate"></h5>
               <div class="card-text" [chart]="chart1"></div>
             </div>
           </div>
@@ -19,7 +19,7 @@
           <div class="card" *ngIf="chart2">
             <div class="card-header" translate="network.topo.visu.network.header"></div>
             <div class="card-body">
-              <h5 class="card-title" translate="network.topo.visu.network.subtitle"></h5>
+              <h5 class="card-title" [innerHTML]="'network.topo.visu.network.subtitle' | translate"></h5>
               <div class="card-text">
                 <div>
                   <form [formGroup]="form">
@@ -56,7 +56,7 @@
           <div class="card" *ngIf="chart1">
             <div class="card-header" translate="network.topo.device.visu.header"></div>
             <div class="card-body">
-              <h5 class="card-title" translate="network.topo.device.visu.subtitle"></h5>
+              <h5 class="card-title" [innerHTML]="'network.topo.device.visu.subtitle' | translate"></h5>
               <div class="card-text">
                 <ngx-datatable
                   [rows]="devices$ | async"

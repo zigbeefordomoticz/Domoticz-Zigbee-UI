@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="card-body">
-        <h5 class="card-title" translate="device.byname.subtitle"></h5>
+        <h5 class="card-title" [innerHTML]="'device.byname.subtitle' | translate"></h5>
         <div class="card-text">
           <ngx-datatable
             #table
