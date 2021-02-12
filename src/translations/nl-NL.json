@@ -2,6 +2,11 @@
   "APP_NAME": "ZiGate Admin Interface",
   "About": "Over",
   "Version": "Versie",
+
+  "NODATA": "No data to display",
+  "TOTAL": "Total",
+  "SELECTED": "selected",
+
   "admin": "Admin",
   "admin.pairing": "Provisionning",
   "admin.group": "Group",
@@ -140,10 +145,16 @@
   "dashboard.devices.battery.inf.30": "< 30%",
   "dashboard.devices.battery.sup.30": "< 50%",
   "dashboard.devices.battery.sup.50": "> 50%",
-  "dashboard.sent.comment": "Het aantal verzonden opdrachten. ReTx is het aantal van Re-Transmissies gedaan. Dit moet 0 zijn, maar als de plug-in een apparaat niet kan bereiken, kunt u ReTx berichten krijgen ",
-  "dashboard.received.comment": "Het aantal ontvangen berichten. Cluster is een type bericht met informatie. CRC-fout moet 0 zijn. Anders is er sprake van communicatiefouten ",
-  "dashboard.trend.comment": "ZiGate Belasting. Piek geeft het maximale aantal berichten in de wachtrij aan, terwijl huidige wachtrij het aantal berichten aangeeft dat zich momenteel in de wachtrij bevindt ",
-  "dashboard.devices.comment": "Het aantal apparaten beheerd door de plug-in. Router is een hoofdapparaat dat deelneemt aan het mesh-netwerk. Eindapparaat is een apparaat op batterijen",
+  "dashboard.sent.title": "Het aantal verzonden opdrachten",
+  "dashboard.received.title": "Het aantal ontvangen berichten",
+  "dashboard.trend.title": "ZiGate Belasting",
+  "dashboard.device.title": "Het aantal apparaten beheerd door de plug-in",
+  "dashboard.healthgraph.title": "",
+  "dashboard.battery.title": "Batterij",
+  "dashboard.sent.comment": "ReTx is het aantal van Re-Transmissies gedaan. Dit moet 0 zijn, maar als de plug-in een apparaat niet kan bereiken, kunt u ReTx berichten krijgen ",
+  "dashboard.received.comment": "Cluster is een type bericht met informatie. CRC-fout moet 0 zijn. Anders is er sprake van communicatiefouten ",
+  "dashboard.trend.comment": "Piek geeft het maximale aantal berichten in de wachtrij aan, terwijl huidige wachtrij het aantal berichten aangeeft dat zich momenteel in de wachtrij bevindt ",
+  "dashboard.devices.comment": "Router is een hoofdapparaat dat deelneemt aan het mesh-netwerk. Eindapparaat is een apparaat op batterijen",
   "dashboard.health.comment": "Live: geeft aan hoeveel apparaten er actieve verbinding hebben en hoeveel er geen verbinding met het netwerk, geen nieuws: geeft de hoeveelheid apparaten weer welke de laatste 6 uren geen signaal hebben verstuurd, Onbekend: geeft het aantal onbekende apparaten weer. Na een herstart van de Plugin, worden alle apparaten als onbekend weergegeven tot dat er comminicatie met ZiGate heeft plaatsgevonden.",
   "dashboard.battery.comment": "Voor apparaten met een batterij wordt de batterijstatus gerapporteerd.",
   "device": "Apparaat Management",
@@ -231,7 +242,7 @@
   "setting.reinit.button": "Settings (default)",
   "setting.advanced.button": "Geavanceerde instellingen",
   "setting.normal.button": "Normale instellingen",
-  "setting.help.link": "Informatie over de instellingen vind je in de WIKI",
+  "setting.help.link": "<a target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.json.md'>Informatie over de instellingen vind je in de WIKI</a>",
   "setting.help.legend": "Dit zijn alle instellingen van de plugin die je kan wijzigen.",
   "settings": "Instellingen",
   "setting.header.Services": "Beschikbare services",
@@ -381,5 +392,4 @@
 
   "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",
   "setting.subtitle.ManufSpecifiqDevicePolling": "0 stands for disable otherwise it indicates the polling frequency in seconds, For Manufacturer Specific it will allow to retreive device states whcih are not provided automatically by the device"
-
 }

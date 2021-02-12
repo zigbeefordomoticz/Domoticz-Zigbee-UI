@@ -2,6 +2,11 @@
   "APP_NAME": "ZiGate Admin Interface",
   "About": "About",
   "Version": "Version",
+
+  "NODATA": "No data to display",
+  "TOTAL": "Total",
+  "SELECTED": "selected",
+
   "admin": "Admin",
   "admin.pairing": "Provisionning",
   "admin.group": "Group",
@@ -140,10 +145,16 @@
   "dashboard.devices.battery.inf.30": "< 30%",
   "dashboard.devices.battery.sup.30": "< 50%",
   "dashboard.devices.battery.sup.50": "> 50%",
-  "dashboard.sent.comment": "Total number of commands sent. ReTx is the number of Re-Transmissions done. This should be 0, but if the plugin is trying to send a command to a powered off device, you can get ReTx",
-  "dashboard.received.comment": "Total number of messages received. Cluster is a type of message with information. CRC error should be 0. Otherwise it indicates communication errors",
-  "dashboard.trend.comment": "Last 10 minutes actitivies by every 5s.<br>Messages sent and received, ZiGate load queue",
-  "dashboard.devices.comment": "Total of devices managed by the plugin. Router is main powered device which participates in the mesh network. End device is a battery based device",
+  "dashboard.sent.title": "Total number of commands sent",
+  "dashboard.received.title": "Total number of messages received",
+  "dashboard.trend.title": "Last 10 minutes actitivies by every 5s",
+  "dashboard.device.title": "Total of devices managed by the plugin",
+  "dashboard.healthgraph.title": "Health",
+  "dashboard.battery.title": "Battery",
+  "dashboard.sent.comment": "ReTx is the number of Re-Transmissions done. This should be 0, but if the plugin is trying to send a command to a powered off device, you can get ReTx",
+  "dashboard.received.comment": "Cluster is a type of message with information. CRC error should be 0. Otherwise it indicates communication errors",
+  "dashboard.trend.comment": "Messages sent and received, ZiGate load queue",
+  "dashboard.devices.comment": "Router is main powered device which participates in the mesh network. End device is a battery based device",
   "dashboard.health.comment": "Live: indicates the number of devices alive, Lost: indicates the number of devices away from the network, No news: indicates the number of devices which haven't reported on the last 6 hours, Unknown: indicates the number of devices with status unknown. After a plugin restart, all devices are moved to status unknown until a message is received by ZiGate.",
   "dashboard.battery.comment": "For devices equiped with a battery, here after is reported the battery status.",
   "device": "Device Management",
@@ -231,7 +242,7 @@
   "setting.reinit.button": "Settings (default)",
   "setting.advanced.button": "Advanced settings",
   "setting.normal.button": "Normal settings",
-  "setting.help.link": "More information on the settings can be found on the Wiki",
+  "setting.help.link": "<a target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.json.md'>More information on the settings can be found on the Wiki</a>",
   "setting.help.legend": "These are all plugin settings which can be updated.",
   "settings": "Settings",
   "setting.header.Services": "Available services",
@@ -398,5 +409,4 @@
 
   "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",
   "setting.subtitle.ManufSpecifiqDevicePolling": "0 stands for disable otherwise it indicates the polling frequency in seconds, For Manufacturer Specific it will allow to retreive device states whcih are not provided automatically by the device"
-
 }

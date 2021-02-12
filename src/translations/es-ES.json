@@ -2,6 +2,11 @@
   "APP_NAME": "Interfaz de Gestión de ZiGate",
   "About": "Sobre",
   "Version": "Versión",
+
+  "NODATA": "No data to display",
+  "TOTAL": "Total",
+  "SELECTED": "selected",
+
   "admin": "Admin",
   "admin.pairing": "Aprovisionamiento",
   "admin.group": "Groupo",
@@ -140,10 +145,16 @@
   "dashboard.devices.battery.inf.30": "< 30%",
   "dashboard.devices.battery.sup.30": "< 50%",
   "dashboard.devices.battery.sup.50": "> 50%",
-  "dashboard.sent.comment": "Cantidad total de comandos enviados. ReTx es el número de retransmisiones realizadas. Esto debería ser 0, pero si el plugin está intentando enviar un comando a un dispositivo apagado, puede obtener ReTx",
-  "dashboard.received.comment": "Cantidad total de mensajes recibidos. Cluster es un tipo de mensaje con información. Errores CRC debería ser 0. De lo contrario indica errores de comunicación",
-  "dashboard.trend.comment": "Actividades de los últimos 10 minutos cada 5 segundos.<br>Mensajes enviados y recibidos, cola de carga de ZiGate",
-  "dashboard.devices.comment": "Cantidad t otal de dispositivos gestionados por el plugin. El router es un dispositivo alimentado por la red de luz y que participa en la red de malla. El dispositivo final es un dispositivo a batería",
+  "dashboard.sent.title": "Cantidad total de comandos enviados",
+  "dashboard.received.title": "Cantidad total de mensajes recibidos",
+  "dashboard.trend.title": "Actividades de los últimos 10 minutos cada 5 segundos",
+  "dashboard.device.title": "Cantidad total de dispositivos gestionados por el plugin",
+  "dashboard.healthgraph.title": "",
+  "dashboard.battery.title": "Batería",
+  "dashboard.sent.comment": "ReTx es el número de retransmisiones realizadas. Esto debería ser 0, pero si el plugin está intentando enviar un comando a un dispositivo apagado, puede obtener ReTx",
+  "dashboard.received.comment": "Cluster es un tipo de mensaje con información. Errores CRC debería ser 0. De lo contrario indica errores de comunicación",
+  "dashboard.trend.comment": "Mensajes enviados y recibidos, cola de carga de ZiGate",
+  "dashboard.devices.comment": "El router es un dispositivo alimentado por la red de luz y que participa en la red de malla. El dispositivo final es un dispositivo a batería",
   "dashboard.health.comment": "Vivo: indica la cantidad de dispositivos activos, Perdido: indica la cantidad de dispositivos fuera de la red, Sin noticias: indica la cantidad de dispositivos que no han informado en las últimas 6 horas, Desconocido: indica la cantidad de dispositivos con estado desconocido. Después de reiniciar el plugin, todos los dispositivos pasan al estado desconocido hasta que ZiGate recibe un mensaje.",
   "dashboard.battery.comment": "Para dispositivos equipados con batería, a continuación se informa el estado de la batería.",
   "device": "Gestión de dispositivos",
@@ -231,7 +242,7 @@
   "setting.reinit.button": "Settings (default)",
   "setting.advanced.button": "Ajustes avanzados",
   "setting.normal.button": "Ajustes normales",
-  "setting.help.link": "Puede encontrar más información sobre la configuración en el Wiki",
+  "setting.help.link": "<a target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.json.md'>Puede encontrar más información sobre la configuración en el Wiki</a",
   "setting.help.legend": "Todas estas son configuraciones del plugin que se pueden actualizar.",
   "settings": "Configuraciones",
   "setting.header.Services": "Servicios disponibles",
@@ -398,5 +409,4 @@
 
   "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",
   "setting.subtitle.ManufSpecifiqDevicePolling": "0 stands for disable otherwise it indicates the polling frequency in seconds, For Manufacturer Specific it will allow to retreive device states whcih are not provided automatically by the device"
-
 }
