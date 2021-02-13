@@ -111,4 +111,8 @@ export class SettingsComponent implements OnInit {
       return settings.filter(setting => setting.Advanced === false).length > 0;
     }
   }
+
+  getTranslation(prefix: string, key: string): string {
+    return this.translate.instant(prefix.concat(key));
+  }
 }
