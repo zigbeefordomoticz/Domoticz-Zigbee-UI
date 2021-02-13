@@ -2,7 +2,7 @@
   <fieldset class="h-100">
     <legend>
       <div class="row">
-        <div class="col-sm-8" translate>tool.debugsetting.help.legend</div>
+        <div class="col-sm-8" [innerHTML]="'tool.debugsetting.help.legend' | translate"></div>
         <div class="col-sm-4">
           <div class="d-flex flex-row-reverse align-items-center">
             <div class="p-2">
@@ -40,10 +40,10 @@
       <div class="col-sm-12">
         <div *ngFor="let listOfSettings of settings">
           <div class="card" *ngIf="hasBasicSettings(listOfSettings.ListOfSettings)">
-            <div class="card-header" translate="setting.header.{{ listOfSettings._Theme }}"></div>
+            <div class="card-header" [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
             <div class="card-body">
               <div class="card-title">
-                <h5 translate="setting.subtitle.{{ listOfSettings._Theme }}"></h5>
+                <h5 [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></h5>
               </div>
               <div class="card-text d-flex align-self-center flex-wrap">
                 <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
