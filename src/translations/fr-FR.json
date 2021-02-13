@@ -307,7 +307,7 @@
 
   "setting.header.GroupManagement": "Réglages des Groupes",
   "setting.subtitle.GroupManagement": "Les réglages pour la gestion des groupes.",
-  "OnIfOneOn": "Groupe est allumé dès le premier objet est allumé (sinon, groupe est allumé lorsque tous les objets sont allumés)",
+  "OnIfOneOn": "Groupe est allumé dès que le premier objet est allumé (sinon, groupe est allumé lorsque tous les objets sont allumés)",
 
   "setting.header.PluginConfiguration": "Réglage de l'environnement du Plugin",
   "setting.subtitle.PluginConfiguration": "Les réglages pour l'environnement du Plugin",
