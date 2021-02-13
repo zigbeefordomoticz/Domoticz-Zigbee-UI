@@ -3,6 +3,10 @@
   "About": "A Propos",
   "Version": "Version",
 
+  "NODATA": "Pas de données à afficher",
+  "TOTAL": "Total",
+  "SELECTED": "sélectionné",
+
   "dashboard": "Tableau de bord",
   "dashboard.button.refresh": "Rafraîchir",
   "dashboard.trend.chart.yaxis": "message/s",
