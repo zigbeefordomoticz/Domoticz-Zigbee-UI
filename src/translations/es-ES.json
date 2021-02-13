@@ -242,7 +242,7 @@
   "setting.reinit.button": "Settings (default)",
   "setting.advanced.button": "Ajustes avanzados",
   "setting.normal.button": "Ajustes normales",
-  "setting.help.link": "Puede encontrar más información sobre la configuración en el Wiki",
+  "setting.help.link": "<a target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/PluginConf.json.md'>Puede encontrar más información sobre la configuración en el Wiki</a",
   "setting.help.legend": "Todas estas son configuraciones del plugin que se pueden actualizar.",
   "settings": "Configuraciones",
   "setting.header.Services": "Servicios disponibles",
