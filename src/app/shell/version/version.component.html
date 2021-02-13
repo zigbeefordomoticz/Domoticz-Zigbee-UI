@@ -65,7 +65,7 @@
           class="text-danger"
           style="cursor: pointer"
           placement="top"
-          ngbPopover="{{ 'dashboard.plugin.update.available' | translate }}"
+          [ngbPopover]="popContentPlugin"
           popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}"
         >
           <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
@@ -76,7 +76,7 @@
           class="text-danger"
           style="cursor: pointer"
           placement="top"
-          ngbPopover="{{ 'dashboard.firmware.update.available' | translate }}"
+          [ngbPopover]="popContentFirmware"
           popoverTitle="{{ 'dashboard.firmware.update.available.title' | translate }}"
         >
           <span translate="dashboard.firmware.version"></span>{{ fork.plugin.FirmwareVersion }}
@@ -91,3 +91,9 @@
     </div>
   </div>
 </footer>
+
+<ng-template #popContentFirmware
+  ><span [innerHTML]="'dashboard.firmware.update.available' | translate"></span
+></ng-template>
+
+<ng-template #popContentPlugin><span [innerHTML]="'dashboard.plugin.update.available' | translate"></span></ng-template>
