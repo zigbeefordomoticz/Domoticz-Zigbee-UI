@@ -382,6 +382,10 @@
   "device.byname.alert.subject": "Estas seguro ?",
   "device.byname.alert.delete": "Eliminar",
   "device.byname.alert.cancel": "Anular",
+  "device.byname.parameter.alert.save": "Validar",
+  "device.byname.parameter.alert.cancel": "Anular",
+  "device.byname.parameter.alert.title": "Parameters",
+  "device.byname.parameter.alert.subject": "Set specific parameters",
 
   "api.global.error.title": "Error del backend",
   "api.global.succes.update.title": "Actualización exitosa",

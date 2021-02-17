@@ -28,6 +28,8 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   temp: DeviceByName[] = [];
   hasEditing = false;
   rowToDelete: any;
+  rowParameter: any;
+  parameter: string;
 
   constructor(
     private apiService: ApiService,
@@ -51,6 +53,15 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       result => {
         this.delete();
+      },
+      reason => {}
+    );
+  }
+
+  editParameter(content: any): void {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      result => {
+        this.updateValue(this.parameter, 'Param', this.rowParameter._NwkId);
       },
       reason => {}
     );

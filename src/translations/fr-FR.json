@@ -335,6 +335,10 @@
   "device.byname.alert.subject": "Es-tu sûr ?",
   "device.byname.alert.delete": "Supprimer",
   "device.byname.alert.cancel": "Annuler",
+  "device.byname.parameter.alert.save": "Valider",
+  "device.byname.parameter.alert.cancel": "Annuler",
+  "device.byname.parameter.alert.title": "Paramètres",
+  "device.byname.parameter.alert.subject": "Assigner des paramètres spécifiques",
 
   "api.global.error.title": "Erreur du backend",
   "api.global.succes.update.title": "Mise à jour réussie",
