@@ -400,8 +400,8 @@
   "blueLedOnOff": "Enable ZiGate Blue Led",
   "forcePollingAfterAction": "Get device status after action",
 
-  "setting.header.CommandTransition": "Command transitions for Lights",
-  "setting.subtitle.CommandTransition": "You can specify the transition time in 10th of seconds with which the transition from current to target stage. For example how many 10th of second it will take to move from the current Color to the Color I requested via Domoticz. Color temp is used for White Color",
+  "setting.header.CommandTransition": "Command transitions for Lights in Groups",
+  "setting.subtitle.CommandTransition": "For Groups only. You can specify the transition time in 10th of seconds with which the transition from current to target stage. For example how many 10th of second it will take to move from the current Color to the Color I requested via Domoticz. Color temp is used for White Color",
   "moveToHueSatu": "Transition for Hue",
   "moveToColourTemp": "Transition for Color Temp",
   "moveToColourRGB": "Transition for RGB color",
