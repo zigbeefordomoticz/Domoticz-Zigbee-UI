@@ -382,6 +382,10 @@
   "device.byname.alert.subject": "Estas seguro ?",
   "device.byname.alert.delete": "Eliminar",
   "device.byname.alert.cancel": "Anular",
+  "device.byname.parameter.alert.save": "Validar",
+  "device.byname.parameter.alert.cancel": "Anular",
+  "device.byname.parameter.alert.title": "Parameters",
+  "device.byname.parameter.alert.subject": "Set specific parameters",
 
   "api.global.error.title": "Error del backend",
   "api.global.succes.update.title": "Actualización exitosa",
@@ -396,7 +400,7 @@
   "blueLedOnOff": "Activar la Led azul de la ZiGate",
   "forcePollingAfterAction": "Obtener el estado del dispositivo después de la acción",
 
-  "setting.header.CommandTransition": "Transiciones de comando para luces",
+  "setting.header.CommandTransition": "Transiciones de comando para group luces",
   "setting.subtitle.CommandTransition": "Puede especificar el tiempo de transición en décimas de segundos con el que la transición de la etapa actual a la objetivo. Por ejemplo, cuántas décimas de segundo se necesitarán para pasar del color actual al color que solicité a través de Domoticz. La temperatura de color se utiliza para el color blanco",
   "moveToHueSatu": "Transición para Hue",
   "moveToColourTemp": "Transición para temperatura de color",

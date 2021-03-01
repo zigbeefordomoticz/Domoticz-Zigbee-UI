@@ -371,6 +371,10 @@
   "device.byname.alert.subject": "Are u sure ?",
   "device.byname.alert.delete": "Delete",
   "device.byname.alert.cancel": "Cancel",
+  "device.byname.parameter.alert.save": "Validate",
+  "device.byname.parameter.alert.cancel": "Cancel",
+  "device.byname.parameter.alert.title": "Parameters",
+  "device.byname.parameter.alert.subject": "Set specific parameters",
 
   "api.global.error.title": "Fout van backend",
   "api.global.succes.update.title": "Update succevol afgerond",
@@ -378,7 +382,7 @@
   "api.global.succes.erasepdm.title": "Pdm wissen succesvol",
   "api.global.succes.pluginrestarted.title": "Plugin opnieuw gestart",
 
-  "setting.header.CommandTransition": "Overgangstijden voor apparaat commando's",
+  "setting.header.CommandTransition": "Group Overgangstijden voor apparaat commando's",
   "setting.subtitle.CommandTransition": "Je kan de overgangstijd naar de volgende licht instelling in tienden van seconden instellen. Bij voorbeeld hoeveel tienden van seconden duurt het om van de huidige kleur naar de nieuwe kleur te gaan zoals ingesteld in Domoticz. Voor wit licht wordt de kleur temperatuur gebruikt",
 
   "moveToHueSatu": "Overgangstijd voor Hue",
