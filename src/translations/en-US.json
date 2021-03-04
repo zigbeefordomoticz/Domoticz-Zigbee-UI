@@ -77,7 +77,8 @@
 
   "management": "Management",
   "device": "Device Management",
-  "device.byname.subtitle": "List all HW devices paired with the plugin, and allow you to enter a friendly name for each device <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md'></a><br>It shows the friendly device name in the network section instead of a four digit code.",
+
+  "device.byname.subtitle": "List all HW devices paired with the plugin, and allow you to enter a friendly name for each device <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#device-management'></a><br>It shows the friendly device name in the network section instead of a four digit code.",
   "device.byname.capabilities.column": "Capabilities",
   "device.byname.devicename.column": "Friendly Name",
   "device.byname.header": "Device management",
@@ -101,7 +102,9 @@
   "group.create.header": "Group management",
   "group.create.placeholder": "type filter here ....",
   "group.create.shortid.column": "Group id",
-  "group.create.subtitle": "Allow edit, create and remove groups<a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md'></a><br>Before modifications, make a <a href='admin?action=group'>full group analisys</a> on the page Admin > Groups.<br>Before validation, make sure that all routers are connected to the ZigBee network.<br>After validation, make a <a href='admin?action=group'>special analisys on the router(s)</a> in order to check that the changes have been taken.<br>Do not do all changes at once, but prefer to do it step by step with small changes.",
+
+  "group.create.subtitle": "Allow edit, create and remove groups <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#group-management'></a><br>Before modifications, make a <a href='admin?action=group'>full group analisys</a> on the page Admin > Groups.<br>Before validation, make sure that all routers are connected to the ZigBee network.<br>After validation, make a <a href='admin?action=group'>special analisys on the router(s)</a> in order to check that the changes have been taken.<br>Do not do all changes at once, but prefer to do it step by step with small changes.",
+
   "group.create.validate.button": "Validate",
   "group.create.add.button": "Add a new Group",
   "group.create.delete.button": "Delete",
@@ -142,7 +145,9 @@
 
   "network.energy": "Interference level",
   "network.stats.header": "Interference level reports",
-  "network.stats.subtitle": "List of saved reports <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Network.md#interference-levels' target='_blank'></a>",
+
+  "network.stats.subtitle": "List of saved reports <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Network.md#interference-level' target='_blank'></a>",
+
   "network.stats.visu.delete.button": "Delete",
   "network.inter.req.header": "Short Interference scan",
   "network.inter.req.subtitle": "An Interference scan report will be provided. It will report Interference level between routers and ZiGate.  The higher the value, the worst it is.",
@@ -163,7 +168,9 @@
   "admin.permittojoin.label": "Accept new hardware",
 
   "admin.assistprovisionning.title": "Pairing a new device with the assitant",
-  "admin.assistprovisionning.subtitle": "Click on Pairing and follow the instructions <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUi_Admin.md#pairing'></a>",
+
+  "admin.assistprovisionning.subtitle": "Click on Pairing and follow the instructions <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
+
   "admin.assistprovisionning.go.button": "Pairing",
   "admin.assistprovisionning.alert.title": "Pairing assistant - Waiting for new device",
   "admin.assistprovisionning.alert.subject": "Make a Reset on your device to lunch the pairing process. Refer to the device documentation if needed.",
@@ -184,24 +191,32 @@
   "admin.assistprovisionning.alert.Unexpected": "Unexpected (Contact support)",
 
   "admin.permittojoin.title": "Pairing a new device for a period of time",
-  "admin.permittojoin.subtitle": "Click on the button to choise the period of time <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUi_Admin.md#pairing'></a>",
+
+  "admin.permittojoin.subtitle": "Click on the button to choise the period of time <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
+
   "admin.permittojoin.validate.button": "Validate",
   "admin.permittojoin.permanent.button": "Permanent",
   "admin.permittojoin.stop.button": "Stop",
   "admin.permittojoin.4min.button": "4 minutes",
 
   "admin.permittojoinrouter.title": "Pairing a new device on a router",
-  "admin.permittojoinrouter.subtitle": "Permit to pair a device on a specific router <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUi_Admin.md#pairing'></a>",
+
+  "admin.permittojoinrouter.subtitle": "Permit to pair a device on a specific router <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
+
   "admin.permittojoinrouter.devices.placeholder": "List of routers",
 
   "admin.group": "Group",
   "admin.rescan.group.title": "Complete analysis of the groups",
-  "admin.rescan.group.subtitle": "Ask each router to know if it belongs to one or more groups <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUi_Admin.md#group'></a><br>The result wil be in the <a href='group'>Group management</a>.<br><br>Make sure ALL the routers are connected to the ZigBee network before launching the analysis.",
+
+  "admin.rescan.group.subtitle": "Ask each router to know if it belongs to one or more groups <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#group'></a><br>The result wil be in the <a href='group'>Group management</a>.<br><br>Make sure ALL the routers are connected to the ZigBee network before launching the analysis.",
+
   "admin.rescan.group.button": "Full scan",
   "admin.rescan.group.notify": "Full scan started !",
 
   "admin.scan.group.device.title": "Selective analysis of the groups",
-  "admin.scan.group.device.subtitle": "Ask one or more router(s) to know if it (they) belong(s) to one or more groups <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUi_Admin.md#group'></a><br>The result wil be in the <a href='group'>Group management</a>.<br><br>Make sure ALL the routers are connected to the ZigBee network before launching the analysis.",
+
+  "admin.scan.group.device.subtitle": "Ask one or more router(s) to know if it (they) belong(s) to one or more groups <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#group'></a><br>The result wil be in the <a href='group'>Group management</a>.<br><br>Make sure ALL the routers are connected to the ZigBee network before launching the analysis.",
+
   "admin.scan.group.device.button": "Scan",
   "admin.scan.group.device.placeholder": "Select router(s) to scan",
   "admin.scan.group.device.notify": "Scan started !",

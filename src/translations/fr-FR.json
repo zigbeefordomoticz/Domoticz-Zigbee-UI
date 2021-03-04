@@ -72,7 +72,7 @@
   "dashboard.received.comment": "Rx = nombre de messages reçus<br>Cluster = type de message comportant une information du capteur<br>CRC error = nombre de messages reçus non-décodables",
   "dashboard.trend.comment": "Tx/s = nombre de messages envoyés par seconde<br>Rx/s = nombre de messages reçus par seconde<br>Charge = nombre de messages actuellement en attente",
   "dashboard.devices.comment": "Les routeurs sont des objets alimentés sur secteur qui participent au maillage du réseau.<br>Les objets terminaux sont des objets sur batterie en général.",
-  "dashboard.health.comment": "Vivant = nombre d'objets pour lesquels un message a été reçu récemment<br>Perdu = le nombre d'objets qui ne sont plus sur le réseau<br>Pas vu = nombre d'objets qui n'ont pas donné d'information sur les dernières 6 heures<br>Indéfini = nombre d'objets qui sont dans un état indéterminé<br><br>Après un redémarrage du plugin, tous les objets sont placés dans l'état indéfini. C'est après avoir reçu un message qu'ils passeront à l'état vivant.",
+  "dashboard.health.comment": "Vivant = nombre d'objets pour lesquels un message a été reçu récemment<br>Perdu = nombre d'objets qui ne sont plus sur le réseau<br>Pas vu = nombre d'objets qui n'ont pas donné d'information sur les dernières 6 heures<br>Indéfini = nombre d'objets qui sont dans un état indéterminé<br><br>Après un redémarrage du plugin, tous les objets sont placés dans l'état indéfini. C'est après avoir reçu un message qu'ils passeront à l'état vivant.",
   "dashboard.battery.comment": "État de charge de la batterie des objets ayant une batterie.",
 
   "management": "Gestion",
