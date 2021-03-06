@@ -94,6 +94,14 @@
   "device.byname.validate.button": "Valider",
   "device.byname.widget.column": "Dispositif DomoticZ",
   "error_required": "Obigatoire",
+  "device.byname.alert.title": "Supprimer l'appareil ?",
+  "device.byname.alert.subject": "Es-tu sûr ?",
+  "device.byname.alert.delete": "Supprimer",
+  "device.byname.alert.cancel": "Annuler",
+  "device.byname.parameter.alert.save": "Valider",
+  "device.byname.parameter.alert.cancel": "Annuler",
+  "device.byname.parameter.alert.title": "Paramètres",
+  "device.byname.parameter.alert.subject": "Assigner des paramètres spécifiques <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/fr-fr/Tuto_Parametrer-les-objets.md'></a>",
 
   "group": "Gestion des groupes",
   "group.create.devices.column": "Objets appartenant au groupe",
@@ -330,15 +338,6 @@
 
   "setting.header.Experimental": "Paramètres expérimentaux",
   "setting.subtitle.Experimental": "Utilisez seulement si on vous a indiqué de le faire",
-
-  "device.byname.alert.title": "Supprimer l'appareil ?",
-  "device.byname.alert.subject": "Es-tu sûr ?",
-  "device.byname.alert.delete": "Supprimer",
-  "device.byname.alert.cancel": "Annuler",
-  "device.byname.parameter.alert.save": "Valider",
-  "device.byname.parameter.alert.cancel": "Annuler",
-  "device.byname.parameter.alert.title": "Paramètres",
-  "device.byname.parameter.alert.subject": "Assigner des paramètres spécifiques",
 
   "api.global.error.title": "Erreur du backend",
   "api.global.succes.update.title": "Mise à jour réussie",
