@@ -30,6 +30,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   rowToDelete: any;
   rowParameter: any;
   parameter: string;
+  expanded: any = {};
 
   constructor(
     private apiService: ApiService,
@@ -137,5 +138,9 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
 
     this.rows = temp;
     this.table.offset = 0;
+  }
+
+  toggleExpandRow(row: any) {
+    this.table.rowDetail.toggleExpandRow(row);
   }
 }
