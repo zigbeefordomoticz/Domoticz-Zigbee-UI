@@ -31,13 +31,31 @@
           selectedMessage: 'SELECTED' | translate
         }"
       >
+        <ngx-datatable-row-detail [rowHeight]="'auto'">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <div style="padding-left:35px;">
+              <div>
+                <strong>{{ 'device.byname.devicename.param' | translate }} : </strong> {{ row.Param }}
+              </div>
+            </div>
+          </ng-template>
+        </ngx-datatable-row-detail>
+
         <ngx-datatable-column
           [sortable]="false"
-          [maxWidth]="50"
+          [maxWidth]="55"
           name="{{ 'device.byname.trash.column' | translate }}"
           prop="ConsistencyCheck"
         >
-          <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+          <ng-template let-expanded="expanded" let-row="row" ngx-datatable-cell-template>
+            <a
+              href="javascript:void(0)"
+              [class.datatable-icon-right]="!expanded"
+              [class.datatable-icon-down]="expanded"
+              title="Expand/Collapse Row"
+              (click)="toggleExpandRow(row)"
+            >
+            </a>
             <i
               *ngIf="row.ConsistencyCheck === 'not in DZ' || row.ConsistencyCheck === 'Bad Pairing'"
               class="fa fa-trash"
@@ -113,12 +131,7 @@
           prop="ZDeviceName"
         >
           <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-            <i
-              class="fas fa-cog"
-              style="cursor: pointer"
-              title="{{ 'device.byname.parameter.colum' | translate }}"
-              (click)="rowParameter = row; editParameter(editContent)"
-            ></i>
+            <i class="fas fa-cog" style="cursor: pointer" (click)="rowParameter = row; editParameter(editContent)"></i>
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
