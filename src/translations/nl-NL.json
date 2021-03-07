@@ -92,6 +92,15 @@
   "device.byname.widget.column": "Domoticz Widget",
   "error_required": "Benodigd",
 
+  "device.byname.alert.title": "Delete device ?",
+  "device.byname.alert.subject": "Are you sure ?",
+  "device.byname.alert.delete": "Delete",
+  "device.byname.alert.cancel": "Cancel",
+  "device.byname.parameter.alert.save": "Validate",
+  "device.byname.parameter.alert.cancel": "Cancel",
+  "device.byname.parameter.alert.title": "Parameters",
+  "device.byname.parameter.alert.subject": "Set specific parameters <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Device-parameters.md'></a>",
+
   "group": "Groep Management",
   "group.create.devices.column": "Apparaten in de Groep",
   "group.create.groupname.column": "Groepsnaam",
@@ -310,15 +319,6 @@
 
   "setting.header.Experimental": "Experimentele parameters",
   "setting.subtitle.Experimental": "Alleen gebruiken wanneer hier naar wordt gevraagd",
-
-  "device.byname.alert.title": "Delete device ?",
-  "device.byname.alert.subject": "Are u sure ?",
-  "device.byname.alert.delete": "Delete",
-  "device.byname.alert.cancel": "Cancel",
-  "device.byname.parameter.alert.save": "Validate",
-  "device.byname.parameter.alert.cancel": "Cancel",
-  "device.byname.parameter.alert.title": "Parameters",
-  "device.byname.parameter.alert.subject": "Set specific parameters",
 
   "api.global.error.title": "Fout van backend",
   "api.global.succes.update.title": "Update succevol afgerond",
