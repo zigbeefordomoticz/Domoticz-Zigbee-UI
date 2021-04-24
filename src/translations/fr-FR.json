@@ -336,6 +336,9 @@
   "moveToColourRGB": "Transition pour Couleur RVB",
   "moveToLevel": "Transition pour variateur",
 
+  "setting.header.Provisioning": "Réglages d'appairage",
+  "setting.subtitle.Provisioning": "Réglages spécifiques pour certains matériels ou certaines conditions",
+
   "setting.header.Experimental": "Paramètres expérimentaux",
   "setting.subtitle.Experimental": "Utilisez seulement si on vous a indiqué de le faire",
 

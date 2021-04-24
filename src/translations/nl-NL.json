@@ -320,6 +320,9 @@
   "setting.header.Experimental": "Experimentele parameters",
   "setting.subtitle.Experimental": "Alleen gebruiken wanneer hier naar wordt gevraagd",
 
+  "setting.header.Provisioning": "Pairing settings",
+  "setting.subtitle.Provisioning": "Special settings for special devices or special conditions",
+  
   "api.global.error.title": "Fout van backend",
   "api.global.succes.update.title": "Update succevol afgerond",
   "api.global.reset.zigate.title": "Zachte reset succesvol",
