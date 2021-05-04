@@ -273,7 +273,7 @@
   "enablegroupmanagement": "Activer les Groupes",
   "zigatePartOfGroup0000": "Création du Group 0000",
   "allowRemoveZigateDevice": "Suppression dans la ZiGate",
-  "resetPermit2Join": "Passer en mode appairage au démarrage",
+  "resetPermit2Join": "Reset du mode appairage au démarrage du plugin",
   "forcePollingAfterAction": "Interrogation du statut de l'objet après un ordre",
   "enableReadAttributes": "Activer l'interrogation des objets (pooling)",
   "blueLedOnOff": "Active ou désactive la Led Bleu",
