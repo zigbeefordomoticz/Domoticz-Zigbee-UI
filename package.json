@@ -43,7 +43,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^3.8.1",
     "file-saver": "^2.0.5",
-    "highcharts": "^8.2.2",
+    "highcharts": "^9.0.0",
     "mousetrap": "^1.6.5",
     "ngx-color-picker": "^10.1.0",
     "ngx-filesaver": "^11.0.0",
