@@ -229,7 +229,9 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           (device: any) => device.LogicalType !== 'Router' && device.Status !== 'notDB'
         );
         const _batteryInf30 = this.devicesOnBattery.filter((device: any) => device.Battery <= 30);
-        const _batterySup30 = this.devicesOnBattery.filter((device: any) => device.Battery > 30 && device.Battery <= 50);
+        const _batterySup30 = this.devicesOnBattery.filter(
+          (device: any) => device.Battery > 30 && device.Battery <= 50
+        );
         const _batterySup50 = this.devicesOnBattery.filter((device: any) => device.Battery > 50);
         this.batteryInf30 = this.devices.filter((it: any) => _batteryInf30.find((iter: any) => iter.IEEE === it.IEEE));
         this.batterySup50 = this.devices.filter((it: any) => _batterySup50.find((iter: any) => iter.IEEE === it.IEEE));
