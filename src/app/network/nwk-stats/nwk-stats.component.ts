@@ -10,7 +10,7 @@ const log = new Logger('NwkStatsComponent');
 @Component({
   selector: 'app-nwk-stats',
   templateUrl: './nwk-stats.component.html',
-  styleUrls: ['./nwk-stats.component.scss']
+  styleUrls: ['./nwk-stats.component.scss'],
 })
 export class NwkStatsComponent implements OnInit {
   stats$: Observable<Array<string>>;
@@ -32,7 +32,7 @@ export class NwkStatsComponent implements OnInit {
   }
 
   deleteNwkStatByDate(timeStamp: string) {
-    this.apiService.deleteNwkStatsByTimeStamp(timeStamp).subscribe(result => {
+    this.apiService.deleteNwkStatsByTimeStamp(timeStamp).subscribe((result) => {
       this.stats$ = this.apiService.getNwkStats();
       this.cdr.detectChanges();
     });

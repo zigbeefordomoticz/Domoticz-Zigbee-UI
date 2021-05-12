@@ -10,7 +10,7 @@ const log = new Logger('TopologyComponent');
 @Component({
   selector: 'app-topology',
   templateUrl: './topology.component.html',
-  styleUrls: ['./topology.component.scss']
+  styleUrls: ['./topology.component.scss'],
 })
 export class TopologyComponent implements OnInit {
   timeStamp: string;
@@ -31,7 +31,7 @@ export class TopologyComponent implements OnInit {
   }
 
   deleteTopologyByDate(timeStamp: string) {
-    this.apiService.deleteTopologieByTimeStamp(timeStamp).subscribe(result => {
+    this.apiService.deleteTopologieByTimeStamp(timeStamp).subscribe((result) => {
       this.topologies$ = this.apiService.getTopologie();
       this.cdr.detectChanges();
     });

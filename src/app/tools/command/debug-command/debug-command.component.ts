@@ -10,7 +10,7 @@ const log = new Logger('DebugCommandComponent');
 @Component({
   selector: 'app-debug-command',
   templateUrl: './debug-command.component.html',
-  styleUrls: ['./debug-command.component.scss']
+  styleUrls: ['./debug-command.component.scss'],
 })
 export class DebugCommandComponent implements OnInit {
   routers: DeviceByName[];
@@ -27,12 +27,12 @@ export class DebugCommandComponent implements OnInit {
       type: [null, Validators.required],
       action: [null, Validators.required],
       deviceSelected: [null, Validators.required],
-      effect: [null, Validators.compose([Validators.nullValidator, Validators.pattern('^[0-9A-Fa-f]+')])]
+      effect: [null, Validators.compose([Validators.nullValidator, Validators.pattern('^[0-9A-Fa-f]+')])],
     });
 
     this.form.get('type').disable();
 
-    this.apiService.getZDevices().subscribe(devices => {
+    this.apiService.getZDevices().subscribe((devices) => {
       this.routers = devices.filter((router: any) => router.LogicalType === 'Router');
     });
   }
@@ -42,7 +42,7 @@ export class DebugCommandComponent implements OnInit {
     this.form.get('action').patchValue(null);
     this.form.get('type').patchValue(null);
     this.capabilities = null;
-    this.apiService.getDevCap(event._NwkId).subscribe(capabilities => {
+    this.apiService.getDevCap(event._NwkId).subscribe((capabilities) => {
       this.capabilities = capabilities;
     });
   }
@@ -91,7 +91,7 @@ export class DebugCommandComponent implements OnInit {
       Command: this.form.get('action').value.actuator,
       Value: valueToSend,
       Color: colorTosend,
-      Type: this.form.get('type').value
+      Type: this.form.get('type').value,
     };
     this.apiService.putDevCommand(command).subscribe();
   }

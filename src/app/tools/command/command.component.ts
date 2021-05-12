@@ -6,7 +6,7 @@ const log = new Logger('CommandComponent');
 @Component({
   selector: 'app-command',
   templateUrl: './command.component.html',
-  styleUrls: ['./command.component.scss']
+  styleUrls: ['./command.component.scss'],
 })
 export class CommandComponent implements OnInit {
   constructor() {}

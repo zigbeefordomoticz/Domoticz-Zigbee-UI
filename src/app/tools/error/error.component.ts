@@ -30,7 +30,7 @@ function transformToTimestamp(key: any, value: any) {
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.scss']
+  styleUrls: ['./error.component.scss'],
 })
 export class ErrorComponent implements OnInit {
   json: Object | undefined = null;

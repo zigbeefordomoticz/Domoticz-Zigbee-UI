@@ -12,12 +12,12 @@ const routes: Routes = [
   { path: 'debug', component: DebugSettingsComponent, data: { title: extract('debug') } },
   { path: 'binding', component: BindingComponent, data: { title: extract('binding') } },
   { path: 'link', component: ToolsComponent, data: { title: extract('tools') } },
-  { path: 'error', component: ErrorComponent, data: { title: extract('error') } }
+  { path: 'error', component: ErrorComponent, data: { title: extract('error') } },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: []
+  providers: [],
 })
 export class ToolsRoutingModule {}

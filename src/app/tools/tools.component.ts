@@ -28,7 +28,7 @@ function transformToTimestamp(key: any, value: any) {
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
-  styleUrls: ['./tools.component.scss']
+  styleUrls: ['./tools.component.scss'],
 })
 export class ToolsComponent implements OnInit {
   json: Object | undefined = null;

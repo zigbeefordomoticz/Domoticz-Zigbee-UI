@@ -6,6 +6,6 @@ import { DeviceByNameComponent } from './device-by-name/device-by-name.component
 
 @NgModule({
   imports: [DeviceRoutingModule, SharedModule],
-  declarations: [DeviceComponent, DeviceByNameComponent]
+  declarations: [DeviceComponent, DeviceByNameComponent],
 })
 export class DeviceModule {}

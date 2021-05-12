@@ -9,7 +9,7 @@ const log = new Logger('PermitToJoinComponent');
 @Component({
   selector: 'app-permit-to-join',
   templateUrl: './permit-to-join.component.html',
-  styleUrls: ['./permit-to-join.component.scss']
+  styleUrls: ['./permit-to-join.component.scss'],
 })
 export class PermitToJoinComponent implements OnInit {
   permitToJoin: any;
@@ -17,7 +17,7 @@ export class PermitToJoinComponent implements OnInit {
   constructor(private toastr: ToastrService, private apiService: ApiService, private translate: TranslateService) {}
 
   ngOnInit() {
-    this.apiService.getPermitToJoin().subscribe(result => {
+    this.apiService.getPermitToJoin().subscribe((result) => {
       this.permitToJoin = result;
     });
   }

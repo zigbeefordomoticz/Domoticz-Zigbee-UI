@@ -10,7 +10,7 @@ const log = new Logger('CasaiaComponent');
 @Component({
   selector: 'app-manufacturer-casaia',
   templateUrl: './casaia.component.html',
-  styleUrls: ['./casaia.component.scss']
+  styleUrls: ['./casaia.component.scss'],
 })
 export class CasaiaComponent implements OnInit {
   @ViewChild('table') table: any;
@@ -32,7 +32,7 @@ export class CasaiaComponent implements OnInit {
 
   updateCasaiaDevices() {
     const update: UpdateCasaiaDevice[] = [];
-    this.rows.forEach(row => {
+    this.rows.forEach((row) => {
       update.push(new UpdateCasaiaDevice(row.IRCode, row.NwkId));
     });
 
@@ -45,7 +45,7 @@ export class CasaiaComponent implements OnInit {
 
   updateFilter(event: any) {
     const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function(d: any) {
+    const temp = this.temp.filter(function (d: any) {
       let ok = false;
       if (d.Model) {
         ok = d.Model.toLowerCase().indexOf(val) !== -1;
@@ -70,7 +70,7 @@ export class CasaiaComponent implements OnInit {
   }
 
   private getCasaiaDevices() {
-    this.apiService.getCasiaDevices().subscribe(devices => {
+    this.apiService.getCasiaDevices().subscribe((devices) => {
       this.rows = devices;
       this.temp = [...this.rows];
     });

@@ -11,7 +11,7 @@ const log = new Logger('ReqNetworkInterComponent');
 @Component({
   selector: 'app-req-network-inter',
   templateUrl: './req-network-inter.component.html',
-  styleUrls: ['./req-network-inter.component.scss']
+  styleUrls: ['./req-network-inter.component.scss'],
 })
 export class ReqNetworkInterComponent implements OnInit {
   stats$: Observable<PluginStats>;
@@ -21,7 +21,7 @@ export class ReqNetworkInterComponent implements OnInit {
   ngOnInit() {}
 
   reqInter() {
-    this.apiService.getReqInter().subscribe(result => {
+    this.apiService.getReqInter().subscribe((result) => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }

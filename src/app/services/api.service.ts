@@ -62,7 +62,7 @@ const routes = {
   otaFirmwareDeviceList: '/ota-firmware-device-list/',
   otaFirmwareUpdate: '/ota-firmware-update',
   casiaListDevices: '/casaia-list-devices',
-  casiaIrcode: '/casaia-update-ircode'
+  casiaIrcode: '/casaia-update-ircode',
 };
 
 const log = new Logger('ApiService');
@@ -74,238 +74,238 @@ export class ApiService {
   getPluginhealth(): Observable<Array<any>> {
     return this.httpClient.get(routes.pluginHealth).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getDevices(): Observable<Array<Device>> {
     return this.httpClient.get(routes.devices).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getZDevices(): Observable<any> {
     return this.httpClient.get(routes.zDevices).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getRawZDevices(): Observable<any> {
     return this.httpClient.get(routes.zdeviceRaw).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getZGroups(): Observable<Group[]> {
     return this.httpClient.get(routes.zGroups).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getSettings(): Observable<any> {
     return this.httpClient.get(routes.settings).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putSettings(settings: Array<Setting>): Observable<any> {
     return this.httpClient.put(routes.settings, settings).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getSettingsDebug(): Observable<any> {
     return this.httpClient.get(routes.settingsDebug).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putSettingsDebug(settings: Array<Setting>): Observable<any> {
     return this.httpClient.put(routes.settingsDebug, settings).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getPlugin(): Observable<Plugin> {
     return this.httpClient.get(routes.plugin).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getPluginStats(): Observable<PluginStats> {
     return this.httpClient.get(routes.pluginStat).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getLogErrorHistory(): Observable<PluginStats> {
     return this.httpClient.get(routes.logErrorHistory).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   clearLogErrorHistory(): Observable<PluginStats> {
     return this.httpClient.get(routes.clearErrorHistory).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getNwkStats(): Observable<Array<string>> {
     return this.httpClient.get(routes.nwkStat).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getTopologie(): Observable<Array<string>> {
     return this.httpClient.get(routes.topologie).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getReqTopologie(): Observable<any> {
     return this.httpClient.get(routes.reqTopology).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getReqInter(): Observable<any> {
     return this.httpClient.get(routes.reqInter).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getNwkFull(): Observable<any> {
     return this.httpClient.get(routes.reqNwkfull).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getTopologieByTimeStamp(timestamp: string): Observable<Relation[]> {
     return this.httpClient.get(routes.topologie + '/' + timestamp).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getNwkStatsByTimeStamp(timestamp: string): Observable<any> {
     return this.httpClient.get(routes.nwkStat + '/' + timestamp).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   deleteTopologieByTimeStamp(timestamp: string): Observable<any> {
     return this.httpClient.delete(routes.topologie + '/' + timestamp).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   deleteNwkStatsByTimeStamp(timestamp: string): Observable<any> {
     return this.httpClient.delete(routes.nwkStat + '/' + timestamp).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getPermitToJoin(): Observable<any> {
     return this.httpClient.get(routes.permitToJoin).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putPermitToJoin(settings: any): Observable<any> {
     return this.httpClient.put(routes.permitToJoin, settings).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getZDeviceName(): Observable<DeviceByName[]> {
     return this.httpClient.get(routes.zdeviceName).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putZDeviceName(devices: any): Observable<PluginStats> {
     return this.httpClient.put(routes.zdeviceName, devices).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   deleteZDeviceName(_NwkId: string): Observable<PluginStats> {
     return this.httpClient.delete(routes.zdeviceName + '/' + _NwkId).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getZGroupDevicesAvalaible(): Observable<Array<DevicesAvailable>> {
     return this.httpClient.get(routes.zgroupDevicesAvalaible).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putZGroups(groups: any): Observable<any> {
     return this.httpClient.put(routes.zGroups, groups).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getZigate(): Observable<any> {
     return this.httpClient.get(routes.zigate).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getSwResetZigate(): Observable<any> {
     return this.httpClient.get(routes.swResetZigate).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getRescanGroup(): Observable<any> {
     return this.httpClient.get(routes.rescanGroup).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getZigateErasePDM(): Observable<any> {
     return this.httpClient.get(routes.zigateErasePDM).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getReloadPlugin() {
     return this.httpClient.get(routes.pluginRestart).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
@@ -353,8 +353,8 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'text/plain'
-      })
+        'Content-Type': 'text/plain',
+      }),
     };
 
     return this.httpClient
@@ -362,21 +362,21 @@ export class ApiService {
       .get(route, httpOptions)
       .pipe(
         map((body: any) => body),
-        catchError(error => this.handleError(error))
+        catchError((error) => this.handleError(error))
       );
   }
 
   getRestartNeeded(): Observable<any> {
     return this.httpClient.get(routes.restartNeeded).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getDomoticzEnv(): Observable<DomoticzEnv> {
     return this.httpClient.get(routes.domoticzEnv).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
@@ -384,14 +384,14 @@ export class ApiService {
     const route = routes.devCap + '/' + id;
     return this.httpClient.get(route).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putDevCommand(command: Command): Observable<any> {
     return this.httpClient.put(routes.devCommand, command).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
@@ -401,35 +401,35 @@ export class ApiService {
 
     return this.httpClient.get(route).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getReceiveNewHardware(): Observable<NewDevice> {
     return this.httpClient.get(routes.receiveNewHardware).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putBinding(binding: Binding): Observable<any> {
     return this.httpClient.put(routes.binding, binding).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putCommandRaw(command: Command): Observable<any> {
     return this.httpClient.put(routes.rawCommand, command).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getBindLSTcluster(): Observable<Cluster[]> {
     return this.httpClient.get(routes.bindLSTcluster).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
@@ -437,56 +437,56 @@ export class ApiService {
     const route = routes.bindLSTdevice + '/' + id;
     return this.httpClient.get(route).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putUnBinding(unbinding: Binding): Observable<any> {
     return this.httpClient.put(routes.unbinding, unbinding).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putScanDeviceForGrp(nwkids: string[]): Observable<any> {
     return this.httpClient.put(routes.scanDeviceForGrp, nwkids).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getOtaFirmware(): Observable<FirmwareManufacturer> {
     return this.httpClient.get(routes.otaFirmwareList).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getDeviceByOtaFirmware(ManufCode: string): Observable<DevicesByManufacturer[]> {
     return this.httpClient.get(routes.otaFirmwareDeviceList.concat(ManufCode)).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putOtaFirmware(devicesToUpdate: FirmwareUpdate[]): Observable<FirmwareUpdate> {
     return this.httpClient.put(routes.otaFirmwareUpdate, devicesToUpdate).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   getCasiaDevices(): Observable<CasaiaDevice[]> {
     return this.httpClient.get(routes.casiaListDevices).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 
   putCasiaIrcode(update: UpdateCasaiaDevice[]): Observable<void> {
     return this.httpClient.put(routes.casiaIrcode, update).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError((error) => this.handleError(error))
     );
   }
 

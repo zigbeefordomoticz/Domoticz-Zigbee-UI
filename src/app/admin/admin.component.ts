@@ -8,7 +8,7 @@ const log = new Logger('AdminComponent');
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   action: string;
@@ -18,7 +18,7 @@ export class AdminComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   }
 
   ngOnInit() {
-    this.subs.sink = this.activatedRoute.queryParamMap.subscribe(params => {
+    this.subs.sink = this.activatedRoute.queryParamMap.subscribe((params) => {
       this.action = params.get('action');
     });
   }

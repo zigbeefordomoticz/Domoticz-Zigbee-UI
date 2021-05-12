@@ -15,7 +15,7 @@ const log = new Logger('PermitToJoinComponent');
 @Component({
   selector: 'app-assist-provisionning',
   templateUrl: './assist-provisionning.component.html',
-  styleUrls: ['./assist-provisionning.component.scss']
+  styleUrls: ['./assist-provisionning.component.scss'],
 })
 export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   newDevices: NewDevice;
@@ -49,7 +49,7 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
           timer(0, 10000)
             .pipe(concatMap(() => this.apiService.getReceiveNewHardware()))
             .pipe(
-              map(receive => {
+              map((receive) => {
                 this.newDevices = receive;
                 if (this.newDevices.NewDevices && this.newDevices.NewDevices.length > 0) {
                   this.createwidgets();
@@ -63,21 +63,21 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', backdrop: 'static', keyboard: false })
       .result.then(
-        result => {
+        (result) => {
           this.spinner.hide();
           this.apiService.getNewHardware(false).subscribe();
           this.subs.unsubscribe();
         },
-        reason => {}
+        (reason) => {}
       );
   }
 
   createwidgets() {
-    this.newDevices.NewDevices.forEach(value => {
+    this.newDevices.NewDevices.forEach((value) => {
       if (value.ProvisionStatus) {
-        this.apiService.getZDeviceName().subscribe(result => {
+        this.apiService.getZDeviceName().subscribe((result) => {
           this.devices = result;
-          value.device = this.devices.find(deviceByName => deviceByName._NwkId === value.NwkId);
+          value.device = this.devices.find((deviceByName) => deviceByName._NwkId === value.NwkId);
           this.devicePaired.push(value);
         });
       }

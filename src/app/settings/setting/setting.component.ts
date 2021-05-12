@@ -14,9 +14,9 @@ const log = new Logger('SettingComponent');
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
-  ]
+      useExisting: FormGroupDirective,
+    },
+  ],
 })
 export class SettingComponent implements OnChanges {
   @Input() setting: Setting;
@@ -31,35 +31,32 @@ export class SettingComponent implements OnChanges {
       this.setting = changes.setting.currentValue;
       if (this.setting.DataType === 'hex') {
         group = this.formBuilder.group({
-          current: ['', Validators.compose([Validators.required, Validators.pattern('^[0-9A-Fa-f]+')])]
+          current: ['', Validators.compose([Validators.required, Validators.pattern('^[0-9A-Fa-f]+')])],
         });
       } else if (this.setting.DataType === 'bool') {
         group = this.formBuilder.group({
-          current: []
+          current: [],
         });
       } else if (this.setting.DataType === 'list') {
         group = this.formBuilder.group({
-          current: [null, Validators.required]
+          current: [null, Validators.required],
         });
 
         this.list = [];
-        this.setting.list.forEach(v => {
+        this.setting.list.forEach((v) => {
           const key = Object.keys(v)[0];
           const valeur = Object.values(v)[0];
           this.list.push({ label: key, value: valeur });
         });
       } else {
         group = this.formBuilder.group({
-          current: ['', Validators.required]
+          current: ['', Validators.required],
         });
       }
 
       this.fgd.form.addControl(this.setting.Name, group);
       const value = this.setting.current_value !== '' ? this.setting.current_value : this.setting.default_value;
-      this.fgd.form
-        .get(this.setting.Name)
-        .get('current')
-        .patchValue(value);
+      this.fgd.form.get(this.setting.Name).get('current').patchValue(value);
     }
   }
 

@@ -10,7 +10,7 @@ const log = new Logger('ReloadPluginComponent');
 @Component({
   selector: 'app-rescan-group',
   templateUrl: './rescan-group.component.html',
-  styleUrls: ['./rescan-group.component.scss']
+  styleUrls: ['./rescan-group.component.scss'],
 })
 export class RescanGroupComponent implements OnInit {
   constructor(
@@ -25,7 +25,7 @@ export class RescanGroupComponent implements OnInit {
   rescanGroup() {
     this.apiService.getRescanGroup().subscribe(() => {
       this.toastr.success(this.translate.instant('admin.rescan.group.notify'));
-      this.apiService.getRestartNeeded().subscribe(restart => {
+      this.apiService.getRestartNeeded().subscribe((restart) => {
         if (restart.RestartNeeded === 1) {
           this.headerService.setRestart(true);
         }

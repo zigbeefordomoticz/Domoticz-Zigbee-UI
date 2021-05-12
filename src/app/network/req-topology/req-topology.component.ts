@@ -11,7 +11,7 @@ const log = new Logger('ReqTopologyComponent');
 @Component({
   selector: 'app-req-topology',
   templateUrl: './req-topology.component.html',
-  styleUrls: ['./req-topology.component.scss']
+  styleUrls: ['./req-topology.component.scss'],
 })
 export class ReqTopologyComponent implements OnInit {
   stats$: Observable<PluginStats>;
@@ -21,7 +21,7 @@ export class ReqTopologyComponent implements OnInit {
   ngOnInit() {}
 
   reqTopology() {
-    this.apiService.getReqTopologie().subscribe(result => {
+    this.apiService.getReqTopologie().subscribe((result) => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }

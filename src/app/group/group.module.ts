@@ -6,6 +6,6 @@ import { GroupComponent } from './group.component';
 
 @NgModule({
   imports: [GroupRoutingModule, SharedModule, FormsModule],
-  declarations: [GroupComponent]
+  declarations: [GroupComponent],
 })
 export class GroupModule {}

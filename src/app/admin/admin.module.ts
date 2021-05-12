@@ -24,7 +24,7 @@ import { FirmwareComponent } from './firmware/firmware.component';
     ReloadPluginComponent,
     RescanGroupComponent,
     AssistProvisionningComponent,
-    ScanGroupDeviceComponent
-  ]
+    ScanGroupDeviceComponent,
+  ],
 })
 export class AdminModule {}

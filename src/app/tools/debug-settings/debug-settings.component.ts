@@ -13,7 +13,7 @@ const log = new Logger('DebugSettingsComponent');
 @Component({
   selector: 'app-debug-settings',
   templateUrl: './debug-settings.component.html',
-  styleUrls: ['./debug-settings.component.scss']
+  styleUrls: ['./debug-settings.component.scss'],
 })
 export class DebugSettingsComponent implements OnInit {
   @ViewChild('contentRestart') contentRestart: any;
@@ -34,16 +34,16 @@ export class DebugSettingsComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({});
-    this.apiService.getSettingsDebug().subscribe(res => {
+    this.apiService.getSettingsDebug().subscribe((res) => {
       this.settings = res;
       this.settings[0].ListOfSettings.sort((n1, n2) => n1.Name.localeCompare(n2.Name));
     });
   }
 
   reinitSettings() {
-    this.settings.forEach(setting => {
+    this.settings.forEach((setting) => {
       const aSettings: Setting[] = [];
-      setting.ListOfSettings.forEach(aSetting => {
+      setting.ListOfSettings.forEach((aSetting) => {
         aSetting.current_value = aSetting.default_value;
         aSettings.push(Object.assign({}, aSetting));
       });
@@ -66,7 +66,7 @@ export class DebugSettingsComponent implements OnInit {
       return;
     }
 
-    Object.keys(this.form.value).forEach(key => {
+    Object.keys(this.form.value).forEach((key) => {
       if (this.form.value[key].current === true) {
         this.form.value[key].current = 1;
       } else if (this.form.value[key].current === false) {
@@ -77,11 +77,11 @@ export class DebugSettingsComponent implements OnInit {
     this.apiService.putSettingsDebug(this.form.value).subscribe((result: any) => {
       this.form.markAsPristine();
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
-      this.apiService.getSettingsDebug().subscribe(res => {
+      this.apiService.getSettingsDebug().subscribe((res) => {
         this.settings = res;
         this.settings[0].ListOfSettings.sort((n1, n2) => n1.Name.localeCompare(n2.Name));
       });
-      this.apiService.getRestartNeeded().subscribe(restart => {
+      this.apiService.getRestartNeeded().subscribe((restart) => {
         if (restart.RestartNeeded === 1) {
           this.headerService.setRestart(true);
           this.open(this.contentRestart);
@@ -96,8 +96,8 @@ export class DebugSettingsComponent implements OnInit {
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {},
-      reason => {}
+      (result) => {},
+      (reason) => {}
     );
   }
 
@@ -105,7 +105,7 @@ export class DebugSettingsComponent implements OnInit {
     if (this.advanced) {
       return true;
     } else {
-      return settings.filter(setting => setting.Advanced === false).length > 0;
+      return settings.filter((setting) => setting.Advanced === false).length > 0;
     }
   }
 

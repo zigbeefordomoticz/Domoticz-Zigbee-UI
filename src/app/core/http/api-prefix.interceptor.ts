@@ -14,7 +14,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
       url = environment.api_url + request.url;
 
       request = request.clone({
-        url: url
+        url: url,
       });
     }
     return next.handle(request);

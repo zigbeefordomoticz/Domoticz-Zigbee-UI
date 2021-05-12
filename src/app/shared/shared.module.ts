@@ -21,7 +21,7 @@ import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
     NgxDatatableModule,
     DatePipe,
     NgxSpinnerModule,
-    NgOptionHighlightModule
-  ]
+    NgOptionHighlightModule,
+  ],
 })
 export class SharedModule {}

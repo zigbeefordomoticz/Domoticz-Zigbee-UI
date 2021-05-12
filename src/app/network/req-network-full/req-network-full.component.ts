@@ -11,7 +11,7 @@ const log = new Logger('ReqNetworkInterComponent');
 @Component({
   selector: 'app-req-network-full',
   templateUrl: './req-network-full.component.html',
-  styleUrls: ['./req-network-full.component.scss']
+  styleUrls: ['./req-network-full.component.scss'],
 })
 export class ReqNetworkFullComponent implements OnInit {
   stats$: Observable<PluginStats>;
@@ -21,7 +21,7 @@ export class ReqNetworkFullComponent implements OnInit {
   ngOnInit() {}
 
   reqFull() {
-    this.apiService.getNwkFull().subscribe(result => {
+    this.apiService.getNwkFull().subscribe((result) => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }

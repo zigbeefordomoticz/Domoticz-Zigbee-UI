@@ -10,7 +10,7 @@ const log = new Logger('ErasePdmComponent');
 @Component({
   selector: 'app-erase-pdm',
   templateUrl: './erase-pdm.component.html',
-  styleUrls: ['./erase-pdm.component.scss']
+  styleUrls: ['./erase-pdm.component.scss'],
 })
 export class ErasePdmComponent implements OnInit {
   permitToJoin: any;
@@ -32,10 +32,10 @@ export class ErasePdmComponent implements OnInit {
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {
+      (result) => {
         this.erasePdm();
       },
-      reason => {}
+      (reason) => {}
     );
   }
 }

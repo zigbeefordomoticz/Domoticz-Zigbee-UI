@@ -27,7 +27,7 @@ import { ErrorComponent } from './error/error.component';
     CommandComponent,
     DebugSettingsComponent,
     DebugSettingComponent,
-    ErrorComponent
-  ]
+    ErrorComponent,
+  ],
 })
 export class ToolsModule {}

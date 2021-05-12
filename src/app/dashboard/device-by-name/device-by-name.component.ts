@@ -12,9 +12,9 @@ const log = new Logger('DeviceByNameComponent');
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
-  ]
+      useExisting: FormGroupDirective,
+    },
+  ],
 })
 export class DeviceByNameComponent implements OnInit {
   @ViewChild('table') table: any;

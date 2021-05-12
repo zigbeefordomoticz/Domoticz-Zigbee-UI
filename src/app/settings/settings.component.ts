@@ -13,7 +13,7 @@ const log = new Logger('SettingsComponent');
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
   @ViewChild('contentRestart') contentRestart: any;
@@ -34,16 +34,16 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({});
-    this.apiService.getSettings().subscribe(res => {
+    this.apiService.getSettings().subscribe((res) => {
       this.settings = res;
       this.settings.sort((n1, n2) => n1._Order - n2._Order);
     });
   }
 
   reinitSettings() {
-    this.settings.forEach(setting => {
+    this.settings.forEach((setting) => {
       const aSettings: Setting[] = [];
-      setting.ListOfSettings.forEach(aSetting => {
+      setting.ListOfSettings.forEach((aSetting) => {
         if (aSetting.DataType !== 'path') {
           aSetting.current_value = aSetting.default_value;
         }
@@ -69,7 +69,7 @@ export class SettingsComponent implements OnInit {
       return;
     }
 
-    Object.keys(this.form.value).forEach(key => {
+    Object.keys(this.form.value).forEach((key) => {
       if (this.form.value[key].current === true) {
         this.form.value[key].current = 1;
       } else if (this.form.value[key].current === false) {
@@ -80,11 +80,11 @@ export class SettingsComponent implements OnInit {
     this.apiService.putSettings(this.form.value).subscribe((result: any) => {
       this.form.markAsPristine();
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
-      this.apiService.getSettings().subscribe(res => {
+      this.apiService.getSettings().subscribe((res) => {
         this.settings = res;
         this.settings.sort((n1, n2) => n1._Order - n2._Order);
       });
-      this.apiService.getRestartNeeded().subscribe(restart => {
+      this.apiService.getRestartNeeded().subscribe((restart) => {
         if (restart.RestartNeeded === 1) {
           this.headerService.setRestart(true);
           this.open(this.contentRestart);
@@ -99,8 +99,8 @@ export class SettingsComponent implements OnInit {
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {},
-      reason => {}
+      (result) => {},
+      (reason) => {}
     );
   }
 
@@ -108,7 +108,7 @@ export class SettingsComponent implements OnInit {
     if (this.advanced) {
       return true;
     } else {
-      return settings.filter(setting => setting.Advanced === false).length > 0;
+      return settings.filter((setting) => setting.Advanced === false).length > 0;
     }
   }
 

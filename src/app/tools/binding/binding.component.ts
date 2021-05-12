@@ -15,7 +15,7 @@ const log = new Logger('BindingComponent');
 @Component({
   selector: 'app-binding',
   templateUrl: './binding.component.html',
-  styleUrls: ['./binding.component.scss']
+  styleUrls: ['./binding.component.scss'],
 })
 export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   form: FormGroup;
@@ -37,21 +37,21 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     this.form = this.formBuilder.group({
       source: [null, Validators.required],
       target: [null, Validators.required],
-      cluster: [null, Validators.required]
+      cluster: [null, Validators.required],
     });
 
     this.clusters$ = this.apiService.getBindLSTcluster().pipe(
-      map(clusters => {
-        return clusters.map(cluster => {
+      map((clusters) => {
+        return clusters.map((cluster) => {
           cluster.fullName = cluster.ClusterId + ' ' + cluster.ClusterDesc;
           return cluster;
         });
       })
     );
 
-    this.subs.sink = this.form.get('cluster').valueChanges.subscribe(change => {
+    this.subs.sink = this.form.get('cluster').valueChanges.subscribe((change) => {
       log.debug('change:', change);
-      this.apiService.getBindLSTdevice(this.form.get('cluster').value).subscribe(devices => {
+      this.apiService.getBindLSTdevice(this.form.get('cluster').value).subscribe((devices) => {
         this.devicesSource = devices;
         this.devicesTarget = devices;
       });
@@ -60,7 +60,7 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
 
   filterDevices(device: DeviceBind) {
     this.form.get('target').patchValue(null);
-    this.devicesTargetFiltered = this.devicesTarget.filter(deviceBind => device.NwkId !== deviceBind.NwkId);
+    this.devicesTargetFiltered = this.devicesTarget.filter((deviceBind) => device.NwkId !== deviceBind.NwkId);
   }
 
   putBinding() {
@@ -69,13 +69,13 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
       sourceEp: this.form.get('source').value.Ep,
       destIeee: this.form.get('target').value.IEEE,
       destEp: this.form.get('target').value.Ep,
-      cluster: this.form.get('cluster').value
+      cluster: this.form.get('cluster').value,
     };
     this.apiService.putBinding(values).subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
       this.form.reset('', {
         onlySelf: true,
-        emitEvent: false
+        emitEvent: false,
       });
     });
   }
@@ -86,14 +86,14 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
       sourceEp: this.form.get('source').value.Ep,
       destIeee: this.form.get('target').value.IEEE,
       destEp: this.form.get('target').value.Ep,
-      cluster: this.form.get('cluster').value
+      cluster: this.form.get('cluster').value,
     };
 
     this.apiService.putUnBinding(values).subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
       this.form.reset('', {
         onlySelf: true,
-        emitEvent: false
+        emitEvent: false,
       });
     });
   }

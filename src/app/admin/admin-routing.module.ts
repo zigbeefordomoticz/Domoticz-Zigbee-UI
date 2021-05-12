@@ -8,12 +8,12 @@ import { FirmwareComponent } from './firmware/firmware.component';
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
   { path: '', component: AdminComponent, data: { title: extract('admin') } },
-  { path: 'firmware', component: FirmwareComponent, data: { title: extract('admin.firmware') } }
+  { path: 'firmware', component: FirmwareComponent, data: { title: extract('admin.firmware') } },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: []
+  providers: [],
 })
 export class AdminRoutingModule {}

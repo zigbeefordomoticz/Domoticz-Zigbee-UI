@@ -9,6 +9,6 @@ import { VersionComponent } from './version/version.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, NgbModule, RouterModule],
-  declarations: [HeaderComponent, ShellComponent, VersionComponent]
+  declarations: [HeaderComponent, ShellComponent, VersionComponent],
 })
 export class ShellModule {}
