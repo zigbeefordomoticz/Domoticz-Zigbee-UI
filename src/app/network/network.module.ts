@@ -8,7 +8,7 @@ import * as sankey from 'highcharts/modules/sankey.src';
 import {
   PerfectScrollbarConfigInterface,
   PerfectScrollbarModule,
-  PERFECT_SCROLLBAR_CONFIG,
+  PERFECT_SCROLLBAR_CONFIG
 } from 'ngx-perfect-scrollbar';
 import * as wheel from 'highcharts/modules/dependency-wheel.src';
 import { DetailNwkStatComponent } from './detail-nwk-stat/detail-nwk-stat.component';
@@ -21,7 +21,7 @@ import { TopologyComponent } from './topology/topology.component';
 import { ReqNetworkFullComponent } from './req-network-full/req-network-full.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
+  suppressScrollX: true
 };
 
 @NgModule({
@@ -33,14 +33,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReqTopologyComponent,
     ReqNetworkInterComponent,
     DetailNwkStatComponent,
-    ReqNetworkFullComponent,
+    ReqNetworkFullComponent
   ],
   providers: [
     { provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting, sankey, wheel, network] },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-    },
-  ],
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
+  ]
 })
 export class NetworkModule {}

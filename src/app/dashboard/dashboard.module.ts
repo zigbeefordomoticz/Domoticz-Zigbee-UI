@@ -24,9 +24,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ToppyModule,
     TranslateModule,
     NgxDatatableModule,
-    ChartModule,
+    ChartModule
   ],
   declarations: [DashboardComponent, PluginStatsComponent, DeviceByNameComponent],
-  providers: [{ provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting] }],
+  providers: [{ provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting] }]
 })
 export class DashboardModule {}

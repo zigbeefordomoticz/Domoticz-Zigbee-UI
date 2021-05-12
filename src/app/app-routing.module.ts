@@ -12,17 +12,17 @@ const routes: Routes = [
     { path: 'settings', loadChildren: () => import('app/settings/settings.module').then((m) => m.SettingsModule) },
     {
       path: 'manufacturer',
-      loadChildren: () => import('app/manufacturer/manufacturer.module').then((m) => m.ManufacturerModule),
+      loadChildren: () => import('app/manufacturer/manufacturer.module').then((m) => m.ManufacturerModule)
     },
-    { path: 'tools', loadChildren: () => import('app/tools/tools.module').then((m) => m.ToolsModule) },
+    { path: 'tools', loadChildren: () => import('app/tools/tools.module').then((m) => m.ToolsModule) }
   ]),
   // Fallback when no prior route is matched
-  { path: '**', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
-  providers: [],
+  providers: []
 })
 export class AppRoutingModule {}

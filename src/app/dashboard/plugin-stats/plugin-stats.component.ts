@@ -11,7 +11,7 @@ const log = new Logger('PluginStatsComponent');
 @Component({
   selector: 'app-plugin-stats',
   templateUrl: './plugin-stats.component.html',
-  styleUrls: ['./plugin-stats.component.scss'],
+  styleUrls: ['./plugin-stats.component.scss']
 })
 export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   plugin: PluginStats;
@@ -31,33 +31,33 @@ export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements
     const chart = new Chart({
       chart: {
         type: 'bar',
-        height: '80%',
+        height: '80%'
       },
       title: {
-        text: 'Trafic',
+        text: 'Trafic'
       },
       credits: {
-        enabled: false,
+        enabled: false
       },
       plotOptions: {
         series: {
-          stacking: 'normal',
-        },
+          stacking: 'normal'
+        }
       },
       xAxis: {
-        categories: ['Sent', 'Received', 'cluster'],
+        categories: ['Sent', 'Received', 'cluster']
       },
       yAxis: {
         min: 0,
         title: {
-          text: 'Messages',
-        },
+          text: 'Messages'
+        }
       },
       series: [
         { type: undefined, name: 'Sent', data: [data.Sent, 0, 0] },
         { type: undefined, name: 'Received', data: [0, data.Received, 0] },
-        { type: undefined, name: 'Cluster', data: [0, 0, data.Cluster] },
-      ],
+        { type: undefined, name: 'Cluster', data: [0, 0, data.Cluster] }
+      ]
     });
     this.chart1 = chart;
 

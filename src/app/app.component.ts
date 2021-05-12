@@ -17,7 +17,7 @@ const log = new Logger('App');
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   keysBoundActive = environment.keysBoundActive;

@@ -12,9 +12,9 @@ const log = new Logger('DebugSettingComponent');
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective,
-    },
-  ],
+      useExisting: FormGroupDirective
+    }
+  ]
 })
 export class DebugSettingComponent implements OnInit {
   @Input() setting: Setting;
@@ -26,15 +26,15 @@ export class DebugSettingComponent implements OnInit {
     let group;
     if (this.setting.DataType === 'hex') {
       group = this.formBuilder.group({
-        current: ['', Validators.compose([Validators.required, Validators.pattern('^[0-9A-Fa-f]+')])],
+        current: ['', Validators.compose([Validators.required, Validators.pattern('^[0-9A-Fa-f]+')])]
       });
     } else if (this.setting.DataType === 'bool') {
       group = this.formBuilder.group({
-        current: [],
+        current: []
       });
     } else {
       group = this.formBuilder.group({
-        current: ['', Validators.required],
+        current: ['', Validators.required]
       });
     }
 

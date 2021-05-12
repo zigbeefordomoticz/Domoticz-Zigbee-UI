@@ -14,7 +14,7 @@ const log = new Logger('DetailTopologyComponent');
 @Component({
   selector: 'app-detail-nwk-stat',
   templateUrl: './detail-nwk-stat.component.html',
-  styleUrls: ['./detail-nwk-stat.component.scss'],
+  styleUrls: ['./detail-nwk-stat.component.scss']
 })
 export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;
@@ -120,7 +120,7 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
       });
       tab.push({
         name: nwk.ZDeviceName ? nwk.ZDeviceName : nwk._NwkId,
-        data: values,
+        data: values
       });
       // tab2.push({
       //   name: nwk.ZDeviceName ? nwk.ZDeviceName : nwk._NwkId,
@@ -149,8 +149,8 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
       marker: {
         lineWidth: 2,
         lineColor: Highcharts.getOptions().colors[3],
-        fillColor: 'white',
-      },
+        fillColor: 'white'
+      }
     });
     // series.push({
     //   type: 'pie',
@@ -167,19 +167,19 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
     const chart = new Chart({
       chart: {
         type: 'column',
-        height: '20%',
+        height: '20%'
         // width: 16 * 2 * 25
       },
       title: {
-        text: this.translate.instant('network.stats.detail.visu.chart.title'),
+        text: this.translate.instant('network.stats.detail.visu.chart.title')
       },
       xAxis: {
-        categories: channels,
+        categories: channels
       },
       yAxis: {
         title: {
-          text: this.translate.instant('network.stats.detail.visu.chart.y-axis'),
-        },
+          text: this.translate.instant('network.stats.detail.visu.chart.y-axis')
+        }
       },
       // labels: {
       //   items: [
@@ -194,9 +194,9 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
       //   ]
       // },
       credits: {
-        enabled: false,
+        enabled: false
       },
-      series: series,
+      series: series
       // series: [
       //   {
       //     type: undefined,
@@ -233,7 +233,7 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
       tab.push({
         name: nwk.ZDeviceName ? nwk.ZDeviceName : nwk._NwkId,
         data: values,
-        pointPlacement: 'on',
+        pointPlacement: 'on'
       });
     });
 
@@ -241,54 +241,54 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
       chart: {
         height: '90%',
         polar: true,
-        type: 'line',
+        type: 'line'
       },
       pane: {
         //       size: '150%',
       },
       title: {
-        text: this.translate.instant('network.stats.detail.visu.chart.title'),
+        text: this.translate.instant('network.stats.detail.visu.chart.title')
       },
       xAxis: {
         categories: channels,
         tickmarkPlacement: 'on',
-        lineWidth: 0,
+        lineWidth: 0
       },
       yAxis: {
         gridLineInterpolation: 'polygon',
         lineWidth: 0,
-        min: 0,
+        min: 0
       },
       tooltip: {
         shared: true,
-        pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>',
+        pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f}</b><br/>'
       },
       legend: {
         align: 'left',
-        verticalAlign: 'bottom',
+        verticalAlign: 'bottom'
       },
       credits: {
-        enabled: false,
+        enabled: false
       },
       series: tab,
       responsive: {
         rules: [
           {
             condition: {
-              maxWidth: 600,
+              maxWidth: 600
             },
             chartOptions: {
               legend: {
                 align: 'center',
-                verticalAlign: 'bottom',
+                verticalAlign: 'bottom'
               },
               pane: {
-                size: '80%',
-              },
-            },
-          },
-        ],
-      },
+                size: '80%'
+              }
+            }
+          }
+        ]
+      }
     });
     this.chart2 = chart;
 

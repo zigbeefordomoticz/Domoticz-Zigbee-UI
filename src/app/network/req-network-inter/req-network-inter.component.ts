@@ -11,7 +11,7 @@ const log = new Logger('ReqNetworkInterComponent');
 @Component({
   selector: 'app-req-network-inter',
   templateUrl: './req-network-inter.component.html',
-  styleUrls: ['./req-network-inter.component.scss'],
+  styleUrls: ['./req-network-inter.component.scss']
 })
 export class ReqNetworkInterComponent implements OnInit {
   stats$: Observable<PluginStats>;

@@ -15,7 +15,7 @@ const log = new Logger('PermitToJoinComponent');
 @Component({
   selector: 'app-assist-provisionning',
   templateUrl: './assist-provisionning.component.html',
-  styleUrls: ['./assist-provisionning.component.scss'],
+  styleUrls: ['./assist-provisionning.component.scss']
 })
 export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   newDevices: NewDevice;

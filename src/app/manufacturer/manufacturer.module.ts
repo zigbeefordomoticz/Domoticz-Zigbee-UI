@@ -5,6 +5,6 @@ import { CasaiaComponent } from './casaia/casaia.component';
 
 @NgModule({
   imports: [ManufacturerRoutingModule, SharedModule],
-  declarations: [CasaiaComponent],
+  declarations: [CasaiaComponent]
 })
 export class ManufacturerModule {}

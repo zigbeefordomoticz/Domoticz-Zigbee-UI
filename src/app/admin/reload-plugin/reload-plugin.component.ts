@@ -11,7 +11,7 @@ const log = new Logger('ReloadPluginComponent');
 @Component({
   selector: 'app-reload-plugin',
   templateUrl: './reload-plugin.component.html',
-  styleUrls: ['./reload-plugin.component.scss'],
+  styleUrls: ['./reload-plugin.component.scss']
 })
 export class ReloadPluginComponent implements OnInit {
   constructor(

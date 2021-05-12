@@ -10,7 +10,7 @@ const log = new Logger('ReloadPluginComponent');
 @Component({
   selector: 'app-rescan-group',
   templateUrl: './rescan-group.component.html',
-  styleUrls: ['./rescan-group.component.scss'],
+  styleUrls: ['./rescan-group.component.scss']
 })
 export class RescanGroupComponent implements OnInit {
   constructor(

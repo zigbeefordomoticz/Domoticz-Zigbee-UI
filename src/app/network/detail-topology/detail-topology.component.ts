@@ -18,7 +18,7 @@ const log = new Logger('DetailTopologyComponent');
 @Component({
   selector: 'app-detail-topology',
   templateUrl: './detail-topology.component.html',
-  styleUrls: ['./detail-topology.component.scss'],
+  styleUrls: ['./detail-topology.component.scss']
 })
 export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;
@@ -35,7 +35,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      nodeToFilter: [null],
+      nodeToFilter: [null]
     });
 
     this.subs.sink = this.form.get('nodeToFilter').valueChanges.subscribe((value: string) => {
@@ -54,7 +54,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         Status: '',
         WidgetList: [''],
         ZDeviceName: 'Zigate',
-        _NwkId: '',
+        _NwkId: ''
       };
       this.devices.unshift(zigate);
     });
@@ -81,21 +81,21 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     const chart = new Chart({
       chart: {
         type: 'dependencywheel',
-        height: '80%',
+        height: '80%'
       },
       title: {
-        text: this.translate.instant('network.topo.device.visu.chart.title'),
+        text: this.translate.instant('network.topo.device.visu.chart.title')
       },
       credits: {
-        enabled: false,
+        enabled: false
       },
       series: [
         {
           type: undefined,
           keys: ['to', 'from', 'weight'],
-          data: series,
-        },
-      ],
+          data: series
+        }
+      ]
     });
     this.chart1 = chart;
 
@@ -124,10 +124,10 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         keys: ['from', 'to', 'weight'],
         dataLabels: {
           enabled: true,
-          linkFormat: '',
+          linkFormat: ''
         },
-        data: datas,
-      },
+        data: datas
+      }
     ];
 
     this.test(series1);
@@ -135,24 +135,24 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     const chart = new Chart({
       chart: {
         type: 'networkgraph',
-        height: '80%',
+        height: '80%'
       },
       title: {
-        text: this.translate.instant('network.topo.device.visu.network.chart.title'),
+        text: this.translate.instant('network.topo.device.visu.network.chart.title')
       },
       credits: {
-        enabled: false,
+        enabled: false
       },
       plotOptions: {
         networkgraph: {
           keys: ['from', 'to', 'weight'],
           layoutAlgorithm: {
             enableSimulation: true,
-            integration: 'verlet',
-          },
-        },
+            integration: 'verlet'
+          }
+        }
       },
-      series: series1,
+      series: series1
     });
     this.chart2 = chart;
 
@@ -169,20 +169,20 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
           nodes['Zigate'] = {
             id: 'Zigate',
             marker: {
-              radius: 20,
-            },
+              radius: 20
+            }
           };
           nodes[link[1]] = {
             id: link[1],
             marker: {
-              radius: 10,
+              radius: 10
             },
-            color: colors[i++],
+            color: colors[i++]
           };
         } else if (nodes[link[0]] && nodes[link[0]].color) {
           nodes[link[1]] = {
             id: link[1],
-            color: nodes[link[0]].color,
+            color: nodes[link[0]].color
           };
         }
       }

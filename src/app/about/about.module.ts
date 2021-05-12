@@ -11,6 +11,6 @@ import { AboutNlComponent } from './nl-NL/nl-NL.component';
 
 @NgModule({
   imports: [CommonModule, TranslateModule, AboutRoutingModule],
-  declarations: [AboutComponent, AboutEnComponent, AboutEsComponent, AboutNlComponent, AboutFrComponent],
+  declarations: [AboutComponent, AboutEnComponent, AboutEsComponent, AboutNlComponent, AboutFrComponent]
 })
 export class AboutModule {}

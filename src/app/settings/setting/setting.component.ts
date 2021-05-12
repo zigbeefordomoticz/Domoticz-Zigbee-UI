@@ -14,9 +14,9 @@ const log = new Logger('SettingComponent');
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective,
-    },
-  ],
+      useExisting: FormGroupDirective
+    }
+  ]
 })
 export class SettingComponent implements OnChanges {
   @Input() setting: Setting;
@@ -31,15 +31,15 @@ export class SettingComponent implements OnChanges {
       this.setting = changes.setting.currentValue;
       if (this.setting.DataType === 'hex') {
         group = this.formBuilder.group({
-          current: ['', Validators.compose([Validators.required, Validators.pattern('^[0-9A-Fa-f]+')])],
+          current: ['', Validators.compose([Validators.required, Validators.pattern('^[0-9A-Fa-f]+')])]
         });
       } else if (this.setting.DataType === 'bool') {
         group = this.formBuilder.group({
-          current: [],
+          current: []
         });
       } else if (this.setting.DataType === 'list') {
         group = this.formBuilder.group({
-          current: [null, Validators.required],
+          current: [null, Validators.required]
         });
 
         this.list = [];
@@ -50,7 +50,7 @@ export class SettingComponent implements OnChanges {
         });
       } else {
         group = this.formBuilder.group({
-          current: ['', Validators.required],
+          current: ['', Validators.required]
         });
       }
 

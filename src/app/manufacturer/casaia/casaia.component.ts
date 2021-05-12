@@ -10,7 +10,7 @@ const log = new Logger('CasaiaComponent');
 @Component({
   selector: 'app-manufacturer-casaia',
   templateUrl: './casaia.component.html',
-  styleUrls: ['./casaia.component.scss'],
+  styleUrls: ['./casaia.component.scss']
 })
 export class CasaiaComponent implements OnInit {
   @ViewChild('table') table: any;

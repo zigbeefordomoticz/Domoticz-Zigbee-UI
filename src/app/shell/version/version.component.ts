@@ -10,7 +10,7 @@ import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-ad
 @Component({
   selector: 'app-version',
   templateUrl: './version.component.html',
-  styleUrls: ['./version.component.scss'],
+  styleUrls: ['./version.component.scss']
 })
 export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   fork$: Observable<any>;
@@ -29,7 +29,7 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
     this.fork$ = forkJoin([
       this.apiService.getPluginhealth(),
       this.apiService.getPluginStats(),
-      this.apiService.getPlugin(),
+      this.apiService.getPlugin()
     ]).pipe(
       map(([pluginHealth, pluginStats, plugin]) => {
         this.headerService.setError(pluginStats.Error);

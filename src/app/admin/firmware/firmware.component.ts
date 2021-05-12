@@ -15,7 +15,7 @@ const log = new Logger('BindingComponent');
 @Component({
   selector: 'app-firmware',
   templateUrl: './firmware.component.html',
-  styleUrls: ['./firmware.component.scss'],
+  styleUrls: ['./firmware.component.scss']
 })
 export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   form: FormGroup;
@@ -41,7 +41,7 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       manufacturer: [null, Validators.required],
       firmware: [null, Validators.required],
       device: [null, Validators.required],
-      force: [false],
+      force: [false]
     });
 
     this.manufacturerList$ = this.apiService.getOtaFirmware().pipe(

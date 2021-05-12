@@ -8,7 +8,7 @@ const log = new Logger('RawCommandComponent');
 @Component({
   selector: 'app-raw-command',
   templateUrl: './raw-command.component.html',
-  styleUrls: ['./raw-command.component.scss'],
+  styleUrls: ['./raw-command.component.scss']
 })
 export class RawCommandComponent implements OnInit {
   form: FormGroup;
@@ -18,7 +18,7 @@ export class RawCommandComponent implements OnInit {
   ngOnInit() {
     this.form = this.formBuilder.group({
       Command: [null, Validators.required],
-      payload: [null],
+      payload: [null]
     });
   }
 

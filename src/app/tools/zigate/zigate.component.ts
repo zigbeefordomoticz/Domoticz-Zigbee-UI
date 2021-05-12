@@ -8,7 +8,7 @@ const log = new Logger('ZigateComponent');
 @Component({
   selector: 'app-zigate',
   templateUrl: './zigate.component.html',
-  styleUrls: ['./zigate.component.scss'],
+  styleUrls: ['./zigate.component.scss']
 })
 export class ZigateComponent implements OnInit {
   zigate$: Observable<any>;

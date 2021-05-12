@@ -15,7 +15,7 @@ const log = new Logger('GroupComponent');
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss'],
+  styleUrls: ['./group.component.scss']
 })
 export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild('table') table: DatatableComponent;

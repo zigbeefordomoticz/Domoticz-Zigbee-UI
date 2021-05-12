@@ -13,7 +13,7 @@ const log = new Logger('PermitToJoinRouterComponent');
 @Component({
   selector: 'app-permit-to-join-router',
   templateUrl: './permit-to-join-router.component.html',
-  styleUrls: ['./permit-to-join-router.component.scss'],
+  styleUrls: ['./permit-to-join-router.component.scss']
 })
 export class PermitToJoinRouterComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   permitToJoin: any;
@@ -31,7 +31,7 @@ export class PermitToJoinRouterComponent extends UnsubscribeOnDestroyAdapter imp
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      deviceSelected: [null, Validators.required],
+      deviceSelected: [null, Validators.required]
     });
 
     this.subs.sink = forkJoin([this.apiService.getPermitToJoin(), this.apiService.getZDevices()]).subscribe(

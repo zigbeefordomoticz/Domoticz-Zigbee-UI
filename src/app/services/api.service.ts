@@ -62,7 +62,7 @@ const routes = {
   otaFirmwareDeviceList: '/ota-firmware-device-list/',
   otaFirmwareUpdate: '/ota-firmware-update',
   casiaListDevices: '/casaia-list-devices',
-  casiaIrcode: '/casaia-update-ircode',
+  casiaIrcode: '/casaia-update-ircode'
 };
 
 const log = new Logger('ApiService');
@@ -353,8 +353,8 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'text/plain',
-      }),
+        'Content-Type': 'text/plain'
+      })
     };
 
     return this.httpClient

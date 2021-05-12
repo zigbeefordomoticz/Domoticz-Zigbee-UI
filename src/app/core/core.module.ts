@@ -21,13 +21,13 @@ import { CacheInterceptor } from './http/cache.interceptor';
     CacheInterceptor,
     {
       provide: HttpClient,
-      useClass: HttpService,
+      useClass: HttpService
     },
     {
       provide: RouteReuseStrategy,
-      useClass: RouteReusableStrategy,
-    },
-  ],
+      useClass: RouteReusableStrategy
+    }
+  ]
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

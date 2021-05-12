@@ -9,7 +9,7 @@ const log = new Logger('PermitToJoinComponent');
 @Component({
   selector: 'app-permit-to-join',
   templateUrl: './permit-to-join.component.html',
-  styleUrls: ['./permit-to-join.component.scss'],
+  styleUrls: ['./permit-to-join.component.scss']
 })
 export class PermitToJoinComponent implements OnInit {
   permitToJoin: any;

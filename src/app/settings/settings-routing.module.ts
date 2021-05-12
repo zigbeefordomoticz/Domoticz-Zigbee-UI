@@ -6,12 +6,12 @@ import { SettingsComponent } from './settings.component';
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
-  { path: '', component: SettingsComponent, data: { title: extract('settings') } },
+  { path: '', component: SettingsComponent, data: { title: extract('settings') } }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [],
+  providers: []
 })
 export class SettingsRoutingModule {}

@@ -9,7 +9,7 @@ const log = new Logger('SwResetComponent');
 @Component({
   selector: 'app-sw-reset',
   templateUrl: './sw-reset.component.html',
-  styleUrls: ['./sw-reset.component.scss'],
+  styleUrls: ['./sw-reset.component.scss']
 })
 export class SwResetComponent implements OnInit {
   permitToJoin: any;

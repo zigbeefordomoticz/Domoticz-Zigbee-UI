@@ -10,7 +10,7 @@ const log = new Logger('ErasePdmComponent');
 @Component({
   selector: 'app-erase-pdm',
   templateUrl: './erase-pdm.component.html',
-  styleUrls: ['./erase-pdm.component.scss'],
+  styleUrls: ['./erase-pdm.component.scss']
 })
 export class ErasePdmComponent implements OnInit {
   permitToJoin: any;

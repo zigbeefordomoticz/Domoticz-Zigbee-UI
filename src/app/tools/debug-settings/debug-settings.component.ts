@@ -13,7 +13,7 @@ const log = new Logger('DebugSettingsComponent');
 @Component({
   selector: 'app-debug-settings',
   templateUrl: './debug-settings.component.html',
-  styleUrls: ['./debug-settings.component.scss'],
+  styleUrls: ['./debug-settings.component.scss']
 })
 export class DebugSettingsComponent implements OnInit {
   @ViewChild('contentRestart') contentRestart: any;

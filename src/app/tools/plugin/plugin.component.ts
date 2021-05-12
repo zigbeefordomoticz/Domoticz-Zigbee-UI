@@ -9,7 +9,7 @@ const log = new Logger('PluginComponent');
 @Component({
   selector: 'app-plugin',
   templateUrl: './plugin.component.html',
-  styleUrls: ['./plugin.component.scss'],
+  styleUrls: ['./plugin.component.scss']
 })
 export class PluginComponent implements OnInit {
   plugin$: Observable<Plugin>;

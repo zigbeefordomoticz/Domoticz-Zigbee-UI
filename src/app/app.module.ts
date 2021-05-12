@@ -30,13 +30,13 @@ import { ShellModule } from './shell/shell.module';
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
+      preventDuplicates: true
     }),
-    AppRoutingModule,
+    AppRoutingModule
   ],
   declarations: [AppComponent],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DeviceByNameComponent],
+  entryComponents: [DeviceByNameComponent]
 })
 export class AppModule {}

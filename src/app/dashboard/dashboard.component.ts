@@ -18,7 +18,7 @@ const log = new Logger('DashboardComponent');
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   poll = false;
@@ -66,19 +66,19 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   gradient = false;
   tooltipDisabled = false;
   colorSchemeROG = {
-    domain: ['red', 'orange', 'green'],
+    domain: ['red', 'orange', 'green']
   };
   colorSchemeGROG = {
-    domain: ['green', 'red', 'orange', 'gray'],
+    domain: ['green', 'red', 'orange', 'gray']
   };
   colorSchemeGOR = {
-    domain: ['green', 'blue', 'red'],
+    domain: ['green', 'blue', 'red']
   };
   colorSchemeGO = {
-    domain: ['green', 'cyan'],
+    domain: ['green', 'cyan']
   };
   colorSchemeGR = {
-    domain: ['green', 'red'],
+    domain: ['green', 'red']
   };
 
   date: Date;
@@ -148,19 +148,19 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.currentLoad.total = res.CurrentLoad;
         this.advancedPieLoad = [
           { name: this.translateService.instant('dashboard.trafic.maxload'), value: res.MaxLoad - res.CurrentLoad },
-          { name: this.translateService.instant('dashboard.trafic.currentload'), value: res.CurrentLoad },
+          { name: this.translateService.instant('dashboard.trafic.currentload'), value: res.CurrentLoad }
         ];
         this.advancedPieSent = [
           { name: this.translateService.instant('dashboard.trafic.total.trafic.sent'), value: res.Sent - res.ReTx },
-          { name: this.translateService.instant('dashboard.trafic.retx'), value: res.ReTx },
+          { name: this.translateService.instant('dashboard.trafic.retx'), value: res.ReTx }
         ];
         this.advancedPieReceived = [
           {
             name: this.translateService.instant('dashboard.trafic.total.trafic.received'),
-            value: res.Received - res.Cluster - res.CRC,
+            value: res.Received - res.Cluster - res.CRC
           },
           { name: this.translateService.instant('dashboard.trafic.cluster'), value: res.Cluster },
-          { name: this.translateService.instant('dashboard.trafic.crc'), value: res.CRC },
+          { name: this.translateService.instant('dashboard.trafic.crc'), value: res.CRC }
         ];
         this.devices = devices;
         this.devices.total = this.devices.length;
@@ -203,27 +203,27 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.advancedPieDevice = [
           {
             name: this.translateService.instant('dashboard.devices.routers'),
-            value: this.routers.length,
+            value: this.routers.length
           },
           {
             name: this.translateService.instant('dashboard.devices.enddevice'),
-            value: this.devices.length - this.routers.length,
-          },
+            value: this.devices.length - this.routers.length
+          }
         ];
         this.advancedPieState = [
           {
             name: this.translateService.instant('dashboard.devices.live'),
-            value: this.healthsLive.length,
+            value: this.healthsLive.length
           },
           {
             name: this.translateService.instant('dashboard.devices.notReachable'),
-            value: this.healthsNotReachable.length,
+            value: this.healthsNotReachable.length
           },
           {
             name: this.translateService.instant('dashboard.devices.notseen'),
-            value: this.healthsNotSeen.length,
+            value: this.healthsNotSeen.length
           },
-          { name: this.translateService.instant('dashboard.devices.others'), value: this.healthsOthers.length },
+          { name: this.translateService.instant('dashboard.devices.others'), value: this.healthsOthers.length }
         ];
         this.devicesOnBattery = devices.filter(
           (device: any) => device.LogicalType !== 'Router' && device.Status !== 'notDB'
@@ -249,13 +249,13 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.advancedPieBattery = [
           {
             name: this.translateService.instant('dashboard.devices.battery.inf.30'),
-            value: this.batteryInf30.length,
+            value: this.batteryInf30.length
           },
           {
             name: this.translateService.instant('dashboard.devices.battery.sup.30'),
-            value: this.batterySup30.length,
+            value: this.batterySup30.length
           },
-          { name: this.translateService.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length },
+          { name: this.translateService.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length }
         ];
         this.headerService.setError(res.Error);
       })
@@ -296,15 +296,15 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     const chart = new Chart({
       chart: {
         type: 'area',
-        height: '150',
+        height: '150'
       },
       title: {
-        text: '',
+        text: ''
       },
       legend: {
         align: 'center',
         verticalAlign: 'top',
-        floating: true,
+        floating: true
       },
       xAxis: {
         allowDecimals: false,
@@ -316,25 +316,25 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
               (date.getMinutes() > 9 ? ':' + date.getMinutes() : ':0' + date.getMinutes()) +
               (date.getSeconds() > 9 ? ':' + date.getSeconds() : ':0' + date.getSeconds())
             );
-          },
+          }
         },
-        type: 'datetime',
+        type: 'datetime'
       },
       yAxis: {
         title: {
-          text: '',
+          text: ''
         },
         labels: {
           formatter: function () {
             return this.value + '';
-          },
-        },
+          }
+        }
       },
       tooltip: {
-        pointFormat: '{series.name} <b>{point.y}</b>',
+        pointFormat: '{series.name} <b>{point.y}</b>'
       },
       credits: {
-        enabled: false,
+        enabled: false
       },
       plotOptions: {
         area: {
@@ -344,32 +344,32 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
             radius: 2,
             states: {
               hover: {
-                enabled: true,
-              },
-            },
-          },
-        },
+                enabled: true
+              }
+            }
+          }
+        }
       },
       series: [
         {
           name: this.translateService.instant('dashboard.txps'),
           data: tx,
           type: 'area',
-          color: 'blue',
+          color: 'blue'
         },
         {
           name: this.translateService.instant('dashboard.rxps'),
           data: rx,
           type: 'area',
-          color: 'green',
+          color: 'green'
         },
         {
           name: this.translateService.instant('dashboard.load'),
           data: load,
           type: 'area',
-          color: 'orange',
-        },
-      ],
+          color: 'orange'
+        }
+      ]
     });
     this.chart = chart;
 
@@ -409,12 +409,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         new GlobalPosition({
           placement: InsidePlacement.BOTTOM,
           width: '80%',
-          height: 'auto',
+          height: 'auto'
         })
       )
       .config({
         closeOnDocClick: false,
-        closeOnEsc: true,
+        closeOnEsc: true
       })
       .content(DeviceByNameComponent, { devices: devices })
       .create();

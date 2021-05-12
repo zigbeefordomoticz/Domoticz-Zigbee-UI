@@ -11,7 +11,7 @@ const log = new Logger('ReloadPluginComponent');
 @Component({
   selector: 'app-scan-group-device',
   templateUrl: './scan-group-device.component.html',
-  styleUrls: ['./scan-group-device.component.scss'],
+  styleUrls: ['./scan-group-device.component.scss']
 })
 export class ScanGroupDeviceComponent implements OnInit {
   devices: DeviceAvailable[];
@@ -26,7 +26,7 @@ export class ScanGroupDeviceComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      deviceSelected: [null, Validators.required],
+      deviceSelected: [null, Validators.required]
     });
 
     this.apiService.getZGroupDevicesAvalaible().subscribe((devices: Array<DevicesAvailable>) => {
