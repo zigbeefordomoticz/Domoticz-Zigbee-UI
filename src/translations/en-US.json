@@ -323,6 +323,9 @@
 
   "setting.header.Others": "Miscaleneous settings",
 
+  "setting.header.Provisioning": "Pairing settings",
+  "setting.subtitle.Provisioning": "Special settings for special devices or special conditions",
+
   "setting.header.DevicePolling": "Devices polling",
   "setting.subtitle.DevicePolling": "Allow you to specify the polling frequency per type of information. Be aware that a high frequency will overload the ZiGate and might cause some performance issues",
   "setting.subtitle.Others": "",
