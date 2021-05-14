@@ -76,7 +76,7 @@ import 'web-animations-js'; // Run `npm install --save web-animations-js`.
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone'; // Included with Angular CLI.
+import 'zone.js'; // Included with Angular CLI.
 
 /*
  * For easier debugging in development mode, you can import the following file
@@ -85,7 +85,7 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error'; // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error'; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
