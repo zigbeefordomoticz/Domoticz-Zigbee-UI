@@ -250,7 +250,7 @@
   "admin.firmware.force": "Forcer la mise à jour",
   "admin.firmware.alert.title": "Firmware",
   "admin.firmware.alert.subject": "Information",
-  "admin.firmware.alert.ok": "Mise à jour terminée",
+  "admin.firmware.alert.ok": "Mettre à jour",
   "admin.firmware.alert.cancel": "Annuler",
   "admin.firmware.alert.list.devices": "Liste des objets",
   "admin.firmware.alert.filename": "Nom du fichier",
@@ -273,7 +273,7 @@
   "enablegroupmanagement": "Activer les Groupes",
   "zigatePartOfGroup0000": "Création du Group 0000",
   "allowRemoveZigateDevice": "Suppression dans la ZiGate",
-  "resetPermit2Join": "Passer en mode appairage au démarrage",
+  "resetPermit2Join": "Reset du mode appairage au démarrage du plugin",
   "forcePollingAfterAction": "Interrogation du statut de l'objet après un ordre",
   "enableReadAttributes": "Activer l'interrogation des objets (pooling)",
   "blueLedOnOff": "Active ou désactive la Led Bleu",
@@ -335,6 +335,9 @@
   "moveToColourTemp": "Transition pour Température",
   "moveToColourRGB": "Transition pour Couleur RVB",
   "moveToLevel": "Transition pour variateur",
+
+  "setting.header.Provisioning": "Réglages d'appairage",
+  "setting.subtitle.Provisioning": "Réglages spécifiques pour certains matériels ou certaines conditions",
 
   "setting.header.Experimental": "Paramètres expérimentaux",
   "setting.subtitle.Experimental": "Utilisez seulement si on vous a indiqué de le faire",

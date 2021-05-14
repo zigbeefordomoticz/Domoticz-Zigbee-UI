@@ -48,7 +48,18 @@
               <div class="card-text d-flex align-self-center flex-wrap">
                 <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
                   <app-debug-setting
-                    *ngIf="setting.Advanced === false || advanced === setting.Advanced"
+                    *ngIf="!setting.Advanced"
+                    class="col-sm-6"
+                    [setting]="setting"
+                    [advanced]="advanced"
+                  ></app-debug-setting>
+                </ng-container>
+              </div>
+              <div class="col-sm-12">&nbsp;</div>
+              <div class="card-text d-flex align-self-center flex-wrap">
+                <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
+                  <app-debug-setting
+                    *ngIf="setting.Advanced && setting.Advanced === advanced"
                     class="col-sm-6"
                     [setting]="setting"
                     [advanced]="advanced"

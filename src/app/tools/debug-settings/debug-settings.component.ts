@@ -36,7 +36,7 @@ export class DebugSettingsComponent implements OnInit {
     this.form = this.formBuilder.group({});
     this.apiService.getSettingsDebug().subscribe(res => {
       this.settings = res;
-      this.settings[0].ListOfSettings.sort((n1, n2) => (n1.Advanced ? 1 : -1));
+      this.settings[0].ListOfSettings.sort((n1, n2) => n1.Name.localeCompare(n2.Name));
     });
   }
 
@@ -79,7 +79,7 @@ export class DebugSettingsComponent implements OnInit {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
       this.apiService.getSettingsDebug().subscribe(res => {
         this.settings = res;
-        this.settings[0].ListOfSettings.sort((n1, n2) => (n1.Advanced ? 1 : -1));
+        this.settings[0].ListOfSettings.sort((n1, n2) => n1.Name.localeCompare(n2.Name));
       });
       this.apiService.getRestartNeeded().subscribe(restart => {
         if (restart.RestartNeeded === 1) {
