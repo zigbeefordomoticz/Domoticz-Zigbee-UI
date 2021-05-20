@@ -45,7 +45,7 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
 
     log.debug('init');
 
-    this.apiService.getCasiaDevices().subscribe((devices) => {
+    this.apiService.getCasiaDevices().subscribe(devices => {
       if (devices.length > 0) {
         this.headerService.setShowManufacturer(true);
       }
@@ -53,19 +53,19 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
 
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
-    this.apiService.getPlugin().subscribe((plugin) => {
+    this.apiService.getPlugin().subscribe(plugin => {
       sessionStorage.setItem('plugin', JSON.stringify(plugin));
       this.titleService.setTitle(plugin?.Name.concat(' - ').concat(this.translateService.instant('dashboard')));
       this.setTitle();
     });
 
-    this.subs.sink = this.mouseTrapService.register(this.keysBoundActive).subscribe((evt) => {
+    this.subs.sink = this.mouseTrapService.register(this.keysBoundActive).subscribe(evt => {
       this.activateRefresh = !this.activateRefresh;
       this.headerService.setPolling(this.activateRefresh);
     });
 
     this.subs.add(
-      this.mouseTrapService.register(this.keysBoundInactive).subscribe((evt) => {
+      this.mouseTrapService.register(this.keysBoundInactive).subscribe(evt => {
         this.activateRefresh = false;
         this.headerService.setPolling(false);
       })
@@ -77,7 +77,7 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
   }
 
   private setTitle() {
-    const onNavigationEnd = this.router.events.pipe(filter((event) => event instanceof NavigationEnd));
+    const onNavigationEnd = this.router.events.pipe(filter(event => event instanceof NavigationEnd));
 
     // Change page title on navigation or language change, based on route data
     merge(this.translateService.onLangChange, onNavigationEnd)
@@ -89,11 +89,11 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
           }
           return route;
         }),
-        filter((route) => route.outlet === 'primary'),
-        mergeMap((route) => route.data),
+        filter(route => route.outlet === 'primary'),
+        mergeMap(route => route.data),
         untilDestroyed(this)
       )
-      .subscribe((event) => {
+      .subscribe(event => {
         const title = event['title'];
         if (title) {
           const plugin: Plugin = JSON.parse(sessionStorage.getItem('plugin'));

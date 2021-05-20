@@ -18,7 +18,7 @@ export class AdminComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   }
 
   ngOnInit() {
-    this.subs.sink = this.activatedRoute.queryParamMap.subscribe((params) => {
+    this.subs.sink = this.activatedRoute.queryParamMap.subscribe(params => {
       this.action = params.get('action');
     });
   }

@@ -21,7 +21,7 @@ export class ReqNetworkFullComponent implements OnInit {
   ngOnInit() {}
 
   reqFull() {
-    this.apiService.getNwkFull().subscribe((result) => {
+    this.apiService.getNwkFull().subscribe(result => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }

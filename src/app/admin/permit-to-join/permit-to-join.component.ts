@@ -17,7 +17,7 @@ export class PermitToJoinComponent implements OnInit {
   constructor(private toastr: ToastrService, private apiService: ApiService, private translate: TranslateService) {}
 
   ngOnInit() {
-    this.apiService.getPermitToJoin().subscribe((result) => {
+    this.apiService.getPermitToJoin().subscribe(result => {
       this.permitToJoin = result;
     });
   }

@@ -32,8 +32,8 @@ export class ScanGroupDeviceComponent implements OnInit {
     this.apiService.getZGroupDevicesAvalaible().subscribe((devices: Array<DevicesAvailable>) => {
       const devicesToAdd: Array<DeviceAvailable> = [];
       if (devices && devices.length > 0) {
-        devices.forEach((device) => {
-          device.WidgetList.forEach((widget) => {
+        devices.forEach(device => {
+          device.WidgetList.forEach(widget => {
             if (device._NwkId !== '0000') {
               const deviceToAdd: DeviceAvailable = new DeviceAvailable();
               deviceToAdd.Ep = widget.Ep;
@@ -54,7 +54,7 @@ export class ScanGroupDeviceComponent implements OnInit {
   scan() {
     const nwkids: string[] = [];
     const selected = this.form.get('deviceSelected').value as DeviceAvailable[];
-    selected.forEach((device) => nwkids.push(device._NwkId));
+    selected.forEach(device => nwkids.push(device._NwkId));
 
     this.apiService.putScanDeviceForGrp(nwkids).subscribe(() => {
       this.toastr.success(this.translate.instant('admin.scan.group.device.notify'));

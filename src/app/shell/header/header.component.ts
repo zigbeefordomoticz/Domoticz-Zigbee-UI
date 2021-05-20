@@ -45,25 +45,25 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     }, 500);
 
     this.subs.add(
-      this.headerService.restart.subscribe((restart) => {
+      this.headerService.restart.subscribe(restart => {
         this.restart = restart;
       })
     );
 
     this.subs.add(
-      this.headerService.showManufacturer.subscribe((showManufacturer) => {
+      this.headerService.showManufacturer.subscribe(showManufacturer => {
         this.showManufacturer = showManufacturer;
       })
     );
 
     this.subs.add(
-      this.headerService.logError.subscribe((logError) => {
+      this.headerService.logError.subscribe(logError => {
         this.logError = logError;
       })
     );
 
     this.subs.add(
-      this.headerService.polling.subscribe((poll) => {
+      this.headerService.polling.subscribe(poll => {
         this.poll = poll;
         this.subs.add(
           timer(1, environment.refresh)
@@ -71,7 +71,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
               switchMap(() => this.getPermitToJoin()),
               retry(),
               share(),
-              takeUntil(this.headerService.polling.pipe(filter((val) => val === false)))
+              takeUntil(this.headerService.polling.pipe(filter(val => val === false)))
             )
             .subscribe()
         );
@@ -82,9 +82,9 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
       this.getPermitToJoin().subscribe();
     }
 
-    this.apiService.getSettings().subscribe((res) => {
+    this.apiService.getSettings().subscribe(res => {
       this.settings = res;
-      this.settings.forEach((setting) => {
+      this.settings.forEach(setting => {
         this.settingsToSave = this.settingsToSave.concat(setting.ListOfSettings);
       });
     });
@@ -92,7 +92,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
 
   private getPermitToJoin(): Observable<any> {
     return this.apiService.getPermitToJoin().pipe(
-      map((result) => {
+      map(result => {
         this.permitToJoin = result;
         this.permitChecked = result.PermitToJoin !== 0;
       })
@@ -132,7 +132,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
 
   updateSettings(language: string) {
     const settingsToSend: any = {};
-    this.settingsToSave.forEach((setting) => {
+    this.settingsToSave.forEach(setting => {
       const name = setting.Name;
       let value = setting.current_value;
       if (name === 'Lang') {

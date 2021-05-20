@@ -43,8 +43,8 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     this.apiService.getZGroupDevicesAvalaible().subscribe((devices: Array<DevicesAvailable>) => {
       const devicesToAdd: Array<DeviceAvailable> = [];
       if (devices && devices.length > 0) {
-        devices.forEach((device) => {
-          device.WidgetList.forEach((widget) => {
+        devices.forEach(device => {
+          device.WidgetList.forEach(widget => {
             if (device._NwkId !== '0000') {
               const deviceToAdd: DeviceAvailable = new DeviceAvailable();
               deviceToAdd.Ep = widget.Ep;
@@ -71,7 +71,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   updateFilter(event: any) {
     const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function (d: any) {
+    const temp = this.temp.filter(function(d: any) {
       let ok = false;
       if (d._GroupId) {
         ok = d._GroupId.toLowerCase().indexOf(val) !== -1;
@@ -86,7 +86,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   }
 
   updateDevices() {
-    this.rows.forEach((group) => {
+    this.rows.forEach(group => {
       if (group.coordinatorInside) {
         if (!group.devicesSelected) {
           group.devicesSelected = [];
@@ -96,11 +96,11 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     });
 
     if (this.isFormValid) {
-      this.apiService.putZGroups(this.rows).subscribe((result) => {
+      this.apiService.putZGroups(this.rows).subscribe(result => {
         log.debug(this.rows);
         this.hasEditing = false;
         this.toastr.success(this.translate.instant('api.global.succes.update.title'));
-        this.apiService.getRestartNeeded().subscribe((restart) => {
+        this.apiService.getRestartNeeded().subscribe(restart => {
           if (restart.RestartNeeded === 1) {
             this.headerService.setRestart(true);
             this.open(this.content);
@@ -140,14 +140,14 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      (result) => {},
-      (reason) => {}
+      result => {},
+      reason => {}
     );
   }
 
   isFormValid(): boolean {
     let retour = true;
-    this.rows.forEach((group) => {
+    this.rows.forEach(group => {
       if (!group.GroupName) {
         retour = false;
         return;
@@ -162,16 +162,16 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   }
 
   private getGroups() {
-    this.apiService.getZGroups().subscribe((groups) => {
+    this.apiService.getZGroups().subscribe(groups => {
       if (groups && groups.length > 0) {
-        groups.forEach((group) => {
+        groups.forEach(group => {
           const devicesSelected: any[] = [];
           group.coordinatorInside = false;
-          group.Devices.forEach((device) => {
+          group.Devices.forEach(device => {
             if (device._NwkId === '0000') {
               group.coordinatorInside = true;
             } else {
-              const deviceAvailable = this.devices.find((x) => x._NwkId === device._NwkId && x.Ep === device.Ep);
+              const deviceAvailable = this.devices.find(x => x._NwkId === device._NwkId && x.Ep === device.Ep);
               if (deviceAvailable !== null && deviceAvailable !== undefined) {
                 devicesSelected.push(deviceAvailable);
               }

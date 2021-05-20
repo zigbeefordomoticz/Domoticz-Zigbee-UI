@@ -21,7 +21,7 @@ export class ReqNetworkInterComponent implements OnInit {
   ngOnInit() {}
 
   reqInter() {
-    this.apiService.getReqInter().subscribe((result) => {
+    this.apiService.getReqInter().subscribe(result => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }

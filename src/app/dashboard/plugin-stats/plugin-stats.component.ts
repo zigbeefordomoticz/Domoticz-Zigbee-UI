@@ -22,7 +22,7 @@ export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements
   }
 
   ngOnInit() {
-    this.apiService.getPluginStats().subscribe((res) => {
+    this.apiService.getPluginStats().subscribe(res => {
       this.createChart1(res);
     });
   }

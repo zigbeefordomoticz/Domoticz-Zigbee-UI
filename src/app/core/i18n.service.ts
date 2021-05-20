@@ -73,7 +73,7 @@ export class I18nService {
     // If no exact match is found, search without the region
     if (language && !isSupportedLanguage) {
       language = language.split('-')[0];
-      language = this.supportedLanguages.find((supportedLanguage) => supportedLanguage.startsWith(language)) || '';
+      language = this.supportedLanguages.find(supportedLanguage => supportedLanguage.startsWith(language)) || '';
       isSupportedLanguage = Boolean(language);
     }
 

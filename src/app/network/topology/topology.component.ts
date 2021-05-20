@@ -31,7 +31,7 @@ export class TopologyComponent implements OnInit {
   }
 
   deleteTopologyByDate(timeStamp: string) {
-    this.apiService.deleteTopologieByTimeStamp(timeStamp).subscribe((result) => {
+    this.apiService.deleteTopologieByTimeStamp(timeStamp).subscribe(result => {
       this.topologies$ = this.apiService.getTopologie();
       this.cdr.detectChanges();
     });

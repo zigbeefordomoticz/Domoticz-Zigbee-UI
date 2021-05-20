@@ -24,7 +24,7 @@ export class DeviceComponent implements OnInit {
       permit: this.formBuilder.group({})
     });
 
-    this.apiService.getZDeviceName().subscribe((result) => {
+    this.apiService.getZDeviceName().subscribe(result => {
       this.devices = result;
     });
   }

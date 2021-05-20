@@ -32,7 +32,7 @@ export class DebugCommandComponent implements OnInit {
 
     this.form.get('type').disable();
 
-    this.apiService.getZDevices().subscribe((devices) => {
+    this.apiService.getZDevices().subscribe(devices => {
       this.routers = devices.filter((router: any) => router.LogicalType === 'Router');
     });
   }
@@ -42,7 +42,7 @@ export class DebugCommandComponent implements OnInit {
     this.form.get('action').patchValue(null);
     this.form.get('type').patchValue(null);
     this.capabilities = null;
-    this.apiService.getDevCap(event._NwkId).subscribe((capabilities) => {
+    this.apiService.getDevCap(event._NwkId).subscribe(capabilities => {
       this.capabilities = capabilities;
     });
   }

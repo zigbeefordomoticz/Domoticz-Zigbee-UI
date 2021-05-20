@@ -94,7 +94,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   ngOnInit() {
-    this.subs.sink = this.headerService.polling.subscribe((poll) => {
+    this.subs.sink = this.headerService.polling.subscribe(poll => {
       this.poll = poll;
       this.subs.add(
         timer(1, environment.refresh)
@@ -102,7 +102,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
             switchMap(() => this.getStats()),
             retry(),
             share(),
-            takeUntil(this.headerService.polling.pipe(filter((val) => val === false)))
+            takeUntil(this.headerService.polling.pipe(filter(val => val === false)))
           )
           .subscribe()
       );
@@ -284,7 +284,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     });
 
     let secondsToSubstract = sorted.length * 5;
-    sorted.forEach((trend) => {
+    sorted.forEach(trend => {
       const dateFin = new Date(this.date);
       const datePlot = new Date(dateFin.setSeconds(dateFin.getSeconds() - secondsToSubstract));
       secondsToSubstract = secondsToSubstract - 5;
@@ -309,7 +309,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       xAxis: {
         allowDecimals: false,
         labels: {
-          formatter: function () {
+          formatter: function() {
             const date = new Date(this.value);
             return (
               date.getHours() +
@@ -325,7 +325,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           text: ''
         },
         labels: {
-          formatter: function () {
+          formatter: function() {
             return this.value + '';
           }
         }
@@ -419,7 +419,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       .content(DeviceByNameComponent, { devices: devices })
       .create();
 
-    this.subs.add(this.toppyControl.listen('t_compins').subscribe((comp) => {}));
+    this.subs.add(this.toppyControl.listen('t_compins').subscribe(comp => {}));
 
     this.toppyControl.open();
   }

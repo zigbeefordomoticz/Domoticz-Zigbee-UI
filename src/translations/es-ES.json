@@ -342,7 +342,7 @@
 
   "setting.header.Provisioning": "Pairing settings",
   "setting.subtitle.Provisioning": "Special settings for special devices or special conditions",
-  
+
   "api.global.error.title": "Error del backend",
   "api.global.succes.update.title": "Actualización exitosa",
   "api.global.reset.zigate.title": "Se inició el reinicio del soft",

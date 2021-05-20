@@ -34,7 +34,7 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.timeStamp.currentValue !== changes.timeStamp.previousValue) {
-      this.apiService.getNwkStatsByTimeStamp(this.timeStamp).subscribe((result) => {
+      this.apiService.getNwkStatsByTimeStamp(this.timeStamp).subscribe(result => {
         this.createChart(result);
         this.createChart2(result);
       });
@@ -96,20 +96,20 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
     const averages: Array<any> = [];
     const totals: Array<any> = [];
 
-    data.forEach((nwk) => {
+    data.forEach(nwk => {
       const tempChannels = nwk.Channels;
       tempChannels.sort((n1, n2) => Number(n1.Channel) - Number(n2.Channel));
       nwk.Channels = tempChannels;
     });
 
-    data[0].Channels.forEach((channel) => {
+    data[0].Channels.forEach(channel => {
       channels.push(channel.Channel);
     });
 
-    data.forEach((nwk) => {
+    data.forEach(nwk => {
       const values: Array<any> = [];
       let i = 0;
-      nwk.Channels.forEach((channel) => {
+      nwk.Channels.forEach(channel => {
         values.push(channel.Level);
         if (!totals[i]) {
           totals[i] = Number(channel.Level);
@@ -128,7 +128,7 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
       // });
     });
 
-    totals.forEach((x) => {
+    totals.forEach(x => {
       x = x / data.length;
       x = Number(x).toFixed(2);
       averages.push(Number(x));
@@ -215,19 +215,19 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
     const tab: Array<any> = [];
     const channels: Array<any> = [];
 
-    data.forEach((nwk) => {
+    data.forEach(nwk => {
       const tempChannels = nwk.Channels;
       tempChannels.sort((n1, n2) => Number(n1.Channel) - Number(n2.Channel));
       nwk.Channels = tempChannels;
     });
 
-    data[0].Channels.forEach((channel) => {
+    data[0].Channels.forEach(channel => {
       channels.push(channel.Channel);
     });
 
-    data.forEach((nwk) => {
+    data.forEach(nwk => {
       const values: Array<any> = [];
-      nwk.Channels.forEach((channel) => {
+      nwk.Channels.forEach(channel => {
         values.push(channel.Level);
       });
       tab.push({

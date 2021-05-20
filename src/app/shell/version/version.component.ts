@@ -37,7 +37,7 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
       })
     );
 
-    this.subs.sink = this.headerService.polling.subscribe((poll) => {
+    this.subs.sink = this.headerService.polling.subscribe(poll => {
       this.poll = poll;
       this.subs.add(
         timer(1, environment.refresh)
@@ -45,13 +45,13 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
             switchMap(() => this.fork$),
             retry(),
             share(),
-            takeUntil(this.headerService.polling.pipe(filter((val) => val === false)))
+            takeUntil(this.headerService.polling.pipe(filter(val => val === false)))
           )
           .subscribe()
       );
     });
 
-    this.versionService.reload.subscribe((reload) => {
+    this.versionService.reload.subscribe(reload => {
       this.fork$.subscribe();
     });
 

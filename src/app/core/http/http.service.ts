@@ -96,7 +96,7 @@ export class HttpService extends HttpClient {
     return new HttpService(
       this.httpHandler,
       this.injector,
-      this.interceptors.filter((i) => !(i instanceof interceptorType))
+      this.interceptors.filter(i => !(i instanceof interceptorType))
     );
   }
 

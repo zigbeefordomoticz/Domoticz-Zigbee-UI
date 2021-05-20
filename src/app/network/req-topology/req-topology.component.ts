@@ -21,7 +21,7 @@ export class ReqTopologyComponent implements OnInit {
   ngOnInit() {}
 
   reqTopology() {
-    this.apiService.getReqTopologie().subscribe((result) => {
+    this.apiService.getReqTopologie().subscribe(result => {
       this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }

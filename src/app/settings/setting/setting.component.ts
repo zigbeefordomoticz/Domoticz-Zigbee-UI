@@ -43,7 +43,7 @@ export class SettingComponent implements OnChanges {
         });
 
         this.list = [];
-        this.setting.list.forEach((v) => {
+        this.setting.list.forEach(v => {
           const key = Object.keys(v)[0];
           const valeur = Object.values(v)[0];
           this.list.push({ label: key, value: valeur });
@@ -56,7 +56,10 @@ export class SettingComponent implements OnChanges {
 
       this.fgd.form.addControl(this.setting.Name, group);
       const value = this.setting.current_value !== '' ? this.setting.current_value : this.setting.default_value;
-      this.fgd.form.get(this.setting.Name).get('current').patchValue(value);
+      this.fgd.form
+        .get(this.setting.Name)
+        .get('current')
+        .patchValue(value);
     }
   }
 

@@ -52,19 +52,19 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      (result) => {
+      result => {
         this.delete();
       },
-      (reason) => {}
+      reason => {}
     );
   }
 
   editParameter(content: any): void {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      (result) => {
+      result => {
         this.updateValue(this.parameter, 'Param', this.rowParameter._NwkId);
       },
-      (reason) => {}
+      reason => {}
     );
   }
 
@@ -100,7 +100,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
 
   updateFilter(event: any) {
     const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function (d: any) {
+    const temp = this.temp.filter(function(d: any) {
       let ok = false;
       if (d.Model) {
         ok = d.Model.toLowerCase().indexOf(val) !== -1;
@@ -119,7 +119,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
       }
       if (!ok && d.WidgetList) {
         const widgets = d.WidgetList as Array<string>;
-        widgets.forEach(function (value: string) {
+        widgets.forEach(function(value: string) {
           if (!ok && value) {
             ok = value.toLowerCase().indexOf(val) !== -1;
           }
@@ -127,7 +127,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
       }
       if (!ok && d.MacCapa) {
         const capas = d.MacCapa as Array<string>;
-        capas.forEach(function (value: string) {
+        capas.forEach(function(value: string) {
           if (!ok && value) {
             ok = value.toLowerCase().indexOf(val) !== -1;
           }

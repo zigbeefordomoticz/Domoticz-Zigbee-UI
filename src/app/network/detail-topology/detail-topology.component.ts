@@ -44,7 +44,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
     this.devices$ = this.apiService.getDevices();
 
-    this.apiService.getZDeviceName().subscribe((result) => {
+    this.apiService.getZDeviceName().subscribe(result => {
       this.devices = result;
       const zigate = {
         IEEE: '',
@@ -62,7 +62,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.timeStamp.currentValue !== changes.timeStamp.previousValue) {
-      this.apiService.getTopologieByTimeStamp(this.timeStamp).subscribe((result) => {
+      this.apiService.getTopologieByTimeStamp(this.timeStamp).subscribe(result => {
         this.datas = result;
         this.createChart1();
         this.createChart2();
@@ -71,7 +71,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   createChart1() {
-    const series = this.datas.map((element) => {
+    const series = this.datas.map(element => {
       const tab = Object.values(element);
       tab.splice(1, 1);
       return tab;
@@ -103,7 +103,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   createChart2(nodeToFilter?: string) {
-    let datas = this.datas.map((element) => {
+    let datas = this.datas.map(element => {
       const tab = Object.values(element);
       tab.splice(1, 1);
       return tab;
@@ -111,7 +111,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
     if (nodeToFilter) {
       datas = datas.filter(
-        (element) =>
+        element =>
           element[0].toLowerCase() === nodeToFilter.toLowerCase() ||
           element[1].toLowerCase() === nodeToFilter.toLowerCase()
       );
@@ -163,7 +163,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     const colors = Highcharts.getOptions().colors;
     let i = 0;
     const nodes = {};
-    series[0].data.forEach(function (link: any) {
+    series[0].data.forEach(function(link: any) {
       if (link[1] !== 'Zigate') {
         if (link[0] === 'Zigate') {
           nodes['Zigate'] = {
@@ -188,7 +188,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       }
     });
 
-    series[0].nodes = Object.keys(nodes).map(function (id: any) {
+    series[0].nodes = Object.keys(nodes).map(function(id: any) {
       return nodes[id];
     });
   }

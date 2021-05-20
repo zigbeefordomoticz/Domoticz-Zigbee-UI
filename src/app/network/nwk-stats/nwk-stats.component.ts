@@ -32,7 +32,7 @@ export class NwkStatsComponent implements OnInit {
   }
 
   deleteNwkStatByDate(timeStamp: string) {
-    this.apiService.deleteNwkStatsByTimeStamp(timeStamp).subscribe((result) => {
+    this.apiService.deleteNwkStatsByTimeStamp(timeStamp).subscribe(result => {
       this.stats$ = this.apiService.getNwkStats();
       this.cdr.detectChanges();
     });

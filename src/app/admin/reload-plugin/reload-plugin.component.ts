@@ -33,10 +33,10 @@ export class ReloadPluginComponent implements OnInit {
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      (result) => {
+      result => {
         this.reloadPlugin();
       },
-      (reason) => {}
+      reason => {}
     );
   }
 }

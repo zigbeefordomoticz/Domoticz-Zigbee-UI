@@ -41,17 +41,17 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     });
 
     this.clusters$ = this.apiService.getBindLSTcluster().pipe(
-      map((clusters) => {
-        return clusters.map((cluster) => {
+      map(clusters => {
+        return clusters.map(cluster => {
           cluster.fullName = cluster.ClusterId + ' ' + cluster.ClusterDesc;
           return cluster;
         });
       })
     );
 
-    this.subs.sink = this.form.get('cluster').valueChanges.subscribe((change) => {
+    this.subs.sink = this.form.get('cluster').valueChanges.subscribe(change => {
       log.debug('change:', change);
-      this.apiService.getBindLSTdevice(this.form.get('cluster').value).subscribe((devices) => {
+      this.apiService.getBindLSTdevice(this.form.get('cluster').value).subscribe(devices => {
         this.devicesSource = devices;
         this.devicesTarget = devices;
       });
@@ -60,7 +60,7 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
 
   filterDevices(device: DeviceBind) {
     this.form.get('target').patchValue(null);
-    this.devicesTargetFiltered = this.devicesTarget.filter((deviceBind) => device.NwkId !== deviceBind.NwkId);
+    this.devicesTargetFiltered = this.devicesTarget.filter(deviceBind => device.NwkId !== deviceBind.NwkId);
   }
 
   putBinding() {
