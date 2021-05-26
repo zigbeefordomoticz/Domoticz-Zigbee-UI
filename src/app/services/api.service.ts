@@ -62,7 +62,8 @@ const routes = {
   otaFirmwareDeviceList: '/ota-firmware-device-list/',
   otaFirmwareUpdate: '/ota-firmware-update',
   casiaListDevices: '/casaia-list-devices',
-  casiaIrcode: '/casaia-update-ircode'
+  casiaIrcode: '/casaia-update-ircode',
+  changeChannel: '/change-channel'
 };
 
 const log = new Logger('ApiService');
@@ -490,6 +491,13 @@ export class ApiService {
     );
   }
 
+  putChangeChannel(channel: number): Observable<any> {
+    const param = { Channel: channel };
+    return this.httpClient.put(routes.changeChannel, param).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
   private handleError(error: any) {
     log.error(error);
     this.toastr.error(error.status + ' ' + error.statusText, this.translate.instant('api.global.error.title'));

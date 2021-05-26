@@ -1,0 +1,33 @@
+<div class="col-sm">
+  <div class="card">
+    <div class="card-header" translate="admin.switchchannel.title"></div>
+    <div class="card-body">
+      <h5 class="card-title" [innerHTML]="'admin.switchchannel.subtitle' | translate"></h5>
+
+      <div *ngIf="channel" class="form-group row mt-2">
+        <label for="current" translate="{{ channel.Name }}" class="col-sm-6 col-form-label"></label>
+        <div class="col-sm">
+          <ng-select
+            [items]="list"
+            [compareWith]="compareNumeric"
+            bindLabel="label"
+            bindValue="value"
+            [closeOnSelect]="true"
+            [(ngModel)]="selectedChannel"
+          >
+            >
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="card-text">
+        <button
+          class="ml-3 btn btn-primary"
+          (click)="switchChannel($event)"
+          translate="admin.switchchannel.button"
+          [disabled]="!selectedChannel"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>

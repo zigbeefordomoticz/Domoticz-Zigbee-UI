@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -16,6 +16,7 @@ import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
     CommonModule,
     LoaderComponent,
     ReactiveFormsModule,
+    FormsModule,
     NgSelectModule,
     TranslateModule,
     NgxDatatableModule,

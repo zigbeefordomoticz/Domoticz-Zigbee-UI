@@ -101,6 +101,7 @@
     "semi": true,
     "bracketSpacing": true,
     "jsxBracketSameLine": true,
+    "arrowParens": "avoid",
     "overrides": [
       {
         "files": "*.scss",

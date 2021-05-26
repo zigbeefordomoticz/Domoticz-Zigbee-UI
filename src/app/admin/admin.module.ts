@@ -4,13 +4,15 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { AssistProvisionningComponent } from './assist-provisionning/assist-provisionning.component';
 import { ErasePdmComponent } from './erase-pdm/erase-pdm.component';
+import { FirmwareComponent } from './firmware/firmware.component';
 import { PermitToJoinRouterComponent } from './permit-to-join-router/permit-to-join-router.component';
 import { PermitToJoinComponent } from './permit-to-join/permit-to-join.component';
 import { ReloadPluginComponent } from './reload-plugin/reload-plugin.component';
 import { RescanGroupComponent } from './rescan-group/rescan-group.component';
-import { SwResetComponent } from './sw-reset/sw-reset.component';
 import { ScanGroupDeviceComponent } from './scan-group-device/scan-group-device.component';
-import { FirmwareComponent } from './firmware/firmware.component';
+import { SwResetComponent } from './sw-reset/sw-reset.component';
+import { SwitchChannelComponent } from './switch-channel/switch-channel.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
@@ -24,7 +26,8 @@ import { FirmwareComponent } from './firmware/firmware.component';
     ReloadPluginComponent,
     RescanGroupComponent,
     AssistProvisionningComponent,
-    ScanGroupDeviceComponent
+    ScanGroupDeviceComponent,
+    SwitchChannelComponent
   ]
 })
 export class AdminModule {}
