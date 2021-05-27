@@ -219,7 +219,7 @@
   "admin.swreset.subtitle": "Will restart ZiGate (no loss of paired devices) <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#zigate'></a>",
   "admin.swreset.button": "Soft reset",
   "admin.switchchannel.title": "ZiGate change channel",
-  "admin.switchchannel.subtitle": "Will change channel",
+  "admin.switchchannel.subtitle": "Will change the ZiGate channel to the selected one, and will broadcast the change. ATTENTION, while routers usally switch to the new channel, none Zigbee 3.0 End Device won't and you will have to reset them to get them rejoining the new channel",
   "admin.switchchannel.button": "Change channel",
   "admin.erasepdm.title": "Erase ZiGate",
   "admin.erasepdm.subtitle": "Will erase the permanent data memory of ZiGate (You will lose all paired devices) <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#zigate'></a><br>You must enable the eraseZigatePDM parameter in Advanced Setting before",
