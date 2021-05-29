@@ -99,6 +99,7 @@
   "device.byname.parameter.alert.cancel": "Anular",
   "device.byname.parameter.alert.title": "Parameters",
   "device.byname.parameter.alert.subject": "Set specific parameters <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Device-parameters.md'></a>",
+  "device.byname.delete.colum": "Delete",
 
   "group": "Gestión de grupos",
   "group.create.devices.column": "Dispositivos seleccionados en el grupo",
