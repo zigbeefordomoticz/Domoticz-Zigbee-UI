@@ -49,6 +49,7 @@
         >
           <ng-template let-expanded="expanded" let-row="row" ngx-datatable-cell-template>
             <a
+              *ngIf="row.Param !== '{}'"
               href="javascript:void(0)"
               [class.datatable-icon-right]="!expanded"
               [class.datatable-icon-down]="expanded"
