@@ -23,7 +23,7 @@
   "dashboard.plugin.update.available": "Hay una actualización disponible para el plugin. Detenga el plugin y haga un git pull para actualizarlo.  <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/Plugin_Update.md'></a>",
   "dashboard.plugin.update.available.title": "Actualización del plugin",
   "dashboard.firmware.update.available": "Hay una actualización disponible para el firware",
-  "dashboard.firmware.update.available.title": "Hay una actualización disponible para el firware de ZiGate. Disponible en <a target='_blank' href='https://github.com/fairecasoimeme/ZiGate/releases'>https://github.com/fairecasoimeme/ZiGate/releases</a>",
+  "dashboard.firmware.update.available.title": "Hay una actualización disponible para el firware de ZiGate. Disponible en <a target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md'>https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md</a>",
   "dashboard.plugin.header": "Información sobre plugin",
   "dashboard.plugin.subtitle": "Proporciona información sobre el plugin",
   "dashboard.stats.header": "Estadísticas del plugins",
