@@ -23,7 +23,7 @@
   "dashboard.plugin.update.available": "Er is een update beschikbaar voor de plug-in. Stop de plug-in en voer een git-pull uit om hem bij te werken.",
   "dashboard.plugin.update.available.title": "Plugin update",
   "dashboard.firmware.update.available": "Firmware update is beschikbaar  <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/Plugin_Update.md'></a>",
-  "dashboard.firmware.update.available.title": "Er is nieuwe firmware beschikbaar voor de ZiGate. Beschikbaar op <a target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md'>https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md</a>",
+  "dashboard.firmware.update.available.title": "Er is nieuwe firmware beschikbaar voor de ZiGate. Beschikbaar op <a target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md'>http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md</a>",
   "dashboard.plugin.header": "Plugin informatie",
   "dashboard.plugin.subtitle": "Geeft plugin informatie",
   "dashboard.stats.header": "Plugin statistieken",
@@ -74,7 +74,7 @@
 
   "management": "Management",
   "device": "Apparaat Management",
-  "device.byname.subtitle": "Een lijst van alle gekoppelde apparaten. Hier kun je de vriendelijke naam voor ieder apparaat invoeren. <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#device-management'></a><br>Dit geeft aanvullende apparaatinformatie bij het opvragen van netwerk info",
+  "device.byname.subtitle": "Een lijst van alle gekoppelde apparaten. Hier kun je de vriendelijke naam voor ieder apparaat invoeren. <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#device-management'></a><br>Dit geeft aanvullende apparaatinformatie bij het opvragen van netwerk info",
   "device.byname.capabilities.column": "Mogelijkheden",
   "device.byname.devicename.column": "Eenvoudige naam",
   "device.byname.header": "Lijst van Apparaten gemanaged door ZiGate",
@@ -99,7 +99,7 @@
   "device.byname.parameter.alert.save": "Validate",
   "device.byname.parameter.alert.cancel": "Cancel",
   "device.byname.parameter.alert.title": "Parameters",
-  "device.byname.parameter.alert.subject": "Set specific parameters <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Device-parameters.md'></a>",
+  "device.byname.parameter.alert.subject": "Set specific parameters <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Device-parameters.md'></a>",
   "device.byname.delete.colum": "Delete",
 
   "group": "Groep Management",
@@ -108,7 +108,7 @@
   "group.create.header": "Groepsadministratie",
   "group.create.placeholder": "typ filter hier ....",
   "group.create.shortid.column": "Groep id",
-  "group.create.subtitle": "Maak, bewerk en verwijder groepen  <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#group-management'></a><br>",
+  "group.create.subtitle": "Maak, bewerk en verwijder groepen  <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#group-management'></a><br>",
   "group.create.validate.button": "Valideer",
   "group.create.add.button": "Maak een nieuwe groep",
   "group.create.delete.button": "Verwijder",
@@ -121,7 +121,7 @@
 
   "network": "Netwerk",
   "network.stats.header": "Netwerk",
-  "network.stats.subtitle": "Energieniveau rapport <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Network.md#interference-level' target='_blank'></a>",
+  "network.stats.subtitle": "Energieniveau rapport <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Network.md#interference-level' target='_blank'></a>",
   "network.stats.visu.delete.button": "Verwijder",
   "network.topo": "Topologie",
   "network.energy": "Energieniveau",
@@ -169,7 +169,7 @@
   "admin.permittojoin.label": "Accepteer nieuwe hardware",
 
   "admin.assistprovisionning.title": "Apparaat koppelen",
-  "admin.assistprovisionning.subtitle": "Start het koppelproces voor nieuwe apparaten <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
+  "admin.assistprovisionning.subtitle": "Start het koppelproces voor nieuwe apparaten <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.assistprovisionning.go.button": "Start",
   "admin.assistprovisionning.alert.title": "Apparaat koppelen.",
   "admin.assistprovisionning.alert.subject": "Wacht tot een nieuw apparaat zich aanmeld.",
@@ -189,14 +189,14 @@
   "admin.assistprovisionning.alert.inDB": "In database",
   "admin.assistprovisionning.alert.Unexpected": "Onverwacht",
 
-  "admin.permittojoin.subtitle": "In/uitschakelen van het ZiGate koppelproces voor gewenste een periode <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
+  "admin.permittojoin.subtitle": "In/uitschakelen van het ZiGate koppelproces voor gewenste een periode <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.permittojoin.title": "Accepteer nieuwe Hardware",
   "admin.permittojoin.validate.button": "Valideer",
   "admin.permittojoin.permanent.button": "Permanent",
   "admin.permittojoin.stop.button": "Stop",
   "admin.permittojoin.4min.button": "4 minuten",
 
-  "admin.permittojoinrouter.subtitle": "Start/stop het koppelproces met ZiGate voor een bepaalde periode <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
+  "admin.permittojoinrouter.subtitle": "Start/stop het koppelproces met ZiGate voor een bepaalde periode <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.permittojoinrouter.title": "Koppel nieuwe apparaten op een router",
   "admin.permittojoinrouter.devices.placeholder": "Lijst van routers",
 
