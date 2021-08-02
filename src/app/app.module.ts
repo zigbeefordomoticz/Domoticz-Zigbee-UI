@@ -1,3 +1,4 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -35,7 +36,14 @@ import { ShellModule } from './shell/shell.module';
     AppRoutingModule
   ],
   declarations: [AppComponent],
-  providers: [],
+  providers: [
+    {
+      provide: APP_BASE_HREF,
+      useFactory: () => {
+        return window.location.pathname.includes('zigate') ? '/zigate' : '/';
+      }
+    }
+  ],
   bootstrap: [AppComponent],
   entryComponents: [DeviceByNameComponent]
 })

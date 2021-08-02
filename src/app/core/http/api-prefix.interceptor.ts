@@ -10,8 +10,9 @@ import { environment } from '../../../environments/environment';
 export class ApiPrefixInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!/^(http|https):/i.test(request.url)) {
+      const baseUrl = window.location.pathname.includes('zigate') ? '/zigate' : '';
       let url = null;
-      url = environment.api_url + request.url;
+      url = baseUrl + environment.api_url + request.url;
 
       request = request.clone({
         url: url
