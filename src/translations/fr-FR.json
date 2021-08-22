@@ -37,7 +37,7 @@
   "dashboard.health.starttime": "Lancé à ",
   "dashboard.health.OTA": "OTA: ",
   "dashboard.health.group": "Groupe: ",
-  "dashboard.trafic.title": "Etat du trafic de la ZiGate",
+  "dashboard.trafic.title": "État du trafic de la ZiGate",
   "dashboard.trafic.total.trafic.sent.label": "Émis",
   "dashboard.trafic.total.trafic.sent": "Tx",
   "dashboard.trafic.retx": "Re Tx",
