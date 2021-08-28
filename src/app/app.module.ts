@@ -36,14 +36,7 @@ import { ShellModule } from './shell/shell.module';
     AppRoutingModule
   ],
   declarations: [AppComponent],
-  providers: [
-    {
-      provide: APP_BASE_HREF,
-      useFactory: () => {
-        return window.location.pathname.includes('zigate') ? '/zigate' : '/';
-      }
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent],
   entryComponents: [DeviceByNameComponent]
 })
