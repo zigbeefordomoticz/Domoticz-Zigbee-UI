@@ -1,5 +1,5 @@
 
-name: Build Reverse Proxy
+name: Build For Reverse Proxy
 
 on:
   push:
