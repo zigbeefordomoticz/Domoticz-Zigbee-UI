@@ -1,4 +1,5 @@
-name: Build 
+
+name: Build For Reverse Proxy
 
 on:
   push:
@@ -18,7 +19,7 @@ jobs:
         uses: dawidd6/action-delete-branch@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branches: gh-pages
+          branches: build_reverse_proxy
 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -35,12 +36,12 @@ jobs:
       - name: npm run build prod
         run: |
           npm ci
-          npm run build
+          npm run buildPourReverse
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
+          BRANCH: build_reverse_proxy
           FOLDER: dist
           CLEAN: true
