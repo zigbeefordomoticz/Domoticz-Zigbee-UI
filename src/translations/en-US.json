@@ -22,8 +22,8 @@
   "dashboard.firmware.version": "Firmware: ",
   "dashboard.plugin.update.available": "There is an update available for the plugin <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/Plugin_Update.md'></a>",
   "dashboard.plugin.update.available.title": "Plugin update",
-  "dashboard.firmware.update.available": "Firmware update is available",
-  "dashboard.firmware.update.available.title": "A new firmware is available for the ZiGate. Available on <a target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md'>http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md</a>",
+  "dashboard.firmware.update.available": "A new firmware is available for the ZiGate <a target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Update-ZiGate-firmware.md'>More infos </a>.",
+  "dashboard.firmware.update.available.title": "Firmware update",
   "dashboard.device.button": "DomoticZ Devices(json)",
   "dashboard.plugin.header": "Plugin infos",
   "dashboard.plugin.subtitle": "Provides plugin informations",
@@ -72,7 +72,7 @@
   "dashboard.received.comment": "Rx = number of received messages<br>Cluster = type of message with information<br>CRC error = number of messages with errors",
   "dashboard.trend.comment": "Tx/s = number of sent messages per second<br>Rx/s = number of received messages per second<br>Load = number of messages in queue",
   "dashboard.devices.comment": "Routers are main powered device which participates in the mesh network.<br>End device is a battery based device",
-  "dashboard.health.comment": "Live = number of devices alive<br>Lost = number of devices away from the network<br>No news = number of devices which haven't reported on the last 6 hours<br>Unknown = number of devices with status unknown<br><br>After a plugin restart, all devices are moved to status unknown until a message is received by ZiGate.",
+  "dashboard.health.comment": "Live = devices alive<br>Lost = devices away from the network<br>No news = devices which haven't reported on the last 6 hours<br>Unknown = devices with status unknown<br><br>After a plugin restart, all devices are moved to status unknown until a message is received by ZiGate.",
   "dashboard.battery.comment": "For devices equiped with a battery, here after is reported the battery status.",
 
   "management": "Management",
@@ -348,7 +348,7 @@
   "setting.subtitle.Experimental": "Use it only if you have been asked to",
 
   "api.global.error.title": "Error from backend",
-  "api.global.succes.update.title": "Update sucessful",
+  "api.global.succes.update.title": "Command sent",
   "api.global.reset.zigate.title": "Soft reset launched",
   "api.global.succes.erasepdm.title": "ErasePdm launched",
   "api.global.succes.pluginrestarted.title": "Plugin restarted",
