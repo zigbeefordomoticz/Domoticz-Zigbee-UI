@@ -226,7 +226,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           { name: this.translateService.instant('dashboard.devices.others'), value: this.healthsOthers.length }
         ];
         this.devicesOnBattery = devices.filter(
-          (device: any) => device.LogicalType !== 'Router' && device.Status !== 'notDB'
+          (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
         );
         const _batteryInf30 = this.devicesOnBattery.filter((device: any) => device.Battery <= 30);
         const _batterySup30 = this.devicesOnBattery.filter(
@@ -309,7 +309,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       xAxis: {
         allowDecimals: false,
         labels: {
-          formatter: function() {
+          formatter: function () {
             const date = new Date(this.value);
             return (
               date.getHours() +
@@ -325,7 +325,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           text: ''
         },
         labels: {
-          formatter: function() {
+          formatter: function () {
             return this.value + '';
           }
         }
