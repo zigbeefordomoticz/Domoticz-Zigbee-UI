@@ -2,11 +2,9 @@
   "APP_NAME": "Interfaz de Gestión de ZiGate",
   "About": "Sobre",
   "Version": "Versión",
-
   "NODATA": "No data to display",
   "TOTAL": "Total",
   "SELECTED": "selected",
-
   "dashboard": "Tablero",
   "dashboard.button.refresh": "Actualizar",
   "dashboard.trend.chart.yaxis": "mensaje(s)",
@@ -68,10 +66,9 @@
   "dashboard.sent.comment": "ReTx = número de retransmisiones realizadas. Esto debería ser 0, pero si el plugin está intentando enviar un comando a un dispositivo apagado, puede obtener ReTx",
   "dashboard.received.comment": "Cluster = tipo de mensaje con información<br>Errores CRC debería ser 0. De lo contrario indica errores de comunicación",
   "dashboard.trend.comment": "Mensajes enviados y recibidos, cola de carga de ZiGate",
-  "dashboard.devices.comment": "El router es un dispositivo alimentado por la red de luz y que participa en la red de malla.<br>El dispositivo final es un dispositivo a batería",
+  "dashboard.devices.comment": "El router es un dispositivo alimentado por la red de luz y que participa en la red de malla.<br>El dispositivo final",
   "dashboard.health.comment": "Vivo = cantidad de dispositivos activos<br>Perdido = cantidad de dispositivos fuera de la red<br>Sin noticias: cantidad de dispositivos que no han informado en las últimas 6 horas<br>Desconocido = cantidad de dispositivos con estado desconocido<br><br> Después de reiniciar el plugin, todos los dispositivos pasan al estado desconocido hasta que ZiGate recibe un mensaje.",
   "dashboard.battery.comment": "Para dispositivos equipados con batería, a continuación se informa el estado de la batería.",
-
   "management": "Gestión",
   "device": "Gestión de dispositivos",
   "device.byname.subtitle": "Enumere todos los dispositivos HW emparejados con el plugin, y le permite ingresar un nombre descriptivo para cada dispositivo. <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#device-management'></a><br> Muestra el nombre amigable del dispositivo en la sección de red en lugar de un código de cuatro dígitos.",
@@ -100,7 +97,6 @@
   "device.byname.parameter.alert.title": "Parameters",
   "device.byname.parameter.alert.subject": "Set specific parameters <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Device-parameters.md'></a>",
   "device.byname.delete.colum": "Delete",
-
   "group": "Gestión de grupos",
   "group.create.devices.column": "Dispositivos seleccionados en el grupo",
   "group.create.groupname.column": "Nombre del grupo",
@@ -117,7 +113,6 @@
   "group.reloadplugin.alert.cancel": "Cerrar",
   "header.popover.title": "Reinicio necesario",
   "header.popover.text": "Algunos cambios están pendientes, es necesario reiniciar el plugin",
-
   "network": "Red",
   "network.stats.header": "Red",
   "network.stats.subtitle": "Informes de nivel de interferencia <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Network.md#interference-level' target='_blank'></a>",
@@ -162,11 +157,9 @@
   "network.stats.detail.visu.chart.title": "Nivel de interferencia",
   "network.stats.detail.visu.chart.y-axis": "Nivel de interferencia",
   "network.stats.detail.visu.chart.x-axis": "Canal",
-
   "admin": "Admin",
   "admin.pairing": "Aprovisionamiento",
   "admin.permittojoin.label": "Aceptar hardware nuevo",
-
   "admin.assistprovisionning.title": "Incluir nodo(s)",
   "admin.assistprovisionning.subtitle": "Pondrá ZiGate en modo de emparejamiento si es necesario, y luego se comunicarán los resultados de aprovisionamiento. Presiona GO y comienza a poner tu dispositivo en modo de emparejamiento  <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.assistprovisionning.go.button": "Go",
@@ -187,30 +180,25 @@
   "admin.assistprovisionning.alert.Failed": "Falló (algo salió mal, consulte el LOG para obtener más detalles)",
   "admin.assistprovisionning.alert.inDB": "Exito (verifique si se han creado widgets)",
   "admin.assistprovisionning.alert.Unexpected": "Inesperado (póngase en contacto con el SAT)",
-
   "admin.permittojoin.subtitle": "Habilitar/deshabilitar el proceso de emparejamiento con la ZiGate por un período de tiempo <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.permittojoin.title": "Aceptar hardware nuevo",
   "admin.permittojoin.validate.button": "Validar",
   "admin.permittojoin.permanent.button": "Permanente",
   "admin.permittojoin.stop.button": "Stop",
   "admin.permittojoin.4min.button": "4 minutos",
-
   "admin.permittojoinrouter.subtitle": "Activar/desactivar el proceso de emparejamiento con la ZiGate por un período de tiempo <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.permittojoinrouter.title": "Aceptar el nuevo hardware en el router",
   "admin.permittojoinrouter.devices.placeholder": "Lista de los routers",
-
   "admin.group": "Groupo",
   "admin.rescan.group.title": "Escanee todos los dispositivos para membros de grupos",
   "admin.rescan.group.subtitle": "Escanee todos los dispositivos para membros de grupos <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#group'></a><br> y el resultado estará disponible en la gestión del grupo",
   "admin.rescan.group.button": "Escaneo completo",
   "admin.rescan.group.notify": "Se inició el escaneo completo !",
-
   "admin.scan.group.device.title": "Inicie un escaneo para cada dispositivo seleccionado para sus membros de grupos",
   "admin.scan.group.device.subtitle": "Inicie un escaneo para cada dispositivo seleccionado para sus membros de grupos <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#group'></a><br> Puede seleccionar de uno a varios y el resultado estará disponible en la gestión de grupos.",
   "admin.scan.group.device.button": "Escanear",
   "admin.scan.group.device.placeholder": "Seleccione el o los dispositivos a escanear",
   "admin.scan.group.device.notify": "Escaneo iniciado !",
-
   "admin.zigate": "ZiGate",
   "admin.swreset.title": "Reinicio del software de la ZiGate",
   "admin.swreset.subtitle": "Reiniciará la ZiGate (sin pérdida de dispositivos emparejados) <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#zigate'></a>",
@@ -229,7 +217,6 @@
   "admin.reloadplugin.alert.subject": "ATENCIÓN, última oportunidad !!!!!",
   "admin.reloadplugin.alert.cancel": "Anular",
   "admin.reloadplugin.alert.erase": "Reiniciar",
-
   "admin.plugin": "Plugin",
   "admin.reloadplugin.title": "Reiniciar el plugin",
   "admin.reloadplugin.subtitle": "Reiniciará el plugin <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#plugin'></a>",
@@ -239,7 +226,6 @@
   "admin.reloadplugin.password": "Contraseña",
   "admin.reloadplugin.host": "Nombre del host",
   "admin.reloadplugin.protocol": "Protocolo",
-
   "admin.firmware": "Firmware",
   "admin.firmware.title": "título de firmware",
   "admin.firmware.subtitle": "subtítulo del firmware <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#firmware'></a>",
@@ -256,7 +242,6 @@
   "admin.firmware.alert.filename": "nombre del archivo",
   "admin.firmware.alert.device": "Dispositivo ",
   "admin.firmware.alert.brand": "Marca",
-
   "settings": "Configuraciones",
   "setting.header": "Configuraciones",
   "setting.subtitle": "Le permite visualizar y editar las distintas configuraciones del plugin <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Settings.md'></a><br> Algunos requieren reiniciar el plugin.",
@@ -266,7 +251,6 @@
   "setting.help.legend": "Todas estas son configuraciones del plugin que se pueden actualizar.",
   "setting.advanced.button": "Ajustes avanzados",
   "setting.normal.button": "Ajustes normales",
-
   "setting.header.Services": "Servicios disponibles",
   "setting.subtitle.Services": "Activa los servicios que quieres estar activo",
   "setting.reloadplugin.alert.title": "Recarga del plugin",
@@ -278,30 +262,25 @@
   "setting.eraseplugin.alert.title": "Erase PDM",
   "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased (all devices will required to be pair again)",
   "setting.eraseplugin.alert.cancel": "Close",
-
   "useDomoticzLog": "Usar registro (LOG) de Domoticz",
   "zigatePartOfGroup0000": "Crear grupo 0000",
   "allowRemoveZigateDevice": "Eliminación en la ZiGate",
   "resetPermit2Join": "Restablecer el permiso para unirse al inicio",
   "blueLedOnOff": "Activar la Led azul de la ZiGate",
   "forcePollingAfterAction": "Obtener el estado del dispositivo después de la acción",
-
   "setting.header.CommandTransition": "Transiciones de comando para group luces",
   "setting.subtitle.CommandTransition": "Puede especificar el tiempo de transición en décimas de segundos con el que la transición de la etapa actual a la objetivo. Por ejemplo, cuántas décimas de segundo se necesitarán para pasar del color actual al color que solicité a través de Domoticz. La temperatura de color se utiliza para el color blanco",
   "moveToHueSatu": "Transición para Hue",
   "moveToColourTemp": "Transición para temperatura de color",
   "moveToColourRGB": "Transición para color RGB",
   "moveToLevel": "Transición para pasar de nivel",
-
   "Ping": "Habilitar ping",
   "setting.header.DomoticzEnvironment": "URL de Domoticz",
   "setting.subtitle.DomoticzEnvironment": "Configuración de cómo acceder a la API de Domoticz",
-
   "setting.header.WebInterface": "Configuración de la interfaz web",
   "setting.subtitle.WebInterface": "Permite activar/desactivar la interfaz de usuario web",
   "enableWebServer": "Activar la interfaz de usuario web",
   "OnIfOneOn": "El grupo está encendido si un dispositivo está encendido (de lo contrario, necesita todos los dispositivos encendidos)",
-
   "setting.header.DeviceManagement": "Configuración de gestión de dispositivos",
   "resetMotiondelay": "Retraso en segundos para restablecer la detección de movimiento",
   "setting.subtitle.DeviceManagement": "Aquí están todas las configuraciones relacionadas con los dispositivos y cómo la ZiGate interactúa con ellos",
@@ -340,19 +319,15 @@
   "networkScan": "Frecuencia del informe de interferencias (seg)",
   "logDeviceUpdate": "Habilitar el mensaje UpdateDevice en el LOG",
   "capturePairingInfos": "Capture información de emparejamiento y guárdela en la carpeta de informes",
-
   "setting.header.Experimental": "Parámetros experimentales",
   "setting.subtitle.Experimental": "Úselo solo si se le ha pedido",
-
   "setting.header.Provisioning": "Pairing settings",
   "setting.subtitle.Provisioning": "Special settings for special devices or special conditions",
-
   "api.global.error.title": "Error del backend",
   "api.global.succes.update.title": "Actualización exitosa",
   "api.global.reset.zigate.title": "Se inició el reinicio del soft",
   "api.global.succes.erasepdm.title": "Se inició el ErasePdm",
   "api.global.succes.pluginrestarted.title": "Plugin reiniciado",
-
   "tools": "Utiles",
   "tools.export": "Exportar",
   "tools.device.button": "Widgets de Domoticz (json)",
@@ -367,7 +342,6 @@
   "tools.plugin-stat.button": "Tráfico (json)",
   "tools.zdevice-name.button": "zDevice-name (json)",
   "tools.domoticz-env.button": "domoticz-env (json)",
-
   "command": "Comando",
   "debug-command": "Comandos directos",
   "tools.debugcommand.title": "Comandos directos",
@@ -386,7 +360,6 @@
   "tools.rawcommand.error": "Entrada requerida",
   "tools.rawcommand.payload": "Datos",
   "tools.rawcommand.button.put": "Enviar",
-
   "binding": "Unión",
   "tools.binding.title": "Unión de dispositivo",
   "tools.binding.subtitle": "Permitir la unión en un cluster entre los dispositivos de origen y de destino <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Tools.md#bindings'></a><br> p.ej. Si desea vincular un sensor de temperatura con un actuador, La SourceIEEE/Ep será el sensor de temperatura, el DestIEEE/Ep será el actuador y el Cluster será 0402 (Medida de temperatura)",
@@ -398,7 +371,6 @@
   "tools.binding.cluster": "Cluster",
   "tools.binding.button.put": "Vincular",
   "tools.unbinding.button.put": "Desvincular",
-
   "debug": "Debug",
   "setting.header.VerboseLogging": "Detallado y registro",
   "setting.subtitle.VerboseLogging": "Le permitirá activar/desactivar algunas funciones de registro (LOG) <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Tools.md#debug'></a>",
@@ -409,13 +381,11 @@
   "tool.debugsetting.reloadplugin.alert.title": "Recarga del plugin",
   "tool.debugsetting.reloadplugin.alert.subject": "La configuración se ha actualizado, el plugin debe ser reiniciado",
   "tool.debugsetting.reloadplugin.alert.cancel": "Cerrar",
-
   "error": "Error(es)",
   "tools.error.log-history.button": "Historial de errores (json)",
   "tools.error.log-history.clear": "Borrar historial de errores",
   "error.popover.title": "Error(es) detectado(s)",
   "error.popover.text": "Clic para ver el LOG",
-
   "manufacturer": "Fabricantes",
   "manufacturer.casaia": "Casa.ia",
   "manufacturer.casaia.header": "título",
@@ -427,7 +397,6 @@
   "manufacturer.casaia.model": "model",
   "manufacturer.casaia.ircode": "ircode",
   "manufacturer.casaia.validate.button": "validar",
-
   "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
   "resetSwitchSelectorPushButton": "Cantidad de segundos después de que el selector se restablece a apagado",
   "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",

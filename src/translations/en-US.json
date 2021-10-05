@@ -2,11 +2,9 @@
   "APP_NAME": "ZiGate Admin Interface",
   "About": "About",
   "Version": "Version",
-
   "NODATA": "No data to display",
   "TOTAL": "Total",
   "SELECTED": "selected",
-
   "dashboard": "Dashboard",
   "dashboard.button.refresh": "Refresh",
   "dashboard.trend.chart.yaxis": "message/s",
@@ -71,10 +69,9 @@
   "dashboard.sent.comment": "Tx = number of sent messages<br>ReTx = number of Re-Transmissions done. This should be 0, but if the plugin is trying to send a command to a powered off device, you can get ReTx",
   "dashboard.received.comment": "Rx = number of received messages<br>Cluster = type of message with information<br>CRC error = number of messages with errors",
   "dashboard.trend.comment": "Tx/s = number of sent messages per second<br>Rx/s = number of received messages per second<br>Load = number of messages in queue",
-  "dashboard.devices.comment": "Routers are main powered device which participates in the mesh network.<br>End device is a battery based device",
+  "dashboard.devices.comment": "Routers are main powered device which participates in the mesh network.<br>End device is a device, which is not capable of routing messages, and which is not listening while idle (most of the time, it is a battery based device)",
   "dashboard.health.comment": "Live = devices alive<br>Lost = devices away from the network<br>No news = devices which haven't reported on the last 6 hours<br>Unknown = devices with status unknown<br><br>After a plugin restart, all devices are moved to status unknown until a message is received by ZiGate.",
   "dashboard.battery.comment": "For devices equiped with a battery, here after is reported the battery status.",
-
   "management": "Management",
   "device": "Device Management",
   "device.byname.subtitle": "List all HW devices paired with the plugin, and allow you to enter a friendly name for each device <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#device-management'></a><br>It shows the friendly device name in the network section instead of a four digit code.",
@@ -103,7 +100,6 @@
   "device.byname.parameter.alert.title": "Parameters",
   "device.byname.parameter.alert.subject": "Set specific parameters <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Device-parameters.md'></a>",
   "device.byname.delete.colum": "Delete",
-
   "group": "Group Management",
   "group.create.devices.column": "Devices selected in the group",
   "group.create.groupname.column": "Group name",
@@ -120,7 +116,6 @@
   "group.reloadplugin.alert.cancel": "Close",
   "header.popover.title": "Restart needed",
   "header.popover.text": "Some changes are pending a plugin restart is needed",
-
   "network": "Network",
   "network.topo": "Topology",
   "network.topo.header": "Topology reports",
@@ -148,7 +143,6 @@
   "network.topology.req.header": "Topology scan",
   "network.topology.req.subtitle": "This will trigger a Topology scan, which will run in the background",
   "network.topology.req.button": "scan",
-
   "network.energy": "Interference level",
   "network.stats.header": "Interference level reports",
   "network.stats.subtitle": "List of saved reports <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Network.md#interference-level' target='_blank'></a>",
@@ -166,11 +160,9 @@
   "network.stats.detail.visu.chart.title": "Interference level",
   "network.stats.detail.visu.chart.y-axis": "Interference level",
   "network.stats.detail.visu.chart.x-axis": "Channel",
-
   "admin": "Admin",
   "admin.pairing": "Provisionning",
   "admin.permittojoin.label": "Accept new hardware",
-
   "admin.assistprovisionning.title": "Pairing a new device with the assitant",
   "admin.assistprovisionning.subtitle": "Click on Pairing and follow the instructions <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.assistprovisionning.go.button": "Pairing",
@@ -191,35 +183,29 @@
   "admin.assistprovisionning.alert.Failed": "Failed (Something went wrong, check the log for more details)",
   "admin.assistprovisionning.alert.inDB": "Successful (check if widgets have been created)",
   "admin.assistprovisionning.alert.Unexpected": "Unexpected (Contact support)",
-
   "admin.permittojoin.title": "Pairing a new device for a period of time",
   "admin.permittojoin.subtitle": "Click on the button to choise the period of time <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.permittojoin.validate.button": "Validate",
   "admin.permittojoin.permanent.button": "Permanent",
   "admin.permittojoin.stop.button": "Stop",
   "admin.permittojoin.4min.button": "4 minutes",
-
   "admin.permittojoinrouter.title": "Pairing a new device on a router",
   "admin.permittojoinrouter.subtitle": "Permit to pair a device on a specific router <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.permittojoinrouter.devices.placeholder": "List of routers",
-
   "admin.group": "Group",
   "admin.rescan.group.title": "Complete analysis of the groups",
   "admin.rescan.group.subtitle": "Ask each router to know if it belongs to one or more groups <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#group'></a><br>The result wil be in the <a href='group'>Group management</a>.<br><br>Make sure ALL the routers are connected to the ZigBee network before launching the analysis.",
   "admin.rescan.group.button": "Full scan",
   "admin.rescan.group.notify": "Full scan started !",
-
   "admin.scan.group.device.title": "Selective analysis of the groups",
   "admin.scan.group.device.subtitle": "Ask one or more router(s) to know if it (they) belong(s) to one or more groups <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#group'></a><br>The result wil be in the <a href='group'>Group management</a>.<br><br>Make sure ALL the routers are connected to the ZigBee network before launching the analysis.",
   "admin.scan.group.device.button": "Scan",
   "admin.scan.group.device.placeholder": "Select router(s) to scan",
   "admin.scan.group.device.notify": "Scan started !",
-
   "admin.zigate": "ZiGate",
   "admin.swreset.title": "ZiGate Soft reset",
   "admin.swreset.subtitle": "Will restart ZiGate (no loss of paired devices) <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#zigate'></a>",
   "admin.swreset.button": "Soft reset",
-  
   "admin.switchchannel.title": "ZiGate change channel",
   "admin.switchchannel.subtitle": "Will change the ZiGate channel to the selected one, and will broadcast the change. ATTENTION, while routers usally switch to the new channel, none Zigbee 3.0 End Device won't and you will have to reset them to get them rejoining the new channel",
   "admin.switchchannel.button": "Change channel",
@@ -234,7 +220,6 @@
   "admin.reloadplugin.alert.subject": "ATTENTION, last chance !!!!!",
   "admin.reloadplugin.alert.cancel": "Cancel",
   "admin.reloadplugin.alert.erase": "Restart",
-
   "admin.plugin": "Plugin",
   "admin.reloadplugin.title": "Restart plugin",
   "admin.reloadplugin.subtitle": "Will restart the plugin <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#plugin'></a>",
@@ -244,7 +229,6 @@
   "admin.reloadplugin.password": "Password",
   "admin.reloadplugin.host": "Hostname",
   "admin.reloadplugin.protocol": "Protocol",
-
   "admin.firmware": "Firmware",
   "admin.firmware.title": "Devices firmware",
   "admin.firmware.subtitle": "Update routers firmware <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#firmware'></a>",
@@ -261,7 +245,6 @@
   "admin.firmware.alert.filename": "file name",
   "admin.firmware.alert.device": "Device ",
   "admin.firmware.alert.brand": "Brand ",
-
   "settings": "Settings",
   "setting.header": "Settings",
   "setting.subtitle": "Allow you to visualize and edit the various plugin settings <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/fr-fr/WebUI_Settings.md'></a><br>Some require a restart of the plugin.",
@@ -271,7 +254,6 @@
   "setting.normal.button": "Normal settings",
   "setting.help.link": "<a target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Settings.md'>More information on the settings can be found on the Wiki</a>",
   "setting.help.legend": "These are all plugin settings which can be updated.",
-
   "setting.header.Services": "Available services",
   "setting.subtitle.Services": "Enable the services you want to be active",
   "useDomoticzLog": "Use Domoticz Log",
@@ -292,67 +274,52 @@
   "setting.eraseplugin.alert.subject": "Settings have been updated, PDM need to be erased (all devices will required to be pair again)",
   "setting.eraseplugin.alert.cancel": "Close",
   "Ping": "Enable Ping",
-
   "setting.header.DomoticzEnvironment": "Domoticz URL",
   "setting.subtitle.DomoticzEnvironment": "Setting on how to access Domoticz API",
-
   "setting.header.WebInterface": "Web Interface settings",
   "setting.subtitle.WebInterface": "Allows to enable/disable Web UI",
   "enableWebServer": "Enable web User Interface",
-
   "setting.header.DeviceManagement": "Devices Management settings",
   "setting.subtitle.DeviceManagement": "Here are all settings related to Devices and how ZiGate interact with them",
-
   "setting.header.ZigateConfiguration": "ZiGate settings",
   "setting.subtitle.ZigateConfiguration": "Here are all settings related to the ZiGate hardware.",
   "setting.header.OverTheAirUpgrade": "Over The Air Upgrade settings",
   "setting.subtitle.OverTheAirUpgrade": "These are all settings related to the Over The Air upgrade functionnality.",
   "allowOTA": "Enable OTA",
-
   "setting.header.Legrand": "Legrand Netatmo settings",
   "setting.subtitle.Legrand": "Allow to set a number of Legrand specifics options",
-
   "setting.header.Schneider Wiser": "Schneider Wiser settings",
   "setting.subtitle.Schneider Wiser": "Allow to enable some specific mecanishm, and some other options",
   "internetAccess": "Allow Internet access",
   "batteryOTA": "allow battery powered devices OTA",
   "waitingOTA": "delay when starting the OTA process",
-
   "setting.header.GroupManagement": "Group management settings",
   "setting.subtitle.GroupManagement": "Here are all setting to enable and configure the Group management feature.",
   "OnIfOneOn": "Group is On if one device is On (otherwise needs all devices On)",
-
   "setting.header.PluginConfiguration": "Plugin environment settings",
   "setting.subtitle.PluginConfiguration": "Here are all Plugin environements settings",
   "numDeviceListVersion": "Number of DeviceList history",
-
   "setting.header.Others": "Miscaleneous settings",
-
   "setting.header.Provisioning": "Pairing settings",
   "setting.subtitle.Provisioning": "Special settings for special devices or special conditions",
-
   "setting.header.DevicePolling": "Devices polling",
   "setting.subtitle.DevicePolling": "Allow you to specify the polling frequency per type of information. Be aware that a high frequency will overload the ZiGate and might cause some performance issues",
   "setting.subtitle.Others": "",
   "logLQI": "Delay before starting a Topology scan (sec)",
   "networkScan": "Interferences report frequency (sec)",
-
   "setting.header.CommandTransition": "Command transitions for Lights in Groups",
   "setting.subtitle.CommandTransition": "For Groups only. You can specify the transition time in 10th of seconds with which the transition from current to target stage. For example how many 10th of second it will take to move from the current Color to the Color I requested via Domoticz. Color temp is used for White Color",
   "moveToHueSatu": "Transition for Hue",
   "moveToColourTemp": "Transition for Color Temp",
   "moveToColourRGB": "Transition for RGB color",
   "moveToLevel": "Transition for Move to Level",
-
   "setting.header.Experimental": "Experimental parameters",
   "setting.subtitle.Experimental": "Use it only if you have been asked to",
-
   "api.global.error.title": "Error from backend",
   "api.global.succes.update.title": "Command sent",
   "api.global.reset.zigate.title": "Soft reset launched",
   "api.global.succes.erasepdm.title": "ErasePdm launched",
   "api.global.succes.pluginrestarted.title": "Plugin restarted",
-
   "tools": "Tools",
   "tools.export": "Export",
   "tools.device.button": "Domoticz Widgets (json)",
@@ -367,7 +334,6 @@
   "tools.plugin-stat.button": "Traffic (json)",
   "tools.zdevice-name.button": "zDevice-name (json)",
   "tools.domoticz-env.button": "domoticz-env (json)",
-
   "command": "Command",
   "debug-command": "Direct commands",
   "tools.debugcommand.title": "Direct commands",
@@ -386,7 +352,6 @@
   "tools.rawcommand.error": "Input required",
   "tools.rawcommand.payload": "Data",
   "tools.rawcommand.button.put": "Submit",
-
   "binding": "Binding",
   "tools.binding.title": "Device Binds",
   "tools.binding.subtitle": "Allow to bind a cluster between source and target devices <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Tools.md#bindings'></a><br> e.g. If you want to bind a Temperature sensor with an Actuator, the SourceIEEE/Ep will be the Temperature sensor, the DestIEEE/Ep will be the actuator and the Cluster will be 0402 (Temperature Measurement)",
@@ -398,7 +363,6 @@
   "tools.binding.cluster": "Cluster",
   "tools.binding.button.put": "Binding",
   "tools.unbinding.button.put": "Unbinding",
-
   "debug": "Debug",
   "setting.header.VerboseLogging": "Verbose and Logging",
   "setting.subtitle.VerboseLogging": "Will allow you to enable/disable some Logging features <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Tools.md#debug'></a>",
@@ -410,13 +374,11 @@
   "tool.debugsetting.reloadplugin.alert.title": "Plugin Reload",
   "tool.debugsetting.reloadplugin.alert.subject": "Settings have been updated, plugin need to be restarted",
   "tool.debugsetting.reloadplugin.alert.cancel": "Close",
-
   "error": "Error(s)",
   "tools.error.log-history.button": "Log Error History (json)",
   "tools.error.log-history.clear": "Clear Error History",
   "error.popover.title": "Error(s) detected",
   "error.popover.text": "Clic to see the log",
-
   "manufacturer": "Manufacturer",
   "manufacturer.casaia": "Casa.ia",
   "manufacturer.casaia.header": "title",
@@ -428,16 +390,13 @@
   "manufacturer.casaia.model": "model",
   "manufacturer.casaia.ircode": "ircode",
   "manufacturer.casaia.validate.button": "validate",
-
   "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
   "resetSwitchSelectorPushButton": "Number of sec after the Selector is reset to Off",
   "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",
   "setting.subtitle.ManufSpecifiqDevicePolling": "0 stands for disable otherwise it indicates the polling frequency in seconds, For Manufacturer Specific it will allow to retreive device states whcih are not provided automatically by the device",
-
   "resetMotiondelay": "Delay in sec to reset motion detection",
   "Certification": "Certification ( FCC or CE )",
   "channel": "ZiGate channel (0 default)",
-
   "alarmDuration": "Duration in sec for Alarm device",
   "vibrationAqarasensitivity": "Aqara Vibration sensitivity",
   "TradfriKelvinStep": "Kelvin step for Tradfri remote",
