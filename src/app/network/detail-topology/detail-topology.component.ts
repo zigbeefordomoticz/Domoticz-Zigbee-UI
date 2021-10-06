@@ -163,7 +163,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     const colors = Highcharts.getOptions().colors;
     let i = 0;
     const nodes = {};
-    series[0].data.forEach(function(link: any) {
+    series[0].data.forEach(function (link: any) {
       if (link[1] !== 'Zigate') {
         if (link[0] === 'Zigate') {
           nodes['Zigate'] = {
@@ -188,7 +188,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       }
     });
 
-    series[0].nodes = Object.keys(nodes).map(function(id: any) {
+    series[0].nodes = Object.keys(nodes).map(function (id: any) {
       return nodes[id];
     });
   }

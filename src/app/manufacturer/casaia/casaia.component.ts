@@ -45,7 +45,7 @@ export class CasaiaComponent implements OnInit {
 
   updateFilter(event: any) {
     const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function(d: any) {
+    const temp = this.temp.filter(function (d: any) {
       let ok = false;
       if (d.Model) {
         ok = d.Model.toLowerCase().indexOf(val) !== -1;

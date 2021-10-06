@@ -40,9 +40,6 @@ export class DebugSettingComponent implements OnInit {
 
     this.fgd.form.addControl(this.setting.Name, group);
     const value = this.setting.current_value !== '' ? this.setting.current_value : this.setting.default_value;
-    this.fgd.form
-      .get(this.setting.Name)
-      .get('current')
-      .patchValue(value);
+    this.fgd.form.get(this.setting.Name).get('current').patchValue(value);
   }
 }

@@ -71,7 +71,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   updateFilter(event: any) {
     const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function(d: any) {
+    const temp = this.temp.filter(function (d: any) {
       let ok = false;
       if (d._GroupId) {
         ok = d._GroupId.toLowerCase().indexOf(val) !== -1;
