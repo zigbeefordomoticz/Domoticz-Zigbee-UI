@@ -63,7 +63,8 @@ const routes = {
   otaFirmwareUpdate: '/ota-firmware-update',
   casiaListDevices: '/casaia-list-devices',
   casiaIrcode: '/casaia-update-ircode',
-  changeChannel: '/change-channel'
+  changeChannel: '/change-channel',
+  pairingFullReset: '/full-reprovisionning'
 };
 
 const log = new Logger('ApiService');
@@ -498,6 +499,15 @@ export class ApiService {
       catchError(error => this.handleError(error))
     );
   }
+
+  putPairingFullReset(_NwkId: string): Observable<any> {
+    const data = { NWKID: _NwkId };
+    return this.httpClient.put(routes.pairingFullReset, data).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
   private handleError(error: any) {
     log.error(error);
     this.toastr.error(error.status + ' ' + error.statusText, this.translate.instant('api.global.error.title'));
