@@ -2,11 +2,9 @@
   "APP_NAME": "ZiGate Admin Interface",
   "About": "Over",
   "Version": "Versie",
-
   "NODATA": "No data to display",
   "TOTAL": "Total",
   "SELECTED": "selected",
-
   "dashboard": "Dashboard",
   "dashboard.button.refresh": "Ververs",
   "dashboard.trend.chart.yaxis": "Y-as titel",
@@ -71,7 +69,6 @@
   "dashboard.devices.comment": "Router is een hoofdapparaat dat deelneemt aan het mesh-netwerk.<br>Eindapparaat is een apparaat op batterijen",
   "dashboard.health.comment": "Live = hoeveel apparaten er actieve verbinding<br>Verloren = hoeveel apparaten er geen verbinding<br>Geen nieuws = hoeveel apparaten weer de laatste 6 uren geen signaal hebben verstuurd<br>Onbekend = geeft het aantal onbekende apparaten weer.<br><br>Na een herstart van de Plugin, worden alle apparaten als onbekend weergegeven tot dat er comminicatie met ZiGate heeft plaatsgevonden.",
   "dashboard.battery.comment": "Voor apparaten met een batterij wordt de batterijstatus gerapporteerd.",
-
   "management": "Management",
   "device": "Apparaat Management",
   "device.byname.subtitle": "Een lijst van alle gekoppelde apparaten. Hier kun je de vriendelijke naam voor ieder apparaat invoeren. <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Management.md#device-management'></a><br>Dit geeft aanvullende apparaatinformatie bij het opvragen van netwerk info",
@@ -91,7 +88,6 @@
   "device.byname.validate.button": "Valideer",
   "device.byname.widget.column": "Domoticz Widget",
   "error_required": "Benodigd",
-
   "device.byname.alert.title": "Delete device ?",
   "device.byname.alert.subject": "Are you sure ?",
   "device.byname.alert.delete": "Delete",
@@ -101,7 +97,6 @@
   "device.byname.parameter.alert.title": "Parameters",
   "device.byname.parameter.alert.subject": "Set specific parameters <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/HowTo_Device-parameters.md'></a>",
   "device.byname.delete.colum": "Delete",
-
   "group": "Groep Management",
   "group.create.devices.column": "Apparaten in de Groep",
   "group.create.groupname.column": "Groepsnaam",
@@ -118,7 +113,6 @@
   "group.reloadplugin.alert.cancel": "Sluiten",
   "header.popover.title": "Herstart noodzakelijk",
   "header.popover.text": "Sommige wijzigingen zijn in afwachting van een herstart van de plug-in",
-
   "network": "Netwerk",
   "network.stats.header": "Netwerk",
   "network.stats.subtitle": "Energieniveau rapport <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Network.md#interference-level' target='_blank'></a>",
@@ -163,11 +157,9 @@
   "network.stats.detail.visu.chart.title": "Energieniveau",
   "network.stats.detail.visu.chart.y-axis": "Energieniveau",
   "network.stats.detail.visu.chart.x-axis": "Kanaal",
-
   "admin": "Admin",
   "admin.pairing": "Provisionning",
   "admin.permittojoin.label": "Accepteer nieuwe hardware",
-
   "admin.assistprovisionning.title": "Apparaat koppelen",
   "admin.assistprovisionning.subtitle": "Start het koppelproces voor nieuwe apparaten <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.assistprovisionning.go.button": "Start",
@@ -188,35 +180,29 @@
   "admin.assistprovisionning.alert.Failed": "Mislukt",
   "admin.assistprovisionning.alert.inDB": "In database",
   "admin.assistprovisionning.alert.Unexpected": "Onverwacht",
-
   "admin.permittojoin.subtitle": "In/uitschakelen van het ZiGate koppelproces voor gewenste een periode <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.permittojoin.title": "Accepteer nieuwe Hardware",
   "admin.permittojoin.validate.button": "Valideer",
   "admin.permittojoin.permanent.button": "Permanent",
   "admin.permittojoin.stop.button": "Stop",
   "admin.permittojoin.4min.button": "4 minuten",
-
   "admin.permittojoinrouter.subtitle": "Start/stop het koppelproces met ZiGate voor een bepaalde periode <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#pairing'></a>",
   "admin.permittojoinrouter.title": "Koppel nieuwe apparaten op een router",
   "admin.permittojoinrouter.devices.placeholder": "Lijst van routers",
-
-  "admin.fullreset.title": "Pairing a device with a full reset",
-  "admin.fullreset.subtitle": "Pairing a device with a full reset",
+  "admin.fullreset.title": "Preparing device for full reset",
+  "admin.fullreset.subtitle": "If you want to do a hard reset of an existing provisionned device in Domoticz, it is advised to indicate the plugin of such event happening. Then the plugin will make sure to redo a full device discovery and set whatever as been set during the first pairing",
   "admin.fullreset.device.placeholder": "Select a device",
-  "admin.fullreset.button": "Full reset",
-
+  "admin.fullreset.button": "Reset mode",
   "admin.group": "Group",
   "admin.rescan.group.title": "Scan alle apparaten op goepslidmaatschappen",
   "admin.rescan.group.subtitle": "Start een scan van alle apparaten op groepslidmaatschappen <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#group'></a><br> Het resultaat wordt zichtbaar in het group management menu.",
   "admin.rescan.group.button": "Volledige scan",
   "admin.rescan.group.notify": "Volledige scan gestart!",
-
   "admin.scan.group.device.title": "Scan een selectie van apparaten voor groepslidmaatschappen",
   "admin.scan.group.device.subtitle": "Start een scan van groepslidmaatschappen voor de geselecteerde apparaten <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#group'></a><br> Je kan één of meerdere apparaten selecteren en het resultaat wordt zichtbaar in het groep management menu.",
   "admin.scan.group.device.button": "Scan",
   "admin.scan.group.device.placeholder": "Selecteer te scannen apparaten",
   "admin.scan.group.device.notify": "Scan gestart!",
-
   "admin.zigate": "ZiGate",
   "admin.swreset.title": "Zachte reset",
   "admin.swreset.subtitle": "ZiGate wordt herstarten (Er gaan geen gekoppelde apparaten verloren) <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#zigate'></a>",
@@ -235,7 +221,6 @@
   "admin.reloadplugin.alert.subject": "ATTENTIE, laatste kans !!!!!",
   "admin.reloadplugin.alert.cancel": "Annuleer",
   "admin.reloadplugin.alert.erase": "Herstart",
-
   "admin.plugin": "Plugin",
   "admin.reloadplugin.title": "Herstart plugin",
   "admin.reloadplugin.subtitle": "Zal de plugin herstarten <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#plugin'></a>",
@@ -245,7 +230,6 @@
   "admin.reloadplugin.password": "Wachtwoord",
   "admin.reloadplugin.host": "Hostnaam",
   "admin.reloadplugin.protocol": "Protocol",
-
   "admin.firmware": "Firmware",
   "admin.firmware.title": "Devices firmware",
   "admin.firmware.subtitle": "Update routers firmware <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Admin.md#firmware'></a>",
@@ -262,7 +246,6 @@
   "admin.firmware.alert.filename": "file name",
   "admin.firmware.alert.device": "Device ",
   "admin.firmware.alert.brand": "Brand ",
-
   "settings": "Instellingen",
   "setting.header": "Instellingen",
   "setting.subtitle": "Hier kunt u verschillende plug-in instellingen wijzigen <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Settings.md'></a><br> Sommige wijzigingen vereisen mogelijk een herstart van de plug-in.",
@@ -272,7 +255,6 @@
   "setting.help.legend": "Dit zijn alle instellingen van de plugin die je kan wijzigen.",
   "setting.advanced.button": "Geavanceerde instellingen",
   "setting.normal.button": "Normale instellingen",
-
   "setting.header.Services": "Beschikbare services",
   "setting.subtitle.Services": "Activeer hier de beschikbare services",
   "setting.reloadplugin.alert.title": "Plug-in herstart",
@@ -290,20 +272,15 @@
   "moveToColourTemp": "Overgangstijd voor kleur temperatuur ",
   "moveToColourRGB": "Overgangstijd voor RGB kleur",
   "moveToLevel": "Overgangstijd voor dim niveau",
-
   "OnIfOneOn": "Groep is aan wanneer één apparaat aan is (Anders moeten alle apparaten aan zijn)",
-
   "Ping": "Activeer Ping",
   "setting.header.DomoticzEnvironment": "Domoticz URL",
   "setting.subtitle.DomoticzEnvironment": "Instelling voor toegang tot Domoticz API",
-
   "setting.header.WebInterface": "Web Interface instellingen",
   "setting.subtitle.WebInterface": "Maakt het mogelijk om de Web UI aan / uit te schakelen",
   "enableWebServer": "Schakel web User Interface in",
-
   "setting.header.DeviceManagement": "Instellingen voor apparaatbeheer",
   "setting.subtitle.DeviceManagement": "Hier zijn alle instellingen met betrekking tot Apparaten en hoe ZiGate ermee omgaat",
-
   "setting.header.ZigateConfiguration": "ZiGate Instellingen",
   "setting.subtitle.ZigateConfiguration": "Instellingen met betrekking tot de ZiGate-hardware.",
   "setting.header.OverTheAirUpgrade": "Over The Air Upgrade-instellingen",
@@ -325,19 +302,15 @@
   "setting.subtitle.Others": "",
   "logLQI": "Vertraging voordat een Topologiescan wordt gestart (sec)",
   "networkScan": "Frequentie van storingsrapport (sec)",
-
   "setting.header.Experimental": "Experimentele parameters",
   "setting.subtitle.Experimental": "Alleen gebruiken wanneer hier naar wordt gevraagd",
-
   "setting.header.Provisioning": "Pairing settings",
   "setting.subtitle.Provisioning": "Special settings for special devices or special conditions",
-
   "api.global.error.title": "Fout van backend",
   "api.global.succes.update.title": "Update succevol afgerond",
   "api.global.reset.zigate.title": "Zachte reset succesvol",
   "api.global.succes.erasepdm.title": "Pdm wissen succesvol",
   "api.global.succes.pluginrestarted.title": "Plugin opnieuw gestart",
-
   "tools": "Gereedschappen",
   "tools.export": "Exporteer",
   "tools.device.button": "Domoticz Widgets (json)",
@@ -352,7 +325,6 @@
   "tools.plugin-stat.button": "Verkeer (json)",
   "tools.zdevice-name.button": "zApparaat-naam (json)",
   "tools.domoticz-env.button": "domoticz-env (json)",
-
   "command": "Commando",
   "debug-command": "Debug commando",
   "tools.debugcommand.title": "Verstuur commando",
@@ -371,7 +343,6 @@
   "tools.rawcommand.error": "Input required",
   "tools.rawcommand.payload": "Data",
   "tools.rawcommand.button.put": "Verzenden",
-
   "binding": "Verbinding",
   "tools.binding.title": "Verbindingstitel",
   "tools.binding.subtitle": "Allow to bind a cluster between source and target devices <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Tools.md#bindings'></a><br> e.g. If you want to bind a Temperature sensor with an Actuator, the SourceIEEE/Ep will be the Temperature sensor, the DestIEEE/Ep will be the actuator and the Cluster will be 0402 (Temperature Measurement)",
@@ -383,7 +354,6 @@
   "tools.binding.cluster": "Cluster",
   "tools.binding.button.put": "Binding verzenden",
   "tools.unbinding.button.put": "Unbinding",
-
   "debug": "Debug",
   "setting.header.VerboseLogging": "Verbose en Loggen",
   "setting.subtitle.VerboseLogging": "Hiermee kunt u sommige Logging-functies in- of uitschakelen <a class='fas fa-info-circle mr-2' target='_blank' href='http://github.com/pipiche38/Domoticz-Zigate-Wiki/blob/master/en-eng/WebUI_Tools.md#debug'></a>",
@@ -395,13 +365,11 @@
   "tool.debugsetting.reloadplugin.alert.cancel": "Sluiten",
   "tool.debugsetting.reinit.button": "Serrings (default)",
   "tool.debugsetting.validate.button": "validate",
-
   "error": "Error(s)",
   "tools.error.log-history.button": "Log foutengeschiedenis (json)",
   "tools.error.log-history.clear": "Log verwijderen",
   "error.popover.title": "Error(s) detected",
   "error.popover.text": "Clic to see the log",
-
   "manufacturer": "Manufacturer",
   "manufacturer.casaia": "Casa.ia",
   "manufacturer.casaia.header": "title",
@@ -413,7 +381,6 @@
   "manufacturer.casaia.model": "model",
   "manufacturer.casaia.ircode": "ircode",
   "manufacturer.casaia.validate.button": "validate",
-
   "forceSwitchSelectorPushButton": "Zet de selector switch eerst op 'off' wanneer dezelfde status wordt geselecteerd. (Workaround voor Domoticz issue #4143)",
   "resetSwitchSelectorPushButton": "Aantal seconden totdat de selector switch reset naar 'off'",
   "setting.header.ManufSpecifiqDevicePolling": "Specifc Polling",
