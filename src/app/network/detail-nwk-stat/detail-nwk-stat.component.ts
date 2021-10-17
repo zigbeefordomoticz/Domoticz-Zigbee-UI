@@ -6,8 +6,8 @@ import { Chart } from 'angular-highcharts';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Highcharts from 'highcharts';
-import { NwkStat, Channel } from './nwk';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { NwkStat } from '../../shared/models/nwk';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -89,7 +89,7 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
   //   chart.ref$.subscribe();
   // }
 
-  createChart(data: Array<NwkStat>) {
+  createChart(data: Array<NwkStat>): void {
     const tab: Array<any> = [];
     // const tab2: Array<any> = [];
     const channels: Array<any> = [];

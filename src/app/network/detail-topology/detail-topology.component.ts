@@ -1,17 +1,15 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { Device } from '@app/shared/models/device';
-import { Chart } from 'angular-highcharts';
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import * as Highcharts from 'highcharts';
-import { filter } from 'rxjs/operators';
-import { Relation } from '@app/shared/models/relation';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { DeviceAvailable } from '@app/shared/models/group';
-import { DeviceByName } from '@app/shared/models/device-by-name';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { Device } from '@app/shared/models/device';
+import { DeviceByName } from '@app/shared/models/device-by-name';
+import { Relation } from '@app/shared/models/relation';
+import { TranslateService } from '@ngx-translate/core';
+import { Chart } from 'angular-highcharts';
+import * as Highcharts from 'highcharts';
+import { Observable } from 'rxjs';
 
 const log = new Logger('DetailTopologyComponent');
 

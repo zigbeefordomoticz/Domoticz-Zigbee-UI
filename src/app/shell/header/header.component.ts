@@ -90,15 +90,6 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     });
   }
 
-  private getPermitToJoin(): Observable<any> {
-    return this.apiService.getPermitToJoin().pipe(
-      map(result => {
-        this.permitToJoin = result;
-        this.permitChecked = result.PermitToJoin !== 0;
-      })
-    );
-  }
-
   permit(event: any) {
     if (event.currentTarget.checked) {
       this.permitToJoin.PermitToJoin = 255;
@@ -141,5 +132,14 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
       settingsToSend[name] = { current: value };
     });
     this.apiService.putSettings(settingsToSend).subscribe();
+  }
+
+  private getPermitToJoin(): Observable<any> {
+    return this.apiService.getPermitToJoin().pipe(
+      map(result => {
+        this.permitToJoin = result;
+        this.permitChecked = result.PermitToJoin !== 0;
+      })
+    );
   }
 }
