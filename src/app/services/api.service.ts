@@ -64,7 +64,8 @@ const routes = {
   casiaListDevices: '/casaia-list-devices',
   casiaIrcode: '/casaia-update-ircode',
   changeChannel: '/change-channel',
-  pairingFullReset: '/full-reprovisionning'
+  pairingFullReset: '/full-reprovisionning',
+  recreateWidgets: '/recreate-widgets'
 };
 
 const log = new Logger('ApiService');
@@ -503,6 +504,14 @@ export class ApiService {
   putPairingFullReset(_NwkId: string): Observable<any> {
     const data = { NWKID: _NwkId };
     return this.httpClient.put(routes.pairingFullReset, data).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putRecreateWidgets(_NwkId: string): Observable<any> {
+    const data = { NWKID: _NwkId };
+    return this.httpClient.put(routes.recreateWidgets, data).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

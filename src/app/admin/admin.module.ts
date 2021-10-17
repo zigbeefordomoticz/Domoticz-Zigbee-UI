@@ -13,6 +13,8 @@ import { ScanGroupDeviceComponent } from './scan-group-device/scan-group-device.
 import { SwResetComponent } from './sw-reset/sw-reset.component';
 import { SwitchChannelComponent } from './switch-channel/switch-channel.component';
 import { PairingFullResetComponent } from './pairing-full-reset/pairing-full-reset.component';
+import { RecreateWidgetComponent } from './recreate-widget/recreate-widget.component';
+
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
   declarations: [
@@ -27,7 +29,8 @@ import { PairingFullResetComponent } from './pairing-full-reset/pairing-full-res
     AssistProvisionningComponent,
     ScanGroupDeviceComponent,
     SwitchChannelComponent,
-    PairingFullResetComponent
+    PairingFullResetComponent,
+    RecreateWidgetComponent
   ]
 })
 export class AdminModule {}

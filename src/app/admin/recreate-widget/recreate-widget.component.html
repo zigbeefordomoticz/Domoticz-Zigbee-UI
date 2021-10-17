@@ -1,0 +1,41 @@
+<div class="col-sm">
+  <form [formGroup]="form">
+    <div class="card">
+      <div class="card-header" translate="admin.recreate.title"></div>
+      <div class="card-body">
+        <h5 class="card-title" [innerHTML]="'admin.recreate.subtitle' | translate"></h5>
+        <div class="card-text">
+          <div class="row">
+            <div class="col-sm">
+              <ng-select
+                [items]="devices$ | async"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                bindLabel="ZDeviceName"
+                placeholder="{{ 'admin.recreate.device.placeholder' | translate }}"
+                formControlName="deviceSelected"
+              >
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">
+                    <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
+                  >
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-sm">
+              <button
+                class="btn btn-primary"
+                (click)="fullReset()"
+                translate="admin.recreate.button"
+                [disabled]="form.invalid"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
