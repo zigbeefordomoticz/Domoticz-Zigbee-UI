@@ -220,6 +220,7 @@
   "admin.swreset.notify": "ZiGate restart started",
   "admin.switchchannel.title": "ZiGate change channel",
   "admin.switchchannel.subtitle": "Will change channel",
+  "admin.switchchannel.placeholder": "ZiGate channel (0 default)",
   "admin.switchchannel.button": "Change channel",
   "admin.switchchannel.notify": "Channel changing started",
   "admin.erasepdm.title": "Wis ZiGate",

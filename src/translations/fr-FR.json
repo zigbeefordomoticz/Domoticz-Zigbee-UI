@@ -223,6 +223,7 @@
   "admin.swreset.notify": "Redémarrage de la ZiGate lancé",
   "admin.switchchannel.title": "Changement du canal de communication de la ZiGate",
   "admin.switchchannel.subtitle": "Permet de basculer la ZiGate et son réseau sur un canal de communication particulier. Une demande va être envoyée à tous les objets, alors que les routers basculent normalement sans problème, les objets sur piles qui ne sont pas Zigbee 3.0 nécessiteront probablement un reset pour rejoindre le nouveau canal",
+  "admin.switchchannel.placeholder": "Canal de la ZiGate",
   "admin.switchchannel.button": "Changer le canal",
   "admin.switchchannel.notify": "Changement de canal lancé",
   "admin.erasepdm.title": "Efface la ZiGate",
