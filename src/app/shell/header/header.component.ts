@@ -99,7 +99,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     } else {
       this.permitToJoin.PermitToJoin = 0;
       this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-        this.toastr.error(this.translate.instant('admin.permittojoin.off.notify'));
+        this.toastr.success(this.translate.instant('admin.permittojoin.off.notify'));
       });
     }
   }
