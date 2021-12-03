@@ -11,7 +11,7 @@ const HttpsProxyAgent = require('https-proxy-agent');
 const proxyConfig = [
   {
     context: '/rest-zigate/',
-    target: 'http://192.168.2.200:9440',
+    target: 'http://localhost:9440',
     secure: false
   }
 ];
