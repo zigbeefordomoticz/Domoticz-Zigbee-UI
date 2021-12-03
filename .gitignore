@@ -59,8 +59,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-proxy.conf.js
-proxy.conf.js
-src/translations/fr-FR.json
-.gitignore
-proxy.conf.js
