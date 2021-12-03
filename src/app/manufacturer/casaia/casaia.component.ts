@@ -39,7 +39,7 @@ export class CasaiaComponent implements OnInit {
     this.apiService.putCasiaIrcode(update).subscribe((result: any) => {
       this.hasEditing = false;
       this.getCasaiaDevices();
-      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+      this.toastr.success(this.translate.instant('api.global.succes.update.notify'));
     });
   }
 

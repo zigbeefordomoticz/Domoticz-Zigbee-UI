@@ -105,7 +105,7 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
     this.apiService.putOtaFirmware(devicesToUpdate).subscribe(() => {
       this.devicesList$ = null;
       this.firmwares = null;
-      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+      this.toastr.success(this.translate.instant('admin.firmware.notify'));
       this.form.reset();
     });
   }

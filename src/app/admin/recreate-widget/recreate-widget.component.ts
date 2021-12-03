@@ -38,7 +38,7 @@ export class RecreateWidgetComponent extends UnsubscribeOnDestroyAdapter impleme
 
   recreate() {
     this.apiService.putRecreateWidgets(this.form.get('deviceSelected').value._NwkId).subscribe((result: any) => {
-      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+      this.toastr.success(this.translate.instant('admin.recreate.notify'));
     });
   }
 }

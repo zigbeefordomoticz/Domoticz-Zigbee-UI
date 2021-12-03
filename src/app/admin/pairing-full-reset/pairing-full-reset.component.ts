@@ -38,7 +38,7 @@ export class PairingFullResetComponent extends UnsubscribeOnDestroyAdapter imple
 
   fullReset() {
     this.apiService.putPairingFullReset(this.form.get('deviceSelected').value._NwkId).subscribe((result: any) => {
-      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+      this.toastr.success(this.translate.instant('admin.fullreset.notify'));
     });
   }
 }
