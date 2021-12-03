@@ -72,7 +72,7 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
       cluster: this.form.get('cluster').value
     };
     this.apiService.putBinding(values).subscribe(() => {
-      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+      this.toastr.success(this.translate.instant('api.global.succes.update.notify'));
       this.form.reset('', {
         onlySelf: true,
         emitEvent: false
@@ -90,7 +90,7 @@ export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnI
     };
 
     this.apiService.putUnBinding(values).subscribe(() => {
-      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+      this.toastr.success(this.translate.instant('api.global.succes.update.notify'));
       this.form.reset('', {
         onlySelf: true,
         emitEvent: false

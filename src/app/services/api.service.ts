@@ -519,7 +519,7 @@ export class ApiService {
 
   private handleError(error: any) {
     log.error(error);
-    this.toastr.error(error.status + ' ' + error.statusText, this.translate.instant('api.global.error.title'));
+    this.toastr.error(error.status + ' ' + error.statusText, this.translate.instant('api.global.error.notify'));
     return throwError(error);
   }
 }
