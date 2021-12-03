@@ -25,7 +25,24 @@ export class PermitToJoinComponent implements OnInit {
   updatePermitToJoin(value: number) {
     this.permitToJoin.PermitToJoin = value;
     this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
+      switch(value) { 
+        case 255: { 
+          this.toastr.success(this.translate.instant('admin.permittojoin.permanent.notify'));
+          break; 
+        } 
+        case 240: { 
+          this.toastr.success(this.translate.instant('admin.permittojoin.4min.notify')); 
+          break; 
+        } 
+        case 0: { 
+          this.toastr.success(this.translate.instant('admin.permittojoin.stop.notify')); 
+          break; 
+       } 
+        default: { 
+          this.toastr.success(this.translate.instant('api.global.succes.commandsent.notify')); 
+          break; 
+        } 
+      } 
     });
   }
 }

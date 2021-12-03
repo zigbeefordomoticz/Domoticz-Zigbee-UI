@@ -57,7 +57,7 @@ export class ScanGroupDeviceComponent implements OnInit {
     selected.forEach(device => nwkids.push(device._NwkId));
 
     this.apiService.putScanDeviceForGrp(nwkids).subscribe(() => {
-      this.toastr.success(this.translate.instant('admin.scan.group.device.notify'));
+      this.toastr.success(this.translate.instant('api.global.succes.scanlaunched.notify'));
     });
   }
 }
