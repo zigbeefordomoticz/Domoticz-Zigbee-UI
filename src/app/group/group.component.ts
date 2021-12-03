@@ -99,7 +99,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
       this.apiService.putZGroups(this.rows).subscribe(result => {
         log.debug(this.rows);
         this.hasEditing = false;
-        this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
+        this.toastr.success(this.translate.instant('api.global.succes.update.title'));
         this.apiService.getRestartNeeded().subscribe(restart => {
           if (restart.RestartNeeded === 1) {
             this.headerService.setRestart(true);

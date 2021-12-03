@@ -26,7 +26,7 @@ export class ReloadPluginComponent implements OnInit {
 
   reloadPlugin() {
     this.apiService.getReloadPlugin().subscribe((result: any) => {
-      this.toastr.success(this.translate.instant('admin.reloadplugin.notify'));
+      this.toastr.success(this.translate.instant('api.global.succes.pluginrestarted.title'));
       this.headerService.setRestart(false);
     });
   }

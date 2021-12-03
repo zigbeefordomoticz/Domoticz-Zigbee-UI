@@ -22,7 +22,7 @@ export class ReqNetworkFullComponent implements OnInit {
 
   reqFull() {
     this.apiService.getNwkFull().subscribe(result => {
-      this.toastr.success(this.translate.instant('api.global.succes.scanlaunched.notify'));
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
 }

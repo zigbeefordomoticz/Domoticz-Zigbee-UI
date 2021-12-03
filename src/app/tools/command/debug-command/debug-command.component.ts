@@ -4,8 +4,6 @@ import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { Capabilities, Capability } from '@app/shared/models/capabilities';
 import { DeviceByName } from '@app/shared/models/device-by-name';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 
 const log = new Logger('DebugCommandComponent');
 
@@ -21,7 +19,7 @@ export class DebugCommandComponent implements OnInit {
   colorPicker = 'rgba(30,96,239,0.54)';
   capaSelected: Capability;
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -95,9 +93,7 @@ export class DebugCommandComponent implements OnInit {
       Color: colorTosend,
       Type: this.form.get('type').value
     };
-    this.apiService.putDevCommand(command).subscribe(() => {
-      this.toastr.success(this.translate.instant('api.global.succes.commandsent.notify'));
-      });
+    this.apiService.putDevCommand(command).subscribe();
   }
 
   get testRGB(): boolean {

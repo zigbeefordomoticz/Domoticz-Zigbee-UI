@@ -20,7 +20,7 @@ export class SwResetComponent implements OnInit {
 
   swReset(event: any) {
     this.apiService.getSwResetZigate().subscribe(() => {
-      this.toastr.success(this.translate.instant('admin.swreset.notify'));
+      this.toastr.success(this.translate.instant('api.global.reset.zigate.title'));
     });
   }
 }

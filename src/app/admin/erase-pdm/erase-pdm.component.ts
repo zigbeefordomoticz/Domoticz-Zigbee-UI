@@ -26,7 +26,7 @@ export class ErasePdmComponent implements OnInit {
 
   erasePdm() {
     this.apiService.getZigateErasePDM().subscribe((result: any) => {
-      this.toastr.success(this.translate.instant('admin.erasepdm.notify'));
+      this.toastr.success(this.translate.instant('api.global.succes.erasepdm.title'));
     });
   }
 

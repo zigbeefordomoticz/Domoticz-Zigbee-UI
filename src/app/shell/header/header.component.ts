@@ -94,12 +94,12 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     if (event.currentTarget.checked) {
       this.permitToJoin.PermitToJoin = 255;
       this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-        this.toastr.success(this.translate.instant('admin.permittojoin.on.notify'));
+        this.toastr.success(this.translate.instant('api.global.succes.update.title'));
       });
     } else {
       this.permitToJoin.PermitToJoin = 0;
       this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-        this.toastr.error(this.translate.instant('admin.permittojoin.off.notify'));
+        this.toastr.success(this.translate.instant('api.global.succes.update.title'));
       });
     }
   }

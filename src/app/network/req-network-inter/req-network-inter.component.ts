@@ -22,7 +22,7 @@ export class ReqNetworkInterComponent implements OnInit {
 
   reqInter() {
     this.apiService.getReqInter().subscribe(result => {
-      this.toastr.success(this.translate.instant('api.global.succes.scanlaunched.notify'));
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
 }

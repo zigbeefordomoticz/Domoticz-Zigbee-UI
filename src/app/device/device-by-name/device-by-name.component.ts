@@ -94,7 +94,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     this.apiService.putZDeviceName(this.json).subscribe((result: any) => {
       log.debug(result);
       this.hasEditing = false;
-      this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
+      this.toastr.success(this.translate.instant('api.global.succes.update.title'));
     });
   }
 
