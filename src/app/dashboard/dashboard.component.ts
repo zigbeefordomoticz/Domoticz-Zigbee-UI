@@ -21,7 +21,6 @@ const log = new Logger('DashboardComponent');
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
-  @ViewChild('myChart') myChart: ElementRef;
   poll = false;
   chart: Chart;
   devices: any;
