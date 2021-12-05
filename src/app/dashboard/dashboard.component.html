@@ -63,7 +63,7 @@
               <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
-            <div class="col-sm" [chart]="chart"></div>
+            <div class="col-sm" #myChart [chart]="chart"></div>
             <div class="row">
               <div class="col-sm border-left border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
               <div class="col-sm-1"></div>
