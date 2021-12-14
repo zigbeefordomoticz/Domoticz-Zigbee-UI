@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { VersionService } from '@app/services/version-service';
@@ -82,8 +82,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     domain: ['green', 'red']
   };
 
-  date: Date;
-
   constructor(
     private apiService: ApiService,
     private toppy: Toppy,
@@ -116,7 +114,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   getInfos() {
-    this.date = new Date();
     this.advancedPieLoadLabel = this.translateService.instant('dashboard.trafic.maxload.label');
     this.advancedPieSentLabel = this.translateService.instant('dashboard.trafic.total.trafic.sent.label');
     this.advancedPieReceivedLabel = this.translateService.instant('dashboard.trafic.total.trafic.received.label');
@@ -148,7 +145,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
     let secondsToSubstract = sorted.length * 5;
     sorted.forEach(trend => {
-      const dateFin = new Date(this.date);
+      const dateFin = new Date();
       const datePlot = new Date(dateFin.setSeconds(dateFin.getSeconds() - secondsToSubstract));
       secondsToSubstract = secondsToSubstract - 5;
       tx.push({ x: datePlot, y: trend.Txps });
@@ -156,7 +153,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       load.push({ x: datePlot, y: trend.Load });
     });
 
-    const chart = new Chart({
+    const chart: any = {
       chart: {
         type: 'line',
         height: '150'
@@ -226,10 +223,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           color: 'orange'
         }
       ]
-    });
-    this.chart = chart;
+    };
 
-    this.subs.add(chart.ref$.subscribe());
+    this.chart = new Chart(chart);
+
+    log.error('benchar:' + chart);
+    this.subs.add(this.chart.ref$.subscribe());
   }
 
   open(name: string, event: any) {
