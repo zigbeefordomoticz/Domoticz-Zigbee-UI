@@ -47,7 +47,7 @@ export class PermitToJoinRouterComponent extends UnsubscribeOnDestroyAdapter imp
     this.permitToJoin.Router = (this.form.get('deviceSelected').value as DeviceByName)._NwkId;
 
     this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-      switch(value) { 
+      switch (value) { 
         case 240: { 
           this.toastr.success(this.translate.instant('admin.permittojoin.4min.notify')); 
           break; 
