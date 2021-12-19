@@ -14,7 +14,11 @@ const log = new Logger('PermitToJoinComponent');
 export class PermitToJoinComponent implements OnInit {
   permitToJoin: any;
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private translate: TranslateService) {}
+  constructor(
+    private toastr: ToastrService,
+    private apiService: ApiService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.apiService.getPermitToJoin().subscribe(result => {
@@ -25,7 +29,7 @@ export class PermitToJoinComponent implements OnInit {
   updatePermitToJoin(value: number) {
     this.permitToJoin.PermitToJoin = value;
     this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
-      switch(value) { 
+      switch (value) { 
         case 255: { 
           this.toastr.success(this.translate.instant('admin.permittojoin.permanent.notify'));
           break; 
