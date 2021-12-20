@@ -230,7 +230,7 @@
       <div class="navbar-nav ml-auto">
         <div class="nav-item d-flex align-items-center border-left pl-3">
           <div class="switch switch-sm mr-2 pr-2">
-            <input [checked]="permitChecked" (click)="permit($event)" type="checkbox" class="switch" id="switch-sm" />
+            <input [(ngModel)]="permitChecked" (click)="permit($event)" type="checkbox" class="switch" id="switch-sm" />
             <label class="mb-0" for="switch-sm" translate="admin.permittojoin.label"></label>
           </div>
         </div>

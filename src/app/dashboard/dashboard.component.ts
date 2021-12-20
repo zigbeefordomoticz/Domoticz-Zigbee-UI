@@ -227,7 +227,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
     this.chart = new Chart(chart);
 
-    log.error('benchar:' + chart);
     this.subs.add(this.chart.ref$.subscribe());
   }
 
