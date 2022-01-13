@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "zigate-plugin": {
+    "z4d-plugin": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["highcharts", "subsink", "file-saver", "mousetrap", "clone-deep"],
+            "allowedCommonJsDependencies": [
+              "highcharts",
+              "subsink",
+              "file-saver",
+              "mousetrap",
+              "clone-deep"
+            ],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -30,7 +36,9 @@
               "src/manifest.json",
               "src/assets"
             ],
-            "styles": ["src/main.scss"],
+            "styles": [
+              "src/main.scss"
+            ],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -81,11 +89,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "zigate-plugin:build"
+            "browserTarget": "z4d-plugin:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "zigate-plugin:build:production"
+              "browserTarget": "z4d-plugin:build:production"
             },
             "ci": {}
           }
@@ -93,7 +101,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "zigate-plugin:build"
+            "browserTarget": "z4d-plugin:build"
           }
         },
         "test": {
@@ -104,7 +112,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
-            "styles": ["src/main.scss"],
+            "styles": [
+              "src/main.scss"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/apple-touch-icon.png",
@@ -122,7 +132,7 @@
         }
       }
     },
-    "zigate-plugin-e2e": {
+    "z4d-plugin-e2e": {
       "root": "e2e",
       "projectType": "application",
       "architect": {
@@ -130,11 +140,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "zigate-plugin:serve"
+            "devServerTarget": "z4d-plugin:serve"
           }
         }
       }
     }
   },
-  "defaultProject": "zigate-plugin"
+  "defaultProject": "z4d-plugin"
 }
