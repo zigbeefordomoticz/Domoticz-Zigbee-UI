@@ -21,7 +21,12 @@ export class DebugCommandComponent implements OnInit {
   colorPicker = 'rgba(30,96,239,0.54)';
   capaSelected: Capability;
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
+  constructor(
+    private toastr: ToastrService,
+    private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -97,7 +102,7 @@ export class DebugCommandComponent implements OnInit {
     };
     this.apiService.putDevCommand(command).subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.commandsent.notify'));
-      });
+    });
   }
 
   get testRGB(): boolean {

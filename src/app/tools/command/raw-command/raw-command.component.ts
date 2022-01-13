@@ -5,7 +5,6 @@ import { ApiService } from '@app/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-
 const log = new Logger('RawCommandComponent');
 
 @Component({
@@ -16,7 +15,12 @@ const log = new Logger('RawCommandComponent');
 export class RawCommandComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
+  constructor(
+    private toastr: ToastrService,
+    private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -28,6 +32,6 @@ export class RawCommandComponent implements OnInit {
   putCommand() {
     this.apiService.putCommandRaw(this.form.value).subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.commandsent.notify'));
-      });
+    });
   }
 }
