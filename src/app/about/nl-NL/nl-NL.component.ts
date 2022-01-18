@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Plugin } from '@app/shared/models/plugin';
 import { environment } from '@env/environment';
 
 @Component({
@@ -7,7 +8,7 @@ import { environment } from '@env/environment';
   styleUrls: ['./nl-NL.component.scss']
 })
 export class AboutNlComponent implements OnInit {
-  version: string = environment.version;
+  version: string = (JSON.parse(sessionStorage.getItem('plugin')) as Plugin).PluginVersion;
 
   constructor() {}
 

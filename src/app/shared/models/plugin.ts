@@ -24,4 +24,5 @@ export interface Plugin {
   Username: string;
   Version: string;
   WebRoot: string;
+  PluginVersion: string;
 }
