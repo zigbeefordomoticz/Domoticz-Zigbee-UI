@@ -1,7 +1,9 @@
 <footer class="navbar navbar-fixed-bottom" *ngIf="fork" style="line-height: 1">
   <div
     [ngClass]="
-      fork.pluginHealth?.HealthFlag === 3
+      fork.pluginHealth?.HealthFlag === 4
+        ? 'bg-primary fixed-bottom'
+        : fork.pluginHealth?.HealthFlag === 3
         ? 'bg-danger fixed-bottom'
         : fork.pluginHealth?.HealthFlag === 1 &&
           (!fork.pluginHealth?.GroupStatus || fork.pluginHealth?.GroupStatus === 'ready')

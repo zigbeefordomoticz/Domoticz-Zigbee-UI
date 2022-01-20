@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '@env/environment';
+import { Plugin } from '@app/shared/models/plugin';
 
 @Component({
   selector: 'app-about-es',
@@ -7,7 +7,7 @@ import { environment } from '@env/environment';
   styleUrls: ['./es-ES.component.scss']
 })
 export class AboutEsComponent implements OnInit {
-  version: string = environment.version;
+  version: string = (JSON.parse(sessionStorage.getItem('plugin')) as Plugin).PluginVersion;
 
   constructor() {}
 
