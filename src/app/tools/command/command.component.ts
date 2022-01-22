@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
+import { Plugin } from '@app/shared/models/plugin';
 
 const log = new Logger('CommandComponent');
 
@@ -9,7 +10,13 @@ const log = new Logger('CommandComponent');
   styleUrls: ['./command.component.scss']
 })
 export class CommandComponent implements OnInit {
+  plugin: Plugin;
+
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.plugin = JSON.parse(sessionStorage.getItem('plugin'));
+    }, 500);
+  }
 }

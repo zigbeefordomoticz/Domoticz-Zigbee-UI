@@ -2,7 +2,7 @@
   <div class="col-sm-6">
     <app-debug-command></app-debug-command>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-6" *ngIf="!plugin?.Zigpy">
     <app-raw-command></app-raw-command>
   </div>
 </div>

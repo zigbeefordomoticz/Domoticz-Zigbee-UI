@@ -25,4 +25,5 @@ export interface Plugin {
   Version: string;
   WebRoot: string;
   PluginVersion: string;
+  Zigpy: boolean;
 }
