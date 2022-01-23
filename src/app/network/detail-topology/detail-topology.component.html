@@ -23,6 +23,7 @@
               <div class="card-text">
                 <div>
                   <form [formGroup]="form">
+                    <input type="hidden" formControlName="detail" id="detail" />
                     <ng-select
                       [items]="devices"
                       [multiple]="false"
@@ -43,6 +44,21 @@
                     </ng-select>
                   </form>
                 </div>
+                <br />
+                <div *ngIf="showDetail">
+                  <span class="font-weight-bold">
+                    {{ 'device.byname.devicename.column' | translate }} : {{ device.ZDeviceName }} </span
+                  ><br />
+                  <span class="font-weight-bold">
+                    {{ 'device.byname.health.column' | translate }} : {{ device.Health }} </span
+                  ><br />
+                  <span class="font-weight-bold">
+                    {{ 'device.byname.model.column' | translate }} : {{ device.Model }} </span
+                  ><br />
+                  <span class="font-weight-bold">
+                    {{ 'network.topo.device.signalelevel.column' | translate }} : {{ device2.SignaleLevel }}
+                  </span>
+                </div>
                 <div [chart]="chart2"></div>
               </div>
             </div>
@@ -59,7 +75,7 @@
               <h5 class="card-title" [innerHTML]="'network.topo.device.visu.subtitle' | translate"></h5>
               <div class="card-text">
                 <ngx-datatable
-                  [rows]="devices$ | async"
+                  [rows]="devices2"
                   class="bootstrap"
                   [columnMode]="'force'"
                   [headerHeight]="40"

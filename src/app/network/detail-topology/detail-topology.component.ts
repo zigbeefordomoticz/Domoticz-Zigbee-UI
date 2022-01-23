@@ -9,7 +9,6 @@ import { Relation } from '@app/shared/models/relation';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
-import { Observable } from 'rxjs';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -22,10 +21,13 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   @Input() timeStamp: string;
   chart1: Chart;
   chart2: Chart;
-  devices$: Observable<Device[]>;
+  devices2: Device[];
   form: FormGroup;
   datas: Relation[];
   devices: DeviceByName[];
+  showDetail = false;
+  device: DeviceByName;
+  device2: Device;
 
   constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {
     super();
@@ -33,37 +35,49 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      nodeToFilter: [null]
+      nodeToFilter: [null],
+      detail: [null]
     });
 
     this.subs.sink = this.form.get('nodeToFilter').valueChanges.subscribe((value: string) => {
       this.createChart2(value);
     });
 
-    this.devices$ = this.apiService.getDevices();
+    this.subs.add(
+      this.form.get('detail').valueChanges.subscribe(value => {
+        if (value) {
+          this.showDetail = true;
+          this.device = this.devices.find(device => device.ZDeviceName === value);
+          this.device2 = this.devices2.find(device => device.Name === value);
+        } else {
+          this.showDetail = false;
+        }
+      })
+    );
 
-    this.apiService.getZDeviceName().subscribe(result => {
-      this.devices = result;
-      const zigate = {
-        IEEE: '',
-        MacCapa: '',
-        Model: '',
-        Health: '',
-        Status: '',
-        WidgetList: [''],
-        ZDeviceName: 'Zigate',
-        _NwkId: ''
-      };
-      this.devices.unshift(zigate);
-    });
+    this.apiService.getDevices().subscribe(devices => (this.devices2 = devices));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.timeStamp.currentValue !== changes.timeStamp.previousValue) {
       this.apiService.getTopologieByTimeStamp(this.timeStamp).subscribe(result => {
         this.datas = result;
-        this.createChart1();
-        this.createChart2();
+        this.apiService.getZDeviceName().subscribe(result => {
+          this.devices = result;
+          const zigate = {
+            IEEE: '',
+            MacCapa: '',
+            Model: '',
+            Health: '',
+            Status: '',
+            WidgetList: [''],
+            ZDeviceName: 'Zigate',
+            _NwkId: ''
+          };
+          this.devices.unshift(zigate);
+          this.createChart1();
+          this.createChart2();
+        });
       });
     }
   }
@@ -101,6 +115,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   createChart2(nodeToFilter?: string) {
+    let i = 0;
     let datas = this.datas.map(element => {
       const tab = Object.values(element);
       tab.splice(1, 1);
@@ -147,6 +162,24 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
           layoutAlgorithm: {
             enableSimulation: true,
             integration: 'verlet'
+          }
+        },
+        series: {
+          point: {
+            events: {
+              mouseOver: function (x) {
+                const el = document.getElementById('detail') as HTMLInputElement;
+                //el.value = this.name;
+                el.value = this.name;
+                el.dispatchEvent(new Event('input', { bubbles: true }));
+              }
+            }
+          },
+          events: {
+            mouseOut: function () {
+              const el = document.getElementById('detail') as HTMLInputElement;
+              el.value = null;
+            }
           }
         }
       },
