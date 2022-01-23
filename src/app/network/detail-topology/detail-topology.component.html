@@ -49,14 +49,14 @@
                   <span class="font-weight-bold">
                     {{ 'device.byname.devicename.column' | translate }} : {{ device.ZDeviceName }} </span
                   ><br />
-                  <span class="font-weight-bold">
+                  <span class="font-weight-bold" *ngIf="device.ZDeviceName != 'Zigate'">
                     {{ 'device.byname.health.column' | translate }} : {{ device.Health }} </span
                   ><br />
-                  <span class="font-weight-bold">
+                  <span class="font-weight-bold" *ngIf="device.ZDeviceName != 'Zigate'">
                     {{ 'device.byname.model.column' | translate }} : {{ device.Model }} </span
                   ><br />
-                  <span class="font-weight-bold">
-                    {{ 'network.topo.device.signalelevel.column' | translate }} : {{ device2.SignaleLevel }}
+                  <span class="font-weight-bold" *ngIf="device.ZDeviceName != 'Zigate'">
+                    {{ 'network.topo.device.signalelevel.column' | translate }} : {{ data._lnkqty }}
                   </span>
                 </div>
                 <div [chart]="chart2"></div>
@@ -75,7 +75,7 @@
               <h5 class="card-title" [innerHTML]="'network.topo.device.visu.subtitle' | translate"></h5>
               <div class="card-text">
                 <ngx-datatable
-                  [rows]="devices2"
+                  [rows]="devices$ | async"
                   class="bootstrap"
                   [columnMode]="'force'"
                   [headerHeight]="40"

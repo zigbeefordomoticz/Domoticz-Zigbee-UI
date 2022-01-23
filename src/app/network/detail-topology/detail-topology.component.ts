@@ -9,6 +9,7 @@ import { Relation } from '@app/shared/models/relation';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
+import { Observable } from 'rxjs';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -21,13 +22,13 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   @Input() timeStamp: string;
   chart1: Chart;
   chart2: Chart;
-  devices2: Device[];
+  devices$: Observable<Device[]>;
   form: FormGroup;
   datas: Relation[];
   devices: DeviceByName[];
   showDetail = false;
   device: DeviceByName;
-  device2: Device;
+  data: Relation;
 
   constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {
     super();
@@ -48,14 +49,14 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         if (value) {
           this.showDetail = true;
           this.device = this.devices.find(device => device.ZDeviceName === value);
-          this.device2 = this.devices2.find(device => device.Name === value);
+          this.data = this.datas.find(data => data.Father === value);
         } else {
           this.showDetail = false;
         }
       })
     );
 
-    this.apiService.getDevices().subscribe(devices => (this.devices2 = devices));
+    this.devices$ = this.apiService.getDevices();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,7 +89,6 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       tab.splice(1, 1);
       return tab;
     });
-    log.debug(series);
 
     const chart = new Chart({
       chart: {
