@@ -29,6 +29,8 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   showDetail = false;
   device: DeviceByName;
   data: Relation;
+  tos: any[];
+  froms: any[];
 
   constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {
     super();
@@ -46,13 +48,10 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
     this.subs.add(
       this.form.get('detail').valueChanges.subscribe(value => {
-        if (value) {
-          this.showDetail = true;
-          this.device = this.devices.find(device => device.ZDeviceName === value);
-          this.data = this.datas.find(data => data.Father === value);
-        } else {
-          this.showDetail = false;
-        }
+        const selectedPoint = this.chart2.ref.hoverPoint as any;
+        this.froms = selectedPoint.linksFrom.map((point: any) => point.options);
+        this.tos = selectedPoint.linksTo.map((point: any) => point.options);
+        this.tos = this.tos.concat(this.froms);
       })
     );
 
@@ -110,8 +109,6 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       ]
     });
     this.chart1 = chart;
-
-    this.subs.add(chart.ref$.subscribe());
   }
 
   createChart2(nodeToFilter?: string) {
@@ -167,18 +164,10 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         series: {
           point: {
             events: {
-              mouseOver: function (x) {
+              click: function () {
                 const el = document.getElementById('detail') as HTMLInputElement;
-                //el.value = this.name;
-                el.value = this.name;
                 el.dispatchEvent(new Event('input', { bubbles: true }));
               }
-            }
-          },
-          events: {
-            mouseOut: function () {
-              const el = document.getElementById('detail') as HTMLInputElement;
-              el.value = null;
             }
           }
         }
@@ -186,8 +175,6 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       series: series1
     });
     this.chart2 = chart;
-
-    this.subs.add(chart.ref$.subscribe());
   }
 
   test(series: any) {
