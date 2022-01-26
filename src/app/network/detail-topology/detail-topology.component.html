@@ -44,52 +44,42 @@
                     </ng-select>
                   </form>
                 </div>
-                <br />
                 <div [chart]="chart2"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-12 mt-3" *ngIf="relationsSelected">
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="card-header" translate="network.topo.device.visu.header"></div>
-            <div class="card-body">
-              <h5 class="card-title" [innerHTML]="'network.topo.device.visu.subtitle' | translate"></h5>
-              <div class="card-text">
-                <ngx-datatable
-                  [rows]="relationsSelected"
-                  class="bootstrap"
-                  [columnMode]="'force'"
-                  [headerHeight]="40"
-                  [footerHeight]="'auto'"
-                  [limit]="10"
-                  [rowHeight]="'auto'"
-                  [messages]="{
-                    emptyMessage: 'NODATA' | translate,
-                    totalMessage: 'TOTAL' | translate,
-                    selectedMessage: 'SELECTED' | translate
-                  }"
-                >
-                  <ngx-datatable-column name="{{ 'from' | translate }}">
-                    <ng-template ngx-datatable-cell-template let-row="row">
-                      {{ row.from }}
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="{{ 'to' | translate }}">
-                    <ng-template ngx-datatable-cell-template let-row="row">
-                      {{ row.to }}
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="{{ 'weight' | translate }}">
-                    <ng-template ngx-datatable-cell-template let-row="row">
-                      {{ row.weight }}
-                    </ng-template>
-                  </ngx-datatable-column>
-                </ngx-datatable>
+                <div class="row" *ngIf="relationsSelected">
+                  <div class="col">
+                    <div class="card">
+                      <div class="card-header" translate="network.topo.device.visu.header"></div>
+                      <div class="card-body">
+                        <h5 class="card-title" [innerHTML]="'network.topo.device.visu.subtitle' | translate"></h5>
+                        <div class="card-text">
+                          <ngx-datatable
+                            [rows]="relationsSelected"
+                            class="bootstrap"
+                            [columnMode]="'force'"
+                            [limit]="10"
+                            [rowHeight]="'auto'"
+                          >
+                            <ngx-datatable-column name="{{ 'from' | translate }}">
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                {{ row.from }}
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="{{ 'to' | translate }}">
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                {{ row.to }}
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="{{ 'weight' | translate }}">
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                {{ row.weight }}
+                              </ng-template>
+                            </ngx-datatable-column>
+                          </ngx-datatable>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
