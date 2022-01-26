@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-12 mt-3">
+    <div class="col-sm-12 mt-3" *ngIf="relationsSelected">
       <div class="row">
         <div class="col">
           <div class="card">
@@ -61,8 +61,7 @@
               <h5 class="card-title" [innerHTML]="'network.topo.device.visu.subtitle' | translate"></h5>
               <div class="card-text">
                 <ngx-datatable
-                  *ngIf="tos"
-                  [rows]="tos"
+                  [rows]="relationsSelected"
                   class="bootstrap"
                   [columnMode]="'force'"
                   [headerHeight]="40"

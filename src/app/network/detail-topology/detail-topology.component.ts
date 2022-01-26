@@ -29,8 +29,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   showDetail = false;
   device: DeviceByName;
   data: Relation;
-  tos: any[];
-  froms: any[];
+  relationsSelected: any[];
 
   constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {
     super();
@@ -49,9 +48,9 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.add(
       this.form.get('detail').valueChanges.subscribe(value => {
         const selectedPoint = this.chart2.ref.hoverPoint as any;
-        this.froms = selectedPoint.linksFrom.map((point: any) => point.options);
-        this.tos = selectedPoint.linksTo.map((point: any) => point.options);
-        this.tos = this.tos.concat(this.froms);
+        this.relationsSelected = selectedPoint.linksTo
+          .map((point: any) => point.options)
+          .concat(selectedPoint.linksFrom.map((point: any) => point.options));
       })
     );
 
