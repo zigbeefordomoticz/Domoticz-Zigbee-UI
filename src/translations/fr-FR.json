@@ -423,5 +423,10 @@
   "numEnergyReports": "nombre de rapports d'interférence enregistrés",
   "PowerOn_OnOff": "Etat de retour après une coupure électrique",
   "logDeviceUpdate": "Activer UpdateDevice messagedans les logs",
-  "capturePairingInfos": "Capture Pairing infos and save in Reports folder"
+  "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
+
+  "network.topo.visu.network.relation.header":"header",
+  "network.topo.visu.network.relation.subtitle":"subtitle",
+  "network.topo.visu.network.relation.to":"to",
+  "network.topo.visu.network.relation.weight":"weight"
 }

@@ -48,9 +48,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.add(
       this.form.get('detail').valueChanges.subscribe(value => {
         const selectedPoint = this.chart2.ref.hoverPoint as any;
-        this.relationsSelected = selectedPoint.linksTo
-          .map((point: any) => point.options)
-          .concat(selectedPoint.linksFrom.map((point: any) => point.options));
+        this.relationsSelected = selectedPoint.linksFrom.map((point: any) => point.options);
       })
     );
 

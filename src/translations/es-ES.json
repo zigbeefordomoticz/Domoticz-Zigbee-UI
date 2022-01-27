@@ -423,5 +423,10 @@
   "numEnergyReports": "Cantidad de informes de interferencias guardados",
   "PowerOn_OnOff": "Estado de retorno después de un corte de energía del dispositivo",
   "logDeviceUpdate": "Habilitar el mensaje UpdateDevice en el LOG",
-  "capturePairingInfos": "Capture información de emparejamiento y guárdela en la carpeta de informes"
+  "capturePairingInfos": "Capture información de emparejamiento y guárdela en la carpeta de informes",
+
+  "network.topo.visu.network.relation.header":"header",
+  "network.topo.visu.network.relation.subtitle":"subtitle",
+  "network.topo.visu.network.relation.to":"to",
+  "network.topo.visu.network.relation.weight":"weight"
 }
