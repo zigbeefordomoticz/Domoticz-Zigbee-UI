@@ -61,6 +61,11 @@
                             [columnMode]="'force'"
                             [limit]="10"
                             [rowHeight]="'auto'"
+                            [messages]="{
+                              emptyMessage: 'network.topo.visu.network.relation.nochild' | translate,
+                              totalMessage: 'TOTAL' | translate,
+                              selectedMessage: 'SELECTED' | translate
+                            }"
                           >
                             <ngx-datatable-column name="{{ 'network.topo.visu.network.relation.to' | translate }}">
                               <ng-template ngx-datatable-cell-template let-row="row">

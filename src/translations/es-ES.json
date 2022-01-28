@@ -428,5 +428,6 @@
   "network.topo.visu.network.relation.header":"header",
   "network.topo.visu.network.relation.subtitle":"subtitle",
   "network.topo.visu.network.relation.to":"to",
-  "network.topo.visu.network.relation.weight":"weight"
+  "network.topo.visu.network.relation.weight":"weight",
+  "network.topo.visu.network.relation.nochild":"nochild"
 }
