@@ -8,4 +8,5 @@ export interface DeviceByName {
   ZDeviceName: string;
   _NwkId: string;
   Param?: string;
+  Battery?: number;
 }

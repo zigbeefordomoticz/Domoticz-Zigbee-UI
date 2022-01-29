@@ -3,13 +3,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
-import { Device } from '@app/shared/models/device';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Relation } from '@app/shared/models/relation';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
-import { Observable } from 'rxjs';
 
 const log = new Logger('DetailTopologyComponent');
 
@@ -22,7 +20,6 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   @Input() timeStamp: string;
   chart1: Chart;
   chart2: Chart;
-  devices$: Observable<Device[]>;
   form: FormGroup;
   datas: Relation[];
   devices: DeviceByName[];
@@ -41,6 +38,21 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       detail: [null]
     });
 
+    this.apiService.getZDeviceName().subscribe(result => {
+      this.devices = result;
+      const zigate = {
+        IEEE: '',
+        MacCapa: '',
+        Model: '',
+        Health: '',
+        Status: '',
+        WidgetList: [''],
+        ZDeviceName: 'Zigate',
+        _NwkId: ''
+      };
+      this.devices.unshift(zigate);
+    });
+
     this.subs.sink = this.form.get('nodeToFilter').valueChanges.subscribe((value: string) => {
       this.createChart2(value);
     });
@@ -49,32 +61,23 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       this.form.get('detail').valueChanges.subscribe(value => {
         const selectedPoint = this.chart2.ref.hoverPoint as any;
         this.relationsSelected = selectedPoint.linksFrom.map((point: any) => point.options);
+        this.relationsSelected.map(relation => {
+          const to = this.devices.find(device => device.ZDeviceName === relation.to || device._NwkId === relation.to);
+          relation.Model = to.Model;
+          relation.Status = to.Status;
+          relation.Health = to.Health;
+          relation.Battery = to.Battery;
+        });
       })
     );
-
-    this.devices$ = this.apiService.getDevices();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.timeStamp.currentValue !== changes.timeStamp.previousValue) {
       this.apiService.getTopologieByTimeStamp(this.timeStamp).subscribe(result => {
         this.datas = result;
-        this.apiService.getZDeviceName().subscribe(result => {
-          this.devices = result;
-          const zigate = {
-            IEEE: '',
-            MacCapa: '',
-            Model: '',
-            Health: '',
-            Status: '',
-            WidgetList: [''],
-            ZDeviceName: 'Zigate',
-            _NwkId: ''
-          };
-          this.devices.unshift(zigate);
-          this.createChart1();
-          this.createChart2();
-        });
+        this.createChart1();
+        this.createChart2();
       });
     }
   }

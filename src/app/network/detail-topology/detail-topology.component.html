@@ -59,22 +59,65 @@
                             [rows]="relationsSelected"
                             class="bootstrap"
                             [columnMode]="'force'"
+                            [footerHeight]="'auto'"
                             [limit]="10"
                             [rowHeight]="'auto'"
+                            [sorts]="[{ prop: 'to', dir: 'asc' }]"
                             [messages]="{
                               emptyMessage: 'network.topo.visu.network.relation.nochild' | translate,
                               totalMessage: 'TOTAL' | translate,
                               selectedMessage: 'SELECTED' | translate
                             }"
                           >
-                            <ngx-datatable-column name="{{ 'network.topo.visu.network.relation.to' | translate }}">
+                            <ngx-datatable-column
+                              name="{{ 'network.topo.visu.network.relation.to' | translate }}"
+                              prop="to"
+                            >
                               <ng-template ngx-datatable-cell-template let-row="row">
                                 {{ row.to }}
                               </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column name="{{ 'network.topo.visu.network.relation.weight' | translate }}">
+                            <ngx-datatable-column
+                              name="{{ 'network.topo.visu.network.relation.weight' | translate }}"
+                              prop="weight"
+                              [maxWidth]="50"
+                            >
                               <ng-template ngx-datatable-cell-template let-row="row">
                                 {{ row.weight }}
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column
+                              name="{{ 'network.topo.visu.network.relation.model' | translate }}"
+                              prop="Model"
+                            >
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                {{ row.Model }}
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column
+                              name="{{ 'network.topo.visu.network.relation.status' | translate }}"
+                              prop="Status"
+                              [maxWidth]="100"
+                            >
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                {{ row.Status }}
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column
+                              name="{{ 'network.topo.visu.network.relation.health' | translate }}"
+                              prop="Health"
+                            >
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                {{ row.Health }}
+                              </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column
+                              name="{{ 'network.topo.visu.network.relation.battery' | translate }}"
+                              prop="Battery"
+                              [maxWidth]="100"
+                            >
+                              <ng-template ngx-datatable-cell-template let-row="row">
+                                {{ row.Battery }}
                               </ng-template>
                             </ngx-datatable-column>
                           </ngx-datatable>

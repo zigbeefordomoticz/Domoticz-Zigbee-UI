@@ -429,5 +429,9 @@
   "network.topo.visu.network.relation.subtitle":"Le tableau affiche la valeur LQI entre l'objet sélectionné et tous ses objets enfants.",
   "network.topo.visu.network.relation.to":"Enfants",
   "network.topo.visu.network.relation.weight":"LQI",
-  "network.topo.visu.network.relation.nochild":"L'objet sélectionné n'a pas d'enfants."
+  "network.topo.visu.network.relation.nochild":"L'objet sélectionné n'a pas d'enfants.",
+  "network.topo.visu.network.relation.model":"model",
+  "network.topo.visu.network.relation.status":"status",
+  "network.topo.visu.network.relation.health":"health",
+  "network.topo.visu.network.relation.battery":"battery"
 }
