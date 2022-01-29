@@ -123,7 +123,7 @@
   "network.topo.visu.header": "Illustration du maillage",
   "network.topo.visu.subtitle": "L'illustration de votre maillage montre tous les liens entre 2 objets. <br>Si vous déplacez le curseur sur un lien, vous verrez la liaison avec la valeur LQI indiquant la qualité de la liaison (de 0 à 255 = la meilleure possible).",
   "network.topo.visu.network.header": "Illustration du réseau",
-  "network.topo.visu.network.subtitle": "L'illustration du réseau ZigBee montre les communications possibles entre les objets.<br>Par défaut, les liens entre les objets frères ne sont pas affichés. Activer si besoin l'option <strong>displaySibling</strong> <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/zigbeefordomoticz/wiki/tree/master/fr-fr/WebUI_Reseau.md#le-graphique-du-r%C3%A9seau' target='_blank'></a>",
+  "network.topo.visu.network.subtitle": "L'illustration du réseau ZigBee montre les communications possibles entre les objets.<br>Par défaut, les liens entre les objets frères ne sont pas affichés. Activer si besoin l'option <strong>displaySibling</strong> <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/zigbeefordomoticz/wiki/tree/master/fr-fr/WebUI_Reseau.md#le-graphique-du-r%C3%A9seau' target='_blank'></a><br>Cliquer sur un objet pour faire afficher ses objets enfants dans un tableau en dessous.",
   "network.topo.visu.network.filter": "Filtrer par routeur",
   "network.topo.device.visu.network.chart.title": "Illustration du réseau",
   "network.topo.visu.delete.button": "Effacer",
@@ -425,8 +425,9 @@
   "logDeviceUpdate": "Activer UpdateDevice messagedans les logs",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
 
-  "network.topo.visu.network.relation.header":"header",
-  "network.topo.visu.network.relation.subtitle":"subtitle",
-  "network.topo.visu.network.relation.to":"to",
-  "network.topo.visu.network.relation.weight":"weight"
+  "network.topo.visu.network.relation.header":"Liste des enfants de l'objet sélectionné",
+  "network.topo.visu.network.relation.subtitle":"Le tableau affiche la valeur LQI entre l'objet sélectionné et tous ses objets enfants.",
+  "network.topo.visu.network.relation.to":"Enfants",
+  "network.topo.visu.network.relation.weight":"LQI",
+  "network.topo.visu.network.relation.nochild":"L'objet sélectionné n'a pas d'enfants."
 }
