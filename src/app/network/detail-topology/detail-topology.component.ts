@@ -60,11 +60,9 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.add(
       this.form.get('detail').valueChanges.subscribe(value => {
         const selectedPoint = this.chart2.ref.hoverPoint as any;
-        this.relationsSelected = selectedPoint.linksTo.map((point: any) => point.options);
+        this.relationsSelected = selectedPoint.linksFrom.map((point: any) => point.options);
         this.relationsSelected.map(relation => {
-          const to = this.devices.find(
-            device => device.ZDeviceName === relation.from || device._NwkId === relation.from
-          );
+          const to = this.devices.find(device => device.ZDeviceName === relation.to || device._NwkId === relation.to);
           relation.Model = to.Model;
           relation.Status = to.Status;
           relation.Health = to.Health;
@@ -133,7 +131,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       {
         nodes: undefined,
         type: undefined,
-        keys: ['to', 'from', 'weight'],
+        keys: ['from', 'to', 'weight'],
         dataLabels: {
           enabled: true,
           linkFormat: ''
@@ -157,7 +155,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       },
       plotOptions: {
         networkgraph: {
-          keys: ['from', 'to', 'weight'],
+          keys: ['to', 'from', 'weight'],
           layoutAlgorithm: {
             enableSimulation: true,
             integration: 'verlet'
@@ -184,10 +182,10 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     let i = 0;
     const nodes = {};
     series[0].data.forEach(function (link: any) {
-      if (link[1] !== 'Coordinator') {
-        if (link[0] === 'Coordinator') {
-          nodes['Coordinator'] = {
-            id: 'Coordinator',
+      if (link[1] !== 'Zigbee Coordinator') {
+        if (link[0] === 'Zigbee Coordinator') {
+          nodes['Zigbee Coordinator'] = {
+            id: 'Zigbee Coordinator',
             marker: {
               radius: 20
             }
