@@ -60,9 +60,11 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.add(
       this.form.get('detail').valueChanges.subscribe(value => {
         const selectedPoint = this.chart2.ref.hoverPoint as any;
-        this.relationsSelected = selectedPoint.linksFrom.map((point: any) => point.options);
+        this.relationsSelected = selectedPoint.linksTo.map((point: any) => point.options);
         this.relationsSelected.map(relation => {
-          const to = this.devices.find(device => device.ZDeviceName === relation.to || device._NwkId === relation.to);
+          const to = this.devices.find(
+            device => device.ZDeviceName === relation.from || device._NwkId === relation.from
+          );
           relation.Model = to.Model;
           relation.Status = to.Status;
           relation.Health = to.Health;
@@ -131,7 +133,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       {
         nodes: undefined,
         type: undefined,
-        keys: ['from', 'to', 'weight'],
+        keys: ['to', 'from', 'weight'],
         dataLabels: {
           enabled: true,
           linkFormat: ''

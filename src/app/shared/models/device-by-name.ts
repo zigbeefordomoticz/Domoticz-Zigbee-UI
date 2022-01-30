@@ -1,7 +1,7 @@
 export interface DeviceByName {
   IEEE: string;
   MacCapa: string;
-  Model: string;
+  Model?: string;
   Health: string;
   Status: string;
   WidgetList: Array<string>;
