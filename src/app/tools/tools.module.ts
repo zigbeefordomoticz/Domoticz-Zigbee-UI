@@ -12,7 +12,7 @@ import { DebugSettingsComponent } from './debug-settings/debug-settings.componen
 import { PluginComponent } from './plugin/plugin.component';
 import { ToolsRoutingModule } from './tools-routing.module';
 import { ToolsComponent } from './tools.component';
-import { ZigateComponent } from './zigate/zigate.component';
+import { CoordinatorComponent } from './coordinator/coordinator.component';
 import { ErrorComponent } from './error/error.component';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { ErrorComponent } from './error/error.component';
   declarations: [
     ToolsComponent,
     PluginComponent,
-    ZigateComponent,
+    CoordinatorComponent,
     DebugCommandComponent,
     BindingComponent,
     RawCommandComponent,
