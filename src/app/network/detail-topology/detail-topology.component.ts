@@ -40,17 +40,17 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
     this.apiService.getZDeviceName().subscribe(result => {
       this.devices = result;
-      const zigate = {
+      const coordinator = {
         IEEE: '',
         MacCapa: '',
         Model: '',
         Health: '',
         Status: '',
         WidgetList: [''],
-        ZDeviceName: 'Zigate',
+        ZDeviceName: 'Coordinator',
         _NwkId: ''
       };
-      this.devices.unshift(zigate);
+      this.devices.unshift(coordinator);
     });
 
     this.subs.sink = this.form.get('nodeToFilter').valueChanges.subscribe((value: string) => {
@@ -182,10 +182,10 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     let i = 0;
     const nodes = {};
     series[0].data.forEach(function (link: any) {
-      if (link[1] !== 'Zigate') {
-        if (link[0] === 'Zigate') {
-          nodes['Zigate'] = {
-            id: 'Zigate',
+      if (link[1] !== 'Coordinator') {
+        if (link[0] === 'Coordinator') {
+          nodes['Coordinator'] = {
+            id: 'Coordinator',
             marker: {
               radius: 20
             }
