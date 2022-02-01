@@ -1,6 +1,6 @@
 export interface DeviceByName {
   IEEE: string;
-  MacCapa: string;
+  MacCapa: Array<string>;
   Model?: string;
   Health: string;
   Status: string;
@@ -8,5 +8,7 @@ export interface DeviceByName {
   ZDeviceName: string;
   _NwkId: string;
   Param?: string;
-  Battery?: number;
+  Battery?: any;
+  ConsistencyCheck?: string;
+  LQI?: number;
 }

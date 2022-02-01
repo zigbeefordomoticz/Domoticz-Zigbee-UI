@@ -1,4 +1,3 @@
-import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,6 +6,7 @@ import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgBootstrapDarkmodeModule } from 'ng-bootstrap-darkmode';
 import { NgxMousetrapModule } from 'ngx-mousetrap';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +33,7 @@ import { ShellModule } from './shell/shell.module';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
     }),
+    NgBootstrapDarkmodeModule,
     AppRoutingModule
   ],
   declarations: [AppComponent],
