@@ -6,7 +6,7 @@
   ></button>
   <button
     class="col-sm-2 ml-3 btn btn-primary"
-    (click)="onClick('zigate')"
+    (click)="onClick('coordinator')"
     translate="tools.zigate.infos.button"
   ></button>
   <button class="col-sm-2 ml-3 btn btn-primary" (click)="onClick('devices')" translate="tools.device.button"></button>
@@ -61,5 +61,5 @@
   </div>
 
   <div class="mt-3 col-sm" *ngIf="isInfosPluginLoading"><app-plugin></app-plugin></div>
-  <div class="mt-3 col-sm" *ngIf="isInfosZigate"><app-zigate></app-zigate></div>
+  <div class="mt-3 col-sm" *ngIf="isInfosCoordinator"><app-coordinator></app-coordinator></div>
 </div>

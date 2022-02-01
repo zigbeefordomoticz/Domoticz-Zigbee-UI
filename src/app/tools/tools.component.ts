@@ -34,7 +34,7 @@ export class ToolsComponent implements OnInit {
   json: Object | undefined = null;
   isLoading = false;
   isInfosPluginLoading = false;
-  isInfosZigate = false;
+  isInfosCoordinator = false;
 
   constructor(private apiService: ApiService, private fileSaverService: FileSaverService) {}
 
@@ -42,7 +42,7 @@ export class ToolsComponent implements OnInit {
 
   onClick(device: string) {
     this.isInfosPluginLoading = false;
-    this.isInfosZigate = false;
+    this.isInfosCoordinator = false;
     this.json = null;
     let service;
     if (device === 'devices') {
@@ -60,8 +60,8 @@ export class ToolsComponent implements OnInit {
     if (device === 'infos') {
       this.isInfosPluginLoading = true;
     }
-    if (device === 'zigate') {
-      this.isInfosZigate = true;
+    if (device === 'coordinator') {
+      this.isInfosCoordinator = true;
     }
     if (device === 'plugin-health') {
       service = this.apiService.getPluginhealth();

@@ -23,8 +23,8 @@ export class SwitchChannelComponent implements OnInit {
   ngOnInit() {
     this.apiService.getSettings().subscribe(res => {
       this.settings = res;
-      const zigateConf = this.settings.find(settings => settings._Theme === 'ZigateConfiguration');
-      this.channel = zigateConf.ListOfSettings.find(setting => setting.Name === 'channel');
+      const coordinatorConf = this.settings.find(settings => settings._Theme === 'ZigateConfiguration');
+      this.channel = coordinatorConf.ListOfSettings.find(setting => setting.Name === 'channel');
       this.selectedChannel = this.channel.current_value;
       this.channel.list.forEach(v => {
         const key = Object.keys(v)[0];
