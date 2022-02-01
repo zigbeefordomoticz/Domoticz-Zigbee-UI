@@ -429,5 +429,9 @@
   "network.topo.visu.network.relation.subtitle":"subtitle",
   "network.topo.visu.network.relation.to":"to",
   "network.topo.visu.network.relation.weight":"weight",
-  "network.topo.visu.network.relation.nochild":"nochild"
+  "network.topo.visu.network.relation.nochild":"nochild",
+  "network.topo.visu.network.relation.model":"model",
+  "network.topo.visu.network.relation.status":"status",
+  "network.topo.visu.network.relation.health":"health",
+  "network.topo.visu.network.relation.battery":"battery"
 }

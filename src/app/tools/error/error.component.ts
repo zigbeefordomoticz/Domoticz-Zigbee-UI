@@ -1,11 +1,11 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ApiService } from '@app/services/api.service';
-import { finalize } from 'rxjs/operators';
 import { Logger } from '@app/core';
-import { DatePipe } from '@angular/common';
-import { FileSaverService } from 'ngx-filesaver';
+import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
+import { FileSaverService } from 'ngx-filesaver';
+import { finalize } from 'rxjs/operators';
 
 const log = new Logger('ErrorComponent');
 
@@ -36,7 +36,7 @@ export class ErrorComponent implements OnInit {
   json: Object | undefined = null;
   isLoading = false;
   isInfosPluginLoading = false;
-  isInfosZigate = false;
+  isInfosCoordinator = false;
 
   constructor(
     private apiService: ApiService,
@@ -50,7 +50,7 @@ export class ErrorComponent implements OnInit {
 
   onClick(device: string) {
     this.isInfosPluginLoading = false;
-    this.isInfosZigate = false;
+    this.isInfosCoordinator = false;
     this.json = null;
     let service;
 
