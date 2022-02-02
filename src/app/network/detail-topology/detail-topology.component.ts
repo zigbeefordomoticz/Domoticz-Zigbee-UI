@@ -39,8 +39,8 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     });
 
     this.apiService.getZDeviceName().subscribe(result => {
-      this.devices = result;
-      //      this.devices = this.zdevices;
+      //      this.devices = result;
+      this.devices = this.zdevices;
       const coordinator = {
         IEEE: '',
         MacCapa: [''],
@@ -48,7 +48,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         Health: '',
         Status: '',
         WidgetList: [''],
-        ZDeviceName: 'Coordinator',
+        ZDeviceName: 'Zigbee Controller',
         _NwkId: ''
       };
       this.devices.unshift(coordinator);
@@ -61,14 +61,27 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.add(
       this.form.get('detail').valueChanges.subscribe(value => {
         const selectedPoint = this.chart2.ref.hoverPoint as any;
-        this.relationsSelected = selectedPoint.linksFrom.map((point: any) => point.options);
-        this.relationsSelected.map(relation => {
+        let toSelected = selectedPoint.linksFrom.map((point: any) => point.options) as any[];
+        toSelected.map(relation => {
           const to = this.devices.find(device => device.ZDeviceName === relation.to || device._NwkId === relation.to);
           relation.Model = to.Model;
           relation.Status = to.Status;
           relation.Health = to.Health;
           relation.Battery = to.Battery;
         });
+        let fromSelected = selectedPoint.linksTo.map((point: any) => point.options) as any[];
+        fromSelected.map(relation => {
+          const from = this.devices.find(
+            device => device.ZDeviceName === relation.from || device._NwkId === relation.from
+          );
+          relation.Model = from.Model;
+          relation.Status = from.Status;
+          relation.Health = from.Health;
+          relation.Battery = from.Battery;
+          relation.to = relation.from;
+        });
+
+        this.relationsSelected = toSelected.concat(fromSelected);
       })
     );
   }
@@ -76,8 +89,8 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.timeStamp.currentValue !== changes.timeStamp.previousValue) {
       this.apiService.getTopologieByTimeStamp(this.timeStamp).subscribe(result => {
-        this.datas = result;
-        //        this.datas = this.relationsPipiche;
+        //        this.datas = result;
+        this.datas = this.relationsPipiche;
         this.createChart1();
         this.createChart2();
       });
@@ -213,7 +226,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     });
   }
 
-  /*   relationsPipiche = [
+  relationsPipiche = [
     {
       Child: 'IAS Sirene',
       DeviceType: 'Router',
@@ -600,5 +613,5 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       ZDeviceName: 'Wiser Thermostat',
       _NwkId: '5a00'
     }
-  ]; */
+  ];
 }
