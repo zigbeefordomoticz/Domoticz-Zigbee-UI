@@ -7,10 +7,9 @@ import { ShellComponent } from './shell.component';
 import { HeaderComponent } from './header/header.component';
 import { VersionComponent } from './version/version.component';
 import { FormsModule } from '@angular/forms';
-import { NgBootstrapDarkmodeModule } from 'ng-bootstrap-darkmode';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, NgbModule, FormsModule, NgBootstrapDarkmodeModule, RouterModule],
+  imports: [CommonModule, TranslateModule, NgbModule, FormsModule, RouterModule],
   declarations: [HeaderComponent, ShellComponent, VersionComponent]
 })
 export class ShellModule {}
