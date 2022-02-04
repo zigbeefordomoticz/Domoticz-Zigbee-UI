@@ -47,7 +47,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         Health: '',
         Status: '',
         WidgetList: [''],
-        ZDeviceName: 'Zigbee Controller',
+        ZDeviceName: 'Zigbee Coordinator',
         _NwkId: ''
       };
       this.devices.unshift(coordinator);
@@ -208,13 +208,13 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     let i = 0;
     const nodes = {};
 
-    nodes['Zigbee Controller'] = {
-      id: 'Zigbee Controller',
+    nodes['Zigbee Coordinator'] = {
+      id: 'Zigbee Coordinator',
       marker: {
         radius: 20
       }
     };
-    const level1 = this.datas.filter(level => level.Child === 'Zigbee Controller');
+    const level1 = this.datas.filter(level => level.Child === 'Zigbee Coordinator');
     let nextLevel: string[] = [];
     level1.forEach(level => {
       nodes[level.Father] = {
