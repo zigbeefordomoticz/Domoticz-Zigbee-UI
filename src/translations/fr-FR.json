@@ -425,7 +425,7 @@
   "logDeviceUpdate": "Activer UpdateDevice messagedans les logs",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
 
-  "network.topo.visu.network.relation.header":"Liste des enfants de l'objet sélectionné",
+  "network.topo.visu.network.relation.header":"Liste des enfants de l'objet {{deviceSelected}}",
   "network.topo.visu.network.relation.subtitle":"Le tableau affiche la valeur LQI entre l'objet sélectionné et tous ses objets enfants.",
   "network.topo.visu.network.relation.to":"Enfants",
   "network.topo.visu.network.relation.weight":"LQI",

@@ -424,7 +424,7 @@
   "logDeviceUpdate": "Schakel updaten apparaat bericht in log",
   "capturePairingInfos": "Sla pairing informatie op in reports folder",
   "error_required": "Benodigd",
-  "network.topo.visu.network.relation.header": "Lijst met gekoppelde onderdelen van het object",
+  "network.topo.visu.network.relation.header": "Lijst met gekoppelde onderdelen van het object {{deviceSelected}}",
   "network.topo.visu.network.relation.subtitle": "Deze lijst geeft de LQI-waarde weer, tussen het geselecteerde object en al zijn koppelingen.",
   "network.topo.visu.network.relation.to": "koppelingen",
   "network.topo.visu.network.relation.weight": "LQI",

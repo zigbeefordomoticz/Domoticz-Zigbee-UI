@@ -48,7 +48,11 @@
                 <div class="row" *ngIf="relationsSelected">
                   <div class="col">
                     <div class="card">
-                      <div class="card-header" translate="network.topo.visu.network.relation.header"></div>
+                      <div
+                        class="card-header"
+                        translate="network.topo.visu.network.relation.header"
+                        [translateParams]="{ deviceSelected: selectedPoint.name }"
+                      ></div>
                       <div class="card-body">
                         <h5
                           class="card-title"
