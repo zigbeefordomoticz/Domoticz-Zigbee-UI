@@ -19,8 +19,8 @@ export class SwResetComponent implements OnInit {
   ngOnInit() {}
 
   swReset(event: any) {
-    this.apiService.getSwResetZigate().subscribe(() => {
-      this.toastr.success(this.translate.instant('admin.coordinator.swreset.notify'));
+    this.apiService.getSwReset().subscribe(() => {
+      this.toastr.success(this.translate.instant('admin.swreset.notify'));
     });
   }
 }

@@ -3,7 +3,7 @@ import { ApiService } from '@app/services/api.service';
 import { Observable } from 'rxjs';
 import { Logger } from '@app/core';
 
-const log = new Logger('ZigateComponent');
+const log = new Logger('CoordinatorComponent');
 
 @Component({
   selector: 'app-coordinator',
@@ -16,6 +16,6 @@ export class CoordinatorComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.coordinator$ = this.apiService.getZigate();
+    this.coordinator$ = this.apiService.getCoordinator();
   }
 }
