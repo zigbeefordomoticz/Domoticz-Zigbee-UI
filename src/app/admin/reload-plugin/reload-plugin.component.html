@@ -1,10 +1,10 @@
 <div class="col-sm">
   <div class="card">
-    <div class="card-header" translate="admin.reloadplugin.title"></div>
+    <div class="card-header" translate="admin.plugin.reload.title"></div>
     <div class="card-body">
-      <h5 class="card-title" [innerHTML]="'admin.reloadplugin.subtitle' | translate"></h5>
+      <h5 class="card-title" [innerHTML]="'admin.plugin.reload.subtitle' | translate"></h5>
       <div class="card-text">
-        <button class="w-100 btn btn-primary" (click)="open(content)" translate="admin.reloadplugin.button"></button>
+        <button class="w-100 btn btn-primary" (click)="open(content)" translate="admin.plugin.reload.button"></button>
       </div>
     </div>
   </div>
@@ -12,24 +12,24 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" translate="admin.reloadplugin.alert.title"></h4>
+    <h4 class="modal-title" id="modal-basic-title" translate="admin.plugin.reload.alert.title"></h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body" translate="admin.reloadplugin.alert.subject"></div>
+  <div class="modal-body" translate="admin.plugin.reload.alert.subject"></div>
   <div class="modal-footer">
     <button
       type="button"
       class="btn btn-primary"
       (click)="modal.close('erase')"
-      translate="admin.reloadplugin.alert.erase"
+      translate="admin.plugin.reload.alert.erase"
     ></button>
     <button
       type="button"
       class="btn btn-outline-dark"
       (click)="modal.dismiss('cancel')"
-      translate="admin.reloadplugin.alert.cancel"
+      translate="admin.plugin.reload.alert.cancel"
     ></button>
   </div>
 </ng-template>

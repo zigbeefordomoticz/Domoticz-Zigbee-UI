@@ -44,7 +44,7 @@ export class SwitchChannelComponent implements OnInit {
 
   switchChannel(event: any) {
     this.apiService.putChangeChannel(this.selectedChannel).subscribe(() => {
-      this.toastr.success(this.translate.instant('admin.switchchannel.notify'));
+      this.toastr.success(this.translate.instant('admin.coordinator.switchchannel.notify'));
     });
   }
 }
