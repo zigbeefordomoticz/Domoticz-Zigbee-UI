@@ -20,7 +20,7 @@ export class SwResetComponent implements OnInit {
 
   swReset(event: any) {
     this.apiService.getSwReset().subscribe(() => {
-      this.toastr.success(this.translate.instant('admin.swreset.notify'));
+      this.toastr.success(this.translate.instant('admin.coordinator.swreset.notify'));
     });
   }
 }
