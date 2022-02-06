@@ -37,9 +37,9 @@ const routes = {
   zgroupDevicesAvalaible: '/zgroup-list-available-device',
   reqTopology: '/req-topologie',
   reqInter: '/req-nwk-inter',
-  swResetZigate: '/sw-reset-zigate',
-  zigateErasePDM: '/zigate-erase-PDM',
-  zigate: '/zigate',
+  swReset: '/sw-reset-coordinator',
+  erasePDM: '/coordinator-erase-PDM',
+  coordinator: '/coordinator',
   restartNeeded: '/restart-needed',
   domoticzEnv: '/domoticz-env',
   pluginHealth: '/plugin-health',
@@ -277,15 +277,15 @@ export class ApiService {
     );
   }
 
-  getZigate(): Observable<any> {
-    return this.httpClient.get(routes.zigate).pipe(
+  getCoordinator(): Observable<any> {
+    return this.httpClient.get(routes.coordinator).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
   }
 
-  getSwResetZigate(): Observable<any> {
-    return this.httpClient.get(routes.swResetZigate).pipe(
+  getSwReset(): Observable<any> {
+    return this.httpClient.get(routes.swReset).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
@@ -298,8 +298,8 @@ export class ApiService {
     );
   }
 
-  getZigateErasePDM(): Observable<any> {
-    return this.httpClient.get(routes.zigateErasePDM).pipe(
+  getErasePDM(): Observable<any> {
+    return this.httpClient.get(routes.erasePDM).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
