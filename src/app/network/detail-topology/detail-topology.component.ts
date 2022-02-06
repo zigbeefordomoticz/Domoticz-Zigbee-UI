@@ -27,6 +27,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   device: DeviceByName;
   data: Relation;
   relationsSelected: any[];
+  selectedPoint: any;
 
   constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {
     super();
@@ -60,8 +61,8 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     this.subs.add(
       this.form.get('detail').valueChanges.subscribe(value => {
         let selected: any[] = [];
-        const selectedPoint = this.chart2.ref.hoverPoint as any;
-        let toSelected = selectedPoint.linksFrom.map((point: any) => point.options) as any[];
+        this.selectedPoint = this.chart2.ref.hoverPoint;
+        let toSelected = this.selectedPoint.linksFrom.map((point: any) => point.options) as any[];
         toSelected.map(relation => {
           const to = this.devices.find(device => device.ZDeviceName === relation.to || device._NwkId === relation.to);
           selected.push({
@@ -74,7 +75,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
             Battery: to.Battery
           });
         });
-        let fromSelected = selectedPoint.linksTo.map((point: any) => point.options) as any[];
+        let fromSelected = this.selectedPoint.linksTo.map((point: any) => point.options) as any[];
 
         fromSelected.map(relation => {
           if (!selected.some(to => to.to === relation.from)) {
