@@ -5,7 +5,11 @@
       <h5 class="card-title" [innerHTML]="'admin.coordinator.switchchannel.subtitle' | translate"></h5>
 
       <div *ngIf="channel" class="form-group row mt-2">
-        <label for="current" translate="admin.coordinator.switchchannel.placeholder" class="col-sm-6 col-form-label"></label>
+        <label
+          for="current"
+          translate="admin.coordinator.switchchannel.placeholder"
+          class="col-sm-6 col-form-label"
+        ></label>
         <div class="col-sm">
           <ng-select
             [items]="list"

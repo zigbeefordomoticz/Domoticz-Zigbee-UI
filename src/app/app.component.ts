@@ -6,11 +6,13 @@ import { Plugin } from '@app/shared/models/plugin';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxMousetrapService } from 'ngx-mousetrap';
-import { merge } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
 import { HeaderService } from './services/header-service';
 import { UnsubscribeOnDestroyAdapter } from './shared/adapter/unsubscribe-adapter';
+import { NgcCookieConsentService, NgcStatusChangeEvent } from 'ngx-cookieconsent';
+import { MatomoTracker } from '@ngx-matomo/tracker';
 
 const log = new Logger('App');
 
@@ -24,6 +26,10 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
   keysBoundInactive = environment.keysBoundInactive;
   activateRefresh = false;
 
+  //keep refs to subscriptions to be able to unsubscribe later
+  private statusChangeSubscription!: Subscription;
+  private hasRememberedConsent!: Subscription;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -32,9 +38,12 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     private apiService: ApiService,
     private i18nService: I18nService,
     private headerService: HeaderService,
-    private mouseTrapService: NgxMousetrapService
+    private mouseTrapService: NgxMousetrapService,
+    private ccService: NgcCookieConsentService,
+    private readonly tracker: MatomoTracker
   ) {
     super();
+    this.tracker.requireConsent();
   }
 
   ngOnInit() {
@@ -45,14 +54,43 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
 
     log.debug('init');
 
+    // Setup translations
+    this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
+
+    this.translateService
+      .get(['cookie.message', 'cookie.dismiss', 'cookie.allow', 'cookie.deny', 'cookie.link', 'cookie.policy'])
+      .subscribe(data => {
+        this.ccService.getConfig().content = this.ccService.getConfig().content || {};
+        this.ccService.getConfig().content.message = data['cookie.message'];
+        this.ccService.getConfig().content.dismiss = data['cookie.dismiss'];
+        this.ccService.getConfig().content.allow = data['cookie.allow'];
+        this.ccService.getConfig().content.deny = data['cookie.deny'];
+        this.ccService.getConfig().content.link = data['cookie.link'];
+        this.ccService.getConfig().content.policy = data['cookie.policy'];
+        this.ccService.destroy();
+        this.ccService.init(this.ccService.getConfig());
+
+        this.statusChangeSubscription = this.ccService.statusChange$.subscribe((event: NgcStatusChangeEvent) => {
+          if (event.status === 'allow') {
+            this.tracker.rememberConsentGiven();
+          } else {
+            this.tracker.optUserOut();
+          }
+        });
+
+        this.tracker.hasRememberedConsent().then(consent => {
+          if (consent) {
+            this.tracker.setConsentGiven();
+          }
+        });
+      });
+
     this.apiService.getCasiaDevices().subscribe(devices => {
       if (devices.length > 0) {
         this.headerService.setShowManufacturer(true);
       }
     });
 
-    // Setup translations
-    this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
     this.apiService.getPlugin().subscribe(plugin => {
       sessionStorage.setItem('plugin', JSON.stringify(plugin));
       this.titleService.setTitle(plugin?.Name.concat(' - ').concat(this.translateService.instant('dashboard')));
@@ -70,10 +108,6 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
         this.headerService.setPolling(false);
       })
     );
-  }
-
-  ngOnDestroy() {
-    this.i18nService.destroy();
   }
 
   private setTitle() {
@@ -100,5 +134,11 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
           this.titleService.setTitle(plugin?.Name.concat(' - ').concat(this.translateService.instant(title)));
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.i18nService.destroy();
+    this.statusChangeSubscription.unsubscribe();
+    this.hasRememberedConsent.unsubscribe();
   }
 }

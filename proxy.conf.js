@@ -10,7 +10,7 @@ const HttpsProxyAgent = require('https-proxy-agent');
  */
 const proxyConfig = [
   {
-    context: '/rest-zigate/',
+    context: '/rest-z4d/',
     target: 'http://localhost:9440',
     secure: false
   }

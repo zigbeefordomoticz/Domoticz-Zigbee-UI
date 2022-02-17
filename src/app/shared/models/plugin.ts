@@ -26,4 +26,6 @@ export interface Plugin {
   WebRoot: string;
   PluginVersion: string;
   Zigpy: boolean;
+  FirmwareVersion: string;
+  Coordinator: string;
 }

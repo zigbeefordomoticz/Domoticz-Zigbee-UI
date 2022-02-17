@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '@app/services/header-service';
 import { environment } from '@env/environment';
+import { MatomoTracker } from '@ngx-matomo/tracker';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { ApiService } from '../../services/api.service';
@@ -20,7 +21,8 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
   constructor(
     private apiService: ApiService,
     private versionService: VersionService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private readonly tracker: MatomoTracker
   ) {
     super();
   }
@@ -34,6 +36,23 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
       map(([pluginHealth, pluginStats, plugin]) => {
         this.headerService.setError(pluginStats.Error);
         this.fork = { pluginHealth, pluginStats, plugin };
+        if (pluginHealth.HealthFlag === 1) {
+          this.tracker.setCustomVariable(
+            1,
+            'Coordinator/DZ/Plugin/Firmware/Zigpy',
+            plugin.Coordinator +
+              '/' +
+              plugin.DomoticzVersion +
+              '/' +
+              plugin.PluginVersion +
+              '/' +
+              plugin.FirmwareVersion +
+              '/' +
+              plugin.Zigpy,
+            'visit'
+          );
+          this.tracker.trackEvent('plugin', 'état', 'actif', 1);
+        }
       })
     );
 
@@ -54,9 +73,5 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
     this.versionService.reload.subscribe(reload => {
       this.fork$.subscribe();
     });
-
-    if (!this.poll) {
-      this.fork$.subscribe();
-    }
   }
 }

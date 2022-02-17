@@ -74,7 +74,7 @@ const log = new Logger('ApiService');
 export class ApiService {
   constructor(private httpClient: HttpClient, private toastr: ToastrService, private translate: TranslateService) {}
 
-  getPluginhealth(): Observable<Array<any>> {
+  getPluginhealth(): Observable<any> {
     return this.httpClient.get(routes.pluginHealth).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))

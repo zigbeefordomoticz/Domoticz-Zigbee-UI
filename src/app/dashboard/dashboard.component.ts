@@ -12,6 +12,7 @@ import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-ada
 import { HeaderService } from '@app/services/header-service';
 import { environment } from '@env/environment';
 import { switchMap, retry, share, takeUntil, filter, map } from 'rxjs/operators';
+import { MatomoTracker } from '@ngx-matomo/tracker';
 
 const log = new Logger('DashboardComponent');
 
@@ -87,7 +88,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     private toppy: Toppy,
     private versionService: VersionService,
     private headerService: HeaderService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private readonly tracker: MatomoTracker
   ) {
     super();
   }
@@ -340,6 +342,10 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.routers.label = this.translateService.instant('dashboard.devices.routers');
         this.routers.total = ((this.routers.length / this.devices.total) * 100).toFixed(0);
         this.routers.append = '%';
+
+        this.tracker.trackEvent('devices', 'sum', 'router', this.routers.length);
+        this.tracker.trackEvent('devices', 'sum', 'battery', this.devicesOther.length);
+
         this.inDbs = this.devices.filter((router: any) => router.Status === 'inDB');
         this.inDbs.label = this.translateService.instant('dashboard.devices.indb');
         this.inDbs.total = ((this.inDbs.length / this.devices.total) * 100).toFixed(0);
