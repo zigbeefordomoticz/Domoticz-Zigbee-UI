@@ -24,8 +24,12 @@ export interface Plugin {
   Username: string;
   Version: string;
   WebRoot: string;
-  PluginVersion: string;
   Zigpy: boolean;
   FirmwareVersion: string;
   Coordinator: string;
+  NetworkSize: string;
+  CoordinatorModel: string;
+  PluginVersion: string;
+  CoordinatorFirmwareVersion: string;
+  CoordinatorIEEE: string;
 }

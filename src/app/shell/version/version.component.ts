@@ -36,22 +36,13 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
       map(([pluginHealth, pluginStats, plugin]) => {
         this.headerService.setError(pluginStats.Error);
         this.fork = { pluginHealth, pluginStats, plugin };
-        if (pluginHealth.HealthFlag === 1) {
-          this.tracker.setCustomVariable(
-            1,
-            'Coordinator/DZ/Plugin/Firmware/Zigpy',
-            plugin.Coordinator +
-              '/' +
-              plugin.DomoticzVersion +
-              '/' +
-              plugin.PluginVersion +
-              '/' +
-              plugin.FirmwareVersion +
-              '/' +
-              plugin.Zigpy,
-            'visit'
-          );
-          this.tracker.trackEvent('plugin', 'état', 'actif', 1);
+        if (plugin.CoordinatorIEEE && plugin.PluginVersion && plugin.CoordinatorFirmwareVersion) {
+          sessionStorage.setItem('plugin', JSON.stringify(plugin));
+          this.tracker.setUserId(plugin.CoordinatorIEEE);
+          this.tracker.setCustomVariable(1, 'CoordinatorModel', plugin.CoordinatorModel, 'visit');
+          this.tracker.setCustomVariable(1, 'PluginVersion', plugin.PluginVersion, 'visit');
+          this.tracker.setCustomVariable(1, 'CoordinatorFirmwareVersion', plugin.CoordinatorFirmwareVersion, 'visit');
+          this.tracker.setCustomVariable(1, 'NetworkSize', plugin.NetworkSize, 'visit');
         }
       })
     );

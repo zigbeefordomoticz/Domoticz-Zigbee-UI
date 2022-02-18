@@ -68,7 +68,7 @@ const cookieConfig: NgcCookieConsentConfig = {
       preventDuplicates: true
     }),
     NgxMatomoTrackerModule.forRoot({
-      acceptDoNotTrack: true,
+      acceptDoNotTrack: false,
       requireConsent: MatomoConsentMode.TRACKING,
       //disabled: !environment.production,
       trackerUrl: 'https://z4d.pipiche.net/',

@@ -12,6 +12,7 @@ import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-ada
 import { HeaderService } from '@app/services/header-service';
 import { environment } from '@env/environment';
 import { switchMap, retry, share, takeUntil, filter, map } from 'rxjs/operators';
+import { Plugin } from '@app/shared/models/plugin';
 import { MatomoTracker } from '@ngx-matomo/tracker';
 
 const log = new Logger('DashboardComponent');
@@ -113,6 +114,16 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.getStats().subscribe();
     }
     this.getInfos();
+
+    const plugin: Plugin = JSON.parse(sessionStorage.getItem('plugin'));
+    if (plugin.CoordinatorIEEE && plugin.PluginVersion && plugin.CoordinatorFirmwareVersion) {
+      sessionStorage.setItem('plugin', JSON.stringify(plugin));
+      this.tracker.setUserId(plugin.CoordinatorIEEE);
+      this.tracker.setCustomVariable(1, 'CoordinatorModel', plugin.CoordinatorModel, 'visit');
+      this.tracker.setCustomVariable(1, 'PluginVersion', plugin.PluginVersion, 'visit');
+      this.tracker.setCustomVariable(1, 'CoordinatorFirmwareVersion', plugin.CoordinatorFirmwareVersion, 'visit');
+      this.tracker.setCustomVariable(1, 'NetworkSize', plugin.NetworkSize, 'visit');
+    }
   }
 
   getInfos() {
@@ -342,9 +353,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.routers.label = this.translateService.instant('dashboard.devices.routers');
         this.routers.total = ((this.routers.length / this.devices.total) * 100).toFixed(0);
         this.routers.append = '%';
-
-        this.tracker.trackEvent('devices', 'sum', 'router', this.routers.length);
-        this.tracker.trackEvent('devices', 'sum', 'battery', this.devicesOther.length);
 
         this.inDbs = this.devices.filter((router: any) => router.Status === 'inDB');
         this.inDbs.label = this.translateService.instant('dashboard.devices.indb');
