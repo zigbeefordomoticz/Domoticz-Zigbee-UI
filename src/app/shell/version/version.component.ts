@@ -40,9 +40,9 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
           sessionStorage.setItem('plugin', JSON.stringify(plugin));
           this.tracker.setUserId(plugin.CoordinatorIEEE);
           this.tracker.setCustomVariable(1, 'CoordinatorModel', plugin.CoordinatorModel, 'visit');
-          this.tracker.setCustomVariable(1, 'PluginVersion', plugin.PluginVersion, 'visit');
-          this.tracker.setCustomVariable(1, 'CoordinatorFirmwareVersion', plugin.CoordinatorFirmwareVersion, 'visit');
-          this.tracker.setCustomVariable(1, 'NetworkSize', plugin.NetworkSize, 'visit');
+          this.tracker.setCustomVariable(2, 'PluginVersion', plugin.PluginVersion, 'visit');
+          this.tracker.setCustomVariable(3, 'CoordinatorFirmwareVersion', plugin.CoordinatorFirmwareVersion, 'visit');
+          this.tracker.setCustomVariable(4, 'NetworkSize', plugin.NetworkSize, 'visit');
         }
       })
     );
