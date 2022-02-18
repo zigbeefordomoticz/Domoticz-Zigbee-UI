@@ -16,6 +16,7 @@ import { ShellModule } from './shell/shell.module';
 import { MatomoConsentMode, NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
 import { NgxMatomoRouterModule } from '@ngx-matomo/router';
 import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
+import { environment } from '@env/environment';
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -38,15 +39,7 @@ const cookieConfig: NgcCookieConsentConfig = {
       border: 'transparent'
     }
   },
-  type: 'opt-out',
-  content: {
-    message: 'Ce site web utilise des cookies pour vous assurer la meilleure expérience de navigation sur notre site.',
-    deny: 'Refuser',
-    link: "Plus d'information",
-    href: 'https://github.com/zigbeefordomoticz/wiki',
-    policy: 'Consentement',
-    allow: 'Autoriser les cookies'
-  }
+  type: 'opt-out'
 };
 
 @NgModule({
@@ -71,8 +64,8 @@ const cookieConfig: NgcCookieConsentConfig = {
       acceptDoNotTrack: false,
       requireConsent: MatomoConsentMode.TRACKING,
       //disabled: !environment.production,
-      trackerUrl: 'https://z4d.pipiche.net/',
-      siteId: '1'
+      trackerUrl: environment.trackerUrl,
+      siteId: environment.siteId
     }),
     NgxMatomoRouterModule,
     NgcCookieConsentModule.forRoot(cookieConfig),

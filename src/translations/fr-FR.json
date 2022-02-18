@@ -432,5 +432,12 @@
   "PowerOn_OnOff": "Etat de retour après une coupure électrique",
   "logDeviceUpdate": "Activer UpdateDevice messagedans les logs",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
-  "error_required": "Obigatoire"
+  "error_required": "Obigatoire",
+
+  "cookie.message": "message",
+  "cookie.dismiss": "dismiss",
+  "cookie.allow": "allow",
+  "cookie.deny": "deny",
+  "cookie.link": "link to",
+  "cookie.policy": "consent"
 }

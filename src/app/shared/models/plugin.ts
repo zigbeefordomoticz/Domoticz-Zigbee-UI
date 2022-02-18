@@ -27,9 +27,9 @@ export interface Plugin {
   Zigpy: boolean;
   FirmwareVersion: string;
   Coordinator: string;
-  NetworkSize: string;
-  CoordinatorModel: string;
-  PluginVersion: string;
-  CoordinatorFirmwareVersion: string;
-  CoordinatorIEEE: string;
+  NetworkSize?: string;
+  CoordinatorModel?: string;
+  PluginVersion?: string;
+  CoordinatorFirmwareVersion?: string;
+  CoordinatorIEEE?: string;
 }

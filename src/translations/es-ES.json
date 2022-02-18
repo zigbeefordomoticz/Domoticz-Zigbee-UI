@@ -432,5 +432,12 @@
   "PowerOn_OnOff": "Na stroomuitval herstel status apparaat",
   "logDeviceUpdate": "Schakel updaten apparaat bericht in log",
   "capturePairingInfos": "Sla pairing informatie op in reports folder",
-  "error_required": "Benodigd"
+  "error_required": "Benodigd",
+
+  "cookie.message": "message",
+  "cookie.dismiss": "dismiss",
+  "cookie.allow": "allow",
+  "cookie.deny": "deny",
+  "cookie.link": "link to",
+  "cookie.policy": "consent"
 }

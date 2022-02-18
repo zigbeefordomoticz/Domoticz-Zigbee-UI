@@ -432,5 +432,12 @@
   "PowerOn_OnOff": "Return state after device power outage",
   "logDeviceUpdate": "Enable UpdateDevice message in Log",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
-  "error_required": "required"
+  "error_required": "required",
+
+  "cookie.message": "message",
+  "cookie.dismiss": "dismiss",
+  "cookie.allow": "allow",
+  "cookie.deny": "deny",
+  "cookie.link": "link to",
+  "cookie.policy": "consent"
 }

@@ -67,6 +67,7 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
         this.ccService.getConfig().content.deny = data['cookie.deny'];
         this.ccService.getConfig().content.link = data['cookie.link'];
         this.ccService.getConfig().content.policy = data['cookie.policy'];
+        this.ccService.getConfig().content.href = environment.linkToConsent;
         this.ccService.destroy();
         this.ccService.init(this.ccService.getConfig());
 
