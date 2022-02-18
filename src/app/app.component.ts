@@ -73,6 +73,7 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
         this.statusChangeSubscription = this.ccService.statusChange$.subscribe((event: NgcStatusChangeEvent) => {
           if (event.status === 'allow') {
             this.tracker.rememberConsentGiven();
+            this.tracker.setConsentGiven();
           } else {
             this.tracker.optUserOut();
           }
