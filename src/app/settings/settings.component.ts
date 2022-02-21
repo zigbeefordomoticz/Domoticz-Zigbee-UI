@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Setting, Settings } from '@app/shared/models/setting';
+import { MatomoTracker } from '@ngx-matomo/tracker';
 
 const log = new Logger('SettingsComponent');
 
@@ -29,7 +30,8 @@ export class SettingsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private headerService: HeaderService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private readonly tracker: MatomoTracker
   ) {}
 
   ngOnInit() {
@@ -77,12 +79,26 @@ export class SettingsComponent implements OnInit {
       }
     });
 
-    this.apiService.putSettings(this.form.value).subscribe((result: any) => {
+    this.apiService.putSettings(this.form.value).subscribe(() => {
       this.form.markAsPristine();
       this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
       this.apiService.getSettings().subscribe(res => {
         this.settings = res;
         this.settings.sort((n1, n2) => n1._Order - n2._Order);
+        res.forEach(setting => {
+          const settings = setting.ListOfSettings;
+          settings.forEach(setting => {
+            const name = setting.Name;
+            if (name === 'PluginAnalytics') {
+              if (setting.current_value === 1) {
+                this.tracker.setConsentGiven();
+                this.tracker.rememberConsentGiven();
+              } else {
+                this.tracker.forgetConsentGiven();
+              }
+            }
+          });
+        });
       });
       this.apiService.getRestartNeeded().subscribe(restart => {
         if (restart.RestartNeeded === 1) {

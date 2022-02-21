@@ -36,7 +36,7 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
       map(([pluginHealth, pluginStats, plugin]) => {
         this.headerService.setError(pluginStats.Error);
         this.fork = { pluginHealth, pluginStats, plugin };
-        if (plugin.CoordinatorIEEE && plugin.PluginVersion && plugin.CoordinatorFirmwareVersion) {
+        if (plugin) {
           sessionStorage.setItem('plugin', JSON.stringify(plugin));
           this.tracker.setUserId(plugin.CoordinatorIEEE);
           this.tracker.setCustomVariable(1, 'CoordinatorModel', plugin.CoordinatorModel, 'visit');

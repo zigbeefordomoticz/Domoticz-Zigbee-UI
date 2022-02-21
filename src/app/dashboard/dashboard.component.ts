@@ -14,6 +14,7 @@ import { environment } from '@env/environment';
 import { switchMap, retry, share, takeUntil, filter, map } from 'rxjs/operators';
 import { Plugin } from '@app/shared/models/plugin';
 import { MatomoTracker } from '@ngx-matomo/tracker';
+import { Setting } from '@app/shared/models/setting';
 
 const log = new Logger('DashboardComponent');
 
@@ -23,6 +24,9 @@ const log = new Logger('DashboardComponent');
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
+  settingsToSave: Array<Setting> = [];
+  showConsent = false;
+
   poll = false;
   chart: Chart;
   devices: any;
@@ -115,8 +119,29 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     }
     this.getInfos();
 
+    this.apiService.getSettings().subscribe(res => {
+      res.forEach(setting => {
+        this.settingsToSave = this.settingsToSave.concat(setting.ListOfSettings);
+        this.settingsToSave.forEach(setting => {
+          const name = setting.Name;
+          if (name === 'PluginAnalytics') {
+            if (setting.current_value === -1) {
+              this.showConsent = true;
+            } else {
+              if (setting.current_value === 1) {
+                this.tracker.setConsentGiven();
+                this.tracker.rememberConsentGiven();
+              } else {
+                this.tracker.forgetConsentGiven();
+              }
+            }
+          }
+        });
+      });
+    });
+
     const plugin: Plugin = JSON.parse(sessionStorage.getItem('plugin'));
-    if (plugin.CoordinatorIEEE && plugin.PluginVersion && plugin.CoordinatorFirmwareVersion) {
+    if (plugin) {
       sessionStorage.setItem('plugin', JSON.stringify(plugin));
       this.tracker.setUserId(plugin.CoordinatorIEEE);
       this.tracker.setCustomVariable(1, 'CoordinatorModel', plugin.CoordinatorModel, 'visit');
@@ -445,5 +470,24 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.headerService.setError(res.Error);
       })
     );
+  }
+
+  consent(consent: boolean): void {
+    const settingsToSend: any = {};
+    this.settingsToSave.forEach(setting => {
+      const name = setting.Name;
+      if (name === 'PluginAnalytics') {
+        settingsToSend[name] = { current: consent ? 1 : 0 };
+      }
+    });
+    this.apiService.putSettings(settingsToSend).subscribe(() => {
+      this.showConsent = false;
+      if (consent) {
+        this.tracker.setConsentGiven();
+        this.tracker.rememberConsentGiven();
+      } else {
+        this.tracker.forgetConsentGiven();
+      }
+    });
   }
 }

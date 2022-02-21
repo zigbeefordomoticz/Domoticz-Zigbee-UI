@@ -11,6 +11,7 @@ import { ApiService } from '../../services/api.service';
 import { Setting } from '../../shared/models/setting';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
 import { environment } from '../../../environments/environment';
+import { MatomoTracker } from '@ngx-matomo/tracker';
 
 @Component({
   selector: 'app-header',

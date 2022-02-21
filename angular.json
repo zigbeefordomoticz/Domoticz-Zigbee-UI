@@ -37,11 +37,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/main.scss",
-              "node_modules/cookieconsent/build/cookieconsent.min.css"
+              "src/main.scss"
             ],
             "scripts": [
-              "node_modules/cookieconsent/build/cookieconsent.min.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

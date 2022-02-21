@@ -4,7 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
+import { environment } from '@env/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxMatomoRouterModule } from '@ngx-matomo/router';
+import { MatomoConsentMode, NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMousetrapModule } from 'ngx-mousetrap';
 import { ToastrModule } from 'ngx-toastr';
@@ -13,34 +16,6 @@ import { AppComponent } from './app.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DeviceByNameComponent } from './dashboard/device-by-name/device-by-name.component';
 import { ShellModule } from './shell/shell.module';
-import { MatomoConsentMode, NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
-import { NgxMatomoRouterModule } from '@ngx-matomo/router';
-import { NgcCookieConsentConfig, NgcCookieConsentModule } from 'ngx-cookieconsent';
-import { environment } from '@env/environment';
-
-const cookieConfig: NgcCookieConsentConfig = {
-  cookie: {
-    name: 'z4d',
-    domain: '',
-    expiryDays: 10000,
-    secure: true
-  },
-  position: 'bottom',
-  theme: 'classic',
-  palette: {
-    popup: {
-      background: '#000000',
-      text: '#ffffff',
-      link: '#ffffff'
-    },
-    button: {
-      background: '#f1d600',
-      text: '#000000',
-      border: 'transparent'
-    }
-  },
-  type: 'opt-out'
-};
 
 @NgModule({
   imports: [
@@ -68,7 +43,6 @@ const cookieConfig: NgcCookieConsentConfig = {
       siteId: environment.siteId
     }),
     NgxMatomoRouterModule,
-    NgcCookieConsentModule.forRoot(cookieConfig),
     AppRoutingModule
   ],
   declarations: [AppComponent],

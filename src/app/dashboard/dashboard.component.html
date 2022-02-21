@@ -159,3 +159,16 @@
     </div>
   </div>
 </div>
+
+<div class="consent-banner" *ngIf="showConsent">
+  <div class="consent-banner__inner">
+    <div class="consent-banner__copy">
+      <div class="consent-banner__header" [innerHtml]="'consent.banner.header' | translate"></div>
+      <div class="consent-banner__description" [innerHtml]="'consent.banner.description' | translate"></div>
+    </div>
+    <div>
+      <button (click)="consent(false)" class="col-sm-2 ml-3 btn btn-danger" translate="consent.banner.decline"></button>
+      <button (click)="consent(true)" class="col-sm-2 ml-3 btn btn-primary" translate="consent.banner.accept"></button>
+    </div>
+  </div>
+</div>

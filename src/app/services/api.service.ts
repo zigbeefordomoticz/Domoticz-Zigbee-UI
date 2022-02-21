@@ -11,7 +11,7 @@ import { DevicesAvailable, Group } from '@app/shared/models/group';
 import { Cluster, NewDevice } from '@app/shared/models/new-hardware';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
-import { Setting } from '@app/shared/models/setting';
+import { Setting, Settings } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
@@ -109,7 +109,7 @@ export class ApiService {
     );
   }
 
-  getSettings(): Observable<any> {
+  getSettings(): Observable<Settings[]> {
     return this.httpClient.get(routes.settings).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))

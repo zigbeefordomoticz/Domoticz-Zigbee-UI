@@ -11,8 +11,6 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
 import { HeaderService } from './services/header-service';
 import { UnsubscribeOnDestroyAdapter } from './shared/adapter/unsubscribe-adapter';
-import { NgcCookieConsentService, NgcStatusChangeEvent } from 'ngx-cookieconsent';
-import { MatomoTracker } from '@ngx-matomo/tracker';
 
 const log = new Logger('App');
 
@@ -38,12 +36,9 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     private apiService: ApiService,
     private i18nService: I18nService,
     private headerService: HeaderService,
-    private mouseTrapService: NgxMousetrapService,
-    private ccService: NgcCookieConsentService,
-    private readonly tracker: MatomoTracker
+    private mouseTrapService: NgxMousetrapService
   ) {
     super();
-    this.tracker.requireConsent();
   }
 
   ngOnInit() {
@@ -56,36 +51,6 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
 
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
-
-    this.translateService
-      .get(['cookie.message', 'cookie.dismiss', 'cookie.allow', 'cookie.deny', 'cookie.link', 'cookie.policy'])
-      .subscribe(data => {
-        this.ccService.getConfig().content = this.ccService.getConfig().content || {};
-        this.ccService.getConfig().content.message = data['cookie.message'];
-        this.ccService.getConfig().content.dismiss = data['cookie.dismiss'];
-        this.ccService.getConfig().content.allow = data['cookie.allow'];
-        this.ccService.getConfig().content.deny = data['cookie.deny'];
-        this.ccService.getConfig().content.link = data['cookie.link'];
-        this.ccService.getConfig().content.policy = data['cookie.policy'];
-        this.ccService.getConfig().content.href = environment.linkToConsent;
-        this.ccService.destroy();
-        this.ccService.init(this.ccService.getConfig());
-
-        this.statusChangeSubscription = this.ccService.statusChange$.subscribe((event: NgcStatusChangeEvent) => {
-          if (event.status === 'allow') {
-            this.tracker.rememberConsentGiven();
-            this.tracker.setConsentGiven();
-          } else {
-            this.tracker.optUserOut();
-          }
-        });
-
-        this.tracker.hasRememberedConsent().then(consent => {
-          if (consent) {
-            this.tracker.setConsentGiven();
-          }
-        });
-      });
 
     this.apiService.getCasiaDevices().subscribe(devices => {
       if (devices.length > 0) {
