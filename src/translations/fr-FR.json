@@ -433,9 +433,8 @@
   "logDeviceUpdate": "Activer UpdateDevice messagedans les logs",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
   "error_required": "Obigatoire",
-
-  "consent.banner.header": "Header message",
-  "consent.banner.description": "write explication here",
-  "consent.banner.accept": "allow",
-  "consent.banner.decline": "deny"
+  "consent.banner.header": "Consentement",
+  "consent.banner.description": "Dans l'optique de mieux vous connaitre, nous utilisons une technique de cookies et , avec votre consentement, nous collecterons principalement version du plugin, Modèle du Coordinator et version du  firmware , la taille du réseau en terme de notre de routers et de end device. Donnez votre accord en selectionnant 'Autoriser' sinon 'Interdire'. Si vous souhaitez changer votre décision, vous pouvez le faire via le menu Réglages",
+  "consent.banner.accept": "Accept",
+  "consent.banner.decline": "Reject"
 }
