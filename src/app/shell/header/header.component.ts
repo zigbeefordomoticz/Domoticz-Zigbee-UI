@@ -7,11 +7,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
-import { ApiService } from '../../services/api.service';
-import { Setting } from '../../shared/models/setting';
-import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
 import { environment } from '../../../environments/environment';
-import { MatomoTracker } from '@ngx-matomo/tracker';
+import { ApiService } from '../../services/api.service';
+import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
+import { Setting } from '../../shared/models/setting';
 
 @Component({
   selector: 'app-header',
