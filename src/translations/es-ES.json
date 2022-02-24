@@ -433,9 +433,8 @@
   "logDeviceUpdate": "Schakel updaten apparaat bericht in log",
   "capturePairingInfos": "Sla pairing informatie op in reports folder",
   "error_required": "Benodigd",
-
-  "consent.banner.header": "Header message",
-  "consent.banner.description": "write explication here",
-  "consent.banner.accept": "allow",
-  "consent.banner.decline": "deny"
+  "consent.banner.header": "Consentimiento",
+  "consent.banner.description": "To improve our developement and focus on where it is needed. We use cookies for technical purposes and, with your consent, we will collect mainly Plugin version, Coordinator and Firmware version, Size of the network in terms of number of router and number of end devices. You can consent by using the 'Accept' button, and not concent by using the 'Reject' button. If you want to change your mind later, you can use the Settings menu",
+  "consent.banner.accept": "Aceptar",
+  "consent.banner.decline": "Rechazar"
 }
