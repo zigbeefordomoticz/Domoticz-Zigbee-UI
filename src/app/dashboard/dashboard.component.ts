@@ -335,6 +335,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   private getStats() {
     return forkJoin([this.apiService.getPluginStats(), this.apiService.getZDevices()]).pipe(
       map(([res, devices]) => {
+        const deviceMatomo = devices.map(device => ''.concat(device.Manufacturer, '/', device.Model));
+        this.tracker.trackEvent('devices', 'list', deviceMatomo.toLocaleString());
         this.pluginStats = res;
         this.createChart();
         this.totalTraficSent.label = this.translateService.instant('dashboard.trafic.total.trafic.sent');

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Logger } from '@app/core';
 import { Capabilities } from '@app/shared/models/capabilities';
 import { Command } from '@app/shared/models/command';
-import { Device } from '@app/shared/models/device';
+import { Device, ZDevices } from '@app/shared/models/device';
 import { DeviceBind } from '@app/shared/models/device-bind';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { DomoticzEnv } from '@app/shared/models/domoticz-env';
@@ -88,7 +88,7 @@ export class ApiService {
     );
   }
 
-  getZDevices(): Observable<any> {
+  getZDevices(): Observable<ZDevices[]> {
     return this.httpClient.get(routes.zDevices).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
@@ -151,14 +151,14 @@ export class ApiService {
     );
   }
 
-  getLogErrorHistory(): Observable<PluginStats> {
+  getLogErrorHistory(): Observable<Object> {
     return this.httpClient.get(routes.logErrorHistory).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
   }
 
-  clearLogErrorHistory(): Observable<PluginStats> {
+  clearLogErrorHistory(): Observable<Object> {
     return this.httpClient.get(routes.clearErrorHistory).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))

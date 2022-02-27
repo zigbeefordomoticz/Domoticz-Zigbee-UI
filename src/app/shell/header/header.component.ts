@@ -3,6 +3,7 @@ import { I18nService } from '@app/core';
 import { HeaderService } from '@app/services/header-service';
 import { Plugin } from '@app/shared/models/plugin';
 import { Settings } from '@app/shared/models/setting';
+import { MatomoTracker } from '@ngx-matomo/tracker';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, timer } from 'rxjs';
@@ -11,6 +12,7 @@ import { environment } from '../../../environments/environment';
 import { ApiService } from '../../services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
 import { Setting } from '../../shared/models/setting';
+import { transformToTimestamp } from '../../shared/utils/transform-timestamp';
 
 @Component({
   selector: 'app-header',
@@ -34,7 +36,8 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     private toastr: ToastrService,
     private i18nService: I18nService,
     private apiService: ApiService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private tracker: MatomoTracker
   ) {
     super();
   }
@@ -59,6 +62,24 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     this.subs.add(
       this.headerService.logError.subscribe(logError => {
         this.logError = logError;
+        if (logError) {
+          let errorsToMatomo: string[] = [];
+          this.apiService.getLogErrorHistory().subscribe(errors => {
+            const jsonStr = JSON.stringify(errors);
+            const json = JSON.parse(jsonStr, transformToTimestamp);
+            for (let key in json) {
+              for (let key1 in json[key]) {
+                for (let key2 in json[key][key1]) {
+                  if (key2 === 'message') {
+                    const message = json[key][key1][key2];
+                    errorsToMatomo.push(message);
+                  }
+                }
+              }
+            }
+            this.tracker.trackEvent('error', 'log', errorsToMatomo.join('/'));
+          });
+        }
       })
     );
 

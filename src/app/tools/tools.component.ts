@@ -4,26 +4,9 @@ import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { FileSaverService } from 'ngx-filesaver';
 import { finalize } from 'rxjs/operators';
+import { transformToTimestamp } from '../shared/utils/transform-timestamp';
 
 const log = new Logger('ToolsComponent');
-
-function transformToTimestamp(key: any, value: any) {
-  const datepipe = new DatePipe('en-US');
-  const keyToTransform = ['TimeStamps', 'TimeStamp', 'Stamp', 'Time', 'StartTime', 'Starttime', 'BatteryUpdateTime'];
-  if (key === 'LastSeen') {
-    return datepipe.transform(value * 1000, 'dd/MM/yyyy HH:mm:ss');
-  } else if (keyToTransform.indexOf(key) > -1) {
-    if (value > 0) {
-      let calc = value * 1000;
-      calc = Number(calc.toFixed(0));
-      return datepipe.transform(calc, 'dd/MM/yyyy HH:mm:ss');
-    } else {
-      return value;
-    }
-  } else {
-    return value;
-  }
-}
 
 @Component({
   selector: 'app-tools',

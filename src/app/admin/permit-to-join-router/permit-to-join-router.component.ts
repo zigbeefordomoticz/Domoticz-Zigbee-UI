@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { ZDevices } from '@app/shared/models/device';
+import { DeviceByName } from '@app/shared/models/device-by-name';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
-import { DeviceByName } from '@app/shared/models/device-by-name';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('PermitToJoinRouterComponent');
@@ -17,7 +18,7 @@ const log = new Logger('PermitToJoinRouterComponent');
 })
 export class PermitToJoinRouterComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   permitToJoin: any;
-  routers: DeviceByName[];
+  routers: ZDevices[];
   form: FormGroup;
 
   constructor(

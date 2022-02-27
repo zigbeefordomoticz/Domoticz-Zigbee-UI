@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { Capabilities, Capability } from '@app/shared/models/capabilities';
+import { ZDevices } from '@app/shared/models/device';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -15,7 +16,7 @@ const log = new Logger('DebugCommandComponent');
   styleUrls: ['./debug-command.component.scss']
 })
 export class DebugCommandComponent implements OnInit {
-  routers: DeviceByName[];
+  routers: ZDevices[];
   capabilities: Capabilities;
   form: FormGroup;
   colorPicker = 'rgba(30,96,239,0.54)';
