@@ -72,6 +72,10 @@
   "dashboard.health.OTA": "OTA: ",
   "dashboard.health.group": "Groupo: ",
   "dashboard.devices.indb": "En Db",
+  "consent.banner.header": "Consentimiento",
+  "consent.banner.description": "To improve our developement and focus on where it is needed. We use cookies for technical purposes and, with your consent, we will collect mainly Plugin version, Coordinator, Firmware version and Size of the network (number of router and number of end devices). You can consent by using the 'Accept' button, and not concent by using the 'Reject' button. If you want to change your mind later, you can use the Settings menu,",
+  "consent.banner.accept": "Aceptar",
+  "consent.banner.decline": "Rechazar",
   "management": "Gestión",
   "device": "Gestión de dispositivos",
   "device.byname.subtitle": "Enumere todos los dispositivos HW emparejados con el plugin, y le permite ingresar un nombre descriptivo para cada dispositivo. <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/zigbeefordomoticz/wiki/tree/master/en-eng/WebUI_Management.md#device-management'></a><br> Muestra el nombre amigable del dispositivo en la sección de red en lugar de un código de cuatro dígitos.",
@@ -309,8 +313,8 @@
   "enableWebServer": "Activar la interfaz de usuario web",
   "setting.header.DeviceManagement": "Configuración de gestión de dispositivos",
   "setting.subtitle.DeviceManagement": "Aquí están todas las configuraciones relacionadas con los dispositivos y cómo el coordinador interactúa con ellos",
-    "setting.header.CoordinatorConfiguration": "Configuración de la coordinador",
-    "setting.subtitle.CoordinatorConfiguration": "Aquí están todas las configuraciones relacionadas con el hardware coordinador.",
+  "setting.header.CoordinatorConfiguration": "Configuración de la coordinador",
+  "setting.subtitle.CoordinatorConfiguration": "Aquí están todas las configuraciones relacionadas con el hardware coordinador.",
   "setting.header.OverTheAirUpgrade": "Configuración de actualización por aire (OTA)",
   "setting.subtitle.OverTheAirUpgrade": "Estas son todas las configuraciones relacionadas con la funcionalidad de actualización por aire (OTA/Over The Air).",
   "allowOTA": "Permitir OTA",
@@ -433,5 +437,4 @@
   "logDeviceUpdate": "Habilitar el mensaje UpdateDevice en el LOG",
   "capturePairingInfos": "Capture información de emparejamiento y guárdela en la carpeta de informes",
   "error_required": "Necesario"
-  }
-  
+}

@@ -72,6 +72,10 @@
   "dashboard.health.OTA": "OTA: ",
   "dashboard.health.group": "Groupe: ",
   "dashboard.devices.indb": "En Base",
+  "consent.banner.header": "Consentement",
+  "consent.banner.description": "Dans l'optique de mieux vous connaître, nous utilisons une technique de cookies et, avec votre consentement, nous collecterons principalement la version du plugin, le modèle de coordinator, la version du firmware et la taille du réseau (nombre de routers et d’objets terminaux). Donnez votre accord en sélectionnant 'Autoriser' ou sinon 'Interdire'. Si vous souhaitez changer votre choix, vous pouvez le faire via le menu Réglages.",
+  "consent.banner.accept": "Autoriser",
+  "consent.banner.decline": "Interdire",
   "management": "Gestion",
   "device": "Gestion des objets",
   "device.byname.subtitle": "Liste tous les objets appairés avec le plugin <a class='fas fa-info-circle mr-2' target='_blank' href='https://github.com/zigbeefordomoticz/wiki/tree/master/fr-fr/WebUI_Gestion.md#gestion-des-objets'></a><br>Vous pourrez attribuer des surnoms et gérer les paramètres spécifiques aux objets.",
@@ -309,8 +313,8 @@
   "enableWebServer": "Active l'interface Web",
   "setting.header.DeviceManagement": "Réglages de la gestion des objets",
   "setting.subtitle.DeviceManagement": "Les réglages pour la gestion des objets et leur interaction avec le coordinateur :",
-    "setting.header.CoordinatorConfiguration": "Réglages du coordinateur",
-    "setting.subtitle.CoordinatorConfiguration": "Les réglages pour le coordinateur :",
+  "setting.header.CoordinatorConfiguration": "Réglages du coordinateur",
+  "setting.subtitle.CoordinatorConfiguration": "Les réglages pour le coordinateur :",
   "setting.header.OverTheAirUpgrade": "Réglages mise à jour sans fils (OTA)",
   "setting.subtitle.OverTheAirUpgrade": "Les réglages pour les mises à jours sans fils (OTA).",
   "allowOTA": "Activer OTA",
@@ -433,5 +437,4 @@
   "logDeviceUpdate": "Activer UpdateDevice messagedans les logs",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
   "error_required": "Obigatoire"
-  }
-  
+}
