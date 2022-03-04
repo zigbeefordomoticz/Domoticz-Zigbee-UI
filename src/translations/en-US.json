@@ -230,7 +230,7 @@
   "admin.coordinator.swreset.button": "Soft reset",
   "admin.coordinator.swreset.notify": "Coordinator restart started",
   "admin.coordinator.switchchannel.title": "Coordinator change channel",
-  "admin.coordinator.switchchannel.subtitle": "Will change the coordinator channel to the selected one, and will broadcast the change. <br>ATTENTION, while routers usally switch to the new channel, none Zigbee 3.0 End Device won't and you will have to reset them to get them rejoining the new channel ?",
+    "admin.coordinator.switchchannel.subtitle": "Will change the coordinator channel to the selected one, and will broadcast the change. <br>ATTENTION, while routers usally switch to the new channel, none Zigbee 3.0 End Device won't and you will have to reset them to get them rejoining the new channel.",
   "admin.coordinator.switchchannel.placeholder": "Coordinator channel (0 default)",
   "admin.coordinator.switchchannel.button": "Change channel",
   "admin.coordinator.switchchannel.notify": "Channel changing started",
