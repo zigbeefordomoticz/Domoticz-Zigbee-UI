@@ -166,7 +166,7 @@
   "network.full.req.subtitle": "Er wordt een energierapport verstrekt. Dit rapport geeft het energieniveau tussen routers en ZiGate weer. Met andere woorden, hoeveel stroom ontvangt de coördinator. Hoe hoger het getal, des te beter het ontvangst",
   "network.full.req.button": "Volledige scan",
   "network.stats.detail.visu.header": "Energieniveau",
-"network.stats.detail.visu.subtitle": "",
+  "network.stats.detail.visu.subtitle": "",
   "network.stats.detail.visu.totaltx": "Tx : ",
   "network.stats.detail.visu.totalfail": "Mislukt : ",
   "network.stats.detail.visu.chart.title": "Energieniveau",
