@@ -1,4 +1,29 @@
 <div class="row">
+  <div class="column">
+    <textarea [(ngModel)]="content" name="contentInput" cols="40" rows="5"></textarea>
+    <br />
+    <button (click)="sendMsg()">Send Message</button>
+  </div>
+</div>
+<br />
+<div>
+  <h1>Sent Messages</h1>
+  <br />
+  <ul>
+    <li *ngFor="let item of sent">Source: {{ item.source }} -> Content {{ item.content }}</li>
+  </ul>
+</div>
+
+<br />
+<div>
+  <h1>Received Messages</h1>
+  <br />
+  <ul>
+    <li *ngIf="toto$ | async as datas">Source: {{ datas }}</li>
+  </ul>
+</div>
+
+<div class="row">
   <div class="col-sm">
     <div class="card">
       <div class="card-header">

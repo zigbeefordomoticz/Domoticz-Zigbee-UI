@@ -11,7 +11,7 @@ const HttpsProxyAgent = require('https-proxy-agent');
 const proxyConfig = [
   {
     context: '/rest-z4d/',
-    target: 'http://localhost:9440',
+    target: 'http://172.21.245.95:9440',
     secure: false
   }
 ];

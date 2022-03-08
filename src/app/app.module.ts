@@ -38,7 +38,7 @@ import { ShellModule } from './shell/shell.module';
     NgxMatomoTrackerModule.forRoot({
       acceptDoNotTrack: false,
       requireConsent: MatomoConsentMode.TRACKING,
-      //disabled: !environment.production,
+      disabled: !environment.production,
       trackerUrl: environment.trackerUrl,
       siteId: environment.siteId
     }),

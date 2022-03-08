@@ -10,6 +10,7 @@ import { merge, Subscription } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
 import { HeaderService } from './services/header-service';
+import { WebSocketService } from './services/websocket-service';
 import { UnsubscribeOnDestroyAdapter } from './shared/adapter/unsubscribe-adapter';
 
 const log = new Logger('App');
@@ -36,9 +37,11 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     private apiService: ApiService,
     private i18nService: I18nService,
     private headerService: HeaderService,
-    private mouseTrapService: NgxMousetrapService
+    private mouseTrapService: NgxMousetrapService,
+    private websocketService: WebSocketService
   ) {
     super();
+    this.websocketService.connect();
   }
 
   ngOnInit() {

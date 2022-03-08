@@ -1,20 +1,21 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { VersionService } from '@app/services/version-service';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
-import { forkJoin, timer } from 'rxjs';
+import { forkJoin, Observable, timer } from 'rxjs';
 import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { PluginStats } from '../shared/models/plugin-stats';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { HeaderService } from '@app/services/header-service';
 import { environment } from '@env/environment';
-import { switchMap, retry, share, takeUntil, filter, map } from 'rxjs/operators';
+import { switchMap, retry, share, takeUntil, filter, map, catchError, tap } from 'rxjs/operators';
 import { Plugin } from '@app/shared/models/plugin';
 import { MatomoTracker } from '@ngx-matomo/tracker';
 import { Setting } from '@app/shared/models/setting';
+import { WebSocketService } from '@app/services/websocket-service';
 
 const log = new Logger('DashboardComponent');
 
@@ -23,7 +24,11 @@ const log = new Logger('DashboardComponent');
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
+export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy, AfterViewInit {
+  content = '';
+  received: any[] = [];
+  sent: any[] = [];
+
   settingsToSave: Array<Setting> = [];
   showConsent = false;
 
@@ -88,15 +93,50 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     domain: ['green', 'red']
   };
 
+  toto$: Observable<any>;
+
   constructor(
     private apiService: ApiService,
     private toppy: Toppy,
     private versionService: VersionService,
     private headerService: HeaderService,
     private translateService: TranslateService,
-    private readonly tracker: MatomoTracker
+    private readonly tracker: MatomoTracker,
+    private websocketService: WebSocketService
   ) {
     super();
+    this.toto$ = this.websocketService.messages$.pipe(
+      map((rows: any) => {
+        rows.data;
+      }),
+      catchError(error => {
+        throw error;
+      }),
+      tap({
+        error: error => log.debug('Error:', error),
+        complete: () => log.debug('Connection Closed')
+      })
+    );
+  }
+
+  sendMsg() {
+    let message = {
+      source: '',
+      content: ''
+    };
+    message.source = 'localhost';
+    message.content = this.content;
+
+    this.sent.push(message);
+    this.websocketService.sendMessage(message);
+  }
+
+  ngAfterViewInit() {
+    //this.websocketService.connect();
+    /*     this.websocketService.messages$.subscribe(x => {
+      console.log('coucou');
+      console.log(x);
+    }); */
   }
 
   ngOnInit() {
@@ -335,8 +375,11 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   private getStats() {
     return forkJoin([this.apiService.getPluginStats(), this.apiService.getZDevices()]).pipe(
       map(([res, devices]) => {
-        const deviceMatomo = devices.map(device => ''.concat(device.Manufacturer, '/', device.Model));
-        this.tracker.trackEvent('devices', 'list', deviceMatomo.toLocaleString());
+        if (devices) {
+          const deviceMatomo = devices.map(device => ''.concat(device.Manufacturer, '/', device.Model));
+          this.tracker.trackEvent('devices', 'list', deviceMatomo.toLocaleString());
+        }
+
         this.pluginStats = res;
         this.createChart();
         this.totalTraficSent.label = this.translateService.instant('dashboard.trafic.total.trafic.sent');
@@ -372,7 +415,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           { name: this.translateService.instant('dashboard.trafic.cluster'), value: res.Cluster },
           { name: this.translateService.instant('dashboard.trafic.crc'), value: res.CRC }
         ];
-        this.devices = devices;
+        this.devices = [];
         this.devices.total = this.devices.length;
         this.devices.label = this.translateService.instant('devices');
         this.routers = this.devices.filter((router: any) => router.LogicalType === 'Router');
@@ -437,7 +480,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           },
           { name: this.translateService.instant('dashboard.devices.others'), value: this.healthsOthers.length }
         ];
-        this.devicesOnBattery = devices.filter(
+        this.devicesOnBattery = this.devices.filter(
           (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
         );
         const _batteryInf30 = this.devicesOnBattery.filter((device: any) => device.Battery <= 30);
