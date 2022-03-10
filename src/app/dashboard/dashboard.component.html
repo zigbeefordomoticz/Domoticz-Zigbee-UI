@@ -19,7 +19,7 @@
   <h1>Received Messages</h1>
   <br />
   <ul>
-    <li *ngIf="toto$ | async as datas">Source: {{ datas }}</li>
+    <li *ngFor="let item of rows">Source: {{ item }}</li>
   </ul>
 </div>
 

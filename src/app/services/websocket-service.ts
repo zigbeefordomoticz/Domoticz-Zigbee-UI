@@ -4,10 +4,10 @@ import { BehaviorSubject, EMPTY, Observable, Subject, timer } from 'rxjs';
 import { catchError, delayWhen, retryWhen, switchAll, tap } from 'rxjs/operators';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 
-export const WS_ENDPOINT = 'ws://localhost:8441';
+export const WS_ENDPOINT = 'ws://localhost:8441/logs';
 export const RECONNECT_INTERVAL = 10000;
 
-const log = new Logger('DashboardComponent');
+const log = new Logger('WebSocketService');
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +60,14 @@ export class WebSocketService {
     );
   }
 
+  multiplex(event: string): Observable<any> {
+    return this.socket$.multiplex(
+      () => ({ type: 'subscribe', tag: event }),
+      () => ({ type: 'unsubscribe', tag: event }),
+      message => message.type === event
+    );
+  }
+
   close() {
     this.socket$.complete();
     this.socket$ = undefined;
@@ -76,13 +84,15 @@ export class WebSocketService {
     return webSocket({
       url: WS_ENDPOINT,
       openObserver: {
-        next: () => {
+        next: event => {
           log.debug('connection ok');
+          log.debug(event);
         }
       },
       closeObserver: {
-        next: () => {
+        next: event => {
           log.debug('connection closed');
+          log.debug(event);
           this.socket$ = undefined;
           this.connect({ reconnect: true });
         }

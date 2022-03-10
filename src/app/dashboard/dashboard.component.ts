@@ -94,6 +94,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   };
 
   toto$: Observable<any>;
+  rows: any[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -105,18 +106,38 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     private websocketService: WebSocketService
   ) {
     super();
-    this.toto$ = this.websocketService.messages$.pipe(
-      map((rows: any) => {
-        rows.data;
-      }),
-      catchError(error => {
-        throw error;
-      }),
-      tap({
-        error: error => log.debug('Error:', error),
-        complete: () => log.debug('Connection Closed')
-      })
-    );
+    this.websocketService
+      .multiplex('test')
+      .pipe(
+        map((rows: any) => {
+          log.debug(rows);
+          this.rows.push(rows);
+        }),
+        catchError(error => {
+          throw error;
+        }),
+        tap({
+          error: error => log.debug('Error:', error),
+          complete: () => log.debug('Connection Closed')
+        })
+      )
+      .subscribe();
+
+    /*     this.websocketService.messages$
+      .pipe(
+        map((rows: any) => {
+          log.debug(rows);
+          this.rows.push(rows);
+        }),
+        catchError(error => {
+          throw error;
+        }),
+        tap({
+          error: error => log.debug('Error:', error),
+          complete: () => log.debug('Connection Closed')
+        })
+      )
+      .subscribe(); */
   }
 
   sendMsg() {
