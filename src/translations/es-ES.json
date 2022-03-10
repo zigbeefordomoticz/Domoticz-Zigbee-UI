@@ -66,7 +66,7 @@
   "dashboard.stats.subtitle": "Proporciona estadísticas de coordinador en términos de transmisión y recepción de mensajes",
   "dashboard.zdevice.button": "Plugin Devices (json)",
   "dashboard.zgroup.button": "Plugin Groups (json)",
-  "dashboard.coordinator.header": "Información de ZiGate",
+  "dashboard.coordinator.header": "Información de Coordinador",
   "dashboard.coordinator.subtitle": "Proporciona información de Coordinador",
   "dashboard.health.title": "Salud del plugin",
   "dashboard.health.OTA": "OTA: ",
