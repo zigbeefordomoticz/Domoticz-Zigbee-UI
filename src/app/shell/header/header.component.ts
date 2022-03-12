@@ -36,8 +36,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     private toastr: ToastrService,
     private i18nService: I18nService,
     private apiService: ApiService,
-    private translate: TranslateService,
-    private tracker: MatomoTracker
+    private translate: TranslateService
   ) {
     super();
   }
@@ -59,29 +58,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
       })
     );
 
-    this.subs.add(
-      this.headerService.logError.subscribe(logError => {
-        this.logError = logError;
-        if (logError) {
-          let errorsToMatomo: string[] = [];
-          this.apiService.getLogErrorHistory().subscribe(errors => {
-            const jsonStr = JSON.stringify(errors);
-            const json = JSON.parse(jsonStr, transformToTimestamp);
-            for (let key in json) {
-              for (let key1 in json[key]) {
-                for (let key2 in json[key][key1]) {
-                  if (key2 === 'message') {
-                    const message = json[key][key1][key2];
-                    errorsToMatomo.push(message);
-                  }
-                }
-              }
-            }
-            this.tracker.trackEvent('error', 'log', errorsToMatomo.join('/'));
-          });
-        }
-      })
-    );
+    this.subs.add(this.headerService.logError.subscribe(logError => (this.logError = logError)));
 
     this.subs.add(
       this.headerService.polling.subscribe(poll => {
