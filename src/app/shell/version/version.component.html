@@ -81,14 +81,14 @@
           [ngbPopover]="popContentFirmware"
           popoverTitle="{{ 'dashboard.firmware.update.available.title' | translate }}"
         >
-          <span translate="dashboard.firmware.version"></span>{{ fork.plugin.FirmwareVersion }}
+          <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
         </a>
       </div>
       <div *ngIf="!fork.plugin?.PluginUpdate" class="order-6 p-2 text-white">
         <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
       </div>
       <div *ngIf="!fork.plugin?.FirmwareUpdate" class="mr-2 order-7 p-2 text-white">
-        <span translate="dashboard.firmware.version"></span>{{ fork.plugin.FirmwareVersion }}
+        <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
       </div>
     </div>
   </div>
