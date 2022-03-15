@@ -66,7 +66,7 @@
   "dashboard.stats.subtitle": "Geeft coördinator statistieken over het verzenden en ontvangen van informatie",
   "dashboard.zdevice.button": "Plugin apparten (json)",
   "dashboard.zgroup.button": "Plugin Groepen (json)",
-  "dashboard.coordinator.header": "ZiGate informatie",
+  "dashboard.coordinator.header": "Coördinator informatie",
   "dashboard.coordinator.subtitle": "Geeft coördinator informatie",
   "dashboard.health.title": "Gezondheid van de plugin",
   "dashboard.health.OTA": "OTA: ",
@@ -437,5 +437,4 @@
   "logDeviceUpdate": "Schakel updaten apparaat bericht in log",
   "capturePairingInfos": "Sla pairing informatie op in reports folder",
   "error_required": "Benodigd"
-  }
-  
+}

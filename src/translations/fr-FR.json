@@ -66,7 +66,7 @@
   "dashboard.stats.subtitle": "Statistiques de transmission/réception données",
   "dashboard.zdevice.button": "Plugin Devices (json)",
   "dashboard.zgroup.button": "Groupes du Plugin (json)",
-  "dashboard.coordinator.header": "ZiGate infos",
+  "dashboard.coordinator.header": "Infos du coordinateur",
   "dashboard.coordinator.subtitle": "Les informations du coordinateur",
   "dashboard.health.title": "Santé du plugin",
   "dashboard.health.OTA": "OTA: ",
@@ -437,5 +437,4 @@
   "logDeviceUpdate": "Activer UpdateDevice messagedans les logs",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
   "error_required": "Obigatoire"
-  }
-  
+}
