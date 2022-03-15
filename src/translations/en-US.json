@@ -73,7 +73,7 @@
   "dashboard.health.group": "Group: ",
   "dashboard.devices.indb": "In Db",
   "consent.banner.header": "Consent",
-  "consent.banner.description": "To improve our developement and focus on where it is needed. We use cookies for technical purposes and, with your consent, we will collect mainly Plugin version, Coordinator, Firmware version and Size of the network (number of router and number of end devices). You can consent by using the 'Accept' button, and not concent by using the 'Reject' button. If you want to change your mind later, you can use the Settings menu,",
+  "consent.banner.description": "To improve our developement and focus on where it is needed. We use cookies for technical purposes and, with your consent, we will collect mainly Plugin version, Coordinator, Firmware version and Size of the network (number of router and number of end devices).<br>You can consent by using the 'Accept' button, and not concent by using the 'Reject' button. If you want to change your mind later, you can use the Settings menu.<br><a href=https://github.com/zigbeefordomoticz/wiki/blob/zigpy/en-eng/WebUI_Stastics.md>More info on the wiki</a>.",
   "consent.banner.accept": "Accept",
   "consent.banner.decline": "Reject",
   "management": "Management",

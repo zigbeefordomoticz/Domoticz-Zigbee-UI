@@ -73,7 +73,7 @@
   "dashboard.health.group": "Group: ",
   "dashboard.devices.indb": "In db",
   "consent.banner.header": "Toestemming",
-  "consent.banner.description": "Voor het ontwikkelen, gebruiken we cookies voor technisch gebruik, en met je toestemming, we verzamelen alleen de plug-in versie.",
+  "consent.banner.description": "Voor het ontwikkelen, gebruiken we cookies voor technisch gebruik, en met je toestemming, we verzamelen alleen de plug-in versie.<br><a href=https://github.com/zigbeefordomoticz/wiki/blob/zigpy/en-eng/WebUI_Stastics.md>Mehr Infos im Wiki</a>.",
   "consent.banner.accept": "Accepteer",
   "consent.banner.decline": "Afwijzen",
   "management": "Beheer",
