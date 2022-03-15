@@ -66,14 +66,14 @@
   "dashboard.stats.subtitle": "Geeft coördinator statistieken over het verzenden en ontvangen van informatie",
   "dashboard.zdevice.button": "Plugin apparten (json)",
   "dashboard.zgroup.button": "Plugin Groepen (json)",
-  "dashboard.coordinator.header": "Coördinator informatie",
+  "dashboard.coordinator.header": "ZiGate informatie",
   "dashboard.coordinator.subtitle": "Geeft coördinator informatie",
   "dashboard.health.title": "Gezondheid van de plugin",
   "dashboard.health.OTA": "OTA: ",
   "dashboard.health.group": "Group: ",
   "dashboard.devices.indb": "In db",
   "consent.banner.header": "Toestemming",
-  "consent.banner.description": "Voor het ontwikkelen, gebruiken we cookies voor technisch gebruik, en met je toestemming, we verzamelen alleen de plug-in versie.",
+  "consent.banner.description": "Voor het ontwikkelen, gebruiken we cookies voor technisch gebruik, en met je toestemming, we verzamelen alleen de plug-in versie.<br><a href=https://github.com/zigbeefordomoticz/wiki/blob/zigpy/en-eng/WebUI_Stastics.md>Mehr Infos im Wiki</a>.",
   "consent.banner.accept": "Accepteer",
   "consent.banner.decline": "Afwijzen",
   "management": "Beheer",
@@ -437,4 +437,5 @@
   "logDeviceUpdate": "Schakel updaten apparaat bericht in log",
   "capturePairingInfos": "Sla pairing informatie op in reports folder",
   "error_required": "Benodigd"
-}
+  }
+  

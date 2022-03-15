@@ -66,14 +66,14 @@
   "dashboard.stats.subtitle": "Proporciona estadísticas de coordinador en términos de transmisión y recepción de mensajes",
   "dashboard.zdevice.button": "Plugin Devices (json)",
   "dashboard.zgroup.button": "Plugin Groups (json)",
-  "dashboard.coordinator.header": "Información de Coordinador",
+  "dashboard.coordinator.header": "Información de ZiGate",
   "dashboard.coordinator.subtitle": "Proporciona información de Coordinador",
   "dashboard.health.title": "Salud del plugin",
   "dashboard.health.OTA": "OTA: ",
   "dashboard.health.group": "Groupo: ",
   "dashboard.devices.indb": "En Db",
   "consent.banner.header": "Consentimiento",
-  "consent.banner.description": "Para mejorar nuestro desarrollo y centrarnos en los puntos que se necesita, utilizamos una técnica de cookies y, con su consentimiento, recopilaremos principalmente la versión del plugin, el modelo y marca del coordinador, la versión del firmware y los datos de la red (como cantidad de enrutadores y objetos terminales). Dé su consentimiento seleccionando 'Permitir' o 'No permitir'. Si desea cambiar su elección, puede hacerlo a través del menú Configuración.",
+  "consent.banner.description": "Para mejorar nuestro desarrollo y centrarnos en los puntos que se necesita, utilizamos una técnica de cookies y, con su consentimiento, recopilaremos principalmente la versión del plugin, el modelo y marca del coordinador, la versión del firmware y los datos de la red (como cantidad de enrutadores y objetos terminales).<br> Dé su consentimiento seleccionando 'Permitir' o 'No permitir'. Si desea cambiar su elección, puede hacerlo a través del menú Configuración.<br><a href=https://github.com/zigbeefordomoticz/wiki/blob/zigpy/en-eng/WebUI_Stastics.md>Más información en la wiki</a>.",
   "consent.banner.accept": "Aceptar",
   "consent.banner.decline": "Rechazar",
   "management": "Gestión",
@@ -166,7 +166,7 @@
   "network.full.req.subtitle": "Como por el escaneo de interferencia corto, el informe proporcionará el nivel de interferencia entre todos los routers y coordinador, manejando todas las comunicaciones cruzadas. Este informe puede tardar un poco cuando la cantidad de routers es alta, n ((n-1) / 2), para 5 routers son 10 combinaciones, para 10 routers 45",
   "network.full.req.button": "Escanear completo",
   "network.stats.detail.visu.header": "Nivel de interferencia",
-"network.stats.detail.visu.subtitle": "",
+  "network.stats.detail.visu.subtitle": "",
   "network.stats.detail.visu.totaltx": "Tx : ",
   "network.stats.detail.visu.totalfail": "Fall. : ",
   "network.stats.detail.visu.chart.title": "Nivel de interferencia",
@@ -336,7 +336,7 @@
   "setting.subtitle.Provisioning": "Configuraciones especiales para dispositivos especiales o condiciones especiales",
   "setting.header.DevicePolling": "Sondeo de dispositivos",
   "setting.subtitle.DevicePolling": "Le permite especificar la frecuencia de sondeo por tipo de información. Tenga en cuenta que una alta frecuencia sobrecargará el coordinador y podría causar algunos problemas de rendimiento.",
-"setting.subtitle.Others": "",
+  "setting.subtitle.Others": "",
   "logLQI": "Retraso antes de iniciar un escaneo de topología (seg)",
   "networkScan": "Frecuencia del informe de interferencias (seg)",
   "setting.header.CommandTransition": "Transiciones de comando para group luces",
@@ -437,4 +437,5 @@
   "logDeviceUpdate": "Habilitar el mensaje UpdateDevice en el LOG",
   "capturePairingInfos": "Capture información de emparejamiento y guárdela en la carpeta de informes",
   "error_required": "Necesario"
-}
+  }
+  

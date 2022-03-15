@@ -66,14 +66,14 @@
   "dashboard.stats.subtitle": "Statistiques de transmission/réception données",
   "dashboard.zdevice.button": "Plugin Devices (json)",
   "dashboard.zgroup.button": "Groupes du Plugin (json)",
-  "dashboard.coordinator.header": "Coordinateur infos",
+  "dashboard.coordinator.header": "ZiGate infos",
   "dashboard.coordinator.subtitle": "Les informations du coordinateur",
   "dashboard.health.title": "Santé du plugin",
   "dashboard.health.OTA": "OTA: ",
   "dashboard.health.group": "Groupe: ",
   "dashboard.devices.indb": "En Base",
   "consent.banner.header": "Consentement",
-  "consent.banner.description": "Dans l'optique de mieux vous connaître, nous utilisons une technique de cookies et, avec votre consentement, nous collecterons principalement la version du plugin, le modèle de coordinator, la version du firmware et la taille du réseau (nombre de routers et d’objets terminaux). Donnez votre accord en sélectionnant 'Autoriser' ou sinon 'Interdire'. Si vous souhaitez changer votre choix, vous pouvez le faire via le menu Réglages.",
+  "consent.banner.description": "Dans l'optique de mieux vous connaître, nous utilisons une technique de cookies et, avec votre consentement, nous collecterons principalement la version du plugin, le modèle de coordinator, la version du firmware et la taille du réseau (nombre de routers et d’objets terminaux).<br>Donnez votre accord en sélectionnant 'Autoriser' ou sinon 'Interdire'. Si vous souhaitez changer votre choix, vous pouvez le faire via le menu Réglages.<br><a href=https://github.com/zigbeefordomoticz/wiki/blob/zigpy/fr-fr/WebUI_Stastiques.md>Plus d'infos dans le wiki</a>.",
   "consent.banner.accept": "Autoriser",
   "consent.banner.decline": "Interdire",
   "management": "Gestion",
@@ -437,4 +437,5 @@
   "logDeviceUpdate": "Activer UpdateDevice messagedans les logs",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
   "error_required": "Obigatoire"
-}
+  }
+  
