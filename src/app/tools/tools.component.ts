@@ -64,6 +64,9 @@ export class ToolsComponent implements OnInit {
     if (device === 'domoticz-env') {
       service = this.apiService.getDomoticzEnv();
     }
+    if (device === 'battery-state') {
+      service = this.apiService.getBatteryState();
+    }    
 
     if (service) {
       service
