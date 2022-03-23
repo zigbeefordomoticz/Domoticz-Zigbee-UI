@@ -362,6 +362,7 @@
   "tools.plugin-health.button": "Plugin health (json)",
   "tools.zdevice-name.button": "zDevice-name (json)",
   "tools.domoticz-env.button": "domoticz-env (json)",
+  "tools.battery-state.button": "Battery State (json)",
   "tools.zgroup-list-available-device.button": "zGroup-lst-devices (json)",
   "tools.settings.button": "Settings (json)",
   "tools.plugin-stat.button": "Traffic (json)",
