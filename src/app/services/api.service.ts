@@ -65,7 +65,8 @@ const routes = {
   casiaIrcode: '/casaia-update-ircode',
   changeChannel: '/change-channel',
   pairingFullReset: '/full-reprovisionning',
-  recreateWidgets: '/recreate-widgets'
+  recreateWidgets: '/recreate-widgets',
+  batteryState: '/battery-state'
 };
 
 const log = new Logger('ApiService');
@@ -512,6 +513,13 @@ export class ApiService {
   putRecreateWidgets(_NwkId: string): Observable<any> {
     const data = { NWKID: _NwkId };
     return this.httpClient.put(routes.recreateWidgets, data).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getBatteryState(): Observable<any> {
+    return this.httpClient.get(routes.batteryState).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
