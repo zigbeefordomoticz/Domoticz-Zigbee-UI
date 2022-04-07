@@ -491,12 +491,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   private trackEvent(): void {
-    const first = JSON.parse(sessionStorage.getItem('pluginFistSendToMatomo')) as Plugin;
+    const first = JSON.parse(sessionStorage.getItem('pluginFirstSendToMatomo')) as Plugin;
     if (!first || first.NetworkSize !== this.plugin.NetworkSize) {
-      sessionStorage.setItem('pluginFistSendToMatomo', JSON.stringify(this.plugin));
+      sessionStorage.setItem('pluginFirstSendToMatomo', JSON.stringify(this.plugin));
     }
 
-    if (sessionStorage.getItem('pluginFistSendToMatomo') !== sessionStorage.getItem('pluginSentToMatomo')) {
+    if (sessionStorage.getItem('pluginFirstSendToMatomo') !== sessionStorage.getItem('pluginSentToMatomo')) {
       sessionStorage.setItem('pluginSentToMatomo', JSON.stringify(this.plugin));
       this.tracker.setUserId(this.plugin.CoordinatorIEEE);
       this.tracker.setCustomVariable(1, 'CoordinatorModel', this.plugin.CoordinatorModel, 'visit');
