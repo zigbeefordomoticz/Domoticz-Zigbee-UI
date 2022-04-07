@@ -32,4 +32,5 @@ export interface Plugin {
   PluginVersion?: string;
   CoordinatorFirmwareVersion?: string;
   CoordinatorIEEE?: string;
+  NetworkDevices: Array<any>;
 }

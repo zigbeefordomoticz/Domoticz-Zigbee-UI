@@ -88,6 +88,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     domain: ['green', 'red']
   };
 
+  plugin: Plugin;
+
   constructor(
     private apiService: ApiService,
     private toppy: Toppy,
@@ -100,25 +102,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   ngOnInit() {
-    this.subs.sink = this.headerService.polling.subscribe(poll => {
-      this.poll = poll;
-      this.subs.add(
-        timer(1, environment.refresh)
-          .pipe(
-            switchMap(() => this.getStats()),
-            retry(),
-            share(),
-            takeUntil(this.headerService.polling.pipe(filter(val => val === false)))
-          )
-          .subscribe()
-      );
-    });
-
-    if (!this.poll) {
-      this.getStats().subscribe();
-    }
-    this.getInfos();
-
     this.apiService.getSettings().subscribe(res => {
       res.forEach(setting => {
         this.settingsToSave = this.settingsToSave.concat(setting.ListOfSettings);
@@ -140,15 +123,24 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       });
     });
 
-    const plugin: Plugin = JSON.parse(sessionStorage.getItem('plugin'));
-    if (plugin) {
-      sessionStorage.setItem('plugin', JSON.stringify(plugin));
-      this.tracker.setUserId(plugin.CoordinatorIEEE);
-      this.tracker.setCustomVariable(1, 'CoordinatorModel', plugin.CoordinatorModel, 'visit');
-      this.tracker.setCustomVariable(2, 'PluginVersion', plugin.PluginVersion, 'visit');
-      this.tracker.setCustomVariable(3, 'CoordinatorFirmwareVersion', plugin.CoordinatorFirmwareVersion, 'visit');
-      this.tracker.setCustomVariable(4, 'NetworkSize', plugin.NetworkSize, 'visit');
+    this.subs.sink = this.headerService.polling.subscribe(poll => {
+      this.poll = poll;
+      this.subs.add(
+        timer(1, environment.refresh)
+          .pipe(
+            switchMap(() => this.getStats()),
+            retry(),
+            share(),
+            takeUntil(this.headerService.polling.pipe(filter(val => val === false)))
+          )
+          .subscribe()
+      );
+    });
+
+    if (!this.poll) {
+      this.getStats().subscribe();
     }
+    this.getInfos();
   }
 
   getInfos() {
@@ -333,9 +325,16 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   private getStats() {
-    return forkJoin([this.apiService.getPluginStats(), this.apiService.getZDevices()]).pipe(
-      map(([res, devices]) => {
+    return forkJoin([
+      this.apiService.getPluginStats(),
+      this.apiService.getZDevices(),
+      this.apiService.getPlugin()
+    ]).pipe(
+      map(([res, devices, plugin]) => {
+        this.plugin = plugin;
         this.pluginStats = res;
+        this.devices = devices;
+        this.trackEvent();
         this.createChart();
         this.totalTraficSent.label = this.translateService.instant('dashboard.trafic.total.trafic.sent');
         this.totalTraficSent.total = res.Sent;
@@ -370,7 +369,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           { name: this.translateService.instant('dashboard.trafic.cluster'), value: res.Cluster },
           { name: this.translateService.instant('dashboard.trafic.crc'), value: res.CRC }
         ];
-        this.devices = devices;
+
         this.devices.total = this.devices.length;
         this.devices.label = this.translateService.instant('devices');
         this.routers = this.devices.filter((router: any) => router.LogicalType === 'Router');
@@ -489,5 +488,26 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.tracker.forgetConsentGiven();
       }
     });
+  }
+
+  private trackEvent(): void {
+    const first = JSON.parse(sessionStorage.getItem('pluginFistSendToMatomo')) as Plugin;
+    if (!first || first.NetworkSize !== this.plugin.NetworkSize) {
+      sessionStorage.setItem('pluginFistSendToMatomo', JSON.stringify(this.plugin));
+    }
+
+    if (sessionStorage.getItem('pluginFistSendToMatomo') !== sessionStorage.getItem('pluginSentToMatomo')) {
+      sessionStorage.setItem('pluginSentToMatomo', JSON.stringify(this.plugin));
+      this.tracker.setUserId(this.plugin.CoordinatorIEEE);
+      this.tracker.setCustomVariable(1, 'CoordinatorModel', this.plugin.CoordinatorModel, 'visit');
+      this.tracker.setCustomVariable(2, 'PluginVersion', this.plugin.PluginVersion, 'visit');
+      this.tracker.setCustomVariable(3, 'CoordinatorFirmwareVersion', this.plugin.CoordinatorFirmwareVersion, 'visit');
+      this.tracker.setCustomVariable(4, 'NetworkSize', this.plugin.NetworkSize, 'visit');
+      Object.entries(this.plugin.NetworkDevices).forEach(([code, valueCode]) => {
+        Object.entries(valueCode).forEach(([name, valueName]) => {
+          this.tracker.trackEvent('NetworkDevices', (valueName as string[]).join('|'), code.concat('|').concat(name));
+        });
+      });
+    }
   }
 }
