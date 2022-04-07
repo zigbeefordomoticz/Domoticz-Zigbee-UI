@@ -17,5 +17,5 @@ export const environment = {
   refresh: 7000,
   linkToConsent: 'https://github.com/zigbeefordomoticz/wiki',
   trackerUrl: 'https://z4d.pipiche.net/',
-  siteId: '4'
+  siteId: '3'
 };
