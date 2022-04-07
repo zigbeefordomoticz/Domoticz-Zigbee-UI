@@ -9,18 +9,14 @@ import { DebugCommandComponent } from './command/debug-command/debug-command.com
 import { RawCommandComponent } from './command/raw-command/raw-command.component';
 import { DebugSettingComponent } from './debug-settings/debug-setting/debug-setting.component';
 import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
-import { PluginComponent } from './plugin/plugin.component';
 import { ToolsRoutingModule } from './tools-routing.module';
 import { ToolsComponent } from './tools.component';
-import { CoordinatorComponent } from './coordinator/coordinator.component';
 import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   imports: [SharedModule, ToolsRoutingModule, NgxJsonViewerModule, FileSaverModule, ColorPickerModule],
   declarations: [
     ToolsComponent,
-    PluginComponent,
-    CoordinatorComponent,
     DebugCommandComponent,
     BindingComponent,
     RawCommandComponent,

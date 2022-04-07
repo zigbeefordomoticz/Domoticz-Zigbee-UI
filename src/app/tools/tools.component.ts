@@ -16,16 +16,12 @@ const log = new Logger('ToolsComponent');
 export class ToolsComponent implements OnInit {
   json: Object | undefined = null;
   isLoading = false;
-  isInfosPluginLoading = false;
-  isInfosCoordinator = false;
 
   constructor(private apiService: ApiService, private fileSaverService: FileSaverService) {}
 
   ngOnInit() {}
 
   onClick(device: string) {
-    this.isInfosPluginLoading = false;
-    this.isInfosCoordinator = false;
     this.json = null;
     let service;
     if (device === 'devices') {
@@ -41,10 +37,10 @@ export class ToolsComponent implements OnInit {
       service = this.apiService.getRawZDevices();
     }
     if (device === 'infos') {
-      this.isInfosPluginLoading = true;
+      service = this.apiService.getPlugin();
     }
     if (device === 'coordinator') {
-      this.isInfosCoordinator = true;
+      service = this.apiService.getCoordinator();
     }
     if (device === 'plugin-health') {
       service = this.apiService.getPluginhealth();
@@ -66,7 +62,7 @@ export class ToolsComponent implements OnInit {
     }
     if (device === 'battery-state') {
       service = this.apiService.getBatteryState();
-    }    
+    }
 
     if (service) {
       service
