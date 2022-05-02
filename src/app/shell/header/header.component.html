@@ -78,6 +78,15 @@
               class="dropdown-item nav-item nav-link"
               (click)="toggleMenu()"
               [routerLink]="['/admin']"
+              [queryParams]="{ action: 'plugin' }"
+              routerLinkActive="active"
+            >
+              <i class="fas fa-satellite-dish mr-2"></i> <span translate="admin.plugin"></span>
+            </li>
+            <li
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              [routerLink]="['/admin']"
               [queryParams]="{ action: 'pairing' }"
               routerLinkActive="active"
             >
@@ -100,15 +109,6 @@
               routerLinkActive="active"
             >
               <i class="fas fa-user mr-2"></i> <span translate="admin.coordinator"></span>
-            </li>
-            <li
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              [routerLink]="['/admin']"
-              [queryParams]="{ action: 'plugin' }"
-              routerLinkActive="active"
-            >
-              <i class="fas fa-satellite-dish mr-2"></i> <span translate="admin.plugin"></span>
             </li>
             <li
               class="dropdown-item nav-item nav-link"
