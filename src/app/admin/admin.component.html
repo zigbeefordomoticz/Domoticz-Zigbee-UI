@@ -7,6 +7,7 @@
   <app-sw-reset *ngIf="action === 'coordinator'"></app-sw-reset>
   <app-switch-channel *ngIf="action === 'coordinator'"></app-switch-channel>
   <!-- <app-erase-pdm *ngIf="action === 'coordinator'"></app-erase-pdm> -->
+  <app-update-plugin *ngIf="action === 'plugin'"></app-update-plugin>
   <app-reload-plugin *ngIf="action === 'plugin'"></app-reload-plugin>
   <app-rescan-group *ngIf="action === 'group'"></app-rescan-group>
   <app-scan-group-device *ngIf="action === 'group'"></app-scan-group-device>

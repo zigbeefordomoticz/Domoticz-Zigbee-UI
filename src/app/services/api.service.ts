@@ -66,7 +66,8 @@ const routes = {
   changeChannel: '/change-channel',
   pairingFullReset: '/full-reprovisionning',
   recreateWidgets: '/recreate-widgets',
-  batteryState: '/battery-state'
+  batteryState: '/battery-state',
+  pluginUpgrade: '/plugin-upgrade'
 };
 
 const log = new Logger('ApiService');
@@ -308,6 +309,13 @@ export class ApiService {
 
   getReloadPlugin() {
     return this.httpClient.get(routes.pluginRestart).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getUpgradePlugin() {
+    return this.httpClient.get(routes.pluginUpgrade).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
