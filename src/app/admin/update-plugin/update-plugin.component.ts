@@ -13,6 +13,9 @@ const log = new Logger('UpdatePluginComponent');
   styleUrls: ['./update-plugin.component.scss']
 })
 export class UpdatePluginComponent implements OnInit {
+  message: string;
+  load = false;
+
   constructor(
     private headerService: HeaderService,
     private toastr: ToastrService,
@@ -23,7 +26,10 @@ export class UpdatePluginComponent implements OnInit {
   ngOnInit() {}
 
   updatePlugin() {
+    this.load = true;
     this.apiService.getUpgradePlugin().subscribe((result: any) => {
+      this.load = false;
+      this.message = result.result;
       if (result.ReturnCode === 0) {
         this.toastr.success(this.translate.instant('admin.plugin.update.success'));
         this.headerService.setRestart(true);
