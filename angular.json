@@ -37,6 +37,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/ngx-spinner/animations/line-spin-clockwise-fade-rotating.css",
               "node_modules/ngx-spinner/animations/line-scale.css",
               "src/main.scss"
             ],

@@ -27,6 +27,7 @@ export class UpdatePluginComponent implements OnInit {
 
   updatePlugin() {
     this.load = true;
+    this.message = '';
     this.apiService.getUpgradePlugin().subscribe((result: any) => {
       this.load = false;
       this.message = result.result;
