@@ -11,6 +11,6 @@ export class ShellComponent implements OnInit {
   constructor(private loader: LoaderService, private spinner: NgxSpinnerService) {}
 
   ngOnInit() {
-    this.loader.loader$.subscribe(show => (show ? this.spinner.show() : this.spinner.hide()));
+    this.loader.loader$.subscribe(show => (show ? this.spinner.show('rest') : this.spinner.hide('rest')));
   }
 }

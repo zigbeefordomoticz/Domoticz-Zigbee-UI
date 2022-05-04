@@ -41,7 +41,7 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
     this.newDevices = null;
     this.devices = null;
     this.devicePaired = [];
-    this.spinner.show();
+    this.spinner.show('assist');
     this.subs.sink = this.apiService
       .getNewHardware(true)
       .pipe(
@@ -64,7 +64,7 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
       .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', backdrop: 'static', keyboard: false })
       .result.then(
         result => {
-          this.spinner.hide();
+          this.spinner.hide('assist');
           this.apiService.getNewHardware(false).subscribe();
           this.subs.unsubscribe();
         },
