@@ -4,6 +4,17 @@
     <div class="card-body">
       <h5 class="card-title" [innerHTML]="'admin.plugin.update.subtitle' | translate"></h5>
       <div class="card-text">
+        <ngx-spinner
+          bdColor="rgba(0, 0, 0, 0.5)"
+          size="small"
+          color="#fff"
+          type="line-spin-clockwise-fade-rotating"
+          [fullScreen]="false"
+          [name]="'update-plugin'"
+        >
+          <p>&nbsp;</p>
+          <p class="text-white">Loading...</p></ngx-spinner
+        >
         <span class="mt-3" [innerHTML]="message | nl2br"></span>
         <button
           [disabled]="load"

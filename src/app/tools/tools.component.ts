@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { FileSaverService } from 'ngx-filesaver';
-import { finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs';
 import { transformToTimestamp } from '../shared/utils/transform-timestamp';
 
 const log = new Logger('ToolsComponent');

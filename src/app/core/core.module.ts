@@ -8,7 +8,6 @@ import { CacheInterceptor } from './http/cache.interceptor';
 import { ErrorHandlerInterceptor } from './http/error-handler.interceptor';
 import { HttpCacheService } from './http/http-cache.service';
 import { HttpService } from './http/http.service';
-import { LoaderInterceptor } from './http/loader.interceptor';
 import { I18nService } from './i18n.service';
 import { RouteReusableStrategy } from './route-reusable-strategy';
 
@@ -19,7 +18,6 @@ import { RouteReusableStrategy } from './route-reusable-strategy';
     HttpCacheService,
     ApiPrefixInterceptor,
     ErrorHandlerInterceptor,
-    LoaderInterceptor,
     CacheInterceptor,
     {
       provide: HttpClient,

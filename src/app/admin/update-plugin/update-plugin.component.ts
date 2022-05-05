@@ -3,7 +3,9 @@ import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { TranslateService } from '@ngx-translate/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs';
 
 const log = new Logger('UpdatePluginComponent');
 
@@ -20,7 +22,8 @@ export class UpdatePluginComponent implements OnInit {
     private headerService: HeaderService,
     private toastr: ToastrService,
     private apiService: ApiService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {}
@@ -28,15 +31,19 @@ export class UpdatePluginComponent implements OnInit {
   updatePlugin() {
     this.load = true;
     this.message = '';
-    this.apiService.getUpgradePlugin().subscribe((result: any) => {
-      this.load = false;
-      this.message = result.result;
-      if (result.ReturnCode === 0) {
-        this.toastr.success(this.translate.instant('admin.plugin.update.success'));
-        this.headerService.setRestart(true);
-      } else {
-        this.toastr.error(this.translate.instant('admin.plugin.update.error'));
-      }
-    });
+    this.spinner.show('update-plugin');
+    this.apiService
+      .getUpgradePlugin()
+      .pipe(finalize(() => this.spinner.hide('update-plugin')))
+      .subscribe((result: any) => {
+        this.load = false;
+        this.message = result.result;
+        if (result.ReturnCode === 0) {
+          this.toastr.success(this.translate.instant('admin.plugin.update.success'));
+          this.headerService.setRestart(true);
+        } else {
+          this.toastr.error(this.translate.instant('admin.plugin.update.error'));
+        }
+      });
   }
 }
