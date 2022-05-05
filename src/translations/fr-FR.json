@@ -262,7 +262,7 @@
   "admin.plugin.reload.alert.erase": "Redémarrer",
   "admin.plugin.update.title": "Mise à jour du plugin",
   "admin.plugin.update.subtitle": "Lance la mise à jour du plugin. Si cette mise à jour se passe sans problème, un redémarrage du plugin sera nécessaire pour la prise en compte, sinon il faudra faire la mise à jour de façon manuelle.",
-  "admin.plugin.update.button": "Mettre à jour",
+  "admin.plugin.update.button": "Mettre à jour (plusieurs minutes)",
   "admin.plugin.update.success": "Redémarrer le plugin pour prendre en compte la mise à jour",
   "admin.plugin.update.error": "Il y a eu des erreurs durant la mise à jour, vérifier les logs et prendre les actions correctives",
   "admin.firmware": "Firmware",
