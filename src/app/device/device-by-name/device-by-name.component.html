@@ -58,7 +58,12 @@
             >
             </a>
             <i
-              *ngIf="row.ConsistencyCheck === 'not in DZ' || row.ConsistencyCheck === 'Bad Pairing'"
+              *ngIf="
+                row.ConsistencyCheck === 'not in DZ' ||
+                row.ConsistencyCheck === 'Bad Pairing' ||
+                !row.WidgetList ||
+                row.WidgetList.length === 0
+              "
               class="fa fa-trash"
               style="cursor: pointer"
               title="{{ 'device.byname.delete.colum' | translate }}"
