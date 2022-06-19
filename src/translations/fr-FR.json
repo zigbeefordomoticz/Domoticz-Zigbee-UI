@@ -444,7 +444,7 @@
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
   "error_required": "Obigatoire",
 
-  "reporting.configure": "Confiigure report",
+  "reporting.configure": "Configure report",
   "reporting.configure.title": "title",
   "reporting.configure.subtitle": "subtitle",
   "reporting.configure.trigger.button":"trigger",
