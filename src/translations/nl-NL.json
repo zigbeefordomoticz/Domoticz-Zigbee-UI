@@ -444,6 +444,7 @@
   "capturePairingInfos": "Sla pairing informatie op in reports folder",
   "error_required": "Benodigd",
 
+  "reporting.configure": "Confiigure report",
   "reporting.configure.title": "title",
   "reporting.configure.subtitle": "subtitle",
   "reporting.configure.trigger.button":"trigger",

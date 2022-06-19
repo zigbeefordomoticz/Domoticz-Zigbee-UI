@@ -444,6 +444,7 @@
   "capturePairingInfos": "Capture información de emparejamiento y guárdela en la carpeta de informes",
   "error_required": "Necesario",
 
+  "reporting.configure": "Confiigure report",
   "reporting.configure.title": "title",
   "reporting.configure.subtitle": "subtitle",
   "reporting.configure.trigger.button":"trigger",
