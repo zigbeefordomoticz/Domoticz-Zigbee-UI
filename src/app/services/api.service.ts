@@ -16,10 +16,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Binding } from '../shared/models/binding';
-import { Relation } from '../shared/models/relation';
-import { CasaiaDevice, UpdateCasaiaDevice } from '../shared/models/casaia-device';
-import { DevicesByManufacturer, FirmwareManufacturer, FirmwareUpdate } from '../shared/models/firmware';
+import { Binding } from '@app/shared/models/binding';
+import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
+import { Configure, Edit } from '@app/shared/models/configure-reporting';
+import { DevicesByManufacturer, FirmwareManufacturer, FirmwareUpdate } from '@app/shared/models/firmware';
+import { Relation } from '@app/shared/models/relation';
 
 const routes = {
   devices: '/device',
@@ -67,7 +68,9 @@ const routes = {
   pairingFullReset: '/full-reprovisionning',
   recreateWidgets: '/recreate-widgets',
   batteryState: '/battery-state',
-  pluginUpgrade: '/plugin-upgrade'
+  pluginUpgrade: '/plugin-upgrade',
+  configureReporting: '/cfgrpt-ondemand-config',
+  demandConfigureReporting: '/cfgrpt-ondemand'
 };
 
 const log = new Logger('ApiService');
@@ -528,6 +531,30 @@ export class ApiService {
 
   getBatteryState(): Observable<any> {
     return this.httpClient.get(routes.batteryState).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getTriggerConfigureReporting(_NwkId: string): Observable<any> {
+    return this.httpClient.get(routes.demandConfigureReporting + '/' + _NwkId).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getConfigureReporting(_NwkId: string): Observable<Configure[]> {
+    return this.httpClient.get(routes.configureReporting + '/' + _NwkId).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putConfigureReporting(_NwkId: string, clusters: Configure[]): Observable<void> {
+    const data = new Edit();
+    data.Nwkid = _NwkId;
+    data.Clusters = clusters;
+    return this.httpClient.put(routes.configureReporting, data).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

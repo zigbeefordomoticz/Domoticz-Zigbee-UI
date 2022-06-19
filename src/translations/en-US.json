@@ -442,5 +442,20 @@
   "PowerOn_OnOff": "Return state after device power outage",
   "logDeviceUpdate": "Enable UpdateDevice message in Log",
   "capturePairingInfos": "Capture Pairing infos and save in Reports folder",
-  "error_required": "required"
+  "error_required": "required",
+
+  "reporting.configure.title": "title",
+  "reporting.configure.subtitle": "subtitle",
+  "reporting.configure.trigger.button":"trigger",
+  "reporting.configure.validate.button":"validate",
+  "reporting.configure.device": "Select device",
+  "reporting.configure.clusterId.column": "cluster id",
+  "reporting.configure.attributeId.column": "attribute id",
+  "reporting.configure.dataType.column": "datatype",
+  "reporting.configure.timeout.column": "timeout",
+  "reporting.configure.minInterval.column": "min interval",
+  "reporting.configure.maxInterval.column": "max interval",
+  "reporting.configure.change.column": "change",
+  "reporting.configure.hexa.error": "not hexadecimal value",
+  "reporting.configure.length.error": "length not good"
 }

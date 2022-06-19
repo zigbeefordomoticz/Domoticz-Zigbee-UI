@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-header">
+        {{ 'reporting.configure.title' | translate }}
+        <button
+          [disabled]="!deviceSelected"
+          (click)="triggerConfiguration()"
+          class="btn btn-secondary float-right ml-3"
+          translate="{{ 'reporting.configure.trigger.button' | translate }}"
+        ></button>
+        <button
+          [disabled]="!permitToValidate"
+          (click)="putConfiguration()"
+          class="btn btn-primary float-right"
+          translate="{{ 'reporting.configure.validate.button' | translate }}"
+        ></button>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title" [innerHTML]="'reporting.configure.subtitle' | translate"></h5>
+        <div class="card-text">
+          <div class="row">
+            <div class="col-sm-6">
+              <ng-select
+                [items]="devices$ | async"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                bindLabel="ZDeviceName"
+                placeholder="{{ 'reporting.configure.device' | translate }}"
+                (change)="getConfiguration($event)"
+                (clear)="deviceSelected = null; permitToValidate = false"
+                appendTo="body"
+              >
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <span [ngOptionHighlight]="search">
+                    <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
+                  >
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          <ng-container *ngIf="deviceSelected && clusters$ | async as clusters">
+            <app-configure-cluster-reporting
+              (clustersChange)="onClustersChange($event)"
+              [clusters]="clusters"
+            ></app-configure-cluster-reporting>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

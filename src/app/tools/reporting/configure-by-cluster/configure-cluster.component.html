@@ -1,0 +1,73 @@
+<ngx-datatable
+  #table
+  [rows]="clustersToDisplay"
+  class="bootstrap"
+  [columnMode]="'force'"
+  [headerHeight]="40"
+  [rowHeight]="'auto'"
+  [messages]="{
+    emptyMessage: 'NODATA' | translate,
+    totalMessage: 'TOTAL' | translate,
+    selectedMessage: 'SELECTED' | translate
+  }"
+>
+  <ngx-datatable-column
+    [maxWidth]="100"
+    name="{{ 'reporting.configure.clusterId.column' | translate }}"
+    prop="clusterId"
+  >
+    <ng-template ngx-datatable-cell-template let-row="row">
+      {{ row.clusterId }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [maxWidth]="100"
+    name="{{ 'reporting.configure.attributeId.column' | translate }}"
+    prop="attributeId"
+  >
+    <ng-template ngx-datatable-cell-template let-row="row">
+      {{ row.attributeId }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column [maxWidth]="100" name="{{ 'reporting.configure.dataType.column' | translate }}" prop="dataType">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      {{ row.dataType }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column [maxWidth]="150" name="{{ 'reporting.configure.timeout.column' | translate }}" prop="timeOut">
+    <ng-template ngx-datatable-cell-template let-row="row">
+      {{ row.timeOut }}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="{{ 'reporting.configure.minInterval.column' | translate }}" prop="minInterval">
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
+      <input
+        id="{{ 'MinInterval' + rowIndex }}"
+        autofocus
+        (change)="updateValue($event, value, 'MinInterval', row, rowIndex)"
+        type="text"
+        [value]="row.minInterval"
+      />
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="{{ 'reporting.configure.maxInterval.column' | translate }}" prop="maxInterval">
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
+      <input
+        autofocus
+        (change)="updateValue($event, value, 'MaxInterval', row, rowIndex)"
+        type="text"
+        [value]="row.maxInterval"
+      />
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="{{ 'reporting.configure.change.column' | translate }}" prop="change">
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
+      <input
+        autofocus
+        (change)="updateValue($event, value, 'Change', row, rowIndex)"
+        type="text"
+        [value]="row.change"
+      />
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

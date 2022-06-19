@@ -5,6 +5,7 @@ import { BindingComponent } from './binding/binding.component';
 import { CommandComponent } from './command/command.component';
 import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
 import { ErrorComponent } from './error/error.component';
+import { ReportingComponent } from './reporting/reporting.component';
 import { ToolsComponent } from './tools.component';
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'debug', component: DebugSettingsComponent, data: { title: extract('debug') } },
   { path: 'binding', component: BindingComponent, data: { title: extract('binding') } },
   { path: 'link', component: ToolsComponent, data: { title: extract('tools') } },
-  { path: 'error', component: ErrorComponent, data: { title: extract('error') } }
+  { path: 'error', component: ErrorComponent, data: { title: extract('error') } },
+  { path: 'configure', component: ReportingComponent, data: { title: extract('configure') } }
 ];
 
 @NgModule({
