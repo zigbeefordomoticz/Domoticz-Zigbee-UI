@@ -443,12 +443,11 @@
   "logDeviceUpdate": "Habilitar el mensaje UpdateDevice en el LOG",
   "capturePairingInfos": "Capture información de emparejamiento y guárdela en la carpeta de informes",
   "error_required": "Necesario",
-
   "reporting.configure": "Configure report",
   "reporting.configure.title": "title",
   "reporting.configure.subtitle": "subtitle",
-  "reporting.configure.trigger.button":"trigger",
-  "reporting.configure.validate.button":"validate",
+  "reporting.configure.trigger.button": "trigger",
+  "reporting.configure.validate.button": "validate",
   "reporting.configure.device": "Select device",
   "reporting.configure.clusterId.column": "cluster id",
   "reporting.configure.attributeId.column": "attribute id",
@@ -458,5 +457,7 @@
   "reporting.configure.maxInterval.column": "max interval",
   "reporting.configure.change.column": "change",
   "reporting.configure.hexa.error": "not hexadecimal value",
-  "reporting.configure.length.error": "length not good"
+  "reporting.configure.length.error": "length not good",
+  "setting.header.Zigpy": "Zigpy CIE specific configuration",
+  "setting.subtitle.Zigpy": "Specific to some CIE as ConBeeII and RasBeeII it might required to enable some CIE specific item for some brands"
 }
