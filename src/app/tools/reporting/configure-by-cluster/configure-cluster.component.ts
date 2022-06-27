@@ -37,11 +37,11 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
             const clusterToDisplay = new ClusterToDisplay();
             clusterToDisplay.clusterId = cluster.ClusterId;
             clusterToDisplay.attributeId = attribute.Attribute;
-            clusterToDisplay.change = infos.Change;
+            clusterToDisplay.change = parseInt(infos.Change, 16).toString();
             clusterToDisplay.dataType = infos.DataType;
-            clusterToDisplay.maxInterval = infos.MaxInterval;
-            clusterToDisplay.minInterval = infos.MinInterval;
-            clusterToDisplay.timeOut = infos.TimeOut;
+            clusterToDisplay.maxInterval = parseInt(infos.MaxInterval, 16).toString();
+            clusterToDisplay.minInterval = parseInt(infos.MinInterval, 16).toString();
+            clusterToDisplay.timeOut = parseInt(infos.TimeOut, 16).toString();
             this.clustersToDisplay.push(clusterToDisplay);
           });
         });
@@ -50,23 +50,20 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
   }
 
   updateValue(event: any, previousValue: string, col: string, clusterToDisplay: ClusterToDisplay, index: number) {
-    const expression = /^([0-9a-fA-F]+)$/i;
-    const value = event.target.value.trim() as string;
-    if (expression.test(value)) {
+    const value = event.target.value as number;
+    if (isNaN(value)) {
+      this.clustersChange.emit(null);
+      alert(this.translate.instant('reporting.configure.hexa.error'));
+    } else if (value > 65535) {
+      this.clustersChange.emit(null);
+      alert(this.translate.instant('reporting.configure.length.error'));
+    } else {
       const rowUpdated = this.clusters
         .find(cluster => cluster.ClusterId === clusterToDisplay.clusterId)
         .Attributes.find(attribute => attribute.Attribute === clusterToDisplay.attributeId)
         .Infos.find(infos => infos.DataType === clusterToDisplay.dataType);
-      if (previousValue.length === value.length) {
-        rowUpdated[col] = value;
-        this.clustersChange.emit(this.clusters);
-      } else {
-        this.clustersChange.emit(null);
-        alert(this.translate.instant('reporting.configure.length.error'));
-      }
-    } else {
-      this.clustersChange.emit(null);
-      alert(this.translate.instant('reporting.configure.hexa.error'));
+      rowUpdated[col] = value.toString(16);
+      this.clustersChange.emit(this.clusters);
     }
   }
 }
