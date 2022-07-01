@@ -62,7 +62,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
         .find(cluster => cluster.ClusterId === clusterToDisplay.clusterId)
         .Attributes.find(attribute => attribute.Attribute === clusterToDisplay.attributeId)
         .Infos.find(infos => infos.DataType === clusterToDisplay.dataType);
-      rowUpdated[col] = value.toString(16);
+      rowUpdated[col] = Number(value).toString(16).toUpperCase();
       this.clustersChange.emit(this.clusters);
     }
   }
