@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewC
 import { FormBuilder } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { ClusterToDisplay, Configure } from '@app/shared/models/configure-reporting';
+import { ClusterToDisplay, Configure, Info } from '@app/shared/models/configure-reporting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
@@ -20,7 +20,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
 
   clustersToDisplay: ClusterToDisplay[] = [];
 
-  datatypeConvertor: any = [
+  datatypeConvertor: { type: string; longueur: string }[] = [
     { type: '20', longueur: '0' },
     { type: '10', longueur: '0' },
     { type: '21', longueur: '00' },
@@ -76,31 +76,46 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
   }
 
   updateValue(event: any, previousValue: string, col: string, clusterToDisplay: ClusterToDisplay, index: number) {
-    const value = event.target.value as number;
-    if (isNaN(value)) {
-      this.clustersChange.emit(null);
-      alert(this.translate.instant('reporting.configure.hexa.error'));
-    } else if (value > 65535) {
-      this.clustersChange.emit(null);
-      alert(this.translate.instant('reporting.configure.length.error'));
-    } else {
-      const rowUpdated = this.clusters
-        .find(cluster => cluster.ClusterId === clusterToDisplay.clusterId)
-        .Attributes.find(attribute => attribute.Attribute === clusterToDisplay.attributeId).Infos[0];
+    const value = event.target.value;
+    const rowUpdated = this.clusters
+      .find(cluster => cluster.ClusterId === clusterToDisplay.clusterId)
+      .Attributes.find(attribute => attribute.Attribute === clusterToDisplay.attributeId).Infos[0];
+    if (!this.controlerValue(Number(value), col, rowUpdated)) {
       if (col === 'Change') {
         const type = this.datatypeConvertor.find((datatype: any) => datatype.type === rowUpdated.DataType);
-        if (type.type === '10' && value > 1) {
-          this.clustersChange.emit(null);
-          alert(this.translate.instant('reporting.configure.length.error'));
-        }
-        const longueur = type.longueur;
-        rowUpdated[col] = (type.longueur + Number(value).toString(16).toUpperCase()).slice(
-          (type.longueur as string).length
-        );
+        rowUpdated[col] = (type.longueur + Number(value).toString(16).toUpperCase()).slice(-type.longueur.length);
       } else {
         rowUpdated[col] = Number(value).toString(16).toUpperCase();
       }
       this.clustersChange.emit(this.clusters);
     }
+  }
+
+  private controlerValue(value: number, col: string, row: Info): boolean {
+    let erreur = false;
+    if (isNaN(value)) {
+      erreur = true;
+      this.clustersChange.emit(null);
+      alert(this.translate.instant('reporting.configure.hexa.error'));
+    } else if (col !== 'Change' && Number(value) > 65535) {
+      erreur = true;
+      this.clustersChange.emit(null);
+      alert(this.translate.instant('reporting.configure.length.error'));
+    } else if (col === 'Change') {
+      const type = this.datatypeConvertor.find((datatype: any) => datatype.type === row.DataType);
+      const maxHEx = type.longueur.split('0').join('F');
+      if (Number(value) > parseInt(maxHEx, 16)) {
+        erreur = true;
+        this.clustersChange.emit(null);
+        alert(this.translate.instant('reporting.configure.length.error'));
+      }
+      if (type.type === '10' && Number(value) > 1) {
+        erreur = true;
+        this.clustersChange.emit(null);
+        alert(this.translate.instant('reporting.configure.length.error'));
+      }
+    }
+
+    return erreur;
   }
 }
