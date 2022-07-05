@@ -5,6 +5,12 @@
         {{ 'reporting.configure.title' | translate }}
         <button
           [disabled]="!deviceSelected"
+          (click)="resetConfiguration()"
+          class="btn btn-danger float-right ml-3"
+          translate="{{ 'reporting.configure.reset.button' | translate }}"
+        ></button>
+        <button
+          [disabled]="!deviceSelected"
           (click)="triggerConfiguration()"
           class="btn btn-secondary float-right ml-3"
           translate="{{ 'reporting.configure.trigger.button' | translate }}"
@@ -12,7 +18,7 @@
         <button
           [disabled]="!permitToValidate"
           (click)="putConfiguration()"
-          class="btn btn-primary float-right"
+          class="btn btn-primary float-right ml-3"
           translate="{{ 'reporting.configure.validate.button' | translate }}"
         ></button>
       </div>

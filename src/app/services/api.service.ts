@@ -560,6 +560,13 @@ export class ApiService {
     );
   }
 
+  deleteConfigureReporting(_NwkId: string): Observable<void> {
+    return this.httpClient.delete(routes.configureReporting + '/' + _NwkId).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
   private handleError(error: any) {
     log.error(error);
     this.toastr.error(error.status + ' ' + error.statusText, this.translate.instant('api.global.error.notify'));

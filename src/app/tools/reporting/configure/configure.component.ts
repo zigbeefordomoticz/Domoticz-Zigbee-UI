@@ -45,6 +45,13 @@ export class ConfigureReportingComponent implements OnInit {
     });
   }
 
+  resetConfiguration(): void {
+    this.apiService.deleteConfigureReporting(this.deviceSelected).subscribe(() => {
+      this.permitToValidate = false;
+      this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
+    });
+  }
+
   triggerConfiguration(): void {
     this.apiService.getTriggerConfigureReporting(this.deviceSelected).subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
