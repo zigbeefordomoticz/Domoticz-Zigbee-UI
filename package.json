@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "ngcc --tsconfig 'tsconfig.app.json' && npm run prettier -s",
     "ng": "ng",
-    "buildPourReverse": "npm run env -s && ng build --configuration production --base-href /zigate/ --deploy-url /zigate/",
+    "buildPourReverse": "npm run env -s && ng build --configuration production --base-href /z4d/ --deploy-url /z4d/",
     "build": "npm run env -s && ng build --configuration production",
     "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
     "start1": "npm run env -s && ng serve",
