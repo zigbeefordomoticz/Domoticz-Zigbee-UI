@@ -5,10 +5,8 @@
   "scripts": {
     "postinstall": "ngcc --tsconfig 'tsconfig.app.json' && npm run prettier -s",
     "ng": "ng",
-    "buildPourReverse": "npm run env -s && ng build --configuration production --base-href /z4d/ --deploy-url /z4d/",
-    "build": "npm run env -s && ng build --configuration production",
+    "build": "npm run env -s && ng build --configuration production --base-href /z4d/ --deploy-url /z4d/",
     "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
-    "start1": "npm run env -s && ng serve",
     "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
     "lint": "ng lint && stylelint \"src/**/*.scss\" --syntax scss && htmlhint \"src\" --config .htmlhintrc",
     "test": "npm run env -s && ng test",
