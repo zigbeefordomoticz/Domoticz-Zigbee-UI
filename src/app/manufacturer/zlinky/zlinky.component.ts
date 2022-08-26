@@ -25,10 +25,10 @@ export class ZlinkyComponent implements OnInit {
       map(zlinkys => {
         zlinkys.forEach(zlinky => {
           zlinky.ParametersForDisplay = [];
-          Object.entries(zlinky.Parameters).forEach(([key, value]) => {
+          zlinky.Parameters.forEach(param => {
             const parameter = new ParameterForDisplay();
-            parameter.key = key;
-            parameter.value = value;
+            parameter.key = Object.keys(param)[0];
+            parameter.value = Object.values(param)[0] as string;
             zlinky.ParametersForDisplay.push(parameter);
           });
         });
