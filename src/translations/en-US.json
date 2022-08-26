@@ -573,5 +573,7 @@
   "PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
   "manufacturer.zlinky.header": "Zlinky header",
   "manufacturer.zlinky.subtitle": "Zlinky subtitle",
-  "manufacturer.zlinky.placeholder": "Select Zlinky device"
+  "manufacturer.zlinky.placeholder": "Select Zlinky device",
+  "manufacturer.zlinky.key": "Designation",
+  "manufacturer.zlinky.value": "Value"
 }
