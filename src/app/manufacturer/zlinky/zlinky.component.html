@@ -24,6 +24,8 @@
         </ng-template>
       </ng-select>
 
+      <p class="mt-3 mb-3 font-weight-bold" *ngIf="deviceSelected">{{ deviceSelected.protocole | translate }}</p>
+
       <ngx-datatable
         *ngIf="deviceSelected"
         #table

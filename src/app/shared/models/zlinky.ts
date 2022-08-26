@@ -4,6 +4,7 @@ export class Zlinky {
   'Protocol Linky': number;
   Parameters: any[];
   ParametersForDisplay: ParameterForDisplay[];
+  protocole: string;
 }
 
 export class ParameterForDisplay {

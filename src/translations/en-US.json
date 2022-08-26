@@ -564,5 +564,12 @@
   "NJOURF": "Numéro du jour en cours calendrier fournisseur",
   "NJOURF+1": "Numéro du prochain jour calendrier fournisseur",
   "PJOURF+1": "Profil du prochain jour calendrier fournisseur",
-  "PPOINTE1": "Profil du prochain jour de pointe"
+  "PPOINTE1": "Profil du prochain jour de pointe",
+
+  "PROTOCOL_LINKY_0": "Mode historique monophasé",
+  "PROTOCOL_LINKY_1": "Mode standard monophasé",
+  "PROTOCOL_LINKY_2": "Mode historique triphasé",
+  "PROTOCOL_LINKY_3": "Mode standard triphasé",
+  "PROTOCOL_LINKY_5": "Mode standard monophasé producteur",
+  "PROTOCOL_LINKY_7": "Mode standard triphasé producteur"
 }

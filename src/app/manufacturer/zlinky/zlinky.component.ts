@@ -24,6 +24,7 @@ export class ZlinkyComponent implements OnInit {
     this.zlinkys$ = this.apiService.getZlinky().pipe(
       map(zlinkys => {
         zlinkys.forEach(zlinky => {
+          zlinky.protocole = 'PROTOCOL_LINKY_' + zlinky['PROTOCOL Linky'];
           zlinky.ParametersForDisplay = [];
           zlinky.Parameters.forEach(param => {
             const parameter = new ParameterForDisplay();
