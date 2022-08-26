@@ -1,3 +1,4 @@
+import { Zlinky } from './../shared/models/zlinky';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Logger } from '@app/core';
@@ -70,7 +71,8 @@ const routes = {
   batteryState: '/battery-state',
   pluginUpgrade: '/plugin-upgrade',
   configureReporting: '/cfgrpt-ondemand-config',
-  demandConfigureReporting: '/cfgrpt-ondemand'
+  demandConfigureReporting: '/cfgrpt-ondemand',
+  zlinky: '/zlinky'
 };
 
 const log = new Logger('ApiService');
@@ -562,6 +564,13 @@ export class ApiService {
 
   deleteConfigureReporting(_NwkId: string): Observable<void> {
     return this.httpClient.delete(routes.configureReporting + '/' + _NwkId).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getZlinky(): Observable<Zlinky[]> {
+    return this.httpClient.get(routes.zlinky).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

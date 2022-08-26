@@ -181,17 +181,31 @@
             </li>
           </ul>
         </li>
-        <li ngbDropdown routerLinkActive="active" class="nav-item dropdown" *ngIf="showManufacturer">
+        <li
+          ngbDropdown
+          routerLinkActive="active"
+          class="nav-item dropdown"
+          *ngIf="showManufacturerCasaia || showManufacturerZlinky"
+        >
           <a class="nav-link nav-item dropdown-toggle" id="dropdown2" ngbDropdownToggle translate="manufacturer"></a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown2">
             <li
+              *ngIf="showManufacturerCasaia"
               class="dropdown-item nav-item nav-link"
               (click)="toggleMenu()"
               routerLink="/manufacturer/casaia"
               routerLinkActive="active"
             >
-              <!-- <i class="fas fa-industry mr-2"></i> <span translate="manufacturer.casaia"></span> -->
               <img style="width: 50%; height: 50%" src="assets/logo-casa.svg" />
+            </li>
+            <li
+              *ngIf="showManufacturerZlinky"
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              routerLink="/manufacturer/zlinky"
+              routerLinkActive="active"
+            >
+              <img style="width: 50%; height: 50%" src="assets/lixee.jpg" />
             </li>
           </ul>
         </li>

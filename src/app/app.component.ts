@@ -6,7 +6,7 @@ import { Plugin } from '@app/shared/models/plugin';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxMousetrapService } from 'ngx-mousetrap';
-import { merge, Subscription } from 'rxjs';
+import { merge, Subscription, forkJoin } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
 import { HeaderService } from './services/header-service';
@@ -52,11 +52,16 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
-    this.apiService.getCasiaDevices().subscribe(devices => {
-      if (devices.length > 0) {
-        this.headerService.setShowManufacturer(true);
+    this.subs.sink = forkJoin([this.apiService.getCasiaDevices(), this.apiService.getZlinky()]).subscribe(
+      ([devices, zlinky]) => {
+        if (devices.length > 0) {
+          this.headerService.setShowManufacturerCasaia(true);
+        }
+        if (zlinky.length > 0) {
+          this.headerService.setShowManufacturerZlinky(true);
+        }
       }
-    });
+    );
 
     this.apiService.getPlugin().subscribe(plugin => {
       sessionStorage.setItem('plugin', JSON.stringify(plugin));
@@ -64,10 +69,12 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
       this.setTitle();
     });
 
-    this.subs.sink = this.mouseTrapService.register(this.keysBoundActive).subscribe(evt => {
-      this.activateRefresh = !this.activateRefresh;
-      this.headerService.setPolling(this.activateRefresh);
-    });
+    this.subs.add(
+      this.mouseTrapService.register(this.keysBoundActive).subscribe(evt => {
+        this.activateRefresh = !this.activateRefresh;
+        this.headerService.setPolling(this.activateRefresh);
+      })
+    );
 
     this.subs.add(
       this.mouseTrapService.register(this.keysBoundInactive).subscribe(evt => {

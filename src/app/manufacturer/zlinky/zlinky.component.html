@@ -1,0 +1,71 @@
+<div class="card">
+  <div class="card-header">
+    {{ 'manufacturer.zlinky.header' | translate }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title" [innerHTML]="'manufacturer.zlinky.subtitle' | translate"></h5>
+    <div class="card-text">
+      <ng-select
+        [items]="zlinkys$ | async"
+        [multiple]="false"
+        [closeOnSelect]="true"
+        [searchable]="true"
+        bindLabel="ZDeviceName"
+        placeholder="{{ 'manufaturer.zlinky.placeholder' | translate }}"
+        (change)="getConfiguration($event)"
+        (clear)="deviceSelected = null"
+        appendTo="body"
+      >
+        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+          <span [ngOptionHighlight]="search">
+            <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item.Nwkid }}</span
+          >
+        </ng-template>
+      </ng-select>
+
+      <ngx-datatable
+        *ngIf="deviceSelected"
+        #table
+        [rows]="deviceSelected.ParametersForDisplay"
+        class="bootstrap"
+        [columnMode]="'force'"
+        [headerHeight]="40"
+        [footerHeight]="'auto'"
+        [limit]="10"
+        [rowHeight]="'auto'"
+        [messages]="{
+          emptyMessage: 'NODATA' | translate,
+          totalMessage: 'TOTAL' | translate,
+          selectedMessage: 'SELECTED' | translate
+        }"
+      >
+        <ngx-datatable-column>
+          <ng-template ngx-datatable-header-template>
+            <span>Key</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.key }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+          <ng-template ngx-datatable-header-template>
+            <span>Value</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.value }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+          <ng-template ngx-datatable-header-template>
+            <span>designation</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.key | translate }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>

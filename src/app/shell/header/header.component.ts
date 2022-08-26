@@ -22,7 +22,8 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   permitToJoin: any;
   permitChecked = false;
   restart: boolean;
-  showManufacturer: boolean;
+  showManufacturerCasaia: boolean;
+  showManufacturerZlinky: boolean;
   logError: boolean;
   settings: Array<Settings>;
   settingsToSave: Array<Setting> = [];
@@ -51,8 +52,14 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     );
 
     this.subs.add(
-      this.headerService.showManufacturer.subscribe(showManufacturer => {
-        this.showManufacturer = showManufacturer;
+      this.headerService.showManufacturerCasaia.subscribe(showManufacturer => {
+        this.showManufacturerCasaia = showManufacturer;
+      })
+    );
+
+    this.subs.add(
+      this.headerService.showManufacturerZlinky.subscribe(showManufacturer => {
+        this.showManufacturerZlinky = showManufacturer;
       })
     );
 
