@@ -42,32 +42,41 @@
   <ngx-datatable-column name="{{ 'reporting.configure.minInterval.column' | translate }}" prop="minInterval">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
+        *ngIf="isEditable(row); else notEditable"
+        class="w-25"
         id="{{ 'MinInterval' + rowIndex }}"
         autofocus
         (change)="updateValue($event, value, 'MinInterval', row, rowIndex)"
         type="text"
         [value]="row.minInterval"
       />
+      <ng-template #notEditable>{{ row.MinInterval }}</ng-template>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="{{ 'reporting.configure.maxInterval.column' | translate }}" prop="maxInterval">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
+        *ngIf="isEditable(row); else notEditable"
+        class="w-25"
         autofocus
         (change)="updateValue($event, value, 'MaxInterval', row, rowIndex)"
         type="text"
         [value]="row.maxInterval"
       />
+      <ng-template #notEditable>{{ row.MaxInterval }}</ng-template>
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="{{ 'reporting.configure.change.column' | translate }}" prop="change">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
+        *ngIf="isEditable(row); else notEditable"
+        class="w-25"
         autofocus
         (change)="updateValue($event, value, 'Change', row, rowIndex)"
         type="text"
         [value]="row.change"
       />
+      <ng-template #notEditable>{{ row.Change }}</ng-template>
     </ng-template>
   </ngx-datatable-column>
 </ngx-datatable>

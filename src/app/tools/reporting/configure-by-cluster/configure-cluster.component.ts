@@ -20,30 +20,30 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
 
   clustersToDisplay: ClusterToDisplay[] = [];
 
-  datatypeConvertor: { type: string; longueur: string }[] = [
-    { type: '20', longueur: '0' },
-    { type: '10', longueur: '0' },
-    { type: '21', longueur: '00' },
-    { type: '22', longueur: '000' },
-    { type: '23', longueur: '0000' },
-    { type: '24', longueur: '00000' },
-    { type: '25', longueur: '000000' },
-    { type: '26', longueur: '0000000' },
-    { type: '27', longueur: '00000000' },
-    { type: '28', longueur: '0' },
-    { type: '29', longueur: '00' },
-    { type: '2a', longueur: '000' },
-    { type: '2b', longueur: '0000' },
-    { type: '2c', longueur: '00000' },
-    { type: '2d', longueur: '000000' },
-    { type: '2e', longueur: '0000000' },
-    { type: '2f', longueur: '00000000' },
-    { type: '38', longueur: '00' },
-    { type: '39', longueur: '0000' },
-    { type: '3a', longueur: '00000000' },
-    { type: 'e0', longueur: '0000' },
-    { type: 'e1', longueur: '0000' },
-    { type: 'e2', longueur: '0000' }
+  datatypeConvertor: { type: string; longueur: string; editable: boolean }[] = [
+    { type: '10', longueur: '0', editable: false },
+    { type: '20', longueur: '0', editable: true },
+    { type: '21', longueur: '00', editable: true },
+    { type: '22', longueur: '000', editable: true },
+    { type: '23', longueur: '0000', editable: true },
+    { type: '24', longueur: '00000', editable: true },
+    { type: '25', longueur: '000000', editable: true },
+    { type: '26', longueur: '0000000', editable: true },
+    { type: '27', longueur: '00000000', editable: true },
+    { type: '28', longueur: '0', editable: true },
+    { type: '29', longueur: '00', editable: true },
+    { type: '2a', longueur: '000', editable: true },
+    { type: '2b', longueur: '0000', editable: true },
+    { type: '2c', longueur: '00000', editable: true },
+    { type: '2d', longueur: '000000', editable: true },
+    { type: '2e', longueur: '0000000', editable: true },
+    { type: '2f', longueur: '00000000', editable: true },
+    { type: '38', longueur: '00', editable: true },
+    { type: '39', longueur: '0000', editable: true },
+    { type: '3a', longueur: '00000000', editable: true },
+    { type: 'e0', longueur: '0000', editable: true },
+    { type: 'e1', longueur: '0000', editable: true },
+    { type: 'e2', longueur: '0000', editable: true }
   ];
 
   constructor(
@@ -117,5 +117,10 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
     }
 
     return erreur;
+  }
+
+  isEditable(row: ClusterToDisplay): boolean {
+    const type = this.datatypeConvertor.find((datatype: any) => datatype.type === row.dataType);
+    return type && type.editable;
   }
 }
