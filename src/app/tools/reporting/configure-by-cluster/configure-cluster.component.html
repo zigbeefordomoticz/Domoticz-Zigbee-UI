@@ -42,7 +42,7 @@
   <ngx-datatable-column name="{{ 'reporting.configure.minInterval.column' | translate }}" prop="minInterval">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
-        class="w-25"
+        class="w-50"
         id="{{ 'MinInterval' + rowIndex }}"
         autofocus
         (change)="updateValue($event, value, 'MinInterval', row, rowIndex)"
@@ -54,7 +54,7 @@
   <ngx-datatable-column name="{{ 'reporting.configure.maxInterval.column' | translate }}" prop="maxInterval">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
-        class="w-25"
+        class="w-50"
         autofocus
         (change)="updateValue($event, value, 'MaxInterval', row, rowIndex)"
         type="text"
@@ -66,7 +66,7 @@
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
         *ngIf="isEditable(row); else notEditable"
-        class="w-25"
+        class="w-50"
         autofocus
         (change)="updateValue($event, value, 'Change', row, rowIndex)"
         type="text"
