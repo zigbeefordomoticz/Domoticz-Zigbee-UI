@@ -121,6 +121,6 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
 
   isEditable(row: ClusterToDisplay): boolean {
     const type = this.datatypeConvertor.find((datatype: any) => datatype.type === row.dataType);
-    return !type || type.editable;
+    return type && type.editable;
   }
 }
