@@ -11,7 +11,7 @@ const HttpsProxyAgent = require('https-proxy-agent');
 const proxyConfig = [
   {
     context: '/rest-z4d/',
-    target: 'http://172.20.151.138:9440',
+    target: 'http://host.docker.internal:9440',
     secure: false
   }
 ];

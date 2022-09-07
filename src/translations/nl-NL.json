@@ -54,7 +54,7 @@
   "dashboard.txpm": "Tx/m",
   "dashboard.maxload": "Max Belasting",
   "dashboard.plugin.version": "Plugin: ",
-  "dashboard.plugin.update.available": "Er is een update beschikbaar voor de plug-in <a class='fas fa-info-circle mr-2' target='_blank' href='https://zigbeefordomoticz.github.io/wiki/en-eng/Plugin_Update'>Meer info</a>",
+  "dashboard.plugin.update.available": "Er is een update beschikbaar voor de plug-in <a class='fas fa-info-circle mr-2' target='_blank' href='https://zigbeefordomoticz.github.io/wiki/en-eng/Plugin_Update'>Meer info</a></br><a href='/admin?action=plugin'>Plugin upgrade</a>",
   "dashboard.plugin.update.available.title": "Plugin update",
   "dashboard.firmware.version": "Firmware: ",
   "dashboard.firmware.update.available": "Er is nieuwe firmware beschikbaar voor de ZiGate <a target='_blank' href='https://zigbeefordomoticz.github.io/wiki/en-eng/HowTo_Update-ZiGate-firmware'>Meer info</a>",
