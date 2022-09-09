@@ -42,7 +42,7 @@
           selectedMessage: 'SELECTED' | translate
         }"
       >
-        <ngx-datatable-column>
+        <ngx-datatable-column prop="key">
           <ng-template ngx-datatable-header-template>
             <span>{{ 'manufacturer.zlinky.key' | translate }}</span>
           </ng-template>
@@ -50,7 +50,7 @@
             {{ row.key | translate }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column>
+        <ngx-datatable-column prop="value">
           <ng-template ngx-datatable-header-template>
             <span>{{ 'manufacturer.zlinky.value' | translate }}</span>
           </ng-template>
