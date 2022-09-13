@@ -15,3 +15,13 @@ a:not([href]):not([tabindex]) {
 .logo {
   width: 50px;
 }
+
+li.test {
+
+  .dropdown-item.active,
+  .dropdown-item:active {
+    color: transparent;
+    text-decoration: none;
+    background-color: transparent;
+  }
+}
