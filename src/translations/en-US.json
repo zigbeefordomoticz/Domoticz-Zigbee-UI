@@ -47,7 +47,7 @@
   "dashboard.battery.title": "Battery",
   "dashboard.devices.battery.label": "Battery",
   "dashboard.devices.battery.inf.30": "< 30%",
-  "dashboard.devices.battery.sup.30": "<br 50%",
+  "dashboard.devices.battery.sup.30": "< 50%",
   "dashboard.devices.battery.sup.50": "> 50%",
   "dashboard.health.starttime": "Started at ",
   "dashboard.rxpm": "Rx/m",
