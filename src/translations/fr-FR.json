@@ -591,5 +591,8 @@
   "resetConfigureReporting": "Reset all existing Configure Reporting",
   "resetReadAttributes": "Reset all read attributes",
 
-  "TopologyV2": "Network Topology based on routing and neighbourghs tables"
+  "TopologyV2": "Network Topology based on routing and neighbourghs tables",
+  
+  "autoBackup": "Automatic backup of coordinator",
+  "BackupFullDevices": "backup device informations"
 }
