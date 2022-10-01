@@ -300,7 +300,7 @@
   "resetPermit2Join": "Reset permit to join at startup",
   "forcePollingAfterAction": "Get device status after action",
   "enableReadAttributes": "Enable Polling",
-  "blueLedOnOff": "Enable ZiGate Blue Led",
+  "blueLedOnOff": "Enable Coordinator Blue Led",
   "setting.reloadplugin.alert.title": "Plugin Reload",
   "setting.reloadplugin.alert.subject": "Settings have been updated, plugin need to be restarted",
   "setting.reloadplugin.alert.cancel": "Close",
@@ -590,9 +590,8 @@
   "ConfigureReportingChunk": "Max number of attributes when Configure Reporting",
   "ReadAttributeChunk": "Max number of attributes when Read Attributes",
   "resetConfigureReporting": "Reset all existing Configure Reporting",
-  "resetReadAttributes": "Reset all read attributes"
+  "resetReadAttributes": "Reset all read attributes",
+
+  "TopologyV2": "Network Topology based on routing and neighbourghs tables"
  
-
-
-
 }

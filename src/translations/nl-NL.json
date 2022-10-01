@@ -300,7 +300,7 @@
   "resetPermit2Join": "Reset na een herstart toestaan",
   "forcePollingAfterAction": "Krijg apparaten status na actie",
   "enableReadAttributes": "Polling Aanzetten",
-  "blueLedOnOff": "Schakel ZiGate Blue Led aan",
+  "blueLedOnOff": "Schakel Coordinador Blue Led aan",
   "setting.reloadplugin.alert.title": "Plug-in herstart",
   "setting.reloadplugin.alert.subject": "De instellingen zijn bijgewerkt, de plug-in moet opnieuw worden opgestart",
   "setting.reloadplugin.alert.cancel": "Sluiten",
@@ -589,6 +589,8 @@
   "ConfigureReportingChunk": "Max number of attributes when Configure Reporting",
   "ReadAttributeChunk": "Max number of attributes when Read Attributes",
   "resetConfigureReporting": "Reset all existing Configure Reporting",
-  "resetReadAttributes": "Reset all read attributes"
+  "resetReadAttributes": "Reset all read attributes",
+
+  "TopologyV2": "Network Topology based on routing and neighbourghs tables"
 
 }
