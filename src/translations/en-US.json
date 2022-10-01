@@ -575,5 +575,24 @@
   "manufacturer.zlinky.subtitle": "Zlinky subtitle",
   "manufacturer.zlinky.placeholder": "Select Zlinky device",
   "manufacturer.zlinky.key": "Designation",
-  "manufacturer.zlinky.value": "Value"
+  "manufacturer.zlinky.value": "Value",
+
+  "setting.header.OTA": "Device firmware update Over-The-Air",
+  "setting.subtitle.OTA": "Parameters which allow to configure how the plugin Over-The-Air upgrade would behave.",
+  "IkeaTradfri_Repository": "IKEA-TRADFRI Official repository",
+  "ZigbeeOTA_Repository": "Zigbee OTA firmware (build by Internet community)",
+  "autoServeOTA": "Allow automatic update when firmware found",
+  "checkFirmwareAgainstZigbeeOTARepository": "Check if there is a firmware available in one of the repository",
+
+
+  "DomoticzCustomMenu": "Enable Plugin WebUI from Domoticz Custom menu",
+  "NightShift": "Push background activity from 11PM to 6AM",
+  "ConfigureReportingChunk": "Max number of attributes when Configure Reporting",
+  "ReadAttributeChunk": "Max number of attributes when Read Attributes",
+  "resetConfigureReporting": "Reset all existing Configure Reporting",
+  "resetReadAttributes": "Reset all read attributes"
+ 
+
+
+
 }
