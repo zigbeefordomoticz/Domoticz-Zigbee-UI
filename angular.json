@@ -112,7 +112,7 @@
             "main": "src/test.ts",
             "karmaConfig": "src/karma.conf.js",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
+            "tsConfig": "src/tsconfig.app.json",
             "scripts": [],
             "styles": [
               "node_modules/ngx-spinner/animations/line-scale.css",
@@ -148,5 +148,7 @@
       }
     }
   },
-  "defaultProject": "z4d-plugin"
+  "cli": {
+    "analytics": false
+  }
 }
