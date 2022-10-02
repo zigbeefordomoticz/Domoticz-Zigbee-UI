@@ -38,7 +38,9 @@ export class PermitToJoinRouterComponent extends UnsubscribeOnDestroyAdapter imp
     this.subs.sink = forkJoin([this.apiService.getPermitToJoin(), this.apiService.getZDevices()]).subscribe(
       ([permitToJoin, devices]) => {
         this.permitToJoin = permitToJoin;
-        this.routers = devices.filter((router: any) => router.LogicalType === 'Router' || router.LogicalType === 'Coordinator');
+        this.routers = devices.filter(
+          (router: any) => router.LogicalType === 'Router' || router.LogicalType === 'Coordinator'
+        );
       }
     );
   }
