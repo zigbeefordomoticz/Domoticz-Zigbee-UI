@@ -594,6 +594,19 @@
     "TopologyV2": "Analyse du maillage basé sur les tables de routage et de voisinage",
   
     "autoBackup": "Sauvegarde automatique du coordinateur",
-    "BackupFullDevices": "Sauvegarde des informations de l’objet"
+    "BackupFullDevices": "Sauvegarde des informations de l’objet",
+
+    "BellowsNoMoreEndDeviceChildren": "Disable direct pairing on Coordinator",
+    "BellowsSourceRouting": "Enable Zigbee Source routing mecanishm",
+    "pingDevices": "Ping main-powered devices regularly to vérify their health",
+    "GroupOnBattery": "Enable group creation to a battery devices",
+    "deviceOffWhenTimeOut": "Switch device to Off when network Timeout",
+    "checkConfigurationReporting": "Check the device Report configuration regularly",
+    "TXpower_set": "Coordinator transmission power level",
+    "pingDevicesFeq": "Frequency of regular ping main-powered devices",
+    "GrpfadingOff": "Fadding mode",
+    "GrpmoveToColourRGB": "Transition time for RGB move color",
+    "GrpmoveToColourTemp": "Transition time for TEMP move color",
+    "GrpmoveToLevel": "Transition time for one dim position to an other one"
   }
   
