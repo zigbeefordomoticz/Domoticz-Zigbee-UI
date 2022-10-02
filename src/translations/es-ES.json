@@ -615,7 +615,8 @@
     "forceClosingAllNodes": "Enable to close Pairing mode in each router",
     "extendedPANID": "Zigbee Extended PAN Identifier",
     "allowReBindingClusters": "Enable re-binding clusters during configure reporting operations",
-    "doUnbindBind": "Unbind and then bind, when doing a binding operation"
+    "doUnbindBind": "Unbind and then bind, when doing a binding operation",
 
+    "PluginAnalytics": "Plugin uses cookies to collect information about the Coordinator and the device models used."
   }
   
