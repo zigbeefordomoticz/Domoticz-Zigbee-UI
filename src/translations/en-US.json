@@ -607,8 +607,15 @@
     "GrpfadingOff": "Fadding mode",
     "GrpmoveToColourRGB": "Transition time for RGB move color",
     "GrpmoveToColourTemp": "Transition time for TEMP move color",
-    "GrpmoveToLevel": "Transition time for one dim position to an other one"
+    "GrpmoveToLevel": "Transition time for one dim position to an other one",
 
+    "enableSchneiderWiser": "Enable if you have Legacy Wiser devices",
+    "LegrandCompatibilityMode": "Enable to simulate a Legrand Netamo Hub",
+    "AqaraOppleBulbMode": "Enable to have Aqara Opple remote commanding directly devices",
+    "forceClosingAllNodes": "Enable to close Pairing mode in each router",
+    "extendedPANID": "Zigbee Extended PAN Identifier",
+    "allowReBindingClusters": "Enable re-binding clusters during configure reporting operations",
+    "doUnbindBind": "Unbind and then bind, when doing a binding operation"
 
   }
   
