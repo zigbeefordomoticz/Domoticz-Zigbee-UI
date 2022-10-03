@@ -16,7 +16,7 @@ import { Setting, Settings } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, filter, map } from 'rxjs/operators';
 import { Binding } from '@app/shared/models/binding';
 import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
 import { Configure, Edit } from '@app/shared/models/configure-reporting';
@@ -95,9 +95,9 @@ export class ApiService {
     );
   }
 
-  getZDevices(): Observable<ZDevices[]> {
-    return this.httpClient.get(routes.zDevices).pipe(
-      map((body: any) => body),
+  getZDevices(filterCoordinator = false): Observable<ZDevices[]> {
+    return this.httpClient.get<ZDevices[]>(routes.zDevices).pipe(
+      map(devices => devices.filter(device => (device.LogicalType === 'Router' || (filterCoordinator ? device.LogicalType === 'Coordinator' : false)))),
       catchError(error => this.handleError(error))
     );
   }
