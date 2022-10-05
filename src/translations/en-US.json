@@ -617,7 +617,9 @@
     "allowReBindingClusters": "Enable re-binding clusters during configure reporting operations",
     "doUnbindBind": "Unbind and then bind, when doing a binding operation",
 
-    "PluginAnalytics": "Plugin uses cookies to collect information about the Coordinator and the device models used."
+    "PluginAnalytics": "Plugin uses cookies to collect information about the Coordinator and the device models used.",
+
+    "autoRestore": "Automaticaly apply the most recent coordinator backup when a clean coordinator is found"
 
   }
   
