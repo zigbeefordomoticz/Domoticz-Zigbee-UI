@@ -97,7 +97,13 @@ export class ApiService {
 
   getZDevices(filterCoordinator = false): Observable<ZDevices[]> {
     return this.httpClient.get<ZDevices[]>(routes.zDevices).pipe(
-      map(devices => devices.filter(device => (device.LogicalType === 'Router' || (filterCoordinator ? device.LogicalType === 'Coordinator' : false)))),
+      map(devices => devices.filter(device => {
+        if (filterCoordinator && device.LogicalType === 'Coordinator') {
+          return true;
+        } else if (device.LogicalType !== 'Coordinator') {
+          return true;
+        }
+      })),
       catchError(error => this.handleError(error))
     );
   }
@@ -105,7 +111,7 @@ export class ApiService {
   getRawZDevices(): Observable<any> {
     return this.httpClient.get(routes.zdeviceRaw).pipe(
       map((body: any) => body),
-      catchError(error => this.handleError(error))
+      catchError(error => this.handleError(error))  
     );
   }
 
