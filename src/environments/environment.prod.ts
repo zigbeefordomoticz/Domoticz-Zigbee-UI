@@ -10,7 +10,12 @@ export const environment = {
   production: true,
   version: env.npm_package_version,
   defaultLanguage: 'en-US',
-  supportedLanguages: [{'en-US', 'flag_uk.png'}, {'fr-FR', 'flag_france.png'}, {'nl-NL', 'flag_netherlands.png'}, {'es-ES', ''}],
+  supportedLanguages: [
+    { code: 'en-US', flag: 'flag_uk.png' },
+    { code: 'fr-FR', flag: 'flag_france.png' },
+    { code: 'nl-NL', flag: 'flag_netherlands.png' },
+    { code: 'es-ES', flag: 'flag_spain.png' }
+  ],
   api_url: '/rest-z4d/1',
   keysBoundActive: 'alt+z+i+g',
   keysBoundInactive: 'alt+s+t+o+p',

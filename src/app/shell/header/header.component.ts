@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { I18nService } from '@app/core';
+import { I18nService, Language } from '@app/core';
 import { HeaderService } from '@app/services/header-service';
 import { Plugin } from '@app/shared/models/plugin';
 import { Settings } from '@app/shared/models/setting';
@@ -119,16 +119,20 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     this.menuHidden = !this.menuHidden;
   }
 
-  setLanguage(language: string) {
-    this.i18nService.language = language;
-    this.updateSettings(language);
+  setLanguage(language: Language) {
+    this.i18nService.language = language.code;
+    this.updateSettings(language.code);
   }
 
   get currentLanguage(): string {
     return this.i18nService.language;
   }
 
-  get languages(): string[] {
+  get currentFlag(): string {
+    return this.languages.find(language => language.code === this.currentLanguage).flag;
+  }
+
+  get languages(): Language[] {
     return this.i18nService.supportedLanguages;
   }
 

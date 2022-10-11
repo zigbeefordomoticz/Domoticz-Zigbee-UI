@@ -251,19 +251,23 @@
           </div>
         </div>
       </div>
-      <div class="navbar-nav ml-auto">
-        <div class="nav-item d-flex align-items-center border-left pl-3">
+      <div class="navbar-nav ml-auto d-flex align-items-center">
+        <div class="nav-item border-left pl-3">
           <div class="switch switch-sm mr-2 pr-2">
-            <input [(ngModel)]="permitChecked" (click)="permit($event)" type="checkbox" class="switch" id="switch-sm" />
+            <input [(ngModel)]="permitChecked" (click)="permit($event)" type="checkbox" id="switch-sm" />
             <label class="mb-0" for="switch-sm" translate="admin.permittojoin.label"></label>
           </div>
         </div>
-        <div class="nav-item d-flex align-items-center" ngbDropdown placement="bottom-right">
+        <div class="nav-item border-left" ngbDropdown placement="bottom">
           <div>
-            <a id="language-dropdown" class="border-left pl-3 nav-link" ngbDropdownToggle>{{ currentLanguage }}</a>
+            <a id="language-dropdown" class="nav-link pl-3" ngbDropdownToggle
+              ><img class="img-responsive" style="width: 1.25rem" src="assets/{{ currentFlag }}" />
+              {{ currentLanguage }}</a
+            >
             <div ngbDropdownMenu aria-labelledby="language-dropdown">
               <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
-                {{ language }}
+                <img class="img-responsive" style="width: 1.25rem" src="assets/{{ language.flag }}" />
+                {{ language.code }}
               </button>
             </div>
           </div>
