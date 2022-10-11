@@ -1,3 +1,5 @@
 {
-    "remote.localPortHost": "allInterfaces"
+    "remote.localPortHost": "allInterfaces",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
 }

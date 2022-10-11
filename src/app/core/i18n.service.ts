@@ -7,6 +7,7 @@ import enUS from '../../translations/en-US.json';
 import frFR from '../../translations/fr-FR.json';
 import nlNL from '../../translations/nl-NL.json';
 import esEs from '../../translations/es-ES.json';
+import { Language } from './language';
 
 const log = new Logger('I18nService');
 const languageKey = 'language';
@@ -24,7 +25,7 @@ export function extract(s: string) {
 @Injectable()
 export class I18nService {
   defaultLanguage!: string;
-  supportedLanguages!: string[];
+  supportedLanguages!: Array<Language>;
 
   private langChangeSubscription!: Subscription;
 
@@ -42,7 +43,7 @@ export class I18nService {
    * @param defaultLanguage The default language to use.
    * @param supportedLanguages The list of supported languages.
    */
-  init(defaultLanguage: string, supportedLanguages: string[]) {
+  init(defaultLanguage: string, supportedLanguages: Array<Language>) {
     this.defaultLanguage = defaultLanguage;
     this.supportedLanguages = supportedLanguages;
     this.language = '';
@@ -68,12 +69,15 @@ export class I18nService {
    */
   set language(language: string) {
     language = language || localStorage.getItem(languageKey) || this.translateService.getBrowserCultureLang();
-    let isSupportedLanguage = this.supportedLanguages.includes(language);
+    let isSupportedLanguage = this.supportedLanguages.find(
+      supportedLanguage => supportedLanguage.code === language
+    ).code;
 
     // If no exact match is found, search without the region
     if (language && !isSupportedLanguage) {
       language = language.split('-')[0];
-      language = this.supportedLanguages.find(supportedLanguage => supportedLanguage.startsWith(language)) || '';
+      language =
+        this.supportedLanguages.find(supportedLanguage => supportedLanguage.code.startsWith(language)).code || '';
       isSupportedLanguage = Boolean(language);
     }
 
