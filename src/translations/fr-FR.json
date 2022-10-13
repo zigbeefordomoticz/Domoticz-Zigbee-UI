@@ -363,7 +363,7 @@
   "autoServeOTA": "Mise à jour automatique quand un firmware est trouvé",
   "checkFirmwareAgainstZigbeeOTARepository": "Vérifier si un firmware est disponible dans l’un des dépôts",
   "DomoticzCustomMenu": "Ajouter un lien vers le WebUI dans le Custom Menu de DomoticZ",
-  "NightShift": "Déplace les actions d’arrière plan de 11h à 06h",
+  "NightShift": "Déplace les actions d’arrière plan de 23h à 06h",
   "ConfigureReportingChunk": "Nombre maxi d’attributs lors d’un Configure Reporting",
   "ReadAttributeChunk": "Nombre maxi d’attributs lors d’un Read attributes",
   "resetConfigureReporting": "Reset de tous les Configure Reporting",
