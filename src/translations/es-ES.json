@@ -502,6 +502,8 @@
   "manufacturer.zlinky.placeholder": "Select Zlinky device",
   "manufacturer.zlinky.key": "Designation",
   "manufacturer.zlinky.value": "Value",
+  "manufacturer.zlinky.DateCode": "Code date",
+  "manufacturer.zlinky.SWBuildID": "SWBuildID",
   "manufacturer.zlinky.ADC0": "Serial Number",
   "manufacturer.zlinky.BASE": "Index Base",
   "manufacturer.zlinky.OPTARIF": "Option tarifaire",
