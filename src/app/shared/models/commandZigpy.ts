@@ -8,5 +8,4 @@ export class CommandZigpy {
   SourceEp: string;
   Sqn: string;
   payload?: string;
-};
-
+}

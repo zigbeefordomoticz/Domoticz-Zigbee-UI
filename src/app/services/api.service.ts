@@ -81,7 +81,7 @@ const log = new Logger('ApiService');
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  constructor(private httpClient: HttpClient, private toastr: ToastrService, private translate: TranslateService) { }
+  constructor(private httpClient: HttpClient, private toastr: ToastrService, private translate: TranslateService) {}
 
   getPluginhealth(): Observable<any> {
     return this.httpClient.get(routes.pluginHealth).pipe(

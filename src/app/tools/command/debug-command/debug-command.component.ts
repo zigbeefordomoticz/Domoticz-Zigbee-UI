@@ -27,7 +27,7 @@ export class DebugCommandComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

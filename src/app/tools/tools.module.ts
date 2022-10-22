@@ -34,4 +34,4 @@ import { ConfigureByClusterReportingComponent } from './reporting/configure-by-c
     ConfigureByClusterReportingComponent
   ]
 })
-export class ToolsModule { }
+export class ToolsModule {}
