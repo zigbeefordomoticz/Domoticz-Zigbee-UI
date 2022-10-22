@@ -7,107 +7,89 @@
           <h5 class="card-title" [innerHTML]="'tools.rawcommand-zigpy.subtitle' | translate"></h5>
           <div class="card-text">
             <div class="row">
-              <div class="col-sm-6">
-                <ng-select
-                  [items]="devices$ | async"
-                  [multiple]="false"
-                  [closeOnSelect]="true"
-                  [searchable]="true"
-                  bindLabel="ZDeviceName"
-                  bindValue="_NwkId"
-                  placeholder="{{ 'admin.fullreset.device.placeholder' | translate }}"
-                  formControlName="TargetAddr"
-                >
+              <div class="col-sm">
+                <ng-select [items]="devices$ | async" [multiple]="false" [closeOnSelect]="true" [searchable]="true"
+                  bindLabel="ZDeviceName" bindValue="_NwkId"
+                  placeholder="{{ 'tools.rawcommand-zigpy.placeholder' | translate }}" formControlName="TargetAddr">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">
-                      <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
-                    >
+                      <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span>
                   </ng-template>
                 </ng-select>
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-sm-2">GroupAddressFlag</div>
-              <div class="col-sm-1">
+              <div class="col-sm">
+                <label translate="tools.rawcommand-zigpy.GroupAddressFlag"></label>
+              </div>
+              <div class="col-sm-5">
                 <div>
                   <ng-select [items]="TrueFalse" bindLabel="name" bindValue="id" formControlName="GroupAddressFlag">
                   </ng-select>
                 </div>
               </div>
-              <div class="col-sm-2">AckMode</div>
-              <div class="col-sm-1">
+            </div>
+            <div class="row mt-2">
+              <div class="col-sm">
+                <label translate="tools.rawcommand-zigpy.AckMode"></label>
+              </div>
+              <div class="col-sm-5">
                 <div>
                   <ng-select [items]="TrueFalse" bindLabel="name" bindValue="id" formControlName="AckMode"> </ng-select>
                 </div>
               </div>
             </div>
             <div class="row mt-3">
-              <div class="col-sm-1">ProfileId</div>
-              <div class="col-sm-1">
+              <div class="col-sm">
+                <label translate="tools.rawcommand-zigpy.ProfileId"></label>
+              </div>
+              <div class="col-sm-3">
                 <div>
-                  <input
-                    type="text"
-                    formControlName="ProfileId"
-                    placeholder="{{ 'tools.rawcommand.payload' | translate }}"
-                    class="w-100 form-control"
-                  />
+                  <input type="text" formControlName="ProfileId"
+                    placeholder="{{ 'tools.rawcommand.payload' | translate }}" class="w-100 form-control" />
                 </div>
               </div>
-              <div class="col-sm-1">ClusterId</div>
-              <div class="col-sm-1">
+              <div class="col-sm">
+                <label translate="tools.rawcommand-zigpy.ClusterId"></label>
+              </div>
+              <div class="col-sm-3">
                 <div>
-                  <input
-                    type="text"
-                    formControlName="ClusterId"
-                    placeholder="{{ 'tools.rawcommand.payload' | translate }}"
-                    class="w-100 form-control"
-                  />
+                  <input type="text" formControlName="ClusterId"
+                    placeholder="{{ 'tools.rawcommand.payload' | translate }}" class="w-100 form-control" />
                 </div>
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-sm-1">SourceEp</div>
-              <div class="col-sm-1">
+              <div class="col-sm">
+                <label translate="tools.rawcommand-zigpy.SourceEp"></label>
+              </div>
+              <div class="col-sm-2">
                 <div>
-                  <input
-                    type="text"
-                    formControlName="SourceEp"
-                    placeholder="{{ 'tools.rawcommand.payload' | translate }}"
-                    class="w-100 form-control"
-                  />
+                  <input type="text" formControlName="SourceEp"
+                    placeholder="{{ 'tools.rawcommand.payload' | translate }}" class="w-100 form-control" />
                 </div>
               </div>
-              <div class="col-sm-1">TargetEp</div>
-              <div class="col-sm-1">
+              <div class="col-sm">
+                <label translate="tools.rawcommand-zigpy.TargetEp"></label>
+              </div>
+              <div class="col-sm-2">
                 <div>
-                  <input
-                    type="text"
-                    formControlName="TargetEp"
-                    placeholder="{{ 'tools.rawcommand.payload' | translate }}"
-                    class="w-100 form-control"
-                  />
+                  <input type="text" formControlName="TargetEp"
+                    placeholder="{{ 'tools.rawcommand.payload' | translate }}" class="w-100 form-control" />
                 </div>
               </div>
             </div>
             <div class="row mt-2">
-              <div class="col-sm-6">
+              <div class="col-sm">
                 <div>
-                  <input
-                    type="text"
-                    formControlName="Payload"
-                    placeholder="{{ 'tools.rawcommand.payload' | translate }}"
-                    class="w-100 form-control"
-                  />
+                  <input type="text" formControlName="Payload"
+                    placeholder="{{ 'tools.rawcommand.payload' | translate }}" class="w-100 form-control" />
                 </div>
               </div>
             </div>
             <div class="row mt-3">
-              <button
-                class="ml-3 btn btn-primary"
-                (click)="putCommand()"
-                [disabled]="!form.valid"
-                translate="tools.rawcommand.button.put"
-              ></button>
+              <button class="ml-3 btn btn-primary" (click)="putCommand()" [disabled]="!form.valid"
+                translate="tools.rawcommand.button.put"></button>
             </div>
           </div>
         </div>

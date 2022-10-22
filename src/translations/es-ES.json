@@ -614,5 +614,12 @@
   "manufacturer.zlinky.PROTOCOL_LINKY_2": "Mode historique triphasé",
   "manufacturer.zlinky.PROTOCOL_LINKY_3": "Mode standard triphasé",
   "manufacturer.zlinky.PROTOCOL_LINKY_5": "Mode standard monophasé producteur",
-  "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur"
+  "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
+  "tools.rawcommand-zigpy.placeholder": "Seleccione un dispositivo",
+  "tools.rawcommand-zigpy.GroupAddressFlag": "GroupAddressFlag",
+  "tools.rawcommand-zigpy.AckMode": "AckMode",
+  "tools.rawcommand-zigpy.ProfileId": "ProfileId",
+  "tools.rawcommand-zigpy.ClusterId": "ClusterId",
+  "tools.rawcommand-zigpy.SourceEp": "SourceEp",
+  "tools.rawcommand-zigpy.TargetEp": "TargetEp"
 }

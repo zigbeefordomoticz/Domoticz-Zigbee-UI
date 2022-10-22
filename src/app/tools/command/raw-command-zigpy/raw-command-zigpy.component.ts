@@ -23,7 +23,7 @@ export class RawCommandZigpyComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   selectedCar: string;
 
@@ -34,15 +34,15 @@ export class RawCommandZigpyComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      ProfileId: ['0104'],
-      ClusterId: ['0000'],
-      TargetAddr: [null],
-      TargetEp: ['01'],
-      SourceEp: ['01'],
+      ProfileId: ['0104', Validators.required],
+      ClusterId: ['0000', Validators.required],
+      TargetAddr: [null, Validators.required],
+      TargetEp: ['01', Validators.required],
+      SourceEp: ['01', Validators.required],
       Sqn: ['55'],
-      Payload: [null],
-      GroupAddressFlag: ['False'],
-      AckMode: ['False']
+      Payload: [null, Validators.required],
+      GroupAddressFlag: ['False', Validators.required],
+      AckMode: ['False', Validators.required]
     });
     this.devices$ = this.apiService.getZDeviceName();
   }
