@@ -437,6 +437,7 @@
   "tools.debugcommand.button.send": "Envoyer",
   "tools.rawcommand.title": "Commande brut",
   "tools.rawcommand.subtitle": "Permet d'envoyer une commande directe au coordinateur en mode Raw. <br> Suivre absolument le  <a target='_blank' href='http://zigate.fr/documentation/commandes-zigate'>protocole ZiGate</a>  <a class='fas fa-info-circle mr-2' target='_blank' href='https://zigbeefordomoticz.github.io/wiki/fr-fr/WebUI_Outils#commande'></a>",
+  "tools.rawcommand-zigpy.subtitle": "Permet d'envoyer une commande directe au coordinateur en mode Raw.</a>",
   "tools.rawcommand.command": "Message RAW",
   "tools.rawcommand.error": "Entrée requise",
   "tools.rawcommand.payload": "Payload",

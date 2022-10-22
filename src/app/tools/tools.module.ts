@@ -7,6 +7,7 @@ import { BindingComponent } from './binding/binding.component';
 import { CommandComponent } from './command/command.component';
 import { DebugCommandComponent } from './command/debug-command/debug-command.component';
 import { RawCommandComponent } from './command/raw-command/raw-command.component';
+import { RawCommandZigpyComponent } from './command/raw-command-zigpy/raw-command-zigpy.component';
 import { DebugSettingComponent } from './debug-settings/debug-setting/debug-setting.component';
 import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
 import { ToolsRoutingModule } from './tools-routing.module';
@@ -23,6 +24,7 @@ import { ConfigureByClusterReportingComponent } from './reporting/configure-by-c
     DebugCommandComponent,
     BindingComponent,
     RawCommandComponent,
+    RawCommandZigpyComponent,
     CommandComponent,
     DebugSettingsComponent,
     DebugSettingComponent,
@@ -32,4 +34,4 @@ import { ConfigureByClusterReportingComponent } from './reporting/configure-by-c
     ConfigureByClusterReportingComponent
   ]
 })
-export class ToolsModule {}
+export class ToolsModule { }
