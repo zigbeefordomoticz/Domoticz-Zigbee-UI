@@ -1,28 +1,28 @@
-import { Zlinky } from './../shared/models/zlinky';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Logger } from '@app/core';
+import { Binding } from '@app/shared/models/binding';
 import { Capabilities } from '@app/shared/models/capabilities';
+import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
 import { Command } from '@app/shared/models/command';
-import { CommandZigpy } from '@app/shared/models/commandZigpy';
+import { CommandZigpy } from '@app/shared/models/command-zigpy';
+import { Configure, Edit } from '@app/shared/models/configure-reporting';
 import { Device, ZDevices } from '@app/shared/models/device';
 import { DeviceBind } from '@app/shared/models/device-bind';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { DomoticzEnv } from '@app/shared/models/domoticz-env';
+import { DevicesByManufacturer, FirmwareManufacturer, FirmwareUpdate } from '@app/shared/models/firmware';
 import { DevicesAvailable, Group } from '@app/shared/models/group';
 import { Cluster, NewDevice } from '@app/shared/models/new-hardware';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
+import { Relation } from '@app/shared/models/relation';
 import { Setting, Settings } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
-import { catchError, filter, map } from 'rxjs/operators';
-import { Binding } from '@app/shared/models/binding';
-import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
-import { Configure, Edit } from '@app/shared/models/configure-reporting';
-import { DevicesByManufacturer, FirmwareManufacturer, FirmwareUpdate } from '@app/shared/models/firmware';
-import { Relation } from '@app/shared/models/relation';
+import { catchError, map } from 'rxjs/operators';
+import { Zlinky } from './../shared/models/zlinky';
 
 const routes = {
   devices: '/device',
