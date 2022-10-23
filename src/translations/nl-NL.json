@@ -621,5 +621,6 @@
   "tools.rawcommand-zigpy.ProfileId": "ProfileId",
   "tools.rawcommand-zigpy.ClusterId": "ClusterId",
   "tools.rawcommand-zigpy.SourceEp": "SourceEp",
-  "tools.rawcommand-zigpy.TargetEp": "TargetEp"
+  "tools.rawcommand-zigpy.TargetEp": "TargetEp",
+  "tools.rawcommand-zigpy.Sqn": "Sqn"
 }

@@ -28,8 +28,8 @@ export class RawCommandZigpyComponent implements OnInit {
   selectedCar: string;
 
   TrueFalse = [
-    { id: 'False', name: 'False' },
-    { id: 'True', name: 'True' }
+    { id: false, name: 'False' },
+    { id: true, name: 'True' }
   ];
 
   ngOnInit() {
@@ -41,8 +41,8 @@ export class RawCommandZigpyComponent implements OnInit {
       SourceEp: ['01', Validators.required],
       Sqn: ['55'],
       Payload: [null, Validators.required],
-      GroupAddressFlag: ['False', Validators.required],
-      AckMode: ['False', Validators.required]
+      GroupAddressFlag: [false, Validators.required],
+      AckMode: [false, Validators.required]
     });
     this.devices$ = this.apiService.getZDeviceName();
   }
