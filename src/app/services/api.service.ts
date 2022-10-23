@@ -453,7 +453,7 @@ export class ApiService {
     );
   }
 
-  putCommandRawZigpy(command: CommandZigpy): Observable<any> {
+  putCommandRawZigpy(command: CommandZigpy): Observable<void> {
     return this.httpClient.put(routes.rawCommandZigpy, command).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
