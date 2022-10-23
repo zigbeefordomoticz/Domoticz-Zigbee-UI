@@ -437,6 +437,7 @@
   "tools.debugcommand.button.send": "Enviar",
   "tools.rawcommand.title": "Comandos de ZiGate(en bruto)",
   "tools.rawcommand.subtitle": "Permitir enviar un comando el coordinador directamente a la zigate en modo bruto.<br> Debe seguir <a target='_blank' href='http://zigate.fr/documentation/commandes-zigate'>el protocolo ZiGate</a>  <a class='fas fa-info-circle mr-2' target='_blank' href='https://zigbeefordomoticz.github.io/wiki/en-eng/WebUI_Outils#command'></a>.",
+  "tools.rawcommand-zigpy.subtitle": "Permitir enviar un comando el coordinador directamente a la zigate en modo bruto.</a>.",
   "tools.rawcommand.command": "Tipo de mensaje",
   "tools.rawcommand.error": "Entrada requerida",
   "tools.rawcommand.payload": "Datos",
@@ -613,5 +614,12 @@
   "manufacturer.zlinky.PROTOCOL_LINKY_2": "Mode historique triphasé",
   "manufacturer.zlinky.PROTOCOL_LINKY_3": "Mode standard triphasé",
   "manufacturer.zlinky.PROTOCOL_LINKY_5": "Mode standard monophasé producteur",
-  "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur"
+  "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
+  "tools.rawcommand-zigpy.placeholder": "Seleccione un dispositivo",
+  "tools.rawcommand-zigpy.GroupAddressFlag": "GroupAddressFlag",
+  "tools.rawcommand-zigpy.AckMode": "AckMode",
+  "tools.rawcommand-zigpy.ProfileId": "ProfileId",
+  "tools.rawcommand-zigpy.ClusterId": "ClusterId",
+  "tools.rawcommand-zigpy.SourceEp": "SourceEp",
+  "tools.rawcommand-zigpy.TargetEp": "TargetEp"
 }

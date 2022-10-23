@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Logger } from '@app/core';
 import { Capabilities } from '@app/shared/models/capabilities';
 import { Command } from '@app/shared/models/command';
+import { CommandZigpy } from '@app/shared/models/commandZigpy';
 import { Device, ZDevices } from '@app/shared/models/device';
 import { DeviceBind } from '@app/shared/models/device-bind';
 import { DeviceByName } from '@app/shared/models/device-by-name';
@@ -55,6 +56,7 @@ const routes = {
   binding: '/binding',
   unbinding: '/unbinding',
   rawCommand: '/raw-command',
+  rawCommandZigpy: '/raw-zigbee',
   bindLSTcluster: '/bind-lst-cluster',
   bindLSTdevice: '/bind-lst-device',
   scanDeviceForGrp: '/scan-device-for-grp',
@@ -446,6 +448,13 @@ export class ApiService {
 
   putCommandRaw(command: Command): Observable<any> {
     return this.httpClient.put(routes.rawCommand, command).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  putCommandRawZigpy(command: CommandZigpy): Observable<any> {
+    return this.httpClient.put(routes.rawCommandZigpy, command).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
