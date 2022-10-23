@@ -13,12 +13,10 @@
                     type="text"
                     formControlName="Command"
                     placeholder="{{ 'tools.rawcommand.command' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                   <div
                     *ngIf="form.controls['Command'].dirty && !form.controls['Command'].valid"
-                    translate="tools.rawcommand.error"
-                  ></div>
+                    translate="tools.rawcommand.error"></div>
                 </div>
               </div>
             </div>
@@ -29,12 +27,10 @@
                     type="text"
                     formControlName="payload"
                     placeholder="{{ 'tools.rawcommand.payload' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                   <div
                     *ngIf="form.controls['payload'].dirty && !form.controls['payload'].valid"
-                    translate="tools.rawcommand.error"
-                  ></div>
+                    translate="tools.rawcommand.error"></div>
                 </div>
               </div>
             </div>
@@ -43,8 +39,7 @@
                 class="ml-3 btn btn-primary"
                 (click)="putCommand()"
                 [disabled]="!form.valid"
-                translate="tools.rawcommand.button.put"
-              ></button>
+                translate="tools.rawcommand.button.put"></button>
             </div>
           </div>
         </div>

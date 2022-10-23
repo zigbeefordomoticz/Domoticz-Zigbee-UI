@@ -5,8 +5,7 @@
       [disabled]="!isFormValid()"
       (click)="updateDevices()"
       class="btn btn-primary float-right"
-      translate="group.create.validate.button"
-    ></button>
+      translate="group.create.validate.button"></button>
   </div>
   <div class="card-body">
     <h5 class="card-title" [innerHTML]="'group.create.subtitle' | translate"></h5>
@@ -16,8 +15,7 @@
           <input
             type="text"
             placeholder="{{ 'group.create.placeholder' | translate }}"
-            (keyup)="updateFilter($event)"
-          />
+            (keyup)="updateFilter($event)" />
         </div>
         <div class="col-sm-2">
           <button (click)="add()" class="w-100 btn btn-primary" translate="group.create.add.button"></button>
@@ -36,16 +34,14 @@
           emptyMessage: 'NODATA' | translate,
           totalMessage: 'TOTAL' | translate,
           selectedMessage: 'SELECTED' | translate
-        }"
-      >
+        }">
         <ngx-datatable-column [sortable]="false" [maxWidth]="100">
           <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
             <i
               class="fa fa-trash"
               style="cursor: pointer"
               title="{{ 'group.create.delete.button' | translate }}"
-              (click)="delete(row)"
-            ></i>
+              (click)="delete(row)"></i>
           </ng-template>
         </ngx-datatable-column>
 
@@ -57,8 +53,7 @@
         <ngx-datatable-column
           [maxWidth]="200"
           name="{{ 'group.create.groupname.column' | translate }}"
-          prop="GroupName"
-        >
+          prop="GroupName">
           <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
             <input autofocus (change)="updateValue($event, row._GroupId)" type="text" [value]="row.GroupName" />
           </ng-template>
@@ -74,8 +69,7 @@
               placeholder="Choose device"
               [(ngModel)]="row.devicesSelected"
               (change)="isFormValid()"
-              appendTo="body"
-            >
+              appendTo="body">
               <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                 <span [ngOptionHighlight]="search">
                   <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
@@ -89,16 +83,14 @@
         <ngx-datatable-column
           [maxWidth]="150"
           name="{{ 'group.create.coordinator.column' | translate }}"
-          [sortable]="false"
-        >
+          [sortable]="false">
           <ng-template ngx-datatable-cell-template let-row="row">
             <div class="form-check">
               <input
                 (click)="updateCoordinator($event, row)"
                 [checked]="row.coordinatorInside"
                 class="form-check-input"
-                type="checkbox"
-              />
+                type="checkbox" />
             </div>
           </ng-template>
         </ngx-datatable-column>
@@ -120,7 +112,6 @@
       type="button"
       class="btn btn-outline-dark"
       (click)="modal.dismiss('cancel')"
-      translate="group.reloadplugin.alert.cancel"
-    ></button>
+      translate="group.reloadplugin.alert.cancel"></button>
   </div>
 </ng-template>

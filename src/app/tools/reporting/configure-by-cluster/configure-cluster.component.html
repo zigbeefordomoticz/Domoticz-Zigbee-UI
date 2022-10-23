@@ -9,13 +9,11 @@
     emptyMessage: 'NODATA' | translate,
     totalMessage: 'TOTAL' | translate,
     selectedMessage: 'SELECTED' | translate
-  }"
->
+  }">
   <ngx-datatable-column
     [maxWidth]="100"
     name="{{ 'reporting.configure.clusterId.column' | translate }}"
-    prop="clusterId"
-  >
+    prop="clusterId">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.clusterId }}
     </ng-template>
@@ -23,8 +21,7 @@
   <ngx-datatable-column
     [maxWidth]="100"
     name="{{ 'reporting.configure.attributeId.column' | translate }}"
-    prop="attributeId"
-  >
+    prop="attributeId">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.attributeId }}
     </ng-template>
@@ -47,8 +44,7 @@
         autofocus
         (change)="updateValue($event, value, 'MinInterval', row, rowIndex)"
         type="text"
-        [value]="row.minInterval"
-      />
+        [value]="row.minInterval" />
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="{{ 'reporting.configure.maxInterval.column' | translate }}" prop="maxInterval">
@@ -58,8 +54,7 @@
         autofocus
         (change)="updateValue($event, value, 'MaxInterval', row, rowIndex)"
         type="text"
-        [value]="row.maxInterval"
-      />
+        [value]="row.maxInterval" />
     </ng-template>
   </ngx-datatable-column>
   <ngx-datatable-column name="{{ 'reporting.configure.change.column' | translate }}" prop="change">
@@ -70,8 +65,7 @@
         autofocus
         (change)="updateValue($event, value, 'Change', row, rowIndex)"
         type="text"
-        [value]="row.change"
-      />
+        [value]="row.change" />
       <ng-template #notEditable>{{ row.Change }}</ng-template>
     </ng-template>
   </ngx-datatable-column>

@@ -8,8 +8,7 @@
         <label
           for="current"
           translate="admin.coordinator.switchchannel.placeholder"
-          class="col-sm-6 col-form-label"
-        ></label>
+          class="col-sm-6 col-form-label"></label>
         <div class="col-sm">
           <ng-select
             [items]="list"
@@ -17,8 +16,7 @@
             bindLabel="label"
             bindValue="value"
             [closeOnSelect]="true"
-            [(ngModel)]="selectedChannel"
-          >
+            [(ngModel)]="selectedChannel">
             >
           </ng-select>
         </div>
@@ -29,8 +27,7 @@
           class="ml-3 btn btn-primary"
           (click)="switchChannel($event)"
           translate="admin.coordinator.switchchannel.button"
-          [disabled]="!selectedChannel"
-        ></button>
+          [disabled]="!selectedChannel"></button>
       </div>
     </div>
   </div>

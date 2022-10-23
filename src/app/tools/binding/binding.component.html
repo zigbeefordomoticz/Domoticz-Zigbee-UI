@@ -17,8 +17,7 @@
                     appendTo="body"
                     bindLabel="fullName"
                     bindValue="ClusterId"
-                    formControlName="cluster"
-                  >
+                    formControlName="cluster">
                   </ng-select>
                 </div>
               </div>
@@ -34,8 +33,7 @@
                     placeholder="{{ 'tools.binding.sourceEp' | translate }}"
                     appendTo="body"
                     bindLabel="ZDeviceName"
-                    formControlName="source"
-                  >
+                    formControlName="source">
                     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                       <span [ngOptionHighlight]="search">
                         <b>Device name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> :
@@ -56,8 +54,7 @@
                     bindLabel="ZDeviceName"
                     placeholder="{{ 'tools.binding.destEp' | translate }}"
                     appendTo="body"
-                    formControlName="target"
-                  >
+                    formControlName="target">
                     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                       <span [ngOptionHighlight]="search">
                         <b>Device name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> :
@@ -73,14 +70,12 @@
                 class="ml-3 btn btn-primary"
                 (click)="putBinding()"
                 [disabled]="!form.valid"
-                translate="tools.binding.button.put"
-              ></button>
+                translate="tools.binding.button.put"></button>
               <button
                 class="ml-3 btn btn-primary"
                 (click)="putUnBinding()"
                 [disabled]="!form.valid"
-                translate="tools.unbinding.button.put"
-              ></button>
+                translate="tools.unbinding.button.put"></button>
             </div>
           </div>
         </div>

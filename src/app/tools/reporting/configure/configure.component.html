@@ -7,20 +7,17 @@
           [disabled]="!deviceSelected"
           (click)="resetConfiguration()"
           class="btn btn-danger float-right ml-3"
-          translate="{{ 'reporting.configure.reset.button' | translate }}"
-        ></button>
+          translate="{{ 'reporting.configure.reset.button' | translate }}"></button>
         <button
           [disabled]="!deviceSelected"
           (click)="triggerConfiguration()"
           class="btn btn-secondary float-right ml-3"
-          translate="{{ 'reporting.configure.trigger.button' | translate }}"
-        ></button>
+          translate="{{ 'reporting.configure.trigger.button' | translate }}"></button>
         <button
           [disabled]="!permitToValidate"
           (click)="putConfiguration()"
           class="btn btn-primary float-right ml-3"
-          translate="{{ 'reporting.configure.validate.button' | translate }}"
-        ></button>
+          translate="{{ 'reporting.configure.validate.button' | translate }}"></button>
       </div>
       <div class="card-body">
         <h5 class="card-title" [innerHTML]="'reporting.configure.subtitle' | translate"></h5>
@@ -36,8 +33,7 @@
                 placeholder="{{ 'reporting.configure.device' | translate }}"
                 (change)="getConfiguration($event)"
                 (clear)="deviceSelected = null; permitToValidate = false"
-                appendTo="body"
-              >
+                appendTo="body">
                 <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                   <span [ngOptionHighlight]="search">
                     <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
@@ -49,8 +45,7 @@
           <ng-container *ngIf="deviceSelected && clusters$ | async as clusters">
             <app-configure-cluster-reporting
               (clustersChange)="onClustersChange($event)"
-              [clusters]="clusters"
-            ></app-configure-cluster-reporting>
+              [clusters]="clusters"></app-configure-cluster-reporting>
           </ng-container>
         </div>
       </div>

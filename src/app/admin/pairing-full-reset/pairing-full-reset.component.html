@@ -14,8 +14,7 @@
                 [searchable]="true"
                 bindLabel="ZDeviceName"
                 placeholder="{{ 'admin.fullreset.device.placeholder' | translate }}"
-                formControlName="deviceSelected"
-              >
+                formControlName="deviceSelected">
                 <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                   <span [ngOptionHighlight]="search">
                     <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
@@ -30,8 +29,7 @@
                 class="btn btn-primary"
                 (click)="fullReset()"
                 translate="admin.fullreset.button"
-                [disabled]="form.invalid"
-              ></button>
+                [disabled]="form.invalid"></button>
             </div>
           </div>
         </div>

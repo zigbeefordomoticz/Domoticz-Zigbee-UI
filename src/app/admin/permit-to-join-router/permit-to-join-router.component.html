@@ -14,8 +14,7 @@
                 [searchable]="true"
                 bindLabel="ZDeviceName"
                 placeholder="{{ 'tools.debugcommand.device' | translate }}"
-                formControlName="deviceSelected"
-              >
+                formControlName="deviceSelected">
                 <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                   <span [ngOptionHighlight]="search">
                     <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
@@ -30,14 +29,12 @@
                 class="btn btn-success"
                 (click)="updatePermitToJoin(240)"
                 translate="admin.permittojoin.4min.button"
-                [disabled]="!form.valid"
-              ></button>
+                [disabled]="!form.valid"></button>
               <button
                 class="ml-3 btn btn-secondary"
                 (click)="updatePermitToJoin(0)"
                 translate="admin.permittojoin.stop.button"
-                [disabled]="permitToJoin?.PermitToJoin === 0"
-              ></button>
+                [disabled]="permitToJoin?.PermitToJoin === 0"></button>
             </div>
           </div>
         </div>

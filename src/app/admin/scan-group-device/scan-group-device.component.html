@@ -12,8 +12,7 @@
             [searchable]="true"
             bindLabel="Name"
             placeholder="{{ 'admin.scan.group.device.placeholder' | translate }}"
-            formControlName="deviceSelected"
-          >
+            formControlName="deviceSelected">
             <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
               <span [ngOptionHighlight]="search">
                 <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
@@ -26,8 +25,7 @@
             [disabled]="!form.valid"
             class="ml-3 mt-3 btn btn-primary"
             (click)="scan()"
-            translate="admin.scan.group.device.button"
-          ></button>
+            translate="admin.scan.group.device.button"></button>
         </div>
       </div>
     </div>

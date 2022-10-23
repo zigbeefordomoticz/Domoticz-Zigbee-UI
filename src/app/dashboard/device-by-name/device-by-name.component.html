@@ -25,13 +25,11 @@
               emptyMessage: 'NODATA' | translate,
               totalMessage: 'TOTAL' | translate,
               selectedMessage: 'SELECTED' | translate
-            }"
-          >
+            }">
             <ngx-datatable-column
               [maxWidth]="100"
               name="{{ 'device.byname.shortid.column' | translate }}"
-              prop="_NwkId"
-            >
+              prop="_NwkId">
               <ng-template ngx-datatable-cell-template let-row="row">
                 {{ row._NwkId }}
               </ng-template>
@@ -59,8 +57,7 @@
             <ngx-datatable-column
               name="{{ 'device.byname.battery.column' | translate }}"
               [maxWidth]="100"
-              prop="Battery"
-            >
+              prop="Battery">
               <ng-template ngx-datatable-cell-template let-row="row">
                 {{ row.Battery }}
               </ng-template>

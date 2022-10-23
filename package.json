@@ -102,7 +102,7 @@
     "trailingComma": "none",
     "semi": true,
     "bracketSpacing": true,
-    "jsxBracketSameLine": true,
+    "bracketSameLine": true,
     "arrowParens": "avoid",
     "overrides": [
       {

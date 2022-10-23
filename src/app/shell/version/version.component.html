@@ -11,8 +11,7 @@
         : fork.pluginHealth?.HealthFlag === 2 || fork.pluginHealth?.GroupStatus !== 'ready'
         ? 'bg-warning fixed-bottom'
         : 'bg-danger fixed-bottom'
-    "
-  >
+    ">
     <div class="d-flex flex-row justify-content-between">
       <div class="order-1 p-2 text-white ml-2">
         <span translate="dashboard.health.starttime"></span
@@ -68,8 +67,7 @@
           style="cursor: pointer"
           placement="top"
           [ngbPopover]="popContentPlugin"
-          popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}"
-        >
+          popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}">
           <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
         </a>
       </div>
@@ -79,8 +77,7 @@
           style="cursor: pointer"
           placement="top"
           [ngbPopover]="popContentFirmware"
-          popoverTitle="{{ 'dashboard.firmware.update.available.title' | translate }}"
-        >
+          popoverTitle="{{ 'dashboard.firmware.update.available.title' | translate }}">
           <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
         </a>
       </div>

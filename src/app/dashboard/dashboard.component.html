@@ -7,8 +7,7 @@
           *ngIf="!poll"
           class="btn btn-primary float-right"
           (click)="refresh()"
-          translate="dashboard.button.refresh"
-        ></button>
+          translate="dashboard.button.refresh"></button>
       </div>
       <div class="card-body" *ngIf="pluginStats">
         <div class="row">
@@ -26,8 +25,7 @@
                 [tooltipDisabled]="tooltipDisabled"
                 [scheme]="colorSchemeGR"
                 [label]="advancedPieSentLabel"
-                [percentageFormatting]="percentageFormatting"
-              >
+                [percentageFormatting]="percentageFormatting">
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
@@ -49,8 +47,7 @@
                 [tooltipDisabled]="tooltipDisabled"
                 [scheme]="colorSchemeGOR"
                 [label]="advancedPieReceivedLabel"
-                [percentageFormatting]="percentageFormatting"
-              >
+                [percentageFormatting]="percentageFormatting">
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
@@ -97,8 +94,7 @@
                 (select)="open('device', $event)"
                 [scheme]="colorSchemeGO"
                 [label]="advancedPieDeviceLabel"
-                [percentageFormatting]="percentageFormatting"
-              >
+                [percentageFormatting]="percentageFormatting">
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
@@ -121,8 +117,7 @@
                 (select)="open('state', $event)"
                 [scheme]="colorSchemeGROG"
                 [label]="advancedPieStateLabel"
-                [percentageFormatting]="percentageFormatting"
-              >
+                [percentageFormatting]="percentageFormatting">
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
@@ -145,8 +140,7 @@
                 (select)="open('battery', $event)"
                 [scheme]="colorSchemeROG"
                 [label]="advancedPieBatteryLabel"
-                [percentageFormatting]="percentageFormatting"
-              >
+                [percentageFormatting]="percentageFormatting">
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">

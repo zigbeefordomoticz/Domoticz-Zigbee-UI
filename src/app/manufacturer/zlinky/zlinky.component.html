@@ -15,8 +15,7 @@
         placeholder="{{ 'manufacturer.zlinky.placeholder' | translate }}"
         (change)="getConfiguration($event)"
         (clear)="deviceSelected = null"
-        appendTo="body"
-      >
+        appendTo="body">
         <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
           <span [ngOptionHighlight]="search">
             <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item.Nwkid }}</span
@@ -42,8 +41,7 @@
           emptyMessage: 'NODATA' | translate,
           totalMessage: 'TOTAL' | translate,
           selectedMessage: 'SELECTED' | translate
-        }"
-      >
+        }">
         <ngx-datatable-column prop="key">
           <ng-template ngx-datatable-header-template>
             <span>{{ 'manufacturer.zlinky.key' | translate }}</span>

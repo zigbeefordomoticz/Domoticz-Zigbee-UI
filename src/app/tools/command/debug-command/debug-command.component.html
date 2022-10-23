@@ -17,8 +17,7 @@
                   placeholder="{{ 'tools.debugcommand.device' | translate }}"
                   (change)="callCapabilities($event)"
                   appendTo="body"
-                  formControlName="deviceSelected"
-                >
+                  formControlName="deviceSelected">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">
                       <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
@@ -30,8 +29,7 @@
                 <button
                   class="ml-3 btn btn-secondary"
                   (click)="form.reset(); capaSelected = null"
-                  translate="tools.debugcommand.button.cancel"
-                ></button>
+                  translate="tools.debugcommand.button.cancel"></button>
               </div>
             </div>
             <div class="row mt-2">
@@ -46,8 +44,7 @@
                   placeholder="{{ 'tools.debugcommand.action' | translate }}"
                   (change)="setAction($event)"
                   appendTo="body"
-                  formControlName="action"
-                >
+                  formControlName="action">
                 </ng-select>
               </div>
             </div>
@@ -61,8 +58,7 @@
                   [searchable]="true"
                   placeholder="{{ 'tools.debugcommand.type' | translate }}"
                   appendTo="body"
-                  formControlName="type"
-                >
+                  formControlName="type">
                 </ng-select>
               </div>
             </div>
@@ -74,8 +70,7 @@
                     [cpToggle]="true"
                     [cpDialogDisplay]="'inline'"
                     [(colorPicker)]="colorPicker"
-                    [cpOutputFormat]="'rgba'"
-                  ></span>
+                    [cpOutputFormat]="'rgba'"></span>
                 </div>
               </div>
             </div>
@@ -86,8 +81,7 @@
                     type="text"
                     formControlName="effect"
                     placeholder="{{ 'tools.debugcommand.value' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                   <div *ngIf="form.controls['effect'].errors" translate="tools.debugcommand.effect.error"></div>
                 </div>
               </div>
@@ -100,8 +94,7 @@
                     min="0"
                     formControlName="level"
                     placeholder="{{ 'tools.debugcommand.value' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                   <div *ngIf="!form.controls['level'].valid" translate="tools.debugcommand.level.error"></div>
                 </div>
               </div>
@@ -111,8 +104,7 @@
                 class="ml-3 btn btn-primary"
                 (click)="callAction()"
                 [disabled]="!form.valid"
-                translate="tools.debugcommand.button.send"
-              ></button>
+                translate="tools.debugcommand.button.send"></button>
             </div>
           </div>
         </div>

@@ -10,15 +10,13 @@
                 [disabled]="!form.valid"
                 (click)="updateSettings()"
                 class="btn btn-primary"
-                translate="tool.debugsetting.validate.button"
-              ></button>
+                translate="tool.debugsetting.validate.button"></button>
             </div>
             <div class="p-2 ml-3">
               <button
                 (click)="reinitSettings()"
                 class="btn btn-secondary"
-                translate="tool.debugsetting.reinit.button"
-              ></button>
+                translate="tool.debugsetting.reinit.button"></button>
             </div>
             <div class="switch switch-sm mr-2 pr-2 float-right">
               <input
@@ -26,8 +24,7 @@
                 (click)="advancedSettings($event)"
                 type="checkbox"
                 class="switch"
-                id="switch-advanced"
-              />
+                id="switch-advanced" />
               <label class="mb-0" for="switch-advanced" translate="tool.debugsetting.advanced.button"></label>
             </div>
           </div>
@@ -51,8 +48,7 @@
                     *ngIf="!setting.Advanced"
                     class="col-sm-6"
                     [setting]="setting"
-                    [advanced]="advanced"
-                  ></app-debug-setting>
+                    [advanced]="advanced"></app-debug-setting>
                 </ng-container>
               </div>
               <div class="col-sm-12">&nbsp;</div>
@@ -62,8 +58,7 @@
                     *ngIf="setting.Advanced && setting.Advanced === advanced"
                     class="col-sm-6"
                     [setting]="setting"
-                    [advanced]="advanced"
-                  ></app-debug-setting>
+                    [advanced]="advanced"></app-debug-setting>
                 </ng-container>
               </div>
             </div>
@@ -87,8 +82,7 @@
       type="button"
       class="btn btn-outline-dark"
       (click)="modal.dismiss('cancel')"
-      translate="setting.reloadplugin.alert.cancel"
-    ></button>
+      translate="setting.reloadplugin.alert.cancel"></button>
   </div>
 </ng-template>
 
@@ -105,8 +99,7 @@
       type="button"
       class="btn btn-outline-dark"
       (click)="modal.dismiss('cancel')"
-      translate="setting.resetplugin.alert.cancel"
-    ></button>
+      translate="setting.resetplugin.alert.cancel"></button>
   </div>
 </ng-template>
 
@@ -123,7 +116,6 @@
       type="button"
       class="btn btn-outline-dark"
       (click)="modal.dismiss('cancel')"
-      translate="setting.eraseplugin.alert.cancel"
-    ></button>
+      translate="setting.eraseplugin.alert.cancel"></button>
   </div>
 </ng-template>

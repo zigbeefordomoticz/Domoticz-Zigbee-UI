@@ -16,8 +16,7 @@
                   bindLabel="ZDeviceName"
                   bindValue="_NwkId"
                   placeholder="{{ 'tools.rawcommand-zigpy.placeholder' | translate }}"
-                  formControlName="TargetAddr"
-                >
+                  formControlName="TargetAddr">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">
                       <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
@@ -57,8 +56,7 @@
                     type="text"
                     formControlName="ProfileId"
                     placeholder="{{ 'tools.rawcommand-zigpy.ProfileId' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                 </div>
               </div>
               <div class="col-sm">
@@ -70,8 +68,7 @@
                     type="text"
                     formControlName="ClusterId"
                     placeholder="{{ 'tools.rawcommand-zigpy.ClusterId' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                 </div>
               </div>
             </div>
@@ -85,8 +82,7 @@
                     type="text"
                     formControlName="SourceEp"
                     placeholder="{{ 'tools.rawcommand-zigpy.SourceEp' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                 </div>
               </div>
               <div class="col-sm">
@@ -98,8 +94,7 @@
                     type="text"
                     formControlName="TargetEp"
                     placeholder="{{ 'tools.rawcommand-zigpy.TargetEp' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                 </div>
               </div>
             </div>
@@ -110,8 +105,7 @@
                     type="text"
                     formControlName="Payload"
                     placeholder="{{ 'tools.rawcommand.payload' | translate }}"
-                    class="w-100 form-control"
-                  />
+                    class="w-100 form-control" />
                 </div>
               </div>
             </div>
@@ -120,8 +114,7 @@
                 class="ml-3 btn btn-primary"
                 (click)="putCommand()"
                 [disabled]="!form.valid"
-                translate="tools.rawcommand.button.put"
-              ></button>
+                translate="tools.rawcommand.button.put"></button>
             </div>
           </div>
         </div>

@@ -5,8 +5,7 @@
       [disabled]="!hasEditing"
       (click)="updateCasaiaDevices()"
       class="btn btn-primary float-right"
-      translate="{{ 'manufacturer.casaia.validate.button' | translate }}"
-    ></button>
+      translate="{{ 'manufacturer.casaia.validate.button' | translate }}"></button>
   </div>
   <div class="card-body">
     <h5 class="card-title" [innerHTML]="'manufacturer.casaia.subtitle' | translate"></h5>
@@ -14,8 +13,7 @@
       <input
         type="text"
         placeholder="{{ 'manufacturer.casaia.placeholder' | translate }}"
-        (keyup)="updateFilter($event)"
-      />
+        (keyup)="updateFilter($event)" />
       <ngx-datatable
         #table
         [rows]="rows"
@@ -29,8 +27,7 @@
           emptyMessage: 'NODATA' | translate,
           totalMessage: 'TOTAL' | translate,
           selectedMessage: 'SELECTED' | translate
-        }"
-      >
+        }">
         <ngx-datatable-column name="{{ 'manufacturer.casaia.nwkid' | translate }}" prop="NwkId">
           <ng-template ngx-datatable-cell-template let-row="row">
             {{ row.NwkId }}
@@ -59,8 +56,7 @@
               type="text"
               size="4"
               maxlength="4"
-              [value]="row.IRCode"
-            />
+              [value]="row.IRCode" />
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>

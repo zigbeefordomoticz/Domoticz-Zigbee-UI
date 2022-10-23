@@ -33,8 +33,7 @@
                       bindValue="ZDeviceName"
                       placeholder="{{ 'network.topo.visu.network.filter' | translate }}"
                       appendTo="body"
-                      formControlName="nodeToFilter"
-                    >
+                      formControlName="nodeToFilter">
                       <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                         <span [ngOptionHighlight]="search">
                           <b>Name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Model</b> :
@@ -51,13 +50,11 @@
                       <div
                         class="card-header"
                         translate="network.topo.visu.network.relation.header"
-                        [translateParams]="{ deviceSelected: selectedPoint.name }"
-                      ></div>
+                        [translateParams]="{ deviceSelected: selectedPoint.name }"></div>
                       <div class="card-body">
                         <h5
                           class="card-title"
-                          [innerHTML]="'network.topo.visu.network.relation.subtitle' | translate"
-                        ></h5>
+                          [innerHTML]="'network.topo.visu.network.relation.subtitle' | translate"></h5>
                         <div class="card-text">
                           <ngx-datatable
                             [rows]="relationsSelected"
@@ -71,12 +68,10 @@
                               emptyMessage: 'network.topo.visu.network.relation.nochild' | translate,
                               totalMessage: 'TOTAL' | translate,
                               selectedMessage: 'SELECTED' | translate
-                            }"
-                          >
+                            }">
                             <ngx-datatable-column
                               name="{{ 'network.topo.visu.network.relation.to' | translate }}"
-                              prop="to"
-                            >
+                              prop="to">
                               <ng-template ngx-datatable-cell-template let-row="row">
                                 {{ row.to }}
                               </ng-template>
@@ -84,16 +79,14 @@
                             <ngx-datatable-column
                               name="{{ 'network.topo.visu.network.relation.weight' | translate }}"
                               prop="weight"
-                              [maxWidth]="50"
-                            >
+                              [maxWidth]="50">
                               <ng-template ngx-datatable-cell-template let-row="row">
                                 {{ row.weight }}
                               </ng-template>
                             </ngx-datatable-column>
                             <ngx-datatable-column
                               name="{{ 'network.topo.visu.network.relation.model' | translate }}"
-                              prop="Model"
-                            >
+                              prop="Model">
                               <ng-template ngx-datatable-cell-template let-row="row">
                                 {{ row.Model }}
                               </ng-template>
@@ -101,16 +94,14 @@
                             <ngx-datatable-column
                               name="{{ 'network.topo.visu.network.relation.status' | translate }}"
                               prop="Status"
-                              [maxWidth]="100"
-                            >
+                              [maxWidth]="100">
                               <ng-template ngx-datatable-cell-template let-row="row">
                                 {{ row.Status }}
                               </ng-template>
                             </ngx-datatable-column>
                             <ngx-datatable-column
                               name="{{ 'network.topo.visu.network.relation.health' | translate }}"
-                              prop="Health"
-                            >
+                              prop="Health">
                               <ng-template ngx-datatable-cell-template let-row="row">
                                 {{ row.Health }}
                               </ng-template>
@@ -118,8 +109,7 @@
                             <ngx-datatable-column
                               name="{{ 'network.topo.visu.network.relation.battery' | translate }}"
                               prop="Battery"
-                              [maxWidth]="100"
-                            >
+                              [maxWidth]="100">
                               <ng-template ngx-datatable-cell-template let-row="row">
                                 {{ row.Battery }}
                               </ng-template>

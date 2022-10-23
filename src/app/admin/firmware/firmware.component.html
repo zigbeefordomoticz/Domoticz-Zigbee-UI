@@ -13,8 +13,7 @@
                 [closeOnSelect]="true"
                 placeholder="{{ 'admin.firmware.manufacturer.list' | translate }}"
                 appendTo="body"
-                formControlName="manufacturer"
-              >
+                formControlName="manufacturer">
               </ng-select>
             </div>
           </div>
@@ -29,8 +28,7 @@
                 placeholder="{{ 'admin.firmware.list' | translate }}"
                 appendTo="body"
                 bindLabel="label"
-                formControlName="firmware"
-              >
+                formControlName="firmware">
               </ng-select>
             </div>
           </div>
@@ -45,8 +43,7 @@
                 placeholder="{{ 'admin.firmware.devices.list' | translate }}"
                 appendTo="body"
                 bindLabel="label"
-                formControlName="device"
-              >
+                formControlName="device">
               </ng-select>
             </div>
           </div>
@@ -60,8 +57,7 @@
             class="ml-3 btn btn-primary"
             (click)="open(content)"
             [disabled]="!form.valid"
-            translate="admin.firmware.button.update"
-          ></button>
+            translate="admin.firmware.button.update"></button>
         </div>
       </div>
     </div>
@@ -91,13 +87,11 @@
       type="button"
       class="btn btn-primary"
       (click)="modal.close('ok')"
-      translate="admin.firmware.alert.ok"
-    ></button>
+      translate="admin.firmware.alert.ok"></button>
     <button
       type="button"
       class="btn btn-outline-dark"
       (click)="modal.dismiss('cancel')"
-      translate="admin.firmware.alert.cancel"
-    ></button>
+      translate="admin.firmware.alert.cancel"></button>
   </div>
 </ng-template>
