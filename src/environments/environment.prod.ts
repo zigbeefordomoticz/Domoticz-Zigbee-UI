@@ -9,9 +9,9 @@ import { env } from './.env';
 export const environment = {
   production: true,
   version: env.npm_package_version,
-  defaultLanguage: 'en-US',
+  defaultLanguage: 'en-GB',
   supportedLanguages: [
-    { code: 'en-US', flag: 'flag_uk.png' },
+    { code: 'en-GB', flag: 'flag_uk.png' },
     { code: 'fr-FR', flag: 'flag_france.png' },
     { code: 'nl-NL', flag: 'flag_netherlands.png' },
     { code: 'es-ES', flag: 'flag_spain.png' }

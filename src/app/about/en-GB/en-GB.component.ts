@@ -4,12 +4,12 @@ import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-about-en',
-  templateUrl: './en-US.component.html',
-  styleUrls: ['./en-US.component.scss']
+  templateUrl: './en-GB.component.html',
+  styleUrls: ['./en-GB.component.scss']
 })
 export class AboutEnComponent implements OnInit {
   version: string = (JSON.parse(sessionStorage.getItem('plugin')) as Plugin).PluginVersion;
-  constructor() {}
+  constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }
