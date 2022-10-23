@@ -23,7 +23,7 @@ export class RawCommandZigpyComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   selectedCar: string;
 
