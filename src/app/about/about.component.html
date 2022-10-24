@@ -1,11 +1,11 @@
 <ng-container [ngSwitch]="i18nService.language">
-  <ng-container *ngSwitchCase="i18nService.supportedLanguages[1]">
+  <ng-container *ngSwitchCase="i18nService.supportedLanguages[1].code">
     <app-about-fr></app-about-fr>
   </ng-container>
-  <ng-container *ngSwitchCase="i18nService.supportedLanguages[2]">
+  <ng-container *ngSwitchCase="i18nService.supportedLanguages[2].code">
     <app-about-nl></app-about-nl>
   </ng-container>
-  <ng-container *ngSwitchCase="i18nService.supportedLanguages[3]">
+  <ng-container *ngSwitchCase="i18nService.supportedLanguages[3].code">
     <app-about-es></app-about-es>
   </ng-container>
   <ng-container *ngSwitchDefault>
