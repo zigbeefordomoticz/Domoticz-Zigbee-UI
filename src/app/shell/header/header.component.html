@@ -239,12 +239,10 @@
           <div>
             <a id="language-dropdown" class="nav-link pl-3" ngbDropdownToggle
               ><img class="img-responsive" style="width: 1.25rem" src="assets/{{ currentFlag }}" />
-              <!--{{ currentLanguage }}--></a
-            >
+            </a>
             <div ngbDropdownMenu aria-labelledby="language-dropdown">
               <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
                 <img class="img-responsive" style="width: 1.25rem" src="assets/{{ language.flag }}" />
-                <!--{{ language.code }}-->
               </button>
             </div>
           </div>
