@@ -112,10 +112,5 @@
         }
       }
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged --ignore-path=.prettierignore"
-    }
   }
 }
