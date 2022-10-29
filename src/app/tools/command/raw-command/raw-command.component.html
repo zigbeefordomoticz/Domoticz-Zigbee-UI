@@ -2,9 +2,9 @@
   <div class="col-sm">
     <form [formGroup]="form">
       <div class="card">
-        <div class="card-header" translate="tools.rawcommand.title"></div>
+        <div class="card-header" translate="tools.rawcommand-zigate.title"></div>
         <div class="card-body">
-          <h5 class="card-title" [innerHTML]="'tools.rawcommand.subtitle' | translate"></h5>
+          <h5 class="card-title" [innerHTML]="'tools.rawcommand-zigate.subtitle' | translate"></h5>
           <div class="card-text">
             <div class="row">
               <div class="col-sm-6">
@@ -12,11 +12,11 @@
                   <input
                     type="text"
                     formControlName="Command"
-                    placeholder="{{ 'tools.rawcommand.command' | translate }}"
+                    placeholder="{{ 'tools.rawcommand-zigate.command' | translate }}"
                     class="w-100 form-control" />
                   <div
                     *ngIf="form.controls['Command'].dirty && !form.controls['Command'].valid"
-                    translate="tools.rawcommand.error"></div>
+                    translate="tools.rawcommand-zigate.error"></div>
                 </div>
               </div>
             </div>
@@ -26,11 +26,11 @@
                   <input
                     type="text"
                     formControlName="payload"
-                    placeholder="{{ 'tools.rawcommand.payload' | translate }}"
+                    placeholder="{{ 'tools.rawcommand-zigate.payload' | translate }}"
                     class="w-100 form-control" />
                   <div
                     *ngIf="form.controls['payload'].dirty && !form.controls['payload'].valid"
-                    translate="tools.rawcommand.error"></div>
+                    translate="tools.rawcommand-zigate.error"></div>
                 </div>
               </div>
             </div>
@@ -39,7 +39,7 @@
                 class="ml-3 btn btn-primary"
                 (click)="putCommand()"
                 [disabled]="!form.valid"
-                translate="tools.rawcommand.button.put"></button>
+                translate="tools.rawcommand-zigate.button.send"></button>
             </div>
           </div>
         </div>
