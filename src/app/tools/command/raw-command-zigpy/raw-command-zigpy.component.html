@@ -2,7 +2,7 @@
   <div class="col-sm">
     <form [formGroup]="form">
       <div class="card">
-        <div class="card-header" translate="tools.rawcommand.title"></div>
+        <div class="card-header" translate="tools.rawcommand-zigpy.title"></div>
         <div class="card-body">
           <h5 class="card-title" [innerHTML]="'tools.rawcommand-zigpy.subtitle' | translate"></h5>
           <div class="card-text">
@@ -19,15 +19,15 @@
                   formControlName="TargetAddr">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
                     <span [ngOptionHighlight]="search">
-                      <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
-                    >
+                      <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}
+                    </span>
                   </ng-template>
                 </ng-select>
               </div>
             </div>
             <div class="row mt-2">
               <div class="col-sm">
-                <label translate="tools.rawcommand-zigpy.GroupAddressFlag"></label>
+                <label translate="tools.rawcommand-zigpy.groupaddressflag"></label>
               </div>
               <div class="col-sm-5">
                 <div>
@@ -38,7 +38,7 @@
             </div>
             <div class="row mt-2">
               <div class="col-sm">
-                <label translate="tools.rawcommand-zigpy.AckMode"></label>
+                <label translate="tools.rawcommand-zigpy.ackmode"></label>
               </div>
               <div class="col-sm-5">
                 <div>
@@ -48,64 +48,64 @@
             </div>
             <div class="row mt-3">
               <div class="col-sm">
-                <label translate="tools.rawcommand-zigpy.ProfileId"></label>
+                <label translate="tools.rawcommand-zigpy.profileid"></label>
               </div>
               <div class="col-sm-3">
                 <div>
                   <input
                     type="text"
                     formControlName="ProfileId"
-                    placeholder="{{ 'tools.rawcommand-zigpy.ProfileId' | translate }}"
+                    placeholder="{{ 'tools.rawcommand-zigpy.profileid' | translate }}"
                     class="w-100 form-control" />
                 </div>
               </div>
               <div class="col-sm">
-                <label translate="tools.rawcommand-zigpy.ClusterId"></label>
+                <label translate="tools.rawcommand-zigpy.clusterid"></label>
               </div>
               <div class="col-sm-3">
                 <div>
                   <input
                     type="text"
                     formControlName="ClusterId"
-                    placeholder="{{ 'tools.rawcommand-zigpy.ClusterId' | translate }}"
+                    placeholder="{{ 'tools.rawcommand-zigpy.clusterid' | translate }}"
                     class="w-100 form-control" />
                 </div>
               </div>
             </div>
             <div class="row mt-2">
               <div class="col-sm">
-                <label translate="tools.rawcommand-zigpy.SourceEp"></label>
+                <label translate="tools.rawcommand-zigpy.sourceep"></label>
               </div>
               <div class="col-sm-2">
                 <div>
                   <input
                     type="text"
                     formControlName="SourceEp"
-                    placeholder="{{ 'tools.rawcommand-zigpy.SourceEp' | translate }}"
+                    placeholder="{{ 'tools.rawcommand-zigpy.sourceep' | translate }}"
                     class="w-100 form-control" />
                 </div>
               </div>
               <div class="col-sm">
-                <label translate="tools.rawcommand-zigpy.TargetEp"></label>
+                <label translate="tools.rawcommand-zigpy.targetep"></label>
               </div>
               <div class="col-sm-2">
                 <div>
                   <input
                     type="text"
                     formControlName="TargetEp"
-                    placeholder="{{ 'tools.rawcommand-zigpy.TargetEp' | translate }}"
+                    placeholder="{{ 'tools.rawcommand-zigpy.targetep' | translate }}"
                     class="w-100 form-control" />
                 </div>
               </div>
               <div class="col-sm">
-                <label translate="tools.rawcommand-zigpy.Sqn"></label>
+                <label translate="tools.rawcommand-zigpy.sqn"></label>
               </div>
               <div class="col-sm-2">
                 <div>
                   <input
                     type="text"
                     formControlName="Sqn"
-                    placeholder="{{ 'tools.rawcommand-zigpy.Sqn' | translate }}"
+                    placeholder="{{ 'tools.rawcommand-zigpy.sqn' | translate }}"
                     class="w-100 form-control" />
                 </div>
               </div>
@@ -116,7 +116,7 @@
                   <input
                     type="text"
                     formControlName="Payload"
-                    placeholder="{{ 'tools.rawcommand.payload' | translate }}"
+                    placeholder="{{ 'tools.rawcommand-zigpy.payload' | translate }}"
                     class="w-100 form-control" />
                 </div>
               </div>
@@ -126,7 +126,7 @@
                 class="ml-3 btn btn-primary"
                 (click)="putCommand()"
                 [disabled]="!form.valid"
-                translate="tools.rawcommand.button.put"></button>
+                translate="tools.rawcommand-zigpy.button.send"></button>
             </div>
           </div>
         </div>
