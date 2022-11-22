@@ -80,6 +80,7 @@
             </ng-container>
             <ng-container *ngIf="!row.CertifiedDevice">
               <div
+                (click)="copy(row)"
                 ngbPopover="{{ 'device.byname.certified.popover.text.ko' | translate }}"
                 triggers="mouseenter:mouseleave"
                 popoverTitle="{{ 'device.byname.certified.popover.title.ko' | translate }}">
