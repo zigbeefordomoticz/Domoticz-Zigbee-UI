@@ -1,6 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,6 +17,7 @@ import { nl2brPipe } from './utils/nl2br.pipe';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    NgbModule,
     NgSelectModule,
     TranslateModule,
     NgxDatatableModule,

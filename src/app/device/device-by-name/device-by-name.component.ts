@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { Logger } from '@app/core';
@@ -36,7 +37,8 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     private apiService: ApiService,
     private translate: TranslateService,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private clipboard: Clipboard
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -142,5 +144,9 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
 
   toggleExpandRow(row: any) {
     this.table.rowDetail.toggleExpandRow(row);
+  }
+
+  copy(row: DeviceByName) {
+    this.apiService.getRawZDevice(row._NwkId).subscribe(json => this.clipboard.copy(JSON.stringify(json)));
   }
 }

@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,6 +24,7 @@ import { ShellModule } from './shell/shell.module';
     BrowserAnimationsModule,
     //    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
+    ClipboardModule,
     TranslateModule.forRoot(),
     NgxMousetrapModule.forRoot(),
     NgbModule,

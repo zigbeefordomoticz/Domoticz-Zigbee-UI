@@ -626,9 +626,9 @@
   "manufacturer.zlinky.PROTOCOL_LINKY_3": "Mode standard triphasé",
   "manufacturer.zlinky.PROTOCOL_LINKY_5": "Mode standard monophasé producteur",
   "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
-
   "ForceAPSAck": "Force APS Ack to ZCL and ZDP commands",
   "zigpySourceRouting": "Enable Zigbee Source routing (plugin)",
   "reenforcementWiser": "Enable reenforcement messages (legacy Wiser only)",
-  "forcePassiveWidget": "Allow Domoticz actions on Widgets from remote devices"
+  "forcePassiveWidget": "Allow Domoticz actions on Widgets from remote devices",
+  "device.byname.certified.column": "Certified"
 }

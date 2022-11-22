@@ -119,6 +119,13 @@ export class ApiService {
     );
   }
 
+  getRawZDevice(nwkId: string): Observable<any> {
+    return this.httpClient.get(routes.zdeviceRaw + '/' + nwkId).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
   getZGroups(): Observable<Group[]> {
     return this.httpClient.get(routes.zGroups).pipe(
       map((body: any) => body),

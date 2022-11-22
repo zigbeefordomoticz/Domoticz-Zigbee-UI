@@ -37,7 +37,6 @@
             </div>
           </ng-template>
         </ngx-datatable-row-detail>
-
         <ngx-datatable-column
           [sortable]="false"
           [maxWidth]="55"
@@ -65,7 +64,30 @@
               (click)="rowToDelete = row; open(content)"></i>
           </ng-template>
         </ngx-datatable-column>
-
+        <ngx-datatable-column
+          [maxWidth]="65"
+          [sortable]="false"
+          name=" {{ 'device.byname.certified.column' | translate }}">
+          <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+            <ng-container *ngIf="row.CertifiedDevice">
+              <div
+                (click)="copy(row)"
+                ngbPopover="{{ 'device.byname.certified.popover.text.ok' | translate }}"
+                triggers="mouseenter:mouseleave"
+                popoverTitle="{{ 'device.byname.certified.popover.title.ok' | translate }}">
+                <img class="img-responsive" style="width: 1.3rem" src="assets/check.svg" />
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!row.CertifiedDevice">
+              <div
+                ngbPopover="{{ 'device.byname.certified.popover.text.ko' | translate }}"
+                triggers="mouseenter:mouseleave"
+                popoverTitle="{{ 'device.byname.certified.popover.title.ko' | translate }}">
+                <img class="img-responsive" style="width: 1.3rem" src="assets/unchecked.svg" />
+              </div>
+            </ng-container>
+          </ng-template>
+        </ngx-datatable-column>
         <ngx-datatable-column [maxWidth]="100" name="{{ 'device.byname.shortid.column' | translate }}" prop="_NwkId">
           <ng-template ngx-datatable-cell-template let-row="row">
             {{ row._NwkId }}
