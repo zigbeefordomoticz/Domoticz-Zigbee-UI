@@ -49,6 +49,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   batterySup50: any;
   batterySup30: any;
   batteryInf30: any;
+  certifiedDevices: any;
+  notCertifiedDevices: any;
 
   advancedPieLoad: any;
   advancedPieSent: any;
@@ -56,12 +58,14 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   advancedPieDevice: any;
   advancedPieState: any;
   advancedPieBattery: any;
+  advancedPieCertified: any;
   advancedPieLoadLabel: string;
   advancedPieSentLabel: string;
   advancedPieReceivedLabel: string;
   advancedPieDeviceLabel: string;
   advancedPieStateLabel: string;
   advancedPieBatteryLabel: string;
+  advancedCertifiedLabel: string;
 
   gaugeType = 'full';
   gaugeAppendText = '';
@@ -150,6 +154,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     this.advancedPieDeviceLabel = this.translateService.instant('dashboard.devices.label');
     this.advancedPieStateLabel = this.translateService.instant('dashboard.devices.state.label');
     this.advancedPieBatteryLabel = this.translateService.instant('dashboard.devices.battery.label');
+    this.advancedCertifiedLabel = this.translateService.instant('dashboard.devices.certified.label');
   }
 
   percentageFormatting(value: any) {
@@ -286,6 +291,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       } else {
         devices = this.batterySup50;
       }
+    } else if (name === 'certified') {
+      if (event.name === this.translateService.instant('dashboard.devices.certified')) {
+        devices = this.certifiedDevices;
+      } else {
+        devices = this.notCertifiedDevices;
+      }
     }
 
     this.toppyControl = this.toppy
@@ -328,27 +339,15 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     return forkJoin([
       this.apiService.getPluginStats(),
       this.apiService.getZDevices(),
-      this.apiService.getPlugin()
+      this.apiService.getPlugin(),
+      this.apiService.getZDeviceName()
     ]).pipe(
-      map(([res, devices, plugin]) => {
+      map(([res, devices, plugin, certified]) => {
         this.plugin = plugin;
         this.pluginStats = res;
         this.devices = devices;
         this.trackEvent();
         this.createChart();
-        this.totalTraficSent.label = this.translateService.instant('dashboard.trafic.total.trafic.sent');
-        this.totalTraficSent.total = res.Sent;
-        this.totalTraficRetx.label = this.translateService.instant('dashboard.trafic.retx');
-        this.totalTraficRetx.total = ((res.ReTx / res.Sent) * 100).toFixed(0);
-        this.totalTraficRetx.append = '%';
-        this.totalTraficReceived.label = this.translateService.instant('dashboard.trafic.total.trafic.received');
-        this.totalTraficReceived.total = res.Received;
-        this.totalTraficCluster.label = this.translateService.instant('dashboard.trafic.cluster');
-        this.totalTraficCluster.total = ((res.Cluster / res.Received) * 100).toFixed(0);
-        this.totalTraficCluster.append = '%';
-        this.totalTraficCrc.label = this.translateService.instant('dashboard.trafic.crc');
-        this.totalTraficCrc.total = ((res.CRC / res.Received) * 100).toFixed(0);
-        this.totalTraficCrc.append = '%';
         this.maxLoad.label = this.translateService.instant('dashboard.trafic.maxload');
         this.maxLoad.total = res.MaxLoad;
         this.currentLoad.label = this.translateService.instant('dashboard.trafic.currentload');
@@ -383,21 +382,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.inDbs.total = ((this.inDbs.length / this.devices.total) * 100).toFixed(0);
         this.inDbs.append = '%';
         this.healthsLive = this.devices.filter((device: any) => device.Health === 'Live' && device.Status !== 'notDB');
-        this.healthsLive.label = this.translateService.instant('dashboard.devices.live');
-        this.healthsLive.total = ((this.healthsLive.length / this.devices.total) * 100).toFixed(0);
-        this.healthsLive.append = '%';
         this.healthsNotReachable = this.devices.filter((device: any) => {
           return device.Health === 'Not Reachable' && device.Status !== 'notDB';
         });
-        this.healthsNotReachable.label = this.translateService.instant('dashboard.devices.notReachable');
-        this.healthsNotReachable.total = ((this.healthsNotReachable.length / this.devices.total) * 100).toFixed(0);
-        this.healthsNotReachable.append = '%';
         this.healthsNotSeen = this.devices.filter((device: any) => {
           return device.Health === 'Not seen last 24hours' && device.Status !== 'notDB';
         });
-        this.healthsNotSeen.label = this.translateService.instant('dashboard.devices.notseen');
-        this.healthsNotSeen.total = ((this.healthsNotSeen.length / this.devices.total) * 100).toFixed(0);
-        this.healthsNotSeen.append = '%';
         this.healthsOthers = this.devices.filter((device: any) => {
           return (
             device.Health !== 'Not seen last 24hours' &&
@@ -406,9 +396,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
             device.Status !== 'notDB'
           );
         });
-        this.healthsOthers.label = this.translateService.instant('dashboard.devices.enddevice');
-        this.healthsOthers.total = ((this.healthsOthers.length / this.devices.total) * 100).toFixed(0);
-        this.healthsOthers.append = '%';
         this.advancedPieDevice = [
           {
             name: this.translateService.instant('dashboard.devices.routers'),
@@ -434,6 +421,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           },
           { name: this.translateService.instant('dashboard.devices.others'), value: this.healthsOthers.length }
         ];
+
         this.devicesOnBattery = devices.filter(
           (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
         );
@@ -445,16 +433,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.batteryInf30 = this.devices.filter((it: any) => _batteryInf30.find((iter: any) => iter.IEEE === it.IEEE));
         this.batterySup50 = this.devices.filter((it: any) => _batterySup50.find((iter: any) => iter.IEEE === it.IEEE));
         this.batterySup30 = this.devices.filter((it: any) => _batterySup30.find((iter: any) => iter.IEEE === it.IEEE));
-        this.batteryInf30.totalDevices = this.devicesOnBattery.length;
-        this.batteryInf30.label = this.translateService.instant('dashboard.devices.battery.inf.30');
-        this.batteryInf30.total = this.batteryInf30.length;
-        this.batteryInf30.append = this.translateService.instant('devices');
-        this.batterySup30.label = this.translateService.instant('dashboard.devices.battery.sup.30');
-        this.batterySup30.total = this.batterySup30.length;
-        this.batterySup30.append = this.translateService.instant('devices');
-        this.batterySup50.label = this.translateService.instant('dashboard.devices.battery.sup.50');
-        this.batterySup50.total = this.batterySup50.length;
-        this.batterySup50.append = this.translateService.instant('devices');
         this.advancedPieBattery = [
           {
             name: this.translateService.instant('dashboard.devices.battery.inf.30'),
@@ -466,6 +444,20 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           },
           { name: this.translateService.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length }
         ];
+
+        this.certifiedDevices = certified.filter((device: any) => device.CertifiedDevice);
+        this.notCertifiedDevices = certified.filter((device: any) => !device.CertifiedDevice);
+        this.advancedPieCertified = [
+          {
+            name: this.translateService.instant('dashboard.devices.certified'),
+            value: this.certifiedDevices.length
+          },
+          {
+            name: this.translateService.instant('dashboard.devices.not.certified'),
+            value: this.notCertifiedDevices.length
+          }
+        ];
+
         this.headerService.setError(res.Error);
       })
     );
