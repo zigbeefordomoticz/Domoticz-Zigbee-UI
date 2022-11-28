@@ -1,20 +1,20 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { HeaderService } from '@app/services/header-service';
 import { VersionService } from '@app/services/version-service';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { Plugin } from '@app/shared/models/plugin';
+import { Setting } from '@app/shared/models/setting';
+import { environment } from '@env/environment';
+import { MatomoTracker } from '@ngx-matomo/tracker';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import { forkJoin, timer } from 'rxjs';
+import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { PluginStats } from '../shared/models/plugin-stats';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
-import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
-import { HeaderService } from '@app/services/header-service';
-import { environment } from '@env/environment';
-import { switchMap, retry, share, takeUntil, filter, map } from 'rxjs/operators';
-import { Plugin } from '@app/shared/models/plugin';
-import { MatomoTracker } from '@ngx-matomo/tracker';
-import { Setting } from '@app/shared/models/setting';
 
 const log = new Logger('DashboardComponent');
 
@@ -37,11 +37,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   healthsNotReachable: any;
   healthsOthers: any = {};
   pluginStats: PluginStats;
-  totalTraficSent: any = {};
-  totalTraficRetx: any = {};
-  totalTraficReceived: any = {};
-  totalTraficCluster: any = {};
-  totalTraficCrc: any = {};
   maxLoad: any = {};
   currentLoad: any = {};
   devicesOnBattery: any;
@@ -54,7 +49,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
   advancedPieLoad: any;
   advancedPieSent: any;
-  advancedPieReceived: any;
   advancedPieDevice: any;
   advancedPieState: any;
   advancedPieBattery: any;
