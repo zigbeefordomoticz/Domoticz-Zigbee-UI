@@ -8,20 +8,9 @@
   "dashboard": "Tablero",
   "dashboard.button.refresh": "Actualizar",
   "dashboard.trafic.title": "Estado del tráfico (envío y recepción, tipos y carga)",
-  "dashboard.sent.title": "Cantidad total de comandos enviados",
-  "dashboard.trafic.total.trafic.sent.label": "Expedido",
-  "dashboard.trafic.total.trafic.sent": "Tx",
-  "dashboard.trafic.retx": "Re Tx",
-  "dashboard.sent.comment": "ReTx = número de retransmisiones realizadas. Esto debería ser 0, pero si el plugin está intentando enviar un comando a un dispositivo apagado, puede obtener ReTx",
   "dashboard.trafic.maxload.label": "Carga",
   "dashboard.trafic.maxload": "Pico",
   "dashboard.trafic.currentload": "Actual",
-  "dashboard.received.title": "Cantidad total de mensajes recibidos",
-  "dashboard.trafic.total.trafic.received.label": "Recibido",
-  "dashboard.trafic.total.trafic.received": "Rx",
-  "dashboard.trafic.cluster": "clusters",
-  "dashboard.trafic.crc": "Errores CRC",
-  "dashboard.received.comment": "Cluster = tipo de mensaje con información<br>Errores CRC debería ser 0. De lo contrario indica errores de comunicación",
   "dashboard.trend.title": "Estadísticas",
   "dashboard.txps": "Tx/s",
   "dashboard.rxps": "Rx/s",
@@ -626,10 +615,8 @@
   "manufacturer.zlinky.PROTOCOL_LINKY_3": "Mode standard triphasé",
   "manufacturer.zlinky.PROTOCOL_LINKY_5": "Mode standard monophasé producteur",
   "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
-  
   "ForceAPSAck": "Force APS Ack to ZCL and ZDP commands",
   "zigpySourceRouting": "Enable Zigbee Source routing (plugin)",
   "reenforcementWiser": "Enable reenforcement messages (legacy Wiser only)",
   "forcePassiveWidget": "Allow Domoticz actions on Widgets from remote devices"
-
 }

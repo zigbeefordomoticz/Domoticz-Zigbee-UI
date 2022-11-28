@@ -8,20 +8,9 @@
   "dashboard": "Dashboard",
   "dashboard.button.refresh": "Ververs",
   "dashboard.trafic.title": "Berichtenverkeer status ( Verzenden en Ontvangen, Types en Belasting)",
-  "dashboard.sent.title": "Het aantal verzonden opdrachten",
-  "dashboard.trafic.total.trafic.sent.label": "Verzonden",
-  "dashboard.trafic.total.trafic.sent": "Tx",
-  "dashboard.trafic.retx": "Re Tx",
-  "dashboard.sent.comment": "Tx is het aantal verzonden berichten. Dit moet 0 zijn, maar als de plug-in een apparaat niet kan bereiken, kunt u ReTx berichten krijgen ",
   "dashboard.trafic.maxload.label": "Belasting",
   "dashboard.trafic.maxload": "Piek",
   "dashboard.trafic.currentload": "huidige wachtrij",
-  "dashboard.received.title": "Het aantal ontvangen berichten",
-  "dashboard.trafic.total.trafic.received.label": "Ontvangen",
-  "dashboard.trafic.total.trafic.received": "Rx",
-  "dashboard.trafic.cluster": "Clusters",
-  "dashboard.trafic.crc": "CRC fouten",
-  "dashboard.received.comment": "Rx = aantal ontvangen berichten <br>Cluster = soort van bericht met informatie<br>CRC error = aantal berichten met foutmeldingen",
   "dashboard.trend.title": "Statistieken",
   "dashboard.txps": "Tx/s",
   "dashboard.rxps": "Rx/s",
@@ -626,10 +615,8 @@
   "manufacturer.zlinky.PROTOCOL_LINKY_3": "Mode standard triphasé",
   "manufacturer.zlinky.PROTOCOL_LINKY_5": "Mode standard monophasé producteur",
   "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
-
   "ForceAPSAck": "Force APS Ack to ZCL and ZDP commands",
   "zigpySourceRouting": "Enable Zigbee Source routing (plugin)",
   "reenforcementWiser": "Enable reenforcement messages (legacy Wiser only)",
   "forcePassiveWidget": "Allow Domoticz actions on Widgets from remote devices"
-
 }

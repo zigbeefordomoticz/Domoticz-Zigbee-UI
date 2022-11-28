@@ -61,7 +61,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   advancedPieCertified: any;
   advancedPieLoadLabel: string;
   advancedPieSentLabel: string;
-  advancedPieReceivedLabel: string;
   advancedPieDeviceLabel: string;
   advancedPieStateLabel: string;
   advancedPieBatteryLabel: string;
@@ -85,11 +84,14 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   colorSchemeGOR = {
     domain: ['green', 'blue', 'red']
   };
-  colorSchemeGO = {
+  colorSchemeGC = {
     domain: ['green', 'cyan']
   };
   colorSchemeGR = {
     domain: ['green', 'red']
+  };
+  colorSchemeGO = {
+    domain: ['green', 'orange']
   };
 
   plugin: Plugin;
@@ -149,8 +151,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
   getInfos() {
     this.advancedPieLoadLabel = this.translateService.instant('dashboard.trafic.maxload.label');
-    this.advancedPieSentLabel = this.translateService.instant('dashboard.trafic.total.trafic.sent.label');
-    this.advancedPieReceivedLabel = this.translateService.instant('dashboard.trafic.total.trafic.received.label');
+    this.advancedPieSentLabel = this.translateService.instant('dashboard.trafic.label');
     this.advancedPieDeviceLabel = this.translateService.instant('dashboard.devices.label');
     this.advancedPieStateLabel = this.translateService.instant('dashboard.devices.state.label');
     this.advancedPieBatteryLabel = this.translateService.instant('dashboard.devices.battery.label');
@@ -357,16 +358,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           { name: this.translateService.instant('dashboard.trafic.currentload'), value: res.CurrentLoad }
         ];
         this.advancedPieSent = [
-          { name: this.translateService.instant('dashboard.trafic.total.trafic.sent'), value: res.Sent - res.ReTx },
-          { name: this.translateService.instant('dashboard.trafic.retx'), value: res.ReTx }
-        ];
-        this.advancedPieReceived = [
-          {
-            name: this.translateService.instant('dashboard.trafic.total.trafic.received'),
-            value: res.Received - res.Cluster - res.CRC
-          },
-          { name: this.translateService.instant('dashboard.trafic.cluster'), value: res.Cluster },
-          { name: this.translateService.instant('dashboard.trafic.crc'), value: res.CRC }
+          { name: this.translateService.instant('dashboard.trafic.send'), value: res.Sent },
+          { name: this.translateService.instant('dashboard.trafic.receive'), value: res.Received }
         ];
 
         this.devices.total = this.devices.length;
