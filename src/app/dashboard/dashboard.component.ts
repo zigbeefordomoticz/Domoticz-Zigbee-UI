@@ -81,6 +81,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   colorSchemeGC = {
     domain: ['green', 'cyan']
   };
+  colorSchemeBG = {
+    domain: ['blue', 'green']
+  };
+  colorSchemePC = {
+    domain: ['purple', 'cyan']
+  };
   colorSchemeGR = {
     domain: ['green', 'red']
   };
