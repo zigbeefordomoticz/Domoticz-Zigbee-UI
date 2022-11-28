@@ -13,24 +13,24 @@
         <div class="row">
           <div class="col-sm-4">
             <div class="row">
-              <div class="col-sm" [innerHTML]="'dashboard.certified.title' | translate"></div>
+              <div class="col-sm" [innerHTML]="'dashboard.healthgraph.title' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
                 [view]="[400, 150]"
-                [results]="advancedPieCertified"
+                [results]="advancedPieState"
                 [animations]="animations"
                 [gradient]="gradient"
                 [tooltipDisabled]="tooltipDisabled"
-                (select)="open('certified', $event)"
-                [scheme]="colorSchemeGO"
-                [label]="advancedCertifiedLabel"
+                (select)="open('state', $event)"
+                [scheme]="colorSchemeGROG"
+                [label]="advancedPieStateLabel"
                 [percentageFormatting]="percentageFormatting">
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.certified.comment' | translate"></div>
+              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
@@ -105,24 +105,24 @@
           </div>
           <div class="col-sm-4">
             <div class="row">
-              <div class="col-sm" [innerHTML]="'dashboard.healthgraph.title' | translate"></div>
+              <div class="col-sm" [innerHTML]="'dashboard.certified.title' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
                 [view]="[400, 150]"
-                [results]="advancedPieState"
+                [results]="advancedPieCertified"
                 [animations]="animations"
                 [gradient]="gradient"
                 [tooltipDisabled]="tooltipDisabled"
-                (select)="open('state', $event)"
-                [scheme]="colorSchemeGROG"
-                [label]="advancedPieStateLabel"
+                (select)="open('certified', $event)"
+                [scheme]="colorSchemeGO"
+                [label]="advancedCertifiedLabel"
                 [percentageFormatting]="percentageFormatting">
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
+              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.certified.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
