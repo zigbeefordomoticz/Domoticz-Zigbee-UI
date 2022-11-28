@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+
+  &--green {
+    color: green;
+  }
+
+  &--primary-color {
+    color: var(--primary-color);
+  }
+
+  &__icon {
+    flex: 1;
+
+    &--orange {
+      color: orange;
+    }
+
+    &--green {
+      color: green;
+    }
+  }
+}

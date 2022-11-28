@@ -75,7 +75,10 @@
                 ngbPopover="{{ 'device.byname.certified.popover.text.ok' | translate }}"
                 triggers="mouseenter:mouseleave"
                 popoverTitle="{{ 'device.byname.certified.popover.title.ok' | translate }}">
-                <img class="img-responsive" style="width: 1.3rem" src="assets/check.svg" />
+                <div class="container">
+                  <shared-custom-icon class="container__icon container__icon--green" iconName="CHECK_ICON">
+                  </shared-custom-icon>
+                </div>
               </div>
             </ng-container>
             <ng-container *ngIf="!row.CertifiedDevice">
@@ -84,7 +87,10 @@
                 ngbPopover="{{ 'device.byname.certified.popover.text.ko' | translate }}"
                 triggers="mouseenter:mouseleave"
                 popoverTitle="{{ 'device.byname.certified.popover.title.ko' | translate }}">
-                <img class="img-responsive" style="width: 1.3rem" src="assets/unchecked.svg" />
+                <div class="container">
+                  <shared-custom-icon class="container__icon container__icon--orange" iconName="X_ICON">
+                  </shared-custom-icon>
+                </div>
               </div>
             </ng-container>
           </ng-template>

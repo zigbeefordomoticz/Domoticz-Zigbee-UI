@@ -8,10 +8,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { nl2brPipe } from './utils/nl2br.pipe';
+import { CustomIconComponent } from './components/custom-icon.component';
 
 @NgModule({
   imports: [CommonModule, NgSelectModule, NgOptionHighlightModule, TranslateModule, NgxDatatableModule],
-  declarations: [nl2brPipe],
+  declarations: [nl2brPipe, CustomIconComponent],
   providers: [DatePipe],
   exports: [
     CommonModule,
@@ -22,6 +23,7 @@ import { nl2brPipe } from './utils/nl2br.pipe';
     TranslateModule,
     NgxDatatableModule,
     DatePipe,
+    CustomIconComponent,
     NgxSpinnerModule,
     NgOptionHighlightModule,
     nl2brPipe
