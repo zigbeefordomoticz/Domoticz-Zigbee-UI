@@ -155,7 +155,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     this.advancedPieDeviceLabel = this.translateService.instant('dashboard.devices.label');
     this.advancedPieStateLabel = this.translateService.instant('dashboard.devices.state.label');
     this.advancedPieBatteryLabel = this.translateService.instant('dashboard.devices.battery.label');
-    this.advancedCertifiedLabel = this.translateService.instant('dashboard.devices.optimized.label');
+    this.advancedCertifiedLabel = this.translateService.instant('dashboard.devices.certified.label');
   }
 
   percentageFormatting(value: any) {
@@ -293,7 +293,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         devices = this.batterySup50;
       }
     } else if (name === 'certified') {
-      if (event.name === this.translateService.instant('dashboard.devices.optimized')) {
+      if (event.name === this.translateService.instant('dashboard.devices.certified')) {
         devices = this.certifiedDevices;
       } else {
         devices = this.notCertifiedDevices;
@@ -442,11 +442,11 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.notCertifiedDevices = certified.filter((device: any) => !device.CertifiedDevice);
         this.advancedPieCertified = [
           {
-            name: this.translateService.instant('dashboard.devices.optimized'),
+            name: this.translateService.instant('dashboard.devices.certified'),
             value: this.certifiedDevices.length
           },
           {
-            name: this.translateService.instant('dashboard.devices.not.optimized'),
+            name: this.translateService.instant('dashboard.devices.not.certified'),
             value: this.notCertifiedDevices.length
           }
         ];

@@ -72,7 +72,6 @@
   "device.byname.devicename.column": "Surnom",
   "device.byname.header": "Gestion des objets",
   "device.byname.trash.column": "Suppr.",
-  "device.byname.optimized.column": "Optimisé",
   "device.byname.health.column": "Santé",
   "device.byname.battery.column": "Batterie",
   "device.byname.ieee.column": "IEEE",
@@ -619,15 +618,5 @@
   "ForceAPSAck": "Force APS Ack to ZCL and ZDP commands",
   "zigpySourceRouting": "Enable Zigbee Source routing (plugin)",
   "reenforcementWiser": "Enable reenforcement messages (legacy Wiser only)",
-  "forcePassiveWidget": "Allow Domoticz actions on Widgets from remote devices",
-  "dashboard.optimized.title": "Objets optimisés",
-  "dashboard.optimized.comment": "Les objets optimisés sont des objets pour lesquels une configuration a été faite dans le plugin pour qu’ils fonctionnent comme attendu.<br>Les objets non-optimisés sont des objets qui peuvent ne pas fonctionner complètement et/ou générer de la charge ou du traffic anormal.<br> <a target='_blank' href='https://zigbeefordomoticz.github.io/wiki/fr-fr/Tuto_Gerer-objet-non-optimise",
-  "dashboard.devices.optimized": "Objets optimisés",
-  "dashboard.devices.not.optimized": "Objets non-optimisés",
-  "dashboard.devices.optimized.label": "Objets optimisés",
-  "dashboard.traffic.title": "Envoi & réception",
-  "dashboard.trafic.label": "Messages envoyés et reçus",
-  "dashboard.trafic.send": "Tx",
-  "dashboard.trafic.receive": "Rx",
-  "dashboard.traffic.comment": "Tx = nombre de messages envoyés depuis le lancement du plugin<br>Rx =  nombre de messages reçus depuis le lancement du plugin"
+  "forcePassiveWidget": "Allow Domoticz actions on Widgets from remote devices"
 }
