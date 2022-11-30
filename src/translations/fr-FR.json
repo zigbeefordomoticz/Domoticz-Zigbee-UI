@@ -72,7 +72,6 @@
   "device.byname.devicename.column": "Surnom",
   "device.byname.header": "Gestion des objets",
   "device.byname.trash.column": "Suppr.",
-  "device.byname.optimized.column": "Optimisé",
   "device.byname.health.column": "Santé",
   "device.byname.battery.column": "Batterie",
   "device.byname.ieee.column": "IEEE",
