@@ -1,8 +1,6 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { truncate } from 'fs';
 import { FileSaverService } from 'ngx-filesaver';
 import { finalize } from 'rxjs';
 import { transformToTimestamp } from '../shared/utils/transform-timestamp';
