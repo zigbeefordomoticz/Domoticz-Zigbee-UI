@@ -112,9 +112,9 @@ export class ApiService {
     );
   }
 
-  getRawZDevices(): Observable<any> {
-    return this.httpClient.get(routes.zdeviceRaw).pipe(
-      map((body: any) => body),
+  getRawZDevices(filterNonOptimized = false): Observable<any[]> {
+    return this.httpClient.get<any[]>(routes.zdeviceRaw).pipe(
+      map(body => body.filter(device => (filterNonOptimized ? device.CertifiedDevice === false : true))),
       catchError(error => this.handleError(error))
     );
   }

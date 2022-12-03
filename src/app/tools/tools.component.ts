@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { truncate } from 'fs';
 import { FileSaverService } from 'ngx-filesaver';
 import { finalize } from 'rxjs';
 import { transformToTimestamp } from '../shared/utils/transform-timestamp';
@@ -62,6 +63,9 @@ export class ToolsComponent implements OnInit {
     }
     if (device === 'battery-state') {
       service = this.apiService.getBatteryState();
+    }
+    if (device === 'non-optimized') {
+      service = this.apiService.getRawZDevices(true);
     }
 
     if (service) {
