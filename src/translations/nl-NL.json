@@ -618,5 +618,6 @@
   "ForceAPSAck": "Force APS Ack to ZCL and ZDP commands",
   "zigpySourceRouting": "Enable Zigbee Source routing (plugin)",
   "reenforcementWiser": "Enable reenforcement messages (legacy Wiser only)",
-  "forcePassiveWidget": "Allow Domoticz actions on Widgets from remote devices"
+  "forcePassiveWidget": "Allow Domoticz actions on Widgets from remote devices",
+  "tools.non-optimized.button": "Non-optimized devices"
 }

@@ -629,5 +629,6 @@
   "dashboard.trafic.label": "Messages envoyés et reçus",
   "dashboard.trafic.send": "Tx",
   "dashboard.trafic.receive": "Rx",
-  "dashboard.traffic.comment": "Tx = nombre de messages envoyés depuis le lancement du plugin<br>Rx =  nombre de messages reçus depuis le lancement du plugin"
+  "dashboard.traffic.comment": "Tx = nombre de messages envoyés depuis le lancement du plugin<br>Rx =  nombre de messages reçus depuis le lancement du plugin",
+  "tools.non-optimized.button": "Objets non-optimisés"
 }
