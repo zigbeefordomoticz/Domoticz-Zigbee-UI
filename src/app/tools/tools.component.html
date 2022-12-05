@@ -50,6 +50,11 @@
     class="col-sm-2 ml-3 btn btn-primary"
     (click)="onClick('non-optimized')"
     translate="tools.non-optimized.button"></button>
+  <button
+    *ngIf="logFile$ | async as logFile"
+    class="col-sm-2 ml-3 btn btn-primary"
+    (click)="download(logFile)"
+    translate="tools.log.button"></button>
 </div>
 <div class="row">
   <div class="mt-3 col" *ngIf="json" [hidden]="isLoading">

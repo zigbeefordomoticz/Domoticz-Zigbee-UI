@@ -23,6 +23,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Zlinky } from './../shared/models/zlinky';
+import { LogFile } from './../shared/models/log';
 
 const routes = {
   devices: '/device',
@@ -74,7 +75,8 @@ const routes = {
   pluginUpgrade: '/plugin-upgrade',
   configureReporting: '/cfgrpt-ondemand-config',
   demandConfigureReporting: '/cfgrpt-ondemand',
-  zlinky: '/zlinky'
+  zlinky: '/zlinky',
+  pluginLog: '/plugin-log'
 };
 
 const log = new Logger('ApiService');
@@ -82,6 +84,19 @@ const log = new Logger('ApiService');
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   constructor(private httpClient: HttpClient, private toastr: ToastrService, private translate: TranslateService) {}
+
+  downloadLog(url: string): Observable<any> {
+    return this.httpClient
+      .disableApiPrefix()
+      .get(url, {
+        observe: 'response',
+        responseType: 'blob'
+      })
+      .pipe(
+        map((body: any) => body),
+        catchError(error => this.handleError(error))
+      );
+  }
 
   getPluginhealth(): Observable<any> {
     return this.httpClient.get(routes.pluginHealth).pipe(
@@ -595,6 +610,13 @@ export class ApiService {
 
   getZlinky(): Observable<Zlinky[]> {
     return this.httpClient.get(routes.zlinky).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getLog(): Observable<LogFile> {
+    return this.httpClient.get<LogFile>(routes.pluginLog).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { LogFile } from '@app/shared/models/log';
 import { FileSaverService } from 'ngx-filesaver';
-import { finalize } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { transformToTimestamp } from '../shared/utils/transform-timestamp';
 
 const log = new Logger('ToolsComponent');
@@ -15,10 +16,13 @@ const log = new Logger('ToolsComponent');
 export class ToolsComponent implements OnInit {
   json: Object | undefined = null;
   isLoading = false;
+  logFile$: Observable<LogFile>;
 
   constructor(private apiService: ApiService, private fileSaverService: FileSaverService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.logFile$ = this.apiService.getLog();
+  }
 
   onClick(device: string) {
     this.json = null;
@@ -77,6 +81,14 @@ export class ToolsComponent implements OnInit {
           this.callbackservice(json);
         });
     }
+  }
+
+  download(logFile: LogFile) {
+    const fileName = logFile.Filename;
+    const fileType = this.fileSaverService.genType(fileName);
+    this.apiService.downloadLog(logFile.URL).subscribe(file => {
+      this.fileSaverService.save(file.body, fileName);
+    });
   }
 
   callbackservice(json: any) {
