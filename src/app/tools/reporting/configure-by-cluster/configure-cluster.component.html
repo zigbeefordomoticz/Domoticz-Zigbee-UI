@@ -12,7 +12,7 @@
   }">
   <ngx-datatable-column
     [maxWidth]="100"
-    name="{{ 'reporting.configure.clusterId.column' | translate }}"
+    name="{{ 'tools.reporting.configure.clusterId.column' | translate }}"
     prop="clusterId">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.clusterId }}
@@ -20,23 +20,29 @@
   </ngx-datatable-column>
   <ngx-datatable-column
     [maxWidth]="100"
-    name="{{ 'reporting.configure.attributeId.column' | translate }}"
+    name="{{ 'tools.reporting.configure.attributeId.column' | translate }}"
     prop="attributeId">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.attributeId }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column [maxWidth]="100" name="{{ 'reporting.configure.dataType.column' | translate }}" prop="dataType">
+  <ngx-datatable-column
+    [maxWidth]="100"
+    name="{{ 'tools.reporting.configure.dataType.column' | translate }}"
+    prop="dataType">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.dataType }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column [maxWidth]="150" name="{{ 'reporting.configure.timeout.column' | translate }}" prop="timeOut">
+  <ngx-datatable-column
+    [maxWidth]="150"
+    name="{{ 'tools.reporting.configure.timeout.column' | translate }}"
+    prop="timeOut">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.timeOut }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'reporting.configure.minInterval.column' | translate }}" prop="minInterval">
+  <ngx-datatable-column name="{{ 'tools.reporting.configure.minInterval.column' | translate }}" prop="minInterval">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
         class="w-50 text-right"
@@ -47,7 +53,7 @@
         [value]="row.minInterval" />
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'reporting.configure.maxInterval.column' | translate }}" prop="maxInterval">
+  <ngx-datatable-column name="{{ 'tools.reporting.configure.maxInterval.column' | translate }}" prop="maxInterval">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
         class="w-50 text-right"
@@ -57,7 +63,7 @@
         [value]="row.maxInterval" />
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'reporting.configure.change.column' | translate }}" prop="change">
+  <ngx-datatable-column name="{{ 'tools.reporting.configure.change.column' | translate }}" prop="change">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
       <input
         *ngIf="isEditable(row); else notEditable"

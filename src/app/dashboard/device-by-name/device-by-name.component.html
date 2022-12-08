@@ -3,14 +3,17 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-sm" translate="device.byname.header"></div>
+          <div class="col-sm" translate="dashboard.popup.device.header"></div>
           <div class="col-sm-1">
-            <button class="btn btn-outline-success" (click)="dismiss()">Close</button>
+            <button
+              class="btn btn-outline-success"
+              (click)="dismiss()"
+              translate="dashboard.popup.device.button.close"></button>
           </div>
         </div>
       </div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'device.byname.subtitle' | translate"></h5>
+        <h5 class="card-title" [innerHTML]="'dashboard.popup.device.subtitle' | translate"></h5>
         <div class="card-text">
           <ngx-datatable
             #table
