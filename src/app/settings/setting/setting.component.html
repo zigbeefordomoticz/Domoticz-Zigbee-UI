@@ -36,12 +36,8 @@
       </ng-select>
     </div>
   </div>
-  <div *ngIf="setting.DataType === 'bool'" class="row mt-2 custom-control custom-checkbox">
-    <input
-      formControlName="current"
-      type="checkbox"
-      class="custom-control-input form-control"
-      id="{{ setting.Name }}" />
-    <label class="ml-3 custom-control-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
+  <div *ngIf="setting.DataType === 'bool'" class="col-auto">
+    <input formControlName="current" type="checkbox" class="form-control-checkbox" id="{{ setting.Name }}" />
+    <label class="col-form-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
   </div>
 </div>
