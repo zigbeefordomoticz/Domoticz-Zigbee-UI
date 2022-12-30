@@ -1,92 +1,103 @@
-<footer class="navbar navbar-fixed-bottom" *ngIf="fork" style="line-height: 1">
-  <div
-    [ngClass]="
-      fork.pluginHealth?.HealthFlag === 4
-        ? 'bg-primary fixed-bottom'
-        : fork.pluginHealth?.HealthFlag === 3
-        ? 'bg-danger fixed-bottom'
-        : fork.pluginHealth?.HealthFlag === 1 &&
-          (!fork.pluginHealth?.GroupStatus || fork.pluginHealth?.GroupStatus === 'ready')
-        ? 'bg-success fixed-bottom'
-        : fork.pluginHealth?.HealthFlag === 2 || fork.pluginHealth?.GroupStatus !== 'ready'
-        ? 'bg-warning fixed-bottom'
-        : 'bg-danger fixed-bottom'
-    ">
-    <div class="d-flex flex-row justify-content-between">
-      <div class="order-first p-2 text-white ms-2">
-        <span translate="dashboard.health.starttime"></span
-        >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy
-        HH:mm:ss' }}
-      </div>
-      <div class="order-0 p-2 text-center text-white">
-        <ng-container *ngIf="fork.pluginStats.Rxps >= 0.5 && fork.pluginStats.Txps >= 0.5; then perSecond; else other">
-        </ng-container>
+<footer class="navbar navbar-fixed-bottom navbar-expand-lg" *ngIf="fork" style="line-height: 1">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarToggler"
+    aria-controls="navbarToggler"
+    aria-expanded="false"
+    aria-label="Toggle navigation"></button>
+  <div class="collapse navbar-collapse" id="navbarToggler">
+    <div
+      [ngClass]="
+        fork.pluginHealth?.HealthFlag === 4
+          ? 'bg-primary fixed-bottom'
+          : fork.pluginHealth?.HealthFlag === 3
+          ? 'bg-danger fixed-bottom'
+          : fork.pluginHealth?.HealthFlag === 1 &&
+            (!fork.pluginHealth?.GroupStatus || fork.pluginHealth?.GroupStatus === 'ready')
+          ? 'bg-success fixed-bottom'
+          : fork.pluginHealth?.HealthFlag === 2 || fork.pluginHealth?.GroupStatus !== 'ready'
+          ? 'bg-warning fixed-bottom'
+          : 'bg-danger fixed-bottom'
+      ">
+      <div class="d-flex flex-row justify-content-between">
+        <div class="order-first p-2 text-white ms-2">
+          <span translate="dashboard.health.starttime"></span
+          >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy
+          HH:mm:ss' }}
+        </div>
+        <div class="order-0 p-2 text-center text-white">
+          <ng-container
+            *ngIf="fork.pluginStats.Rxps >= 0.5 && fork.pluginStats.Txps >= 0.5; then perSecond; else other">
+          </ng-container>
 
-        <ng-template #perSecond
-          ><span
-            >{{ 'dashboard.rxps' | translate }} : {{ fork.pluginStats.Rxps }}&nbsp;&nbsp;&nbsp;{{
-              'dashboard.txps' | translate
-            }}
-            : {{ fork.pluginStats.Txps }}&nbsp;&nbsp;&nbsp;</span
-          ></ng-template
-        >
-        <ng-template #other>
-          <span *ngIf="fork.pluginStats.Rxpm >= 0.5 && fork.pluginStats.Txpm >= 0.5; else perHour"
-            >{{ 'dashboard.rxpm' | translate }} : {{ fork.pluginStats.Rxpm }}&nbsp;&nbsp;&nbsp;{{
-              'dashboard.txpm' | translate
-            }}
-            : {{ fork.pluginStats.Txpm }}&nbsp;&nbsp;&nbsp;</span
-          >
-
-          <ng-template #perHour
+          <ng-template #perSecond
             ><span
-              >{{ 'dashboard.rxph' | translate }} : {{ fork.pluginStats.Rxph }}&nbsp;&nbsp;&nbsp;{{
-                'dashboard.txph' | translate
+              >{{ 'dashboard.rxps' | translate }} : {{ fork.pluginStats.Rxps }}&nbsp;&nbsp;&nbsp;{{
+                'dashboard.txps' | translate
               }}
-              : {{ fork.pluginStats.Txph }}&nbsp;&nbsp;&nbsp;</span
+              : {{ fork.pluginStats.Txps }}&nbsp;&nbsp;&nbsp;</span
             ></ng-template
           >
-        </ng-template>
-        <span>{{ 'dashboard.maxload' | translate }} : {{ fork.pluginStats.MaxLoad }} </span>
-      </div>
+          <ng-template #other>
+            <span *ngIf="fork.pluginStats.Rxpm >= 0.5 && fork.pluginStats.Txpm >= 0.5; else perHour"
+              >{{ 'dashboard.rxpm' | translate }} : {{ fork.pluginStats.Rxpm }}&nbsp;&nbsp;&nbsp;{{
+                'dashboard.txpm' | translate
+              }}
+              : {{ fork.pluginStats.Txpm }}&nbsp;&nbsp;&nbsp;</span
+            >
 
-      <div class="order-1 p-2 text-center text-white">
-        <span translate="{{ fork.pluginHealth?.HealthTxt }}"></span>
-      </div>
-      <div *ngIf="fork.pluginHealth?.GroupStatus" class="order-2 p-2 text-center text-white">
-        <span>{{ 'dashboard.health.group' | translate }} {{ fork.pluginHealth?.GroupStatus }}</span>
-      </div>
+            <ng-template #perHour
+              ><span
+                >{{ 'dashboard.rxph' | translate }} : {{ fork.pluginStats.Rxph }}&nbsp;&nbsp;&nbsp;{{
+                  'dashboard.txph' | translate
+                }}
+                : {{ fork.pluginStats.Txph }}&nbsp;&nbsp;&nbsp;</span
+              ></ng-template
+            >
+          </ng-template>
+          <span>{{ 'dashboard.maxload' | translate }} : {{ fork.pluginStats.MaxLoad }} </span>
+        </div>
 
-      <div class="order-3 p-2 text-center text-white" *ngIf="fork.pluginHealth?.OTAupdateDevice">
-        <span translate="dashboard.health.OTA"></span
-        ><span>{{ fork.pluginHealth?.OTAupdateDevice }} {{ fork.pluginHealth?.OTAupdateProgress }}</span>
-      </div>
+        <div class="order-1 p-2 text-center text-white">
+          <span translate="{{ fork.pluginHealth?.HealthTxt }}"></span>
+        </div>
+        <div *ngIf="fork.pluginHealth?.GroupStatus" class="order-2 p-2 text-center text-white">
+          <span>{{ 'dashboard.health.group' | translate }} {{ fork.pluginHealth?.GroupStatus }}</span>
+        </div>
 
-      <div class="order-4 p-2" *ngIf="fork.plugin?.PluginUpdate">
-        <a
-          class="text-danger"
-          style="cursor: pointer"
-          placement="top"
-          [ngbPopover]="popContentPlugin"
-          popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}">
+        <div class="order-3 p-2 text-center text-white" *ngIf="fork.pluginHealth?.OTAupdateDevice">
+          <span translate="dashboard.health.OTA"></span
+          ><span>{{ fork.pluginHealth?.OTAupdateDevice }} {{ fork.pluginHealth?.OTAupdateProgress }}</span>
+        </div>
+
+        <div class="order-4 p-2" *ngIf="fork.plugin?.PluginUpdate">
+          <a
+            class="text-danger"
+            style="cursor: pointer"
+            placement="top"
+            [ngbPopover]="popContentPlugin"
+            popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}">
+            <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
+          </a>
+        </div>
+        <div class="me-2 order-5 p-2" *ngIf="fork.plugin?.FirmwareUpdate">
+          <a
+            class="text-danger"
+            style="cursor: pointer"
+            placement="top"
+            [ngbPopover]="popContentFirmware"
+            popoverTitle="{{ 'dashboard.firmware.update.available.title' | translate }}">
+            <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
+          </a>
+        </div>
+        <div *ngIf="!fork.plugin?.PluginUpdate" class="order-4 p-2 text-white">
           <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
-        </a>
-      </div>
-      <div class="me-2 order-5 p-2" *ngIf="fork.plugin?.FirmwareUpdate">
-        <a
-          class="text-danger"
-          style="cursor: pointer"
-          placement="top"
-          [ngbPopover]="popContentFirmware"
-          popoverTitle="{{ 'dashboard.firmware.update.available.title' | translate }}">
+        </div>
+        <div *ngIf="!fork.plugin?.FirmwareUpdate" class="me-2 order-5 p-2 text-white">
           <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
-        </a>
-      </div>
-      <div *ngIf="!fork.plugin?.PluginUpdate" class="order-4 p-2 text-white">
-        <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
-      </div>
-      <div *ngIf="!fork.plugin?.FirmwareUpdate" class="me-2 order-5 p-2 text-white">
-        <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
+        </div>
       </div>
     </div>
   </div>
