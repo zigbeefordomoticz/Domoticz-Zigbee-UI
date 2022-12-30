@@ -5,7 +5,7 @@
         {{ 'dashboard.trafic.title' | translate }}
         <button
           *ngIf="!poll"
-          class="btn btn-primary float-right"
+          class="btn btn-primary float-end"
           (click)="refresh()"
           translate="dashboard.button.refresh"></button>
       </div>
@@ -30,7 +30,7 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
@@ -52,7 +52,7 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.traffic.comment' | translate"></div>
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.traffic.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
@@ -65,7 +65,7 @@
               <div class="col-sm" [chart]="chart"></div>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
@@ -99,7 +99,7 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.devices.comment' | translate"></div>
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.devices.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
@@ -122,7 +122,7 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
@@ -145,7 +145,7 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-left border-3" [innerHTML]="'dashboard.optimized.comment' | translate"></div>
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.optimized.comment' | translate"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
@@ -162,8 +162,8 @@
       <div class="consent-banner__description" [innerHtml]="'consent.banner.description' | translate"></div>
     </div>
     <div>
-      <button (click)="consent(false)" class="col-sm-2 ml-3 btn btn-danger" translate="consent.banner.decline"></button>
-      <button (click)="consent(true)" class="col-sm-2 ml-3 btn btn-primary" translate="consent.banner.accept"></button>
+      <button (click)="consent(false)" class="col-sm-2 ms-3 btn btn-danger" translate="consent.banner.decline"></button>
+      <button (click)="consent(true)" class="col-sm-2 ms-3 btn btn-primary" translate="consent.banner.accept"></button>
     </div>
   </div>
 </div>

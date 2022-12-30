@@ -1,16 +1,9 @@
-<div class="col-sm">
-  <div class="card">
-    <div class="card-header" translate="admin.assistprovisionning.title"></div>
-    <div class="card-body">
-      <h5 class="card-title" [innerHTML]="'admin.assistprovisionning.subtitle' | translate"></h5>
-      <div class="card-text">
-        <div class="row">
-          <button
-            class="ml-3 btn btn-primary"
-            (click)="open(content)"
-            translate="admin.assistprovisionning.go.button"></button>
-        </div>
-      </div>
+<div class="card h-100">
+  <div class="card-header" translate="admin.assistprovisionning.title"></div>
+  <div class="card-body">
+    <h5 class="card-title" [innerHTML]="'admin.assistprovisionning.subtitle' | translate"></h5>
+    <div class="card-text d-flex justify-content-end mt-3">
+      <button class="btn btn-primary" (click)="open(content)" translate="admin.assistprovisionning.go.button"></button>
     </div>
   </div>
 </div>
@@ -33,10 +26,10 @@
       color="red"></ngx-spinner>
   </div>
   <div class="modal-body">
-    <span class="row ml-2" translate="admin.assistprovisionning.alert.subject"></span>
+    <span class="row ms-2" translate="admin.assistprovisionning.alert.subject"></span>
     <div *ngFor="let hardware of devicePaired" class="mt-1">
       <fieldset class="border p-2">
-        <div class="ml-2">
+        <div class="ms-2">
           <div class="row">
             {{ 'admin.assistprovisionning.alert.state' | translate }}&nbsp;<b
               >{{ hardware.ProvisionStatus }} ({{
@@ -71,7 +64,7 @@
           <div class="row">
             <div *ngFor="let ep of hardware.Ep">
               {{ 'admin.assistprovisionning.alert.ep' | translate }}&nbsp;<b>{{ ep.Ep }}</b>
-              <span class="ml-2 row" *ngFor="let cluster of ep.Clusters">
+              <span class="ms-2 row" *ngFor="let cluster of ep.Clusters">
                 - {{ 'admin.assistprovisionning.alert.cluster' | translate }}&nbsp;<b
                   >{{ cluster.ClusterId }} ({{ cluster.ClusterDesc }})</b
                 >

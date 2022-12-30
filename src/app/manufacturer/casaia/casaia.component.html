@@ -1,65 +1,69 @@
-<div class="card">
-  <div class="card-header">
-    {{ 'manufacturer.casaia.header' | translate }}
-    <button
-      [disabled]="!hasEditing"
-      (click)="updateCasaiaDevices()"
-      class="btn btn-primary float-right"
-      translate="{{ 'manufacturer.casaia.validate.button' | translate }}"></button>
-  </div>
-  <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'manufacturer.casaia.subtitle' | translate"></h5>
-    <div class="card-text">
-      <input
-        type="text"
-        placeholder="{{ 'manufacturer.casaia.placeholder' | translate }}"
-        (keyup)="updateFilter($event)" />
-      <ngx-datatable
-        #table
-        [rows]="rows"
-        class="bootstrap"
-        [columnMode]="'force'"
-        [headerHeight]="40"
-        [footerHeight]="'auto'"
-        [limit]="10"
-        [rowHeight]="'auto'"
-        [messages]="{
-          emptyMessage: 'NODATA' | translate,
-          totalMessage: 'TOTAL' | translate,
-          selectedMessage: 'SELECTED' | translate
-        }">
-        <ngx-datatable-column name="{{ 'manufacturer.casaia.nwkid' | translate }}" prop="NwkId">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.NwkId }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'manufacturer.casaia.name' | translate }}" prop="Name">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.Name }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'manufacturer.casaia.ieee' | translate }}" prop="IEEE">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.IEEE }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'manufacturer.casaia.model' | translate }}" prop="Model">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.Model }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'manufacturer.casaia.ircode' | translate }}" prop="IRCode">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            <input
-              autofocus
-              (change)="updateIRCode($event, row.NwkId)"
-              type="text"
-              size="4"
-              maxlength="4"
-              [value]="row.IRCode" />
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        {{ 'manufacturer.casaia.header' | translate }}
+        <button
+          [disabled]="!hasEditing"
+          (click)="updateCasaiaDevices()"
+          class="btn btn-primary float-end"
+          translate="{{ 'manufacturer.casaia.validate.button' | translate }}"></button>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title" [innerHTML]="'manufacturer.casaia.subtitle' | translate"></h5>
+        <div class="card-text">
+          <input
+            type="text"
+            placeholder="{{ 'manufacturer.casaia.placeholder' | translate }}"
+            (keyup)="updateFilter($event)" />
+          <ngx-datatable
+            #table
+            [rows]="rows"
+            class="bootstrap"
+            [columnMode]="'force'"
+            [headerHeight]="40"
+            [footerHeight]="'auto'"
+            [limit]="10"
+            [rowHeight]="'auto'"
+            [messages]="{
+              emptyMessage: 'NODATA' | translate,
+              totalMessage: 'TOTAL' | translate,
+              selectedMessage: 'SELECTED' | translate
+            }">
+            <ngx-datatable-column name="{{ 'manufacturer.casaia.nwkid' | translate }}" prop="NwkId">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.NwkId }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'manufacturer.casaia.name' | translate }}" prop="Name">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.Name }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'manufacturer.casaia.ieee' | translate }}" prop="IEEE">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.IEEE }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'manufacturer.casaia.model' | translate }}" prop="Model">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                {{ row.Model }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="{{ 'manufacturer.casaia.ircode' | translate }}" prop="IRCode">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <input
+                  autofocus
+                  (change)="updateIRCode($event, row.NwkId)"
+                  type="text"
+                  size="4"
+                  maxlength="4"
+                  [value]="row.IRCode" />
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
     </div>
   </div>
 </div>

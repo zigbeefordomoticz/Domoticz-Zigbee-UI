@@ -13,11 +13,12 @@
         : 'bg-danger fixed-bottom'
     ">
     <div class="d-flex flex-row justify-content-between">
-      <div class="order-1 p-2 text-white ml-2">
+      <div class="order-first p-2 text-white ms-2">
         <span translate="dashboard.health.starttime"></span
-        >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+        >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy
+        HH:mm:ss' }}
       </div>
-      <div class="order-2 p-2 text-center text-white">
+      <div class="order-0 p-2 text-center text-white">
         <ng-container *ngIf="fork.pluginStats.Rxps >= 0.5 && fork.pluginStats.Txps >= 0.5; then perSecond; else other">
         </ng-container>
 
@@ -49,19 +50,19 @@
         <span>{{ 'dashboard.maxload' | translate }} : {{ fork.pluginStats.MaxLoad }} </span>
       </div>
 
-      <div class="order-3 p-2 text-center text-white">
+      <div class="order-1 p-2 text-center text-white">
         <span translate="{{ fork.pluginHealth?.HealthTxt }}"></span>
       </div>
-      <div *ngIf="fork.pluginHealth?.GroupStatus" class="order-4 p-2 text-center text-white">
+      <div *ngIf="fork.pluginHealth?.GroupStatus" class="order-2 p-2 text-center text-white">
         <span>{{ 'dashboard.health.group' | translate }} {{ fork.pluginHealth?.GroupStatus }}</span>
       </div>
 
-      <div class="order-5 p-2 text-center text-white" *ngIf="fork.pluginHealth?.OTAupdateDevice">
+      <div class="order-3 p-2 text-center text-white" *ngIf="fork.pluginHealth?.OTAupdateDevice">
         <span translate="dashboard.health.OTA"></span
         ><span>{{ fork.pluginHealth?.OTAupdateDevice }} {{ fork.pluginHealth?.OTAupdateProgress }}</span>
       </div>
 
-      <div class="order-6 p-2" *ngIf="fork.plugin?.PluginUpdate">
+      <div class="order-4 p-2" *ngIf="fork.plugin?.PluginUpdate">
         <a
           class="text-danger"
           style="cursor: pointer"
@@ -71,7 +72,7 @@
           <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
         </a>
       </div>
-      <div class="mr-2 order-7 p-2" *ngIf="fork.plugin?.FirmwareUpdate">
+      <div class="me-2 order-5 p-2" *ngIf="fork.plugin?.FirmwareUpdate">
         <a
           class="text-danger"
           style="cursor: pointer"
@@ -81,10 +82,10 @@
           <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
         </a>
       </div>
-      <div *ngIf="!fork.plugin?.PluginUpdate" class="order-6 p-2 text-white">
+      <div *ngIf="!fork.plugin?.PluginUpdate" class="order-4 p-2 text-white">
         <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
       </div>
-      <div *ngIf="!fork.plugin?.FirmwareUpdate" class="mr-2 order-7 p-2 text-white">
+      <div *ngIf="!fork.plugin?.FirmwareUpdate" class="me-2 order-5 p-2 text-white">
         <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
       </div>
     </div>

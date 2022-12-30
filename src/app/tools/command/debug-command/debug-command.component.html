@@ -1,114 +1,110 @@
-<div class="row">
-  <div class="col-sm">
-    <form [formGroup]="form">
-      <div class="card">
-        <div class="card-header" translate="tools.debugcommand.title"></div>
-        <div class="card-body">
-          <h5 class="card-title" [innerHTML]="'tools.debugcommand.subtitle' | translate"></h5>
-          <div class="card-text">
-            <div class="row">
-              <div class="col-sm-6">
-                <ng-select
-                  [items]="routers"
-                  [multiple]="false"
-                  [closeOnSelect]="true"
-                  [searchable]="true"
-                  bindLabel="ZDeviceName"
-                  placeholder="{{ 'tools.debugcommand.device' | translate }}"
-                  (change)="callCapabilities($event)"
-                  appendTo="body"
-                  formControlName="deviceSelected">
-                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                    <span [ngOptionHighlight]="search">
-                      <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
-                    >
-                  </ng-template>
-                </ng-select>
-              </div>
-              <div class="col-sm">
-                <button
-                  class="ml-3 btn btn-secondary"
-                  (click)="form.reset(); capaSelected = null"
-                  translate="tools.debugcommand.button.cancel"></button>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-sm-6">
-                <ng-select
-                  *ngIf="form.get('deviceSelected').value && capabilities"
-                  [items]="capabilities.Capabilities"
-                  bindLabel="actuator"
-                  [multiple]="false"
-                  [closeOnSelect]="true"
-                  [searchable]="true"
-                  placeholder="{{ 'tools.debugcommand.action' | translate }}"
-                  (change)="setAction($event)"
-                  appendTo="body"
-                  formControlName="action">
-                </ng-select>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-sm-6">
-                <ng-select
-                  *ngIf="capaSelected && capaSelected.Type"
-                  [items]="capabilities.Types"
-                  [multiple]="false"
-                  [closeOnSelect]="true"
-                  [searchable]="true"
-                  placeholder="{{ 'tools.debugcommand.type' | translate }}"
-                  appendTo="body"
-                  formControlName="type">
-                </ng-select>
-              </div>
-            </div>
-            <div class="row mt-2" *ngIf="capaSelected && testRGB">
-              <div class="col-sm-6">
-                <div>
-                  <span
-                    [style.background]="colorPicker"
-                    [cpToggle]="true"
-                    [cpDialogDisplay]="'inline'"
-                    [(colorPicker)]="colorPicker"
-                    [cpOutputFormat]="'rgba'"></span>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-2" *ngIf="capaSelected && capaSelected.Value === 'hex'">
-              <div class="col-sm-6">
-                <div>
-                  <input
-                    type="text"
-                    formControlName="effect"
-                    placeholder="{{ 'tools.debugcommand.value' | translate }}"
-                    class="w-100 form-control" />
-                  <div *ngIf="form.controls['effect'].errors" translate="tools.debugcommand.effect.error"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-2" *ngIf="capaSelected && capaSelected.Value === 'int'">
-              <div class="col-sm-6">
-                <div>
-                  <input
-                    type="number"
-                    min="0"
-                    formControlName="level"
-                    placeholder="{{ 'tools.debugcommand.value' | translate }}"
-                    class="w-100 form-control" />
-                  <div *ngIf="!form.controls['level'].valid" translate="tools.debugcommand.level.error"></div>
-                </div>
-              </div>
-            </div>
-            <div class="row mt-2">
-              <button
-                class="ml-3 btn btn-primary"
-                (click)="callAction()"
-                [disabled]="!form.valid"
-                translate="tools.debugcommand.button.send"></button>
+<form [formGroup]="form">
+  <div class="card h-100">
+    <div class="card-header" translate="tools.debugcommand.title"></div>
+    <div class="card-body">
+      <h5 class="card-title" [innerHTML]="'tools.debugcommand.subtitle' | translate"></h5>
+      <div class="card-text">
+        <div class="row">
+          <div class="col-sm-6">
+            <ng-select
+              [items]="routers"
+              [multiple]="false"
+              [closeOnSelect]="true"
+              [searchable]="true"
+              bindLabel="ZDeviceName"
+              placeholder="{{ 'tools.debugcommand.device' | translate }}"
+              (change)="callCapabilities($event)"
+              appendTo="body"
+              formControlName="deviceSelected">
+              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                <span [ngOptionHighlight]="search">
+                  <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
+                >
+              </ng-template>
+            </ng-select>
+          </div>
+          <div class="col-sm">
+            <button
+              class="ms-3 btn btn-secondary"
+              (click)="form.reset(); capaSelected = null"
+              translate="tools.debugcommand.button.cancel"></button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm-6">
+            <ng-select
+              *ngIf="form.get('deviceSelected').value && capabilities"
+              [items]="capabilities.Capabilities"
+              bindLabel="actuator"
+              [multiple]="false"
+              [closeOnSelect]="true"
+              [searchable]="true"
+              placeholder="{{ 'tools.debugcommand.action' | translate }}"
+              (change)="setAction($event)"
+              appendTo="body"
+              formControlName="action">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm-6">
+            <ng-select
+              *ngIf="capaSelected && capaSelected.Type"
+              [items]="capabilities.Types"
+              [multiple]="false"
+              [closeOnSelect]="true"
+              [searchable]="true"
+              placeholder="{{ 'tools.debugcommand.type' | translate }}"
+              appendTo="body"
+              formControlName="type">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row mt-2" *ngIf="capaSelected && testRGB">
+          <div class="col-sm-6">
+            <div>
+              <span
+                [style.background]="colorPicker"
+                [cpToggle]="true"
+                [cpDialogDisplay]="'inline'"
+                [(colorPicker)]="colorPicker"
+                [cpOutputFormat]="'rgba'"></span>
             </div>
           </div>
         </div>
+        <div class="row mt-2" *ngIf="capaSelected && capaSelected.Value === 'hex'">
+          <div class="col-sm-6">
+            <div>
+              <input
+                type="text"
+                formControlName="effect"
+                placeholder="{{ 'tools.debugcommand.value' | translate }}"
+                class="w-100 form-control" />
+              <div *ngIf="form.controls['effect'].errors" translate="tools.debugcommand.effect.error"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2" *ngIf="capaSelected && capaSelected.Value === 'int'">
+          <div class="col-sm-6">
+            <div>
+              <input
+                type="number"
+                min="0"
+                formControlName="level"
+                placeholder="{{ 'tools.debugcommand.value' | translate }}"
+                class="w-100 form-control" />
+              <div *ngIf="!form.controls['level'].valid" translate="tools.debugcommand.level.error"></div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            class="btn btn-primary"
+            (click)="callAction()"
+            [disabled]="!form.valid"
+            translate="tools.debugcommand.button.send"></button>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
-</div>
+</form>

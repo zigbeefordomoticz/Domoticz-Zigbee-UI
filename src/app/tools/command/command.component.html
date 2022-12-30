@@ -1,11 +1,5 @@
-<div class="row">
-  <div class="col-sm-6">
-    <app-debug-command></app-debug-command>
-  </div>
-  <div class="col-sm-6" *ngIf="!plugin?.Zigpy">
-    <app-raw-command></app-raw-command>
-  </div>
-  <div class="col-sm-6" *ngIf="plugin?.Zigpy">
-    <app-raw-command-zigpy></app-raw-command-zigpy>
-  </div>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  <app-debug-command></app-debug-command>
+  <app-raw-command *ngIf="!plugin?.Zigpy"></app-raw-command>
+  <app-raw-command-zigpy *ngIf="plugin?.Zigpy"></app-raw-command-zigpy>
 </div>

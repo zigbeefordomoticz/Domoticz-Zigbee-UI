@@ -49,11 +49,11 @@
           </div>
           <div class="col-auto mt-2">
             <input formControlName="force" id="force" type="checkbox" class="form-control-checkbox" />
-            <label class="ml-3 col-form-label" for="force" translate="admin.firmware.force"></label>
+            <label class="col-form-label" for="force" translate="admin.firmware.force"></label>
           </div>
-          <div class="row mt-2">
+          <div class="d-flex justify-content-end mt-3">
             <button
-              class="ml-3 btn btn-primary"
+              class="btn btn-primary"
               (click)="open(content)"
               [disabled]="!form.valid"
               translate="admin.firmware.button.update"></button>

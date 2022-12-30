@@ -1,64 +1,68 @@
-<div class="card">
-  <div class="card-header">
-    {{ 'manufacturer.zlinky.header' | translate }}
-  </div>
-  <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'manufacturer.zlinky.subtitle' | translate"></h5>
-    <div class="card-text">
-      <ng-select
-        class="w-25"
-        [items]="zlinkys$ | async"
-        [multiple]="false"
-        [closeOnSelect]="true"
-        [searchable]="true"
-        bindLabel="ZDeviceName"
-        placeholder="{{ 'manufacturer.zlinky.placeholder' | translate }}"
-        (change)="getConfiguration($event)"
-        (clear)="deviceSelected = null"
-        appendTo="body">
-        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-          <span [ngOptionHighlight]="search">
-            <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item.Nwkid }}</span
-          >
-        </ng-template>
-      </ng-select>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        {{ 'manufacturer.zlinky.header' | translate }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title" [innerHTML]="'manufacturer.zlinky.subtitle' | translate"></h5>
+        <div class="card-text">
+          <ng-select
+            class="w-25"
+            [items]="zlinkys$ | async"
+            [multiple]="false"
+            [closeOnSelect]="true"
+            [searchable]="true"
+            bindLabel="ZDeviceName"
+            placeholder="{{ 'manufacturer.zlinky.placeholder' | translate }}"
+            (change)="getConfiguration($event)"
+            (clear)="deviceSelected = null"
+            appendTo="body">
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              <span [ngOptionHighlight]="search">
+                <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item.Nwkid }}</span
+              >
+            </ng-template>
+          </ng-select>
 
-      <p class="mt-3 mb-3 font-weight-bold" *ngIf="deviceSelected">
-        {{ 'manufacturer.zlinky.'.concat(deviceSelected.protocole) | translate }}
-      </p>
+          <p class="mt-3 mb-3 font-weight-bold" *ngIf="deviceSelected">
+            {{ 'manufacturer.zlinky.'.concat(deviceSelected.protocole) | translate }}
+          </p>
 
-      <ngx-datatable
-        *ngIf="deviceSelected"
-        #table
-        [rows]="deviceSelected.ParametersForDisplay"
-        class="bootstrap"
-        [columnMode]="'force'"
-        [headerHeight]="40"
-        [footerHeight]="'auto'"
-        [limit]="10"
-        [rowHeight]="'auto'"
-        [messages]="{
-          emptyMessage: 'NODATA' | translate,
-          totalMessage: 'TOTAL' | translate,
-          selectedMessage: 'SELECTED' | translate
-        }">
-        <ngx-datatable-column prop="key">
-          <ng-template ngx-datatable-header-template>
-            <span>{{ 'manufacturer.zlinky.key' | translate }}</span>
-          </ng-template>
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ 'manufacturer.zlinky.'.concat(row.key) | translate }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column prop="value">
-          <ng-template ngx-datatable-header-template>
-            <span>{{ 'manufacturer.zlinky.value' | translate }}</span>
-          </ng-template>
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.value }}
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
+          <ngx-datatable
+            *ngIf="deviceSelected"
+            #table
+            [rows]="deviceSelected.ParametersForDisplay"
+            class="bootstrap"
+            [columnMode]="'force'"
+            [headerHeight]="40"
+            [footerHeight]="'auto'"
+            [limit]="10"
+            [rowHeight]="'auto'"
+            [messages]="{
+              emptyMessage: 'NODATA' | translate,
+              totalMessage: 'TOTAL' | translate,
+              selectedMessage: 'SELECTED' | translate
+            }">
+            <ngx-datatable-column prop="key">
+              <ng-template ngx-datatable-header-template>
+                <span>{{ 'manufacturer.zlinky.key' | translate }}</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ 'manufacturer.zlinky.'.concat(row.key) | translate }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="value">
+              <ng-template ngx-datatable-header-template>
+                <span>{{ 'manufacturer.zlinky.value' | translate }}</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.value }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
     </div>
   </div>
 </div>
