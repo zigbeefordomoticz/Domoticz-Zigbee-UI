@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-sm">
+<div class="row row-cols-1 row-cols-1 g-4">
+  <div class="col">
     <div class="card">
       <div class="card-header">
         {{ 'dashboard.trafic.title' | translate }}
@@ -10,15 +10,12 @@
           translate="dashboard.button.refresh"></button>
       </div>
       <div class="card-body" *ngIf="pluginStats">
-        <div class="row">
-          <div class="col-sm-4">
-            <div class="row">
-              <div class="col-sm" [innerHTML]="'dashboard.healthgraph.title' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
+        <div class="row row-cols-1 row-cols-sm-3 g-4">
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.healthgraph.title' | translate"></div>
+            <div class="col-sm-1"></div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
-                [view]="[400, 150]"
                 [results]="advancedPieState"
                 [animations]="animations"
                 [gradient]="gradient"
@@ -34,14 +31,11 @@
               <div class="col-sm-1"></div>
             </div>
           </div>
-          <div class="col-sm-4">
-            <div class="row">
-              <div class="col-sm" [innerHTML]="'dashboard.traffic.title' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.traffic.title' | translate"></div>
+            <div class="col-sm-1"></div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
-                [view]="[400, 150]"
                 [results]="advancedPieSent"
                 [animations]="animations"
                 [gradient]="gradient"
@@ -56,11 +50,9 @@
               <div class="col-sm-1"></div>
             </div>
           </div>
-          <div class="col-sm-4">
-            <div class="row">
-              <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
+            <div class="col-sm-1"></div>
             <div class="row">
               <div class="col-sm" [chart]="chart"></div>
             </div>
@@ -73,21 +65,16 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row mt-3">
   <div class="col-sm">
     <div class="card">
       <div class="card-header" translate="dashboard.devices.title"></div>
       <div class="card-body" *ngIf="pluginStats">
-        <div class="row">
-          <div class="col-sm-4">
-            <div class="row">
-              <div class="col-sm" [innerHTML]="'dashboard.device.title' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
+        <div class="row row-cols-1 row-cols-sm-3 g-4">
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.device.title' | translate"></div>
+            <div class="col-sm-1"></div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
-                [view]="[400, 150]"
                 [results]="advancedPieDevice"
                 [animations]="animations"
                 [gradient]="gradient"
@@ -103,14 +90,11 @@
               <div class="col-sm-1"></div>
             </div>
           </div>
-          <div class="col-sm-4">
-            <div class="row">
-              <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
+            <div class="col-sm-1"></div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
-                [view]="[400, 150]"
                 [results]="advancedPieBattery"
                 [animations]="animations"
                 [gradient]="gradient"
@@ -126,14 +110,11 @@
               <div class="col-sm-1"></div>
             </div>
           </div>
-          <div class="col-sm-4">
-            <div class="row">
-              <div class="col-sm" [innerHTML]="'dashboard.optimized.title' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.optimized.title' | translate"></div>
+            <div class="col-sm-1"></div>
             <div class="row">
               <ngx-charts-advanced-pie-chart
-                [view]="[400, 150]"
                 [results]="advancedPieCertified"
                 [animations]="animations"
                 [gradient]="gradient"
@@ -153,17 +134,23 @@
       </div>
     </div>
   </div>
-</div>
 
-<div class="consent-banner" *ngIf="showConsent">
-  <div class="consent-banner__inner">
-    <div class="consent-banner__copy">
-      <div class="consent-banner__header" [innerHtml]="'consent.banner.header' | translate"></div>
-      <div class="consent-banner__description" [innerHtml]="'consent.banner.description' | translate"></div>
-    </div>
-    <div>
-      <button (click)="consent(false)" class="col-sm-2 ms-3 btn btn-danger" translate="consent.banner.decline"></button>
-      <button (click)="consent(true)" class="col-sm-2 ms-3 btn btn-primary" translate="consent.banner.accept"></button>
+  <div class="consent-banner" *ngIf="showConsent">
+    <div class="consent-banner__inner">
+      <div class="consent-banner__copy">
+        <div class="consent-banner__header" [innerHtml]="'consent.banner.header' | translate"></div>
+        <div class="consent-banner__description" [innerHtml]="'consent.banner.description' | translate"></div>
+      </div>
+      <div>
+        <button
+          (click)="consent(false)"
+          class="col-sm-2 ms-3 btn btn-danger"
+          translate="consent.banner.decline"></button>
+        <button
+          (click)="consent(true)"
+          class="col-sm-2 ms-3 btn btn-primary"
+          translate="consent.banner.accept"></button>
+      </div>
     </div>
   </div>
 </div>
