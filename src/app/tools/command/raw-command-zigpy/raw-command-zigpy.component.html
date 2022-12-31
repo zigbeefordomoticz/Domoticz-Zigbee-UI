@@ -1,8 +1,8 @@
 <form [formGroup]="form">
   <div class="card h-100">
-    <div class="card-header" translate="tools.rawcommand-zigpy.title"></div>
+    <div class="card-header fw-bold" translate="tools.rawcommand-zigpy.title"></div>
     <div class="card-body">
-      <h5 class="card-title" [innerHTML]="'tools.rawcommand-zigpy.subtitle' | translate"></h5>
+      <p class="card-text" [innerHTML]="'tools.rawcommand-zigpy.subtitle' | translate"></p>
       <div class="card-text">
         <div class="row">
           <div class="col-sm">
@@ -126,14 +126,14 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-end">
-          <button
-            class="btn btn-primary"
-            (click)="putCommand()"
-            [disabled]="!form.valid"
-            translate="tools.rawcommand-zigpy.button.send"></button>
-        </div>
       </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button
+        class="btn btn-primary"
+        (click)="putCommand()"
+        [disabled]="!form.valid"
+        translate="tools.rawcommand-zigpy.button.send"></button>
     </div>
   </div>
 </form>

@@ -1,7 +1,7 @@
 <div class="card h-100">
-  <div class="card-header" translate="admin.plugin.update.title"></div>
+  <div class="card-header fw-bold" translate="admin.plugin.update.title"></div>
   <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'admin.plugin.update.subtitle' | translate"></h5>
+    <p class="card-text" [innerHTML]="'admin.plugin.update.subtitle' | translate"></p>
     <div class="card-text">
       <ngx-spinner
         bdColor="rgba(0, 0, 0, 0.5)"
@@ -14,13 +14,13 @@
         <p class="text-white">Loading...</p>
       </ngx-spinner>
       <span class="mt-3" [innerHTML]="message | nl2br"></span>
-      <span class="d-flex justify-content-end">
-        <button
-          [disabled]="load"
-          class="justify-content-end mt-3 btn btn-primary"
-          (click)="updatePlugin()"
-          translate="admin.plugin.update.button"></button>
-      </span>
     </div>
+  </div>
+  <div class="card-footer d-flex justify-content-end">
+    <button
+      [disabled]="load"
+      class="btn btn-primary"
+      (click)="updatePlugin()"
+      translate="admin.plugin.update.button"></button>
   </div>
 </div>

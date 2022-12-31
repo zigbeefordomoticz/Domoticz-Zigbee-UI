@@ -1,9 +1,9 @@
 <div class="card h-100">
-  <div class="card-header" translate="admin.rescan.group.title"></div>
+  <div class="card-header fw-bold" translate="admin.rescan.group.title"></div>
   <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'admin.rescan.group.subtitle' | translate"></h5>
-    <div class="card-text d-flex justify-content-end mt-3">
-      <button class="btn btn-primary" (click)="rescanGroup()" translate="admin.rescan.group.button"></button>
-    </div>
+    <p class="card-text" [innerHTML]="'admin.rescan.group.subtitle' | translate"></p>
+  </div>
+  <div class="card-footer d-flex justify-content-end">
+    <button class="btn btn-primary" (click)="rescanGroup()" translate="admin.rescan.group.button"></button>
   </div>
 </div>

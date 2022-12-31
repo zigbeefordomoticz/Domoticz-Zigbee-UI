@@ -1,63 +1,62 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <div class="col">
     <div class="card h-100" [formGroup]="form">
-      <div class="card-header" translate="admin.firmware.title"></div>
+      <div class="card-header fw-bold" translate="admin.firmware.title"></div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'admin.firmware.subtitle' | translate"></h5>
-        <div class="card-text">
-          <div class="row">
-            <div class="col-sm">
+        <p class="card-text" [innerHTML]="'admin.firmware.subtitle' | translate"></p>
+        <div class="row">
+          <div class="col-sm">
+            <ng-select
+              [items]="manufacturerList$ | async"
+              [multiple]="false"
+              [closeOnSelect]="true"
+              placeholder="{{ 'admin.firmware.manufacturer.list' | translate }}"
+              appendTo="body"
+              formControlName="manufacturer">
+            </ng-select>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm">
+            <div *ngIf="firmwares">
               <ng-select
-                [items]="manufacturerList$ | async"
+                [items]="firmwares"
                 [multiple]="false"
                 [closeOnSelect]="true"
-                placeholder="{{ 'admin.firmware.manufacturer.list' | translate }}"
+                placeholder="{{ 'admin.firmware.list' | translate }}"
                 appendTo="body"
-                formControlName="manufacturer">
+                bindLabel="label"
+                formControlName="firmware">
               </ng-select>
             </div>
           </div>
-          <div class="row mt-2">
-            <div class="col-sm">
-              <div *ngIf="firmwares">
-                <ng-select
-                  [items]="firmwares"
-                  [multiple]="false"
-                  [closeOnSelect]="true"
-                  placeholder="{{ 'admin.firmware.list' | translate }}"
-                  appendTo="body"
-                  bindLabel="label"
-                  formControlName="firmware">
-                </ng-select>
-              </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-sm">
+            <div *ngIf="devicesList$">
+              <ng-select
+                [items]="devicesList$ | async"
+                [multiple]="true"
+                [closeOnSelect]="true"
+                placeholder="{{ 'admin.firmware.devices.list' | translate }}"
+                appendTo="body"
+                bindLabel="label"
+                formControlName="device">
+              </ng-select>
             </div>
           </div>
-          <div class="row mt-2">
-            <div class="col-sm">
-              <div *ngIf="devicesList$">
-                <ng-select
-                  [items]="devicesList$ | async"
-                  [multiple]="true"
-                  [closeOnSelect]="true"
-                  placeholder="{{ 'admin.firmware.devices.list' | translate }}"
-                  appendTo="body"
-                  bindLabel="label"
-                  formControlName="device">
-                </ng-select>
-              </div>
-            </div>
-          </div>
-          <div class="col-auto mt-2">
-            <input formControlName="force" id="force" type="checkbox" class="form-control-checkbox" />
-            <label class="col-form-label" for="force" translate="admin.firmware.force"></label>
-          </div>
-          <div class="d-flex justify-content-end mt-3">
-            <button
-              class="btn btn-primary"
-              (click)="open(content)"
-              [disabled]="!form.valid"
-              translate="admin.firmware.button.update"></button>
-          </div>
+        </div>
+        <div class="col-auto mt-2">
+          <input formControlName="force" id="force" type="checkbox" class="form-control-checkbox" />
+          <label class="col-form-label" for="force" translate="admin.firmware.force"></label>
+        </div>
+
+        <div class="card-footer d-flex justify-content-end">
+          <button
+            class="btn btn-primary"
+            (click)="open(content)"
+            [disabled]="!form.valid"
+            translate="admin.firmware.button.update"></button>
         </div>
       </div>
     </div>

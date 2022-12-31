@@ -30,11 +30,6 @@ $theme-colors: (
   "primary": #08d
 );
 
-h5,
-.h5 {
-  font-size: 0.9rem;
-}
-
 //
 // These variables can be used to customize the switch component.
 //
@@ -221,4 +216,11 @@ ng-select {
 
 a {
   text-decoration: none;
+}
+
+.card-footer {
+  padding: 2;
+  color: transparent;
+  background-color: transparent;
+  border-top: 0;
 }

@@ -1,9 +1,9 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <form [formGroup]="form">
     <div class="card">
-      <div class="card-header" translate="tools.binding.title"></div>
+      <div class="card-header fw-bold" translate="tools.binding.title"></div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'tools.binding.subtitle' | translate"></h5>
+        <p class="card-text" [innerHTML]="'tools.binding.subtitle' | translate"></p>
         <div class="card-text">
           <div class="row">
             <div class="col-sm-6">
@@ -64,19 +64,19 @@
               </div>
             </div>
           </div>
-          <div class="d-flex justify-content-end">
-            <button
-              class="btn btn-primary"
-              (click)="putBinding()"
-              [disabled]="!form.valid"
-              translate="tools.binding.button.put"></button>
-            <button
-              class="ms-2 btn btn-primary"
-              (click)="putUnBinding()"
-              [disabled]="!form.valid"
-              translate="tools.unbinding.button.put"></button>
-          </div>
         </div>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+        <button
+          class="btn btn-primary"
+          (click)="putBinding()"
+          [disabled]="!form.valid"
+          translate="tools.binding.button.put"></button>
+        <button
+          class="ms-2 btn btn-primary"
+          (click)="putUnBinding()"
+          [disabled]="!form.valid"
+          translate="tools.unbinding.button.put"></button>
       </div>
     </div>
   </form>

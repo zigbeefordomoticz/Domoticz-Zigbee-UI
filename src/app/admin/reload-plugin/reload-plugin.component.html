@@ -1,10 +1,10 @@
 <div class="card h-100">
-  <div class="card-header" translate="admin.plugin.reload.title"></div>
+  <div class="card-header fw-bold" translate="admin.plugin.reload.title"></div>
   <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'admin.plugin.reload.subtitle' | translate"></h5>
-    <div class="card-text d-flex justify-content-end">
-      <button class="btn btn-primary mt-3" (click)="open(content)" translate="admin.plugin.reload.button"></button>
-    </div>
+    <p class="card-text" [innerHTML]="'admin.plugin.reload.subtitle' | translate"></p>
+  </div>
+  <div class="card-footer d-flex justify-content-end">
+    <button class="btn btn-primary mt-3" (click)="open(content)" translate="admin.plugin.reload.button"></button>
   </div>
 </div>
 

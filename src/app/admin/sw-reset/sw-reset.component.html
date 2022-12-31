@@ -1,9 +1,9 @@
 <div class="card h-100">
-  <div class="card-header" translate="admin.coordinator.swreset.title"></div>
+  <div class="card-header fw-bold" translate="admin.coordinator.swreset.title"></div>
   <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'admin.coordinator.swreset.subtitle' | translate"></h5>
-    <div class="card-text d-flex justify-content-end mt-3">
-      <button class="btn btn-primary" (click)="swReset($event)" translate="admin.coordinator.swreset.button"></button>
-    </div>
+    <p class="card-text" [innerHTML]="'admin.coordinator.swreset.subtitle' | translate"></p>
+  </div>
+  <div class="card-footer d-flex justify-content-end">
+    <button class="btn btn-primary" (click)="swReset($event)" translate="admin.coordinator.swreset.button"></button>
   </div>
 </div>

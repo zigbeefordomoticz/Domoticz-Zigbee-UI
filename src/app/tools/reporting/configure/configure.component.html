@@ -1,27 +1,27 @@
 <div class="col">
   <div class="card">
-    <div class="card-header">
-      {{ 'tools.reporting.configure.title' | translate }}
-      <span class="d-flex justify-content-end">
+    <div class="card-header d-flex">
+      <div class="col fw-bold justify-content-start">{{ 'tools.reporting.configure.title' | translate }}</div>
+      <div class="col d-flex justify-content-end">
         <button
           [disabled]="!deviceSelected"
           (click)="resetConfiguration()"
-          class="btn btn-danger float-right ms-3"
+          class="btn btn-danger"
           translate="{{ 'tools.reporting.configure.reset.button' | translate }}"></button>
         <button
           [disabled]="!deviceSelected"
           (click)="triggerConfiguration()"
-          class="btn btn-secondary float-right ms-3"
+          class="btn btn-secondary ms-3"
           translate="{{ 'tools.reporting.configure.trigger.button' | translate }}"></button>
         <button
           [disabled]="!permitToValidate"
           (click)="putConfiguration()"
-          class="btn btn-primary float-right ms-3"
+          class="btn btn-primary ms-3"
           translate="{{ 'tools.reporting.configure.validate.button' | translate }}"></button>
-      </span>
+      </div>
     </div>
     <div class="card-body">
-      <h5 class="card-title" [innerHTML]="'tools.reporting.configure.subtitle' | translate"></h5>
+      <p class="card-text" [innerHTML]="'tools.reporting.configure.subtitle' | translate"></p>
       <div class="card-text">
         <div class="row">
           <div class="col-sm-6">

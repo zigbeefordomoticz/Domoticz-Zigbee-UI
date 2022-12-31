@@ -1,8 +1,8 @@
 <form [formGroup]="form">
   <div class="card h-100">
-    <div class="card-header" translate="admin.permittojoinrouter.title"></div>
+    <div class="card-header fw-bold" translate="admin.permittojoinrouter.title"></div>
     <div class="card-body">
-      <h5 class="card-title" [innerHTML]="'admin.permittojoinrouter.subtitle' | translate"></h5>
+      <p class="card-text" [innerHTML]="'admin.permittojoinrouter.subtitle' | translate"></p>
       <div class="card-text">
         <div class="row">
           <div class="col-sm">
@@ -22,19 +22,19 @@
             </ng-select>
           </div>
         </div>
-        <div class="d-flex justify-content-end mt-3">
-          <button
-            class="btn btn-success"
-            (click)="updatePermitToJoin(240)"
-            translate="admin.permittojoin.4min.button"
-            [disabled]="!form.valid"></button>
-          <button
-            class="ms-2 btn btn-secondary"
-            (click)="updatePermitToJoin(0)"
-            translate="admin.permittojoin.stop.button"
-            [disabled]="permitToJoin?.PermitToJoin === 0"></button>
-        </div>
       </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button
+        class="btn btn-success"
+        (click)="updatePermitToJoin(240)"
+        translate="admin.permittojoin.4min.button"
+        [disabled]="!form.valid"></button>
+      <button
+        class="ms-2 btn btn-secondary"
+        (click)="updatePermitToJoin(0)"
+        translate="admin.permittojoin.stop.button"
+        [disabled]="permitToJoin?.PermitToJoin === 0"></button>
     </div>
   </div>
 </form>

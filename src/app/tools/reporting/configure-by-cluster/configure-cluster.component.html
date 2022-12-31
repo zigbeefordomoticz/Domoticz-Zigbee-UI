@@ -2,7 +2,7 @@
   #table
   [rows]="clustersToDisplay"
   class="bootstrap"
-  [columnMode]="'force'"
+  [columnMode]="'standard'"
   [headerHeight]="40"
   [rowHeight]="'auto'"
   [messages]="{
@@ -10,34 +10,22 @@
     totalMessage: 'TOTAL' | translate,
     selectedMessage: 'SELECTED' | translate
   }">
-  <ngx-datatable-column
-    [maxWidth]="100"
-    name="{{ 'tools.reporting.configure.clusterId.column' | translate }}"
-    prop="clusterId">
+  <ngx-datatable-column name="{{ 'tools.reporting.configure.clusterId.column' | translate }}" prop="clusterId">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.clusterId }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column
-    [maxWidth]="100"
-    name="{{ 'tools.reporting.configure.attributeId.column' | translate }}"
-    prop="attributeId">
+  <ngx-datatable-column name="{{ 'tools.reporting.configure.attributeId.column' | translate }}" prop="attributeId">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.attributeId }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column
-    [maxWidth]="100"
-    name="{{ 'tools.reporting.configure.dataType.column' | translate }}"
-    prop="dataType">
+  <ngx-datatable-column name="{{ 'tools.reporting.configure.dataType.column' | translate }}" prop="dataType">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.dataType }}
     </ng-template>
   </ngx-datatable-column>
-  <ngx-datatable-column
-    [maxWidth]="150"
-    name="{{ 'tools.reporting.configure.timeout.column' | translate }}"
-    prop="timeOut">
+  <ngx-datatable-column name="{{ 'tools.reporting.configure.timeout.column' | translate }}" prop="timeOut">
     <ng-template ngx-datatable-cell-template let-row="row">
       {{ row.timeOut }}
     </ng-template>

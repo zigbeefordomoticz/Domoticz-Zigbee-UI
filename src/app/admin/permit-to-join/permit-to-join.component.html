@@ -1,17 +1,17 @@
 <div class="card h-100">
-  <div class="card-header" translate="admin.permittojoin.title"></div>
+  <div class="card-header fw-bold" translate="admin.permittojoin.title"></div>
   <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'admin.permittojoin.subtitle' | translate"></h5>
-    <div class="card-text d-flex justify-content-end mt-3">
-      <button
-        class="btn btn-secondary"
-        (click)="updatePermitToJoin(0)"
-        translate="admin.permittojoin.stop.button"
-        [disabled]="permitToJoin?.PermitToJoin === 0"></button>
-      <button
-        class="ms-2 btn btn-success"
-        (click)="updatePermitToJoin(240)"
-        translate="admin.permittojoin.4min.button"></button>
-    </div>
+    <p class="card-text" [innerHTML]="'admin.permittojoin.subtitle' | translate"></p>
+  </div>
+  <div class="card-footer d-flex justify-content-end">
+    <button
+      class="btn btn-secondary"
+      (click)="updatePermitToJoin(0)"
+      translate="admin.permittojoin.stop.button"
+      [disabled]="permitToJoin?.PermitToJoin === 0"></button>
+    <button
+      class="ms-2 btn btn-success"
+      (click)="updatePermitToJoin(240)"
+      translate="admin.permittojoin.4min.button"></button>
   </div>
 </div>

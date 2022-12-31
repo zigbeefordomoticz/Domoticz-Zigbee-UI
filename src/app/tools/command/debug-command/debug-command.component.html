@@ -1,8 +1,8 @@
 <form [formGroup]="form">
   <div class="card h-100">
-    <div class="card-header" translate="tools.debugcommand.title"></div>
+    <div class="card-header fw-bold" translate="tools.debugcommand.title"></div>
     <div class="card-body">
-      <h5 class="card-title" [innerHTML]="'tools.debugcommand.subtitle' | translate"></h5>
+      <p class="card-text" [innerHTML]="'tools.debugcommand.subtitle' | translate"></p>
       <div class="card-text">
         <div class="row">
           <div class="col-sm-6">
@@ -97,14 +97,14 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-end">
-          <button
-            class="btn btn-primary"
-            (click)="callAction()"
-            [disabled]="!form.valid"
-            translate="tools.debugcommand.button.send"></button>
-        </div>
       </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button
+        class="btn btn-primary"
+        (click)="callAction()"
+        [disabled]="!form.valid"
+        translate="tools.debugcommand.button.send"></button>
     </div>
   </div>
 </form>

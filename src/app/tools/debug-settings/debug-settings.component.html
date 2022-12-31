@@ -36,10 +36,10 @@
     <div class="col">
       <div *ngFor="let listOfSettings of settings">
         <div class="card" *ngIf="hasBasicSettings(listOfSettings.ListOfSettings)">
-          <div class="card-header" [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
+          <div class="card-header fw-bold" [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
           <div class="card-body">
-            <div class="card-title">
-              <h5 [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></h5>
+            <div class="card-text">
+              <p [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></p>
             </div>
             <div class="card-text d-flex align-self-center flex-wrap">
               <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">

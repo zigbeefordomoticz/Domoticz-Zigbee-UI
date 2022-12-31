@@ -1,8 +1,8 @@
 <form [formGroup]="form">
   <div class="card h-100">
-    <div class="card-header" translate="admin.recreate.title"></div>
+    <div class="card-header fw-bold" translate="admin.recreate.title"></div>
     <div class="card-body">
-      <h5 class="card-title" [innerHTML]="'admin.recreate.subtitle' | translate"></h5>
+      <p class="card-text" [innerHTML]="'admin.recreate.subtitle' | translate"></p>
       <div class="card-text">
         <div class="row">
           <div class="col-sm">
@@ -22,14 +22,14 @@
             </ng-select>
           </div>
         </div>
-        <div class="d-flex justify-content-end mt-3">
-          <button
-            class="btn btn-primary"
-            (click)="recreate()"
-            translate="admin.recreate.button"
-            [disabled]="form.invalid"></button>
-        </div>
       </div>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button
+        class="btn btn-primary"
+        (click)="recreate()"
+        translate="admin.recreate.button"
+        [disabled]="form.invalid"></button>
     </div>
   </div>
 </form>
