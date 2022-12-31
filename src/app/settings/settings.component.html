@@ -2,7 +2,7 @@
   <fieldset class="h-100">
     <legend>
       <div class="row">
-        <div class="col-sm-8" [innerHTML]="'setting.help.legend' | translate"></div>
+        <h5 class="col-sm-8" [innerHTML]="'setting.help.legend' | translate"></h5>
         <div class="col-sm-4">
           <div class="d-flex flex-row-reverse align-items-center">
             <div class="p-2">
@@ -28,16 +28,14 @@
         </div>
       </div>
     </legend>
-    <h5 class="card-title" [innerHTML]="'setting.help.link' | translate"></h5>
+    <p class="card-text" [innerHTML]="'setting.help.link' | translate"></p>
   </fieldset>
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
     <div *ngFor="let listOfSettings of settings">
       <div class="card" *ngIf="hasBasicSettings(listOfSettings.ListOfSettings)">
-        <div class="card-header" [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
+        <div class="card-header fw-bold" [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
         <div class="card-body">
-          <div class="card-title">
-            <h5 [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></h5>
-          </div>
+          <p class="card-text" [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></p>
           <div class="card-text">
             <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
               <app-setting [setting]="setting" [advanced]="advanced"></app-setting>
