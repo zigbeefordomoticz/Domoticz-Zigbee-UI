@@ -1,9 +1,9 @@
 <div class="card">
-  <div class="card-header" translate="network.topology.req.header"></div>
+  <div class="card-header fw-bold" translate="network.topology.req.header"></div>
   <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'network.topology.req.subtitle' | translate"></h5>
-    <div class="card-text d-flex justify-content-end">
-      <button class="btn btn-light" (click)="reqTopology()" translate="network.topology.req.button"></button>
-    </div>
+    <p class="card-text" [innerHTML]="'network.topology.req.subtitle' | translate"></p>
+  </div>
+  <div class="card-footer d-flex justify-content-end">
+    <button class="btn btn-light" (click)="reqTopology()" translate="network.topology.req.button"></button>
   </div>
 </div>

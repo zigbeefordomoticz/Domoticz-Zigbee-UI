@@ -1,18 +1,18 @@
 <div class="row row-cols-1 row-cols-md-2 g-4 mt-1">
   <div class="col">
     <div class="card" *ngIf="chart1">
-      <div class="card-header" translate="network.topo.visu.header"></div>
+      <div class="card-header fw-bold" translate="network.topo.visu.header"></div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'network.topo.visu.subtitle' | translate"></h5>
+        <p class="card-text" [innerHTML]="'network.topo.visu.subtitle' | translate"></p>
         <div class="card-text" [chart]="chart1"></div>
       </div>
     </div>
   </div>
   <div class="col">
     <div class="card" *ngIf="chart2">
-      <div class="card-header" translate="network.topo.visu.network.header"></div>
+      <div class="card-header fw-bold" translate="network.topo.visu.network.header"></div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'network.topo.visu.network.subtitle' | translate"></h5>
+        <p class="card-text" [innerHTML]="'network.topo.visu.network.subtitle' | translate"></p>
         <div class="card-text">
           <div>
             <form [formGroup]="form">
@@ -41,11 +41,11 @@
             <div class="col">
               <div class="card">
                 <div
-                  class="card-header"
+                  class="card-header fw-bold"
                   translate="network.topo.visu.network.relation.header"
                   [translateParams]="{ deviceSelected: selectedPoint.name }"></div>
                 <div class="card-body">
-                  <h5 class="card-title" [innerHTML]="'network.topo.visu.network.relation.subtitle' | translate"></h5>
+                  <p class="card-text" [innerHTML]="'network.topo.visu.network.relation.subtitle' | translate"></p>
                   <div class="card-text">
                     <ngx-datatable
                       [rows]="relationsSelected"

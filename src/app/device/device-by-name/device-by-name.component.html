@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header fw-bold">
     {{ 'device.byname.header' | translate }}
     <button
       [disabled]="!hasEditing"
@@ -8,10 +8,10 @@
       translate="{{ 'device.byname.validate.button' | translate }}"></button>
   </div>
   <div class="card-body">
-    <h5
-      class="card-title"
+    <p
+      class="card-text"
       [innerHTML]="'group.create.subtitle' | translate"
-      [innerHTML]="'device.byname.subtitle' | translate"></h5>
+      [innerHTML]="'device.byname.subtitle' | translate"></p>
     <div class="card-text">
       <input type="text" placeholder="{{ 'device.byname.placeholder' | translate }}" (keyup)="updateFilter($event)" />
       <ngx-datatable

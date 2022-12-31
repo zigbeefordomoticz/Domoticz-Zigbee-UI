@@ -1,9 +1,9 @@
 <div class="row row-cols-1 row-cols-md-2 g-4 mt-1">
   <div class="col">
     <div class="card" *ngIf="chart">
-      <div class="card-header" translate="network.stats.detail.visu.header"></div>
+      <div class="card-header fw-bold" translate="network.stats.detail.visu.header"></div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></h5>
+        <p class="card-text" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></p>
         <div class="card-text">
           <div [chart]="chart" class="text-center"></div>
         </div>
@@ -12,9 +12,9 @@
   </div>
   <div class="col">
     <div class="card" *ngIf="chart2">
-      <div class="card-header" translate="network.stats.detail.visu.header"></div>
+      <div class="card-header fw-bold" translate="network.stats.detail.visu.header"></div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></h5>
+        <p class="card-text" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></p>
         <div class="card-text">
           <div [chart]="chart2"></div>
         </div>

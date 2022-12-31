@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header fw-bold">
     {{ 'group.create.header' | translate
     }}<button
       [disabled]="!isFormValid()"
@@ -8,7 +8,7 @@
       translate="group.create.validate.button"></button>
   </div>
   <div class="card-body">
-    <h5 class="card-title" [innerHTML]="'group.create.subtitle' | translate"></h5>
+    <p class="card-text" [innerHTML]="'group.create.subtitle' | translate"></p>
     <div class="card-text">
       <div class="row">
         <div class="col-sm">

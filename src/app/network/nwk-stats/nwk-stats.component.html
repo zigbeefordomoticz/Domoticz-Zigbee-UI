@@ -1,9 +1,9 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <div class="col">
     <div class="card" *ngIf="stats$ | async as stats">
-      <div class="card-header" translate="network.stats.header"></div>
+      <div class="card-header fw-bold" translate="network.stats.header"></div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'network.stats.subtitle' | translate"></h5>
+        <p class="card-text" [innerHTML]="'network.stats.subtitle' | translate"></p>
         <div class="card-text">
           <div class="vertical-container">
             <div class="content-container">

@@ -1,9 +1,9 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
   <div class="col">
     <div class="card" *ngIf="topologies$ | async as topologies">
-      <div class="card-header" translate="network.topo.header"></div>
+      <div class="card-header fw-bold" translate="network.topo.header"></div>
       <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'network.topo.subtitle' | translate"></h5>
+        <p class="card-text" [innerHTML]="'network.topo.subtitle' | translate"></p>
         <div class="card-text">
           <div class="vertical-container">
             <div class="content-container">
