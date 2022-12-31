@@ -1,156 +1,188 @@
-<div class="row row-cols-1 row-cols-1 g-4">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="pluginStats">
   <div class="col">
-    <div class="card">
-      <div class="card-header">
+    <div class="card h-100">
+      <div class="card-header fw-bold">
         {{ 'dashboard.trafic.title' | translate }}
-        <button
-          *ngIf="!poll"
-          class="btn btn-primary float-end"
-          (click)="refresh()"
-          translate="dashboard.button.refresh"></button>
       </div>
-      <div class="card-body" *ngIf="pluginStats">
-        <div class="row row-cols-1 row-cols-sm-3 g-4">
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.healthgraph.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieState"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                (select)="open('state', $event)"
-                [scheme]="colorSchemeGROG"
-                [label]="advancedPieStateLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
+      <div class="card-body">
+        <div class="col">
+          <div class="col-sm" [innerHTML]="'dashboard.healthgraph.title' | translate"></div>
+          <div class="col-sm-1"></div>
+          <div class="row">
+            <ngx-charts-advanced-pie-chart
+              [results]="advancedPieState"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              (select)="open('state', $event)"
+              [scheme]="colorSchemeGROG"
+              [label]="advancedPieStateLabel"
+              [percentageFormatting]="percentageFormatting">
+            </ngx-charts-advanced-pie-chart>
           </div>
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.traffic.title' | translate"></div>
+          <div class="row">
+            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
             <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieSent"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                [scheme]="colorSchemeBG"
-                [label]="advancedPieSentLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.traffic.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <div class="col-sm" [chart]="chart"></div>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm">
-    <div class="card">
-      <div class="card-header" translate="dashboard.devices.title"></div>
-      <div class="card-body" *ngIf="pluginStats">
-        <div class="row row-cols-1 row-cols-sm-3 g-4">
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.device.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieDevice"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                (select)="open('device', $event)"
-                [scheme]="colorSchemePC"
-                [label]="advancedPieDeviceLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.devices.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieBattery"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                (select)="open('battery', $event)"
-                [scheme]="colorSchemeROG"
-                [label]="advancedPieBatteryLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.optimized.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieCertified"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                (select)="open('certified', $event)"
-                [scheme]="colorSchemeGO"
-                [label]="advancedCertifiedLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.optimized.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="consent-banner" *ngIf="showConsent">
-    <div class="consent-banner__inner">
-      <div class="consent-banner__copy">
-        <div class="consent-banner__header" [innerHtml]="'consent.banner.header' | translate"></div>
-        <div class="consent-banner__description" [innerHtml]="'consent.banner.description' | translate"></div>
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-header fw-bold">
+        {{ 'dashboard.trafic.title' | translate }}
       </div>
-      <div>
-        <button
-          (click)="consent(false)"
-          class="col-sm-2 ms-3 btn btn-danger"
-          translate="consent.banner.decline"></button>
-        <button
-          (click)="consent(true)"
-          class="col-sm-2 ms-3 btn btn-primary"
-          translate="consent.banner.accept"></button>
+      <div class="card-body">
+        <div class="col">
+          <div class="col-sm" [innerHTML]="'dashboard.traffic.title' | translate"></div>
+          <div class="col-sm-1"></div>
+          <div class="row">
+            <ngx-charts-advanced-pie-chart
+              [results]="advancedPieSent"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              [scheme]="colorSchemeBG"
+              [label]="advancedPieSentLabel"
+              [percentageFormatting]="percentageFormatting">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="row">
+            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.traffic.comment' | translate"></div>
+            <div class="col-sm-1"></div>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-header fw-bold">
+        {{ 'dashboard.trafic.title' | translate }}
+      </div>
+      <div class="card-body">
+        <div class="col">
+          <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
+          <div class="col-sm-1"></div>
+          <div class="row">
+            <div class="col-sm" [chart]="chart"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
+            <div class="col-sm-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-header fw-bold" translate="dashboard.devices.title"></div>
+      <div class="card-body">
+        <div class="col">
+          <div class="col-sm" [innerHTML]="'dashboard.device.title' | translate"></div>
+          <div class="col-sm-1"></div>
+          <div class="row">
+            <ngx-charts-advanced-pie-chart
+              [results]="advancedPieDevice"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              (select)="open('device', $event)"
+              [scheme]="colorSchemePC"
+              [label]="advancedPieDeviceLabel"
+              [percentageFormatting]="percentageFormatting">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="row">
+            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.devices.comment' | translate"></div>
+            <div class="col-sm-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-header fw-bold">
+        {{ 'dashboard.trafic.title' | translate }}
+      </div>
+      <div class="card-body">
+        <div class="col">
+          <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
+          <div class="col-sm-1"></div>
+          <div class="row">
+            <ngx-charts-advanced-pie-chart
+              [results]="advancedPieBattery"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              (select)="open('battery', $event)"
+              [scheme]="colorSchemeROG"
+              [label]="advancedPieBatteryLabel"
+              [percentageFormatting]="percentageFormatting">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="row">
+            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>
+            <div class="col-sm-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-header fw-bold">
+        {{ 'dashboard.trafic.title' | translate }}
+      </div>
+      <div class="card-body">
+        <div class="col">
+          <div class="col-sm" [innerHTML]="'dashboard.optimized.title' | translate"></div>
+          <div class="col-sm-1"></div>
+          <div class="row">
+            <ngx-charts-advanced-pie-chart
+              [results]="advancedPieCertified"
+              [animations]="animations"
+              [gradient]="gradient"
+              [tooltipDisabled]="tooltipDisabled"
+              (select)="open('certified', $event)"
+              [scheme]="colorSchemeGO"
+              [label]="advancedCertifiedLabel"
+              [percentageFormatting]="percentageFormatting">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+          <div class="row">
+            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.optimized.comment' | translate"></div>
+            <div class="col-sm-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  *ngIf="!poll"
+  class="mt-3 btn btn-primary float-end"
+  (click)="refresh()"
+  translate="dashboard.button.refresh"></button>
+
+<div class="consent-banner" *ngIf="showConsent">
+  <div class="consent-banner__inner">
+    <div class="consent-banner__copy">
+      <div class="consent-banner__header" [innerHtml]="'consent.banner.header' | translate"></div>
+      <div class="consent-banner__description" [innerHtml]="'consent.banner.description' | translate"></div>
+    </div>
+    <div>
+      <button (click)="consent(false)" class="col-sm-2 ms-3 btn btn-danger" translate="consent.banner.decline"></button>
+      <button (click)="consent(true)" class="col-sm-2 ms-3 btn btn-primary" translate="consent.banner.accept"></button>
     </div>
   </div>
 </div>

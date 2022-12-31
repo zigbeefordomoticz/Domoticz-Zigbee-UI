@@ -1,78 +1,68 @@
-<div class="row">
-  <div class="col-sm">
-    <div class="card">
-      <div class="card-header">
-        <div class="row">
-          <div class="col-sm" translate="dashboard.popup.device.header"></div>
-          <div class="col-sm-1">
-            <button
-              class="btn btn-outline-success"
-              (click)="dismiss()"
-              translate="dashboard.popup.device.button.close"></button>
-          </div>
-        </div>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-sm" translate="dashboard.popup.device.header"></div>
+      <div class="col-sm-1">
+        <button
+          class="btn btn-outline-success"
+          (click)="dismiss()"
+          translate="dashboard.popup.device.button.close"></button>
       </div>
-      <div class="card-body">
-        <h5 class="card-title" [innerHTML]="'dashboard.popup.device.subtitle' | translate"></h5>
-        <div class="card-text">
-          <ngx-datatable
-            #table
-            [rows]="rows"
-            class="bootstrap"
-            [columnMode]="'force'"
-            [headerHeight]="40"
-            [footerHeight]="'auto'"
-            [limit]="5"
-            [rowHeight]="'auto'"
-            [messages]="{
-              emptyMessage: 'NODATA' | translate,
-              totalMessage: 'TOTAL' | translate,
-              selectedMessage: 'SELECTED' | translate
-            }">
-            <ngx-datatable-column
-              [maxWidth]="100"
-              name="{{ 'device.byname.shortid.column' | translate }}"
-              prop="_NwkId">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row._NwkId }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [maxWidth]="150" name="{{ 'device.byname.ieee.column' | translate }}" prop="IEEE">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.IEEE }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'device.byname.model.column' | translate }}" prop="Model">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.Model }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'device.byname.devicename.column' | translate }}" prop="ZDeviceName">
-              <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                {{ row.ZDeviceName }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'device.byname.status.column' | translate }}" [maxWidth]="100" prop="Status">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.Status }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column
-              name="{{ 'device.byname.battery.column' | translate }}"
-              [maxWidth]="100"
-              prop="Battery">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.Battery }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'device.byname.health.column' | translate }}" [maxWidth]="100" prop="Health">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.Health }}
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>
-        </div>
-      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title" [innerHTML]="'dashboard.popup.device.subtitle' | translate"></h5>
+    <div class="card-text">
+      <ngx-datatable
+        #table
+        [rows]="rows"
+        class="bootstrap"
+        [columnMode]="'force'"
+        [headerHeight]="40"
+        [footerHeight]="'auto'"
+        [limit]="5"
+        [rowHeight]="'auto'"
+        [messages]="{
+          emptyMessage: 'NODATA' | translate,
+          totalMessage: 'TOTAL' | translate,
+          selectedMessage: 'SELECTED' | translate
+        }">
+        <ngx-datatable-column [maxWidth]="100" name="{{ 'device.byname.shortid.column' | translate }}" prop="_NwkId">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            {{ row._NwkId }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [maxWidth]="150" name="{{ 'device.byname.ieee.column' | translate }}" prop="IEEE">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            {{ row.IEEE }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'device.byname.model.column' | translate }}" prop="Model">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            {{ row.Model }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'device.byname.devicename.column' | translate }}" prop="ZDeviceName">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            {{ row.ZDeviceName }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'device.byname.status.column' | translate }}" [maxWidth]="100" prop="Status">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            {{ row.Status }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'device.byname.battery.column' | translate }}" [maxWidth]="100" prop="Battery">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            {{ row.Battery }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="{{ 'device.byname.health.column' | translate }}" [maxWidth]="100" prop="Health">
+          <ng-template ngx-datatable-cell-template let-row="row">
+            {{ row.Health }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
     </div>
   </div>
 </div>
