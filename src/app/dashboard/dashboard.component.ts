@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
@@ -60,6 +60,9 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   advancedPieBatteryLabel: string;
   advancedCertifiedLabel: string;
 
+  getScreenWidth: any;
+  getScreenHeight: any;
+
   gaugeType = 'full';
   gaugeAppendText = '';
 
@@ -108,6 +111,9 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   ngOnInit() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
+
     this.apiService.getSettings().subscribe(res => {
       res.forEach(setting => {
         this.settingsToSave = this.settingsToSave.concat(setting.ListOfSettings);
@@ -147,6 +153,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.getStats().subscribe();
     }
     this.getInfos();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.getScreenWidth = window.innerWidth;
+    this.getScreenHeight = window.innerHeight;
   }
 
   getInfos() {
@@ -300,24 +312,27 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       }
     }
 
-    this.toppyControl = this.toppy
-      .position(
-        new GlobalPosition({
-          placement: InsidePlacement.BOTTOM,
-          width: '80%',
-          height: 'auto'
+    const width = (this.getScreenWidth * 80) / 100;
+    if (width > 768) {
+      this.toppyControl = this.toppy
+        .position(
+          new GlobalPosition({
+            placement: InsidePlacement.BOTTOM,
+            width: width,
+            height: 'auto'
+          })
+        )
+        .config({
+          closeOnDocClick: false,
+          closeOnEsc: true
         })
-      )
-      .config({
-        closeOnDocClick: false,
-        closeOnEsc: true
-      })
-      .content(DeviceByNameComponent, { devices: devices })
-      .create();
+        .content(DeviceByNameComponent, { devices: devices })
+        .create();
 
-    this.subs.add(this.toppyControl.listen('t_compins').subscribe(comp => {}));
+      this.subs.add(this.toppyControl.listen('t_compins').subscribe(comp => {}));
 
-    this.toppyControl.open();
+      this.toppyControl.open();
+    }
   }
 
   close() {
