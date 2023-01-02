@@ -66,9 +66,9 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     this.parameter = this.rowParameter.Param;
 
     if (!this.parameter.includes("'Disabled':")) {
-      this.parameter = this.parameter.substr(0, 1) + "'Disabled': false, " + this.parameter.substr(1);
+      this.parameter = this.parameter.substr(0, 1) + "'Disabled': 0, " + this.parameter.substr(1);
     }
-    this.enabled = this.parameter.includes("'Disabled': false");
+    this.enabled = this.parameter.includes("'Disabled': 0");
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       result => {
@@ -81,15 +81,15 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   onChangeEnabled() {
     this.enabled = !this.enabled;
     if (this.enabled) {
-      if (!this.parameter.includes("'Disabled': false")) {
-        if (this.parameter.includes("'Disabled': true")) {
-          this.parameter = this.parameter.replace("'Disabled': true", "'Disabled': false");
+      if (!this.parameter.includes("'Disabled': 0")) {
+        if (this.parameter.includes("'Disabled': 1")) {
+          this.parameter = this.parameter.replace("'Disabled': 1", "'Disabled': 0");
         }
       }
     } else {
-      if (!this.parameter.includes("'Disabled': true")) {
-        if (this.parameter.includes("'Disabled': false")) {
-          this.parameter = this.parameter.replace("'Disabled': false", "'Disabled': true");
+      if (!this.parameter.includes("'Disabled': 1")) {
+        if (this.parameter.includes("'Disabled': 0")) {
+          this.parameter = this.parameter.replace("'Disabled': 0", "'Disabled': 1");
         }
       }
     }
