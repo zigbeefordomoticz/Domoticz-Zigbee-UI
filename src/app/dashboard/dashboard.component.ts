@@ -412,7 +412,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
             device.Health !== 'Not Reachable' &&
             device.Health !== 'Live' &&
             device.Status !== 'notDB' &&
-            device.Status !== 'Disabled'
+            device.Health !== 'Disabled'
           );
         });
         this.advancedPieDevice = [

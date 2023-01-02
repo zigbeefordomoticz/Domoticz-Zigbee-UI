@@ -3,7 +3,7 @@
     <span class="fw-bold">{{ 'dashboard.trafic.title' | translate }}</span>
     <button
       *ngIf="!poll"
-      class="btn btn-default btn-primary float-bottom float-end"
+      class="d-none d-md-block btn btn-default btn-primary float-bottom float-end"
       (click)="refresh()"
       translate="dashboard.button.refresh"></button>
   </div>
