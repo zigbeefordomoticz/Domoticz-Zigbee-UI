@@ -72,7 +72,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       result => {
-        this.updateValue(this.parameter, 'Param', this.rowParameter._NwkId);
+        this.updateValueJson(this.parameter, 'Param', this.rowParameter._NwkId);
       },
       reason => {}
     );
@@ -108,10 +108,14 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   }
 
   updateValue(event: any, col: string, nwkId: string) {
+    this.updateValueJson(event.target.value, col, nwkId);
+  }
+
+  private updateValueJson(value: any, col: string, nwkId: string): void {
     this.hasEditing = true;
     const rowUpdated = this.rows.find((row: any) => row._NwkId === nwkId);
     if (rowUpdated) {
-      rowUpdated[col] = event.target.value;
+      rowUpdated[col] = value;
     } else {
       log.error('row not found');
     }
