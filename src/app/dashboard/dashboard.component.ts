@@ -382,8 +382,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
         this.devices.total = this.devices.length;
         this.devices.label = this.translateService.instant('devices');
-        this.routers = this.devices.filter((router: any) => router.LogicalType === 'Router');
-        this.devicesOther = this.devices.filter((router: any) => router.LogicalType !== 'Router');
+        this.routers = this.devices.filter(
+          (router: any) => router.LogicalType === 'Router' && router.Health !== 'Disabled'
+        );
+        this.devicesOther = this.devices.filter(
+          (router: any) => router.LogicalType !== 'Router' && router.Health !== 'Disabled'
+        );
         this.routers.label = this.translateService.instant('dashboard.devices.routers');
         this.routers.total = ((this.routers.length / this.devices.total) * 100).toFixed(0);
         this.routers.append = '%';
@@ -407,7 +411,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
             device.Health !== 'Not seen last 24hours' &&
             device.Health !== 'Not Reachable' &&
             device.Health !== 'Live' &&
-            device.Status !== 'notDB'
+            device.Status !== 'notDB' &&
+            device.Status !== 'Disabled'
           );
         });
         this.advancedPieDevice = [
@@ -417,7 +422,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           },
           {
             name: this.translateService.instant('dashboard.devices.enddevice'),
-            value: this.devices.length - this.routers.length
+            value: this.devicesOther.length
           }
         ];
         this.advancedPieState = [
@@ -443,11 +448,15 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.devicesOnBattery = devices.filter(
           (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
         );
-        const _batteryInf30 = this.devicesOnBattery.filter((device: any) => device.Battery <= 30);
-        const _batterySup30 = this.devicesOnBattery.filter(
-          (device: any) => device.Battery > 30 && device.Battery <= 50
+        const _batteryInf30 = this.devicesOnBattery.filter(
+          (device: any) => device.Battery <= 30 && device.Health !== 'Disabled'
         );
-        const _batterySup50 = this.devicesOnBattery.filter((device: any) => device.Battery > 50);
+        const _batterySup30 = this.devicesOnBattery.filter(
+          (device: any) => device.Battery > 30 && device.Battery <= 50 && device.Health !== 'Disabled'
+        );
+        const _batterySup50 = this.devicesOnBattery.filter(
+          (device: any) => device.Battery > 50 && device.Health !== 'Disabled'
+        );
         this.batteryInf30 = this.devices.filter((it: any) => _batteryInf30.find((iter: any) => iter.IEEE === it.IEEE));
         this.batterySup50 = this.devices.filter((it: any) => _batterySup50.find((iter: any) => iter.IEEE === it.IEEE));
         this.batterySup30 = this.devices.filter((it: any) => _batterySup30.find((iter: any) => iter.IEEE === it.IEEE));
@@ -463,8 +472,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           { name: this.translateService.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length }
         ];
 
-        this.certifiedDevices = certified.filter((device: any) => device.CertifiedDevice);
-        this.notCertifiedDevices = certified.filter((device: any) => !device.CertifiedDevice);
+        this.certifiedDevices = certified.filter(
+          (device: any) => device.CertifiedDevice && device.Health !== 'Disabled'
+        );
+        this.notCertifiedDevices = certified.filter(
+          (device: any) => !device.CertifiedDevice && device.Health !== 'Disabled'
+        );
         this.advancedPieCertified = [
           {
             name: this.translateService.instant('dashboard.devices.optimized'),
