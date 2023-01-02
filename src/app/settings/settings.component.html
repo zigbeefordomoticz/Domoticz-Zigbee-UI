@@ -32,7 +32,7 @@
   </fieldset>
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
     <div *ngFor="let listOfSettings of settings">
-      <div class="card" *ngIf="hasBasicSettings(listOfSettings.ListOfSettings)">
+      <div class="card h-100" *ngIf="hasBasicSettings(listOfSettings.ListOfSettings)">
         <div class="card-header fw-bold" [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
         <div class="card-body">
           <p class="card-text" [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></p>
