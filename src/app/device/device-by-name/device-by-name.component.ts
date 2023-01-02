@@ -29,9 +29,10 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   temp: DeviceByName[] = [];
   hasEditing = false;
   rowToDelete: any;
-  rowParameter: any;
+  rowParameter: DeviceByName;
   parameter: string;
   expanded: any = {};
+  enabled = false;
 
   constructor(
     private apiService: ApiService,
@@ -62,12 +63,36 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   }
 
   editParameter(content: any): void {
+    this.parameter = this.rowParameter.Param;
+
+    if (!this.parameter.includes("'Disabled':")) {
+      this.parameter = this.parameter.substr(0, 1) + "'Disabled': false, " + this.parameter.substr(1);
+    }
+    this.enabled = this.parameter.includes("'Disabled': false");
+
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       result => {
         this.updateValue(this.parameter, 'Param', this.rowParameter._NwkId);
       },
       reason => {}
     );
+  }
+
+  onChangeEnabled() {
+    this.enabled = !this.enabled;
+    if (this.enabled) {
+      if (!this.parameter.includes("'Disabled': false")) {
+        if (this.parameter.includes("'Disabled': true")) {
+          this.parameter = this.parameter.replace("'Disabled': true", "'Disabled': false");
+        }
+      }
+    } else {
+      if (!this.parameter.includes("'Disabled': true")) {
+        if (this.parameter.includes("'Disabled': false")) {
+          this.parameter = this.parameter.replace("'Disabled': false", "'Disabled': true");
+        }
+      }
+    }
   }
 
   delete() {

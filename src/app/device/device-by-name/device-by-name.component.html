@@ -193,9 +193,15 @@
   <div class="modal-body">
     <div [innerHTML]="'device.byname.parameter.alert.subject' | translate"></div>
     <div class="row mt-3">
+      <div class="switch switch-sm me-2 pe-3">
+        <input type="checkbox" [checked]="enabled" id="switch-enabled" (click)="onChangeEnabled()" />
+        <label class="mb-0" for="switch-enabled" translate="device.byname.devicename.enabled"></label>
+      </div>
+    </div>
+    <div class="row mt-3">
       <div class="col-sm-12">{{ 'device.byname.devicename.param' | translate }} :</div>
       <div class="col-sm-12">
-        <textarea (change)="parameter = $event" rows="5" cols="60">{{ rowParameter.Param }}</textarea>
+        <textarea (change)="parameter = $event" rows="5" cols="60" [value]="parameter"></textarea>
       </div>
     </div>
   </div>

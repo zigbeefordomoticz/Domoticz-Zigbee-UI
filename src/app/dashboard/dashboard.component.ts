@@ -33,6 +33,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   routers: any;
   inDbs: any;
   healthsLive: any;
+  healthsDisabled: any;
   healthsNotSeen: any;
   healthsNotReachable: any;
   healthsOthers: any = {};
@@ -289,6 +290,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     } else if (name === 'state') {
       if (event.name === this.translateService.instant('dashboard.devices.live')) {
         devices = this.healthsLive;
+      } else if (event.name === this.translateService.instant('dashboard.devices.disabled')) {
+        devices = this.healthsDisabled;
       } else if (event.name === this.translateService.instant('dashboard.devices.others')) {
         devices = this.healthsOthers;
       } else if (event.name === this.translateService.instant('dashboard.devices.notReachable')) {
@@ -390,6 +393,9 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.inDbs.total = ((this.inDbs.length / this.devices.total) * 100).toFixed(0);
         this.inDbs.append = '%';
         this.healthsLive = this.devices.filter((device: any) => device.Health === 'Live' && device.Status !== 'notDB');
+        this.healthsDisabled = this.devices.filter(
+          (device: any) => device.Health === 'Disabled' && device.Status !== 'notDB'
+        );
         this.healthsNotReachable = this.devices.filter((device: any) => {
           return device.Health === 'Not Reachable' && device.Status !== 'notDB';
         });
@@ -418,6 +424,10 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           {
             name: this.translateService.instant('dashboard.devices.live'),
             value: this.healthsLive.length
+          },
+          {
+            name: this.translateService.instant('dashboard.devices.disabled'),
+            value: this.healthsDisabled.length
           },
           {
             name: this.translateService.instant('dashboard.devices.notReachable'),
