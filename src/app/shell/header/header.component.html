@@ -1,4 +1,4 @@
-<nav class="p-2 navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top'">
+<nav class="p-2 navbar navbar-expand-xl navbar-light bg-light navbar-fixed-top'">
   <div class="container-fluid">
     <a class="navbar-brand" href="https://github.com/zigbeefordomoticz/Domoticz-Zigbee">
       <img class="img-responsive logo" src="assets/z4d_logo.png" alt="Logo" />
@@ -228,16 +228,38 @@
           </div>
         </div>
       </div>
-      <div class="navbar-nav ml-auto d-flex align-items-center">
-        <div class="nav-item border-start ps-3">
-          <div class="switch switch-sm me-2 pe-3">
-            <input [(ngModel)]="permitChecked" (click)="permit($event)" type="checkbox" id="switch-sm" />
-            <label class="mb-0" for="switch-sm" translate="admin.permittojoin.label"></label>
+      <div class="d-none d-xl-block">
+        <div class="navbar-nav ml-auto d-flex align-items-center">
+          <div class="nav-item border-start ps-3">
+            <div class="switch switch-sm me-2 pe-3">
+              <input [(ngModel)]="permitChecked" (click)="permit($event)" type="checkbox" id="switch-sm" />
+              <label class="mb-0" for="switch-sm" translate="admin.permittojoin.label"></label>
+            </div>
+          </div>
+          <div class="nav-item border-start" ngbDropdown placement="bottom">
+            <div>
+              <a id="language-dropdown" class="nav-link ps-3" ngbDropdownToggle
+                ><img class="img-responsive" style="width: 1.25rem" src="assets/{{ currentFlag }}" />
+              </a>
+              <div ngbDropdownMenu aria-labelledby="language-dropdown">
+                <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
+                  <img class="img-responsive" style="width: 1.25rem" src="assets/{{ language.flag }}" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="nav-item border-start" ngbDropdown placement="bottom">
-          <div>
-            <a id="language-dropdown" class="nav-link ps-3" ngbDropdownToggle
+      </div>
+      <div class="d-xl-none">
+        <div class="navbar-nav">
+          <div class="nav-item border-top mt-1">
+            <div class="switch switch-sm mt-3">
+              <input [(ngModel)]="permitChecked" (click)="permit($event)" type="checkbox" id="switch-sm" />
+              <label for="switch-sm" translate="admin.permittojoin.label"></label>
+            </div>
+          </div>
+          <div class="mb-3 nav-item border-top mt-3" ngbDropdown placement="bottom">
+            <a id="language-dropdown mt-3" class="nav-link" ngbDropdownToggle
               ><img class="img-responsive" style="width: 1.25rem" src="assets/{{ currentFlag }}" />
             </a>
             <div ngbDropdownMenu aria-labelledby="language-dropdown">

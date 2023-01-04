@@ -1,18 +1,15 @@
-<div class="row d-flex">
+<div class="row d-flex ms-2 gap-2">
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-xl-2 col-lg-4 col-sm-5 btn btn-primary"
     (click)="onClick('log-error-history')"
     translate="tools.error.log-history.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-xl-2 col-lg-4 col-sm-5 btn btn-primary"
     (click)="onClick('clear-error-history')"
     translate="tools.error.log-history.clear"></button>
 </div>
-<div class="row">
-  <div class="mt-3 col" *ngIf="json" [hidden]="isLoading">
-    <div class="col-lg d-flex">
-      <button class="btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
-    </div>
-    <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
-  </div>
+<div class="row ms-2 mt-2" *ngIf="json" [hidden]="isLoading">
+  <button class="col-lg-1 mb-2 btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
+
+  <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
 </div>
