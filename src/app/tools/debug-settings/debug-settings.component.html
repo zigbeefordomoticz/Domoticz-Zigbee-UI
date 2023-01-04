@@ -42,13 +42,23 @@
               <p [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></p>
             </div>
             <div class="card-text">
-              <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 g-4 align-items-center">
+              <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center">
                 <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
                   <app-debug-setting
-                    *ngIf="!setting.Advanced"
+                    *ngIf="!setting.Advanced && setting.DataType === 'bool'"
                     [setting]="setting"
                     [advanced]="advanced"></app-debug-setting>
                 </ng-container>
+              </div>
+              <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center mt-2">
+                <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
+                  <app-debug-setting
+                    *ngIf="!setting.Advanced && setting.DataType !== 'bool'"
+                    [setting]="setting"
+                    [advanced]="advanced"></app-debug-setting>
+                </ng-container>
+              </div>
+              <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center mt-2">
                 <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
                   <app-debug-setting
                     *ngIf="setting.Advanced && setting.Advanced === advanced"

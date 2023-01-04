@@ -1,68 +1,60 @@
-<div class="row d-flex">
+<div class="row d-flex ms-2 gap-2">
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('zdevice-raw')"
     translate="tools.tools.zdevice-raw.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('non-optimized')"
     translate="tools.tools.non-optimized.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('zgroups')"
     translate="tools.tools.zgroup.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('plugin-stat')"
     translate="tools.tools.plugin-stat.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('coordinator')"
     translate="tools.tools.coordinator.infos.button"></button>
-</div>
-<div class="row mt-2 d-flex">
   <button
     *ngIf="logFile$ | async as logFile"
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="download(logFile)"
     translate="tools.tools.log.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('infos')"
     translate="tools.tools.infos.plugin.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('plugin-health')"
     translate="tools.tools.plugin-health.button"></button>
-
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('settings')"
     translate="tools.tools.settings.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('domoticz-env')"
     translate="tools.tools.domoticz-env.button"></button>
-</div>
-<div class="row mt-2 d-flex">
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('battery-state')"
     translate="tools.tools.battery-state.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('zdevice-name')"
     translate="tools.tools.zdevice-name.button"></button>
   <button
-    class="col-sm-2 ms-3 btn btn-primary"
+    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('zgroup-list-available-device')"
     translate="tools.tools.zgroup-list-available-device.button"></button>
 </div>
-<div class="row">
-  <div class="mt-3 col" *ngIf="json" [hidden]="isLoading">
-    <div class="col-lg d-flex">
-      <button class="btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
-    </div>
-    <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
-  </div>
+<div class="row ms-2 mt-2" *ngIf="json" [hidden]="isLoading">
+  <button class="col-lg-1 mb-2 btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
+
+  <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
 </div>

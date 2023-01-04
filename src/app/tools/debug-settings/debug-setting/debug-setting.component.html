@@ -1,21 +1,21 @@
 <ng-container [formGroupName]="setting.Name">
-  <div *ngIf="setting.DataType === 'str'" class="d-flex flex-row align-items-center flex-wrap mt-1">
+  <div *ngIf="setting.DataType === 'str'" class="d-flex flex-row align-items-center flex-wrap mt-2">
     <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
     <input type="text" formControlName="current" class="w-25 form-control" />
   </div>
-  <div *ngIf="setting.DataType === 'path'" class="d-flex flex-row align-items-center flex-wrap mt-1">
+  <div *ngIf="setting.DataType === 'path'" class="d-flex flex-row align-items-center flex-wrap mt-2">
     <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
     <input type="text" formControlName="current" class="w-100 form-control" />
   </div>
-  <div *ngIf="setting.DataType === 'int'" class="d-flex flex-row align-items-center flex-wrap mt-1">
+  <div *ngIf="setting.DataType === 'int'" class="d-flex flex-row align-items-center flex-wrap mt-2">
     <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
     <input type="number" formControlName="current" class="form-control w-25" />
   </div>
-  <div *ngIf="setting.DataType === 'hex'" class="d-flex flex-row align-items-center flex-wrap mt-1">
+  <div *ngIf="setting.DataType === 'hex'" class="d-flex flex-row align-items-center flex-wrap mt-2">
     <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
     <input type="text" formControlName="current" class="w-25 form-control" />
   </div>
-  <div *ngIf="setting.DataType === 'bool'" class="form-check form-check-inline mt-1">
+  <div *ngIf="setting.DataType === 'bool'" class="form-check form-check-inline mt-2">
     <input formControlName="current" type="checkbox" class="form-check-input" id="{{ setting.Name }}" />
     <label class="form-check-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
   </div>
