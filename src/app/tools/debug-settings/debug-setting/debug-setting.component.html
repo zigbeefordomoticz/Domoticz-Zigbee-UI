@@ -23,8 +23,8 @@
       <input type="text" formControlName="current" class="w-25 form-control" />
     </div>
   </div>
-  <div *ngIf="setting.DataType === 'bool'" class="col-auto">
-    <input formControlName="current" type="checkbox" class="form-control-checkbox" id="{{ setting.Name }}" />
-    <label class="col-form-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
+  <div *ngIf="setting.DataType === 'bool'" class="form-check form-check-inline mt-2">
+    <input formControlName="current" type="checkbox" class="form-check-input" id="{{ setting.Name }}" />
+    <label class="form-check-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
   </div>
 </div>
