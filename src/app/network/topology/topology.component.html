@@ -1,4 +1,4 @@
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div class="row row-cols-1 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
   <div class="col">
     <div class="card" *ngIf="topologies$ | async as topologies">
       <div class="card-header fw-bold" translate="network.topo.header"></div>
@@ -9,20 +9,16 @@
             <div class="content-container">
               <perfect-scrollbar class="scroll-container">
                 <div class="scrollable-content">
-                  <span class="row d-flex align-items-center" *ngFor="let topologie of topologies | keyvalue: sortDesc">
-                    <div class="col-sm">
-                      <button class="btn btn-light" (click)="topologyByDate(topologie.value)">
-                        {{ topologie.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
-                      </button>
-                    </div>
-                    <div class="col-sm">
-                      <button
-                        class="btn btn-light"
-                        title="{{ 'network.topo.visu.delete.button' | translate }}"
-                        (click)="deleteTopologyByDate(topologie.value)">
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </div>
+                  <span class="d-sm-flex gap-2" *ngFor="let topologie of topologies | keyvalue: sortDesc">
+                    <button class="btn btn-light" (click)="topologyByDate(topologie.value)">
+                      {{ topologie.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+                    </button>
+                    <button
+                      class="btn btn-light"
+                      title="{{ 'network.topo.visu.delete.button' | translate }}"
+                      (click)="deleteTopologyByDate(topologie.value)">
+                      <i class="fa fa-trash"></i>
+                    </button>
                   </span>
                 </div>
               </perfect-scrollbar>
@@ -32,6 +28,6 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-3"><app-req-topology></app-req-topology></div>
+  <div><app-req-topology></app-req-topology></div>
 </div>
 <div *ngIf="timeStamp"><app-detail-topology [timeStamp]="timeStamp"></app-detail-topology></div>
