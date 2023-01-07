@@ -59,7 +59,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   editParameter(content: any): void {
     this.parameter = this.rowParameter.Param;
 
-    this.enabled = this.parameter.includes(this.enabledTrue);
+    this.enabled = !this.parameter.includes(this.enabledFalse);
     if (this.enabled) {
       this.parameter = this.parameter.replace(this.enabledTrue.concat(','), '');
       this.parameter = this.parameter.replace(this.enabledTrue, '');
