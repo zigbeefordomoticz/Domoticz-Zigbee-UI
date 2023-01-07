@@ -201,7 +201,7 @@
     <div class="row mt-3">
       <div class="col-sm-12">{{ 'device.byname.devicename.param' | translate }} :</div>
       <div class="col-sm-12">
-        <textarea (change)="parameter = $event" rows="5" cols="60" [value]="parameter"></textarea>
+        <textarea [(ngModel)]="parameter" name="parameter" rows="5" cols="60"></textarea>
       </div>
     </div>
   </div>

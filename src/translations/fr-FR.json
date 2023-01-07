@@ -103,6 +103,7 @@
   "device.byname.alert.subject": "Es-tu sûr ?",
   "device.byname.alert.delete": "Supprimer",
   "device.byname.alert.cancel": "Annuler",
+  "device.byname.error.notify": "Utiliser le switch enabled svp !!",
   "device.byname.parameter.alert.save": "Valider",
   "device.byname.parameter.alert.cancel": "Annuler",
   "device.byname.parameter.alert.title": "Paramètres",

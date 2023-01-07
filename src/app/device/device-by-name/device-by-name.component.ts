@@ -1,6 +1,5 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
@@ -13,19 +12,12 @@ const log = new Logger('DeviceByNameComponent');
 @Component({
   selector: 'app-device-by-name',
   templateUrl: './device-by-name.component.html',
-  styleUrls: ['./device-by-name.component.scss'],
-  viewProviders: [
-    {
-      provide: ControlContainer,
-      useExisting: FormGroupDirective
-    }
-  ]
+  styleUrls: ['./device-by-name.component.scss']
 })
 export class DeviceByNameComponent implements OnInit, OnChanges {
   @ViewChild('table') table: any;
   @Input() devices: DeviceByName[];
   rows: DeviceByName[] = [];
-  json: any;
   temp: DeviceByName[] = [];
   hasEditing = false;
   rowToDelete: any;
@@ -33,6 +25,9 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   parameter: string;
   expanded: any = {};
   enabled = false;
+  prefixEnabled = 'Disabled';
+  enabledTrue = "'Disabled': 0";
+  enabledFalse = "'Disabled': 1";
 
   constructor(
     private apiService: ApiService,
@@ -44,7 +39,6 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.devices.currentValue !== changes.devices.previousValue) {
-      this.json = this.devices;
       this.devices = this.devices;
       this.rows = this.devices;
       this.temp = [...this.rows];
@@ -65,34 +59,29 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   editParameter(content: any): void {
     this.parameter = this.rowParameter.Param;
 
-    if (!this.parameter.includes("'Disabled':")) {
-      this.parameter = this.parameter.substr(0, 1) + "'Disabled': 0, " + this.parameter.substr(1);
+    this.enabled = this.parameter.includes(this.enabledTrue);
+    if (this.enabled) {
+      this.parameter = this.parameter.replace(this.enabledTrue.concat(','), '');
+    } else {
+      this.parameter = this.parameter.replace(this.enabledFalse.concat(','), '');
     }
-    this.enabled = this.parameter.includes("'Disabled': 0");
 
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(result => {
+      if (this.parameter.includes(this.prefixEnabled)) {
+        this.toastr.error(this.translate.instant('device.byname.error.notify'));
+      } else {
+        if (this.enabled) {
+          this.parameter = this.parameter.replace('{', '{'.concat(this.enabledTrue).concat(', '));
+        } else {
+          this.parameter = this.parameter.replace('{', '{'.concat(this.enabledFalse).concat(', '));
+        }
         this.updateValueJson(this.parameter, 'Param', this.rowParameter._NwkId);
-      },
-      reason => {}
-    );
+      }
+    });
   }
 
   onChangeEnabled() {
     this.enabled = !this.enabled;
-    if (this.enabled) {
-      if (!this.parameter.includes("'Disabled': 0")) {
-        if (this.parameter.includes("'Disabled': 1")) {
-          this.parameter = this.parameter.replace("'Disabled': 1", "'Disabled': 0");
-        }
-      }
-    } else {
-      if (!this.parameter.includes("'Disabled': 1")) {
-        if (this.parameter.includes("'Disabled': 0")) {
-          this.parameter = this.parameter.replace("'Disabled': 0", "'Disabled': 1");
-        }
-      }
-    }
   }
 
   delete() {
@@ -122,7 +111,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   }
 
   updateDevices() {
-    this.apiService.putZDeviceName(this.json).subscribe((result: any) => {
+    this.apiService.putZDeviceName(this.rows).subscribe((result: any) => {
       log.debug(result);
       this.hasEditing = false;
       this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
