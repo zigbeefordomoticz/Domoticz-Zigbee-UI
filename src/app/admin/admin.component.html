@@ -6,10 +6,10 @@
   <app-recreate-widget *ngIf="action === 'pairing'"></app-recreate-widget>
   <app-sw-reset *ngIf="action === 'coordinator'"></app-sw-reset>
   <app-switch-channel *ngIf="action === 'coordinator'"></app-switch-channel>
-  <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-6">
-    <app-update-plugin *ngIf="action === 'plugin'"></app-update-plugin>
-  </div>
-  <div class="col"><app-reload-plugin *ngIf="action === 'plugin'"></app-reload-plugin></div>
   <app-rescan-group *ngIf="action === 'group'"></app-rescan-group>
   <app-scan-group-device *ngIf="action === 'group'"></app-scan-group-device>
+  <div *ngIf="action === 'plugin'" class="col-md-12 col-lg-12 col-xl-12 col-xxl-6">
+    <app-update-plugin></app-update-plugin>
+  </div>
+  <div *ngIf="action === 'plugin'" class="col"><app-reload-plugin></app-reload-plugin></div>
 </div>
