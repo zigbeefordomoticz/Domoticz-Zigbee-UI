@@ -62,8 +62,10 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     this.enabled = this.parameter.includes(this.enabledTrue);
     if (this.enabled) {
       this.parameter = this.parameter.replace(this.enabledTrue.concat(','), '');
+      this.parameter = this.parameter.replace(this.enabledTrue, '');
     } else {
       this.parameter = this.parameter.replace(this.enabledFalse.concat(','), '');
+      this.parameter = this.parameter.replace(this.enabledFalse, '');
     }
 
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(result => {

@@ -1,5 +1,5 @@
 <div class="row row-cols-1 row-cols-xxl-3 row-cols-lg-2 row-cols-md-1 row-cols-sm-1 g-4">
   <app-debug-command></app-debug-command>
   <app-raw-command *ngIf="!plugin?.Zigpy"></app-raw-command>
-  <app-raw-command-zigpy *ngIf="plugin?.Zigpy"></app-raw-command-zigpy>
+  <app-raw-command-zigpy *ngIf="!plugin?.Zigpy"></app-raw-command-zigpy>
 </div>
