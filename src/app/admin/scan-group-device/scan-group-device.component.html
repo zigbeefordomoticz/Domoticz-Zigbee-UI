@@ -13,7 +13,7 @@
           placeholder="{{ 'admin.scan.group.device.placeholder' | translate }}"
           formControlName="deviceSelected">
           <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-            <span [ngOptionHighlight]="search">
+            <span>
               <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} - <b>Id</b> :
               {{ item._ID }} -
               <b>{{ item.ZDeviceName }}</b>

@@ -34,7 +34,7 @@
                   bindLabel="ZDeviceName"
                   formControlName="source">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                    <span [ngOptionHighlight]="search">
+                    <span>
                       <b>Device name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> :
                       {{ item.Ep }} - <b>Nwkid</b> : {{ item.NwkId }}
                     </span>
@@ -55,7 +55,7 @@
                   appendTo="body"
                   formControlName="target">
                   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                    <span [ngOptionHighlight]="search">
+                    <span>
                       <b>Device name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> :
                       {{ item.Ep }} - <b>Nwkid</b> : {{ item.NwkId }}
                     </span>

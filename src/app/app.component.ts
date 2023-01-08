@@ -6,6 +6,7 @@ import { Plugin } from '@app/shared/models/plugin';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxMousetrapService } from 'ngx-mousetrap';
+import { PrimeNGConfig } from 'primeng/api';
 import { merge, Subscription, forkJoin } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
@@ -36,12 +37,14 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     private apiService: ApiService,
     private i18nService: I18nService,
     private headerService: HeaderService,
-    private mouseTrapService: NgxMousetrapService
+    private mouseTrapService: NgxMousetrapService,
+    private primengConfig: PrimeNGConfig
   ) {
     super();
   }
 
   ngOnInit() {
+    this.primengConfig.ripple = true;
     // Setup logger
     if (environment.production) {
       Logger.enableProductionMode();

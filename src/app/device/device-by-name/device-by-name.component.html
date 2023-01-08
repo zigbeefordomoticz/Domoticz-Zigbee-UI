@@ -13,154 +13,173 @@
       [innerHTML]="'group.create.subtitle' | translate"
       [innerHTML]="'device.byname.subtitle' | translate"></p>
     <div class="card-text">
-      <input type="text" placeholder="{{ 'device.byname.placeholder' | translate }}" (keyup)="updateFilter($event)" />
-      <ngx-datatable
-        #table
-        [rows]="rows"
-        class="bootstrap"
-        [columnMode]="'force'"
-        [headerHeight]="40"
-        [footerHeight]="'auto'"
-        [limit]="10"
-        [rowHeight]="'auto'"
-        [messages]="{
-          emptyMessage: 'NODATA' | translate,
-          totalMessage: 'TOTAL' | translate,
-          selectedMessage: 'SELECTED' | translate
-        }">
-        <ngx-datatable-row-detail [rowHeight]="'auto'">
-          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-            <div style="padding-left: 35px">
-              <div>
-                <strong>{{ 'device.byname.devicename.param' | translate }} : </strong> {{ row.Param }}
+      <p-table
+        #dt1
+        [globalFilterFields]="['_NwkId', 'IEEE', 'Model', 'WidgetList', 'ZDeviceName', 'MacCapa', 'Status', 'Health']"
+        [rowHover]="true"
+        styleClass="p-datatable-sm"
+        dataKey="_NwkId"
+        responsiveLayout="scroll"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [value]="rows"
+        [rows]="10"
+        [paginator]="true"
+        [scrollable]="true">
+        <ng-template pTemplate="caption">
+          <div class="flex">
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                placeholder="{{ 'device.byname.placeholder' | translate }}" />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 2rem">
+              {{ 'device.byname.trash.column' | translate }}
+            </th>
+            <th style="width: 2rem">
+              {{ 'device.byname.optimized.column' | translate }}
+            </th>
+            <th pSortableColumn="_NwkId">
+              {{ 'device.byname.shortid.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
+            </th>
+            <th pSortableColumn="IEEE">
+              {{ 'device.byname.ieee.column' | translate }}<p-sortIcon field="IEEE"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Model">
+              {{ 'device.byname.model.column' | translate }}<p-sortIcon field="Model"></p-sortIcon>
+            </th>
+            <th pSortableColumn="WidgetList">
+              {{ 'device.byname.widget.column' | translate }}<p-sortIcon field="WidgetList"></p-sortIcon>
+            </th>
+            <th pSortableColumn="ZDeviceName">
+              {{ 'device.byname.devicename.column' | translate }}<p-sortIcon field="ZDeviceName"></p-sortIcon>
+            </th>
+            <th pSortableColumn="MacCapa">
+              {{ 'device.byname.capabilities.column' | translate }}<p-sortIcon field="MacCapa"></p-sortIcon>
+            </th>
+            <th pSortableColumn="LQI">
+              {{ 'device.byname.lqi.column' | translate }}<p-sortIcon field="LQI"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Status">
+              {{ 'device.byname.status.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
+            </th>
+            <th pSortableColumn="Health">
+              {{ 'device.byname.health.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
+            </th>
+            <th>
+              {{ 'device.byname.devicename.param' | translate }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-editing="editing"
+          let-row
+          let-rowIndex="rowIndex"
+          let-columns="columns"
+          let-expanded="expanded">
+          <tr>
+            <td>
+              <button
+                *ngIf="row.Param !== '{}'"
+                type="button"
+                pButton
+                pRipple
+                [pRowToggler]="row"
+                class="p-button-text p-button-rounded p-button-plain"
+                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+              <i
+                *ngIf="
+                  row.ConsistencyCheck === 'not in DZ' ||
+                  row.ConsistencyCheck === 'Bad Pairing' ||
+                  !row.WidgetList ||
+                  row.WidgetList.length === 0
+                "
+                class="fa fa-trash"
+                style="cursor: pointer"
+                title="{{ 'device.byname.delete.colum' | translate }}"
+                (click)="rowToDelete = row; open(content)"></i>
+            </td>
+            <td>
+              <ng-container *ngIf="row.CertifiedDevice">
+                <div
+                  (click)="copy(row)"
+                  ngbPopover="{{ 'device.byname.optimized.popover.text.ok' | translate }}"
+                  triggers="mouseenter:mouseleave"
+                  popoverTitle="{{ 'device.byname.optimized.popover.title.ok' | translate }}">
+                  <div class="container">
+                    <shared-custom-icon class="container__icon container__icon--green" iconName="CHECK_ICON">
+                    </shared-custom-icon>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="!row.CertifiedDevice">
+                <div
+                  (click)="copy(row)"
+                  ngbPopover="{{ 'device.byname.optimized.popover.text.ko' | translate }}"
+                  triggers="mouseenter:mouseleave"
+                  popoverTitle="{{ 'device.byname.optimized.popover.title.ko' | translate }}">
+                  <div class="container">
+                    <shared-custom-icon class="container__icon container__icon--orange" iconName="X_ICON">
+                    </shared-custom-icon>
+                  </div>
+                </div>
+              </ng-container>
+            </td>
+            <td>{{ row._NwkId }}</td>
+            <td>{{ row.IEEE }}</td>
+            <td>{{ row.Model }}</td>
+            <td>
+              <div *ngFor="let widget of row.WidgetList">
+                {{ widget }}
               </div>
-            </div>
-          </ng-template>
-        </ngx-datatable-row-detail>
-        <ngx-datatable-column
-          [sortable]="false"
-          [maxWidth]="55"
-          name="{{ 'device.byname.trash.column' | translate }}"
-          prop="ConsistencyCheck">
-          <ng-template let-expanded="expanded" let-row="row" ngx-datatable-cell-template>
-            <a
-              *ngIf="row.Param !== '{}'"
-              href="javascript:void(0)"
-              [class.datatable-icon-right]="!expanded"
-              [class.datatable-icon-down]="expanded"
-              title="Expand/Collapse Row"
-              (click)="toggleExpandRow(row)">
-            </a>
-            <i
-              *ngIf="
-                row.ConsistencyCheck === 'not in DZ' ||
-                row.ConsistencyCheck === 'Bad Pairing' ||
-                !row.WidgetList ||
-                row.WidgetList.length === 0
-              "
-              class="fa fa-trash"
-              style="cursor: pointer"
-              title="{{ 'device.byname.delete.colum' | translate }}"
-              (click)="rowToDelete = row; open(content)"></i>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column
-          [maxWidth]="65"
-          [sortable]="false"
-          name=" {{ 'device.byname.optimized.column' | translate }}">
-          <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-            <ng-container *ngIf="row.CertifiedDevice">
-              <div
-                (click)="copy(row)"
-                ngbPopover="{{ 'device.byname.optimized.popover.text.ok' | translate }}"
-                triggers="mouseenter:mouseleave"
-                popoverTitle="{{ 'device.byname.optimized.popover.title.ok' | translate }}">
-                <div class="container">
-                  <shared-custom-icon class="container__icon container__icon--green" iconName="CHECK_ICON">
-                  </shared-custom-icon>
+            </td>
+            <td [pEditableColumn]="row.ZDeviceName" pEditableColumnField="ZDeviceName">
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="row.ZDeviceName" (change)="hasEditing = true" />
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{ row.ZDeviceName }}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <div *ngFor="let capa of row.MacCapa">
+                {{ capa }}
+              </div>
+            </td>
+            <td>{{ row.LQI }}</td>
+            <td>{{ row.Status }}</td>
+            <td>{{ row.Health }}</td>
+            <td>
+              <i
+                class="fas fa-cog"
+                style="cursor: pointer"
+                (click)="rowParameter = row; editParameter(editContent)"></i>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-row>
+          <tr>
+            <td colspan="12">
+              <div style="padding-left: 35px">
+                <div>
+                  <strong>{{ 'device.byname.devicename.param' | translate }} : </strong> {{ row.Param }}
                 </div>
               </div>
-            </ng-container>
-            <ng-container *ngIf="!row.CertifiedDevice">
-              <div
-                (click)="copy(row)"
-                ngbPopover="{{ 'device.byname.optimized.popover.text.ko' | translate }}"
-                triggers="mouseenter:mouseleave"
-                popoverTitle="{{ 'device.byname.optimized.popover.title.ko' | translate }}">
-                <div class="container">
-                  <shared-custom-icon class="container__icon container__icon--orange" iconName="X_ICON">
-                  </shared-custom-icon>
-                </div>
-              </div>
-            </ng-container>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column [maxWidth]="100" name="{{ 'device.byname.shortid.column' | translate }}" prop="_NwkId">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row._NwkId }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column [maxWidth]="150" name="{{ 'device.byname.ieee.column' | translate }}" prop="IEEE">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.IEEE }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'device.byname.model.column' | translate }}" prop="Model">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.Model }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'device.byname.widget.column' | translate }}" prop="WidgetList">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            <div *ngFor="let widget of row.WidgetList">
-              {{ widget }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'device.byname.devicename.column' | translate }}" prop="ZDeviceName">
-          <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-            <input
-              autofocus
-              (change)="updateValue($event, 'ZDeviceName', row._NwkId)"
-              type="text"
-              [value]="row.ZDeviceName" />
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column
-          name="{{ 'device.byname.capabilities.column' | translate }}"
-          [maxWidth]="130"
-          prop="MacCapa">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            <div *ngFor="let capa of row.MacCapa">
-              {{ capa }}
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'device.byname.lqi.column' | translate }}" [maxWidth]="100" prop="LQI">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.LQI }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'device.byname.status.column' | translate }}" [maxWidth]="100" prop="Status">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.Status }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'device.byname.health.column' | translate }}" [maxWidth]="100" prop="Health">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row.Health }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column
-          [sortable]="false"
-          [maxWidth]="100"
-          name="{{ 'device.byname.devicename.param' | translate }}"
-          prop="ZDeviceName">
-          <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-            <i class="fas fa-cog" style="cursor: pointer" (click)="rowParameter = row; editParameter(editContent)"></i>
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
   </div>
 </div>

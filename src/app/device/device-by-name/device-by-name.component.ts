@@ -6,6 +6,7 @@ import { DeviceByName } from '@app/shared/models/device-by-name';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { Table } from 'primeng/table';
 
 const log = new Logger('DeviceByNameComponent');
 
@@ -15,7 +16,6 @@ const log = new Logger('DeviceByNameComponent');
   styleUrls: ['./device-by-name.component.scss']
 })
 export class DeviceByNameComponent implements OnInit, OnChanges {
-  @ViewChild('table') table: any;
   @Input() devices: DeviceByName[];
   rows: DeviceByName[] = [];
   temp: DeviceByName[] = [];
@@ -118,52 +118,6 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
       this.hasEditing = false;
       this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
     });
-  }
-
-  updateFilter(event: any) {
-    const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function (d: any) {
-      let ok = false;
-      if (d.Model) {
-        ok = d.Model.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.ZDeviceName) {
-        ok = d.ZDeviceName.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d._NwkId) {
-        ok = d._NwkId.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.Status) {
-        ok = d.Status.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.IEEE) {
-        ok = d.IEEE.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.WidgetList) {
-        const widgets = d.WidgetList as Array<string>;
-        widgets.forEach(function (value: string) {
-          if (!ok && value) {
-            ok = value.toLowerCase().indexOf(val) !== -1;
-          }
-        });
-      }
-      if (!ok && d.MacCapa) {
-        const capas = d.MacCapa as Array<string>;
-        capas.forEach(function (value: string) {
-          if (!ok && value) {
-            ok = value.toLowerCase().indexOf(val) !== -1;
-          }
-        });
-      }
-      return ok || !val;
-    });
-
-    this.rows = temp;
-    this.table.offset = 0;
-  }
-
-  toggleExpandRow(row: any) {
-    this.table.rowDetail.toggleExpandRow(row);
   }
 
   copy(row: DeviceByName) {

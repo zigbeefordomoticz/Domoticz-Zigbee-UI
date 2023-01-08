@@ -19,9 +19,7 @@
             (clear)="deviceSelected = null"
             appendTo="body">
             <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-              <span [ngOptionHighlight]="search">
-                <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item.Nwkid }}</span
-              >
+              <span> <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item.Nwkid }}</span>
             </ng-template>
           </ng-select>
 

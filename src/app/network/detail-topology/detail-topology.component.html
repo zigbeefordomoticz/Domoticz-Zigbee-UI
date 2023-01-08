@@ -28,7 +28,7 @@
                 appendTo="body"
                 formControlName="nodeToFilter">
                 <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                  <span [ngOptionHighlight]="search">
+                  <span>
                     <b>Name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Model</b> :
                     {{ item.Model }}
                   </span>

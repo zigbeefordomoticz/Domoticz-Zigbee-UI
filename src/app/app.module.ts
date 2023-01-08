@@ -22,7 +22,6 @@ import { ShellModule } from './shell/shell.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    //    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
     ClipboardModule,
     TranslateModule.forRoot(),
@@ -40,7 +39,6 @@ import { ShellModule } from './shell/shell.module';
     NgxMatomoTrackerModule.forRoot({
       acceptDoNotTrack: false,
       requireConsent: MatomoConsentMode.TRACKING,
-      //disabled: !environment.production,
       trackerUrl: environment.trackerUrl,
       siteId: environment.siteId
     }),

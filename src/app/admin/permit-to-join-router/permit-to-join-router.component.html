@@ -15,9 +15,7 @@
               placeholder="{{ 'tools.debugcommand.device' | translate }}"
               formControlName="deviceSelected">
               <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                <span [ngOptionHighlight]="search">
-                  <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span
-                >
+                <span> <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item._NwkId }}</span>
               </ng-template>
             </ng-select>
           </div>
