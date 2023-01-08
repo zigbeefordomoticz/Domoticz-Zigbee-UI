@@ -3,7 +3,7 @@
   "About": "Over",
   "Version": "Versie",
   "NODATA": "Geen data weer te geven",
-  "TOTAL": "Totaal",
+  "TOTAL": "Totaal {totalRecords}",
   "SELECTED": "Geselecteerd",
   "dashboard": "Dashboard",
   "dashboard.button.refresh": "Ververs",

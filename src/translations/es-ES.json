@@ -3,7 +3,7 @@
   "About": "Sobre",
   "Version": "Versión",
   "NODATA": "no hay información para mostrar",
-  "TOTAL": "Total",
+  "TOTAL": "Total {totalRecords}",
   "SELECTED": "seleccionado",
   "dashboard": "Tablero",
   "dashboard.button.refresh": "Actualizar",

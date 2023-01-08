@@ -3,7 +3,7 @@
   [rowHover]="true"
   responsiveLayout="scroll"
   [showCurrentPageReport]="true"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  currentPageReportTemplate="{{ 'TOTAL' | translate }}"
   [rowsPerPageOptions]="[10, 25, 50]"
   [value]="clustersToDisplay"
   [rows]="10"
