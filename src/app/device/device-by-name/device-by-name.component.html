@@ -41,40 +41,40 @@
         </ng-template>
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th style="width: 2rem">
+            <th style="width: 1rem">
               {{ 'device.byname.trash.column' | translate }}
             </th>
-            <th style="width: 2rem">
+            <th style="width: 1rem">
               {{ 'device.byname.optimized.column' | translate }}
             </th>
-            <th pSortableColumn="_NwkId">
+            <th style="width: 7rem" pSortableColumn="_NwkId">
               {{ 'device.byname.shortid.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
             </th>
-            <th pSortableColumn="IEEE">
+            <th style="width: 5rem" pSortableColumn="IEEE">
               {{ 'device.byname.ieee.column' | translate }}<p-sortIcon field="IEEE"></p-sortIcon>
             </th>
-            <th pSortableColumn="Model">
+            <th style="width: 13rem" pSortableColumn="Model">
               {{ 'device.byname.model.column' | translate }}<p-sortIcon field="Model"></p-sortIcon>
             </th>
-            <th pSortableColumn="WidgetList">
+            <th style="width: 15rem" pSortableColumn="WidgetList">
               {{ 'device.byname.widget.column' | translate }}<p-sortIcon field="WidgetList"></p-sortIcon>
             </th>
-            <th pSortableColumn="ZDeviceName">
+            <th style="width: 20rem" pSortableColumn="ZDeviceName">
               {{ 'device.byname.devicename.column' | translate }}<p-sortIcon field="ZDeviceName"></p-sortIcon>
             </th>
-            <th pSortableColumn="MacCapa">
+            <th style="width: 10rem" pSortableColumn="MacCapa">
               {{ 'device.byname.capabilities.column' | translate }}<p-sortIcon field="MacCapa"></p-sortIcon>
             </th>
-            <th pSortableColumn="LQI">
+            <th style="width: 5rem" pSortableColumn="LQI">
               {{ 'device.byname.lqi.column' | translate }}<p-sortIcon field="LQI"></p-sortIcon>
             </th>
-            <th pSortableColumn="Status">
+            <th style="width: 7rem" pSortableColumn="Status">
               {{ 'device.byname.status.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
             </th>
-            <th pSortableColumn="Health">
+            <th style="width: 6rem" pSortableColumn="Health">
               {{ 'device.byname.health.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
             </th>
-            <th>
+            <th style="width: 2rem">
               {{ 'device.byname.devicename.param' | translate }}
             </th>
           </tr>
