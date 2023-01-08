@@ -2,11 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { TranslateService } from '@ngx-translate/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Group, DeviceAvailable, DevicesAvailable } from '@app/shared/models/group';
 import { HeaderService } from '@app/services/header-service';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { DeviceAvailable, DevicesAvailable, Group } from '@app/shared/models/group';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { UnsubscribeOnDestroyAdapter } from '../shared/adapter/unsubscribe-adapter';
 
@@ -18,7 +17,6 @@ const log = new Logger('GroupComponent');
   styleUrls: ['./group.component.scss']
 })
 export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-  @ViewChild('table') table: DatatableComponent;
   @ViewChild('content') content: any;
   form: FormGroup;
   rows: Array<Group> = [];
@@ -67,22 +65,6 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     this.hasEditing = true;
     const rowUpdated = this.rows.find((row: any) => row._GroupId === GroupId);
     rowUpdated.GroupName = event.target.value;
-  }
-
-  updateFilter(event: any) {
-    const val = event.target.value.toLowerCase();
-    const temp = this.temp.filter(function (d: any) {
-      let ok = false;
-      if (d._GroupId) {
-        ok = d._GroupId.toLowerCase().indexOf(val) !== -1;
-      }
-      if (!ok && d.GroupName) {
-        ok = d.GroupName.toLowerCase().indexOf(val) !== -1;
-      }
-      return ok || !val;
-    });
-    this.rows = temp;
-    this.table.offset = 0;
   }
 
   updateDevices() {

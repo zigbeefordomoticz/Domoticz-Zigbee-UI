@@ -1,66 +1,93 @@
-<ngx-datatable
-  #table
-  [rows]="clustersToDisplay"
-  class="bootstrap"
-  [columnMode]="'standard'"
-  [headerHeight]="40"
-  [rowHeight]="'auto'"
-  [messages]="{
-    emptyMessage: 'NODATA' | translate,
-    totalMessage: 'TOTAL' | translate,
-    selectedMessage: 'SELECTED' | translate
-  }">
-  <ngx-datatable-column name="{{ 'tools.reporting.configure.clusterId.column' | translate }}" prop="clusterId">
-    <ng-template ngx-datatable-cell-template let-row="row">
-      {{ row.clusterId }}
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'tools.reporting.configure.attributeId.column' | translate }}" prop="attributeId">
-    <ng-template ngx-datatable-cell-template let-row="row">
-      {{ row.attributeId }}
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'tools.reporting.configure.dataType.column' | translate }}" prop="dataType">
-    <ng-template ngx-datatable-cell-template let-row="row">
-      {{ row.dataType }}
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'tools.reporting.configure.timeout.column' | translate }}" prop="timeOut">
-    <ng-template ngx-datatable-cell-template let-row="row">
-      {{ row.timeOut }}
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'tools.reporting.configure.minInterval.column' | translate }}" prop="minInterval">
-    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
-      <input
-        class="w-50 text-right"
-        id="{{ 'MinInterval' + rowIndex }}"
-        autofocus
-        (change)="updateValue($event, value, 'MinInterval', row, rowIndex)"
-        type="text"
-        [value]="row.minInterval" />
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'tools.reporting.configure.maxInterval.column' | translate }}" prop="maxInterval">
-    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
-      <input
-        class="w-50 text-right"
-        autofocus
-        (change)="updateValue($event, value, 'MaxInterval', row, rowIndex)"
-        type="text"
-        [value]="row.maxInterval" />
-    </ng-template>
-  </ngx-datatable-column>
-  <ngx-datatable-column name="{{ 'tools.reporting.configure.change.column' | translate }}" prop="change">
-    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
-      <input
-        *ngIf="isEditable(row); else notEditable"
-        class="w-50 text-right"
-        autofocus
-        (change)="updateValue($event, value, 'Change', row, rowIndex)"
-        type="text"
-        [value]="row.change" />
-      <ng-template #notEditable>{{ row.Change }}</ng-template>
-    </ng-template>
-  </ngx-datatable-column>
-</ngx-datatable>
+<p-table
+  #dt1
+  [rowHover]="true"
+  responsiveLayout="scroll"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [value]="clustersToDisplay"
+  [rows]="10"
+  [paginator]="true"
+  [scrollable]="true">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 15rem">{{ 'tools.reporting.configure.clusterId.column' | translate }}</th>
+      <th style="width: 7rem">{{ 'tools.reporting.configure.attributeId.column' | translate }}</th>
+      <th style="width: 5rem">{{ 'tools.reporting.configure.dataType.column' | translate }}</th>
+      <th style="width: 5rem">{{ 'tools.reporting.configure.timeout.column' | translate }}</th>
+      <th style="width: 5rem">{{ 'tools.reporting.configure.minInterval.column' | translate }}</th>
+      <th style="width: 5rem">{{ 'tools.reporting.configure.maxInterval.column' | translate }}</th>
+      <th style="width: 3rem">{{ 'tools.reporting.configure.change.column' | translate }}</th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-editing="editing"
+    let-row
+    let-rowIndex="rowIndex"
+    let-columns="columns"
+    let-expanded="expanded">
+    <tr>
+      <td>{{ row.clusterId }}</td>
+      <td>{{ row.attributeId }}</td>
+      <td>{{ row.dataType }}</td>
+      <td>{{ row.timeOut }}</td>
+      <td [pEditableColumn]="row.minInterval" pEditableColumnField="minInterval">
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [value]="row.minInterval"
+              (change)="updateValue($event, 'MinInterval', row, rowIndex)" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            <input
+              pInputText
+              type="text"
+              [value]="row.minInterval"
+              (change)="updateValue($event, 'MinInterval', row, rowIndex)" />
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td [pEditableColumn]="row.maxInterval" pEditableColumnField="maxInterval">
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [value]="row.maxInterval"
+              (change)="updateValue($event, 'MaxInterval', row, rowIndex)" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            <input
+              pInputText
+              type="text"
+              [value]="row.maxInterval"
+              (change)="updateValue($event, 'MaxInterval', row, rowIndex)" /> </ng-template
+        ></p-cellEditor>
+      </td>
+      <td [pEditableColumn]="row.change" pEditableColumnField="change">
+        <p-cellEditor>
+          <ng-container *ngIf="isEditable(row); else notEditable">
+            <ng-template pTemplate="input">
+              <input
+                pInputText
+                type="text"
+                [value]="row.change"
+                (change)="updateValue($event, 'Change', row, rowIndex)" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              <input
+                pInputText
+                type="text"
+                [value]="row.change"
+                (change)="updateValue($event, 'Change', row, rowIndex)" />
+            </ng-template>
+          </ng-container>
+          <ng-template #notEditable>{{ row.change }}</ng-template></p-cellEditor
+        >
+      </td>
+    </tr></ng-template
+  >
+</p-table>

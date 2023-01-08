@@ -10,106 +10,132 @@
   <div class="card-body">
     <p class="card-text" [innerHTML]="'group.create.subtitle' | translate"></p>
     <div class="card-text">
-      <div class="row">
-        <div class="col-sm">
-          <input
-            type="text"
-            placeholder="{{ 'group.create.placeholder' | translate }}"
-            (keyup)="updateFilter($event)" />
-        </div>
-        <div class="col-sm-2">
-          <button (click)="add()" class="w-100 btn btn-primary" translate="group.create.add.button"></button>
-        </div>
-      </div>
-      <ngx-datatable
-        #table
-        [rows]="rows"
-        class="bootstrap"
-        [columnMode]="'force'"
-        [headerHeight]="40"
-        [footerHeight]="'auto'"
-        [limit]="10"
-        [rowHeight]="'auto'"
-        [messages]="{
-          emptyMessage: 'NODATA' | translate,
-          totalMessage: 'TOTAL' | translate,
-          selectedMessage: 'SELECTED' | translate
-        }">
-        <ngx-datatable-column [sortable]="false" [maxWidth]="100">
-          <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-            <i
-              class="fa fa-trash"
-              style="cursor: pointer"
-              title="{{ 'group.create.delete.button' | translate }}"
-              (click)="delete(row)"></i>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column [maxWidth]="100" name="{{ 'group.create.shortid.column' | translate }}" prop="_GroupId">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            {{ row._GroupId }}
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column
-          [maxWidth]="200"
-          name="{{ 'group.create.groupname.column' | translate }}"
-          prop="GroupName">
-          <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-            <input autofocus (change)="updateValue($event, row._GroupId)" type="text" [value]="row.GroupName" />
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="{{ 'group.create.devices.column' | translate }}" [sortable]="false">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            <ng-select
-              [items]="devices"
-              [multiple]="true"
-              [closeOnSelect]="false"
-              [searchable]="true"
-              bindLabel="Name"
-              placeholder="Choose device"
-              [(ngModel)]="row.devicesSelected"
-              (change)="isFormValid()"
-              appendTo="body">
-              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                <span>
-                  <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
-                  <b>Id</b> : {{ item._ID }} -
-                  <b>{{ item.ZDeviceName }}</b>
-                </span>
-              </ng-template>
-            </ng-select>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column
-          [maxWidth]="150"
-          name="{{ 'group.create.coordinator.column' | translate }}"
-          [sortable]="false">
-          <ng-template ngx-datatable-cell-template let-row="row">
-            <div class="form-check">
+      <p-table
+        #dt1
+        [globalFilterFields]="['_GroupId', 'GroupName']"
+        [rowHover]="true"
+        styleClass="p-datatable-sm"
+        dataKey="_GroupId"
+        responsiveLayout="scroll"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [value]="rows"
+        [rows]="10"
+        [paginator]="true"
+        [scrollable]="true">
+        <ng-template pTemplate="caption">
+          <div class="flex">
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
               <input
-                (click)="updateCoordinator($event, row)"
-                [checked]="row.coordinatorInside"
-                class="form-check-input"
-                type="checkbox" />
-            </div>
-          </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
+                pInputText
+                type="text"
+                (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                placeholder="{{ 'device.byname.placeholder' | translate }}" />
+            </span>
+            <button (click)="add()" class="float-end btn btn-primary" translate="group.create.add.button"></button>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th></th>
+            <th pSortableColumn="_GroupId" style="width: 8rem">
+              {{ 'group.create.shortid.column' | translate }}<p-sortIcon field="_GroupId"></p-sortIcon>
+            </th>
+            <th pSortableColumn="GroupName" style="width: 10rem">
+              {{ 'group.create.groupname.column' | translate }}<p-sortIcon field="GroupName"></p-sortIcon>
+            </th>
+            <th>
+              {{ 'group.create.devices.column' | translate }}
+            </th>
+            <th>
+              {{ 'group.create.coordinator.column' | translate }}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template
+          pTemplate="body"
+          let-editing="editing"
+          let-row
+          let-rowIndex="rowIndex"
+          let-columns="columns"
+          let-expanded="expanded">
+          <tr>
+            <td>
+              <i
+                class="fa fa-trash"
+                style="cursor: pointer"
+                title="{{ 'group.create.delete.button' | translate }}"
+                (click)="delete(row)"></i>
+            </td>
+            <td>
+              {{ row._GroupId }}
+            </td>
+            <td [pEditableColumn]="row.GroupName" pEditableColumnField="GroupName">
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input
+                    pInputText
+                    type="text"
+                    [(ngModel)]="row.GroupName"
+                    (change)="updateValue($event, row._GroupId)" />
+                </ng-template>
+                <ng-template pTemplate="output">
+                  <input
+                    pInputText
+                    type="text"
+                    [(ngModel)]="row.GroupName"
+                    (change)="updateValue($event, row._GroupId)" />
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td>
+              <ng-select
+                [items]="devices"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [searchable]="true"
+                bindLabel="Name"
+                placeholder="Choose device"
+                [(ngModel)]="row.devicesSelected"
+                (change)="isFormValid()"
+                appendTo="body">
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  <span>
+                    <b>Widget</b> : {{ item.Name }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> : {{ item.Ep }} -
+                    <b>Id</b> : {{ item._ID }} -
+                    <b>{{ item.ZDeviceName }}</b>
+                  </span>
+                </ng-template>
+              </ng-select>
+            </td>
+            <td>
+              <div class="form-check">
+                <input
+                  (click)="updateCoordinator($event, row)"
+                  [checked]="row.coordinatorInside"
+                  class="form-check-input"
+                  type="checkbox" />
+              </div>
+            </td></tr
+        ></ng-template>
+      </p-table>
     </div>
   </div>
-</div>
 
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" translate="group.reloadplugin.alert.title"></h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body" translate="group.reloadplugin.alert.subject"></div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.dismiss('cancel')"
-      translate="group.reloadplugin.alert.cancel"></button>
-  </div>
-</ng-template>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title" translate="group.reloadplugin.alert.title"></h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body" translate="group.reloadplugin.alert.subject"></div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="modal.dismiss('cancel')"
+        translate="group.reloadplugin.alert.cancel"></button>
+    </div>
+  </ng-template>
+</div>

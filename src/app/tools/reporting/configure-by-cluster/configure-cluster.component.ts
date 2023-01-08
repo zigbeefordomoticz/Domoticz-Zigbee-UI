@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
@@ -14,7 +14,6 @@ const log = new Logger('ConfigureByClusterReportingComponent');
   styleUrls: ['./configure-cluster.component.scss']
 })
 export class ConfigureByClusterReportingComponent implements OnChanges {
-  @ViewChild('table') table: any;
   @Input() clusters: Configure[];
   @Output() clustersChange = new EventEmitter<Configure[]>();
 
@@ -75,7 +74,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
     }
   }
 
-  updateValue(event: any, previousValue: string, col: string, clusterToDisplay: ClusterToDisplay, index: number) {
+  updateValue(event: any, col: string, clusterToDisplay: ClusterToDisplay, index: number) {
     const value = event.target.value;
     const rowUpdated = this.clusters
       .find(cluster => cluster.ClusterId === clusterToDisplay.clusterId)

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { ParameterForDisplay, Zlinky } from '@app/shared/models/zlinky';
@@ -14,7 +14,6 @@ const log = new Logger('ZlinkyComponent');
   styleUrls: ['./zlinky.component.scss']
 })
 export class ZlinkyComponent implements OnInit {
-  @ViewChild('table') table: any;
   zlinkys$: Observable<Zlinky[]>;
   deviceSelected: Zlinky;
 

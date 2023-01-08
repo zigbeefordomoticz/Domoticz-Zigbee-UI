@@ -12,56 +12,91 @@
       <div class="card-body">
         <h5 class="card-title" [innerHTML]="'manufacturer.casaia.subtitle' | translate"></h5>
         <div class="card-text">
-          <input
-            type="text"
-            placeholder="{{ 'manufacturer.casaia.placeholder' | translate }}"
-            (keyup)="updateFilter($event)" />
-          <ngx-datatable
-            #table
-            [rows]="rows"
-            class="bootstrap"
-            [columnMode]="'force'"
-            [headerHeight]="40"
-            [footerHeight]="'auto'"
-            [limit]="10"
-            [rowHeight]="'auto'"
-            [messages]="{
-              emptyMessage: 'NODATA' | translate,
-              totalMessage: 'TOTAL' | translate,
-              selectedMessage: 'SELECTED' | translate
-            }">
-            <ngx-datatable-column name="{{ 'manufacturer.casaia.nwkid' | translate }}" prop="NwkId">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.NwkId }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'manufacturer.casaia.name' | translate }}" prop="Name">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.Name }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'manufacturer.casaia.ieee' | translate }}" prop="IEEE">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.IEEE }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'manufacturer.casaia.model' | translate }}" prop="Model">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                {{ row.Model }}
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="{{ 'manufacturer.casaia.ircode' | translate }}" prop="IRCode">
-              <ng-template ngx-datatable-cell-template let-row="row">
-                <input
-                  autofocus
-                  (change)="updateIRCode($event, row.NwkId)"
-                  type="text"
-                  size="4"
-                  maxlength="4"
-                  [value]="row.IRCode" />
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>
+          <p-table
+            #dt1
+            [globalFilterFields]="['NwkId', 'Name', 'IEEE', 'Model', 'IRCode']"
+            [rowHover]="true"
+            styleClass="p-datatable-sm"
+            dataKey="NwkId"
+            responsiveLayout="scroll"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [value]="rows"
+            [rows]="10"
+            [paginator]="true"
+            [scrollable]="true">
+            <ng-template pTemplate="caption">
+              <div class="flex">
+                <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                    placeholder="{{ 'manufacturer.casaia.placeholder' | translate }}" />
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th pSortableColumn="NwkId">
+                  {{ 'manufacturer.casaia.nwkid' | translate }}<p-sortIcon field="NwkId"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Name">
+                  {{ 'manufacturer.casaia.name' | translate }}<p-sortIcon field="Name"></p-sortIcon>
+                </th>
+                <th pSortableColumn="IEEE">
+                  {{ 'manufacturer.casaia.ieee' | translate }}<p-sortIcon field="IEEE"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Model">
+                  {{ 'manufacturer.casaia.model' | translate }}<p-sortIcon field="Model"></p-sortIcon>
+                </th>
+                <th pSortableColumn="IRCode" style="width: 8rem">
+                  {{ 'manufacturer.casaia.ircode' | translate }}<p-sortIcon field="IRCode"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-editing="editing"
+              let-row
+              let-rowIndex="rowIndex"
+              let-columns="columns"
+              let-expanded="expanded">
+              <tr>
+                <td>
+                  {{ row.NwkId }}
+                </td>
+                <td>
+                  {{ row.Name }}
+                </td>
+                <td>
+                  {{ row.IEEE }}
+                </td>
+                <td>
+                  {{ row.Model }}
+                </td>
+                <td [pEditableColumn]="row.IRCode" pEditableColumnField="IRCode">
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="row.GroupName"
+                        (change)="updateIRCode($event, row.NwkId)" />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="row.GroupName"
+                        (change)="updateIRCode($event, row.NwkId)" />
+                    </ng-template>
+                  </p-cellEditor>
+                </td></tr
+            ></ng-template>
+          </p-table>
         </div>
       </div>
     </div>
