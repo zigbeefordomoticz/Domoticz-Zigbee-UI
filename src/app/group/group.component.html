@@ -25,7 +25,7 @@
         [paginator]="true"
         [scrollable]="true">
         <ng-template pTemplate="caption">
-          <div class="flex">
+          <div class="d-flex justify-content-between">
             <span class="p-input-icon-left ml-auto">
               <i class="pi pi-search"></i>
               <input
@@ -35,7 +35,7 @@
                 (input)="dt1.filterGlobal($event.target.value, 'contains')"
                 placeholder="{{ 'device.byname.placeholder' | translate }}" />
             </span>
-            <button (click)="add()" class="float-end btn btn-primary" translate="group.create.add.button"></button>
+            <button (click)="add()" class="btn btn-primary" translate="group.create.add.button"></button>
           </div>
         </ng-template>
         <ng-template pTemplate="header" let-columns>
