@@ -54,24 +54,27 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.clusters.currentValue) {
-      this.clustersToDisplay = [];
-      const clusters: Configure[] = changes.clusters.currentValue;
-      clusters.forEach(cluster => {
-        cluster.Attributes.forEach(attribute => {
-          attribute.Infos.forEach(infos => {
-            const clusterToDisplay = new ClusterToDisplay();
-            clusterToDisplay.clusterId = cluster.ClusterId;
-            clusterToDisplay.attributeId = attribute.Attribute;
-            clusterToDisplay.change = parseInt(infos.Change, 16).toString();
-            clusterToDisplay.dataType = infos.DataType;
-            clusterToDisplay.maxInterval = parseInt(infos.MaxInterval, 16).toString();
-            clusterToDisplay.minInterval = parseInt(infos.MinInterval, 16).toString();
-            clusterToDisplay.timeOut = parseInt(infos.TimeOut, 16).toString();
-            this.clustersToDisplay.push(clusterToDisplay);
-          });
+      this.formatClusters(changes.clusters.currentValue);
+    }
+  }
+
+  private formatClusters(clusters: Configure[]): void {
+    this.clustersToDisplay = [];
+    clusters.forEach(cluster => {
+      cluster.Attributes.forEach(attribute => {
+        attribute.Infos.forEach(infos => {
+          const clusterToDisplay = new ClusterToDisplay();
+          clusterToDisplay.clusterId = cluster.ClusterId;
+          clusterToDisplay.attributeId = attribute.Attribute;
+          clusterToDisplay.change = parseInt(infos.Change, 16).toString();
+          clusterToDisplay.dataType = infos.DataType;
+          clusterToDisplay.maxInterval = parseInt(infos.MaxInterval, 16).toString();
+          clusterToDisplay.minInterval = parseInt(infos.MinInterval, 16).toString();
+          clusterToDisplay.timeOut = parseInt(infos.TimeOut, 16).toString();
+          this.clustersToDisplay.push(clusterToDisplay);
         });
       });
-    }
+    });
   }
 
   updateValue(event: any, col: string, clusterToDisplay: ClusterToDisplay, index: number) {
@@ -86,6 +89,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
       } else {
         rowUpdated[col] = Number(value).toString(16).toUpperCase();
       }
+      this.formatClusters(this.clusters);
       this.clustersChange.emit(this.clusters);
     }
   }
