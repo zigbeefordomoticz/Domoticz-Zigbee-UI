@@ -401,7 +401,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           (device: any) => device.Health === 'Disabled' || device.Status === 'notDB'
         );
         this.healthsNotReachable = this.devices.filter((device: any) => {
-          return device.Health === ('Not Reachable' && device.Status !== 'notDB') || device.Status === 'Leave';
+          return (device.Health === 'Not Reachable' && device.Status !== 'notDB') || device.Status === 'Leave';
         });
         this.healthsNotSeen = this.devices.filter((device: any) => {
           return device.Health === 'Not seen last 24hours' && device.Status !== 'notDB';
