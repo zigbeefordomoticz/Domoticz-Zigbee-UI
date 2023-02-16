@@ -76,6 +76,9 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   colorSchemeROG = {
     domain: ['red', 'orange', 'green']
   };
+  colorSchemeROBG = {
+    domain: ['red', 'orange', 'blue', 'green']
+  };
   colorSchemeGROG = {
     domain: ['green', 'blue', 'red', 'orange', 'gray']
   };
@@ -449,28 +452,35 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.devicesOnBattery = devices.filter(
           (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
         );
-        const _batteryInf30 = this.devicesOnBattery.filter(
-          (device: any) => device.Battery <= 30 && device.Health !== 'Disabled'
+        const _battery1 = this.devicesOnBattery.filter(
+          (device: any) => device.Battery <= 15 && device.Health !== 'Disabled'
         );
-        const _batterySup30 = this.devicesOnBattery.filter(
-          (device: any) => device.Battery > 30 && device.Battery <= 50 && device.Health !== 'Disabled'
+        const _battery2 = this.devicesOnBattery.filter(
+          (device: any) => device.Battery > 15 && device.Battery <= 35 && device.Health !== 'Disabled'
         );
-        const _batterySup50 = this.devicesOnBattery.filter(
-          (device: any) => device.Battery > 50 && device.Health !== 'Disabled'
+        const _battery3 = this.devicesOnBattery.filter(
+          (device: any) => device.Battery > 35 && device.Battery <= 75 && device.Health !== 'Disabled'
         );
-        this.batteryInf30 = this.devices.filter((it: any) => _batteryInf30.find((iter: any) => iter.IEEE === it.IEEE));
-        this.batterySup50 = this.devices.filter((it: any) => _batterySup50.find((iter: any) => iter.IEEE === it.IEEE));
-        this.batterySup30 = this.devices.filter((it: any) => _batterySup30.find((iter: any) => iter.IEEE === it.IEEE));
+        const _battery4 = this.devicesOnBattery.filter(
+          (device: any) => device.Battery > 75 && device.Health !== 'Disabled'
+        );
         this.advancedPieBattery = [
           {
-            name: this.translateService.instant('dashboard.devices.battery.inf.30'),
-            value: this.batteryInf30.length
+            name: this.translateService.instant('dashboard.devices.battery.inf.15'),
+            value: _battery1.length
           },
           {
-            name: this.translateService.instant('dashboard.devices.battery.sup.30'),
-            value: this.batterySup30.length
+            name: this.translateService.instant('dashboard.devices.battery.inf.35'),
+            value: _battery2.length
           },
-          { name: this.translateService.instant('dashboard.devices.battery.sup.50'), value: this.batterySup50.length }
+          {
+            name: this.translateService.instant('dashboard.devices.battery.inf.75'),
+            value: _battery3.length
+          },
+          {
+            name: this.translateService.instant('dashboard.devices.battery.sup.75'),
+            value: _battery4.length
+          }
         ];
 
         this.certifiedDevices = certified.filter(
