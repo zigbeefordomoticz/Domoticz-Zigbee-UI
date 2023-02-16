@@ -51,7 +51,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   advancedPieLoad: any;
   advancedPieSent: any;
   advancedPieDevice: any;
-  advancedPieState: any;
+  advancedPieState: any[] = [];
   advancedPieBattery: any;
   advancedPieCertified: any;
   advancedPieLoadLabel: string;
@@ -73,29 +73,20 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   animations = true;
   gradient = false;
   tooltipDisabled = false;
-  colorSchemeROG = {
-    domain: ['red', 'orange', 'green']
+  colorShemeState: {
+    domain: string[];
   };
   colorSchemeROBG = {
     domain: ['red', 'orange', 'blue', 'green']
   };
-  colorSchemeGROG = {
+  colorSchemeGBROG = {
     domain: ['green', 'blue', 'red', 'orange', 'gray']
-  };
-  colorSchemeGOR = {
-    domain: ['green', 'blue', 'red']
-  };
-  colorSchemeGC = {
-    domain: ['green', 'cyan']
   };
   colorSchemeBG = {
     domain: ['blue', 'green']
   };
   colorSchemePC = {
     domain: ['purple', 'cyan']
-  };
-  colorSchemeGR = {
-    domain: ['green', 'red']
   };
   colorSchemeGO = {
     domain: ['green', 'orange']
@@ -401,6 +392,18 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.inDbs.label = this.translateService.instant('dashboard.devices.indb');
         this.inDbs.total = ((this.inDbs.length / this.devices.total) * 100).toFixed(0);
         this.inDbs.append = '%';
+
+        this.advancedPieDevice = [
+          {
+            name: this.translateService.instant('dashboard.devices.routers'),
+            value: this.routers.length
+          },
+          {
+            name: this.translateService.instant('dashboard.devices.enddevice'),
+            value: this.devicesOther.length
+          }
+        ];
+
         this.healthsLive = this.devices.filter((device: any) => device.Health === 'Live' && device.Status !== 'notDB');
         this.healthsDisabled = this.devices.filter(
           (device: any) => device.Health === 'Disabled' || device.Status === 'notDB'
@@ -421,35 +424,37 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
             device.Health !== 'Disabled'
           );
         });
-        this.advancedPieDevice = [
-          {
-            name: this.translateService.instant('dashboard.devices.routers'),
-            value: this.routers.length
-          },
-          {
-            name: this.translateService.instant('dashboard.devices.enddevice'),
-            value: this.devicesOther.length
-          }
-        ];
-        this.advancedPieState = [
-          {
-            name: this.translateService.instant('dashboard.devices.live'),
-            value: this.healthsLive.length
-          },
-          {
+
+        this.colorShemeState = this.colorSchemeGBROG;
+
+        this.advancedPieState.push({
+          name: this.translateService.instant('dashboard.devices.live'),
+          value: this.healthsLive.length
+        });
+        if (this.healthsDisabled > 0) {
+          this.advancedPieState.push({
             name: this.translateService.instant('dashboard.devices.disabled'),
             value: this.healthsDisabled.length
-          },
-          {
+          });
+        } else {
+          this.colorShemeState.domain = this.colorShemeState.domain.filter(color => color !== 'blue');
+        }
+        if (this.healthsNotReachable > 0) {
+          this.advancedPieState.push({
             name: this.translateService.instant('dashboard.devices.notReachable'),
             value: this.healthsNotReachable.length
-          },
-          {
-            name: this.translateService.instant('dashboard.devices.notseen'),
-            value: this.healthsNotSeen.length
-          },
-          { name: this.translateService.instant('dashboard.devices.others'), value: this.healthsOthers.length }
-        ];
+          });
+        } else {
+          this.colorShemeState.domain = this.colorShemeState.domain.filter(color => color !== 'red');
+        }
+        this.advancedPieState.push({
+          name: this.translateService.instant('dashboard.devices.notseen'),
+          value: this.healthsNotSeen.length
+        });
+        this.advancedPieState.push({
+          name: this.translateService.instant('dashboard.devices.others'),
+          value: this.healthsOthers.length
+        });
 
         const devicesOnBattery = devices.filter(
           (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
