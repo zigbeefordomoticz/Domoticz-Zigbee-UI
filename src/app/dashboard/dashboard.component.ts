@@ -40,13 +40,13 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   pluginStats: PluginStats;
   maxLoad: any = {};
   currentLoad: any = {};
-  devicesOnBattery: any;
   devicesOther: any;
-  batterySup50: any;
-  batterySup30: any;
-  batteryInf30: any;
   certifiedDevices: any;
   notCertifiedDevices: any;
+  battery1: any;
+  battery2: any;
+  battery3: any;
+  battery4: any;
 
   advancedPieLoad: any;
   advancedPieSent: any;
@@ -303,12 +303,14 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         devices = this.healthsNotSeen;
       }
     } else if (name === 'battery') {
-      if (event.name === this.translateService.instant('dashboard.devices.battery.inf.30')) {
-        devices = this.batteryInf30;
-      } else if (event.name === this.translateService.instant('dashboard.devices.battery.sup.30')) {
-        devices = this.batterySup30;
+      if (event.name === this.translateService.instant('dashboard.devices.battery.inf.15')) {
+        devices = this.battery1;
+      } else if (event.name === this.translateService.instant('dashboard.devices.battery.inf.35')) {
+        devices = this.battery2;
+      } else if (event.name === this.translateService.instant('dashboard.devices.battery.inf.75')) {
+        devices = this.battery3;
       } else {
-        devices = this.batterySup50;
+        devices = this.battery4;
       }
     } else if (name === 'certified') {
       if (event.name === this.translateService.instant('dashboard.devices.optimized')) {
@@ -449,37 +451,33 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           { name: this.translateService.instant('dashboard.devices.others'), value: this.healthsOthers.length }
         ];
 
-        this.devicesOnBattery = devices.filter(
+        const devicesOnBattery = devices.filter(
           (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
         );
-        const _battery1 = this.devicesOnBattery.filter(
-          (device: any) => device.Battery <= 15 && device.Health !== 'Disabled'
-        );
-        const _battery2 = this.devicesOnBattery.filter(
+        this.battery1 = devicesOnBattery.filter((device: any) => device.Battery <= 15 && device.Health !== 'Disabled');
+        this.battery2 = devicesOnBattery.filter(
           (device: any) => device.Battery > 15 && device.Battery <= 35 && device.Health !== 'Disabled'
         );
-        const _battery3 = this.devicesOnBattery.filter(
+        this.battery3 = devicesOnBattery.filter(
           (device: any) => device.Battery > 35 && device.Battery <= 75 && device.Health !== 'Disabled'
         );
-        const _battery4 = this.devicesOnBattery.filter(
-          (device: any) => device.Battery > 75 && device.Health !== 'Disabled'
-        );
+        this.battery4 = devicesOnBattery.filter((device: any) => device.Battery > 75 && device.Health !== 'Disabled');
         this.advancedPieBattery = [
           {
             name: this.translateService.instant('dashboard.devices.battery.inf.15'),
-            value: _battery1.length
+            value: this.battery1.length
           },
           {
             name: this.translateService.instant('dashboard.devices.battery.inf.35'),
-            value: _battery2.length
+            value: this.battery2.length
           },
           {
             name: this.translateService.instant('dashboard.devices.battery.inf.75'),
-            value: _battery3.length
+            value: this.battery3.length
           },
           {
             name: this.translateService.instant('dashboard.devices.battery.sup.75'),
-            value: _battery4.length
+            value: this.battery4.length
           }
         ];
 
