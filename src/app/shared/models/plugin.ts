@@ -1,6 +1,7 @@
 export interface Plugin {
   Address: string;
   Author: string;
+  CertifiedDbVersion: string;
   Database: string;
   DomoticzBuildTime: string;
   DomoticzHash: string;

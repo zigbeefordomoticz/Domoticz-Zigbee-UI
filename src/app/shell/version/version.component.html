@@ -70,7 +70,9 @@
           placement="top"
           [ngbPopover]="popContentPlugin"
           popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}">
-          <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
+          <span translate="dashboard.plugin.version"></span>
+          {{ fork.plugin.PluginVersion }}
+          <span *ngIf="fork.plugin.CertifiedDbVersion">[{{ fork.plugin.CertifiedDbVersion }}]</span>
         </a>
       </div>
       <div class="me-2 order-5 p-2" *ngIf="fork.plugin?.FirmwareUpdate">
@@ -84,7 +86,9 @@
         </a>
       </div>
       <div *ngIf="!fork.plugin?.PluginUpdate" class="order-4 p-2 text-white">
-        <span translate="dashboard.plugin.version"></span>{{ fork.plugin.PluginVersion }}
+        <span translate="dashboard.plugin.version"></span>
+        {{ fork.plugin.PluginVersion }}
+        <span *ngIf="fork.plugin.CertifiedDbVersion">[{{ fork.plugin.CertifiedDbVersion }}]</span>
       </div>
       <div *ngIf="!fork.plugin?.FirmwareUpdate" class="d-none d-lg-block me-2 order-5 p-2 text-white">
         <span translate="dashboard.firmware.version"></span>{{ fork.plugin.DisplayFirmwareVersion }}
