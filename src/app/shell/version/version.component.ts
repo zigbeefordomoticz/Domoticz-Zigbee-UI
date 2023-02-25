@@ -43,6 +43,7 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
           this.tracker.setCustomVariable(2, 'PluginVersion', plugin.PluginVersion, 'visit');
           this.tracker.setCustomVariable(3, 'CoordinatorFirmwareVersion', plugin.CoordinatorFirmwareVersion, 'visit');
           this.tracker.setCustomVariable(4, 'NetworkSize', plugin.NetworkSize, 'visit');
+          this.tracker.setCustomVariable(4, 'CertifiedDbVersion', plugin.CertifiedDbVersion, 'visit');
         }
       })
     );
