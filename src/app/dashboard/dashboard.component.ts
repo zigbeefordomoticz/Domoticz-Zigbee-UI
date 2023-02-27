@@ -431,7 +431,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           name: this.translateService.instant('dashboard.devices.live'),
           value: this.healthsLive.length
         });
-        if (this.healthsDisabled > 0) {
+        if (this.healthsDisabled.length > 0) {
           this.advancedPieState.push({
             name: this.translateService.instant('dashboard.devices.disabled'),
             value: this.healthsDisabled.length
@@ -439,7 +439,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         } else {
           this.colorShemeState.domain = this.colorShemeState.domain.filter(color => color !== 'blue');
         }
-        if (this.healthsNotReachable > 0) {
+        if (this.healthsNotReachable.length > 0) {
           this.advancedPieState.push({
             name: this.translateService.instant('dashboard.devices.notReachable'),
             value: this.healthsNotReachable.length
