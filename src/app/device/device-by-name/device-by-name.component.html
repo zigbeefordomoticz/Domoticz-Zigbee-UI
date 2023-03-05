@@ -145,10 +145,10 @@
             <td [pEditableColumn]="row.ZDeviceName" pEditableColumnField="ZDeviceName">
               <p-cellEditor>
                 <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="row.ZDeviceName" (change)="hasEditing = true" />
+                  <input pInputText type="text" [(ngModel)]="row.ZDeviceName" (input)="hasEditing = true" />
                 </ng-template>
                 <ng-template pTemplate="output">
-                  <input pInputText type="text" [(ngModel)]="row.ZDeviceName" (change)="hasEditing = true" />
+                  <input pInputText type="text" [(ngModel)]="row.ZDeviceName" (input)="hasEditing = true" />
                 </ng-template>
               </p-cellEditor>
             </td>
