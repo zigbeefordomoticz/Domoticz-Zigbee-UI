@@ -357,23 +357,26 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.apiService.getPlugin(),
       this.apiService.getZDeviceName()
     ]).pipe(
-      map(([res, devices, plugin, certified]) => {
+      map(([pluginStats, devices, plugin, certified]) => {
         this.plugin = plugin;
-        this.pluginStats = res;
+        this.pluginStats = pluginStats;
         this.devices = devices;
         this.trackEvent();
         this.createChart();
         this.maxLoad.label = this.translateService.instant('dashboard.trafic.maxload');
-        this.maxLoad.total = res.MaxLoad;
+        this.maxLoad.total = pluginStats.MaxLoad;
         this.currentLoad.label = this.translateService.instant('dashboard.trafic.currentload');
-        this.currentLoad.total = res.CurrentLoad;
+        this.currentLoad.total = pluginStats.CurrentLoad;
         this.advancedPieLoad = [
-          { name: this.translateService.instant('dashboard.trafic.maxload'), value: res.MaxLoad - res.CurrentLoad },
-          { name: this.translateService.instant('dashboard.trafic.currentload'), value: res.CurrentLoad }
+          {
+            name: this.translateService.instant('dashboard.trafic.maxload'),
+            value: pluginStats.MaxLoad - pluginStats.CurrentLoad
+          },
+          { name: this.translateService.instant('dashboard.trafic.currentload'), value: pluginStats.CurrentLoad }
         ];
         this.advancedPieSent = [
-          { name: this.translateService.instant('dashboard.trafic.send'), value: res.Sent },
-          { name: this.translateService.instant('dashboard.trafic.receive'), value: res.Received }
+          { name: this.translateService.instant('dashboard.trafic.send'), value: pluginStats.Sent },
+          { name: this.translateService.instant('dashboard.trafic.receive'), value: pluginStats.Received }
         ];
 
         this.devices.total = this.devices.length;
@@ -427,10 +430,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
         this.colorShemeState = this.colorSchemeGBROG;
 
+        this.advancedPieState = [];
         this.advancedPieState.push({
           name: this.translateService.instant('dashboard.devices.live'),
           value: this.healthsLive.length
         });
+
         if (this.healthsDisabled.length > 0) {
           this.advancedPieState.push({
             name: this.translateService.instant('dashboard.devices.disabled'),
@@ -503,7 +508,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           }
         ];
 
-        this.headerService.setError(res.Error);
+        this.headerService.setError(pluginStats.Error);
       })
     );
   }
