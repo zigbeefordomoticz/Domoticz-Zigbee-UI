@@ -15,6 +15,7 @@ import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators'
 import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { PluginStats } from '../shared/models/plugin-stats';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
+import { DeviceByName } from '@app/shared/models/device-by-name';
 
 const log = new Logger('DashboardComponent');
 
@@ -30,6 +31,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   poll = false;
   chart: Chart;
   devices: any;
+  certified: DeviceByName[];
   routers: any;
   inDbs: any;
   healthsLive: any;
@@ -360,7 +362,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       map(([pluginStats, devices, plugin, certified]) => {
         this.plugin = plugin;
         this.pluginStats = pluginStats;
-        this.devices = devices;
+        this.devices = devices ? devices : [];
+        this.certified = certified ? certified : [];
         this.trackEvent();
         this.createChart();
         this.maxLoad.label = this.translateService.instant('dashboard.trafic.maxload');
@@ -461,7 +464,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           value: this.healthsOthers.length
         });
 
-        const devicesOnBattery = devices.filter(
+        const devicesOnBattery = this.devices.filter(
           (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
         );
         this.battery1 = devicesOnBattery.filter((device: any) => device.Battery <= 15 && device.Health !== 'Disabled');
@@ -491,10 +494,10 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           }
         ];
 
-        this.certifiedDevices = certified.filter(
+        this.certifiedDevices = this.certified.filter(
           (device: any) => device.CertifiedDevice && device.Health !== 'Disabled'
         );
-        this.notCertifiedDevices = certified.filter(
+        this.notCertifiedDevices = this.certified.filter(
           (device: any) => !device.CertifiedDevice && device.Health !== 'Disabled'
         );
         this.advancedPieCertified = [
