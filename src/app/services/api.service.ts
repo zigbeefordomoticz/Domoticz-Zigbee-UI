@@ -124,7 +124,7 @@ export class ApiService {
             }
           });
         }
-        return devices;
+        return true;
       }),
       catchError(error => this.handleError(error))
     );
