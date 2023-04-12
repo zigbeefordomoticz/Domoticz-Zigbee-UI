@@ -114,7 +114,7 @@ export class ApiService {
 
   getZDevices(filterCoordinator = false): Observable<ZDevices[]> {
     return this.httpClient.get<ZDevices[]>(routes.zDevices).pipe(
-      map(devices => {
+      map(devices => 
           devices.filter(device => {
             if (filterCoordinator && device.LogicalType === 'Coordinator') {
               return true;
@@ -122,7 +122,7 @@ export class ApiService {
               return true;
             }
           });
-      }),
+      ),
       catchError(error => this.handleError(error))
     );
   }
