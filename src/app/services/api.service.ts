@@ -121,7 +121,7 @@ export class ApiService {
             } else if (device.LogicalType !== 'Coordinator') {
               return true;
             }
-          });
+          })
       ),
       catchError(error => this.handleError(error))
     );
