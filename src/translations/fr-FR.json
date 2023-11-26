@@ -76,7 +76,7 @@
   "dashboard.health.group": "Groupe: ",
   "dashboard.devices.indb": "En Base",
   "consent.banner.header": "Consentement",
-  "consent.banner.description": "Dans l'optique de mieux vous connaître, nous utilisons une technique de cookies et, avec votre consentement, nous collecterons principalement la version du plugin, le modèle de coordinateur, la version du firmware et la taille du réseau (nombre de routers et d’objets terminaux).<br>Donnez votre accord en sélectionnant 'Autoriser' ou sinon 'Interdire'. Si vous souhaitez changer votre choix, vous pouvez le faire via le menu Réglages.<br><a href=https://zigbeefordomoticz.github.io/wiki/fr-fr/WebUI_Stastiques>Plus d'infos dans le wiki</a>.",
+  "consent.banner.description": "Dans l'optique de mieux vous connaître, nous utilisons une technique de cookies et, avec votre consentement, nous collecterons principalement la version du plugin, le modèle de coordinateur, la version du firmware et la taille du réseau (nombre de routers et d’objets terminaux).<br>Donnez votre accord en sélectionnant 'Autoriser' ou sinon 'Interdire'. Si vous souhaitez changer votre choix, vous pouvez le faire via le menu Réglages.<br><a href=https://zigbeefordomoticz.github.io/wiki/fr-fr/WebUI_Statistiques>Plus d'infos dans le wiki</a>.",
   "consent.banner.accept": "Autoriser",
   "consent.banner.decline": "Interdire",
   "management": "Gestion",
