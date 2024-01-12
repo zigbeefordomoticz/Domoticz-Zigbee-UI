@@ -121,6 +121,6 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
   }
 
   copy(row: DeviceByName) {
-    this.apiService.getRawZDevice(row._NwkId).subscribe(json => this.clipboard.copy(JSON.stringify(json)));
+    this.apiService.getNonOptimizedDevice(row._NwkId).subscribe(json => this.clipboard.copy(JSON.stringify(json)));
   }
 }

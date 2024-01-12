@@ -76,7 +76,8 @@ const routes = {
   configureReporting: '/cfgrpt-ondemand-config',
   demandConfigureReporting: '/cfgrpt-ondemand',
   zlinky: '/zlinky',
-  pluginLog: '/plugin-log'
+  pluginLog: '/plugin-log',
+  deviceNonOptimized: '/non-optmize-device-configuration'
 };
 
 const log = new Logger('ApiService');
@@ -114,14 +115,14 @@ export class ApiService {
 
   getZDevices(filterCoordinator = false): Observable<ZDevices[]> {
     return this.httpClient.get<ZDevices[]>(routes.zDevices).pipe(
-      map(devices => 
-          devices.filter(device => {
-            if (filterCoordinator && device.LogicalType === 'Coordinator') {
-              return true;
-            } else if (device.LogicalType !== 'Coordinator') {
-              return true;
-            }
-          })
+      map(devices =>
+        devices.filter(device => {
+          if (filterCoordinator && device.LogicalType === 'Coordinator') {
+            return true;
+          } else if (device.LogicalType !== 'Coordinator') {
+            return true;
+          }
+        })
       ),
       catchError(error => this.handleError(error))
     );
@@ -617,6 +618,13 @@ export class ApiService {
 
   getLog(): Observable<LogFile> {
     return this.httpClient.get<LogFile>(routes.pluginLog).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getNonOptimizedDevice(_NwkId: string): Observable<any> {
+    return this.httpClient.get(routes.deviceNonOptimized + '/' + _NwkId).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
