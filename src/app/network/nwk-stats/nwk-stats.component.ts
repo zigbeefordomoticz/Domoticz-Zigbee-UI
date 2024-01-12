@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { KeyValue } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { Plugin } from '@app/shared/models/plugin';
 import { Observable, Subject } from 'rxjs';
 import { sortDesc } from '../../shared/fonction';
-import { KeyValue } from '@angular/common';
 
 const log = new Logger('NwkStatsComponent');
 
@@ -16,11 +17,15 @@ export class NwkStatsComponent implements OnInit {
   stats$: Observable<Array<string>>;
   listSubject$ = new Subject();
   timeStamp: string;
+  plugin: Plugin;
 
   constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.stats$ = this.apiService.getNwkStats();
+    setTimeout(() => {
+      this.plugin = JSON.parse(sessionStorage.getItem('plugin'));
+    }, 500);
   }
 
   sortDesc(a: KeyValue<string, any>, b: KeyValue<string, any>) {

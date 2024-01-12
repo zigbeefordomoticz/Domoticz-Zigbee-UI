@@ -55,7 +55,6 @@
               <i class="fas fa-wifi me-2"></i> <span translate="network.topo"></span>
             </li>
             <li
-              *ngIf="!plugin?.Zigpy"
               class="dropdown-item nav-link nav-item"
               (click)="toggleMenu()"
               routerLink="/network/energy-level"
