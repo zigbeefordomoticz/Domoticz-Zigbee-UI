@@ -3,7 +3,7 @@ import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { LogFile } from '@app/shared/models/log';
 import { FileSaverService } from 'ngx-filesaver';
-import { finalize, Observable } from 'rxjs';
+import { finalize, forkJoin, Observable } from 'rxjs';
 import { transformToTimestamp } from '../shared/utils/transform-timestamp';
 
 const log = new Logger('ToolsComponent');
@@ -66,9 +66,6 @@ export class ToolsComponent implements OnInit {
     if (device === 'battery-state') {
       service = this.apiService.getBatteryState();
     }
-    if (device === 'non-optimized') {
-      service = this.apiService.getRawZDevices(true);
-    }
 
     if (service) {
       service
@@ -83,6 +80,20 @@ export class ToolsComponent implements OnInit {
     }
   }
 
+  getAllNonOptimizedDevice(): void {
+    this.json = null;
+    this.apiService.getZDeviceName().subscribe(result => {
+      const nonOptimized = result
+        .filter(device => !device.CertifiedDevice)
+        .map(device => this.getNonOptimizedDevice(device._NwkId));
+      forkJoin(nonOptimized).subscribe(results => this.callbackservice(results));
+    });
+  }
+
+  private getNonOptimizedDevice(nwkId: string): Observable<any> {
+    return this.apiService.getNonOptimizedDevice(nwkId);
+  }
+
   download(logFile: LogFile) {
     const fileName = logFile.Filename;
     const fileType = this.fileSaverService.genType(fileName);
@@ -91,7 +102,7 @@ export class ToolsComponent implements OnInit {
     });
   }
 
-  callbackservice(json: any) {
+  private callbackservice(json: any) {
     const jsonStr = JSON.stringify(json);
     this.json = JSON.parse(jsonStr, transformToTimestamp);
   }
