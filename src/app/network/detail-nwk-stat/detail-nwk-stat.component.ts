@@ -1,12 +1,13 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { Device } from '@app/shared/models/device';
-import { Chart } from 'angular-highcharts';
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import * as Highcharts from 'highcharts';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { Device } from '@app/shared/models/device';
+import { Plugin } from '@app/shared/models/plugin';
+import { TranslateService } from '@ngx-translate/core';
+import { Chart } from 'angular-highcharts';
+import * as Highcharts from 'highcharts';
+import { Observable } from 'rxjs';
 import { NwkStat } from '../../shared/models/nwk';
 
 const log = new Logger('DetailTopologyComponent');
@@ -23,6 +24,7 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
   devices$: Observable<Array<Device>>;
   totalTx: number;
   totalFail: number;
+  plugin: Plugin;
 
   constructor(private apiService: ApiService, private translate: TranslateService) {
     super();
@@ -30,6 +32,9 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
 
   ngOnInit() {
     this.devices$ = this.apiService.getDevices();
+    setTimeout(() => {
+      this.plugin = JSON.parse(sessionStorage.getItem('plugin'));
+    }, 500);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

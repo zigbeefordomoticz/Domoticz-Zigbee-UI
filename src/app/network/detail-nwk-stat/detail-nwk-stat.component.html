@@ -1,6 +1,6 @@
 <div class="row row-cols-1 row-cols-md-2 g-4 mt-1">
   <div class="col">
-    <div class="card" *ngIf="chart">
+    <div class="card" *ngIf="chart && *ngIf="!plugin?.Zigpy"">
       <div class="card-header fw-bold" translate="network.stats.detail.visu.header"></div>
       <div class="card-body">
         <p class="card-text" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></p>
