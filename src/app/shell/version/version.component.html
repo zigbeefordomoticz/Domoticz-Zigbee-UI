@@ -15,8 +15,12 @@
     <div class="d-flex flex-row justify-content-between">
       <div class="order-first p-2 text-white ms-2">
         <span translate="dashboard.health.starttime"></span
-        >{{ fork.pluginStats?.StartTime * 1000 | date: 'dd/MM/yyyy
-        HH:mm:ss' }}
+        >{{
+          fork.pluginStats?.StartTime * 1000
+            | date
+              : 'dd/MM/yyyy
+        HH:mm:ss'
+        }}
       </div>
       <div class="order-0 p-2 text-center text-white d-none d-xl-block">
         <ng-container *ngIf="fork.pluginStats.Rxps >= 0.5 && fork.pluginStats.Txps >= 0.5; then perSecond; else other">
