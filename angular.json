@@ -17,35 +17,20 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": [
-              "highcharts",
-              "subsink",
-              "file-saver",
-              "clone-deep"
-            ],
+            "allowedCommonJsDependencies": ["highcharts", "subsink", "file-saver", "clone-deep"],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": [
-              "src/favicon.ico",
-              "src/apple-touch-icon.png",
-              "src/robots.txt",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/apple-touch-icon.png", "src/robots.txt", "src/assets"],
             "styles": [
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css",
               "node_modules/ngx-spinner/animations/line-spin-clockwise-fade-rotating.css",
               "node_modules/ngx-spinner/animations/line-scale.css",
               "src/main.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./node_modules"
-              ]
+              "includePaths": ["./node_modules"]
             },
             "scripts": [],
             "vendorChunk": true,
@@ -115,10 +100,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }

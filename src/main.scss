@@ -42,11 +42,15 @@ html {
 @import "theme/theme-variables";
 
 // 3rd party libraries
-@import "bootstrap/scss/bootstrap";
+@import "bootstrap/dist/css/bootstrap.min.css" layer(bootstrap);
 @import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "@fortawesome/fontawesome-free/scss/brands.scss";
 @import "@fortawesome/fontawesome-free/scss/regular.scss";
 @import "@fortawesome/fontawesome-free/scss/solid.scss";
+
+@import "primeicons/primeicons.css";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.min.css";
 
 // Theme customization
 @import "theme/theme";
