@@ -164,6 +164,7 @@
               <i
                 class="fas fa-cog"
                 style="cursor: pointer"
+                [style.color]="row.CheckParam ? 'red' : 'back'"
                 (click)="rowParameter = row; editParameter(editContent)"></i>
             </td>
           </tr>
