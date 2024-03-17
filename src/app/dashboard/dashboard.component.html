@@ -182,7 +182,7 @@
   </div>
 </div>
 
-<p-overlayPanel #op [style]="{ width: '450px' }" [showCloseIcon]="true">
+<p-overlayPanel #op [style.width]="widthOverlay" [showCloseIcon]="true" appendTo="body">
   <ng-template pTemplate="content">
     <p-table
       [rowHover]="true"

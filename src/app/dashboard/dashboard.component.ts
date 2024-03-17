@@ -316,7 +316,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     const width = (this.getScreenWidth * 80) / 100;
     if (width > 768) {
       this.widthOverlay = width;
-      this.overlay.toggle(null);
+      this.overlay.toggle(event);
     }
   }
 
