@@ -67,7 +67,7 @@ export class Logger {
     Logger.level = LogLevel.Warning;
   }
 
-  constructor(private source?: string) { }
+  constructor(private source?: string) {}
 
   /**
    * Logs messages or objects  with the debug level.

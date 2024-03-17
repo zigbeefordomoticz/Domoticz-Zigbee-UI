@@ -59,13 +59,11 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
 
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', backdrop: 'static', keyboard: false })
-      .result.then(
-        () => {
-          this.spinner.hide('assist');
-          this.apiService.getNewHardware(false).subscribe();
-          this.subs.unsubscribe();
-        }
-      );
+      .result.then(() => {
+        this.spinner.hide('assist');
+        this.apiService.getNewHardware(false).subscribe();
+        this.subs.unsubscribe();
+      });
   }
 
   createwidgets() {

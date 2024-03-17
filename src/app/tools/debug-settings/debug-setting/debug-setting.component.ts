@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { Setting } from '@app/shared/models/setting';
 
-
 @Component({
   selector: 'app-debug-setting',
   templateUrl: './debug-setting.component.html',
@@ -21,7 +20,7 @@ export class DebugSettingComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private fgd: FormGroupDirective
-  ) { }
+  ) {}
 
   ngOnInit() {
     let group;

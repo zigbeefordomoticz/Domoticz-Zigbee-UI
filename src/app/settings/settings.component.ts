@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatomoTracker } from 'ngx-matomo-client';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -30,7 +29,7 @@ export class SettingsComponent implements OnInit {
     private headerService: HeaderService,
     private translate: TranslateService,
     private readonly tracker: MatomoTracker
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({});

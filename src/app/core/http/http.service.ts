@@ -37,7 +37,7 @@ class HttpInterceptorHandler implements HttpHandler {
   constructor(
     private next: HttpHandler,
     private interceptor: HttpInterceptor
-  ) { }
+  ) {}
 
   handle(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     return this.interceptor.intercept(request, this.next);

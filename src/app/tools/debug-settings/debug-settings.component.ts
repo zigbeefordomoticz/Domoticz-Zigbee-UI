@@ -7,7 +7,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-debug-settings',
   templateUrl: './debug-settings.component.html',
@@ -28,7 +27,7 @@ export class DebugSettingsComponent implements OnInit {
     private toastr: ToastrService,
     private headerService: HeaderService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({});

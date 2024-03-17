@@ -34,7 +34,7 @@ export class DeviceByNameComponent implements OnChanges {
     private modalService: NgbModal,
     private toastr: ToastrService,
     private clipboard: Clipboard
-  ) { }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.devices.currentValue !== changes.devices.previousValue) {
@@ -44,13 +44,10 @@ export class DeviceByNameComponent implements OnChanges {
     }
   }
 
-
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      () => {
-        this.delete();
-      }
-    );
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => {
+      this.delete();
+    });
   }
 
   editParameter(content: any): void {

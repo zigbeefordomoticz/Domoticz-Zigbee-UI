@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
 
-
 @Component({
   selector: 'app-detail-topology',
   templateUrl: './detail-topology.component.html',

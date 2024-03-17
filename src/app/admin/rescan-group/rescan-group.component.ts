@@ -15,7 +15,7 @@ export class RescanGroupComponent {
     private apiService: ApiService,
     private translate: TranslateService,
     private headerService: HeaderService
-  ) { }
+  ) {}
 
   rescanGroup() {
     this.apiService.getRescanGroup().subscribe(() => {

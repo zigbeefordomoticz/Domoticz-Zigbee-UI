@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-req-network-full',
   templateUrl: './req-network-full.component.html',
@@ -18,8 +17,7 @@ export class ReqNetworkFullComponent {
     private apiService: ApiService,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) { }
-
+  ) {}
 
   reqFull() {
     this.apiService.getNwkFull().subscribe(() => {

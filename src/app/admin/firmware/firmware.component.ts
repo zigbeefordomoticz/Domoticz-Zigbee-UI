@@ -110,11 +110,9 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
   open(content: any) {
     this.firmwareModal = this.form.get('firmware').value as Firmware;
     this.devicesModal = this.form.get('device').value as DevicesByManufacturer[];
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      () => {
-        this.updateFirmware();
-      }
-    );
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => {
+      this.updateFirmware();
+    });
   }
 
   private getLabelFirmware(firmware: Firmware): string {

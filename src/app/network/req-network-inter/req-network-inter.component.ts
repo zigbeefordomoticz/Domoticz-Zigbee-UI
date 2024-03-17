@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-req-network-inter',
   templateUrl: './req-network-inter.component.html',
@@ -18,8 +17,7 @@ export class ReqNetworkInterComponent {
     private apiService: ApiService,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) { }
-
+  ) {}
 
   reqInter() {
     this.apiService.getReqInter().subscribe(() => {

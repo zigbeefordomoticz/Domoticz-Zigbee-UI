@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Plugin } from '@app/shared/models/plugin';
 
-
 @Component({
   selector: 'app-command',
   templateUrl: './command.component.html',

@@ -5,7 +5,6 @@ import { PluginStats } from '@app/shared/models/plugin-stats';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 
-
 @Component({
   selector: 'app-plugin-stats',
   templateUrl: './plugin-stats.component.html',

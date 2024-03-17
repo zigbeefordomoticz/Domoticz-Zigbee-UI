@@ -88,7 +88,7 @@ export class ApiService {
     private httpClient: HttpClient,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   downloadLog(url: string): Observable<any> {
     return this.httpClient

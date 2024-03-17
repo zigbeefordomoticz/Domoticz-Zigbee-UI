@@ -47,7 +47,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.clusters.currentValue) {

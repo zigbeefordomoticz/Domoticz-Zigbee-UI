@@ -12,7 +12,7 @@ import { HttpCacheService } from './http-cache.service';
 export class CacheInterceptor implements HttpInterceptor {
   private forceUpdate = false;
 
-  constructor(private httpCacheService: HttpCacheService) { }
+  constructor(private httpCacheService: HttpCacheService) {}
 
   /**
    * Configures interceptor options

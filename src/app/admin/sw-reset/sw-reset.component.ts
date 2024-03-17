@@ -15,8 +15,7 @@ export class SwResetComponent {
     private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) { }
-
+  ) {}
 
   swReset() {
     this.apiService.getSwReset().subscribe(() => {

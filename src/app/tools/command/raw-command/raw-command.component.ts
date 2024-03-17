@@ -4,7 +4,6 @@ import { ApiService } from '@app/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-raw-command',
   templateUrl: './raw-command.component.html',
@@ -18,7 +17,7 @@ export class RawCommandComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

@@ -17,7 +17,7 @@ export class ErasePdmComponent {
     private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   erasePdm() {
     this.apiService.getErasePDM().subscribe(() => {
@@ -26,10 +26,8 @@ export class ErasePdmComponent {
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      () => {
-        this.erasePdm();
-      }
-    );
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => {
+      this.erasePdm();
+    });
   }
 }

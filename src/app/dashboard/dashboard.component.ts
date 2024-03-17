@@ -14,7 +14,6 @@ import { forkJoin, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { PluginStats } from '../shared/models/plugin-stats';
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',

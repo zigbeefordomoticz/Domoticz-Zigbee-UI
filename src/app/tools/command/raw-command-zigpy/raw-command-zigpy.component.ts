@@ -6,7 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-raw-command-zigpy',
   templateUrl: './raw-command-zigpy.component.html',
@@ -21,7 +20,7 @@ export class RawCommandZigpyComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   selectedCar: string;
 

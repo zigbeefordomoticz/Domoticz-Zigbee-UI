@@ -5,7 +5,6 @@ import { FileSaverService } from 'ngx-filesaver';
 import { finalize } from 'rxjs/operators';
 import { transformToTimestamp } from '../../shared/utils/transform-timestamp';
 
-
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
@@ -19,8 +18,7 @@ export class ErrorComponent {
     private apiService: ApiService,
     private headerService: HeaderService,
     private fileSaverService: FileSaverService
-  ) { }
-
+  ) {}
 
   onClick(device: string) {
     this.json = null;

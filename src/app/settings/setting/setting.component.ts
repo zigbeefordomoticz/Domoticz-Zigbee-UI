@@ -3,7 +3,6 @@ import { ControlContainer, FormBuilder, FormGroupDirective, Validators } from '@
 import { Setting } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 
-
 @Component({
   selector: 'app-setting',
   templateUrl: './setting.component.html',
@@ -24,7 +23,7 @@ export class SettingComponent implements OnChanges {
     private formBuilder: FormBuilder,
     private fgd: FormGroupDirective,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     let group;

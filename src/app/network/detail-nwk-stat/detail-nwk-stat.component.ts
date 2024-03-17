@@ -9,7 +9,6 @@ import * as Highcharts from 'highcharts';
 import { Observable } from 'rxjs';
 import { NwkStat } from '../../shared/models/nwk';
 
-
 @Component({
   selector: 'app-detail-nwk-stat',
   templateUrl: './detail-nwk-stat.component.html',

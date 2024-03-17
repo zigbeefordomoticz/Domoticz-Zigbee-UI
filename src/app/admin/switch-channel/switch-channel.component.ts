@@ -19,7 +19,7 @@ export class SwitchChannelComponent implements OnInit {
     private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.apiService.getSettings().subscribe(res => {

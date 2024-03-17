@@ -8,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { UnsubscribeOnDestroyAdapter } from '../shared/adapter/unsubscribe-adapter';
 
-
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',

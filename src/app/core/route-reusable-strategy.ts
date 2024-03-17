@@ -13,7 +13,7 @@ export class RouteReusableStrategy extends RouteReuseStrategy {
     return false;
   }
 
-  public store(_route: ActivatedRouteSnapshot, _detachedTree: DetachedRouteHandle | null): void { }
+  public store(_route: ActivatedRouteSnapshot, _detachedTree: DetachedRouteHandle | null): void {}
 
   public shouldAttach(_route: ActivatedRouteSnapshot): boolean {
     return false;

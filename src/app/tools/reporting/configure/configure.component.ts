@@ -7,7 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-configure-reporting',
   templateUrl: './configure.component.html',
@@ -25,7 +24,7 @@ export class ConfigureReportingComponent implements OnInit {
     private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.devices$ = this.apiService.getZDevices();

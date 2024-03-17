@@ -4,7 +4,6 @@ import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-devi
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-manufacturer-casaia',
   templateUrl: './casaia.component.html',
@@ -19,7 +18,7 @@ export class CasaiaComponent implements OnInit {
     private apiService: ApiService,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getCasaiaDevices();

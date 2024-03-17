@@ -7,7 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-pairing-full-reset',
   templateUrl: './pairing-full-reset.component.html',

@@ -4,7 +4,6 @@ import { ApiService } from '@app/services/api.service';
 import { sortDesc } from '@app/shared/fonction';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-topology',
   templateUrl: './topology.component.html',
@@ -17,7 +16,7 @@ export class TopologyComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.topologies$ = this.apiService.getTopologie();

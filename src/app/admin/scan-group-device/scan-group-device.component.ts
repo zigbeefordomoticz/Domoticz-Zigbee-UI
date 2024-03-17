@@ -5,7 +5,6 @@ import { DeviceAvailable, DevicesAvailable } from '@app/shared/models/group';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-scan-group-device',
   templateUrl: './scan-group-device.component.html',
@@ -20,7 +19,7 @@ export class ScanGroupDeviceComponent implements OnInit {
     private apiService: ApiService,
     private translate: TranslateService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

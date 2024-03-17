@@ -17,8 +17,7 @@ export class ReqTopologyComponent {
     private apiService: ApiService,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) { }
-
+  ) {}
 
   reqTopology() {
     this.apiService.getReqTopologie().subscribe(() => {

@@ -6,7 +6,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
-
 @Component({
   selector: 'app-update-plugin',
   templateUrl: './update-plugin.component.html',
@@ -22,8 +21,7 @@ export class UpdatePluginComponent {
     private apiService: ApiService,
     private translate: TranslateService,
     private spinner: NgxSpinnerService
-  ) { }
-
+  ) {}
 
   updatePlugin() {
     this.load = true;

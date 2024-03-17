@@ -7,7 +7,6 @@ import { DeviceByName } from '@app/shared/models/device-by-name';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-debug-command',
   templateUrl: './debug-command.component.html',
@@ -25,7 +24,7 @@ export class DebugCommandComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

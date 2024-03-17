@@ -5,7 +5,6 @@ import { FileSaverService } from 'ngx-filesaver';
 import { Observable, finalize, forkJoin } from 'rxjs';
 import { transformToTimestamp } from '../shared/utils/transform-timestamp';
 
-
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
@@ -19,7 +18,7 @@ export class ToolsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private fileSaverService: FileSaverService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.logFile$ = this.apiService.getLog();

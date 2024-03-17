@@ -17,7 +17,7 @@ export class ReloadPluginComponent {
     private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) { }
+  ) {}
 
   reloadPlugin() {
     this.apiService.getReloadPlugin().subscribe(() => {
@@ -27,10 +27,8 @@ export class ReloadPluginComponent {
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      () => {
-        this.reloadPlugin();
-      }
-    );
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => {
+      this.reloadPlugin();
+    });
   }
 }

@@ -5,7 +5,6 @@ import { Plugin } from '@app/shared/models/plugin';
 import { Observable, Subject } from 'rxjs';
 import { sortDesc } from '../../shared/fonction';
 
-
 @Component({
   selector: 'app-nwk-stats',
   templateUrl: './nwk-stats.component.html',
@@ -20,7 +19,7 @@ export class NwkStatsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.stats$ = this.apiService.getNwkStats();
