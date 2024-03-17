@@ -56,17 +56,25 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.0",
-    "@angular-eslint/schematics": "^17.3.0",
+    "@angular-eslint/builder": "17.3.0",
+    "@angular-eslint/eslint-plugin": "17.3.0",
+    "@angular-eslint/eslint-plugin-template": "17.3.0",
+    "@angular-eslint/schematics": "17.3.0",
+    "@angular-eslint/template-parser": "17.3.0",
     "@angular/cli": "^17.3.0",
     "@angular/compiler-cli": "^17.3.0",
     "@angular/language-service": "^17.3.0",
     "@biesbjerg/ngx-translate-extract": "^7.0.4",
     "@types/d3": "^7.4.3",
     "@types/node": "^20.11.28",
+    "@typescript-eslint/eslint-plugin": "7.2.0",
+    "@typescript-eslint/parser": "7.2.0",
     "codelyzer": "^6.0.2",
+    "eslint": "^8.57.0",
     "htmlhint": "^1.1.4",
     "https-proxy-agent": "^7.0.4",
     "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "pretty-quick": "^4.0.0",
     "ts-node": "^10.9.2",
@@ -86,6 +94,16 @@
           "singleQuote": false
         }
       }
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --relative"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,html}": [
+      "eslint --fix"
     ]
   }
 }
