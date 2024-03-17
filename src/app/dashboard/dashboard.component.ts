@@ -1,21 +1,20 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { VersionService } from '@app/services/version-service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Plugin } from '@app/shared/models/plugin';
 import { Setting } from '@app/shared/models/setting';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
+import { MatomoTracker } from 'ngx-matomo-client';
+import { OverlayPanel } from 'primeng/overlaypanel';
 import { forkJoin, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
-import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { PluginStats } from '../shared/models/plugin-stats';
-import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
-import { DeviceByName } from '@app/shared/models/device-by-name';
-import { MatomoTracker } from 'ngx-matomo-client';
 
 const log = new Logger('DashboardComponent');
 
@@ -24,7 +23,9 @@ const log = new Logger('DashboardComponent');
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
+export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+  @ViewChild('op') overlay: OverlayPanel;
+
   settingsToSave: Array<Setting> = [];
   showConsent = false;
 
@@ -45,6 +46,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   devicesOther: any;
   certifiedDevices: any;
   notCertifiedDevices: any;
+  devicesToOverlay: any[];
+  widthOverlay: number;
   battery1: any;
   battery2: any;
   battery3: any;
@@ -70,7 +73,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   gaugeAppendText = '';
 
   thick = 15;
-  toppyControl: ToppyControl;
 
   animations = true;
   gradient = false;
@@ -98,7 +100,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
   constructor(
     private apiService: ApiService,
-    private toppy: Toppy,
     private versionService: VersionService,
     private headerService: HeaderService,
     private translateService: TranslateService,
@@ -276,80 +277,52 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   open(name: string, event: any) {
-    let devices;
     if (name === 'device') {
       if (event.name === this.translateService.instant('dashboard.devices.routers')) {
-        devices = this.routers;
+        this.devicesToOverlay = this.routers;
       } else {
-        devices = this.devicesOther;
+        this.devicesToOverlay = this.devicesOther;
       }
     } else if (name === 'state') {
       if (event.name === this.translateService.instant('dashboard.devices.live')) {
-        devices = this.healthsLive;
+        this.devicesToOverlay = this.healthsLive;
       } else if (event.name === this.translateService.instant('dashboard.devices.disabled')) {
-        devices = this.healthsDisabled;
+        this.devicesToOverlay = this.healthsDisabled;
       } else if (event.name === this.translateService.instant('dashboard.devices.others')) {
-        devices = this.healthsOthers;
+        this.devicesToOverlay = this.healthsOthers;
       } else if (event.name === this.translateService.instant('dashboard.devices.notReachable')) {
-        devices = this.healthsNotReachable;
+        this.devicesToOverlay = this.healthsNotReachable;
       } else {
-        devices = this.healthsNotSeen;
+        this.devicesToOverlay = this.healthsNotSeen;
       }
     } else if (name === 'battery') {
       if (event.name === this.translateService.instant('dashboard.devices.battery.inf.15')) {
-        devices = this.battery1;
+        this.devicesToOverlay = this.battery1;
       } else if (event.name === this.translateService.instant('dashboard.devices.battery.inf.35')) {
-        devices = this.battery2;
+        this.devicesToOverlay = this.battery2;
       } else if (event.name === this.translateService.instant('dashboard.devices.battery.inf.75')) {
-        devices = this.battery3;
+        this.devicesToOverlay = this.battery3;
       } else {
-        devices = this.battery4;
+        this.devicesToOverlay = this.battery4;
       }
     } else if (name === 'certified') {
       if (event.name === this.translateService.instant('dashboard.devices.optimized')) {
-        devices = this.certifiedDevices;
+        this.devicesToOverlay = this.certifiedDevices;
       } else {
-        devices = this.notCertifiedDevices;
+        this.devicesToOverlay = this.notCertifiedDevices;
       }
     }
 
     const width = (this.getScreenWidth * 80) / 100;
     if (width > 768) {
-      this.toppyControl = this.toppy
-        .position(
-          new GlobalPosition({
-            placement: InsidePlacement.BOTTOM,
-            width: width,
-            height: 'auto'
-          })
-        )
-        .config({
-          closeOnDocClick: false,
-          closeOnEsc: true
-        })
-        .content(DeviceByNameComponent, { devices: devices })
-        .create();
-
-      this.subs.add(this.toppyControl.listen('t_compins').subscribe(comp => {}));
-
-      this.toppyControl.open();
-    }
-  }
-
-  close() {
-    if (this.toppyControl) {
-      this.toppyControl.close();
+      this.widthOverlay = width;
+      this.overlay.toggle(null);
     }
   }
 
   refresh() {
     this.getStats().subscribe();
     this.versionService.setReload(true);
-  }
-
-  ngOnDestroy(): void {
-    super.ngOnDestroy();
-    this.close();
   }
 
   private getStats() {

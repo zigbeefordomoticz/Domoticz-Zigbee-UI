@@ -9,13 +9,12 @@ import { environment } from '@env/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatomoConsentMode, MatomoModule, MatomoRouterModule } from 'ngx-matomo-client';
-import { NgxMousetrapModule } from 'ngx-mousetrap';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { DeviceByNameComponent } from './dashboard/device-by-name/device-by-name.component';
 import { ShellModule } from './shell/shell.module';
+import { HotkeysModule } from '@ngneat/hotkeys';
 
 @NgModule({
   imports: [
@@ -24,7 +23,7 @@ import { ShellModule } from './shell/shell.module';
     HttpClientModule,
     ClipboardModule,
     TranslateModule.forRoot(),
-    NgxMousetrapModule.forRoot(),
+    HotkeysModule,
     NgbModule,
     CoreModule,
     SharedModule,

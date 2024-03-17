@@ -5,13 +5,13 @@ import { I18nService, Logger, untilDestroyed } from '@app/core';
 import { Plugin } from '@app/shared/models/plugin';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
-import { NgxMousetrapService } from 'ngx-mousetrap';
 import { PrimeNGConfig } from 'primeng/api';
 import { merge, Subscription, forkJoin } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
 import { HeaderService } from './services/header-service';
 import { UnsubscribeOnDestroyAdapter } from './shared/adapter/unsubscribe-adapter';
+import { HotkeysService } from '@ngneat/hotkeys';
 
 const log = new Logger('App');
 
@@ -22,7 +22,6 @@ const log = new Logger('App');
 })
 export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   keysBoundActive = environment.keysBoundActive;
-  keysBoundInactive = environment.keysBoundInactive;
   activateRefresh = false;
 
   //keep refs to subscriptions to be able to unsubscribe later
@@ -37,8 +36,8 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     private apiService: ApiService,
     private i18nService: I18nService,
     private headerService: HeaderService,
-    private mouseTrapService: NgxMousetrapService,
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    private hotkeys: HotkeysService
   ) {
     super();
   }
@@ -73,16 +72,10 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     });
 
     this.subs.add(
-      this.mouseTrapService.register(this.keysBoundActive).subscribe(evt => {
+      this.hotkeys.addShortcut({ keys: this.keysBoundActive }).subscribe(evt => {
+        console.log('ben' + evt);
         this.activateRefresh = !this.activateRefresh;
         this.headerService.setPolling(this.activateRefresh);
-      })
-    );
-
-    this.subs.add(
-      this.mouseTrapService.register(this.keysBoundInactive).subscribe(evt => {
-        this.activateRefresh = false;
-        this.headerService.setPolling(false);
       })
     );
   }

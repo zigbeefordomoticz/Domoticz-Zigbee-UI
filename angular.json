@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["highcharts", "subsink", "file-saver", "mousetrap", "clone-deep"],
+            "allowedCommonJsDependencies": ["highcharts", "subsink", "file-saver", "clone-deep"],
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -85,11 +85,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "z4d-plugin:build"
+            "buildTarget": "z4d-plugin:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "z4d-plugin:build:production"
+              "buildTarget": "z4d-plugin:build:production"
             },
             "ci": {}
           }
@@ -97,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "z4d-plugin:build"
+            "buildTarget": "z4d-plugin:build"
           }
         },
         "test": {

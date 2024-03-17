@@ -8,10 +8,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as more from 'highcharts/highcharts-more.src';
 import * as exporting from 'highcharts/modules/exporting.src';
-import { ToppyModule } from 'toppy';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
-import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
 import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
 
 @NgModule({
@@ -21,12 +19,11 @@ import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
     DashboardRoutingModule,
     CommonModule,
     ReactiveFormsModule,
-    ToppyModule,
     TranslateModule,
     ChartModule,
     SharedModule
   ],
-  declarations: [DashboardComponent, PluginStatsComponent, DeviceByNameComponent],
+  declarations: [DashboardComponent, PluginStatsComponent],
   providers: [{ provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting] }]
 })
 export class DashboardModule {}
