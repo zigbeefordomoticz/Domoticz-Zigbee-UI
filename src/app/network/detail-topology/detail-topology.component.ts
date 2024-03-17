@@ -29,7 +29,11 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   relationsSelected: any[];
   selectedPoint: any;
 
-  constructor(private apiService: ApiService, private translate: TranslateService, private formBuilder: FormBuilder) {
+  constructor(
+    private apiService: ApiService,
+    private translate: TranslateService,
+    private formBuilder: FormBuilder
+  ) {
     super();
   }
 

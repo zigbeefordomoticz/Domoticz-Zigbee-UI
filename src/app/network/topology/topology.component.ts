@@ -16,7 +16,10 @@ export class TopologyComponent implements OnInit {
   timeStamp: string;
   topologies$: Observable<Array<string>>;
 
-  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private apiService: ApiService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.topologies$ = this.apiService.getTopologie();

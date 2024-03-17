@@ -18,7 +18,10 @@ export class ToolsComponent implements OnInit {
   isLoading = false;
   logFile$: Observable<LogFile>;
 
-  constructor(private apiService: ApiService, private fileSaverService: FileSaverService) {}
+  constructor(
+    private apiService: ApiService,
+    private fileSaverService: FileSaverService
+  ) {}
 
   ngOnInit() {
     this.logFile$ = this.apiService.getLog();

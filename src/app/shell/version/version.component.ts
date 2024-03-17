@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '@app/services/header-service';
 import { environment } from '@env/environment';
-import { MatomoTracker } from '@ngx-matomo/tracker';
 import { forkJoin, Observable, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { ApiService } from '../../services/api.service';
 import { VersionService } from '../../services/version-service';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
+import { MatomoTracker } from 'ngx-matomo-client';
 
 @Component({
   selector: 'app-version',

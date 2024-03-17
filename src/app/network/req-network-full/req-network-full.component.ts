@@ -16,7 +16,11 @@ const log = new Logger('ReqNetworkInterComponent');
 export class ReqNetworkFullComponent implements OnInit {
   stats$: Observable<PluginStats>;
 
-  constructor(private apiService: ApiService, private toastr: ToastrService, private translate: TranslateService) {}
+  constructor(
+    private apiService: ApiService,
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {}
 

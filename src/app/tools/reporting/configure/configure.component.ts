@@ -24,7 +24,11 @@ export class ConfigureReportingComponent implements OnInit {
   clustersToSave: Configure[];
   permitToValidate = false;
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private translate: TranslateService) {}
+  constructor(
+    private toastr: ToastrService,
+    private apiService: ApiService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.devices$ = this.apiService.getZDevices();

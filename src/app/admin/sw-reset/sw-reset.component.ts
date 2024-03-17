@@ -14,7 +14,11 @@ const log = new Logger('SwResetComponent');
 export class SwResetComponent implements OnInit {
   permitToJoin: any;
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private translate: TranslateService) {}
+  constructor(
+    private toastr: ToastrService,
+    private apiService: ApiService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {}
 

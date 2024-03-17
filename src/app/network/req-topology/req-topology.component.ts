@@ -16,7 +16,11 @@ const log = new Logger('ReqTopologyComponent');
 export class ReqTopologyComponent implements OnInit {
   stats$: Observable<PluginStats>;
 
-  constructor(private apiService: ApiService, private toastr: ToastrService, private translate: TranslateService) {}
+  constructor(
+    private apiService: ApiService,
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {}
 

@@ -26,7 +26,10 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
   totalFail: number;
   plugin: Plugin;
 
-  constructor(private apiService: ApiService, private translate: TranslateService) {
+  constructor(
+    private apiService: ApiService,
+    private translate: TranslateService
+  ) {
     super();
   }
 

@@ -20,7 +20,10 @@ export class DebugSettingComponent implements OnInit {
   @Input() setting: Setting;
   @Input() advanced: boolean;
 
-  constructor(private formBuilder: FormBuilder, private fgd: FormGroupDirective) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private fgd: FormGroupDirective
+  ) {}
 
   ngOnInit() {
     let group;

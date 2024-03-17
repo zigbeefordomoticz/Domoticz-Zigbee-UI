@@ -19,7 +19,10 @@ export class NwkStatsComponent implements OnInit {
   timeStamp: string;
   plugin: Plugin;
 
-  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private apiService: ApiService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.stats$ = this.apiService.getNwkStats();

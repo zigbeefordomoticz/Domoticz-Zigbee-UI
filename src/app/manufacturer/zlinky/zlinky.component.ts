@@ -17,7 +17,11 @@ export class ZlinkyComponent implements OnInit {
   zlinkys$: Observable<Zlinky[]>;
   deviceSelected: Zlinky;
 
-  constructor(private apiService: ApiService, private toastr: ToastrService, private translate: TranslateService) {}
+  constructor(
+    private apiService: ApiService,
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.zlinkys$ = this.apiService.getZlinky().pipe(

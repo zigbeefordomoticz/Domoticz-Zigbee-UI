@@ -16,7 +16,11 @@ export class DeviceComponent implements OnInit {
   form: FormGroup;
   devices: DeviceByName[];
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private translate: TranslateService) {}
+  constructor(
+    private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({

@@ -18,7 +18,11 @@ export class SwitchChannelComponent implements OnInit {
   list: { label: string; value: any }[] = [];
   selectedChannel: number;
 
-  constructor(private toastr: ToastrService, private apiService: ApiService, private translate: TranslateService) {}
+  constructor(
+    private toastr: ToastrService,
+    private apiService: ApiService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.apiService.getSettings().subscribe(res => {

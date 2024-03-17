@@ -17,7 +17,11 @@ export class CasaiaComponent implements OnInit {
   temp: CasaiaDevice[] = [];
   hasEditing = false;
 
-  constructor(private apiService: ApiService, private toastr: ToastrService, private translate: TranslateService) {}
+  constructor(
+    private apiService: ApiService,
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.getCasaiaDevices();

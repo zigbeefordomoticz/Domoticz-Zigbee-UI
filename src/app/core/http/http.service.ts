@@ -34,7 +34,10 @@ declare module '@angular/common/http' {
 
 // From @angular/common/http/src/interceptor: allows to chain interceptors
 class HttpInterceptorHandler implements HttpHandler {
-  constructor(private next: HttpHandler, private interceptor: HttpInterceptor) {}
+  constructor(
+    private next: HttpHandler,
+    private interceptor: HttpInterceptor
+  ) {}
 
   handle(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     return this.interceptor.intercept(request, this.next);

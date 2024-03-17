@@ -7,7 +7,6 @@ import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-ada
 import { Plugin } from '@app/shared/models/plugin';
 import { Setting } from '@app/shared/models/setting';
 import { environment } from '@env/environment';
-import { MatomoTracker } from '@ngx-matomo/tracker';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import { forkJoin, timer } from 'rxjs';
@@ -16,6 +15,7 @@ import { GlobalPosition, InsidePlacement, Toppy, ToppyControl } from 'toppy';
 import { PluginStats } from '../shared/models/plugin-stats';
 import { DeviceByNameComponent } from './device-by-name/device-by-name.component';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { MatomoTracker } from 'ngx-matomo-client';
 
 const log = new Logger('DashboardComponent');
 

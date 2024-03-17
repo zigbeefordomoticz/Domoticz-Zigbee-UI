@@ -7,9 +7,8 @@ import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { environment } from '@env/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxMatomoRouterModule } from '@ngx-matomo/router';
-import { MatomoConsentMode, NgxMatomoTrackerModule } from '@ngx-matomo/tracker';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatomoConsentMode, MatomoModule, MatomoRouterModule } from 'ngx-matomo-client';
 import { NgxMousetrapModule } from 'ngx-mousetrap';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,18 +35,17 @@ import { ShellModule } from './shell/shell.module';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
     }),
-    NgxMatomoTrackerModule.forRoot({
+    MatomoModule.forRoot({
       acceptDoNotTrack: false,
       requireConsent: MatomoConsentMode.TRACKING,
       trackerUrl: environment.trackerUrl,
       siteId: environment.siteId
     }),
-    NgxMatomoRouterModule,
+    MatomoRouterModule,
     AppRoutingModule
   ],
   declarations: [AppComponent],
   providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [DeviceByNameComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

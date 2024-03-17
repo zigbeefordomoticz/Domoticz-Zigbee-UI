@@ -4,13 +4,13 @@
       fork.pluginHealth?.HealthFlag === 4
         ? 'bg-primary fixed-bottom'
         : fork.pluginHealth?.HealthFlag === 3
-        ? 'bg-danger fixed-bottom'
-        : fork.pluginHealth?.HealthFlag === 1 &&
-          (!fork.pluginHealth?.GroupStatus || fork.pluginHealth?.GroupStatus === 'ready')
-        ? 'bg-success fixed-bottom'
-        : fork.pluginHealth?.HealthFlag === 2 || fork.pluginHealth?.GroupStatus !== 'ready'
-        ? 'bg-warning fixed-bottom'
-        : 'bg-danger fixed-bottom'
+          ? 'bg-danger fixed-bottom'
+          : fork.pluginHealth?.HealthFlag === 1 &&
+              (!fork.pluginHealth?.GroupStatus || fork.pluginHealth?.GroupStatus === 'ready')
+            ? 'bg-success fixed-bottom'
+            : fork.pluginHealth?.HealthFlag === 2 || fork.pluginHealth?.GroupStatus !== 'ready'
+              ? 'bg-warning fixed-bottom'
+              : 'bg-danger fixed-bottom'
     ">
     <div class="d-flex flex-row justify-content-between">
       <div class="order-first p-2 text-white ms-2">

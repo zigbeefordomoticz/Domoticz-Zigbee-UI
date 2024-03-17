@@ -17,7 +17,10 @@ export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements
   plugin: PluginStats;
   chart1: Chart;
 
-  constructor(private apiService: ApiService, private translate: TranslateService) {
+  constructor(
+    private apiService: ApiService,
+    private translate: TranslateService
+  ) {
     super();
   }
 

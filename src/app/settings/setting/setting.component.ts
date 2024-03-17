@@ -23,7 +23,11 @@ export class SettingComponent implements OnChanges {
   @Input() advanced: boolean;
   list: { label: string; value: any }[] = [];
 
-  constructor(private formBuilder: FormBuilder, private fgd: FormGroupDirective, private translate: TranslateService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private fgd: FormGroupDirective,
+    private translate: TranslateService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     let group;
