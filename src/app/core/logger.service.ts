@@ -67,7 +67,7 @@ export class Logger {
     Logger.level = LogLevel.Warning;
   }
 
-  constructor(private source?: string) {}
+  constructor(private source?: string) { }
 
   /**
    * Logs messages or objects  with the debug level.
@@ -101,6 +101,7 @@ export class Logger {
     this.log(console.error, LogLevel.Error, objects);
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private log(func: Function, level: LogLevel, objects: any[]) {
     if (level <= Logger.level) {
       const log = this.source ? ['[' + this.source + ']'].concat(objects) : objects;

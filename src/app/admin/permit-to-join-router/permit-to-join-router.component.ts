@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { ZDevices } from '@app/shared/models/device';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
-import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
-
-const log = new Logger('PermitToJoinRouterComponent');
 
 @Component({
   selector: 'app-permit-to-join-router',
@@ -49,7 +46,7 @@ export class PermitToJoinRouterComponent extends UnsubscribeOnDestroyAdapter imp
     this.permitToJoin.PermitToJoin = value;
     this.permitToJoin.Router = (this.form.get('deviceSelected').value as DeviceByName)._NwkId;
 
-    this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
+    this.apiService.putPermitToJoin(this.permitToJoin).subscribe(() => {
       switch (value) {
         case 240: {
           this.toastr.success(this.translate.instant('admin.permittojoin.4min.notify'));

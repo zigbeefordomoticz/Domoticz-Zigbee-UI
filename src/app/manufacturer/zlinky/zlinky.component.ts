@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { ParameterForDisplay, Zlinky } from '@app/shared/models/zlinky';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { map, Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
-const log = new Logger('ZlinkyComponent');
 
 @Component({
   selector: 'app-manufacturer-zlinky',
@@ -21,7 +19,7 @@ export class ZlinkyComponent implements OnInit {
     private apiService: ApiService,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.zlinkys$ = this.apiService.getZlinky().pipe(

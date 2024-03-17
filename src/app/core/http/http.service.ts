@@ -37,7 +37,7 @@ class HttpInterceptorHandler implements HttpHandler {
   constructor(
     private next: HttpHandler,
     private interceptor: HttpInterceptor
-  ) {}
+  ) { }
 
   handle(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     return this.interceptor.intercept(request, this.next);
@@ -94,6 +94,7 @@ export class HttpService extends HttpClient {
     return new HttpClient(handler).request(method, url, options);
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   private removeInterceptor(interceptorType: Function): HttpService {
     return new HttpService(
       this.httpHandler,

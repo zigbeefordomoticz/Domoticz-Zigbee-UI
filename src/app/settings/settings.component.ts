@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
-import { Logger } from '@app/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
 import { Setting, Settings } from '@app/shared/models/setting';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 import { MatomoTracker } from 'ngx-matomo-client';
+import { ToastrService } from 'ngx-toastr';
 
-const log = new Logger('SettingsComponent');
 
 @Component({
   selector: 'app-settings',
@@ -32,7 +30,7 @@ export class SettingsComponent implements OnInit {
     private headerService: HeaderService,
     private translate: TranslateService,
     private readonly tracker: MatomoTracker
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({});
@@ -114,10 +112,7 @@ export class SettingsComponent implements OnInit {
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {},
-      reason => {}
-    );
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then();
   }
 
   hasBasicSettings(settings: Setting[]): boolean {

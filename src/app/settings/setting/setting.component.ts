@@ -1,11 +1,8 @@
-import { SimpleChanges } from '@angular/core';
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlContainer, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
-import { Logger } from '@app/core';
 import { Setting } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 
-const log = new Logger('SettingComponent');
 
 @Component({
   selector: 'app-setting',
@@ -27,7 +24,7 @@ export class SettingComponent implements OnChanges {
     private formBuilder: FormBuilder,
     private fgd: FormGroupDirective,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     let group;

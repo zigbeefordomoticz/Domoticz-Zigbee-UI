@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-const log = new Logger('CasaiaComponent');
 
 @Component({
   selector: 'app-manufacturer-casaia',
@@ -21,7 +19,7 @@ export class CasaiaComponent implements OnInit {
     private apiService: ApiService,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCasaiaDevices();
@@ -39,7 +37,7 @@ export class CasaiaComponent implements OnInit {
       update.push(new UpdateCasaiaDevice(row.IRCode, row.NwkId));
     });
 
-    this.apiService.putCasiaIrcode(update).subscribe((result: any) => {
+    this.apiService.putCasiaIrcode(update).subscribe(() => {
       this.hasEditing = false;
       this.getCasaiaDevices();
       this.toastr.success(this.translate.instant('api.global.succes.update.notify'));

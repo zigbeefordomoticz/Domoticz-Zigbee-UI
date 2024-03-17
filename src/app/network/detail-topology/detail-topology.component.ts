@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { DeviceByName } from '@app/shared/models/device-by-name';
@@ -9,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
 
-const log = new Logger('DetailTopologyComponent');
 
 @Component({
   selector: 'app-detail-topology',
@@ -63,10 +61,10 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
     });
 
     this.subs.add(
-      this.form.get('detail').valueChanges.subscribe(value => {
-        let selected: any[] = [];
+      this.form.get('detail').valueChanges.subscribe(() => {
+        const selected: any[] = [];
         this.selectedPoint = this.chart2.ref.hoverPoint;
-        let toSelected = this.selectedPoint.linksFrom.map((point: any) => point.options) as any[];
+        const toSelected = this.selectedPoint.linksFrom.map((point: any) => point.options) as any[];
         toSelected.map(relation => {
           const to = this.devices.find(device => device.ZDeviceName === relation.to || device._NwkId === relation.to);
           selected.push({
@@ -79,7 +77,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
             Battery: to.Battery
           });
         });
-        let fromSelected = this.selectedPoint.linksTo.map((point: any) => point.options) as any[];
+        const fromSelected = this.selectedPoint.linksTo.map((point: any) => point.options) as any[];
 
         fromSelected.map(relation => {
           if (!selected.some(to => to.to === relation.from)) {
@@ -143,7 +141,6 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   createChart2(nodeToFilter?: string) {
-    let i = 0;
     let datas = this.datas.map(element => {
       const tab = Object.values(element);
       tab.splice(1, 1);
@@ -220,7 +217,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       }
     };
     const level1 = this.datas.filter(level => level.Child === 'Zigbee Coordinator');
-    let nextLevel: string[] = [];
+    const nextLevel: string[] = [];
     level1.forEach(level => {
       nodes[level.Father] = {
         id: level.Father,
@@ -241,7 +238,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
   private colorNode(nodes: any, levels: string[]) {
     levels.forEach(level => {
-      let nextLevel: string[] = [];
+      const nextLevel: string[] = [];
       const children = this.datas.filter(data => data.Child === level);
       children.forEach(child => {
         if (!nodes[child.Father]) {

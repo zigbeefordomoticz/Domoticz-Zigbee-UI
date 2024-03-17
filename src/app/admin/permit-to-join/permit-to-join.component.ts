@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-
-const log = new Logger('PermitToJoinComponent');
 
 @Component({
   selector: 'app-permit-to-join',
@@ -18,7 +15,7 @@ export class PermitToJoinComponent implements OnInit {
     private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.apiService.getPermitToJoin().subscribe(result => {
@@ -28,7 +25,7 @@ export class PermitToJoinComponent implements OnInit {
 
   updatePermitToJoin(value: number) {
     this.permitToJoin.PermitToJoin = value;
-    this.apiService.putPermitToJoin(this.permitToJoin).subscribe((result: any) => {
+    this.apiService.putPermitToJoin(this.permitToJoin).subscribe(() => {
       switch (value) {
         case 240: {
           this.toastr.success(this.translate.instant('admin.permittojoin.4min.notify'));

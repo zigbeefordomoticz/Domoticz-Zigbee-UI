@@ -1,29 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
+import { Component } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { FileSaverService } from 'ngx-filesaver';
 import { finalize } from 'rxjs/operators';
 import { transformToTimestamp } from '../../shared/utils/transform-timestamp';
 
-const log = new Logger('ErrorComponent');
 
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss']
 })
-export class ErrorComponent implements OnInit {
-  json: Object | undefined = null;
+export class ErrorComponent {
+  json: object | undefined = null;
   isLoading = false;
 
   constructor(
     private apiService: ApiService,
     private headerService: HeaderService,
     private fileSaverService: FileSaverService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
 
   onClick(device: string) {
     this.json = null;
@@ -45,13 +42,13 @@ export class ErrorComponent implements OnInit {
             this.isLoading = false;
           })
         )
-        .subscribe((json: Object) => {
+        .subscribe((json: object) => {
           this.callbackservice(json);
         });
     }
   }
 
-  callbackservice(json: Object) {
+  callbackservice(json: object) {
     const jsonStr = JSON.stringify(json);
     this.json = JSON.parse(jsonStr, transformToTimestamp);
   }

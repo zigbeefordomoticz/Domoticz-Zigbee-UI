@@ -1,5 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { Logger } from '@app/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { VersionService } from '@app/services/version-service';
@@ -11,12 +10,10 @@ import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import { MatomoTracker } from 'ngx-matomo-client';
-import { OverlayPanel } from 'primeng/overlaypanel';
 import { forkJoin, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { PluginStats } from '../shared/models/plugin-stats';
 
-const log = new Logger('DashboardComponent');
 
 @Component({
   selector: 'app-dashboard',
@@ -274,7 +271,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     this.subs.add(this.chart.ref$.subscribe());
   }
 
-  open(name: string, event: any, test: any) {
+  open(name: string, event: any) {
     if (name === 'device') {
       if (event.name === this.translateService.instant('dashboard.devices.routers')) {
         this.devicesToOverlay = this.routers;

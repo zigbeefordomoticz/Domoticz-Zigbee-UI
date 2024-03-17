@@ -1,12 +1,11 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Table } from 'primeng/table';
 
 const log = new Logger('DeviceByNameComponent');
 
@@ -15,7 +14,7 @@ const log = new Logger('DeviceByNameComponent');
   templateUrl: './device-by-name.component.html',
   styleUrls: ['./device-by-name.component.scss']
 })
-export class DeviceByNameComponent implements OnInit, OnChanges {
+export class DeviceByNameComponent implements OnChanges {
   @Input() devices: DeviceByName[];
   rows: DeviceByName[] = [];
   temp: DeviceByName[] = [];
@@ -35,7 +34,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     private modalService: NgbModal,
     private toastr: ToastrService,
     private clipboard: Clipboard
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.devices.currentValue !== changes.devices.previousValue) {
@@ -45,14 +44,12 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit() {}
 
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {
+      () => {
         this.delete();
-      },
-      reason => {}
+      }
     );
   }
 
@@ -68,7 +65,7 @@ export class DeviceByNameComponent implements OnInit, OnChanges {
       this.parameter = this.parameter.replace(this.enabledFalse, '');
     }
 
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(result => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => {
       if (this.parameter.includes(this.prefixEnabled)) {
         this.toastr.error(this.translate.instant('device.byname.error.notify'));
       } else {

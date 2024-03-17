@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
+import { I18nService } from '@app/core';
 import { environment } from '@env/environment';
-import { I18nService, Logger } from '@app/core';
 
-const log = new Logger('AboutComponent');
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
   version: string = environment.version;
 
-  constructor(public readonly i18nService: I18nService) {}
+  constructor(public readonly i18nService: I18nService) { }
 
-  ngOnInit() {}
 }

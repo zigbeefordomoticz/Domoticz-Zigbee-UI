@@ -88,7 +88,7 @@ export class ApiService {
     private httpClient: HttpClient,
     private toastr: ToastrService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   downloadLog(url: string): Observable<any> {
     return this.httpClient
@@ -195,14 +195,14 @@ export class ApiService {
     );
   }
 
-  getLogErrorHistory(): Observable<Object> {
+  getLogErrorHistory(): Observable<object> {
     return this.httpClient.get(routes.logErrorHistory).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
   }
 
-  clearLogErrorHistory(): Observable<Object> {
+  clearLogErrorHistory(): Observable<object> {
     return this.httpClient.get(routes.clearErrorHistory).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))

@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { Configure } from '@app/shared/models/configure-reporting';
 import { ZDevices } from '@app/shared/models/device';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-const log = new Logger('ConfigureReportingComponent');
 
 @Component({
   selector: 'app-configure-reporting',
@@ -28,7 +25,7 @@ export class ConfigureReportingComponent implements OnInit {
     private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.devices$ = this.apiService.getZDevices();

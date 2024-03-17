@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { DeviceAvailable, DevicesAvailable } from '@app/shared/models/group';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-const log = new Logger('ReloadPluginComponent');
 
 @Component({
   selector: 'app-scan-group-device',
@@ -22,7 +20,7 @@ export class ScanGroupDeviceComponent implements OnInit {
     private apiService: ApiService,
     private translate: TranslateService,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({

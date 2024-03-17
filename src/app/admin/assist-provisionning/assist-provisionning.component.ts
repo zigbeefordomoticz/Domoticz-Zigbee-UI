@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { DeviceByName } from '@app/shared/models/device-by-name';
@@ -9,8 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
 import { NewDevice, NewHardware } from '../../shared/models/new-hardware';
-
-const log = new Logger('PermitToJoinComponent');
 
 @Component({
   selector: 'app-assist-provisionning',
@@ -63,12 +60,11 @@ export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter im
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', backdrop: 'static', keyboard: false })
       .result.then(
-        result => {
+        () => {
           this.spinner.hide('assist');
           this.apiService.getNewHardware(false).subscribe();
           this.subs.unsubscribe();
-        },
-        reason => {}
+        }
       );
   }
 

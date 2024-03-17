@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { TranslateService } from '@ngx-translate/core';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { TranslateService } from '@ngx-translate/core';
 
-const log = new Logger('DeviceComponent');
 
 @Component({
   selector: 'app-device',
@@ -20,7 +18,7 @@ export class DeviceComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({

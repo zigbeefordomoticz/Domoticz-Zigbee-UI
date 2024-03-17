@@ -12,7 +12,7 @@ import { HttpCacheService } from './http-cache.service';
 export class CacheInterceptor implements HttpInterceptor {
   private forceUpdate = false;
 
-  constructor(private httpCacheService: HttpCacheService) {}
+  constructor(private httpCacheService: HttpCacheService) { }
 
   /**
    * Configures interceptor options
@@ -36,7 +36,7 @@ export class CacheInterceptor implements HttpInterceptor {
       const cachedData = this.forceUpdate ? null : this.httpCacheService.getCacheData(request.urlWithParams);
       if (cachedData !== null) {
         // Create new response to avoid side-effects
-        subscriber.next(new HttpResponse(cachedData as Object));
+        subscriber.next(new HttpResponse(cachedData as object));
         subscriber.complete();
       } else {
         next.handle(request).subscribe(

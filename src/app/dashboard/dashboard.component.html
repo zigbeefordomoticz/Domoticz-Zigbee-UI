@@ -21,7 +21,7 @@
               [animations]="animations"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="open('state', $event, test)"
+              (select)="open('state', $event)"
               [scheme]="colorSchemeGBROG"
               [label]="advancedPieStateLabel"
               [percentageFormatting]="percentageFormatting">
@@ -99,7 +99,7 @@
               [animations]="animations"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="open('device', $event, test)"
+              (select)="open('device', $event)"
               [scheme]="colorSchemePC"
               [label]="advancedPieDeviceLabel"
               [percentageFormatting]="percentageFormatting">
@@ -126,7 +126,7 @@
               [animations]="animations"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="open('battery', $event, test)"
+              (select)="open('battery', $event)"
               [scheme]="colorSchemeROBG"
               [label]="advancedPieBatteryLabel"
               [percentageFormatting]="percentageFormatting">
@@ -153,7 +153,7 @@
               [animations]="animations"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="open('certified', $event, test)"
+              (select)="open('certified', $event)"
               [scheme]="colorSchemeGO"
               [label]="advancedCertifiedLabel"
               [percentageFormatting]="percentageFormatting">
@@ -168,8 +168,6 @@
     </div>
   </div>
 </div>
-
-<div #test class="d-flex justify-content-center"></div>
 
 <div class="consent-banner" *ngIf="showConsent">
   <div class="consent-banner__inner">

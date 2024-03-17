@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { DeviceByName } from '@app/shared/models/device-by-name';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Observable } from 'rxjs';
 
-const log = new Logger('RawCommandZigpyComponent');
 
 @Component({
   selector: 'app-raw-command-zigpy',
@@ -23,7 +21,7 @@ export class RawCommandZigpyComponent implements OnInit {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   selectedCar: string;
 

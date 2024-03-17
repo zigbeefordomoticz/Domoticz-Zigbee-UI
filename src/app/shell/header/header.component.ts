@@ -103,7 +103,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   }
 
   private startStopPermitToJoin(permitToJoin: any) {
-    this.apiService.putPermitToJoin(permitToJoin).subscribe((result: any) => {
+    this.apiService.putPermitToJoin(permitToJoin).subscribe(() => {
       if (permitToJoin.PermitToJoin === 240) {
         permitToJoin.PermitToJoin = 0;
         setTimeout(() => this.startStopPermitToJoin(permitToJoin), 240000);

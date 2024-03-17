@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
-import { PluginStats } from '@app/shared/models/plugin-stats';
-import { Chart } from 'angular-highcharts';
-import { TranslateService } from '@ngx-translate/core';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { PluginStats } from '@app/shared/models/plugin-stats';
+import { TranslateService } from '@ngx-translate/core';
+import { Chart } from 'angular-highcharts';
 
-const log = new Logger('PluginStatsComponent');
 
 @Component({
   selector: 'app-plugin-stats',

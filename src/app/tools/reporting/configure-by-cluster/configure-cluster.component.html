@@ -39,14 +39,14 @@
               pInputText
               type="text"
               [value]="row.minInterval"
-              (change)="updateValue($event, 'MinInterval', row, rowIndex)" />
+              (change)="updateValue($event, 'MinInterval', row)" />
           </ng-template>
           <ng-template pTemplate="output">
             <input
               pInputText
               type="text"
               [value]="row.minInterval"
-              (change)="updateValue($event, 'MinInterval', row, rowIndex)" />
+              (change)="updateValue($event, 'MinInterval', row)" />
           </ng-template>
         </p-cellEditor>
       </td>
@@ -57,32 +57,24 @@
               pInputText
               type="text"
               [value]="row.maxInterval"
-              (change)="updateValue($event, 'MaxInterval', row, rowIndex)" />
+              (change)="updateValue($event, 'MaxInterval', row)" />
           </ng-template>
           <ng-template pTemplate="output">
             <input
               pInputText
               type="text"
               [value]="row.maxInterval"
-              (change)="updateValue($event, 'MaxInterval', row, rowIndex)" /> </ng-template
+              (change)="updateValue($event, 'MaxInterval', row)" /> </ng-template
         ></p-cellEditor>
       </td>
       <td [pEditableColumn]="row.change" pEditableColumnField="change">
         <p-cellEditor>
           <ng-container *ngIf="isEditable(row); else notEditable">
             <ng-template pTemplate="input">
-              <input
-                pInputText
-                type="text"
-                [value]="row.change"
-                (change)="updateValue($event, 'Change', row, rowIndex)" />
+              <input pInputText type="text" [value]="row.change" (change)="updateValue($event, 'Change', row)" />
             </ng-template>
             <ng-template pTemplate="output">
-              <input
-                pInputText
-                type="text"
-                [value]="row.change"
-                (change)="updateValue($event, 'Change', row, rowIndex)" />
+              <input pInputText type="text" [value]="row.change" (change)="updateValue($event, 'Change', row)" />
             </ng-template>
           </ng-container>
           <ng-template #notEditable>{{ row.change }}</ng-template></p-cellEditor

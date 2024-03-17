@@ -1,12 +1,10 @@
 import { KeyValue } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { Plugin } from '@app/shared/models/plugin';
 import { Observable, Subject } from 'rxjs';
 import { sortDesc } from '../../shared/fonction';
 
-const log = new Logger('NwkStatsComponent');
 
 @Component({
   selector: 'app-nwk-stats',
@@ -22,7 +20,7 @@ export class NwkStatsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.stats$ = this.apiService.getNwkStats();
@@ -40,7 +38,7 @@ export class NwkStatsComponent implements OnInit {
   }
 
   deleteNwkStatByDate(timeStamp: string) {
-    this.apiService.deleteNwkStatsByTimeStamp(timeStamp).subscribe(result => {
+    this.apiService.deleteNwkStatsByTimeStamp(timeStamp).subscribe(() => {
       this.stats$ = this.apiService.getNwkStats();
       this.cdr.detectChanges();
     });

@@ -71,6 +71,7 @@
     "@typescript-eslint/parser": "7.2.0",
     "codelyzer": "^6.0.2",
     "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
     "htmlhint": "^1.1.4",
     "https-proxy-agent": "^7.0.4",
     "husky": "^9.0.11",
@@ -80,22 +81,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "none",
-    "semi": true,
-    "bracketSpacing": true,
-    "bracketSameLine": true,
-    "arrowParens": "avoid",
-    "overrides": [
-      {
-        "files": "*.scss",
-        "options": {
-          "singleQuote": false
-        }
-      }
-    ]
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged --relative"
@@ -103,7 +88,8 @@
   },
   "lint-staged": {
     "src/**/*.{ts,html}": [
-      "eslint --fix"
+      "eslint --fix",
+      "prettier --write"
     ]
   }
 }

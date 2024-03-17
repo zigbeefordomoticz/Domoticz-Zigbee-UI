@@ -1,0 +1,16 @@
+{
+    "singleQuote": true,
+    "trailingComma": "none",
+    "semi": true,
+    "bracketSpacing": true,
+    "bracketSameLine": true,
+    "arrowParens": "avoid",
+    "overrides": [
+        {
+            "files": "*.scss",
+            "options": {
+                "singleQuote": false
+            }
+        }
+    ]
+}

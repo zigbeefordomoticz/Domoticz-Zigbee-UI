@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
-
-const log = new Logger('RecreateWidgetComponent');
 
 @Component({
   selector: 'app-recreate-widget',
@@ -37,7 +34,7 @@ export class RecreateWidgetComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   recreate() {
-    this.apiService.putRecreateWidgets(this.form.get('deviceSelected').value._NwkId).subscribe((result: any) => {
+    this.apiService.putRecreateWidgets(this.form.get('deviceSelected').value._NwkId).subscribe(() => {
       this.toastr.success(this.translate.instant('admin.recreate.notify'));
     });
   }

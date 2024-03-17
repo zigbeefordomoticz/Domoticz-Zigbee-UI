@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { DeviceAvailable, DevicesAvailable, Group } from '@app/shared/models/group';
@@ -9,7 +8,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { UnsubscribeOnDestroyAdapter } from '../shared/adapter/unsubscribe-adapter';
 
-const log = new Logger('GroupComponent');
 
 @Component({
   selector: 'app-group',
@@ -78,8 +76,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     });
 
     if (this.isFormValid) {
-      this.apiService.putZGroups(this.rows).subscribe(result => {
-        log.debug(this.rows);
+      this.apiService.putZGroups(this.rows).subscribe(() => {
         this.hasEditing = false;
         this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
         this.apiService.getRestartNeeded().subscribe(restart => {
@@ -121,10 +118,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {},
-      reason => {}
-    );
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then();
   }
 
   isFormValid(): boolean {

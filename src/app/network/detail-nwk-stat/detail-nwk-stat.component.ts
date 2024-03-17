@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { Device } from '@app/shared/models/device';
@@ -10,7 +9,6 @@ import * as Highcharts from 'highcharts';
 import { Observable } from 'rxjs';
 import { NwkStat } from '../../shared/models/nwk';
 
-const log = new Logger('DetailTopologyComponent');
 
 @Component({
   selector: 'app-detail-nwk-stat',

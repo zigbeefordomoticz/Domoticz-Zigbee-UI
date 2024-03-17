@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Logger } from '@app/core';
-import { UnsubscribeOnDestroyAdapter } from '../shared/adapter/unsubscribe-adapter';
-
-const log = new Logger('AdminComponent');
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 
 @Component({
   selector: 'app-admin',

@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { ClusterToDisplay, Configure, Info } from '@app/shared/models/configure-reporting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-
-const log = new Logger('ConfigureByClusterReportingComponent');
 
 @Component({
   selector: 'app-configure-cluster-reporting',
@@ -50,7 +47,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
     private apiService: ApiService,
     private formBuilder: FormBuilder,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.clusters.currentValue) {
@@ -77,7 +74,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
     });
   }
 
-  updateValue(event: any, col: string, clusterToDisplay: ClusterToDisplay, index: number) {
+  updateValue(event: any, col: string, clusterToDisplay: ClusterToDisplay) {
     const value = event.target.value;
     const rowUpdated = this.clusters
       .find(cluster => cluster.ClusterId === clusterToDisplay.clusterId)

@@ -1,14 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { Setting, Settings } from '@app/shared/models/setting';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
-const log = new Logger('DebugSettingsComponent');
 
 @Component({
   selector: 'app-debug-settings',
@@ -30,7 +28,7 @@ export class DebugSettingsComponent implements OnInit {
     private toastr: ToastrService,
     private headerService: HeaderService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.form = this.formBuilder.group({});
@@ -74,7 +72,7 @@ export class DebugSettingsComponent implements OnInit {
       }
     });
 
-    this.apiService.putSettingsDebug(this.form.value).subscribe((result: any) => {
+    this.apiService.putSettingsDebug(this.form.value).subscribe(() => {
       this.form.markAsPristine();
       this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
       this.apiService.getSettingsDebug().subscribe(res => {
@@ -95,10 +93,7 @@ export class DebugSettingsComponent implements OnInit {
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {},
-      reason => {}
-    );
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then();
   }
 
   hasBasicSettings(settings: Setting[]): boolean {

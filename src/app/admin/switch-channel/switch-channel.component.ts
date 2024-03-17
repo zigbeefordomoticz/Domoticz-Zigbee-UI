@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { Setting, Settings } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-
-const log = new Logger('SwitchChannelComponent');
 
 @Component({
   selector: 'app-switch-channel',
@@ -22,7 +19,7 @@ export class SwitchChannelComponent implements OnInit {
     private toastr: ToastrService,
     private apiService: ApiService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.apiService.getSettings().subscribe(res => {
@@ -46,7 +43,7 @@ export class SwitchChannelComponent implements OnInit {
     }
   }
 
-  switchChannel(event: any) {
+  switchChannel() {
     this.apiService.putChangeChannel(this.selectedChannel).subscribe(() => {
       this.toastr.success(this.translate.instant('admin.coordinator.switchchannel.notify'));
     });

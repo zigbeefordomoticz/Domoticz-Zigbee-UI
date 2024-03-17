@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
+import { DevicesByManufacturer, Firmware, FirmwareUpdate } from '@app/shared/models/firmware';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { DevicesByManufacturer, Firmware, FirmwareUpdate } from '../../shared/models/firmware';
-
-const log = new Logger('BindingComponent');
 
 @Component({
   selector: 'app-firmware',
@@ -114,10 +111,9 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
     this.firmwareModal = this.form.get('firmware').value as Firmware;
     this.devicesModal = this.form.get('device').value as DevicesByManufacturer[];
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      result => {
+      () => {
         this.updateFirmware();
-      },
-      reason => {}
+      }
     );
   }
 

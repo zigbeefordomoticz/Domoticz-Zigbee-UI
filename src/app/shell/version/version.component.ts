@@ -62,7 +62,7 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
       );
     });
 
-    this.versionService.reload.subscribe(reload => {
+    this.versionService.reload.subscribe(() => {
       this.fork$.subscribe();
     });
   }

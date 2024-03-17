@@ -1,11 +1,9 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Logger } from '@app/core';
-import { ApiService } from '@app/services/api.service';
-import { Observable } from 'rxjs';
-import { sortDesc } from '@app/shared/fonction';
 import { KeyValue } from '@angular/common';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ApiService } from '@app/services/api.service';
+import { sortDesc } from '@app/shared/fonction';
+import { Observable } from 'rxjs';
 
-const log = new Logger('TopologyComponent');
 
 @Component({
   selector: 'app-topology',
@@ -19,7 +17,7 @@ export class TopologyComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.topologies$ = this.apiService.getTopologie();
@@ -34,7 +32,7 @@ export class TopologyComponent implements OnInit {
   }
 
   deleteTopologyByDate(timeStamp: string) {
-    this.apiService.deleteTopologieByTimeStamp(timeStamp).subscribe(result => {
+    this.apiService.deleteTopologieByTimeStamp(timeStamp).subscribe(() => {
       this.topologies$ = this.apiService.getTopologie();
       this.cdr.detectChanges();
     });

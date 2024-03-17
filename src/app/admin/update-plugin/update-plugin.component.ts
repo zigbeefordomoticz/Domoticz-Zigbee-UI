@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
+import { Component } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { TranslateService } from '@ngx-translate/core';
@@ -7,14 +6,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 
-const log = new Logger('UpdatePluginComponent');
 
 @Component({
   selector: 'app-update-plugin',
   templateUrl: './update-plugin.component.html',
   styleUrls: ['./update-plugin.component.scss']
 })
-export class UpdatePluginComponent implements OnInit {
+export class UpdatePluginComponent {
   message: string;
   load = false;
 
@@ -24,9 +22,8 @@ export class UpdatePluginComponent implements OnInit {
     private apiService: ApiService,
     private translate: TranslateService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
-  ngOnInit() {}
 
   updatePlugin() {
     this.load = true;

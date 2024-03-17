@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { LogFile } from '@app/shared/models/log';
 import { FileSaverService } from 'ngx-filesaver';
-import { finalize, forkJoin, Observable } from 'rxjs';
+import { Observable, finalize, forkJoin } from 'rxjs';
 import { transformToTimestamp } from '../shared/utils/transform-timestamp';
 
-const log = new Logger('ToolsComponent');
 
 @Component({
   selector: 'app-tools',
@@ -14,14 +12,14 @@ const log = new Logger('ToolsComponent');
   styleUrls: ['./tools.component.scss']
 })
 export class ToolsComponent implements OnInit {
-  json: Object | undefined = null;
+  json: object | undefined = null;
   isLoading = false;
   logFile$: Observable<LogFile>;
 
   constructor(
     private apiService: ApiService,
     private fileSaverService: FileSaverService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.logFile$ = this.apiService.getLog();
@@ -77,7 +75,7 @@ export class ToolsComponent implements OnInit {
             this.isLoading = false;
           })
         )
-        .subscribe((json: Object) => {
+        .subscribe((json: object) => {
           this.callbackservice(json);
         });
     }
@@ -99,7 +97,6 @@ export class ToolsComponent implements OnInit {
 
   download(logFile: LogFile) {
     const fileName = logFile.Filename;
-    const fileType = this.fileSaverService.genType(fileName);
     this.apiService.downloadLog(logFile.URL).subscribe(file => {
       this.fileSaverService.save(file.body, fileName);
     });
@@ -110,7 +107,7 @@ export class ToolsComponent implements OnInit {
     this.json = JSON.parse(jsonStr, transformToTimestamp);
   }
 
-  export(json: any) {
+  export(json: object) {
     const fileName = 'export.json';
     const fileType = this.fileSaverService.genType(fileName);
     const txtBlob = new Blob([JSON.stringify(json)], { type: fileType });
