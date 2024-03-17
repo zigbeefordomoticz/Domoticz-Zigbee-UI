@@ -10,7 +10,7 @@ import { nl2brPipe } from './utils/nl2br.pipe';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   imports: [CommonModule, NgSelectModule, TranslateModule],
@@ -24,7 +24,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     NgSelectModule,
     TranslateModule,
     TableModule,
-    OverlayPanelModule,
+    DialogModule,
     InputTextModule,
     ButtonModule,
     DatePipe,

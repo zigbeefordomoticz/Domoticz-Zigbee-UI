@@ -21,7 +21,7 @@
               [animations]="animations"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="open('state', $event)"
+              (select)="open('state', $event, test)"
               [scheme]="colorSchemeGBROG"
               [label]="advancedPieStateLabel"
               [percentageFormatting]="percentageFormatting">
@@ -99,7 +99,7 @@
               [animations]="animations"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="open('device', $event)"
+              (select)="open('device', $event, test)"
               [scheme]="colorSchemePC"
               [label]="advancedPieDeviceLabel"
               [percentageFormatting]="percentageFormatting">
@@ -126,7 +126,7 @@
               [animations]="animations"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="open('battery', $event)"
+              (select)="open('battery', $event, test)"
               [scheme]="colorSchemeROBG"
               [label]="advancedPieBatteryLabel"
               [percentageFormatting]="percentageFormatting">
@@ -153,7 +153,7 @@
               [animations]="animations"
               [gradient]="gradient"
               [tooltipDisabled]="tooltipDisabled"
-              (select)="open('certified', $event)"
+              (select)="open('certified', $event, test)"
               [scheme]="colorSchemeGO"
               [label]="advancedCertifiedLabel"
               [percentageFormatting]="percentageFormatting">
@@ -169,6 +169,8 @@
   </div>
 </div>
 
+<div #test class="d-flex justify-content-center"></div>
+
 <div class="consent-banner" *ngIf="showConsent">
   <div class="consent-banner__inner">
     <div class="consent-banner__copy">
@@ -181,62 +183,64 @@
     </div>
   </div>
 </div>
-
-<p-overlayPanel #op [style.width]="widthOverlay" [showCloseIcon]="true" appendTo="body">
-  <ng-template pTemplate="content">
-    <p-table
-      [rowHover]="true"
-      styleClass="p-datatable-sm"
-      responsiveLayout="scroll"
-      [showCurrentPageReport]="true"
-      currentPageReportTemplate="{{ 'TOTAL' | translate }}"
-      [rowsPerPageOptions]="[10, 25, 50]"
-      [value]="devicesToOverlay"
-      [rows]="10"
-      [paginator]="true"
-      [scrollable]="true">
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th style="width: 7rem" pSortableColumn="_NwkId">
-            {{ 'device.byname.shortid.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
-          </th>
-          <th style="width: 5rem" pSortableColumn="IEEE">
-            {{ 'device.byname.ieee.column' | translate }}<p-sortIcon field="IEEE"></p-sortIcon>
-          </th>
-          <th style="width: 13rem" pSortableColumn="Model">
-            {{ 'device.byname.model.column' | translate }}<p-sortIcon field="Model"></p-sortIcon>
-          </th>
-          <th style="width: 20rem" pSortableColumn="ZDeviceName">
-            {{ 'device.byname.devicename.column' | translate }}<p-sortIcon field="ZDeviceName"></p-sortIcon>
-          </th>
-          <th style="width: 7rem" pSortableColumn="Status">
-            {{ 'device.byname.status.column' | translate }}<p-sortIcon field="Status"></p-sortIcon>
-          </th>
-          <th style="width: 7rem" pSortableColumn="Battery">
-            {{ 'device.byname.battery.column' | translate }}<p-sortIcon field="Battery"></p-sortIcon>
-          </th>
-          <th style="width: 6rem" pSortableColumn="Health">
-            {{ 'device.byname.health.column' | translate }}<p-sortIcon field="Health"></p-sortIcon>
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template
-        pTemplate="body"
-        let-editing="editing"
-        let-row
-        let-rowIndex="rowIndex"
-        let-columns="columns"
-        let-expanded="expanded">
-        <tr>
-          <td>{{ row._NwkId }}</td>
-          <td>{{ row.IEEE }}</td>
-          <td>{{ row.Model }}</td>
-          <td>{{ row.ZDeviceName }}</td>
-          <td>{{ row.Status }}</td>
-          <td>{{ row.Battery }}</td>
-          <td>{{ row.Health }}</td>
-        </tr>
-      </ng-template>
-    </p-table>
+<p-dialog header="Header" [(visible)]="visible" [position]="'bottom'" [style]="{ width: '75vw' }">
+  <ng-template pTemplate="header">
+    <div class="col-sm" translate="dashboard.popup.device.header"></div>
   </ng-template>
-</p-overlayPanel>
+  <h5 class="card-title" [innerHTML]="'dashboard.popup.device.subtitle' | translate"></h5>
+  <p-table
+    #dt1
+    [rowHover]="true"
+    styleClass="p-datatable-sm"
+    responsiveLayout="scroll"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{{ 'TOTAL' | translate }}"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [value]="devicesToOverlay"
+    [rows]="10"
+    [paginator]="true"
+    [scrollable]="true">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 7rem" pSortableColumn="_NwkId">
+          {{ 'device.byname.shortid.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
+        </th>
+        <th style="width: 5rem" pSortableColumn="IEEE">
+          {{ 'device.byname.ieee.column' | translate }}<p-sortIcon field="IEEE"></p-sortIcon>
+        </th>
+        <th style="width: 13rem" pSortableColumn="Model">
+          {{ 'device.byname.model.column' | translate }}<p-sortIcon field="Model"></p-sortIcon>
+        </th>
+        <th style="width: 20rem" pSortableColumn="ZDeviceName">
+          {{ 'device.byname.devicename.column' | translate }}<p-sortIcon field="ZDeviceName"></p-sortIcon>
+        </th>
+        <th style="width: 7rem" pSortableColumn="Status">
+          {{ 'device.byname.status.column' | translate }}<p-sortIcon field="Status"></p-sortIcon>
+        </th>
+        <th style="width: 7rem" pSortableColumn="Battery">
+          {{ 'device.byname.battery.column' | translate }}<p-sortIcon field="Battery"></p-sortIcon>
+        </th>
+        <th style="width: 6rem" pSortableColumn="Health">
+          {{ 'device.byname.health.column' | translate }}<p-sortIcon field="Health"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-editing="editing"
+      let-row
+      let-rowIndex="rowIndex"
+      let-columns="columns"
+      let-expanded="expanded">
+      <tr>
+        <td>{{ row._NwkId }}</td>
+        <td>{{ row.IEEE }}</td>
+        <td>{{ row.Model }}</td>
+        <td>{{ row.ZDeviceName }}</td>
+        <td>{{ row.Status }}</td>
+        <td>{{ row.Battery }}</td>
+        <td>{{ row.Health }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>

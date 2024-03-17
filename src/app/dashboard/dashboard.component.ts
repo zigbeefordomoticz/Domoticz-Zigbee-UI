@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
@@ -24,8 +24,7 @@ const log = new Logger('DashboardComponent');
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-  @ViewChild('op') overlay: OverlayPanel;
-
+  visible: boolean = false;
   settingsToSave: Array<Setting> = [];
   showConsent = false;
 
@@ -47,7 +46,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   certifiedDevices: any;
   notCertifiedDevices: any;
   devicesToOverlay: any[];
-  widthOverlay: number;
   battery1: any;
   battery2: any;
   battery3: any;
@@ -276,7 +274,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     this.subs.add(this.chart.ref$.subscribe());
   }
 
-  open(name: string, event: any) {
+  open(name: string, event: any, test: any) {
     if (name === 'device') {
       if (event.name === this.translateService.instant('dashboard.devices.routers')) {
         this.devicesToOverlay = this.routers;
@@ -315,8 +313,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
     const width = (this.getScreenWidth * 80) / 100;
     if (width > 768) {
-      this.widthOverlay = width;
-      this.overlay.toggle(event);
+      this.visible = true;
     }
   }
 
