@@ -1,0 +1,20 @@
+{
+  "translationFiles": [
+    {
+      "lang": "fr",
+      "uri": "src/translations/fr-FR.json"
+    },
+    {
+      "lang": "en",
+      "uri": "src/translations/en-US.json"
+    },
+    {
+      "lang": "es",
+      "uri": "src/translations/es-ES.json"
+    },
+    {
+      "lang": "nl",
+      "uri": "src/translations/nl-NL.json"
+    }
+  ]
+}
