@@ -2,52 +2,15 @@ html {
   font-size: 13px;
 }
 
-/*
- * Entry point of global application style.
- * Component-specific style should not go here and be included directly as part of the components.
- */
-.advanced-pie-legend .total-value {
-  font-size: 20px !important;
-}
-
-.advanced-pie-legend .total-label {
-  font-size: 14px !important;
-  margin-bottom: 5px !important;
-  line-height: 1em !important;
-}
-
-.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
-  font-size: 14px !important;
-  margin-left: 11px;
-  line-height: 1em !important;
-  margin-top: 0px !important;
-}
-
-.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
-  font-size: 10px !important;
-  opacity: 0.7;
-  margin-left: 11px;
-  margin-top: 0px !important;
-  line-height: 1em !important;
-}
-
-.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-percent {
-  font-size: 14px !important;
-  opacity: 0.7;
-  margin-left: 11px;
-  line-height: 1em !important;
-}
-
 // Theme variables, must be included before the libraries to allow overriding defaults
 @import "theme/theme-variables";
 
 // 3rd party libraries
 @import "bootstrap/dist/css/bootstrap.min.css" layer(bootstrap);
-@import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "@fortawesome/fontawesome-free/scss/brands.scss";
-@import "@fortawesome/fontawesome-free/scss/regular.scss";
-@import "@fortawesome/fontawesome-free/scss/solid.scss";
-
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/brands";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/solid";
 @import "primeicons/primeicons.css";
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.min.css";

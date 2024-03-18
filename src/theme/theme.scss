@@ -2,6 +2,8 @@
  * Global application theme.
  * Framework overrides and customization goes here.
  */
+@use "sass:map";
+
 @import "@ng-select/ng-select/themes/default.theme.css";
 
 $custom-control-indicator-bg: #dee2e6;
@@ -16,13 +18,13 @@ $switch-height-sm: calc(#{$input-height-sm} * 0.8) !default;
 $switch-height-lg: calc(#{$input-height-lg} * 0.8) !default;
 $switch-border-radius: $switch-height !default;
 $switch-bg: $custom-control-indicator-bg !default;
-$switch-checked-bg: map-get($theme-colors, "primary") !default;
+$switch-checked-bg: map.get($theme-colors, "primary") !default;
 $switch-disabled-bg: $custom-control-indicator-disabled-bg !default;
 $switch-disabled-color: $custom-control-description-disabled-color !default;
 $switch-thumb-bg: $white !default;
 $switch-thumb-border-radius: 50% !default;
 $switch-thumb-padding: 2px !default;
-$switch-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(map-get($theme-colors, "primary"), 0.25);
+$switch-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(map.get($theme-colors, "primary"), 0.25);
 $switch-transition: 0.2s all !default;
 
 .switch {
@@ -148,6 +150,7 @@ $switch-transition: 0.2s all !default;
         width: calc(#{$switch-height-lg} * 2);
       }
 
+      /* stylelint-disable-next-line no-descending-specificity */
       + label::after {
         width: calc(#{$switch-height-lg} - calc(#{$switch-thumb-padding} * 2));
         height: calc(#{$switch-height-lg} - calc(#{$switch-thumb-padding} * 2));
@@ -167,6 +170,7 @@ $switch-transition: 0.2s all !default;
 .blink {
   color: red;
   animation: blink 2s steps(5, start) infinite;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-animation: blink 1s steps(5, start) infinite;
 }
 
@@ -176,6 +180,7 @@ $switch-transition: 0.2s all !default;
   }
 }
 
+/* stylelint-disable-next-line at-rule-no-vendor-prefix */
 @-webkit-keyframes blink {
   to {
     visibility: hidden;
@@ -188,7 +193,7 @@ button[disabled] {
 
 ng-select {
   .ng-dropdown-panel {
-    width: auto !important;
+    width: auto;
   }
 }
 
@@ -207,10 +212,58 @@ a {
   margin-left: 0.2rem;
 }
 
+.p-inputtext {
+  padding: 0.375rem 0.75rem;
+}
+
 .p-input-icon-left > .p-inputtext {
   padding-left: 2.5rem;
 }
 
-.p-inputtext {
-  padding: 0.375rem 0.75rem;
+/*
+ * Entry point of global application style.
+ * Component-specific style should not go here and be included directly as part of the components.
+ */
+.advanced-pie-legend .total-value {
+  /* stylelint-disable-next-line declaration-no-important */
+  font-size: 20px !important;
+}
+
+.advanced-pie-legend .total-label {
+  /* stylelint-disable-next-line declaration-no-important */
+  font-size: 14px !important;
+  /* stylelint-disable-next-line declaration-no-important */
+  margin-bottom: 5px !important;
+  /* stylelint-disable-next-line declaration-no-important */
+  line-height: 1em !important;
+}
+
+.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+  /* stylelint-disable-next-line declaration-no-important */
+  font-size: 14px !important;
+  margin-left: 11px;
+  /* stylelint-disable-next-line declaration-no-important */
+  line-height: 1em !important;
+  /* stylelint-disable-next-line declaration-no-important */
+  margin-top: 0 !important;
+}
+
+.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
+  /* stylelint-disable-next-line declaration-no-important */
+  font-size: 10px !important;
+  opacity: 0.7;
+  margin-left: 11px;
+  /* stylelint-disable-next-line declaration-no-important */
+  margin-top: 0 !important;
+  /* stylelint-disable-next-line declaration-no-important */
+  line-height: 1em !important;
+}
+
+.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-percent {
+  /* stylelint-disable-next-line declaration-no-important */
+  font-size: 14px !important;
+  opacity: 0.7;
+  margin-left: 11px;
+  /* stylelint-disable-next-line declaration-no-important */
+  line-height: 1em !important;
 }

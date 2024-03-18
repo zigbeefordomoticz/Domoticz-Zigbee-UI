@@ -4,6 +4,7 @@
   margin-bottom: $spacer;
 }
 
+/* stylelint-disable-next-line selector-not-notation */
 a:not([href]):not([tabindex]) {
   cursor: pointer;
 }

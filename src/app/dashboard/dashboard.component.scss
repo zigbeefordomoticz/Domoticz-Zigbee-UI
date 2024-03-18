@@ -1,5 +1,5 @@
 .border-3 {
-  border-width: 3px !important;
+  border-width: 3px;
 }
 
 .consent-banner {
@@ -9,7 +9,6 @@
   z-index: 2147483645;
   box-sizing: border-box;
   width: 100%;
-
   background-color: #f1f6f4;
 }
 
@@ -25,15 +24,14 @@
 
 .consent-banner__header {
   margin-bottom: 8px;
-
-  font-family: "CeraPRO-Bold", sans-serif, arial;
+  font-family: CeraPRO-Bold, sans-serif, arial;
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
 }
 
 .consent-banner__description {
-  font-family: "CeraPRO-Regular", sans-serif, arial;
+  font-family: CeraPRO-Regular, sans-serif, arial;
   font-weight: normal;
   color: #838f93;
   font-size: 16px;
