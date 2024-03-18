@@ -108,6 +108,8 @@
   "device.byname.parameter.alert.cancel": "Anular",
   "device.byname.parameter.alert.title": "Parámetros",
   "device.byname.parameter.alert.subject": "Configurar parámetros específicos <a class='fas fa-info-circle me-2' target='_blank' href='https://zigbeefordomoticz.github.io/wiki/en-eng/HowTo_Device-parameters'></a>",
+  "device.byname.parameter.popover.title": "TITLE",
+  "device.byname.parameter.popover.text": "text to show",
   "device.byname.delete.colum": "Eliminar",
   "device.byname.optimized.popover.title.ok": "El dispositivo está optimizado con el plugin",
   "device.byname.optimized.popover.text.ok": "Haga clic en el icono para copiar la información del dispositivo",

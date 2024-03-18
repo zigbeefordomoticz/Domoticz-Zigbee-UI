@@ -108,6 +108,8 @@
   "device.byname.parameter.alert.cancel": "Annuler",
   "device.byname.parameter.alert.title": "Paramètres",
   "device.byname.parameter.alert.subject": "Assigner des paramètres spécifiques à l'objet au format Json <a class='fas fa-info-circle me-2' target='_blank' href='https://zigbeefordomoticz.github.io/wiki/fr-fr/Tuto_Parametrer-les-objets'></a>",
+  "device.byname.parameter.popover.title": "TITLE",
+  "device.byname.parameter.popover.text": "text to show",
   "device.byname.delete.colum": "Supprimer",
   "device.byname.optimized.popover.title.ok": "L’objet est optimisé pour le plugin",
   "device.byname.optimized.popover.text.ok": "Cliquer sur l'icône pour copier les infos de l'objet",

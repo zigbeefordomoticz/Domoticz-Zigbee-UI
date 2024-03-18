@@ -108,6 +108,8 @@
   "device.byname.parameter.alert.cancel": "Annuleer",
   "device.byname.parameter.alert.title": "Parameters",
   "device.byname.parameter.alert.subject": "Stel specifieke parameters in <a class='fas fa-info-circle me-2' target='_blank' href='https://zigbeefordomoticz.github.io/wiki/en-eng/HowTo_Device-parameters'></a>",
+  "device.byname.parameter.popover.title": "TITLE",
+  "device.byname.parameter.popover.text": "text to show",
   "device.byname.delete.colum": "Verwijder",
   "device.byname.optimized.popover.title.ok": "Het object is geoptimaliseerd met de plugin",
   "device.byname.optimized.popover.text.ok": "Klik op het icoon om de informatie van het object",

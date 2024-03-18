@@ -110,25 +110,27 @@
             </td>
             <td>
               <ng-container *ngIf="row.CertifiedDevice">
-                <div
-                  (click)="copy(row)"
-                  ngbPopover="{{ 'device.byname.optimized.popover.text.ok' | translate }}"
-                  triggers="mouseenter:mouseleave"
-                  popoverTitle="{{ 'device.byname.optimized.popover.title.ok' | translate }}">
+                <div (click)="copy(row)">
                   <div class="container">
-                    <shared-custom-icon class="container__icon container__icon--green" iconName="CHECK_ICON">
+                    <shared-custom-icon
+                      ngbPopover="{{ 'device.byname.optimized.popover.text.ok' | translate }}"
+                      triggers="mouseenter:mouseleave"
+                      popoverTitle="{{ 'device.byname.optimized.popover.title.ok' | translate }}"
+                      class="container__icon container__icon--green"
+                      iconName="CHECK_ICON">
                     </shared-custom-icon>
                   </div>
                 </div>
               </ng-container>
               <ng-container *ngIf="!row.CertifiedDevice">
-                <div
-                  (click)="copy(row)"
-                  ngbPopover="{{ 'device.byname.optimized.popover.text.ko' | translate }}"
-                  triggers="mouseenter:mouseleave"
-                  popoverTitle="{{ 'device.byname.optimized.popover.title.ko' | translate }}">
+                <div (click)="copy(row)">
                   <div class="container">
-                    <shared-custom-icon class="container__icon container__icon--orange" iconName="X_ICON">
+                    <shared-custom-icon
+                      ngbPopover="{{ 'device.byname.optimized.popover.text.ko' | translate }}"
+                      triggers="mouseenter:mouseleave"
+                      popoverTitle="{{ 'device.byname.optimized.popover.title.ko' | translate }}"
+                      class="container__icon container__icon--orange"
+                      iconName="X_ICON">
                     </shared-custom-icon>
                   </div>
                 </div>
@@ -162,6 +164,9 @@
             <td>{{ row.Health }}</td>
             <td>
               <i
+                ngbPopover="{{ 'device.byname.parameter.popover.title' | translate }}"
+                triggers="mouseenter:mouseleave"
+                popoverTitle="{{ 'device.byname.parameter.popover.text' | translate }}"
                 class="fas fa-cog"
                 style="cursor: pointer"
                 [style.color]="row.CheckParam ? 'orange' : 'green'"
