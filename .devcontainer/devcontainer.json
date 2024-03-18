@@ -8,7 +8,23 @@
     // Configure properties specific to VS Code.
     "vscode": {
       // Add the IDs of extensions you want installed when the container is created.
-      "extensions": ["dbaeumer.vscode-eslint"]
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "chr33z.lingua-vscode",
+        "formulahendry.auto-close-tag",
+        "formulahendry.auto-rename-tag",
+        "ms-vscode-remote.remote-containers",
+        "alphabotsec.vscode-eclipse-keybindings",
+        "MS-CEINTL.vscode-language-pack-fr",
+        "PKief.material-icon-theme",
+        "johnpapa.vscode-peacock",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "eamodio.gitlens",
+        "johnpapa.angular-essentials",
+        "loiane.angular-extension-pack",
+        "loiane.ts-extension-pack",
+        "github.vscode-github-actions"
+      ]
     }
   },
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
