@@ -11,7 +11,6 @@
     "lint": "ng lint && stylelint \"src/**/*.scss\"",
     "test": "ng test",
     "test:ci": "npm run lint -s && ng test --code-coverage --watch=false",
-    "translations:extract": "ngx-translate-extract --input ./src --output ./src/translations/template.json --format=json --clean --sort --marker extract",
     "prettier": "prettier --write \"./src/**/*.{ts,js,html,scss}\"",
     "prettier:check": "prettier --list-different \"./src/**/*.{ts,js,html,scss}\"",
     "generate": "ng generate"
@@ -64,7 +63,6 @@
     "@angular/cli": "^17.3.0",
     "@angular/compiler-cli": "^17.3.0",
     "@angular/language-service": "^17.3.0",
-    "@biesbjerg/ngx-translate-extract": "^7.0.4",
     "@types/d3": "^7.4.3",
     "@types/node": "^20.11.28",
     "@typescript-eslint/eslint-plugin": "7.2.0",
