@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-ng lint
+npm run lint
 npx pretty-quick --staged
