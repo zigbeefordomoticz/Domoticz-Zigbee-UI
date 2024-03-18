@@ -21,7 +21,7 @@ export const environment = {
     { code: 'es-ES', flag: 'flag_spain.png' }
   ],
   api_url: '/rest-z4d/1',
-  keysBoundActive: 'alt.t',
+  keysBoundActive: 'alt.z',
   refresh: 10000,
   linkToConsent: 'https://github.com/zigbeefordomoticz/wiki',
   trackerUrl: 'https://z4d.pipiche.net/',
