@@ -6,14 +6,18 @@ html {
 @import "theme/theme-variables";
 
 // 3rd party libraries
-@import "bootstrap/dist/css/bootstrap.min.css" layer(bootstrap);
+
+@layer bootstrap-reboot, primeng;
+
+@import "bootstrap/dist/css/bootstrap-reboot" layer(bootstrap-rebooot);
+@import "bootstrap/dist/css/bootstrap.min";
+@import "primeng/resources/primeng.min";
 @import "@fortawesome/fontawesome-free/scss/fontawesome";
 @import "@fortawesome/fontawesome-free/scss/brands";
 @import "@fortawesome/fontawesome-free/scss/regular";
 @import "@fortawesome/fontawesome-free/scss/solid";
-@import "primeicons/primeicons.css";
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.min.css";
+@import "primeicons/primeicons";
+@import "primeng/resources/themes/lara-light-blue/theme";
 
 // Theme customization
 @import "theme/theme";
