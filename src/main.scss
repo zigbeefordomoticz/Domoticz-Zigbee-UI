@@ -3,14 +3,30 @@ html {
 }
 
 // Theme variables, must be included before the libraries to allow overriding defaults
-@import "theme/theme-variables";
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #868e96;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+$blue: #0073dd;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$teal: #20c997;
+$cyan: #17a2b8;
 
-// 3rd party libraries
+@layer bootstrap, primeng;
 
-@layer bootstrap-reboot, primeng;
-
-@import "bootstrap/dist/css/bootstrap-reboot" layer(bootstrap-rebooot);
-@import "bootstrap/dist/css/bootstrap.min";
+@import "bootstrap/scss/bootstrap";
 @import "primeng/resources/primeng.min";
 @import "@fortawesome/fontawesome-free/scss/fontawesome";
 @import "@fortawesome/fontawesome-free/scss/brands";
@@ -18,6 +34,7 @@ html {
 @import "@fortawesome/fontawesome-free/scss/solid";
 @import "primeicons/primeicons";
 @import "primeng/resources/themes/lara-light-blue/theme";
-
+@import "ngx-toastr/toastr-bs5-alert";
+@import "@ng-select/ng-select/themes/default.theme.css";
 // Theme customization
 @import "theme/theme";

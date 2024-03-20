@@ -1,4 +1,6 @@
-@import "theme/theme-variables";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
 
 .navbar {
   margin-bottom: $spacer;
