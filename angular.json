@@ -23,7 +23,7 @@
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": ["src/favicon.ico", "src/apple-touch-icon.png", "src/robots.txt", "src/assets"],
+            "assets": ["src/favicon.ico", "src/robots.txt", "src/assets"],
             "styles": [
               "node_modules/ngx-spinner/animations/line-spin-clockwise-fade-rotating.css",
               "node_modules/ngx-spinner/animations/line-scale.css",
