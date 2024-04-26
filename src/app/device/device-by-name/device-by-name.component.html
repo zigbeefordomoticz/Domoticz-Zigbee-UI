@@ -167,9 +167,9 @@
             <td>{{ row.Health }}</td>
             <td>
               <i
-                ngbPopover="{{ 'device.byname.parameter.popover.title' | translate }}"
+                ngbPopover="{{ 'device.byname.parameter.popover.text' | translate }}"
                 triggers="mouseenter:mouseleave"
-                popoverTitle="{{ 'device.byname.parameter.popover.text' | translate }}"
+                popoverTitle="{{ 'device.byname.parameter.popover.title' | translate }}"
                 class="fas fa-cog"
                 style="cursor: pointer"
                 [style.color]="row.CheckParam ? 'orange' : 'green'"
