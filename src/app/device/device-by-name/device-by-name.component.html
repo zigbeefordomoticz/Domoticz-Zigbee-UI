@@ -71,6 +71,11 @@
             <th style="width: 5rem" pSortableColumn="LQI">
               {{ 'device.byname.lqi.column' | translate }}<p-sortIcon field="LQI"></p-sortIcon>
             </th>
+            @if (showRSSI) {
+              <th style="width: 5rem" pSortableColumn="RSSI">
+                {{ 'device.byname.rssi.column' | translate }}<p-sortIcon field="RSSI"></p-sortIcon>
+              </th>
+            }
             <th style="width: 7rem" pSortableColumn="Status">
               {{ 'device.byname.status.column' | translate }}<p-sortIcon field="Status"></p-sortIcon>
             </th>
@@ -163,6 +168,9 @@
               </div>
             </td>
             <td>{{ row.LQI }}</td>
+            @if (showRSSI) {
+              <td>{{ row.RSSI }}</td>
+            }
             <td>{{ row.Status }}</td>
             <td>{{ row.Health }}</td>
             <td>

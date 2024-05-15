@@ -17,7 +17,6 @@ const log = new Logger('DeviceByNameComponent');
 export class DeviceByNameComponent implements OnChanges {
   @Input() devices: DeviceByName[];
   rows: DeviceByName[] = [];
-  temp: DeviceByName[] = [];
   hasEditing = false;
   rowToDelete: any;
   rowParameter: DeviceByName;
@@ -27,6 +26,7 @@ export class DeviceByNameComponent implements OnChanges {
   prefixEnabled = 'Disabled';
   enabledTrue = "'Disabled': 0";
   enabledFalse = "'Disabled': 1";
+  showRSSI = false;
 
   constructor(
     private apiService: ApiService,
@@ -38,9 +38,8 @@ export class DeviceByNameComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.devices.currentValue !== changes.devices.previousValue) {
-      this.devices = this.devices;
       this.rows = this.devices;
-      this.temp = [...this.rows];
+      this.showRSSI = this.devices.filter(device => device.RSSI).length > 0;
     }
   }
 
@@ -87,7 +86,6 @@ export class DeviceByNameComponent implements OnChanges {
       if (index > -1) {
         this.rows.splice(index, 1);
         this.rows = [...this.rows];
-        this.temp = [...this.rows];
       }
     });
   }

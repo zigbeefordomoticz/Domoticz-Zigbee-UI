@@ -97,6 +97,7 @@
   "device.byname.shortid.column": "Id corta",
   "device.byname.status.column": "Estado",
   "device.byname.lqi.column": "LQI",
+  "device.byname.rssi.column": "RSSI",
   "device.byname.validate.button": "Validar",
   "device.byname.widget.column": "Domoticz Widget",
   "device.byname.alert.title": "Eliminar dispositivo ?",

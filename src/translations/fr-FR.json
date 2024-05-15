@@ -97,6 +97,7 @@
   "device.byname.shortid.column": "Short ID",
   "device.byname.status.column": "Statut",
   "device.byname.lqi.column": "LQI",
+  "device.byname.rssi.column": "RSSI",
   "device.byname.validate.button": "Valider",
   "device.byname.widget.column": "Dispositifs DomoticZ",
   "device.byname.alert.title": "Supprimer l'appareil ?",

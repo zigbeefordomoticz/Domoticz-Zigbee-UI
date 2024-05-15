@@ -97,6 +97,7 @@
   "device.byname.shortid.column": "Korte id",
   "device.byname.status.column": "Status",
   "device.byname.lqi.column": "LQI",
+  "device.byname.rssi.column": "RSSI",
   "device.byname.validate.button": "Valideer",
   "device.byname.widget.column": "Domoticz Widget",
   "device.byname.alert.title": "Verwijder apparaat ?",

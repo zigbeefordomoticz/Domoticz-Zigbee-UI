@@ -11,5 +11,6 @@ export interface DeviceByName {
   Battery?: any;
   ConsistencyCheck?: string;
   LQI?: number;
+  RSSI?: number;
   CertifiedDevice?: boolean;
 }
