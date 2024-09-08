@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 
 export function transformToTimestamp(key: any, value: any) {
     const datepipe = new DatePipe('en-US');
-    const keyToTransform = ['TimeStamps', 'TimeStamp', 'Stamp', 'Time', 'StartTime', 'BatteryUpdateTime', 'TargetTime', 'BatteryPercentage_TimeStamp', 'BatteryVoltage_TimeStamp', 'BatteryPercentage_TimeStamp'];
+    const keyToTransform = ['TimeStamps', 'TimeStamp', 'Stamp', 'Time', 'StartTime', 'BatteryUpdateTime', 'TargetTime', 'BatteryPercentage_TimeStamp', 'BatteryVoltage_TimeStamp', 'BatteryPercentage_TimeStamp', 'PairingTime'];
     if (key === 'LastSeen') {
         return datepipe.transform(value * 1000, 'dd/MM/yyyy HH:mm:ss');
     } else if (keyToTransform.indexOf(key) > -1) {
