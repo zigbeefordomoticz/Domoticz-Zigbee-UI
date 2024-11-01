@@ -6,7 +6,6 @@ import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators'
 import { ApiService } from '../../services/api.service';
 import { VersionService } from '../../services/version-service';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
-import { MatomoTracker } from 'ngx-matomo-client';
 
 @Component({
   selector: 'app-version',
@@ -21,8 +20,7 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
   constructor(
     private apiService: ApiService,
     private versionService: VersionService,
-    private headerService: HeaderService,
-    private readonly tracker: MatomoTracker
+    private headerService: HeaderService
   ) {
     super();
   }
@@ -38,12 +36,6 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
         this.fork = { pluginHealth, pluginStats, plugin };
         if (plugin) {
           sessionStorage.setItem('plugin', JSON.stringify(plugin));
-          this.tracker.setUserId(plugin.CoordinatorIEEE);
-          this.tracker.setCustomVariable(1, 'CoordinatorModel', plugin.CoordinatorModel, 'visit');
-          this.tracker.setCustomVariable(2, 'PluginVersion', plugin.PluginVersion, 'visit');
-          this.tracker.setCustomVariable(3, 'CoordinatorFirmwareVersion', plugin.CoordinatorFirmwareVersion, 'visit');
-          this.tracker.setCustomVariable(4, 'NetworkSize', plugin.NetworkSize, 'visit');
-          this.tracker.setCustomVariable(4, 'CertifiedDbVersion', plugin.CertifiedDbVersion, 'visit');
         }
       })
     );

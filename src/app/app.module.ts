@@ -5,10 +5,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
-import { environment } from '@env/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatomoConsentMode, MatomoModule, MatomoRouterModule } from 'ngx-matomo-client';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,13 +30,6 @@ import { ShellModule } from './shell/shell.module';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true
     }),
-    MatomoModule.forRoot({
-      acceptDoNotTrack: false,
-      requireConsent: MatomoConsentMode.TRACKING,
-      trackerUrl: environment.trackerUrl,
-      siteId: environment.siteId
-    }),
-    MatomoRouterModule,
     AppRoutingModule
   ],
   declarations: [AppComponent],

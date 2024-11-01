@@ -23,7 +23,5 @@ export const environment = {
   api_url: '/rest-z4d/1',
   keysBoundActive: ['alt.z', 'z>i>g'],
   refresh: 10000,
-  linkToConsent: 'https://github.com/zigbeefordomoticz/wiki',
-  trackerUrl: 'https://z4d.pipiche.net/',
-  siteId: '4'
+  linkToConsent: 'https://github.com/zigbeefordomoticz/wiki'
 };
