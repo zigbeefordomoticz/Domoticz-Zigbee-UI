@@ -9,6 +9,7 @@ import { Setting } from '@app/shared/models/setting';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
+import { MatomoTracker } from 'ngx-matomo-client';
 import { forkJoin, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { PluginStats } from '../shared/models/plugin-stats';
@@ -21,6 +22,7 @@ import { PluginStats } from '../shared/models/plugin-stats';
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   visible: boolean = false;
   settingsToSave: Array<Setting> = [];
+  showConsent = false;
 
   poll = false;
   chart: Chart;
@@ -94,7 +96,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     private apiService: ApiService,
     private versionService: VersionService,
     private headerService: HeaderService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private readonly tracker: MatomoTracker
   ) {
     super();
   }
@@ -106,6 +109,21 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     this.apiService.getSettings().subscribe(res => {
       res.forEach(setting => {
         this.settingsToSave = this.settingsToSave.concat(setting.ListOfSettings);
+        this.settingsToSave.forEach(setting => {
+          const name = setting.Name;
+          if (name === 'PluginAnalytics') {
+            if (setting.current_value === -1) {
+              this.showConsent = true;
+            } else {
+              if (setting.current_value === 1) {
+                this.tracker.setConsentGiven();
+                this.tracker.rememberConsentGiven();
+              } else {
+                this.tracker.forgetConsentGiven();
+              }
+            }
+          }
+        });
       });
     });
 
@@ -312,6 +330,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.pluginStats = pluginStats;
         this.devices = devices ? devices : [];
         this.certified = certified ? certified : [];
+        this.trackEvent();
         this.createChart();
         this.maxLoad.label = this.translateService.instant('dashboard.trafic.maxload');
         this.maxLoad.total = pluginStats.MaxLoad;
@@ -461,5 +480,45 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.headerService.setError(pluginStats.Error);
       })
     );
+  }
+
+  consent(consent: boolean): void {
+    const settingsToSend: any = {};
+    this.settingsToSave.forEach(setting => {
+      const name = setting.Name;
+      if (name === 'PluginAnalytics') {
+        settingsToSend[name] = { current: consent ? 1 : 0 };
+      }
+    });
+    this.apiService.putSettings(settingsToSend).subscribe(() => {
+      this.showConsent = false;
+      if (consent) {
+        this.tracker.setConsentGiven();
+        this.tracker.rememberConsentGiven();
+      } else {
+        this.tracker.forgetConsentGiven();
+      }
+    });
+  }
+
+  private trackEvent(): void {
+    const first = JSON.parse(sessionStorage.getItem('pluginFirstSendToMatomo')) as Plugin;
+    if (!first || first.NetworkSize !== this.plugin.NetworkSize) {
+      sessionStorage.setItem('pluginFirstSendToMatomo', JSON.stringify(this.plugin));
+    }
+
+    if (sessionStorage.getItem('pluginFirstSendToMatomo') !== sessionStorage.getItem('pluginSentToMatomo')) {
+      sessionStorage.setItem('pluginSentToMatomo', JSON.stringify(this.plugin));
+      this.tracker.setUserId(this.plugin.CoordinatorIEEE);
+      this.tracker.setCustomVariable(1, 'CoordinatorModel', this.plugin.CoordinatorModel, 'visit');
+      this.tracker.setCustomVariable(2, 'PluginVersion', this.plugin.PluginVersion, 'visit');
+      this.tracker.setCustomVariable(3, 'CoordinatorFirmwareVersion', this.plugin.CoordinatorFirmwareVersion, 'visit');
+      this.tracker.setCustomVariable(4, 'NetworkSize', this.plugin.NetworkSize, 'visit');
+      Object.entries(this.plugin.NetworkDevices).forEach(([code, valueCode]) => {
+        Object.entries(valueCode).forEach(([name, valueName]) => {
+          this.tracker.trackEvent('NetworkDevices', (valueName as string[]).join('|'), code.concat('|').concat(name));
+        });
+      });
+    }
   }
 }

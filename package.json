@@ -42,6 +42,7 @@
     "ngx-color-picker": "^16.0.0",
     "ngx-filesaver": "^17.0.0",
     "ngx-json-viewer": "^3.2.1",
+    "ngx-matomo-client": "^6.0.2",
     "ngx-scrollbar": "^14.0.0-beta.0",
     "ngx-spinner": "^16.0.2",
     "ngx-toastr": "^18.0.0",
