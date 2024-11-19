@@ -34,4 +34,5 @@ export interface Plugin {
   CoordinatorFirmwareVersion?: string;
   CoordinatorIEEE?: string;
   NetworkDevices: Array<any>;
+  DistributionInfos: Array<string>;
 }

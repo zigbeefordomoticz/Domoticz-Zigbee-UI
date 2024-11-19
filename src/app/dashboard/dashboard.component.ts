@@ -514,6 +514,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.tracker.setCustomVariable(2, 'PluginVersion', this.plugin.PluginVersion, 'visit');
       this.tracker.setCustomVariable(3, 'CoordinatorFirmwareVersion', this.plugin.CoordinatorFirmwareVersion, 'visit');
       this.tracker.setCustomVariable(4, 'NetworkSize', this.plugin.NetworkSize, 'visit');
+      this.tracker.setCustomVariable(4, 'DistributionInfos', this.plugin.DistributionInfos.toLocaleString(), 'visit');
       Object.entries(this.plugin.NetworkDevices).forEach(([code, valueCode]) => {
         Object.entries(valueCode).forEach(([name, valueName]) => {
           this.tracker.trackEvent('NetworkDevices', (valueName as string[]).join('|'), code.concat('|').concat(name));
