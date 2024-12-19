@@ -404,6 +404,7 @@
   "allowReBindingClusters": "Habilitar el reenlace del clúster durante las operaciones de creación de configure reporting",
   "doUnbindBind": "Desvincular y luego vincular, cuando se realiza una operación de vinculación",
   "PluginAnalytics": "Autorizar el plugin para colocar una cookie a fin de recopilar información sobre la coordinación y los modelos de objetos utilizados.",
+  "MatomoOptIn": "Autorizar el plugin para colocar una cookie a fin de recopilar información sobre la coordinación y los modelos de objetos utilizados.",
   "autoRestore": "Aplique automáticamente la copia de seguridad del coordinador más reciente cuando se encuentre un nuevo coordinador en blanco",
   "forceSwitchSelectorPushButton": "Workaround Domoticz issue #4143",
   "resetSwitchSelectorPushButton": "Cantidad de segundos después de que el selector se restablece a apagado",

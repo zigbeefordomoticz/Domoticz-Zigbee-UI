@@ -404,6 +404,7 @@
   "allowReBindingClusters": "Activer le re-binding des clusters pendant les opérations de configure reporting",
   "doUnbindBind": "Unbind and then bind, when doing a binding operation",
   "PluginAnalytics": "Autoriser le plugin à placer un cookie afin de collecter des informations sur le coordinateur et les modèles d’objets utilisés.",
+  "MatomoOptIn": "Autoriser le plugin à collecter des informations sur le coordinateur, versions ...",
   "autoRestore": "Appliquer automatiquement le backup le plus récent du coordinateur quand un coordinateur vierge est trouvé",
   "forceSwitchSelectorPushButton": "Workaround DomoticZ issue #4143",
   "resetSwitchSelectorPushButton": "Nombre de sec avant de basculer le Sélecteur Off",
