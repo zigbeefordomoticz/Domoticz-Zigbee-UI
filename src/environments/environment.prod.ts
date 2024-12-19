@@ -7,19 +7,18 @@
 import { env } from './.env';
 
 export const environment = {
-  production: true,
-  version: env.npm_package_version,
-  defaultLanguage: 'en-US',
-  supportedLanguages: [
-    { code: 'en-US', flag: 'flag_uk.png' },
-    { code: 'fr-FR', flag: 'flag_france.png' },
-    { code: 'nl-NL', flag: 'flag_netherlands.png' },
-    { code: 'es-ES', flag: 'flag_spain.png' }
-  ],
-  api_url: '/rest-z4d/1',
-  keysBoundActive: ['alt.z', 'z>i>g'],
-  refresh: 7000,
-  linkToConsent: 'https://github.com/zigbeefordomoticz/wiki',
-  trackerUrl: 'https://z4d.pipiche.net/',
-  siteId: '3'
+    production: true,
+    version: env.npm_package_version,
+    defaultLanguage: 'en-US',
+    supportedLanguages: [
+        { code: 'en-US', flag: 'flag_uk.png' },
+        { code: 'fr-FR', flag: 'flag_france.png' },
+        { code: 'nl-NL', flag: 'flag_netherlands.png' },
+        { code: 'es-ES', flag: 'flag_spain.png' }
+    ],
+    api_url: '/rest-z4d/1',
+    keysBoundActive: ['alt.z', 'z>i>g'],
+    refresh: 7000,
+    linkToConsent: 'https://github.com/zigbeefordomoticz/wiki',
+    siteId: '3'
 };
