@@ -404,6 +404,7 @@
   "allowReBindingClusters": "Enable re-binding clusters during configure reporting operations",
   "doUnbindBind": "Unbind and then bind, when doing a binding operation",
   "PluginAnalytics": "Schakel de plugin in, en om cookies te gebruiken, om informatie te verzamelen, over de coordinator, en de apparten die gebruikt worden.",
+  "MatomoOptIn": "Schakel de plugin in, en om cookies te gebruiken, om informatie te verzamelen, over de coordinator, en de apparten die gebruikt worden.",
   "autoRestore": "Automatisch gebruik de meest recente coordinator backup, als een lege is gevonden.",
   "forceSwitchSelectorPushButton": "Zet de selector switch eerst op 'off' wanneer dezelfde status wordt geselecteerd. (Workaround voor Domoticz issue #4143)",
   "resetSwitchSelectorPushButton": "Aantal seconden totdat de schakalaar uit gaat",
