@@ -8,54 +8,54 @@ import { VersionService } from '../../services/version-service';
 import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-adapter';
 
 @Component({
-    selector: 'app-version',
-    templateUrl: './version.component.html',
-    styleUrls: ['./version.component.scss']
+  selector: 'app-version',
+  templateUrl: './version.component.html',
+  styleUrls: ['./version.component.scss']
 })
 export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-    fork$: Observable<any>;
-    poll = false;
-    fork: any;
+  fork$: Observable<any>;
+  poll = false;
+  fork: any;
 
-    constructor(
-        private apiService: ApiService,
-        private versionService: VersionService,
-        private headerService: HeaderService
-    ) {
-        super();
-    }
+  constructor(
+    private apiService: ApiService,
+    private versionService: VersionService,
+    private headerService: HeaderService
+  ) {
+    super();
+  }
 
-    ngOnInit(): void {
-        this.fork$ = forkJoin([
-            this.apiService.getPluginhealth(),
-            this.apiService.getPluginStats(),
-            this.apiService.getPlugin()
-        ]).pipe(
-            map(([pluginHealth, pluginStats, plugin]) => {
-                this.headerService.setError(pluginStats.Error);
-                this.fork = { pluginHealth, pluginStats, plugin };
-                if (plugin) {
-                    sessionStorage.setItem('plugin', JSON.stringify(plugin));
-                }
-            })
-        );
+  ngOnInit(): void {
+    this.fork$ = forkJoin([
+      this.apiService.getPluginhealth(),
+      this.apiService.getPluginStats(),
+      this.apiService.getPlugin()
+    ]).pipe(
+      map(([pluginHealth, pluginStats, plugin]) => {
+        this.headerService.setError(pluginStats.Error);
+        this.fork = { pluginHealth, pluginStats, plugin };
+        if (plugin) {
+          sessionStorage.setItem('plugin', JSON.stringify(plugin));
+        }
+      })
+    );
 
-        this.subs.sink = this.headerService.polling.subscribe(poll => {
-            this.poll = poll;
-            this.subs.add(
-                timer(1, environment.refresh)
-                    .pipe(
-                        switchMap(() => this.fork$),
-                        retry(),
-                        share(),
-                        takeUntil(this.headerService.polling.pipe(filter(val => val === false)))
-                    )
-                    .subscribe()
-            );
-        });
+    this.subs.sink = this.headerService.polling.subscribe(poll => {
+      this.poll = poll;
+      this.subs.add(
+        timer(1, environment.refresh)
+          .pipe(
+            switchMap(() => this.fork$),
+            retry(),
+            share(),
+            takeUntil(this.headerService.polling.pipe(filter(val => val === false)))
+          )
+          .subscribe()
+      );
+    });
 
-        this.versionService.reload.subscribe(() => {
-            this.fork$.subscribe();
-        });
-    }
+    this.versionService.reload.subscribe(() => {
+      this.fork$.subscribe();
+    });
+  }
 }

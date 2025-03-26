@@ -14,26 +14,26 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ShellModule } from './shell/shell.module';
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        ClipboardModule,
-        TranslateModule.forRoot(),
-        NgbModule,
-        CoreModule,
-        SharedModule,
-        ShellModule,
-        DashboardModule,
-        ToastrModule.forRoot({
-            timeOut: 5000,
-            positionClass: 'toast-bottom-right',
-            preventDuplicates: true
-        }),
-        AppRoutingModule
-    ],
-    declarations: [AppComponent],
-    providers: [],
-    bootstrap: [AppComponent]
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    ClipboardModule,
+    TranslateModule.forRoot(),
+    NgbModule,
+    CoreModule,
+    SharedModule,
+    ShellModule,
+    DashboardModule,
+    ToastrModule.forRoot({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true
+    }),
+    AppRoutingModule
+  ],
+  declarations: [AppComponent],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
