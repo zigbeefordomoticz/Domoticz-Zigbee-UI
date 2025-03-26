@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { RouteReuseStrategy, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import { I18nService } from './i18n.service';
 import { RouteReusableStrategy } from './route-reusable-strategy';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule, TranslateModule, RouterModule],
+  imports: [CommonModule, TranslateModule, RouterModule],
   providers: [
     I18nService,
     HttpCacheService,
@@ -26,7 +26,8 @@ import { RouteReusableStrategy } from './route-reusable-strategy';
     {
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy
-    }
+    },
+    provideHttpClient(withInterceptorsFromDi())
   ]
 })
 export class CoreModule {
