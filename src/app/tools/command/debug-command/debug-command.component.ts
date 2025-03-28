@@ -10,7 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-debug-command',
   templateUrl: './debug-command.component.html',
-  styleUrls: ['./debug-command.component.scss']
+  styleUrls: ['./debug-command.component.scss'],
+  standalone: false
 })
 export class DebugCommandComponent implements OnInit {
   routers: ZDevices[];

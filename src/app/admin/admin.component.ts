@@ -5,7 +5,8 @@ import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-ada
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  styleUrls: ['./admin.component.scss'],
+  standalone: false
 })
 export class AdminComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   action: string;

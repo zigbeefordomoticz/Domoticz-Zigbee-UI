@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-recreate-widget',
   templateUrl: './recreate-widget.component.html',
-  styleUrls: ['./recreate-widget.component.scss']
+  styleUrls: ['./recreate-widget.component.scss'],
+  standalone: false
 })
 export class RecreateWidgetComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   devices$: Observable<DeviceByName[]>;

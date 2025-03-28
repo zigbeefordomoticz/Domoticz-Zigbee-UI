@@ -11,7 +11,8 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-permit-to-join-router',
   templateUrl: './permit-to-join-router.component.html',
-  styleUrls: ['./permit-to-join-router.component.scss']
+  styleUrls: ['./permit-to-join-router.component.scss'],
+  standalone: false
 })
 export class PermitToJoinRouterComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   permitToJoin: any;

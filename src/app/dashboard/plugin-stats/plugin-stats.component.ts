@@ -3,16 +3,18 @@ import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { PluginStats } from '@app/shared/models/plugin-stats';
 import { TranslateService } from '@ngx-translate/core';
-import { Chart } from 'angular-highcharts';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-plugin-stats',
   templateUrl: './plugin-stats.component.html',
-  styleUrls: ['./plugin-stats.component.scss']
+  styleUrls: ['./plugin-stats.component.scss'],
+  standalone: false
 })
 export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   plugin: PluginStats;
-  chart1: Chart;
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options={};
 
   constructor(
     private apiService: ApiService,
@@ -28,7 +30,7 @@ export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements
   }
 
   createChart1(data: any) {
-    const chart = new Chart({
+    this.chartOptions = {
       chart: {
         type: 'bar',
         height: '80%'
@@ -58,9 +60,6 @@ export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements
         { type: undefined, name: 'Received', data: [0, data.Received, 0] },
         { type: undefined, name: 'Cluster', data: [0, 0, data.Cluster] }
       ]
-    });
-    this.chart1 = chart;
-
-    this.subs.add(chart.ref$.subscribe());
+    };
   }
 }

@@ -7,7 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-rescan-group',
   templateUrl: './rescan-group.component.html',
-  styleUrls: ['./rescan-group.component.scss']
+  styleUrls: ['./rescan-group.component.scss'],
+  standalone: false
 })
 export class RescanGroupComponent {
   constructor(

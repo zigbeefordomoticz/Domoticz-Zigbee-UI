@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ShellModule } from './shell/shell.module';
+import { providePrimeNG } from 'primeng/config';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,6 @@ import { ShellModule } from './shell/shell.module';
     }),
     AppRoutingModule
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())]
+  providers: [provideHttpClient(withInterceptorsFromDi()), providePrimeNG()]
 })
 export class AppModule {}

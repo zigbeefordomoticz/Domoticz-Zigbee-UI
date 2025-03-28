@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-pairing-full-reset',
   templateUrl: './pairing-full-reset.component.html',
-  styleUrls: ['./pairing-full-reset.component.scss']
+  styleUrls: ['./pairing-full-reset.component.scss'],
+  standalone: false
 })
 export class PairingFullResetComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   devices$: Observable<DeviceByName[]>;

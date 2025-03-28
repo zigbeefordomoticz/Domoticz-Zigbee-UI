@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-topology',
   templateUrl: './topology.component.html',
-  styleUrls: ['./topology.component.scss']
+  styleUrls: ['./topology.component.scss'],
+  standalone: false
 })
 export class TopologyComponent implements OnInit {
   timeStamp: string;

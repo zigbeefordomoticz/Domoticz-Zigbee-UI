@@ -5,18 +5,20 @@ import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-ada
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Relation } from '@app/shared/models/relation';
 import { TranslateService } from '@ngx-translate/core';
-import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-detail-topology',
   templateUrl: './detail-topology.component.html',
-  styleUrls: ['./detail-topology.component.scss']
+  styleUrls: ['./detail-topology.component.scss'],
+  standalone: false
 })
 export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;
-  chart1: Chart;
-  chart2: Chart;
+  Highcharts1: typeof Highcharts = Highcharts;
+  chartOptions1: Highcharts.Options = {};
+  Highcharts2: typeof Highcharts = Highcharts;
+  chartOptions2: Highcharts.Options = {};
   form: FormGroup;
   datas: Relation[];
   devices: DeviceByName[];
@@ -59,7 +61,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       this.createChart2(value);
     });
 
-    this.subs.add(
+    /* this.subs.add(
       this.form.get('detail').valueChanges.subscribe(() => {
         const selected: any[] = [];
         this.selectedPoint = this.chart2.ref.hoverPoint;
@@ -97,7 +99,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         });
         this.relationsSelected = selected;
       })
-    );
+    ); */
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -117,7 +119,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       return tab;
     });
 
-    const chart = new Chart({
+    this.chartOptions1 = {
       chart: {
         type: 'dependencywheel',
         height: '80%'
@@ -135,8 +137,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
           data: series
         }
       ]
-    });
-    this.chart1 = chart;
+    };
   }
 
   createChart2(nodeToFilter?: string) {
@@ -169,7 +170,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
 
     this.test(series1);
 
-    const chart = new Chart({
+    this.chartOptions2 = {
       chart: {
         type: 'networkgraph',
         height: '80%'
@@ -200,14 +201,13 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         }
       },
       series: series1
-    });
-    this.chart2 = chart;
+    };
   }
 
   test(series: any) {
     const colors = Highcharts.getOptions().colors;
     let i = 0;
-    const nodes = {};
+    const nodes: { [key: string]: { id: string; marker?: { radius: number }; color?: string } } = {};
 
     nodes['Zigbee Coordinator'] = {
       id: 'Zigbee Coordinator',
@@ -215,6 +215,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         radius: 20
       }
     };
+
     const level1 = this.datas.filter(level => level.Child === 'Zigbee Coordinator');
     const nextLevel: string[] = [];
     level1.forEach(level => {
@@ -223,7 +224,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
         marker: {
           radius: 10
         },
-        color: colors[i++]
+        color: colors[i++] as string
       };
       nextLevel.push(level.Father);
     });

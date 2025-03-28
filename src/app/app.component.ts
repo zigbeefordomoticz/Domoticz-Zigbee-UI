@@ -1,24 +1,27 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { I18nService, Logger, untilDestroyed } from '@app/core';
+import { I18nService, Logger } from '@app/core';
 import { Plugin } from '@app/shared/models/plugin';
 import { environment } from '@env/environment';
+import { HotkeysService } from '@ngneat/hotkeys';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TranslateService } from '@ngx-translate/core';
-import { PrimeNGConfig } from 'primeng/api';
-import { merge, Subscription, forkJoin } from 'rxjs';
+import { PrimeNG } from 'primeng/config';
+import { forkJoin, merge, Subscription } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
 import { HeaderService } from './services/header-service';
 import { UnsubscribeOnDestroyAdapter } from './shared/adapter/unsubscribe-adapter';
-import { HotkeysService } from '@ngneat/hotkeys';
 
 const log = new Logger('App');
 
+@UntilDestroy()
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   keysBoundActive = environment.keysBoundActive;
@@ -36,14 +39,14 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     private apiService: ApiService,
     private i18nService: I18nService,
     private headerService: HeaderService,
-    private primengConfig: PrimeNGConfig,
+    private primengConfig: PrimeNG,
     private hotkeys: HotkeysService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.primengConfig.ripple = true;
+    this.primengConfig.ripple.set(true);
     // Setup logger
     if (environment.production) {
       Logger.enableProductionMode();

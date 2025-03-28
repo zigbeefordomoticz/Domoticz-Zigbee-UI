@@ -7,7 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-raw-command',
   templateUrl: './raw-command.component.html',
-  styleUrls: ['./raw-command.component.scss']
+  styleUrls: ['./raw-command.component.scss'],
+  standalone: false
 })
 export class RawCommandComponent implements OnInit {
   form: FormGroup;

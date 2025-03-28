@@ -8,7 +8,7 @@ import { Plugin } from '@app/shared/models/plugin';
 import { Setting } from '@app/shared/models/setting';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
-import { Chart } from 'angular-highcharts';
+import * as Highcharts from 'highcharts';
 import { forkJoin, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { PluginStats } from '../shared/models/plugin-stats';
@@ -16,14 +16,16 @@ import { PluginStats } from '../shared/models/plugin-stats';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  standalone: false
 })
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   visible: boolean = false;
   settingsToSave: Array<Setting> = [];
 
   poll = false;
-  chart: Chart;
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options={};
   devices: any;
   certified: DeviceByName[];
   routers: any;
@@ -247,9 +249,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       ]
     };
 
-    this.chart = new Chart(chart);
-
-    this.subs.add(this.chart.ref$.subscribe());
+    this.chartOptions = chart;
   }
 
   open(name: string, event: any) {

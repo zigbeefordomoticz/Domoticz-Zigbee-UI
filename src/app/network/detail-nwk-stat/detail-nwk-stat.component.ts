@@ -4,7 +4,6 @@ import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-ada
 import { Device } from '@app/shared/models/device';
 import { Plugin } from '@app/shared/models/plugin';
 import { TranslateService } from '@ngx-translate/core';
-import { Chart } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
 import { Observable } from 'rxjs';
 import { NwkStat } from '../../shared/models/nwk';
@@ -12,12 +11,15 @@ import { NwkStat } from '../../shared/models/nwk';
 @Component({
   selector: 'app-detail-nwk-stat',
   templateUrl: './detail-nwk-stat.component.html',
-  styleUrls: ['./detail-nwk-stat.component.scss']
+  styleUrls: ['./detail-nwk-stat.component.scss'],
+  standalone: false
 })
 export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;
-  chart: Chart;
-  chart2: Chart;
+  Highcharts1: typeof Highcharts = Highcharts;
+  chartOptions1: Highcharts.Options = {};
+  Highcharts2: typeof Highcharts = Highcharts;
+  chartOptions2: Highcharts.Options = {};
   devices$: Observable<Array<Device>>;
   totalTx: number;
   totalFail: number;
@@ -46,57 +48,8 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
     }
   }
 
-  // createChart(data: any) {
-  //   const series: Array<any> = [];
-
-  //   Object.keys(data).forEach(key => {
-  //     if (key === 'Total Tx') {
-  //       this.totalTx = data[key];
-  //     } else if (key === 'Total failures') {
-  //       this.totalFail = data[key];
-  //     } else {
-  //       series.push({ name: key, y: data[key] });
-  //     }
-  //   });
-  //   const chart = new Chart({
-  //     chart: {
-  //       type: 'column',
-  //       height: '80%'
-  //       // width: 16 * 2 * 25
-  //     },
-  //     title: {
-  //       text: this.translate.instant('network.stats.detail.visu.chart.title')
-  //     },
-  //     xAxis: {
-  //       type: 'category'
-  //     },
-  //     yAxis: {
-  //       title: {
-  //         text: this.translate.instant('network.stats.detail.visu.chart.y-axis')
-  //       }
-  //     },
-  //     credits: {
-  //       enabled: false
-  //     },
-
-  //     series: [
-  //       {
-  //         type: undefined,
-  //         name: this.translate.instant('network.stats.detail.visu.chart.x-axis'),
-  //         colorByPoint: true,
-  //         data: series
-  //         // pointWidth: 25
-  //       }
-  //     ]
-  //   });
-  //   this.chart = chart;
-
-  //   chart.ref$.subscribe();
-  // }
-
   createChart(data: Array<NwkStat>): void {
     const tab: Array<any> = [];
-    // const tab2: Array<any> = [];
     const channels: Array<any> = [];
     const averages: Array<any> = [];
     const totals: Array<any> = [];
@@ -127,10 +80,6 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
         name: nwk.ZDeviceName ? nwk.ZDeviceName : nwk._NwkId,
         data: values
       });
-      // tab2.push({
-      //   name: nwk.ZDeviceName ? nwk.ZDeviceName : nwk._NwkId,
-      //   y: 0
-      // });
     });
 
     totals.forEach(x => {
@@ -138,13 +87,6 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
       x = Number(x).toFixed(2);
       averages.push(Number(x));
     });
-
-    // let i = 0;
-    // tab2.forEach(pie => {
-    //   pie.y = totals[i];
-    //   pie.color = Highcharts.getOptions().colors[i];
-    //   i++;
-    // });
 
     const series: Array<any> = tab;
     series.push({
@@ -157,19 +99,8 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
         fillColor: 'white'
       }
     });
-    // series.push({
-    //   type: 'pie',
-    //   name: 'Total consumption',
-    //   data: tab2,
-    //   center: [100, 80],
-    //   size: 100,
-    //   showInLegend: false,
-    //   dataLabels: {
-    //     enabled: false
-    //   }
-    // });
 
-    const chart = new Chart({
+    this.chartOptions1 = {
       chart: {
         type: 'column',
         height: '20%'
@@ -186,34 +117,11 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
           text: this.translate.instant('network.stats.detail.visu.chart.y-axis')
         }
       },
-      // labels: {
-      //   items: [
-      //     {
-      //       html: 'Total fruit consumption',
-      //       style: {
-      //         left: '50px',
-      //         top: '18px'
-      //         //              color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
-      //       }
-      //     }
-      //   ]
-      // },
       credits: {
         enabled: false
       },
       series: series
-      // series: [
-      //   {
-      //     type: undefined,
-      //     name: this.translate.instant('network.stats.detail.visu.chart.x-axis'),
-      //     colorByPoint: true,
-      //     data: series
-      //   }
-      // ]
-    });
-    this.chart = chart;
-
-    this.subs.add(chart.ref$.subscribe());
+    };
   }
 
   createChart2(data: Array<NwkStat>) {
@@ -242,15 +150,13 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
       });
     });
 
-    const chart = new Chart({
+    this.chartOptions2 = {
       chart: {
         height: '90%',
         polar: true,
         type: 'line'
       },
-      pane: {
-        //       size: '150%',
-      },
+      pane: {},
       title: {
         text: this.translate.instant('network.stats.detail.visu.chart.title')
       },
@@ -294,60 +200,6 @@ export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implemen
           }
         ]
       }
-    });
-    this.chart2 = chart;
-
-    this.subs.add(chart.ref$.subscribe());
+    };
   }
 }
-// const series1: any = [
-//   {
-//     name: 'Jane',
-//     data: [3, 2, 1, 3, 4]
-//   },
-//   {
-//     name: 'John',
-//     data: [2, 3, 5, 7, 6]
-//   },
-//   {
-//     name: 'Joe',
-//     data: [4, 3, 3, 9, 0]
-//   },
-//   {
-//     name: 'Average',
-//     data: [3, 2.67, 3, 6.33, 3.33],
-//     type: 'spline',
-//     marker: {
-//       lineWidth: 2,
-//       lineColor: Highcharts.getOptions().colors[3],
-//       fillColor: 'white'
-//     }
-//   },
-//   {
-//     type: 'pie',
-//     name: 'Total consumption',
-//     data: [
-//       {
-//         name: 'Jane',
-//         y: 13,
-//         color: Highcharts.getOptions().colors[0] // Jane's color
-//       },
-//       {
-//         name: 'John',
-//         y: 23,
-//         color: Highcharts.getOptions().colors[1] // John's color
-//       },
-//       {
-//         name: 'Joe',
-//         y: 19,
-//         color: Highcharts.getOptions().colors[2] // Joe's color
-//       }
-//     ],
-//     center: [100, 80],
-//     size: 100,
-//     showInLegend: false,
-//     dataLabels: {
-//       enabled: false
-//     }
-//   }
-// ];

@@ -8,7 +8,8 @@ import { transformToTimestamp } from '../../shared/utils/transform-timestamp';
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.scss']
+  styleUrls: ['./error.component.scss'],
+  standalone: false
 })
 export class ErrorComponent {
   json: object | undefined = null;

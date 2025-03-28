@@ -36,7 +36,7 @@
                     pInputText
                     type="text"
                     (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                    [value]="dt1.filters['global']?.['value']"
+                    [value]="getFilterValue(dt1.filters['global'])"
                     placeholder="{{ 'manufacturer.casaia.placeholder' | translate }}" />
                 </span>
               </div>

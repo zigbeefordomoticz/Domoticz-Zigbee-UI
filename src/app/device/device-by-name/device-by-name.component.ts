@@ -6,13 +6,15 @@ import { DeviceByName } from '@app/shared/models/device-by-name';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { FilterMetadata } from 'primeng/api';
 
 const log = new Logger('DeviceByNameComponent');
 
 @Component({
   selector: 'app-device-by-name',
   templateUrl: './device-by-name.component.html',
-  styleUrls: ['./device-by-name.component.scss']
+  styleUrls: ['./device-by-name.component.scss'],
+  standalone: false
 })
 export class DeviceByNameComponent implements OnChanges {
   @Input() devices: DeviceByName[];
@@ -98,7 +100,7 @@ export class DeviceByNameComponent implements OnChanges {
     this.hasEditing = true;
     const rowUpdated = this.rows.find((row: any) => row._NwkId === nwkId);
     if (rowUpdated) {
-      rowUpdated[col] = value;
+      (rowUpdated as any)[col] = value;
     } else {
       log.error('row not found');
     }
@@ -114,5 +116,12 @@ export class DeviceByNameComponent implements OnChanges {
 
   copy(row: DeviceByName) {
     this.apiService.getNonOptimizedDevice(row._NwkId).subscribe(json => this.clipboard.copy(JSON.stringify(json)));
+  }
+
+  getFilterValue(filter: FilterMetadata | FilterMetadata[]): string | undefined {
+    if (!Array.isArray(filter) && 'value' in filter) {
+      return filter.value;
+    }
+    return undefined;
   }
 }

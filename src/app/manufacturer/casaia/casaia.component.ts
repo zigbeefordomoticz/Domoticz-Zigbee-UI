@@ -3,11 +3,13 @@ import { ApiService } from '@app/services/api.service';
 import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { FilterMetadata } from 'primeng/api';
 
 @Component({
   selector: 'app-manufacturer-casaia',
   templateUrl: './casaia.component.html',
-  styleUrls: ['./casaia.component.scss']
+  styleUrls: ['./casaia.component.scss'],
+  standalone: false
 })
 export class CasaiaComponent implements OnInit {
   rows: CasaiaDevice[];
@@ -48,5 +50,12 @@ export class CasaiaComponent implements OnInit {
       this.rows = devices;
       this.temp = [...this.rows];
     });
+  }
+
+  getFilterValue(filter: FilterMetadata | FilterMetadata[]): string | undefined {
+    if (!Array.isArray(filter) && 'value' in filter) {
+      return filter.value;
+    }
+    return undefined;
   }
 }

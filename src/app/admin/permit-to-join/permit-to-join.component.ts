@@ -6,7 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-permit-to-join',
   templateUrl: './permit-to-join.component.html',
-  styleUrls: ['./permit-to-join.component.scss']
+  styleUrls: ['./permit-to-join.component.scss'],
+  standalone: false
 })
 export class PermitToJoinComponent implements OnInit {
   permitToJoin: any;

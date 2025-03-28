@@ -8,7 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-configure-cluster-reporting',
   templateUrl: './configure-cluster.component.html',
-  styleUrls: ['./configure-cluster.component.scss']
+  styleUrls: ['./configure-cluster.component.scss'],
+  standalone: false
 })
 export class ConfigureByClusterReportingComponent implements OnChanges {
   @Input() clusters: Configure[];
@@ -84,7 +85,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
         const type = this.datatypeConvertor.find((datatype: any) => datatype.type === rowUpdated.DataType);
         rowUpdated[col] = (type.longueur + Number(value).toString(16).toUpperCase()).slice(-type.longueur.length);
       } else {
-        rowUpdated[col] = Number(value).toString(16).toUpperCase();
+        (rowUpdated as any)[col] = Number(value).toString(16).toUpperCase();
       }
       this.formatClusters(this.clusters);
       this.clustersChange.emit(this.clusters);

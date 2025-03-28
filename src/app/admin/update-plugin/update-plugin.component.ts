@@ -9,7 +9,8 @@ import { finalize } from 'rxjs';
 @Component({
   selector: 'app-update-plugin',
   templateUrl: './update-plugin.component.html',
-  styleUrls: ['./update-plugin.component.scss']
+  styleUrls: ['./update-plugin.component.scss'],
+  standalone: false
 })
 export class UpdatePluginComponent {
   message: string;

@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-req-topology',
   templateUrl: './req-topology.component.html',
-  styleUrls: ['./req-topology.component.scss']
+  styleUrls: ['./req-topology.component.scss'],
+  standalone: false
 })
 export class ReqTopologyComponent {
   stats$: Observable<PluginStats>;

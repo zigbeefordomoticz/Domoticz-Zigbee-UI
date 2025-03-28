@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-configure-reporting',
   templateUrl: './configure.component.html',
-  styleUrls: ['./configure.component.scss']
+  styleUrls: ['./configure.component.scss'],
+  standalone: false
 })
 export class ConfigureReportingComponent implements OnInit {
   devices$: Observable<ZDevices[]>;

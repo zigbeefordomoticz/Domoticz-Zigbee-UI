@@ -8,7 +8,8 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'app-manufacturer-zlinky',
   templateUrl: './zlinky.component.html',
-  styleUrls: ['./zlinky.component.scss']
+  styleUrls: ['./zlinky.component.scss'],
+  standalone: false
 })
 export class ZlinkyComponent implements OnInit {
   zlinkys$: Observable<Zlinky[]>;
@@ -24,7 +25,7 @@ export class ZlinkyComponent implements OnInit {
     this.zlinkys$ = this.apiService.getZlinky().pipe(
       map(zlinkys => {
         zlinkys.forEach(zlinky => {
-          zlinky.protocole = 'PROTOCOL_LINKY_' + zlinky['PROTOCOL Linky'];
+          zlinky.protocole = 'PROTOCOL_LINKY_' + zlinky['Protocol Linky'];
           zlinky.ParametersForDisplay = [];
           zlinky.Parameters.forEach(param => {
             const parameter = new ParameterForDisplay();

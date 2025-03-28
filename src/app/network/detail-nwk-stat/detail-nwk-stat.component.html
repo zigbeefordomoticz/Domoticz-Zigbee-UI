@@ -1,22 +1,24 @@
 <div class="row row-cols-1 row-cols-md-2 g-4 mt-1">
   <div class="col" *ngIf="!plugin?.Zigpy">
-    <div class="card" *ngIf="chart">
+    <div class="card">
       <div class="card-header fw-bold" translate="network.stats.detail.visu.header"></div>
       <div class="card-body">
         <p class="card-text" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></p>
         <div class="card-text">
-          <div [chart]="chart" class="text-center"></div>
+          <div class="text-center">
+            <highcharts-chart [Highcharts]="Highcharts1" [options]="chartOptions1"></highcharts-chart>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col">
-    <div class="card" *ngIf="chart2">
+    <div class="card">
       <div class="card-header fw-bold" translate="network.stats.detail.visu.header"></div>
       <div class="card-body">
         <p class="card-text" [innerHTML]="'network.stats.detail.visu.subtitle' | translate"></p>
         <div class="card-text">
-          <div [chart]="chart2"></div>
+          <div><highcharts-chart [Highcharts]="Highcharts2" [options]="chartOptions2"></highcharts-chart></div>
         </div>
       </div>
     </div>

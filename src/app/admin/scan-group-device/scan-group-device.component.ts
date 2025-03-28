@@ -8,7 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-scan-group-device',
   templateUrl: './scan-group-device.component.html',
-  styleUrls: ['./scan-group-device.component.scss']
+  styleUrls: ['./scan-group-device.component.scss'],
+  standalone: false
 })
 export class ScanGroupDeviceComponent implements OnInit {
   devices: DeviceAvailable[];

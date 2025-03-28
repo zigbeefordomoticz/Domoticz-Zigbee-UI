@@ -7,11 +7,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { UnsubscribeOnDestroyAdapter } from '../shared/adapter/unsubscribe-adapter';
+import { FilterMetadata } from 'primeng/api';
 
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss']
+  styleUrls: ['./group.component.scss'],
+  standalone: false
 })
 export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild('content') content: any;
@@ -158,5 +160,12 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
         this.temp = [...groups];
       }
     });
+  }
+
+  getFilterValue(filter: FilterMetadata | FilterMetadata[]): string | undefined {
+    if (!Array.isArray(filter) && 'value' in filter) {
+      return filter.value;
+    }
+    return undefined;
   }
 }

@@ -1,3 +1,14 @@
+@import "bootstrap/scss/bootstrap";
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/brands";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/solid";
+@import "primeicons/primeicons";
+@import "ngx-toastr/toastr-bs5-alert";
+@import "@ng-select/ng-select/themes/default.theme.css";
+// Theme customization
+@import "theme/theme";
+
 html {
   font-size: 13px;
 }
@@ -25,16 +36,3 @@ $teal: #20c997;
 $cyan: #17a2b8;
 
 @layer bootstrap, primeng;
-
-@import "bootstrap/scss/bootstrap";
-@import "primeng/resources/primeng.min";
-@import "@fortawesome/fontawesome-free/scss/fontawesome";
-@import "@fortawesome/fontawesome-free/scss/brands";
-@import "@fortawesome/fontawesome-free/scss/regular";
-@import "@fortawesome/fontawesome-free/scss/solid";
-@import "primeicons/primeicons";
-@import "primeng/resources/themes/lara-light-blue/theme";
-@import "ngx-toastr/toastr-bs5-alert";
-@import "@ng-select/ng-select/themes/default.theme.css";
-// Theme customization
-@import "theme/theme";
