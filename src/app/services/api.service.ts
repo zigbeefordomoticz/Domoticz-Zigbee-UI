@@ -79,7 +79,7 @@ const routes = {
   zlinky: '/zlinky',
   pluginLog: '/plugin-log',
   deviceNonOptimized: '/non-optmize-device-configuration',
-  gammaTroniqueTicmeter: 'gamma-troniques-ticmeter'
+  gammaTroniqueTicmeter: '/gamma-troniques-ticmeter'
 };
 
 const log = new Logger('ApiService');
