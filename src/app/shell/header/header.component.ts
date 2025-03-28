@@ -24,6 +24,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   restart: boolean;
   showManufacturerCasaia: boolean;
   showManufacturerZlinky: boolean;
+  showManufacturerGamma: boolean;
   logError: boolean;
   settings: Array<Settings>;
   settingsToSave: Array<Setting> = [];
@@ -60,6 +61,12 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     this.subs.add(
       this.headerService.showManufacturerZlinky.subscribe(showManufacturer => {
         this.showManufacturerZlinky = showManufacturer;
+      })
+    );
+
+    this.subs.add(
+      this.headerService.showManufacturerGamma.subscribe(showManufacturer => {
+        this.showManufacturerGamma = showManufacturer;
       })
     );
 

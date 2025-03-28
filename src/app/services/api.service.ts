@@ -24,6 +24,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Zlinky } from './../shared/models/zlinky';
 import { LogFile } from './../shared/models/log';
+import { Gamma } from '@app/shared/models/gamma';
 
 const routes = {
   devices: '/device',
@@ -77,7 +78,8 @@ const routes = {
   demandConfigureReporting: '/cfgrpt-ondemand',
   zlinky: '/zlinky',
   pluginLog: '/plugin-log',
-  deviceNonOptimized: '/non-optmize-device-configuration'
+  deviceNonOptimized: '/non-optmize-device-configuration',
+  gammaTroniqueTicmeter: 'gamma-troniques-ticmeter'
 };
 
 const log = new Logger('ApiService');
@@ -615,6 +617,13 @@ export class ApiService {
 
   getZlinky(): Observable<Zlinky[]> {
     return this.httpClient.get(routes.zlinky).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getGammaTroniqueTicmeter(): Observable<Gamma[]> {
+    return this.httpClient.get(routes.gammaTroniqueTicmeter).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

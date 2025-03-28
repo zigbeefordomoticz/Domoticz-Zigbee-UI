@@ -54,16 +54,21 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     // Setup translations
     this.i18nService.init(environment.defaultLanguage, environment.supportedLanguages);
 
-    this.subs.sink = forkJoin([this.apiService.getCasiaDevices(), this.apiService.getZlinky()]).subscribe(
-      ([devices, zlinky]) => {
-        if (devices.length > 0) {
-          this.headerService.setShowManufacturerCasaia(true);
-        }
-        if (zlinky.length > 0) {
-          this.headerService.setShowManufacturerZlinky(true);
-        }
+    this.subs.sink = forkJoin([
+      this.apiService.getCasiaDevices(),
+      this.apiService.getZlinky(),
+      this.apiService.getGammaTroniqueTicmeter()
+    ]).subscribe(([devices, zlinky, gamma]) => {
+      if (devices.length > 0) {
+        this.headerService.setShowManufacturerCasaia(true);
       }
-    );
+      if (zlinky && zlinky.length > 0) {
+        this.headerService.setShowManufacturerZlinky(true);
+      }
+      if (gamma && gamma.length > 0) {
+        this.headerService.setShowManufacturerGamma(true);
+      }
+    });
 
     this.apiService.getPlugin().subscribe(plugin => {
       sessionStorage.setItem('plugin', JSON.stringify(plugin));

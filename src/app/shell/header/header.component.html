@@ -167,7 +167,7 @@
           ngbDropdown
           routerLinkActive="active"
           class="nav-item dropdown test"
-          *ngIf="showManufacturerCasaia || showManufacturerZlinky">
+          *ngIf="showManufacturerCasaia || showManufacturerZlinky || showManufacturerGamma">
           <a class="nav-link nav-item dropdown-toggle" id="dropdown2" ngbDropdownToggle translate="manufacturer"></a>
           <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown2">
             <li
@@ -185,6 +185,14 @@
               routerLink="/manufacturer/zlinky"
               routerLinkActive="active">
               <img style="width: 30%; height: 30%" src="https://lixee.fr/img/prestashop-logo-1599316711.jpg" />
+            </li>
+            <li
+              *ngIf="showManufacturerGamma"
+              class="dropdown-item nav-item nav-link"
+              (click)="toggleMenu()"
+              routerLink="/manufacturer/gamma"
+              routerLinkActive="active">
+              <img style="width: 30%; height: 30%" src="https://gammatroniques.fr/images/shop/ticmeter/preview.webp" />
             </li>
           </ul>
         </li>

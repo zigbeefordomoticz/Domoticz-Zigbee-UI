@@ -6,7 +6,7 @@
     "postinstall": "npm run prettier -s && husky install",
     "ng": "ng",
     "build": "ng build --configuration production --base-href /z4d/",
-    "start": "ng serve --proxy-config proxy.conf.js",
+    "start": "ng serve --proxy-config proxy.conf.js --host=0.0.0.0",
     "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
     "lint": "ng lint && stylelint \"src/**/*.scss\"",
     "test": "ng test",
