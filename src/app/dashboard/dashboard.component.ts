@@ -25,7 +25,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
   poll = false;
   Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options={};
+  chartOptions: Highcharts.Options = {};
   devices: any;
   certified: DeviceByName[];
   routers: any;

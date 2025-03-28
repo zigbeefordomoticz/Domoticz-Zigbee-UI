@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "postinstall": "npm run prettier -s && husky install",
+    "postinstall": "npm run prettier -s",
     "ng": "ng",
     "build": "ng build --configuration production --base-href /z4d/",
     "start": "ng serve --proxy-config proxy.conf.js --host=0.0.0.0",
@@ -70,7 +70,6 @@
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.0",
     "https-proxy-agent": "^7.0.6",
-    "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "prettier": "^3.5.3",
     "pretty-quick": "^4.1.1",
@@ -79,10 +78,5 @@
     "stylelint-config-standard": "^37.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged --relative"
-    }
   }
 }

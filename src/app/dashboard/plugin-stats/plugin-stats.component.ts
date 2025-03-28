@@ -14,7 +14,7 @@ import * as Highcharts from 'highcharts';
 export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   plugin: PluginStats;
   Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options={};
+  chartOptions: Highcharts.Options = {};
 
   constructor(
     private apiService: ApiService,
