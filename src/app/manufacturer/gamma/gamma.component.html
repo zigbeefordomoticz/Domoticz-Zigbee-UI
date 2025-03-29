@@ -1,62 +1,95 @@
 <div class="row row-cols-1 row-cols-xxl-2 row-cols-xl-1 g-4">
-    <div class="col">
-        <div class="card">
-            <div class="card-header">
-                {{ 'manufacturer.gamma.header' | translate }}
-            </div>
-            <div class="card-body">
-                <h5 class="card-title" [innerHTML]="'manufacturer.gamma.subtitle' | translate"></h5>
-                <div class="card-text">
-                    <ng-select class="w-25" [items]="gammas$ | async" [multiple]="false" [closeOnSelect]="true"
-                        [searchable]="true" bindLabel="ZDeviceName"
-                        placeholder="{{ 'manufacturer.gamma.placeholder' | translate }}"
-                        (change)="getConfiguration($event)" (clear)="deviceSelected = null" appendTo="body">
-                        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                            <span> <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item.Nwkid }}</span>
-                        </ng-template>
-                    </ng-select>
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        {{ 'manufacturer.gamma.header' | translate }}
+      </div>
+      <div class="card-body">
+        <h5 class="card-title" [innerHTML]="'manufacturer.gamma.subtitle' | translate"></h5>
+        <div class="card-text">
+          <ng-select
+            class="w-25"
+            [items]="gammas$ | async"
+            [multiple]="false"
+            [closeOnSelect]="true"
+            [searchable]="true"
+            bindLabel="ZDeviceName"
+            placeholder="{{ 'manufacturer.gamma.placeholder' | translate }}"
+            (change)="getConfiguration($event)"
+            (clear)="deviceSelected = null"
+            appendTo="body">
+            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+              <span> <b>Name</b> : {{ item.ZDeviceName }} - <b>NwkId</b> : {{ item.Nwkid }}</span>
+            </ng-template>
+          </ng-select>
 
-                    <p class="mt-3 mb-3 font-weight-bold" *ngIf="deviceSelected">
-                        {{ 'manufacturer.gamma.numero_contrat' | translate }} {{ deviceSelected.Identifiant }} <br>
-                        {{ 'manufacturer.gamma.type_contrat' | translate }} {{ deviceSelected['Type de contrat'] }} <br>
-                        {{ 'manufacturer.gamma.periode_tarifaire' | translate }} {{ deviceSelected['Période tarifaire en
-                        cours'] }} <br>
-                        {{ 'manufacturer.gamma.puissance_max_contrat' | translate }} {{ deviceSelected['Puissance Max
-                        contrat'] }} <br>
-                        {{ 'manufacturer.gamma.tic_mode' | translate }} {{ deviceSelected.TICMode }} <br>
-                        {{ 'manufacturer.gamma.zdevice' | translate }} {{ deviceSelected.ZDeviceName }} <br>
-                        {{ 'manufacturer.gamma.uptime' | translate }} {{ deviceSelected.UpTime }} <br>
-                    </p>
+          <ng-container *ngIf="deviceSelected">
+            <p class="mt-3 mb-3 font-weight-bold">
+              {{ 'manufacturer.gamma.numero_contrat' | translate }} {{ deviceSelected.Identifiant }}
+            </p>
+            <p class="mt-3 mb-3 font-weight-bold">
+              {{ 'manufacturer.gamma.type_contrat' | translate }} {{ deviceSelected['Type de contrat'] }}
+            </p>
+            <p class="mt-3 mb-3 font-weight-bold">
+              {{ 'manufacturer.gamma.periode_tarifaire' | translate }}
+              {{ deviceSelected['Période tarifaire en cours'] }}
+            </p>
+            <p class="mt-3 mb-3 font-weight-bold">
+              {{ 'manufacturer.gamma.puissance_max_contrat' | translate }}
+              {{ deviceSelected['Puissance Max contrat'] }} {{ 'manufacturer.gamma.tic_mode' | translate }}
+            </p>
+            <p class="mt-3 mb-3 font-weight-bold">
+              {{ deviceSelected.TICMode }} {{ 'manufacturer.gamma.zdevice' | translate }}
+            </p>
+            <p class="mt-3 mb-3 font-weight-bold">
+              {{ deviceSelected.ZDeviceName }} {{ 'manufacturer.gamma.uptime' | translate }} {{ deviceSelected.UpTime }}
+            </p>
+          </ng-container>
 
-                    <p-table *ngIf="deviceSelected" #dt1 [rowHover]="true" styleClass="p-datatable-sm"
-                        responsiveLayout="scroll" [showCurrentPageReport]="true"
-                        currentPageReportTemplate="{{ 'TOTAL' | translate }}" [rowsPerPageOptions]="[10, 25, 50]"
-                        [value]="deviceSelected.ParametersForDisplay" [rows]="10" [paginator]="true" [scrollable]="true"
-                        stateStorage="local" stateKey="zlinky">
-                        <ng-template pTemplate="header" let-columns>
-                            <tr>
-                                <th>
-                                    {{ 'manufacturer.gamma.key' | translate }}
-                                </th>
-                                <th>
-                                    {{ 'manufacturer.gamma.value' | translate }}
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-editing="editing" let-row let-rowIndex="rowIndex"
-                            let-columns="columns" let-expanded="expanded">
-                            <tr>
-                                <td>
-                                    {{ 'manufacturer.gamma.'.concat(row.key) | translate }}
-                                </td>
-                                <td>
-                                    {{ row.value }}
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </div>
+          <p-table
+            *ngIf="deviceSelected"
+            #dt1
+            [rowHover]="true"
+            styleClass="p-datatable-sm"
+            responsiveLayout="scroll"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="{{ 'TOTAL' | translate }}"
+            [rowsPerPageOptions]="[10, 25, 50]"
+            [value]="deviceSelected.ParametersForDisplay"
+            [rows]="10"
+            [paginator]="true"
+            [scrollable]="true"
+            stateStorage="local"
+            stateKey="zlinky">
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th>
+                  {{ 'manufacturer.gamma.key' | translate }}
+                </th>
+                <th>
+                  {{ 'manufacturer.gamma.value' | translate }}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-editing="editing"
+              let-row
+              let-rowIndex="rowIndex"
+              let-columns="columns"
+              let-expanded="expanded">
+              <tr>
+                <td>
+                  {{ 'manufacturer.gamma.'.concat(row.key) | translate }}
+                </td>
+                <td>
+                  {{ row.value }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
         </div>
+      </div>
     </div>
+  </div>
 </div>
