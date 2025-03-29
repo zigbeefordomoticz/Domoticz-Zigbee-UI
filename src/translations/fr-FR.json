@@ -648,13 +648,21 @@
   "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
   "ZigpyTopologyReport": "Active l'utilisation du scan de topologie zigpy",
   "ZigpyTopologyReportAutoBackup": "Sauvegarde les scan topologie interne zigpy",
-  
+
   "manufacturer.gamma.header": "Gamma Troniques TICMeter - Système de récupération des données de consommation électrique",
   "manufacturer.gamma.subtitle": "Liste des données récupérées par le TICMeter selectionné",
 
   "manufacturer.gamma.placeholder": "Sélectionner un TICMeter",
   "manufacturer.gamma.key": "Désignation",
   "manufacturer.gamma.value": "Valeur ",
+
+  "manufacturer.gamma.numero_contrat": "Identifiant contrat",
+  "manufacturer.gamma.type_contrat": "Type du contrat",
+  "manufacturer.gamma.periode_tarifaire": "Période tarifaire en cours",
+  "manufacturer.gamma.puissance_max_contrat": "Intensité souscrite (kVA)",
+  "manufacturer.gamma.tic_mode": "Mode du Linky",
+  "manufacturer.gamma.zdevice": "Nom de l'objet",
+  "manufacturer.gamma.uptime": "Temps de fonctionnement",
 
   "manufacturer.gamma.PTEC": "Période tarifaire en cours",
   "manufacturer.gamma.Aujourdhui": "Couleur aujourd'hui",
