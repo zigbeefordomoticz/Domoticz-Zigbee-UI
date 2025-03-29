@@ -711,6 +711,6 @@
   "manufacturer.gamma.UMOY3": "Tension moyenne Phase 3",
   "manufacturer.gamma.SMAXIN": "Puissance max injectée Auj.", 
   "manufacturer.gamma.SMAXIN-1": "Puissance max injectée Hier",
-  "manufacturer.gamma.MOTDETAT": "Registre de Statuts"
-
+  "manufacturer.gamma.MOTDETAT": "Registre de Statuts",
+  "manufacturer.gamma.HHPHC": "Horaire Heures Creuses"
 }
