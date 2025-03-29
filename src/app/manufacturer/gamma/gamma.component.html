@@ -24,16 +24,11 @@
           </ng-select>
 
           <p class="mt-3 mb-3 font-weight-bold" *ngIf="deviceSelected">
-            {{ deviceSelected.TICMode }}
-          </p>
-          <p class="mt-3 mb-3 font-weight-bold" *ngIf="deviceSelected">
-            {{ deviceSelected['Type de contrat'] }}
-          </p>
-          <p class="mt-3 mb-3 font-weight-bold" *ngIf="deviceSelected">
-            {{ deviceSelected['Période tarifaire en cours'] }}
-          </p>
-          <p class="mt-3 mb-3 font-weight-bold" *ngIf="deviceSelected">
-            {{ deviceSelected['Puissance Max contrat'] }}
+            {{ 'manufacturer.gamma.numero_contrat' | translate }} {{ deviceSelected.Identifiant }}
+            {{ 'manufacturer.gamma.type_contrat' | translate }} {{ deviceSelected['Type de contrat'] }}
+            {{ 'manufacturer.gamma.periode_tarifaire' | translate }} {{ deviceSelected['Période tarifaire en cours'] }}
+            {{ 'manufacturer.gamma.puissance_max_contrat' | translate }} {{ deviceSelected['Puissance Max contrat'] }}
+            {{ 'manufacturer.gamma.tic_mode' | translate }} {{ deviceSelected.TICMode }}
           </p>
 
           <p-table
