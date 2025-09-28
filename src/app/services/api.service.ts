@@ -25,6 +25,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Zlinky } from './../shared/models/zlinky';
 import { LogFile } from './../shared/models/log';
 import { Gamma } from '@app/shared/models/gamma';
+import { Chameleon } from '@app/shared/models/chameleon';
 
 const routes = {
   devices: '/device',
@@ -79,7 +80,8 @@ const routes = {
   zlinky: '/zlinky',
   pluginLog: '/plugin-log',
   deviceNonOptimized: '/non-optmize-device-configuration',
-  gammaTroniqueTicmeter: '/gamma-troniques-ticmeter'
+  gammaTroniqueTicmeter: '/gamma-troniques-ticmeter',
+  chameleonTicmeter: '/chameleon-ticmeter'
 };
 
 const log = new Logger('ApiService');
@@ -624,6 +626,13 @@ export class ApiService {
 
   getGammaTroniqueTicmeter(): Observable<Gamma[]> {
     return this.httpClient.get(routes.gammaTroniqueTicmeter).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getChameleonTicmeter(): Observable<Chameleon[]> {
+    return this.httpClient.get(routes.chameleonTicmeter).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

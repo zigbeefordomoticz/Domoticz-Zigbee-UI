@@ -7,6 +7,8 @@ export class HeaderService {
   public showManufacturerCasaia = new BehaviorSubject(false);
   public showManufacturerZlinky = new BehaviorSubject(false);
   public showManufacturerGamma = new BehaviorSubject(false);
+  public showManufacturerChameleon = new BehaviorSubject(false);
+
   public logError = new BehaviorSubject(false);
   public polling = new BehaviorSubject(false);
 
@@ -26,6 +28,10 @@ export class HeaderService {
 
   setShowManufacturerGamma(show: any) {
     this.showManufacturerGamma.next(show);
+  }
+
+  setShowManufacturerChameleon(show: any) {
+    this.showManufacturerChameleon.next(show);
   }
 
   setError(logError: any) {

@@ -57,8 +57,9 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     this.subs.sink = forkJoin([
       this.apiService.getCasiaDevices(),
       this.apiService.getZlinky(),
-      this.apiService.getGammaTroniqueTicmeter()
-    ]).subscribe(([devices, zlinky, gamma]) => {
+      this.apiService.getGammaTroniqueTicmeter(),
+      this.apiService.getChameleonTicmeter()
+    ]).subscribe(([devices, zlinky, gamma, chameleon]) => {
       if (devices.length > 0) {
         this.headerService.setShowManufacturerCasaia(true);
       }
@@ -67,6 +68,9 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
       }
       if (gamma && gamma.length > 0) {
         this.headerService.setShowManufacturerGamma(true);
+      }
+      if (chameleon && chameleon.length > 0) {
+        this.headerService.setShowManufacturerChameleon(true);
       }
     });
 
