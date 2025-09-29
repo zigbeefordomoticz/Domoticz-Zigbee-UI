@@ -530,7 +530,7 @@
   "manufacturer.casaia.ircode": "Code Infrarouge",
   "manufacturer.casaia.validate.button": "Valider",
   "manufacturer.zlinky.header": "Le Zlinky",
-  "manufacturer.zlinky.subtitle": "Liste les données récupérées par le Zlinky sélectionné, plus d'informations sur <a target='_blank' href='https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.enedis.fr/media/2035/download&ved=2ahUKEwjKuszEkfyPAxXAAvsDHXM8K_4QFnoECAsQAQ&usg=AOvVaw0Bn9Pv64VK2dhbtmrZD8YD'>Sorties de télé-information client des appareils de comptage Linky utilisés en généralisation par Enedis</a>.<br>Le Zlinky doit être appairé et un dispositif doit être créé dans DomoticZ pour que les données soient visibles.",
+  "manufacturer.zlinky.subtitle": "Liste les données récupérées par le Zlinky sélectionné, plus d'informations sur <a target='_blank' href='https://www.enedis.fr/media/2035/download&ved=2ahUKEwjKuszEkfyPAxXAAvsDHXM8K_4QFnoECAsQAQ&usg=AOvVaw0Bn9Pv64VK2dhbtmrZD8YD'>Sorties de télé-information client des appareils de comptage Linky utilisés en généralisation par Enedis</a>.<br>Le Zlinky doit être appairé et un dispositif doit être créé dans DomoticZ pour que les données soient visibles.",
   "manufacturer.zlinky.placeholder": "Sélectionner un Zlinky",
   "manufacturer.zlinky.key": "Désignation",
   "manufacturer.zlinky.value": "Valeur ",
@@ -650,7 +650,7 @@
   "ZigpyTopologyReportAutoBackup": "Sauvegarde les scan topologie interne zigpy",
 
   "manufacturer.gamma.header": "Gamma Troniques TICMeter - Système de récupération des données de consommation électrique",
-  "manufacturer.gamma.subtitle": "Liste des données récupérées par le TICMeter selectionné < a target='_blank' href='https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.enedis.fr/media/2035/download&ved=2ahUKEwjKuszEkfyPAxXAAvsDHXM8K_4QFnoECAsQAQ&usg=AOvVaw0Bn9Pv64VK2dhbtmrZD8YD'>Sorties de télé-information client des appareils de comptage Linky</a>.",
+  "manufacturer.gamma.subtitle": "Liste des données récupérées par le TICMeter selectionné <a target='_blank' href='https://www.enedis.fr/media/2035/download&ved=2ahUKEwjKuszEkfyPAxXAAvsDHXM8K_4QFnoECAsQAQ&usg=AOvVaw0Bn9Pv64VK2dhbtmrZD8YD'>Sorties de télé-information client des appareils de comptage Linky</a>.",
 
   "manufacturer.gamma.placeholder": "Sélectionner un TICMeter",
   "manufacturer.gamma.key": "Désignation",
@@ -716,7 +716,7 @@
   "manufacturer.gamma.HHPHC": "Horaire Heures Creuses",
 
   "manufacturer.chameleon.header": "Chameleon Energy Meter - Système de récupération des données de consommation électrique",
-  "manufacturer.chameleon.subtitle": "Liste des données récupérées par le Chameleon Energy Meter, < a target='_blank' href='https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.enedis.fr/media/2035/download&ved=2ahUKEwjKuszEkfyPAxXAAvsDHXM8K_4QFnoECAsQAQ&usg=AOvVaw0Bn9Pv64VK2dhbtmrZD8YD'>Sorties de télé-information client des appareils de comptage Linky</a>.",
+  "manufacturer.chameleon.subtitle": "Liste des données récupérées par le Chameleon Energy Meter, < a target='_blank' href='https://www.enedis.fr/media/2035/download&ved=2ahUKEwjKuszEkfyPAxXAAvsDHXM8K_4QFnoECAsQAQ&usg=AOvVaw0Bn9Pv64VK2dhbtmrZD8YD'>Sorties de télé-information client des appareils de comptage Linky</a>.",
   "manufacturer.chameleon.placeholder": "Sélectionner un ERL/TIC",
   "manufacturer.chameleon.key": "Désignation",
   "manufacturer.chameleon.value": "Valeur ",
