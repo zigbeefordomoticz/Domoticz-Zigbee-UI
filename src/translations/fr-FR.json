@@ -716,7 +716,7 @@
   "manufacturer.gamma.HHPHC": "Horaire Heures Creuses",
 
   "manufacturer.chameleon.header": "Chameleon Energy Meter - Système de récupération des données de consommation électrique",
-  "manufacturer.chameleon.subtitle": "Liste des données récupérées par le Chameleon Energy Meter, < a target='_blank' href='https://www.enedis.fr/media/2035/download&ved=2ahUKEwjKuszEkfyPAxXAAvsDHXM8K_4QFnoECAsQAQ&usg=AOvVaw0Bn9Pv64VK2dhbtmrZD8YD'>Sorties de télé-information client des appareils de comptage Linky</a>.",
+  "manufacturer.chameleon.subtitle": "Liste des données récupérées par le Chameleon Energy Meter, <a target='_blank' href='https://www.enedis.fr/media/2035/download&ved=2ahUKEwjKuszEkfyPAxXAAvsDHXM8K_4QFnoECAsQAQ&usg=AOvVaw0Bn9Pv64VK2dhbtmrZD8YD'>Sorties de télé-information client des appareils de comptage Linky</a>.",
   "manufacturer.chameleon.placeholder": "Sélectionner un ERL/TIC",
   "manufacturer.chameleon.key": "Désignation",
   "manufacturer.chameleon.value": "Valeur ",
