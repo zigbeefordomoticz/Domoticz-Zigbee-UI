@@ -18,7 +18,9 @@ export const environment = {
     { code: 'en-US', flag: 'flag_uk.png' },
     { code: 'fr-FR', flag: 'flag_france.png' },
     { code: 'nl-NL', flag: 'flag_netherlands.png' },
-    { code: 'es-ES', flag: 'flag_spain.png' }
+    { code: 'es-ES', flag: 'flag_spain.png' },
+    { code: 'de-DE', flag: 'flag_germany.png' },
+    { code: 'it-IT', flag: 'flag_italy.png' }
   ],
   api_url: '/rest-z4d/1',
   keysBoundActive: ['alt.z', 'z>i>g'],

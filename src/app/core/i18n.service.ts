@@ -7,6 +7,8 @@ import enUS from '../../translations/en-US.json';
 import frFR from '../../translations/fr-FR.json';
 import nlNL from '../../translations/nl-NL.json';
 import esEs from '../../translations/es-ES.json';
+import deDE from '../../translations/de-DE.json';
+import itIT from '../../translations/it-IT.json';
 import { Language } from './language';
 
 const log = new Logger('I18nService');
@@ -35,6 +37,8 @@ export class I18nService {
     translateService.setTranslation('fr-FR', frFR);
     translateService.setTranslation('nl-NL', nlNL);
     translateService.setTranslation('es-ES', esEs);
+    translateService.setTranslation('de-DE', deDE);
+    translateService.setTranslation('it-IT', itIT);
   }
 
   /**
