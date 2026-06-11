@@ -81,7 +81,10 @@ const routes = {
   pluginLog: '/plugin-log',
   deviceNonOptimized: '/non-optmize-device-configuration',
   gammaTroniqueTicmeter: '/gamma-troniques-ticmeter',
-  chameleonTicmeter: '/chameleon-ticmeter'
+  chameleonTicmeter: '/chameleon-ticmeter',
+  otaFirmwareAvailable: '/ota-firmware-available',
+  ieee2nwkRaw: '/ieee2nwk-raw',
+  help: '/help'
 };
 
 const log = new Logger('ApiService');
@@ -640,6 +643,27 @@ export class ApiService {
 
   getLog(): Observable<LogFile> {
     return this.httpClient.get<LogFile>(routes.pluginLog).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getOtaFirmwareAvailable(): Observable<any> {
+    return this.httpClient.get(routes.otaFirmwareAvailable).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getIeee2nwkRaw(): Observable<any> {
+    return this.httpClient.get(routes.ieee2nwkRaw).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getHelp(): Observable<any> {
+    return this.httpClient.get(routes.help).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
