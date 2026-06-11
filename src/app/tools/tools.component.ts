@@ -66,6 +66,24 @@ export class ToolsComponent implements OnInit {
     if (device === 'battery-state') {
       service = this.apiService.getBatteryState();
     }
+    if (device === 'ota-firmware-available') {
+      service = this.apiService.getOtaFirmwareAvailable();
+    }
+    if (device === 'ieee2nwk-raw') {
+      service = this.apiService.getIeee2nwkRaw();
+    }
+    if (device === 'help') {
+      service = this.apiService.getHelp();
+    }
+    if (device === 'zlinky') {
+      service = this.apiService.getZlinky();
+    }
+    if (device === 'gamma-troniques-ticmeter') {
+      service = this.apiService.getGammaTroniqueTicmeter();
+    }
+    if (device === 'chameleon-ticmeter') {
+      service = this.apiService.getChameleonTicmeter();
+    }
 
     if (service) {
       service
