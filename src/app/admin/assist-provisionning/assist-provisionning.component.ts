@@ -12,7 +12,8 @@ import { NewDevice, NewHardware } from '../../shared/models/new-hardware';
 @Component({
   selector: 'app-assist-provisionning',
   templateUrl: './assist-provisionning.component.html',
-  styleUrls: ['./assist-provisionning.component.scss']
+  styleUrls: ['./assist-provisionning.component.scss'],
+  standalone: false
 })
 export class AssistProvisionningComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   newDevices: NewDevice;

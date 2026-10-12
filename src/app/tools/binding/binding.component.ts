@@ -15,7 +15,8 @@ const log = new Logger('BindingComponent');
 @Component({
   selector: 'app-binding',
   templateUrl: './binding.component.html',
-  styleUrls: ['./binding.component.scss']
+  styleUrls: ['./binding.component.scss'],
+  standalone: false
 })
 export class BindingComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   form: FormGroup;

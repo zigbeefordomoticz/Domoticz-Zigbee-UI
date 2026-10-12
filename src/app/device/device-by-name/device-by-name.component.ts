@@ -12,7 +12,8 @@ const log = new Logger('DeviceByNameComponent');
 @Component({
   selector: 'app-device-by-name',
   templateUrl: './device-by-name.component.html',
-  styleUrls: ['./device-by-name.component.scss']
+  styleUrls: ['./device-by-name.component.scss'],
+  standalone: false
 })
 export class DeviceByNameComponent implements OnChanges {
   @Input() devices: DeviceByName[];

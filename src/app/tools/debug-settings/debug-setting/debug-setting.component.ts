@@ -11,7 +11,8 @@ import { Setting } from '@app/shared/models/setting';
       provide: ControlContainer,
       useExisting: FormGroupDirective
     }
-  ]
+  ],
+  standalone: false
 })
 export class DebugSettingComponent implements OnInit {
   @Input() setting: Setting;

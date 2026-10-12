@@ -5,7 +5,6 @@ import { I18nService, Logger, untilDestroyed } from '@app/core';
 import { Plugin } from '@app/shared/models/plugin';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
-import { PrimeNGConfig } from 'primeng/api';
 import { merge, Subscription, forkJoin } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { ApiService } from './services/api.service';
@@ -18,7 +17,8 @@ const log = new Logger('App');
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   keysBoundActive = environment.keysBoundActive;
@@ -36,14 +36,12 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
     private apiService: ApiService,
     private i18nService: I18nService,
     private headerService: HeaderService,
-    private primengConfig: PrimeNGConfig,
     private hotkeys: HotkeysService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.primengConfig.ripple = true;
     // Setup logger
     if (environment.production) {
       Logger.enableProductionMode();

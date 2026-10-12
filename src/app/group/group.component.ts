@@ -11,7 +11,8 @@ import { UnsubscribeOnDestroyAdapter } from '../shared/adapter/unsubscribe-adapt
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss']
+  styleUrls: ['./group.component.scss'],
+  standalone: false
 })
 export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   @ViewChild('content') content: any;

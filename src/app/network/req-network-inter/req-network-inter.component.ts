@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-req-network-inter',
   templateUrl: './req-network-inter.component.html',
-  styleUrls: ['./req-network-inter.component.scss']
+  styleUrls: ['./req-network-inter.component.scss'],
+  standalone: false
 })
 export class ReqNetworkInterComponent {
   stats$: Observable<PluginStats>;

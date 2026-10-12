@@ -11,7 +11,8 @@ import * as Highcharts from 'highcharts';
 @Component({
   selector: 'app-detail-topology',
   templateUrl: './detail-topology.component.html',
-  styleUrls: ['./detail-topology.component.scss']
+  styleUrls: ['./detail-topology.component.scss'],
+  standalone: false
 })
 export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;

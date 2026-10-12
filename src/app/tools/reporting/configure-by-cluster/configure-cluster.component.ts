@@ -8,7 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-configure-cluster-reporting',
   templateUrl: './configure-cluster.component.html',
-  styleUrls: ['./configure-cluster.component.scss']
+  styleUrls: ['./configure-cluster.component.scss'],
+  standalone: false
 })
 export class ConfigureByClusterReportingComponent implements OnChanges {
   @Input() clusters: Configure[];

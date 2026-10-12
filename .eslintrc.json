@@ -1,73 +1,59 @@
 {
-    "root": true,
-    "overrides": [
-        {
-            "files": [
-                "*.js"
-            ],
-            "parserOptions": {
-                "ecmaVersion": 2018
-            }
-        },
-        {
-            "files": [
-                "*.ts"
-            ],
-            "parserOptions": {
-                "project": [
-                    "tsconfig.*?.json"
-                ],
-                "createDefaultProgram": true
-            },
-            "extends": [
-                "plugin:@angular-eslint/recommended",
-                "plugin:@typescript-eslint/recommended",
-                "prettier"
-            ],
-            "rules": {
-                "@typescript-eslint/no-explicit-any": "off",
-                "@angular-eslint/component-class-suffix": [
-                    "error",
-                    {
-                        "suffixes": [
-                            "Component",
-                            "Page"
-                        ]
-                    }
-                ],
-                "@angular-eslint/directive-selector": [
-                    "error",
-                    {
-                        "type": "attribute",
-                        "prefix": "app",
-                        "style": "camelCase"
-                    }
-                ],
-                "@angular-eslint/component-selector": [
-                    "error",
-                    {
-                        "type": "element",
-                        "prefix": "app",
-                        "style": "kebab-case"
-                    }
-                ]
-            }
-        },
-        {
-            "files": [
-                "*.html"
-            ],
-            "extends": [
-                "plugin:@angular-eslint/template/recommended"
-            ]
-        },
-        {
-            "files": [
-                "*.component.ts"
-            ],
-            "extends": [
-                "plugin:@angular-eslint/template/process-inline-templates"
-            ]
-        }
-    ]
+  "root": true,
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "parserOptions": {
+        "ecmaVersion": 2018
+      }
+    },
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.*?.json"],
+        "createDefaultProgram": true
+      },
+      "extends": ["plugin:@angular-eslint/recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        // This application is deliberately module-based: every feature is an
+        // NgModule lazy-loaded through Shell.childRoutes(). angular-eslint 19
+        // turns prefer-standalone on by default, which errors on all 57
+        // `standalone: false` flags the v19 migration added. Running --fix
+        // would strip them and break the build. Converting to standalone is a
+        // separate project; see AGENTS.md.
+        "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/component-class-suffix": [
+          "error",
+          {
+            "suffixes": ["Component", "Page"]
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"]
+    },
+    {
+      "files": ["*.component.ts"],
+      "extends": ["plugin:@angular-eslint/template/process-inline-templates"]
+    }
+  ]
 }

@@ -8,7 +8,8 @@ import { transformToTimestamp } from '../shared/utils/transform-timestamp';
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
-  styleUrls: ['./tools.component.scss']
+  styleUrls: ['./tools.component.scss'],
+  standalone: false
 })
 export class ToolsComponent implements OnInit {
   json: object | undefined = null;

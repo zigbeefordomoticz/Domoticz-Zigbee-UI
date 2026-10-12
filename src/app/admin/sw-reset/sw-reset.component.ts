@@ -6,7 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-sw-reset',
   templateUrl: './sw-reset.component.html',
-  styleUrls: ['./sw-reset.component.scss']
+  styleUrls: ['./sw-reset.component.scss'],
+  standalone: false
 })
 export class SwResetComponent {
   permitToJoin: any;

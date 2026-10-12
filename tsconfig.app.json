@@ -10,36 +10,18 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
     "ignoreDeprecations": "5.0",
     "target": "ES2022",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["ES2022", "dom"],
     "baseUrl": "src",
     "paths": {
-      "@app/*": [
-        "app/*"
-      ],
-      "@core": [
-        "app/@core"
-      ],
-      "@core/*": [
-        "app/@core/*"
-      ],
-      "@shared": [
-        "app/@shared"
-      ],
-      "@shared/*": [
-        "app/@shared/*"
-      ],
-      "@env/*": [
-        "environments/*"
-      ]
+      "@app/*": ["app/*"],
+      "@core": ["app/@core"],
+      "@core/*": ["app/@core/*"],
+      "@shared": ["app/@shared"],
+      "@shared/*": ["app/@shared/*"],
+      "@env/*": ["environments/*"]
     }
   },
   "angularCompilerOptions": {
