@@ -22,25 +22,44 @@ updates:
       # That is how this repository accumulated 35 open PRs, nearly all of them
       # transitive build-time dependencies. Collapse them into a single PR.
       #
-      # @angular* is excluded because it is pinned below the versions that fix
-      # its advisories (see the ignore block below). Those advisories therefore
-      # have no satisfiable fix, and including unsatisfiable members appears to
-      # take the whole group down with them: after the pin landed, the
-      # 'recreate npm-security' job failed immediately after logging "Updating
-      # the 'npm-security' group", and no replacement PR was produced for any of
-      # the ~18 satisfiable advisories in the group.
+      # There is deliberately NO exclude-patterns here. An earlier version of
+      # this file excluded '@angular*' from the group, on the reasoning that a
+      # package pinned by the `ignore` block below cannot be fixed by the group
+      # and so should not be a member of it. That reasoning was sound but the
+      # effect was the opposite of what was wanted, and the exclusion has been
+      # reverted.
       #
-      # The general rule: a package pinned by an `ignore` entry cannot be fixed
-      # by this group, so it should not be a member of it. Only @angular* needs
-      # excluding today, because the other pinned packages have no open
-      # advisories. If one of them later gets an advisory that is only fixed
-      # above its pin, add it here too.
+      # What went wrong: an advisory whose ONLY fix path runs through an
+      # excluded package cannot be fixed inside the group, so Dependabot raises
+      # it as a separate PR OUTSIDE the group, carrying the Angular hoist with
+      # it. The exclusion did not remove the Angular collateral; it fanned it
+      # out into one PR per advisory. On 2026-10-12 that produced four red PRs
+      # in 90 seconds — the group PR (#254) plus #255 (sprintf-js, via
+      # build-angular 21), #256 (tar) and #257 (sigstore), the last two with
+      # byte-identical package.json diffs because both resolve through the same
+      # @angular/cli hoist. All four failed `npm ci` with ERESOLVE.
+      #
+      # Without the exclusion, '@angular*' are group members again and are also
+      # ignored, so the group cannot form and no npm security PR is raised at
+      # all. That outcome was unacceptable when the exclusion was added, because
+      # roughly 18 satisfiable advisories were waiting behind the broken group.
+      # It is acceptable now: #246 and #249 absorbed every satisfiable fix, and
+      # `npm audit fix` (without --force) on beta today changes neither
+      # package.json nor a single line of package-lock.json. Nothing is left to
+      # deliver, so a group that does not form costs nothing.
+      #
+      # This suppresses PRs, not alerts: every one stays visible in the Security
+      # tab. Do not quote a count here — it moves on its own. GitHub
+      # auto-dismissed 8 development-scope alerts within an hour on 2026-10-12,
+      # taking the total from 73 to 63 while the 25 runtime-scope alerts did not
+      # change. Re-measure before relying on a figure.
+      #
+      # REVERT THIS, and the ignore block below, as part of the Angular
+      # upgrade — at which point the group has satisfiable work again.
       npm-security:
         applies-to: security-updates
         patterns:
           - '*'
-        exclude-patterns:
-          - '@angular*'
 
       # Angular and its satellites move as one unit; a PR that bumps part of the
       # toolchain on its own cannot build.
