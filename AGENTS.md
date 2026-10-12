@@ -142,6 +142,13 @@ The dependency state is **knowingly behind** and must be treated carefully.
   peer-dependent on it** with `versions:` ranges, because Dependabot otherwise
   proposes partial upgrades that cannot install. Those entries are deliberate
   and documented in the file.
+- **Do not try to fix Dependabot's npm security pull request.** It cannot be made
+  mergeable at Angular 17: `@angular-devkit/build-angular@17.3.17` exact-pins the
+  advisory targets, so hoisting Angular to 22 is Dependabot's only resolution path
+  and `npm ci` then fails with `ERESOLVE`. Four configuration approaches have been
+  tried and all failed. Close the pull request; do not rebase it or edit
+  `.github/dependabot.yml`. See *Why the development-scope advisories are stuck
+  too* in `CLAUDE.md`.
 - **Never bump an Angular package on its own.** Angular, `@angular-devkit`,
   `@angular-eslint`, `primeng`, `ng-bootstrap`, `ng-select`, `ngx-*` and
   `zone.js` move together or not at all. A PR that moves part of the set fails
@@ -207,3 +214,4 @@ Consequences for agents:
 - ❌ Do not commit directly to `beta` — it publishes
 - ❌ Do not claim tests pass; there are none
 - ❌ Do not bundle unrelated changes into one pull request
+- ❌ Do not try to make Dependabot's npm security pull request mergeable; close it
