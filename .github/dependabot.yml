@@ -29,17 +29,28 @@ updates:
       # Angular 17 -> 21 upgrade removed the reason, so the suppression went
       # with it.
       #
-      # The group can therefore form normally again. It will currently still
-      # produce nothing, but for an upstream reason rather than a self-inflicted
-      # one: every remaining advisory traces back to braces, whose latest
-      # release (3.0.3) is itself the vulnerable one, so no fix exists to offer.
-      # `npm audit fix` reshuffles the lockfile and clears zero advisories.
+      # The group forms normally again, and it does raise PRs. #264 appeared
+      # within minutes of the upgrade reaching beta.
       #
-      # Expect a red Angular 22 version-update PR in the `angular` group below.
-      # That is honest signal, not a bug: ngx-toastr has no Angular 22 release
-      # (its latest peers @angular/core ^21.0.0), so Angular cannot move yet.
-      # Do not suppress it -- it is the reminder that this is the next step. See
-      # the Angular section of CLAUDE.md.
+      # Expect those PRs to be red until Angular 22. The remaining advisories
+      # are development-scope and most trace back to braces, whose latest
+      # release (3.0.3) is itself the vulnerable one, so there is nothing to
+      # offer for those -- `npm audit fix` clears zero. Where a fix path does
+      # exist it runs through @angular-devkit/build-angular 22, which cannot
+      # install against Angular 21. #264 was exactly that: a one-line bump of
+      # build-angular from 21.2.26 to 22.2.2, failing npm ci with ERESOLVE.
+      #
+      # Note it arrives through THIS group, not the `angular` version-update
+      # group below, because Dependabot reaches it as a security fix.
+      #
+      # Do not suppress it. It is honest signal: ngx-toastr has no Angular 22
+      # release (its latest peers @angular/core ^21.0.0), so Angular cannot move
+      # yet, and this is the reminder that doing so is the next step. Close the
+      # PR when it appears. See the Angular section of CLAUDE.md.
+      #
+      # This is the same shape as the pre-upgrade problem but a far smaller one:
+      # one package bumped rather than five, and no fan-out into per-advisory
+      # PRs, because nothing is excluded from the group any more.
       npm-security:
         applies-to: security-updates
         patterns:

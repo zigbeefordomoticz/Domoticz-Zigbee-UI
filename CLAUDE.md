@@ -368,6 +368,27 @@ Worth reading before attempting 22:
   `app.module.ts`, with `cssLayer` set to `{ name: 'primeng', order: 'bootstrap,
 primeng' }` so the `@layer bootstrap, primeng` declaration in `main.scss`
   keeps working. Bootstrap will start winning cascade fights if that is lost.
+- **Check how a migration interacts with anything this repository overrides.**
+  The v18 migration replaced `HttpClientModule` with
+  `provideHttpClient(withInterceptorsFromDi())` and appended it to the
+  `providers` arrays of `AppModule` and `CoreModule`. That shipped a build in
+  which **every REST call lost its `/rest-z4d/1` prefix**, hit the plugin's SPA
+  fallback and failed with `Http failure during parsing` on a status 200 that
+  was really `index.html`. Nothing rendered any data. See #265.
+
+  The cause was provider ordering. `HttpClientModule` used to sit in `imports`,
+  and an NgModule's imported providers are flattened **before** its own
+  `providers`, so `CoreModule`'s `{ provide: HttpClient, useClass: HttpService }`
+  came last and won. Moved into `providers` _after_ that override,
+  `provideHttpClient` supplies its own `HttpClient` and wins instead —
+  bypassing `HttpService`, which is what chains `ApiPrefixInterceptor`.
+
+  **So: `provideHttpClient()` must be listed before the `HttpClient` override in
+  `core.module.ts`, and `app.module.ts` must not call it at all.** Nothing in
+  the type system or the build enforces this and the failure is silent, so both
+  files carry a comment saying so. If you are ever debugging requests that 200
+  with HTML, check this first.
+
 - **`npm install` triggers the `postinstall` prettier script**, which reformats
   unrelated files that have drifted — `src/app/about/*.html` and
   `.eslintrc.json` in particular. Use `npm install --ignore-scripts`, as CI
