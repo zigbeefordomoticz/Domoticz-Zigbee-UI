@@ -10,7 +10,8 @@ import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-ad
 @Component({
   selector: 'app-version',
   templateUrl: './version.component.html',
-  styleUrls: ['./version.component.scss']
+  styleUrls: ['./version.component.scss'],
+  standalone: false
 })
 export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   fork$: Observable<any>;

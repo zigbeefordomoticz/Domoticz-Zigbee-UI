@@ -12,7 +12,8 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 @Component({
   selector: 'app-firmware',
   templateUrl: './firmware.component.html',
-  styleUrls: ['./firmware.component.scss']
+  styleUrls: ['./firmware.component.scss'],
+  standalone: false
 })
 export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   form: FormGroup;

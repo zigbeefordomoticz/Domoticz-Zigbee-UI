@@ -16,7 +16,8 @@ import { PluginStats } from '../shared/models/plugin-stats';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  standalone: false
 })
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   visible: boolean = false;

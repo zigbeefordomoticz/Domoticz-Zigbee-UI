@@ -4,7 +4,8 @@ import { Plugin } from '@app/shared/models/plugin';
 @Component({
   selector: 'app-command',
   templateUrl: './command.component.html',
-  styleUrls: ['./command.component.scss']
+  styleUrls: ['./command.component.scss'],
+  standalone: false
 })
 export class CommandComponent implements OnInit {
   plugin: Plugin;

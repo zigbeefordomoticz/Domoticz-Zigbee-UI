@@ -9,7 +9,8 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'app-manufacturer-chameleon',
   templateUrl: './chameleon.component.html',
-  styleUrls: ['./chameleon.component.scss']
+  styleUrls: ['./chameleon.component.scss'],
+  standalone: false
 })
 export class ChameleonComponent implements OnInit {
   chameleon$: Observable<Chameleon[]>;

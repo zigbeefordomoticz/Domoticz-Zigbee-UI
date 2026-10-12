@@ -8,7 +8,8 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'app-manufacturer-gamma',
   templateUrl: './gamma.component.html',
-  styleUrls: ['./gamma.component.scss']
+  styleUrls: ['./gamma.component.scss'],
+  standalone: false
 })
 export class GammaComponent implements OnInit {
   gammas$: Observable<Gamma[]>;

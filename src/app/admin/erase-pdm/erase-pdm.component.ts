@@ -7,7 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-erase-pdm',
   templateUrl: './erase-pdm.component.html',
-  styleUrls: ['./erase-pdm.component.scss']
+  styleUrls: ['./erase-pdm.component.scss'],
+  standalone: false
 })
 export class ErasePdmComponent {
   permitToJoin: any;

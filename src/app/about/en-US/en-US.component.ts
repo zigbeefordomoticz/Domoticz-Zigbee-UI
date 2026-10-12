@@ -4,7 +4,8 @@ import { Plugin } from '@app/shared/models/plugin';
 @Component({
   selector: 'app-about-en',
   templateUrl: './en-US.component.html',
-  styleUrls: ['./en-US.component.scss']
+  styleUrls: ['./en-US.component.scss'],
+  standalone: false
 })
 export class AboutEnComponent {
   version: string = (JSON.parse(sessionStorage.getItem('plugin')) as Plugin).PluginVersion;
