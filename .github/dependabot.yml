@@ -10,3 +10,63 @@ updates:
     directory: '/'
     schedule:
       interval: weekly
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+    groups:
+      # Security updates arrive one PR per advisory unless they are grouped.
+      # That is how this repository accumulated 35 open PRs, nearly all of them
+      # transitive build-time dependencies. Collapse them into a single PR.
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - '*'
+
+      # Angular and its satellites move as one unit; a PR that bumps part of the
+      # toolchain on its own cannot build.
+      angular:
+        applies-to: version-updates
+        patterns:
+          - '@angular*'
+
+      npm-development:
+        applies-to: version-updates
+        dependency-type: 'development'
+
+      npm-production:
+        applies-to: version-updates
+        dependency-type: 'production'
+
+    # The Angular major upgrade has to be done deliberately, with `ng update`,
+    # one major at a time. Left to itself Dependabot proposes v21/v22 for part
+    # of the toolchain while @angular/core stays on ^17.3.0, which produces PRs
+    # that cannot install, let alone build. Twelve such PRs were closed when
+    # this block was added.
+    #
+    # Revisit these ignores as part of the Angular upgrade: while they are in
+    # place Dependabot will not offer Angular majors even for an advisory.
+    ignore:
+      - dependency-name: '@angular*'
+        update-types: ['version-update:semver-major']
+
+      # Peer-dependent on Angular's major: these can only move when Angular does.
+      - dependency-name: '@ng-bootstrap/ng-bootstrap'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@ng-select/ng-select'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@ngx-translate/core'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@swimlane/ngx-charts'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'angular-highcharts'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'ngx-*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'primeng'
+        update-types: ['version-update:semver-major']
+      - dependency-name: 'zone.js'
+        update-types: ['version-update:semver-major']
