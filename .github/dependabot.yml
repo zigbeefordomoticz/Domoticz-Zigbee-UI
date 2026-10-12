@@ -19,43 +19,27 @@ updates:
 
     groups:
       # Security updates arrive one PR per advisory unless they are grouped.
-      # That is how this repository accumulated 35 open PRs, nearly all of them
-      # transitive build-time dependencies. Collapse them into a single PR.
+      # That is how this repository once accumulated 35 open PRs, nearly all of
+      # them transitive build-time dependencies. Collapse them into a single PR.
       #
-      # There is deliberately NO exclude-patterns here. An earlier version of
-      # this file excluded '@angular*' from the group, on the reasoning that a
-      # package pinned by the `ignore` block below cannot be fixed by the group
-      # and so should not be a member of it. That reasoning was sound but the
-      # effect was the opposite of what was wanted, and the exclusion has been
-      # reverted.
+      # There is deliberately no exclude-patterns and no ignore block any more.
+      # Both existed because Angular was pinned at 17.3 and Dependabot kept
+      # proposing Angular hoists that could not install; the history is in the
+      # closing comments on #247, #250 and #255 if it is ever needed. The
+      # Angular 17 -> 21 upgrade removed the reason, so the suppression went
+      # with it.
       #
-      # What went wrong: an advisory whose ONLY fix path runs through an
-      # excluded package cannot be fixed inside the group, so Dependabot raises
-      # it as a separate PR OUTSIDE the group, carrying the Angular hoist with
-      # it. The exclusion did not remove the Angular collateral; it fanned it
-      # out into one PR per advisory. On 2026-10-12 that produced four red PRs
-      # in 90 seconds — the group PR (#254) plus #255 (sprintf-js, via
-      # build-angular 21), #256 (tar) and #257 (sigstore), the last two with
-      # byte-identical package.json diffs because both resolve through the same
-      # @angular/cli hoist. All four failed `npm ci` with ERESOLVE.
+      # The group can therefore form normally again. It will currently still
+      # produce nothing, but for an upstream reason rather than a self-inflicted
+      # one: every remaining advisory traces back to braces, whose latest
+      # release (3.0.3) is itself the vulnerable one, so no fix exists to offer.
+      # `npm audit fix` reshuffles the lockfile and clears zero advisories.
       #
-      # Without the exclusion, '@angular*' are group members again and are also
-      # ignored, so the group cannot form and no npm security PR is raised at
-      # all. That outcome was unacceptable when the exclusion was added, because
-      # roughly 18 satisfiable advisories were waiting behind the broken group.
-      # It is acceptable now: #246 and #249 absorbed every satisfiable fix, and
-      # `npm audit fix` (without --force) on beta today changes neither
-      # package.json nor a single line of package-lock.json. Nothing is left to
-      # deliver, so a group that does not form costs nothing.
-      #
-      # This suppresses PRs, not alerts: every one stays visible in the Security
-      # tab. Do not quote a count here — it moves on its own. GitHub
-      # auto-dismissed 8 development-scope alerts within an hour on 2026-10-12,
-      # taking the total from 73 to 63 while the 25 runtime-scope alerts did not
-      # change. Re-measure before relying on a figure.
-      #
-      # REVERT THIS, and the ignore block below, as part of the Angular
-      # upgrade — at which point the group has satisfiable work again.
+      # Expect a red Angular 22 version-update PR in the `angular` group below.
+      # That is honest signal, not a bug: ngx-toastr has no Angular 22 release
+      # (its latest peers @angular/core ^21.0.0), so Angular cannot move yet.
+      # Do not suppress it -- it is the reminder that this is the next step. See
+      # the Angular section of CLAUDE.md.
       npm-security:
         applies-to: security-updates
         patterns:
@@ -75,62 +59,3 @@ updates:
       npm-production:
         applies-to: version-updates
         dependency-type: 'production'
-
-    # Pin the Angular major and everything peer-dependent on it, so Dependabot
-    # stops proposing upgrades that cannot install.
-    #
-    # These entries use `versions:` rather than `update-types:` deliberately.
-    # An ignore that specifies only `update-types` applies to version updates
-    # but NOT to security updates, so an earlier version of this file did not
-    # hold: PR #242 bumped @angular/core from 17.3.12 straight to 22.2.2 as a
-    # grouped security update, spanning four Angular majors at once
-    # (core/common/compiler at 22, animations at 20, build-angular at 21,
-    # angular-eslint at 17) and failing npm ci with ERESOLVE. A `versions`
-    # range binds both kinds of update.
-    #
-    # Each range starts at the next major above the version currently pinned in
-    # package.json, so patch and minor updates inside the current major still
-    # flow normally, including security patches.
-    #
-    # KNOWN CONSEQUENCE, and the reason this is a deliberate choice rather than
-    # a tidy-up: while these are in place Dependabot will not raise a PR for an
-    # Angular security advisory, and there are currently 23 open runtime-scope
-    # alerts against @angular/core, common, compiler and router. Those are real.
-    # They are not fixable by a dependency bump in isolation — Angular 17.3 is
-    # out of LTS and the fix is an `ng update` upgrade, one major at a time.
-    # Suppressing unmergeable PRs does not make the alerts go away.
-    #
-    # REMOVE THESE ENTRIES as part of that upgrade.
-    ignore:
-      # Covers @angular/*, @angular-devkit/* and @angular-eslint/*, all of which
-      # are pinned to 17.x today.
-      - dependency-name: '@angular*'
-        versions: ['>=18.0.0']
-
-      # Peer-dependent on Angular's major: these can only move when Angular does.
-      - dependency-name: '@ng-bootstrap/ng-bootstrap'
-        versions: ['>=17.0.0']
-      - dependency-name: '@ng-select/ng-select'
-        versions: ['>=13.0.0']
-      - dependency-name: '@ngx-translate/core'
-        versions: ['>=16.0.0']
-      - dependency-name: '@swimlane/ngx-charts'
-        versions: ['>=21.0.0']
-      - dependency-name: 'angular-highcharts'
-        versions: ['>=18.0.0']
-      - dependency-name: 'ngx-color-picker'
-        versions: ['>=17.0.0']
-      - dependency-name: 'ngx-filesaver'
-        versions: ['>=18.0.0']
-      - dependency-name: 'ngx-json-viewer'
-        versions: ['>=4.0.0']
-      - dependency-name: 'ngx-scrollbar'
-        versions: ['>=15.0.0']
-      - dependency-name: 'ngx-spinner'
-        versions: ['>=17.0.0']
-      - dependency-name: 'ngx-toastr'
-        versions: ['>=19.0.0']
-      - dependency-name: 'primeng'
-        versions: ['>=18.0.0']
-      - dependency-name: 'zone.js'
-        versions: ['>=0.15.0']

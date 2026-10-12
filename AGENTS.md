@@ -8,6 +8,7 @@ This file provides **mandatory guidance for AI coding agents** working on the
 plugin.
 
 Its goals:
+
 - Provide architecture and runtime context
 - Prevent changes that cannot build or that break the published UI
 - Keep the front end aligned with the plugin's REST API
@@ -27,35 +28,40 @@ the set of rules.
 Before writing or proposing any code change, verify ALL of the following:
 
 ### Environment
-- [ ] Node.js **20** (Angular 17 does not support newer majors; CI builds on 20)
+
+- [ ] Node.js **22** (Angular 21 needs `^20.19.0 || ^22.12.0 || >=24.0.0`; CI builds on 22; Node 20 is end-of-life)
 - [ ] Target branch is `beta`
 - [ ] `npm run lint` passes
 - [ ] `npm run build` passes
 
 ### Architecture
+
 - [ ] Feature areas stay lazy-loaded `NgModule`s registered via `Shell.childRoutes()`
 - [ ] All REST calls go through `src/app/services/api.service.ts` — never
       `HttpClient` directly from a component
 - [ ] No back-end or Zigbee logic here; that belongs in the plugin repository
 
 ### Translations
+
 - [ ] Every new user-visible string has a key in **all six** translation files
 - [ ] Plugin settings use the **raw parameter name** as the key
 - [ ] No key added to only `en-US.json`
 
 ### Dependencies
+
 - [ ] No Angular major upgrade as a side effect of another change
 - [ ] `package.json` and `package-lock.json` stay consistent
 - [ ] No new runtime dependency without a clear need
 
 ### Deployment awareness
+
 - [ ] You understand that **merging to `beta` publishes to `gh-pages`**
 
 ---
 
 ## 📌 Project Overview
 
-- **What it is:** an Angular 17 single-page application, served by the plugin at
+- **What it is:** an Angular 21 single-page application, served by the plugin at
   `/z4d/`.
 - **What it is not:** it contains no Zigbee logic, no Domoticz integration and
   no device handling. It is a client of the plugin's REST API.
@@ -114,7 +120,7 @@ Rules:
    falls back to printing the key itself, so the UI shows a raw identifier.
 2. **Translations are compiled in, not loaded at runtime.** They are imported in
    `core/i18n.service.ts` and registered with `setTranslation`. Adding a
-   *language* requires editing `i18n.service.ts`, `environment.ts` and
+   _language_ requires editing `i18n.service.ts`, `environment.ts` and
    `environment.prod.ts`.
 3. **Plugin settings are keyed by their raw parameter name.** The settings
    screens pass the parameter name from the plugin's `Classes/PluginConf.py`
@@ -133,31 +139,35 @@ Rules:
 
 ## 📦 Dependency Discipline
 
-The dependency state is **knowingly behind** and must be treated carefully.
+Angular was upgraded 17 → 21 in October 2026. The state below is current; do
+not treat the dependency set as free to move.
 
-- Angular is pinned at **17.3**, which is out of LTS. There are open
-  runtime-scope advisories against `@angular/core`, `common`, `compiler` and
-  `router`.
-- `.github/dependabot.yml` **pins the Angular major and everything
-  peer-dependent on it** with `versions:` ranges, because Dependabot otherwise
-  proposes partial upgrades that cannot install. Those entries are deliberate
-  and documented in the file.
-- **Do not try to fix Dependabot's npm security pull request.** It cannot be made
-  mergeable at Angular 17: `@angular-devkit/build-angular@17.3.17` exact-pins the
-  advisory targets, so hoisting Angular to 22 is Dependabot's only resolution path
-  and `npm ci` then fails with `ERESOLVE`. Four configuration approaches have been
-  tried and all failed. Close the pull request; do not rebase it or edit
-  `.github/dependabot.yml`. See *Why the development-scope advisories are stuck
-  too* in `CLAUDE.md`.
+- Angular is at **21.2** on **Node 22**. There are **no open advisories against
+  `@angular/core`, `common`, `compiler` or `router`**.
+- The advisories that remain are development-scope and **currently unfixable by
+  anyone** — they all trace back to `braces`, whose latest release is itself the
+  vulnerable one. `npm audit fix` clears nothing. Do not go looking for a fix.
+- `.github/dependabot.yml` **no longer pins anything.** The `ignore` block
+  existed only because Angular was stuck at 17.3 and was removed with the
+  upgrade. Do not reintroduce it without a reason that will still hold in six
+  months.
 - **Never bump an Angular package on its own.** Angular, `@angular-devkit`,
   `@angular-eslint`, `primeng`, `ng-bootstrap`, `ng-select`, `ngx-*` and
   `zone.js` move together or not at all. A PR that moves part of the set fails
   `npm ci` with `ERESOLVE`.
-- The Angular upgrade is a **dedicated project**, done with `ng update`, one
-  major at a time. There is an abandoned `angular19` branch (March 2025) that
-  reached Angular 19 coherently and may be a useful starting point.
-- When the upgrade happens, the `ignore` entries in `.github/dependabot.yml`
-  must be removed as part of it.
+- **`@ng-select/ng-select` is pinned to exactly `23.0.0`** with no range. It is
+  the only release in its 23.x line that supports Angular 21. Do not widen it to
+  a caret — that resolves to 23.11.0, which requires Angular 22.
+- **Angular 22 is the next step and is blocked** on `ngx-toastr`, which has no
+  Angular 22 release. Dependabot will raise a red Angular 22 pull request;
+  that is expected signal, not something to suppress.
+- **Two angular-eslint rules are off on purpose** — `prefer-standalone` and
+  `prefer-inject`, with reasons recorded in `.eslintrc.json`. Running
+  `eslint --fix` on the first would strip `standalone: false` from all 57
+  components and break the build.
+
+See the Dependency State section of `CLAUDE.md` for the detail, including what
+the five-step upgrade taught about `ng update`.
 
 ---
 
@@ -192,6 +202,7 @@ defines no `test` target, so the `test` and `test:ci` scripts in `package.json`
 cannot run.
 
 Consequences for agents:
+
 - Do not claim a change is "tested" because scripts exist.
 - `npm run lint` and `npm run build` are the only automated signals.
 - For anything behavioural, say plainly that it needs manual verification
@@ -214,4 +225,5 @@ Consequences for agents:
 - ❌ Do not commit directly to `beta` — it publishes
 - ❌ Do not claim tests pass; there are none
 - ❌ Do not bundle unrelated changes into one pull request
-- ❌ Do not try to make Dependabot's npm security pull request mergeable; close it
+- ❌ Do not reintroduce `ignore` entries in `.github/dependabot.yml`
+- ❌ Do not run `eslint --fix` for `prefer-standalone`; it breaks the build
