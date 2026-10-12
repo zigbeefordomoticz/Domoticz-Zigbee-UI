@@ -41,32 +41,61 @@ updates:
         applies-to: version-updates
         dependency-type: 'production'
 
-    # The Angular major upgrade has to be done deliberately, with `ng update`,
-    # one major at a time. Left to itself Dependabot proposes v21/v22 for part
-    # of the toolchain while @angular/core stays on ^17.3.0, which produces PRs
-    # that cannot install, let alone build. Twelve such PRs were closed when
-    # this block was added.
+    # Pin the Angular major and everything peer-dependent on it, so Dependabot
+    # stops proposing upgrades that cannot install.
     #
-    # Revisit these ignores as part of the Angular upgrade: while they are in
-    # place Dependabot will not offer Angular majors even for an advisory.
+    # These entries use `versions:` rather than `update-types:` deliberately.
+    # An ignore that specifies only `update-types` applies to version updates
+    # but NOT to security updates, so an earlier version of this file did not
+    # hold: PR #242 bumped @angular/core from 17.3.12 straight to 22.2.2 as a
+    # grouped security update, spanning four Angular majors at once
+    # (core/common/compiler at 22, animations at 20, build-angular at 21,
+    # angular-eslint at 17) and failing npm ci with ERESOLVE. A `versions`
+    # range binds both kinds of update.
+    #
+    # Each range starts at the next major above the version currently pinned in
+    # package.json, so patch and minor updates inside the current major still
+    # flow normally, including security patches.
+    #
+    # KNOWN CONSEQUENCE, and the reason this is a deliberate choice rather than
+    # a tidy-up: while these are in place Dependabot will not raise a PR for an
+    # Angular security advisory, and there are currently 23 open runtime-scope
+    # alerts against @angular/core, common, compiler and router. Those are real.
+    # They are not fixable by a dependency bump in isolation — Angular 17.3 is
+    # out of LTS and the fix is an `ng update` upgrade, one major at a time.
+    # Suppressing unmergeable PRs does not make the alerts go away.
+    #
+    # REMOVE THESE ENTRIES as part of that upgrade.
     ignore:
+      # Covers @angular/*, @angular-devkit/* and @angular-eslint/*, all of which
+      # are pinned to 17.x today.
       - dependency-name: '@angular*'
-        update-types: ['version-update:semver-major']
+        versions: ['>=18.0.0']
 
       # Peer-dependent on Angular's major: these can only move when Angular does.
       - dependency-name: '@ng-bootstrap/ng-bootstrap'
-        update-types: ['version-update:semver-major']
+        versions: ['>=17.0.0']
       - dependency-name: '@ng-select/ng-select'
-        update-types: ['version-update:semver-major']
+        versions: ['>=13.0.0']
       - dependency-name: '@ngx-translate/core'
-        update-types: ['version-update:semver-major']
+        versions: ['>=16.0.0']
       - dependency-name: '@swimlane/ngx-charts'
-        update-types: ['version-update:semver-major']
+        versions: ['>=21.0.0']
       - dependency-name: 'angular-highcharts'
-        update-types: ['version-update:semver-major']
-      - dependency-name: 'ngx-*'
-        update-types: ['version-update:semver-major']
+        versions: ['>=18.0.0']
+      - dependency-name: 'ngx-color-picker'
+        versions: ['>=17.0.0']
+      - dependency-name: 'ngx-filesaver'
+        versions: ['>=18.0.0']
+      - dependency-name: 'ngx-json-viewer'
+        versions: ['>=4.0.0']
+      - dependency-name: 'ngx-scrollbar'
+        versions: ['>=15.0.0']
+      - dependency-name: 'ngx-spinner'
+        versions: ['>=17.0.0']
+      - dependency-name: 'ngx-toastr'
+        versions: ['>=19.0.0']
       - dependency-name: 'primeng'
-        update-types: ['version-update:semver-major']
+        versions: ['>=18.0.0']
       - dependency-name: 'zone.js'
-        update-types: ['version-update:semver-major']
+        versions: ['>=0.15.0']
