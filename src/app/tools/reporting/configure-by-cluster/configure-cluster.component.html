@@ -71,16 +71,17 @@
       </td>
       <td [pEditableColumn]="row.change" pEditableColumnField="change">
         <p-cellEditor>
-          <ng-container *ngIf="isEditable(row); else notEditable">
+          @if (isEditable(row)) {
             <ng-template pTemplate="input">
               <input pInputText type="text" [value]="row.change" (change)="updateValue($event, 'Change', row)" />
             </ng-template>
             <ng-template pTemplate="output">
               <input pInputText type="text" [value]="row.change" (change)="updateValue($event, 'Change', row)" />
             </ng-template>
-          </ng-container>
-          <ng-template #notEditable>{{ row.change }}</ng-template></p-cellEditor
-        >
+          } @else {
+            {{ row.change }}
+          }
+        </p-cellEditor>
       </td>
     </tr></ng-template
   >

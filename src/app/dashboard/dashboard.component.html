@@ -1,173 +1,174 @@
 <div class="col-12 card">
   <div class="card-header">
     <span class="fw-bold">{{ 'dashboard.trafic.title' | translate }}</span>
-    <button
-      *ngIf="!poll"
-      class="d-none d-md-block btn btn-default btn-primary float-bottom float-end"
-      (click)="refresh()"
-      translate="dashboard.button.refresh"></button>
+    @if (!poll) {
+      <button
+        class="d-none d-md-block btn btn-default btn-primary float-bottom float-end"
+        (click)="refresh()"
+        translate="dashboard.button.refresh"></button>
+    }
   </div>
 </div>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="pluginStats">
-  <div class="col">
-    <div class="card h-100">
-      <div class="card-body">
-        <div class="col">
-          <div class="col-sm" [innerHTML]="'dashboard.health.title' | translate"></div>
-          <div class="col-sm-1"></div>
-          <div class="row">
-            <ngx-charts-advanced-pie-chart
-              [results]="advancedPieState"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              (select)="open('state', $event)"
-              [scheme]="colorSchemeGBROG"
-              [label]="advancedPieStateLabel"
-              [percentageFormatting]="percentageFormatting">
-            </ngx-charts-advanced-pie-chart>
-          </div>
-          <div class="row">
-            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
+@if (pluginStats) {
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.health.title' | translate"></div>
             <div class="col-sm-1"></div>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [results]="advancedPieState"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                (select)="open('state', $event)"
+                [scheme]="colorSchemeGBROG"
+                [label]="advancedPieStateLabel"
+                [percentageFormatting]="percentageFormatting">
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row">
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.traffic.title' | translate"></div>
+            <div class="col-sm-1"></div>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [results]="advancedPieSent"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                [scheme]="colorSchemeBG"
+                [label]="advancedPieSentLabel"
+                [percentageFormatting]="percentageFormatting">
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row">
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.traffic.comment' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
+            <div class="col-sm-1"></div>
+            <div class="row">
+              <div class="col-sm" [chart]="chart"></div>
+            </div>
+            <div class="row">
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="col">
-    <div class="card h-100">
-      <div class="card-body">
-        <div class="col">
-          <div class="col-sm" [innerHTML]="'dashboard.traffic.title' | translate"></div>
-          <div class="col-sm-1"></div>
-          <div class="row">
-            <ngx-charts-advanced-pie-chart
-              [results]="advancedPieSent"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              [scheme]="colorSchemeBG"
-              [label]="advancedPieSentLabel"
-              [percentageFormatting]="percentageFormatting">
-            </ngx-charts-advanced-pie-chart>
-          </div>
-          <div class="row">
-            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.traffic.comment' | translate"></div>
-            <div class="col-sm-1"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col">
-    <div class="card h-100">
-      <div class="card-body">
-        <div class="col">
-          <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
-          <div class="col-sm-1"></div>
-          <div class="row">
-            <div class="col-sm" [chart]="chart"></div>
-          </div>
-          <div class="row">
-            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
-            <div class="col-sm-1"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+}
 
 <div class="col-12 card mt-2">
   <div class="card-header fw-bold">
     {{ 'dashboard.devices.title' | translate }}
   </div>
 </div>
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="pluginStats">
-  <div class="col">
-    <div class="card h-100">
-      <div class="card-body">
-        <div class="col">
-          <div class="col-sm" [innerHTML]="'dashboard.device.title' | translate"></div>
-          <div class="col-sm-1"></div>
-          <div class="row">
-            <ngx-charts-advanced-pie-chart
-              [results]="advancedPieDevice"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              (select)="open('device', $event)"
-              [scheme]="colorSchemePC"
-              [label]="advancedPieDeviceLabel"
-              [percentageFormatting]="percentageFormatting">
-            </ngx-charts-advanced-pie-chart>
-          </div>
-          <div class="row">
-            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.devices.comment' | translate"></div>
+@if (pluginStats) {
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.device.title' | translate"></div>
             <div class="col-sm-1"></div>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [results]="advancedPieDevice"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                (select)="open('device', $event)"
+                [scheme]="colorSchemePC"
+                [label]="advancedPieDeviceLabel"
+                [percentageFormatting]="percentageFormatting">
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row">
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.devices.comment' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
+            <div class="col-sm-1"></div>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [results]="advancedPieBattery"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                (select)="open('battery', $event)"
+                [scheme]="colorSchemeROBG"
+                [label]="advancedPieBatteryLabel"
+                [percentageFormatting]="percentageFormatting">
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row">
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="col">
+            <div class="col-sm" [innerHTML]="'dashboard.optimized.title' | translate"></div>
+            <div class="col-sm-1"></div>
+            <div class="row">
+              <ngx-charts-advanced-pie-chart
+                [results]="advancedPieCertified"
+                [animations]="animations"
+                [gradient]="gradient"
+                [tooltipDisabled]="tooltipDisabled"
+                (select)="open('certified', $event)"
+                [scheme]="colorSchemeGO"
+                [label]="advancedCertifiedLabel"
+                [percentageFormatting]="percentageFormatting">
+              </ngx-charts-advanced-pie-chart>
+            </div>
+            <div class="row">
+              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.optimized.comment' | translate"></div>
+              <div class="col-sm-1"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="col">
-    <div class="card h-100">
-      <div class="card-body">
-        <div class="col">
-          <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
-          <div class="col-sm-1"></div>
-          <div class="row">
-            <ngx-charts-advanced-pie-chart
-              [results]="advancedPieBattery"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              (select)="open('battery', $event)"
-              [scheme]="colorSchemeROBG"
-              [label]="advancedPieBatteryLabel"
-              [percentageFormatting]="percentageFormatting">
-            </ngx-charts-advanced-pie-chart>
-          </div>
-          <div class="row">
-            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>
-            <div class="col-sm-1"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col">
-    <div class="card h-100">
-      <div class="card-body">
-        <div class="col">
-          <div class="col-sm" [innerHTML]="'dashboard.optimized.title' | translate"></div>
-          <div class="col-sm-1"></div>
-          <div class="row">
-            <ngx-charts-advanced-pie-chart
-              [results]="advancedPieCertified"
-              [animations]="animations"
-              [gradient]="gradient"
-              [tooltipDisabled]="tooltipDisabled"
-              (select)="open('certified', $event)"
-              [scheme]="colorSchemeGO"
-              [label]="advancedCertifiedLabel"
-              [percentageFormatting]="percentageFormatting">
-            </ngx-charts-advanced-pie-chart>
-          </div>
-          <div class="row">
-            <div class="col-sm border-start border-3" [innerHTML]="'dashboard.optimized.comment' | translate"></div>
-            <div class="col-sm-1"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+}
 
 <p-dialog header="Header" [(visible)]="visible" [position]="'bottom'" [style]="{ width: '75vw' }">
   <ng-template pTemplate="header">

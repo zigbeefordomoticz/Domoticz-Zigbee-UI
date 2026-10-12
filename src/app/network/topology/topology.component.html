@@ -1,33 +1,39 @@
 <div class="row row-cols-1 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
   <div class="col">
-    <div class="card" *ngIf="topologies$ | async as topologies">
-      <div class="card-header fw-bold" translate="network.topo.header"></div>
-      <div class="card-body">
-        <p class="card-text" [innerHTML]="'network.topo.subtitle' | translate"></p>
-        <div class="card-text">
-          <div class="vertical-container">
-            <div class="content-container">
-              <ng-scrollbar class="scroll-container">
-                <div class="scrollable-content">
-                  <span class="d-sm-flex gap-2" *ngFor="let topologie of topologies | keyvalue: sortDesc">
-                    <button class="btn btn-light" (click)="topologyByDate(topologie.value)">
-                      {{ topologie.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
-                    </button>
-                    <button
-                      class="btn btn-light"
-                      title="{{ 'network.topo.visu.delete.button' | translate }}"
-                      (click)="deleteTopologyByDate(topologie.value)">
-                      <i class="fa fa-trash"></i>
-                    </button>
-                  </span>
-                </div>
-              </ng-scrollbar>
+    @if (topologies$ | async; as topologies) {
+      <div class="card">
+        <div class="card-header fw-bold" translate="network.topo.header"></div>
+        <div class="card-body">
+          <p class="card-text" [innerHTML]="'network.topo.subtitle' | translate"></p>
+          <div class="card-text">
+            <div class="vertical-container">
+              <div class="content-container">
+                <ng-scrollbar class="scroll-container">
+                  <div class="scrollable-content">
+                    @for (topologie of topologies | keyvalue: sortDesc; track topologie) {
+                      <span class="d-sm-flex gap-2">
+                        <button class="btn btn-light" (click)="topologyByDate(topologie.value)">
+                          {{ topologie.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+                        </button>
+                        <button
+                          class="btn btn-light"
+                          title="{{ 'network.topo.visu.delete.button' | translate }}"
+                          (click)="deleteTopologyByDate(topologie.value)">
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </span>
+                    }
+                  </div>
+                </ng-scrollbar>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    }
   </div>
   <div><app-req-topology></app-req-topology></div>
 </div>
-<div *ngIf="timeStamp"><app-detail-topology [timeStamp]="timeStamp"></app-detail-topology></div>
+@if (timeStamp) {
+  <div><app-detail-topology [timeStamp]="timeStamp"></app-detail-topology></div>
+}

@@ -1,78 +1,83 @@
-<form [formGroup]="form" *ngIf="settings">
-  <fieldset class="h-100">
-    <legend>
-      <div class="row">
-        <h5 class="col-sm-8" [innerHTML]="'tools.debugsetting.help.legend' | translate"></h5>
-        <div class="col-sm-4">
-          <div class="d-flex flex-row-reverse align-items-center">
-            <div class="p-2">
-              <button
-                [disabled]="!form.valid"
-                (click)="updateSettings()"
-                class="btn btn-primary"
-                translate="tools.debugsetting.validate.button"></button>
-            </div>
-            <div class="p-2 ms-3">
-              <button
-                (click)="reinitSettings()"
-                class="btn btn-secondary"
-                translate="tools.debugsetting.reinit.button"></button>
-            </div>
-            <div class="switch switch-sm me-2 pr-2 float-right">
-              <input
-                [checked]="advanced"
-                (click)="advancedSettings($event)"
-                type="checkbox"
-                class="switch"
-                id="switch-advanced" />
-              <label class="mb-0" for="switch-advanced" translate="tools.debugsetting.advanced.button"></label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </legend>
-  </fieldset>
-  <div class="row row-cols-1 row-cols-sm-1 g-4">
-    <div class="col">
-      <div *ngFor="let listOfSettings of settings">
-        <div class="card" *ngIf="hasBasicSettings(listOfSettings.ListOfSettings)">
-          <div class="card-header fw-bold" [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
-          <div class="card-body">
-            <div class="card-text">
-              <p [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></p>
-            </div>
-            <div class="card-text">
-              <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center">
-                <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
-                  <app-debug-setting
-                    *ngIf="!setting.Advanced && setting.DataType === 'bool'"
-                    [setting]="setting"
-                    [advanced]="advanced"></app-debug-setting>
-                </ng-container>
+@if (settings) {
+  <form [formGroup]="form">
+    <fieldset class="h-100">
+      <legend>
+        <div class="row">
+          <h5 class="col-sm-8" [innerHTML]="'tools.debugsetting.help.legend' | translate"></h5>
+          <div class="col-sm-4">
+            <div class="d-flex flex-row-reverse align-items-center">
+              <div class="p-2">
+                <button
+                  [disabled]="!form.valid"
+                  (click)="updateSettings()"
+                  class="btn btn-primary"
+                  translate="tools.debugsetting.validate.button"></button>
               </div>
-              <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center mt-2">
-                <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
-                  <app-debug-setting
-                    *ngIf="!setting.Advanced && setting.DataType !== 'bool'"
-                    [setting]="setting"
-                    [advanced]="advanced"></app-debug-setting>
-                </ng-container>
+              <div class="p-2 ms-3">
+                <button
+                  (click)="reinitSettings()"
+                  class="btn btn-secondary"
+                  translate="tools.debugsetting.reinit.button"></button>
               </div>
-              <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center mt-2">
-                <ng-container *ngFor="let setting of listOfSettings.ListOfSettings">
-                  <app-debug-setting
-                    *ngIf="setting.Advanced && setting.Advanced === advanced"
-                    [setting]="setting"
-                    [advanced]="advanced"></app-debug-setting>
-                </ng-container>
+              <div class="switch switch-sm me-2 pr-2 float-right">
+                <input
+                  [checked]="advanced"
+                  (click)="advancedSettings($event)"
+                  type="checkbox"
+                  class="switch"
+                  id="switch-advanced" />
+                <label class="mb-0" for="switch-advanced" translate="tools.debugsetting.advanced.button"></label>
               </div>
             </div>
           </div>
         </div>
+      </legend>
+    </fieldset>
+    <div class="row row-cols-1 row-cols-sm-1 g-4">
+      <div class="col">
+        @for (listOfSettings of settings; track listOfSettings) {
+          <div>
+            @if (hasBasicSettings(listOfSettings.ListOfSettings)) {
+              <div class="card">
+                <div
+                  class="card-header fw-bold"
+                  [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
+                <div class="card-body">
+                  <div class="card-text">
+                    <p [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></p>
+                  </div>
+                  <div class="card-text">
+                    <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center">
+                      @for (setting of listOfSettings.ListOfSettings; track setting) {
+                        @if (!setting.Advanced && setting.DataType === 'bool') {
+                          <app-debug-setting [setting]="setting" [advanced]="advanced"></app-debug-setting>
+                        }
+                      }
+                    </div>
+                    <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center mt-2">
+                      @for (setting of listOfSettings.ListOfSettings; track setting) {
+                        @if (!setting.Advanced && setting.DataType !== 'bool') {
+                          <app-debug-setting [setting]="setting" [advanced]="advanced"></app-debug-setting>
+                        }
+                      }
+                    </div>
+                    <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center mt-2">
+                      @for (setting of listOfSettings.ListOfSettings; track setting) {
+                        @if (setting.Advanced && setting.Advanced === advanced) {
+                          <app-debug-setting [setting]="setting" [advanced]="advanced"></app-debug-setting>
+                        }
+                      }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
       </div>
     </div>
-  </div>
-</form>
+  </form>
+}
 
 <ng-template #contentRestart let-modal>
   <div class="modal-header">
