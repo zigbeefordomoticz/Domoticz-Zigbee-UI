@@ -132,14 +132,15 @@
               routerLinkActive="active">
               <i class="fas fa-lightbulb me-2"></i> <span translate="tools.command"></span>
             </li>
-            <li
-              *ngIf="plugin?.Zigpy"
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              routerLink="/tools/configure"
-              routerLinkActive="active">
-              <i class="fas fa-user-cog me-2"></i> <span translate="tools.reporting.configure"></span>
-            </li>
+            @if (plugin?.Zigpy) {
+              <li
+                class="dropdown-item nav-item nav-link"
+                (click)="toggleMenu()"
+                routerLink="/tools/configure"
+                routerLinkActive="active">
+                <i class="fas fa-user-cog me-2"></i> <span translate="tools.reporting.configure"></span>
+              </li>
+            }
             <li
               class="dropdown-item nav-item nav-link"
               (click)="toggleMenu()"
@@ -163,49 +164,51 @@
             </li>
           </ul>
         </li>
-        <li
-          ngbDropdown
-          routerLinkActive="active"
-          class="nav-item dropdown test"
-          *ngIf="
-            showManufacturerCasaia || showManufacturerZlinky || showManufacturerGamma || showManufacturerChameleon
-          ">
-          <a class="nav-link nav-item dropdown-toggle" id="dropdown2" ngbDropdownToggle translate="manufacturer"></a>
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown2">
-            <li
-              *ngIf="showManufacturerCasaia"
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              routerLink="/manufacturer/casaia"
-              routerLinkActive="active">
-              <img style="width: 50%; height: 50%" src="assets/logo-casa.svg" />
-            </li>
-            <li
-              *ngIf="showManufacturerZlinky"
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              routerLink="/manufacturer/zlinky"
-              routerLinkActive="active">
-              <img style="width: 30%; height: 30%" src="https://lixee.fr/img/prestashop-logo-1599316711.jpg" />
-            </li>
-            <li
-              *ngIf="showManufacturerGamma"
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              routerLink="/manufacturer/gamma"
-              routerLinkActive="active">
-              <img style="width: 30%; height: 30%" src="https://gammatroniques.fr/images/shop/ticmeter/preview.webp" />
-            </li>
-            <li
-              *ngIf="showManufacturerChameleon"
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              routerLink="/manufacturer/chameleon"
-              routerLinkActive="active">
-              chameleon Technology
-            </li>
-          </ul>
-        </li>
+        @if (showManufacturerCasaia || showManufacturerZlinky || showManufacturerGamma || showManufacturerChameleon) {
+          <li ngbDropdown routerLinkActive="active" class="nav-item dropdown test">
+            <a class="nav-link nav-item dropdown-toggle" id="dropdown2" ngbDropdownToggle translate="manufacturer"></a>
+            <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown2">
+              @if (showManufacturerCasaia) {
+                <li
+                  class="dropdown-item nav-item nav-link"
+                  (click)="toggleMenu()"
+                  routerLink="/manufacturer/casaia"
+                  routerLinkActive="active">
+                  <img style="width: 50%; height: 50%" src="assets/logo-casa.svg" />
+                </li>
+              }
+              @if (showManufacturerZlinky) {
+                <li
+                  class="dropdown-item nav-item nav-link"
+                  (click)="toggleMenu()"
+                  routerLink="/manufacturer/zlinky"
+                  routerLinkActive="active">
+                  <img style="width: 30%; height: 30%" src="https://lixee.fr/img/prestashop-logo-1599316711.jpg" />
+                </li>
+              }
+              @if (showManufacturerGamma) {
+                <li
+                  class="dropdown-item nav-item nav-link"
+                  (click)="toggleMenu()"
+                  routerLink="/manufacturer/gamma"
+                  routerLinkActive="active">
+                  <img
+                    style="width: 30%; height: 30%"
+                    src="https://gammatroniques.fr/images/shop/ticmeter/preview.webp" />
+                </li>
+              }
+              @if (showManufacturerChameleon) {
+                <li
+                  class="dropdown-item nav-item nav-link"
+                  (click)="toggleMenu()"
+                  routerLink="/manufacturer/chameleon"
+                  routerLinkActive="active">
+                  chameleon Technology
+                </li>
+              }
+            </ul>
+          </li>
+        }
 
         <li ngbDropdown routerLinkActive="active" class="dropdown">
           <a class="nav-item nav-link mx-2" routerLink="/about" routerLinkActive="active">
@@ -215,36 +218,40 @@
         </li>
       </ul>
 
-      <div *ngIf="restart" class="navbar-nav ml-auto">
-        <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom">
-          <div class="me-3">
-            <a
-              class="nav-item nav-link mx-2"
-              [routerLink]="['/admin']"
-              [queryParams]="{ action: 'plugin' }"
-              routerLinkActive="active">
-              <i
-                ngbPopover="{{ 'header.popover.text' | translate }}"
-                triggers="mouseenter:mouseleave"
-                popoverTitle="{{ 'header.popover.title' | translate }}"
-                class="fa fa-2x fa-exclamation-circle blink"></i>
-            </a>
+      @if (restart) {
+        <div class="navbar-nav ml-auto">
+          <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom">
+            <div class="me-3">
+              <a
+                class="nav-item nav-link mx-2"
+                [routerLink]="['/admin']"
+                [queryParams]="{ action: 'plugin' }"
+                routerLinkActive="active">
+                <i
+                  ngbPopover="{{ 'header.popover.text' | translate }}"
+                  triggers="mouseenter:mouseleave"
+                  popoverTitle="{{ 'header.popover.title' | translate }}"
+                  class="fa fa-2x fa-exclamation-circle blink"></i>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-      <div *ngIf="logError" class="navbar-nav ml-auto">
-        <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom">
-          <div class="me-3">
-            <a class="nav-item nav-link mx-2" [routerLink]="['/tools/error']" routerLinkActive="active">
-              <i
-                ngbPopover="{{ 'error.popover.text' | translate }}"
-                triggers="mouseenter:mouseleave"
-                popoverTitle="{{ 'error.popover.title' | translate }}"
-                class="fa fa-2x fa-exclamation-triangle blink"></i>
-            </a>
+      }
+      @if (logError) {
+        <div class="navbar-nav ml-auto">
+          <div class="nav-item d-flex align-items-center border-left pl-5" ngbDropdown placement="bottom">
+            <div class="me-3">
+              <a class="nav-item nav-link mx-2" [routerLink]="['/tools/error']" routerLinkActive="active">
+                <i
+                  ngbPopover="{{ 'error.popover.text' | translate }}"
+                  triggers="mouseenter:mouseleave"
+                  popoverTitle="{{ 'error.popover.title' | translate }}"
+                  class="fa fa-2x fa-exclamation-triangle blink"></i>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      }
       <div class="d-none d-xl-block">
         <div class="navbar-nav ml-auto d-flex align-items-center">
           <div class="nav-item border-start ps-3">
@@ -259,9 +266,11 @@
                 ><img class="img-responsive" style="width: 1.25rem" src="assets/{{ currentFlag }}" />
               </a>
               <div ngbDropdownMenu aria-labelledby="language-dropdown">
-                <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
-                  <img class="img-responsive" style="width: 1.25rem" src="assets/{{ language.flag }}" />
-                </button>
+                @for (language of languages; track language) {
+                  <button class="dropdown-item" (click)="setLanguage(language)">
+                    <img class="img-responsive" style="width: 1.25rem" src="assets/{{ language.flag }}" />
+                  </button>
+                }
               </div>
             </div>
           </div>
@@ -280,9 +289,11 @@
               ><img class="img-responsive" style="width: 1.25rem" src="assets/{{ currentFlag }}" />
             </a>
             <div ngbDropdownMenu aria-labelledby="language-dropdown">
-              <button class="dropdown-item" *ngFor="let language of languages" (click)="setLanguage(language)">
-                <img class="img-responsive" style="width: 1.25rem" src="assets/{{ language.flag }}" />
-              </button>
+              @for (language of languages; track language) {
+                <button class="dropdown-item" (click)="setLanguage(language)">
+                  <img class="img-responsive" style="width: 1.25rem" src="assets/{{ language.flag }}" />
+                </button>
+              }
             </div>
           </div>
         </div>

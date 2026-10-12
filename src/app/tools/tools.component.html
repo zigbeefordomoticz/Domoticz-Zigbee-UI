@@ -19,11 +19,12 @@
     class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('coordinator')"
     translate="tools.tools.coordinator.infos.button"></button>
-  <button
-    *ngIf="logFile$ | async as logFile"
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="download(logFile)"
-    translate="tools.tools.log.button"></button>
+  @if (logFile$ | async; as logFile) {
+    <button
+      class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
+      (click)="download(logFile)"
+      translate="tools.tools.log.button"></button>
+  }
   <button
     class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
     (click)="onClick('infos')"
@@ -77,8 +78,9 @@
     (click)="onClick('chameleon-ticmeter')"
     translate="tools.tools.chameleon-ticmeter.button"></button>
 </div>
-<div class="row ms-2 mt-2" *ngIf="json" [hidden]="isLoading">
-  <button class="col-lg-1 mb-2 btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
-
-  <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
-</div>
+@if (json) {
+  <div class="row ms-2 mt-2" [hidden]="isLoading">
+    <button class="col-lg-1 mb-2 btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
+    <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
+  </div>
+}

@@ -30,71 +30,83 @@
         </div>
         <div class="row mt-2">
           <div class="col-sm-6">
-            <ng-select
-              *ngIf="form.get('deviceSelected').value && capabilities"
-              [items]="capabilities.Capabilities"
-              bindLabel="actuator"
-              [multiple]="false"
-              [closeOnSelect]="true"
-              [searchable]="true"
-              placeholder="{{ 'tools.debugcommand.action' | translate }}"
-              (change)="setAction($event)"
-              appendTo="body"
-              formControlName="action">
-            </ng-select>
+            @if (form.get('deviceSelected').value && capabilities) {
+              <ng-select
+                [items]="capabilities.Capabilities"
+                bindLabel="actuator"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                placeholder="{{ 'tools.debugcommand.action' | translate }}"
+                (change)="setAction($event)"
+                appendTo="body"
+                formControlName="action">
+              </ng-select>
+            }
           </div>
         </div>
         <div class="row mt-2">
           <div class="col-sm-6">
-            <ng-select
-              *ngIf="capaSelected && capaSelected.Type"
-              [items]="capabilities.Types"
-              [multiple]="false"
-              [closeOnSelect]="true"
-              [searchable]="true"
-              placeholder="{{ 'tools.debugcommand.type' | translate }}"
-              appendTo="body"
-              formControlName="type">
-            </ng-select>
+            @if (capaSelected && capaSelected.Type) {
+              <ng-select
+                [items]="capabilities.Types"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                [searchable]="true"
+                placeholder="{{ 'tools.debugcommand.type' | translate }}"
+                appendTo="body"
+                formControlName="type">
+              </ng-select>
+            }
           </div>
         </div>
-        <div class="row mt-2" *ngIf="capaSelected && testRGB">
-          <div class="col-sm-6">
-            <div>
-              <span
-                [style.background]="colorPicker"
-                [cpToggle]="true"
-                [cpDialogDisplay]="'inline'"
-                [(colorPicker)]="colorPicker"
-                [cpOutputFormat]="'rgba'"></span>
+        @if (capaSelected && testRGB) {
+          <div class="row mt-2">
+            <div class="col-sm-6">
+              <div>
+                <span
+                  [style.background]="colorPicker"
+                  [cpToggle]="true"
+                  [cpDialogDisplay]="'inline'"
+                  [(colorPicker)]="colorPicker"
+                  [cpOutputFormat]="'rgba'"></span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row mt-2" *ngIf="capaSelected && capaSelected.Value === 'hex'">
-          <div class="col-sm-6">
-            <div>
-              <input
-                type="text"
-                formControlName="effect"
-                placeholder="{{ 'tools.debugcommand.value' | translate }}"
-                class="w-100 form-control" />
-              <div *ngIf="form.controls['effect'].errors" translate="tools.debugcommand.effect.error"></div>
+        }
+        @if (capaSelected && capaSelected.Value === 'hex') {
+          <div class="row mt-2">
+            <div class="col-sm-6">
+              <div>
+                <input
+                  type="text"
+                  formControlName="effect"
+                  placeholder="{{ 'tools.debugcommand.value' | translate }}"
+                  class="w-100 form-control" />
+                @if (form.controls['effect'].errors) {
+                  <div translate="tools.debugcommand.effect.error"></div>
+                }
+              </div>
             </div>
           </div>
-        </div>
-        <div class="row mt-2" *ngIf="capaSelected && capaSelected.Value === 'int'">
-          <div class="col-sm-6">
-            <div>
-              <input
-                type="number"
-                min="0"
-                formControlName="level"
-                placeholder="{{ 'tools.debugcommand.value' | translate }}"
-                class="w-100 form-control" />
-              <div *ngIf="!form.controls['level'].valid" translate="tools.debugcommand.level.error"></div>
+        }
+        @if (capaSelected && capaSelected.Value === 'int') {
+          <div class="row mt-2">
+            <div class="col-sm-6">
+              <div>
+                <input
+                  type="number"
+                  min="0"
+                  formControlName="level"
+                  placeholder="{{ 'tools.debugcommand.value' | translate }}"
+                  class="w-100 form-control" />
+                @if (!form.controls['level'].valid) {
+                  <div translate="tools.debugcommand.level.error"></div>
+                }
+              </div>
             </div>
           </div>
-        </div>
+        }
       </div>
     </div>
     <div class="card-footer d-flex justify-content-end">

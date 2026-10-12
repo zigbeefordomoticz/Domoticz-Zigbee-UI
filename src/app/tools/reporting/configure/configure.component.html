@@ -41,11 +41,11 @@
             </ng-select>
           </div>
         </div>
-        <ng-container *ngIf="deviceSelected && clusters$ | async as clusters">
+        @if (deviceSelected && clusters$ | async; as clusters) {
           <app-configure-cluster-reporting
             (clustersChange)="onClustersChange($event)"
             [clusters]="clusters"></app-configure-cluster-reporting>
-        </ng-container>
+        }
       </div>
     </div>
   </div>

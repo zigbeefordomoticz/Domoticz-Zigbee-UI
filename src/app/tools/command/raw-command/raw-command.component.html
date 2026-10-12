@@ -12,9 +12,9 @@
                 formControlName="Command"
                 placeholder="{{ 'tools.rawcommand-zigate.command' | translate }}"
                 class="w-100 form-control" />
-              <div
-                *ngIf="form.controls['Command'].dirty && !form.controls['Command'].valid"
-                translate="tools.rawcommand-zigate.error"></div>
+              @if (form.controls['Command'].dirty && !form.controls['Command'].valid) {
+                <div translate="tools.rawcommand-zigate.error"></div>
+              }
             </div>
           </div>
         </div>
@@ -26,9 +26,9 @@
                 formControlName="payload"
                 placeholder="{{ 'tools.rawcommand-zigate.payload' | translate }}"
                 class="w-100 form-control" />
-              <div
-                *ngIf="form.controls['payload'].dirty && !form.controls['payload'].valid"
-                translate="tools.rawcommand-zigate.error"></div>
+              @if (form.controls['payload'].dirty && !form.controls['payload'].valid) {
+                <div translate="tools.rawcommand-zigate.error"></div>
+              }
             </div>
           </div>
         </div>

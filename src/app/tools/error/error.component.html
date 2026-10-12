@@ -8,8 +8,9 @@
     (click)="onClick('clear-error-history')"
     translate="tools.error.log-history.clear"></button>
 </div>
-<div class="row ms-2 mt-2" *ngIf="json" [hidden]="isLoading">
-  <button class="col-lg-1 mb-2 btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
-
-  <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
-</div>
+@if (json) {
+  <div class="row ms-2 mt-2" [hidden]="isLoading">
+    <button class="col-lg-1 mb-2 btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
+    <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
+  </div>
+}

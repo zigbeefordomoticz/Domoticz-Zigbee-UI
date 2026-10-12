@@ -1,22 +1,32 @@
 <ng-container [formGroupName]="setting.Name">
-  <div *ngIf="setting.DataType === 'str'" class="d-flex flex-row align-items-center flex-wrap mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
-    <input type="text" formControlName="current" class="w-25 form-control" />
-  </div>
-  <div *ngIf="setting.DataType === 'path'" class="d-flex flex-row align-items-center flex-wrap mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
-    <input type="text" formControlName="current" class="w-100 form-control" />
-  </div>
-  <div *ngIf="setting.DataType === 'int'" class="d-flex flex-row align-items-center flex-wrap mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
-    <input type="number" formControlName="current" class="form-control w-25" />
-  </div>
-  <div *ngIf="setting.DataType === 'hex'" class="d-flex flex-row align-items-center flex-wrap mt-2">
-    <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
-    <input type="text" formControlName="current" class="w-25 form-control" />
-  </div>
-  <div *ngIf="setting.DataType === 'bool'" class="form-check form-check-inline mt-2">
-    <input formControlName="current" type="checkbox" class="form-check-input" id="{{ setting.Name }}" />
-    <label class="form-check-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
-  </div>
+  @if (setting.DataType === 'str') {
+    <div class="d-flex flex-row align-items-center flex-wrap mt-2">
+      <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
+      <input type="text" formControlName="current" class="w-25 form-control" />
+    </div>
+  }
+  @if (setting.DataType === 'path') {
+    <div class="d-flex flex-row align-items-center flex-wrap mt-2">
+      <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
+      <input type="text" formControlName="current" class="w-100 form-control" />
+    </div>
+  }
+  @if (setting.DataType === 'int') {
+    <div class="d-flex flex-row align-items-center flex-wrap mt-2">
+      <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
+      <input type="number" formControlName="current" class="form-control w-25" />
+    </div>
+  }
+  @if (setting.DataType === 'hex') {
+    <div class="d-flex flex-row align-items-center flex-wrap mt-2">
+      <label for="current" translate="{{ setting.Name }}" class="me-2"></label>
+      <input type="text" formControlName="current" class="w-25 form-control" />
+    </div>
+  }
+  @if (setting.DataType === 'bool') {
+    <div class="form-check form-check-inline mt-2">
+      <input formControlName="current" type="checkbox" class="form-check-input" id="{{ setting.Name }}" />
+      <label class="form-check-label" for="{{ setting.Name }}" translate="{{ setting.Name }}"></label>
+    </div>
+  }
 </ng-container>
