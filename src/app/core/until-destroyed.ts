@@ -36,7 +36,11 @@ const untilDestroyedSymbol = Symbol('untilDestroyed');
  */
 export function untilDestroyed(instance: object, destroyMethodName: string = 'ngOnDestroy') {
   return <T>(source: Observable<T>) => {
-    const originalDestroy = instance[destroyMethodName];
+    // This operator hooks the instance's destroy method and stashes a Subject on
+    // the instance itself, so the access is dynamic by design. TypeScript 5.5
+    // rejects indexing `object`, hence the local view onto it.
+    const target = instance as Record<string | symbol, any>;
+    const originalDestroy = target[destroyMethodName];
     const hasDestroyFunction = typeof originalDestroy === 'function';
 
     if (!hasDestroyFunction) {
@@ -45,19 +49,19 @@ export function untilDestroyed(instance: object, destroyMethodName: string = 'ng
       );
     }
 
-    if (!instance[untilDestroyedSymbol]) {
-      instance[untilDestroyedSymbol] = new Subject();
+    if (!target[untilDestroyedSymbol]) {
+      target[untilDestroyedSymbol] = new Subject();
 
-      instance[destroyMethodName] = function () {
+      target[destroyMethodName] = function () {
         if (hasDestroyFunction) {
           // eslint-disable-next-line prefer-rest-params
           originalDestroy.apply(this, arguments);
         }
-        instance[untilDestroyedSymbol].next();
-        instance[untilDestroyedSymbol].complete();
+        target[untilDestroyedSymbol].next();
+        target[untilDestroyedSymbol].complete();
       };
     }
 
-    return source.pipe(takeUntil<T>(instance[untilDestroyedSymbol]));
+    return source.pipe(takeUntil<T>(target[untilDestroyedSymbol]));
   };
 }

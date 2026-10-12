@@ -207,7 +207,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   test(series: any) {
     const colors = Highcharts.getOptions().colors;
     let i = 0;
-    const nodes = {};
+    const nodes: Record<string, any> = {};
 
     nodes['Zigbee Coordinator'] = {
       id: 'Zigbee Coordinator',
