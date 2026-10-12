@@ -7,7 +7,7 @@ import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import Lara from '@primeng/themes/lara';
+import Lara from '@primeuix/themes/lara';
 import { ToastrModule } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +40,8 @@ import { ShellModule } from './shell/shell.module';
     // PrimeNG 19 removed the prebuilt CSS themes under primeng/resources that
     // main.scss used to import, in favour of styled mode generated from a
     // preset. Lara is the same family as the previous lara-light-blue theme.
+    // The preset package was @primeng/themes for PrimeNG 19 and is
+    // @primeuix/themes from PrimeNG 20 on; 1.2.x matches primeng 20.4.
     // cssLayer keeps the `@layer bootstrap, primeng` ordering main.scss
     // declares, so Bootstrap cannot override PrimeNG.
     providePrimeNG({

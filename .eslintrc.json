@@ -23,6 +23,13 @@
         // would strip them and break the build. Converting to standalone is a
         // separate project; see AGENTS.md.
         "@angular-eslint/prefer-standalone": "off",
+        // Off for the same reason as prefer-standalone above: angular-eslint 20
+        // turns this on by default and it reports 173 constructor injection
+        // sites. Converting them to inject() is a codebase-wide style refactor
+        // with its own review burden, not part of an Angular version bump. The
+        // schematic to do it is `ng generate @angular/core:inject` if it is
+        // ever taken on as its own change.
+        "@angular-eslint/prefer-inject": "off",
         "@angular-eslint/component-class-suffix": [
           "error",
           {
