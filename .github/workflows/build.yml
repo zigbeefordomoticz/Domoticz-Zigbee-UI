@@ -3,10 +3,23 @@ name: Build
 on:
   push:
     branches: beta
+  pull_request:
+    branches: beta
+
+# Let a newer run supersede an in-flight one on pull requests, but never
+# cancel a push to beta: that run is the one that deploys.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # contents: write is needed by the Deploy step to push to gh-pages. On a
+    # pull request from a fork GitHub forces the token read-only regardless,
+    # and the Deploy step does not run on pull requests at all.
+    permissions:
+      contents: write
     strategy:
       matrix:
         node-version:
@@ -20,12 +33,20 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: npm
 
-      - name: npm run build prod
-        run: |
-          npm ci --ignore-scripts
-          npm run build
+      - name: npm ci
+        run: npm ci --ignore-scripts
 
+      - name: npm run lint
+        run: npm run lint
+
+      - name: npm run build prod
+        run: npm run build
+
+      # Deploy only from a push to beta. A pull request builds and lints, and
+      # stops here. dist is already on disk from the step above, so this is the
+      # same deploy the workflow has always done.
       - name: Deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/beta'
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           branch: gh-pages

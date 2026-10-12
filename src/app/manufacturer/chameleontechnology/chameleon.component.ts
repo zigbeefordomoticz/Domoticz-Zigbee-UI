@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { Chameleon } from '@app/shared/models/chameleon';
-import { Gamma, ParameterForDisplay } from '@app/shared/models/gamma';
+import { ParameterForDisplay } from '@app/shared/models/gamma';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, map } from 'rxjs';
