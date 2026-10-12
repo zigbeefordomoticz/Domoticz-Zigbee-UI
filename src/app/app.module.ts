@@ -1,5 +1,4 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,7 +35,10 @@ import { ShellModule } from './shell/shell.module';
     AppRoutingModule
   ],
   providers: [
-    provideHttpClient(withInterceptorsFromDi()),
+    // Deliberately no provideHttpClient() here. CoreModule provides it, ahead
+    // of its HttpClient -> HttpService override; calling it again in this
+    // module would be flattened afterwards and silently win, dropping the API
+    // prefix interceptor. See the comment in core.module.ts.
     // PrimeNG 19 removed the prebuilt CSS themes under primeng/resources that
     // main.scss used to import, in favour of styled mode generated from a
     // preset. Lara is the same family as the previous lara-light-blue theme.

@@ -19,6 +19,14 @@ import { RouteReusableStrategy } from './route-reusable-strategy';
     ApiPrefixInterceptor,
     ErrorHandlerInterceptor,
     CacheInterceptor,
+    // provideHttpClient MUST come before the HttpClient override below, and
+    // AppModule must not call it at all. It supplies its own HttpClient, so
+    // whichever provider is flattened last wins. HttpService is the one that
+    // chains ApiPrefixInterceptor; if Angular's plain HttpClient wins instead,
+    // every request loses its /rest-z4d/1 prefix, hits the SPA fallback and
+    // fails with "Http failure during parsing" on a 200 that is really
+    // index.html. This is not hypothetical -- it shipped that way.
+    provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HttpClient,
       useClass: HttpService
@@ -26,8 +34,7 @@ import { RouteReusableStrategy } from './route-reusable-strategy';
     {
       provide: RouteReuseStrategy,
       useClass: RouteReusableStrategy
-    },
-    provideHttpClient(withInterceptorsFromDi())
+    }
   ]
 })
 export class CoreModule {
