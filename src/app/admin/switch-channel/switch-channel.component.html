@@ -2,23 +2,25 @@
   <div class="card-header fw-bold" translate="admin.coordinator.switchchannel.title"></div>
   <div class="card-body">
     <p class="card-text" [innerHTML]="'admin.coordinator.switchchannel.subtitle' | translate"></p>
-    <div *ngIf="channel" class="form-group row mt-2">
-      <label
-        for="current"
-        translate="admin.coordinator.switchchannel.placeholder"
-        class="col-sm-6 col-form-label"></label>
-      <div class="col-sm">
-        <ng-select
-          [items]="list"
-          [compareWith]="compareNumeric"
-          bindLabel="label"
-          bindValue="value"
-          [closeOnSelect]="true"
-          [(ngModel)]="selectedChannel">
-          >
-        </ng-select>
+    @if (channel) {
+      <div class="form-group row mt-2">
+        <label
+          for="current"
+          translate="admin.coordinator.switchchannel.placeholder"
+          class="col-sm-6 col-form-label"></label>
+        <div class="col-sm">
+          <ng-select
+            [items]="list"
+            [compareWith]="compareNumeric"
+            bindLabel="label"
+            bindValue="value"
+            [closeOnSelect]="true"
+            [(ngModel)]="selectedChannel">
+            >
+          </ng-select>
+        </div>
       </div>
-    </div>
+    }
   </div>
   <div class="card-footer d-flex justify-content-end">
     <button

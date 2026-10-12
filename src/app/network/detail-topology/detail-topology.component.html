@@ -1,130 +1,136 @@
 <div class="row row-cols-1 row-cols-lg-2 g-4 mt-1">
   <div class="col">
-    <div class="card" *ngIf="chart1">
-      <div class="card-header fw-bold" translate="network.topo.visu.header"></div>
-      <div class="card-body">
-        <p class="card-text" [innerHTML]="'network.topo.visu.subtitle' | translate"></p>
-        <div class="card-text" [chart]="chart1"></div>
+    @if (chart1) {
+      <div class="card">
+        <div class="card-header fw-bold" translate="network.topo.visu.header"></div>
+        <div class="card-body">
+          <p class="card-text" [innerHTML]="'network.topo.visu.subtitle' | translate"></p>
+          <div class="card-text" [chart]="chart1"></div>
+        </div>
       </div>
-    </div>
+    }
   </div>
   <div class="col">
-    <div class="card" *ngIf="chart2">
-      <div class="card-header fw-bold" translate="network.topo.visu.network.header"></div>
-      <div class="card-body">
-        <p class="card-text" [innerHTML]="'network.topo.visu.network.subtitle' | translate"></p>
-        <div class="card-text">
-          <div>
-            <form [formGroup]="form">
-              <input type="hidden" formControlName="detail" id="detail" />
-              <ng-select
-                [items]="devices"
-                [multiple]="false"
-                [closeOnSelect]="true"
-                [searchable]="true"
-                bindLabel="ZDeviceName"
-                bindValue="ZDeviceName"
-                placeholder="{{ 'network.topo.visu.network.filter' | translate }}"
-                appendTo="body"
-                formControlName="nodeToFilter">
-                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                  <span>
-                    <b>Name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Model</b> :
-                    {{ item.Model }}
-                  </span>
-                </ng-template>
-              </ng-select>
-            </form>
-          </div>
-          <div [chart]="chart2"></div>
-          <div class="row" *ngIf="relationsSelected">
-            <div class="col">
-              <div class="card">
-                <div
-                  class="card-header fw-bold"
-                  translate="network.topo.visu.network.relation.header"
-                  [translateParams]="{ deviceSelected: selectedPoint.name }"></div>
-                <div class="card-body">
-                  <p class="card-text" [innerHTML]="'network.topo.visu.network.relation.subtitle' | translate"></p>
-                  <div class="card-text">
-                    <p-table
-                      #dt1
-                      [rowHover]="true"
-                      styleClass="p-datatable-sm"
-                      responsiveLayout="scroll"
-                      [showCurrentPageReport]="true"
-                      currentPageReportTemplate="{{ 'TOTAL' | translate }}"
-                      [rowsPerPageOptions]="[10, 25, 50]"
-                      [value]="relationsSelected"
-                      [rows]="10"
-                      [paginator]="true"
-                      [scrollable]="true"
-                      stateStorage="local"
-                      stateKey="topology">
-                      <ng-template pTemplate="header" let-columns>
-                        <tr>
-                          <th pSortableColumn="to">
-                            {{ 'network.topo.visu.network.relation.to' | translate
-                            }}<p-sortIcon field="to"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="weight">
-                            {{ 'network.topo.visu.network.relation.weight' | translate
-                            }}<p-sortIcon field="weight"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="Model" style="width: 8rem">
-                            {{ 'network.topo.visu.network.relation.model' | translate
-                            }}<p-sortIcon field="Model"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="Status" style="width: 10rem">
-                            {{ 'network.topo.visu.network.relation.status' | translate
-                            }}<p-sortIcon field="Status"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="Health">
-                            {{ 'network.topo.visu.network.relation.health' | translate
-                            }}<p-sortIcon field="Health"></p-sortIcon>
-                          </th>
-                          <th pSortableColumn="Battery">
-                            {{ 'network.topo.visu.network.relation.battery' | translate
-                            }}<p-sortIcon field="Battery"></p-sortIcon>
-                          </th>
-                        </tr>
-                      </ng-template>
-                      <ng-template
-                        pTemplate="body"
-                        let-editing="editing"
-                        let-row
-                        let-rowIndex="rowIndex"
-                        let-columns="columns"
-                        let-expanded="expanded">
-                        <tr>
-                          <td>
-                            {{ row.to }}
-                          </td>
-                          <td>
-                            {{ row.weight }}
-                          </td>
-                          <td>
-                            {{ row.Model }}
-                          </td>
-                          <td>
-                            {{ row.Status }}
-                          </td>
-                          <td>
-                            {{ row.Health }}
-                          </td>
-                          <td>
-                            {{ row.Battery }}
-                          </td>
-                        </tr></ng-template
-                      >
-                    </p-table>
+    @if (chart2) {
+      <div class="card">
+        <div class="card-header fw-bold" translate="network.topo.visu.network.header"></div>
+        <div class="card-body">
+          <p class="card-text" [innerHTML]="'network.topo.visu.network.subtitle' | translate"></p>
+          <div class="card-text">
+            <div>
+              <form [formGroup]="form">
+                <input type="hidden" formControlName="detail" id="detail" />
+                <ng-select
+                  [items]="devices"
+                  [multiple]="false"
+                  [closeOnSelect]="true"
+                  [searchable]="true"
+                  bindLabel="ZDeviceName"
+                  bindValue="ZDeviceName"
+                  placeholder="{{ 'network.topo.visu.network.filter' | translate }}"
+                  appendTo="body"
+                  formControlName="nodeToFilter">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    <span>
+                      <b>Name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Model</b> :
+                      {{ item.Model }}
+                    </span>
+                  </ng-template>
+                </ng-select>
+              </form>
+            </div>
+            <div [chart]="chart2"></div>
+            @if (relationsSelected) {
+              <div class="row">
+                <div class="col">
+                  <div class="card">
+                    <div
+                      class="card-header fw-bold"
+                      translate="network.topo.visu.network.relation.header"
+                      [translateParams]="{ deviceSelected: selectedPoint.name }"></div>
+                    <div class="card-body">
+                      <p class="card-text" [innerHTML]="'network.topo.visu.network.relation.subtitle' | translate"></p>
+                      <div class="card-text">
+                        <p-table
+                          #dt1
+                          [rowHover]="true"
+                          styleClass="p-datatable-sm"
+                          responsiveLayout="scroll"
+                          [showCurrentPageReport]="true"
+                          currentPageReportTemplate="{{ 'TOTAL' | translate }}"
+                          [rowsPerPageOptions]="[10, 25, 50]"
+                          [value]="relationsSelected"
+                          [rows]="10"
+                          [paginator]="true"
+                          [scrollable]="true"
+                          stateStorage="local"
+                          stateKey="topology">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th pSortableColumn="to">
+                                {{ 'network.topo.visu.network.relation.to' | translate
+                                }}<p-sortIcon field="to"></p-sortIcon>
+                              </th>
+                              <th pSortableColumn="weight">
+                                {{ 'network.topo.visu.network.relation.weight' | translate
+                                }}<p-sortIcon field="weight"></p-sortIcon>
+                              </th>
+                              <th pSortableColumn="Model" style="width: 8rem">
+                                {{ 'network.topo.visu.network.relation.model' | translate
+                                }}<p-sortIcon field="Model"></p-sortIcon>
+                              </th>
+                              <th pSortableColumn="Status" style="width: 10rem">
+                                {{ 'network.topo.visu.network.relation.status' | translate
+                                }}<p-sortIcon field="Status"></p-sortIcon>
+                              </th>
+                              <th pSortableColumn="Health">
+                                {{ 'network.topo.visu.network.relation.health' | translate
+                                }}<p-sortIcon field="Health"></p-sortIcon>
+                              </th>
+                              <th pSortableColumn="Battery">
+                                {{ 'network.topo.visu.network.relation.battery' | translate
+                                }}<p-sortIcon field="Battery"></p-sortIcon>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template
+                            pTemplate="body"
+                            let-editing="editing"
+                            let-row
+                            let-rowIndex="rowIndex"
+                            let-columns="columns"
+                            let-expanded="expanded">
+                            <tr>
+                              <td>
+                                {{ row.to }}
+                              </td>
+                              <td>
+                                {{ row.weight }}
+                              </td>
+                              <td>
+                                {{ row.Model }}
+                              </td>
+                              <td>
+                                {{ row.Status }}
+                              </td>
+                              <td>
+                                {{ row.Health }}
+                              </td>
+                              <td>
+                                {{ row.Battery }}
+                              </td>
+                            </tr></ng-template
+                          >
+                        </p-table>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            }
           </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>

@@ -8,7 +8,8 @@ import { Observable, map } from 'rxjs';
 @Component({
   selector: 'app-manufacturer-zlinky',
   templateUrl: './zlinky.component.html',
-  styleUrls: ['./zlinky.component.scss']
+  styleUrls: ['./zlinky.component.scss'],
+  standalone: false
 })
 export class ZlinkyComponent implements OnInit {
   zlinkys$: Observable<Zlinky[]>;

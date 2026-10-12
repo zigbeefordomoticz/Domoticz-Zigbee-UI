@@ -12,7 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
       provide: ControlContainer,
       useExisting: FormGroupDirective
     }
-  ]
+  ],
+  standalone: false
 })
 export class SettingComponent implements OnChanges {
   @Input() setting: Setting;

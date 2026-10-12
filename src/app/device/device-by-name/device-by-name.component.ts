@@ -12,7 +12,8 @@ const log = new Logger('DeviceByNameComponent');
 @Component({
   selector: 'app-device-by-name',
   templateUrl: './device-by-name.component.html',
-  styleUrls: ['./device-by-name.component.scss']
+  styleUrls: ['./device-by-name.component.scss'],
+  standalone: false
 })
 export class DeviceByNameComponent implements OnChanges {
   @Input() devices: DeviceByName[];
@@ -90,11 +91,11 @@ export class DeviceByNameComponent implements OnChanges {
     });
   }
 
-  updateValue(event: any, col: string, nwkId: string) {
+  updateValue<K extends keyof DeviceByName>(event: any, col: K, nwkId: string) {
     this.updateValueJson(event.target.value, col, nwkId);
   }
 
-  private updateValueJson(value: any, col: string, nwkId: string): void {
+  private updateValueJson<K extends keyof DeviceByName>(value: DeviceByName[K], col: K, nwkId: string): void {
     this.hasEditing = true;
     const rowUpdated = this.rows.find((row: any) => row._NwkId === nwkId);
     if (rowUpdated) {

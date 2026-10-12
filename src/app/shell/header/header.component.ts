@@ -15,7 +15,8 @@ import { Setting } from '../../shared/models/setting';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  standalone: false
 })
 export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   menuHidden = true;

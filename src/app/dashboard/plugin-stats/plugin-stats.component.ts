@@ -8,7 +8,8 @@ import { Chart } from 'angular-highcharts';
 @Component({
   selector: 'app-plugin-stats',
   templateUrl: './plugin-stats.component.html',
-  styleUrls: ['./plugin-stats.component.scss']
+  styleUrls: ['./plugin-stats.component.scss'],
+  standalone: false
 })
 export class PluginStatsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   plugin: PluginStats;

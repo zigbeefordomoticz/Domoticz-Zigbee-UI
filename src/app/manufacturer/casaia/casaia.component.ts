@@ -7,7 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-manufacturer-casaia',
   templateUrl: './casaia.component.html',
-  styleUrls: ['./casaia.component.scss']
+  styleUrls: ['./casaia.component.scss'],
+  standalone: false
 })
 export class CasaiaComponent implements OnInit {
   rows: CasaiaDevice[];

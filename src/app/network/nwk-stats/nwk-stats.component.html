@@ -1,38 +1,48 @@
 <div class="row row-cols-1 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
   <div class="col">
-    <div class="card" *ngIf="stats$ | async as stats">
-      <div class="card-header fw-bold" translate="network.stats.header"></div>
-      <div class="card-body">
-        <p class="card-text" [innerHTML]="'network.stats.subtitle' | translate"></p>
-        <div class="card-text">
-          <div class="vertical-container">
-            <div class="content-container">
-              <ng-scrollbar class="scroll-container">
-                <div class="scrollable-content">
-                  <span class="row d-flex align-items-center" *ngFor="let stat of stats | keyvalue: sortDesc">
-                    <div class="col-sm">
-                      <button class="btn btn-light" (click)="nwkStatByDate(stat.value)">
-                        {{ stat.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
-                      </button>
-                    </div>
-                    <div class="col-sm">
-                      <button
-                        class="btn btn-light"
-                        title="{{ 'network.stats.visu.delete.button' | translate }}"
-                        (click)="deleteNwkStatByDate(stat.value)">
-                        <i class="fa fa-trash"></i>
-                      </button>
-                    </div>
-                  </span>
-                </div>
-              </ng-scrollbar>
+    @if (stats$ | async; as stats) {
+      <div class="card">
+        <div class="card-header fw-bold" translate="network.stats.header"></div>
+        <div class="card-body">
+          <p class="card-text" [innerHTML]="'network.stats.subtitle' | translate"></p>
+          <div class="card-text">
+            <div class="vertical-container">
+              <div class="content-container">
+                <ng-scrollbar class="scroll-container">
+                  <div class="scrollable-content">
+                    @for (stat of stats | keyvalue: sortDesc; track stat) {
+                      <span class="row d-flex align-items-center">
+                        <div class="col-sm">
+                          <button class="btn btn-light" (click)="nwkStatByDate(stat.value)">
+                            {{ stat.value * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }}
+                          </button>
+                        </div>
+                        <div class="col-sm">
+                          <button
+                            class="btn btn-light"
+                            title="{{ 'network.stats.visu.delete.button' | translate }}"
+                            (click)="deleteNwkStatByDate(stat.value)">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </div>
+                      </span>
+                    }
+                  </div>
+                </ng-scrollbar>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    }
   </div>
   <div class="col"><app-req-network-inter></app-req-network-inter></div>
-  <div class="col"><app-req-network-full *ngIf="!plugin?.Zigpy"></app-req-network-full></div>
+  <div class="col">
+    @if (!plugin?.Zigpy) {
+      <app-req-network-full></app-req-network-full>
+    }
+  </div>
 </div>
-<div *ngIf="timeStamp"><app-detail-nwk-stat [timeStamp]="timeStamp"></app-detail-nwk-stat></div>
+@if (timeStamp) {
+  <div><app-detail-nwk-stat [timeStamp]="timeStamp"></app-detail-nwk-stat></div>
+}

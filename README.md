@@ -3,7 +3,7 @@
 # Zigbee for Domoticz — Web UI
 
 The web user interface for the [Zigbee for Domoticz](https://github.com/zigbeefordomoticz/Domoticz-Zigbee)
-plugin: an Angular single-page application for managing a Zigbee network from
+plugin: an Angular 21 single-page application for managing a Zigbee network from
 Domoticz — devices, groups, topology, firmware updates over the air, plugin
 settings and diagnostics.
 
@@ -32,8 +32,8 @@ plugin serves the UI from.
 
 ## Requirements
 
-- **Node.js 20** — the version CI builds with. Angular 17 does not support
-  newer majors, so Node 22/24 may fail to build locally.
+- **Node.js 22** — the version CI builds with. Angular 21 requires
+  `^20.19.0 || ^22.12.0 || >=24.0.0`; Node 20 reached end of life in April 2026.
 - npm 10 or later.
 
 ## Getting started
@@ -61,14 +61,14 @@ yours. Please avoid committing your own address back.
 
 ## Scripts
 
-| Command | What it does |
-| --- | --- |
-| `npm start` | Dev server on port 4200 with the API proxy |
-| `npm run build` | Production build to `dist/` with `--base-href /z4d/` |
-| `npm run lint` | `ng lint` (ESLint) plus `stylelint` over `src/**/*.scss` |
-| `npm run prettier` | Format `src/**/*.{ts,js,html,scss}` |
-| `npm run prettier:check` | List files that would be reformatted |
-| `npm run serve:sw` | Production build served statically on port 4200 |
+| Command                  | What it does                                             |
+| ------------------------ | -------------------------------------------------------- |
+| `npm start`              | Dev server on port 4200 with the API proxy               |
+| `npm run build`          | Production build to `dist/` with `--base-href /z4d/`     |
+| `npm run lint`           | `ng lint` (ESLint) plus `stylelint` over `src/**/*.scss` |
+| `npm run prettier`       | Format `src/**/*.{ts,js,html,scss}`                      |
+| `npm run prettier:check` | List files that would be reformatted                     |
+| `npm run serve:sw`       | Production build served statically on port 4200          |
 
 `npm test` and `npm run test:ci` are declared in `package.json` but **do not
 work**: there are no `.spec.ts` files and `angular.json` defines no `test`

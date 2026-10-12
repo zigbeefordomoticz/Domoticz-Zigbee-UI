@@ -6,11 +6,11 @@ on:
   pull_request:
     branches: beta
 
-# Let a newer run supersede an in-flight one on pull requests, but never
-# cancel a push to beta: that run is the one that deploys.
+# Let a newer run supersede an in-flight one, but never cancel a push to beta:
+# that run is the one that deploys.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: ${{ !(github.event_name == 'push' && github.ref == 'refs/heads/beta') }}
 
 jobs:
   build-and-deploy:
@@ -23,7 +23,9 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 20
+          # Angular 21 requires ^20.19.0 || ^22.12.0 || >=24.0.0, and Node 20
+          # reached end of life on 2026-04-30.
+          - 22
     steps:
       - uses: actions/checkout@v4
 

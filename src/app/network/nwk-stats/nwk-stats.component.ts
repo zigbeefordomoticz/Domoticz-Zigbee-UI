@@ -8,7 +8,8 @@ import { sortDesc } from '../../shared/fonction';
 @Component({
   selector: 'app-nwk-stats',
   templateUrl: './nwk-stats.component.html',
-  styleUrls: ['./nwk-stats.component.scss']
+  styleUrls: ['./nwk-stats.component.scss'],
+  standalone: false
 })
 export class NwkStatsComponent implements OnInit {
   stats$: Observable<Array<string>>;

@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-raw-command-zigpy',
   templateUrl: './raw-command-zigpy.component.html',
-  styleUrls: ['./raw-command-zigpy.component.scss']
+  styleUrls: ['./raw-command-zigpy.component.scss'],
+  standalone: false
 })
 export class RawCommandZigpyComponent implements OnInit {
   devices$: Observable<DeviceByName[]>;

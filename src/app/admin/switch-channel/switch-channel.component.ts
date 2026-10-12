@@ -7,7 +7,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-switch-channel',
   templateUrl: './switch-channel.component.html',
-  styleUrls: ['./switch-channel.component.scss']
+  styleUrls: ['./switch-channel.component.scss'],
+  standalone: false
 })
 export class SwitchChannelComponent implements OnInit {
   settings: Array<Settings>;

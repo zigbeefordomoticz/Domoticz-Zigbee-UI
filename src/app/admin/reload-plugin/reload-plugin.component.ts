@@ -8,7 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-reload-plugin',
   templateUrl: './reload-plugin.component.html',
-  styleUrls: ['./reload-plugin.component.scss']
+  styleUrls: ['./reload-plugin.component.scss'],
+  standalone: false
 })
 export class ReloadPluginComponent {
   constructor(

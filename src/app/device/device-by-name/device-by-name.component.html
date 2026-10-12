@@ -37,7 +37,7 @@
                 pInputText
                 type="text"
                 (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                [value]="dt1.filters['global']?.['value']"
+                [value]="$any(dt1.filters['global'])?.value"
                 placeholder="{{ 'device.byname.placeholder' | translate }}" />
             </span>
           </div>
@@ -96,28 +96,30 @@
           let-expanded="expanded">
           <tr>
             <td>
-              <button
-                *ngIf="row.Param !== '{}'"
-                type="button"
-                pButton
-                pRipple
-                [pRowToggler]="row"
-                class="p-button-text p-button-rounded p-button-plain"
-                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-              <i
-                *ngIf="
-                  row.ConsistencyCheck === 'not in DZ' ||
-                  row.ConsistencyCheck === 'Bad Pairing' ||
-                  !row.WidgetList ||
-                  row.WidgetList.length === 0
-                "
-                class="fa fa-trash"
-                style="cursor: pointer"
-                title="{{ 'device.byname.delete.colum' | translate }}"
-                (click)="rowToDelete = row; open(content)"></i>
+              @if (row.Param !== '{}') {
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  [pRowToggler]="row"
+                  class="p-button-text p-button-rounded p-button-plain"
+                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+              }
+              @if (
+                row.ConsistencyCheck === 'not in DZ' ||
+                row.ConsistencyCheck === 'Bad Pairing' ||
+                !row.WidgetList ||
+                row.WidgetList.length === 0
+              ) {
+                <i
+                  class="fa fa-trash"
+                  style="cursor: pointer"
+                  title="{{ 'device.byname.delete.colum' | translate }}"
+                  (click)="rowToDelete = row; open(content)"></i>
+              }
             </td>
             <td>
-              <ng-container *ngIf="row.CertifiedDevice">
+              @if (row.CertifiedDevice) {
                 <div (click)="copy(row)">
                   <div class="container">
                     <shared-custom-icon
@@ -129,8 +131,8 @@
                     </shared-custom-icon>
                   </div>
                 </div>
-              </ng-container>
-              <ng-container *ngIf="!row.CertifiedDevice">
+              }
+              @if (!row.CertifiedDevice) {
                 <div (click)="copy(row)">
                   <div class="container">
                     <shared-custom-icon
@@ -142,15 +144,17 @@
                     </shared-custom-icon>
                   </div>
                 </div>
-              </ng-container>
+              }
             </td>
             <td>{{ row._NwkId }}</td>
             <td>{{ row.IEEE }}</td>
             <td>{{ row.Model }}</td>
             <td>
-              <div *ngFor="let widget of row.WidgetList">
-                {{ widget }}
-              </div>
+              @for (widget of row.WidgetList; track widget) {
+                <div>
+                  {{ widget }}
+                </div>
+              }
             </td>
             <td [pEditableColumn]="row.ZDeviceName" pEditableColumnField="ZDeviceName">
               <p-cellEditor>
@@ -163,9 +167,11 @@
               </p-cellEditor>
             </td>
             <td>
-              <div *ngFor="let capa of row.MacCapa">
-                {{ capa }}
-              </div>
+              @for (capa of row.MacCapa; track capa) {
+                <div>
+                  {{ capa }}
+                </div>
+              }
             </td>
             <td>{{ row.LQI }}</td>
             @if (showRSSI) {

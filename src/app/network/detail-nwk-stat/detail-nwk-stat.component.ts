@@ -12,7 +12,8 @@ import { NwkStat } from '../../shared/models/nwk';
 @Component({
   selector: 'app-detail-nwk-stat',
   templateUrl: './detail-nwk-stat.component.html',
-  styleUrls: ['./detail-nwk-stat.component.scss']
+  styleUrls: ['./detail-nwk-stat.component.scss'],
+  standalone: false
 })
 export class DetailNwkStatComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges {
   @Input() timeStamp: string;
