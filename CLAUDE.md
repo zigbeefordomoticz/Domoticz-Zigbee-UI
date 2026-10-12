@@ -94,6 +94,25 @@ npm install
 **Node.js 20.** Angular 17 does not support newer majors; CI builds on 20, and
 Node 22/24 may fail locally.
 
+> **A local build's output is not comparable to CI's.** On a newer Node the
+> toolchain still builds, but it emits different `main.js` and `runtime.js` than
+> Node 20 does. Lint and compile errors are reproduced faithfully; the emitted
+> bundle is not.
+>
+> So never answer a question about *deployed* output by diffing a local `dist/`
+> against the `gh-pages` branch — the Node version alone will make the hashes
+> differ, and it looks exactly like a real change. This mistake was made in
+> #246: a Node 24 local build was compared against the live Node 20 output, the
+> differing `main.js`/`runtime.js` hashes were attributed to the dependency
+> bump, and the pull request shipped a confident warning that the change was
+> "not deployment-neutral". The deploy then reported `There is nothing to
+> commit` — CI's output was byte-identical and nothing reached users. See the
+> correction comment on #246.
+>
+> The authoritative check is the `Deploy` step's own log on a push to `beta`:
+> `There is nothing to commit` means the bundle did not change, and a new
+> `gh-pages` commit means it did.
+
 ### Point the dev proxy at a plugin
 
 `npm start` will not return useful data until `proxy.conf.js` targets a running
