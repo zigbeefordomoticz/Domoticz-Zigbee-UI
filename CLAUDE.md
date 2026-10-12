@@ -323,6 +323,70 @@ Read this before touching `package.json`.
 - **Never move an Angular-coupled package on its own.** The set moves together
   or not at all.
 
+### Why the development-scope advisories are stuck too
+
+The bullet above says the Angular advisories are not fixable by a bump. The
+development-scope ones are not either, for a less obvious reason. Read this
+before spending an afternoon on `.github/dependabot.yml`.
+
+`@angular-devkit/build-angular@17.3.17` declares **exact versions**, not ranges,
+for most of the packages carrying open advisories:
+
+| Package | build-angular 17.3.17 declares | Fix needs |
+| --- | --- | --- |
+| `esbuild` | `0.20.1` (exact) | 0.28.1 |
+| `piscina` | `4.4.0` (exact) | 5.3.2 |
+| `webpack-dev-server` | `4.15.1` (exact) | 6.0.0 |
+| `@babel/core` | `7.26.10` (exact) | 7.29.7 |
+| `postcss` | `8.4.35` (exact) | 8.5.23 |
+| `webpack` | `5.94.0` (exact) | 5.111.0 |
+| `http-proxy-middleware` | `2.0.8` (exact) | 2.0.10 |
+| `webpack-dev-middleware` | `6.1.2` (exact) | 8.3.0 |
+| `vite` | `~5.4.17` | 8.3.0 |
+
+`vite` is already at the top of its permitted range, and `beta` is already on the
+latest 17.x of `build-angular`, so there is no move left inside the major either.
+`piscina` is one of the four critical-severity alerts; all four criticals are
+development-scope and never ship in `dist/`.
+
+The consequence: Dependabot's only way to satisfy those advisories is to hoist
+`@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli` and
+`@angular/localize` to 22, which fails `npm ci` with `ERESOLVE` against
+`@angular/core@17.3.12` in about 16 seconds. That is not carelessness on
+Dependabot's part — it is the only resolution path that exists.
+
+**So no configuration change can produce a mergeable npm security pull request at
+Angular 17.** Four approaches were tried in October 2026, each failing
+differently:
+
+1. `ignore` with `update-types` — does not bind security updates (#242).
+2. `ignore` with `versions:` ranges (#243) — binds both kinds of update
+   correctly, but left unsatisfiable members in the group, and the recreate job
+   then died without producing a pull request for any of the roughly 18
+   satisfiable advisories.
+3. `exclude-patterns: ['@angular*']` on the group (#245) — fixed group
+   membership but not the resolution path. #247 listed no `@angular*` group
+   member and still bumped four Angular packages as collateral.
+4. Moving `build-angular` within 17.x — already at 17.3.17, the latest.
+
+**The group regenerates when its advisory composition changes, not on a weekly
+cycle.** #247 was closed and Dependabot raised #250 ninety seconds later, with 13
+updates where #247 had 14: `minimatch` had just been cleared on `beta` by #249,
+which changed the group and so produced a new pull request. Expect a fresh one
+whenever an advisory in the set is added or resolved — which means merging
+anything that clears one will summon it.
+
+**Standing decision: close it, do not reconfigure.** npm security updates stay
+enabled, and each regenerated group pull request is closed citing #247 rather
+than rebased or worked around. Keeping the channel enabled means it resumes
+producing mergeable pull requests the moment the Angular upgrade lands, with no
+configuration to unwind, and keeps the alert list honest in the meantime.
+
+Note what #250 also showed: the *satisfiable* part of this group has already been
+absorbed into `beta` by #246 and #249. What regenerates is only the residue that
+Angular 17 cannot satisfy. The closing comments on #247 and #250 carry the
+evidence.
+
 ### The Angular upgrade
 
 A dedicated project, not a dependency bump:
