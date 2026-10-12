@@ -379,8 +379,15 @@ differently:
    then died without producing a pull request for any of the roughly 18
    satisfiable advisories.
 3. `exclude-patterns: ['@angular*']` on the group (#245) — fixed group
-   membership but not the resolution path. #247 listed no `@angular*` group
-   member and still bumped four Angular packages as collateral.
+   membership but not the resolution path, and **made the problem worse.** #247
+   listed no `@angular*` group member and still bumped four Angular packages as
+   collateral. Worse, an advisory whose only fix path runs through an excluded
+   package cannot be fixed inside the group, so Dependabot raises it as a
+   separate pull request *outside* the group, carrying the hoist with it. On
+   2026-10-12 that produced four red pull requests in ninety seconds: the group
+   (#254) plus #255 (`sprintf-js`, via `build-angular` 21), #256 (`tar`) and
+   #257 (`sigstore`) — the last two byte-identical, because both advisories
+   resolve through the same `@angular/cli` hoist. The exclusion was reverted.
 4. Moving `build-angular` within 17.x — already at 17.3.17, the latest.
 
 **The group regenerates when its advisory composition changes, not on a weekly
@@ -390,16 +397,28 @@ which changed the group and so produced a new pull request. Expect a fresh one
 whenever an advisory in the set is added or resolved — which means merging
 anything that clears one will summon it.
 
-**Standing decision: close it, do not reconfigure.** npm security updates stay
-enabled, and each regenerated group pull request is closed citing #247 rather
-than rebased or worked around. Keeping the channel enabled means it resumes
-producing mergeable pull requests the moment the Angular upgrade lands, with no
-configuration to unwind, and keeps the alert list honest in the meantime.
+**Current arrangement: the group cannot form, so no npm security pull request is
+raised.** With `exclude-patterns` reverted, `@angular*` are group members again
+*and* are covered by the `ignore` block, so the group has no satisfiable members
+and Dependabot produces nothing.
 
-Note what #250 also showed: the *satisfiable* part of this group has already been
-absorbed into `beta` by #246 and #249. What regenerates is only the residue that
-Angular 17 cannot satisfy. The closing comments on #247 and #250 carry the
-evidence.
+That outcome was unacceptable when #245 was written, because roughly 18
+satisfiable advisories were waiting behind the broken group. It is acceptable now
+because there is nothing left to deliver: #246 and #249 absorbed every satisfiable
+fix, and the decisive check is that `npm audit fix` without `--force` on `beta`
+changes neither `package.json` nor a single line of `package-lock.json`. Run that
+before concluding anything else is reachable.
+
+This suppresses pull requests, not alerts — every one stays visible in the
+Security tab, which is where the real state lives. Do not carry a count around:
+GitHub auto-dismissed 8 development-scope alerts within an hour on 2026-10-12,
+moving the total from 73 to 63 while the 25 runtime-scope alerts were unchanged. **Revert it, along with the
+`ignore` block, as part of the Angular upgrade**, at which point the group has
+satisfiable work again.
+
+If a red security pull request does appear anyway, close it citing #247 rather
+than rebasing it or editing `.github/dependabot.yml`. The closing comments on
+#247, #250 and #255 carry the evidence for all four failed approaches.
 
 ### The Angular upgrade
 
