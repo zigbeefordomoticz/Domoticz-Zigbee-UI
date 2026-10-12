@@ -21,10 +21,26 @@ updates:
       # Security updates arrive one PR per advisory unless they are grouped.
       # That is how this repository accumulated 35 open PRs, nearly all of them
       # transitive build-time dependencies. Collapse them into a single PR.
+      #
+      # @angular* is excluded because it is pinned below the versions that fix
+      # its advisories (see the ignore block below). Those advisories therefore
+      # have no satisfiable fix, and including unsatisfiable members appears to
+      # take the whole group down with them: after the pin landed, the
+      # 'recreate npm-security' job failed immediately after logging "Updating
+      # the 'npm-security' group", and no replacement PR was produced for any of
+      # the ~18 satisfiable advisories in the group.
+      #
+      # The general rule: a package pinned by an `ignore` entry cannot be fixed
+      # by this group, so it should not be a member of it. Only @angular* needs
+      # excluding today, because the other pinned packages have no open
+      # advisories. If one of them later gets an advisory that is only fixed
+      # above its pin, add it here too.
       npm-security:
         applies-to: security-updates
         patterns:
           - '*'
+        exclude-patterns:
+          - '@angular*'
 
       # Angular and its satellites move as one unit; a PR that bumps part of the
       # toolchain on its own cannot build.
