@@ -2,15 +2,15 @@ name: Build
 
 on:
   push:
-    branches: beta
+    branches: [beta, angular21]
   pull_request:
-    branches: beta
+    branches: [beta, angular21]
 
-# Let a newer run supersede an in-flight one on pull requests, but never
-# cancel a push to beta: that run is the one that deploys.
+# Let a newer run supersede an in-flight one, but never cancel a push to beta:
+# that run is the one that deploys.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: ${{ !(github.event_name == 'push' && github.ref == 'refs/heads/beta') }}
 
 jobs:
   build-and-deploy:
@@ -23,7 +23,10 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 20
+          # 22, not 20: Angular 21 requires ^20.19.0 || ^22.12.0 || >=24.0.0,
+          # and Node 20 reached end of life on 2026-04-30. beta still builds on
+          # 20 until this branch merges, which is when its workflow takes over.
+          - 22
     steps:
       - uses: actions/checkout@v4
 
@@ -50,5 +53,21 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           branch: gh-pages
+          folder: dist
+          clean: true
+
+      # Preview build for the Angular upgrade. Publishes to its own branch, so
+      # gh-pages — which is what users are served — cannot be touched from here.
+      # GitHub Pages serves a single branch, so this is a build artefact to
+      # fetch and serve yourself, not a hosted preview:
+      #   git clone -b gh-pages-angular21 <repo> && npx http-server -p 4200
+      #
+      # REMOVE THIS STEP, the angular21 trigger entries above, and restore the
+      # Node version decision when this branch merges to beta.
+      - name: Deploy preview
+        if: github.event_name == 'push' && github.ref == 'refs/heads/angular21'
+        uses: JamesIves/github-pages-deploy-action@releases/v4
+        with:
+          branch: gh-pages-angular21
           folder: dist
           clean: true
