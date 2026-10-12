@@ -90,11 +90,11 @@ export class DeviceByNameComponent implements OnChanges {
     });
   }
 
-  updateValue(event: any, col: string, nwkId: string) {
+  updateValue<K extends keyof DeviceByName>(event: any, col: K, nwkId: string) {
     this.updateValueJson(event.target.value, col, nwkId);
   }
 
-  private updateValueJson(value: any, col: string, nwkId: string): void {
+  private updateValueJson<K extends keyof DeviceByName>(value: DeviceByName[K], col: K, nwkId: string): void {
     this.hasEditing = true;
     const rowUpdated = this.rows.find((row: any) => row._NwkId === nwkId);
     if (rowUpdated) {

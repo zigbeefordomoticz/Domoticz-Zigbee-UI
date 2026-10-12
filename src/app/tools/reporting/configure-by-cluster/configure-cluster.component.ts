@@ -74,7 +74,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
     });
   }
 
-  updateValue(event: any, col: string, clusterToDisplay: ClusterToDisplay) {
+  updateValue(event: any, col: keyof Info, clusterToDisplay: ClusterToDisplay) {
     const value = event.target.value;
     const rowUpdated = this.clusters
       .find(cluster => cluster.ClusterId === clusterToDisplay.clusterId)
@@ -91,7 +91,7 @@ export class ConfigureByClusterReportingComponent implements OnChanges {
     }
   }
 
-  private controlerValue(value: number, col: string, row: Info): boolean {
+  private controlerValue(value: number, col: keyof Info, row: Info): boolean {
     let erreur = false;
     if (isNaN(value)) {
       erreur = true;

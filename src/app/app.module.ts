@@ -1,5 +1,5 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,10 +14,11 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ShellModule } from './shell/shell.module';
 
 @NgModule({
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     ClipboardModule,
     TranslateModule.forRoot(),
     NgbModule,
@@ -32,8 +33,6 @@ import { ShellModule } from './shell/shell.module';
     }),
     AppRoutingModule
   ],
-  declarations: [AppComponent],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [provideHttpClient(withInterceptorsFromDi())]
 })
 export class AppModule {}
