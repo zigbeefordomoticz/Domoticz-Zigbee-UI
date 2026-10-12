@@ -308,6 +308,19 @@ Read this before touching `package.json`.
 - **Most open advisories are development-scope** — build toolchain packages that
   never reach a user of a statically built app. They matter far less than the
   runtime ones.
+- **`npm audit` and the GitHub alert list do not agree, and neither is wrong.**
+  `npm audit` counts an advisory once per dependency path, so a package pulled in
+  by three dependents counts three times; the Dependabot alert list counts one
+  alert per package and advisory. The two numbers differ by a wide margin. Say
+  which one you are quoting, and re-measure after a merge rather than carrying a
+  figure forward:
+
+  ```bash
+  gh api -X GET repos/zigbeefordomoticz/Domoticz-Zigbee-UI/dependabot/alerts \
+    -f state=open -f per_page=100 --paginate --slurp \
+    | jq '[.[]|.[]] | group_by(.security_advisory.severity)
+           | map({(.[0].security_advisory.severity): length}) | add'
+  ```
 - **`.github/dependabot.yml` pins the Angular major** and everything
   peer-dependent on it (`primeng`, `ng-bootstrap`, `ng-select`, `ngx-*`,
   `zone.js`, `@angular-devkit/*`, `@angular-eslint/*`) using `versions:` ranges.
@@ -346,8 +359,9 @@ for most of the packages carrying open advisories:
 
 `vite` is already at the top of its permitted range, and `beta` is already on the
 latest 17.x of `build-angular`, so there is no move left inside the major either.
-`piscina` is one of the four critical-severity alerts; all four criticals are
-development-scope and never ship in `dist/`.
+`piscina` is the repository's **only** critical-severity alert, and it is
+development-scope, so it never ships in `dist/`. Three other criticals
+(`websocket-driver`, `shell-quote`, `form-data`) were cleared by #246 and #249.
 
 The consequence: Dependabot's only way to satisfy those advisories is to hoist
 `@angular-devkit/build-angular`, `@angular/cli`, `@angular/compiler-cli` and
