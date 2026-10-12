@@ -9,6 +9,7 @@ import * as sankey from 'highcharts/modules/sankey.src';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { DetailNwkStatComponent } from './detail-nwk-stat/detail-nwk-stat.component';
 import { DetailTopologyComponent } from './detail-topology/detail-topology.component';
+import { InteractiveTopologyComponent } from './interactive-topology/interactive-topology.component';
 import { NetworkRoutingModule } from './network-routing.module';
 import { NwkStatsComponent } from './nwk-stats/nwk-stats.component';
 import { ReqNetworkFullComponent } from './req-network-full/req-network-full.component';
@@ -22,6 +23,7 @@ import { TopologyComponent } from './topology/topology.component';
     NwkStatsComponent,
     TopologyComponent,
     DetailTopologyComponent,
+    InteractiveTopologyComponent,
     ReqTopologyComponent,
     ReqNetworkInterComponent,
     DetailNwkStatComponent,
