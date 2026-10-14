@@ -18,6 +18,7 @@ import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
 import { Relation } from '@app/shared/models/relation';
 import { Setting, Settings } from '@app/shared/models/setting';
+import { TopologyScan, TopologyScanSummary } from '@app/shared/models/topology-scan';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, throwError } from 'rxjs';
@@ -38,6 +39,7 @@ const routes = {
   pluginStat: '/plugin-stat',
   nwkStat: '/nwk-stat',
   topologie: '/topologie',
+  topologyScan: '/topology-scan',
   permitToJoin: '/permit-to-join',
   zdeviceName: '/zdevice-name',
   zgroupDevicesAvalaible: '/zgroup-list-available-device',
@@ -253,6 +255,34 @@ export class ApiService {
 
   getTopologieByTimeStamp(timestamp: string): Observable<Relation[]> {
     return this.httpClient.get(routes.topologie + '/' + timestamp).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getTopologyScans(): Observable<TopologyScanSummary[]> {
+    return this.httpClient.get(routes.topologyScan).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getTopologyScan(timestamp: number): Observable<TopologyScan> {
+    return this.httpClient.get(routes.topologyScan + '/' + timestamp).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  deleteTopologyScan(timestamp: number): Observable<any> {
+    return this.httpClient.delete(routes.topologyScan + '/' + timestamp).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  deleteTopologyScans(): Observable<any> {
+    return this.httpClient.delete(routes.topologyScan).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

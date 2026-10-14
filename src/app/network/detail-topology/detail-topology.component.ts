@@ -112,11 +112,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   createChart1() {
-    const series = this.datas.map(element => {
-      const tab = Object.values(element);
-      tab.splice(1, 1);
-      return tab;
-    });
+    const series = this.datas.map(element => this.toSeriesRow(element));
 
     const chart = new Chart({
       chart: {
@@ -141,11 +137,7 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
   }
 
   createChart2(nodeToFilter?: string) {
-    let datas = this.datas.map(element => {
-      const tab = Object.values(element);
-      tab.splice(1, 1);
-      return tab;
-    });
+    let datas = this.datas.map(element => this.toSeriesRow(element));
 
     if (nodeToFilter) {
       datas = datas.filter(
@@ -203,6 +195,19 @@ export class DetailTopologyComponent extends UnsubscribeOnDestroyAdapter impleme
       series: series1
     });
     this.chart2 = chart;
+  }
+
+  /**
+   * One [to, from, weight] row for the Highcharts series.
+   *
+   * This used to be Object.values(element) with index 1 spliced out, which
+   * only worked because the plugin sends the report through
+   * json.dumps(sort_keys=True) and 'DeviceType' happens to sort second. Any
+   * field added to the payload (issue #167 wants _relationship and Route)
+   * would have silently shifted the columns, so read the fields by name.
+   */
+  private toSeriesRow(element: Relation): [string, string, number] {
+    return [element.Child, element.Father, element._lnkqty];
   }
 
   test(series: any) {

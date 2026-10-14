@@ -1,0 +1,138 @@
+// The graph's own colours are set in the Cytoscape stylesheet, in the
+// component. These are only the legend swatches, which have to match it.
+$colour-poor: #dc3545;
+$colour-fair: #0073dd;
+$colour-good: #28a745;
+$colour-no-lqi: #adb5bd;
+$colour-route: #fd7e14;
+$colour-coordinator: #6f42c1;
+$colour-end-device: #20c997;
+$colour-unknown: #868e96;
+$colour-stale: #ffc107;
+
+.mesh-graph {
+  width: 100%;
+  height: 680px;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  background-color: #fff;
+}
+
+.mesh-legend {
+  font-size: 0.8rem;
+}
+
+.legend-shape {
+  display: inline-block;
+  width: 16px;
+  height: 11px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.legend-coordinator {
+  width: 20px;
+  border-radius: 2px;
+  background-color: $colour-coordinator;
+}
+
+.legend-router {
+  border-radius: 2px;
+  background-color: $colour-fair;
+}
+
+.legend-enddevice {
+  width: 11px;
+  border-radius: 50%;
+  background-color: $colour-end-device;
+}
+
+// A diamond, as the graph draws a node of unknown type.
+.legend-unknownnode {
+  width: 11px;
+  height: 11px;
+  background-color: $colour-unknown;
+  transform: rotate(45deg);
+}
+
+// The state channel is the node border, so its swatches are outlines.
+.legend-border {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  border-radius: 2px;
+  background-color: #fff;
+  vertical-align: middle;
+}
+
+.legend-unreachable {
+  border: 3px solid $colour-poor;
+}
+
+.legend-timeout {
+  border: 3px dashed $colour-route;
+}
+
+.legend-notscanned {
+  border: 2px dashed $colour-unknown;
+}
+
+.legend-stale {
+  border: 3px solid $colour-stale;
+}
+
+// The icon channel. The glyph is a Font Awesome element here and an SVG data
+// URI in the graph itself, so the two are the same drawing from the same name.
+.legend-icon {
+  width: 14px;
+  margin-right: 4px;
+  text-align: center;
+  color: #495057;
+}
+
+.legend-line {
+  display: inline-block;
+  width: 18px;
+  height: 0;
+  margin-right: 4px;
+  border-top: 3px solid $colour-unknown;
+  vertical-align: middle;
+}
+
+.legend-poor {
+  border-top-color: $colour-poor;
+}
+
+.legend-fair {
+  border-top-color: $colour-fair;
+}
+
+.legend-good {
+  border-top-color: $colour-good;
+}
+
+.legend-nolqi {
+  border-top-color: $colour-no-lqi;
+}
+
+.legend-dashed {
+  border-top-style: dashed;
+}
+
+.legend-dotted {
+  border-top-style: dotted;
+}
+
+.legend-route {
+  border-top-color: $colour-route;
+}
+
+.lqi-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
