@@ -2,8 +2,17 @@
   <div class="card-header fw-bold" translate="network.topology.req.header"></div>
   <div class="card-body">
     <p class="card-text" [innerHTML]="'network.topology.req.subtitle' | translate"></p>
+    @if (associatedDevices) {
+      <p class="card-text" [innerHTML]="'network.topology.req.associated.subtitle' | translate"></p>
+    }
   </div>
-  <div class="card-footer d-flex justify-content-end">
+  <div class="card-footer d-flex justify-content-end gap-2">
+    @if (associatedDevices) {
+      <button
+        class="btn btn-light"
+        (click)="reqAssociatedDevices()"
+        translate="network.topology.req.associated.button"></button>
+    }
     <button class="btn btn-light" (click)="reqTopology()" translate="network.topology.req.button"></button>
   </div>
 </div>

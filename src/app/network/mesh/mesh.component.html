@@ -38,16 +38,22 @@
                                 | translate: { answered: summary.scan.answered, requested: summary.scan.requested }
                             }}"></i>
                         }
+                        <!-- Only the tables this scan carries. A standalone
+                             Associated Devices collection has no neighbour and
+                             no route rows, and reporting "0 neighbour rows"
+                             would read as a scan that found nothing. -->
                         <small class="text-muted d-block">
-                          {{
-                            'network.mesh.scans.counts'
-                              | translate
-                                : {
-                                    nodes: summary.nodes,
-                                    neighbours: summary.neighbours,
-                                    routes: summary.routes
-                                  }
-                          }}
+                          {{ 'network.mesh.scans.counts.nodes' | translate: { nodes: summary.nodes } }}
+                          @if (carries(summary, 'neighbours')) {
+                            ·
+                            {{ 'network.mesh.scans.counts.neighbours' | translate: { neighbours: summary.neighbours } }}
+                          }
+                          @if (carries(summary, 'routes')) {
+                            · {{ 'network.mesh.scans.counts.routes' | translate: { routes: summary.routes } }}
+                          }
+                          @if (carries(summary, 'associated_devices')) {
+                            · <span translate="network.mesh.scans.counts.children"></span>
+                          }
                         </small>
                       </button>
                       <button
@@ -86,7 +92,7 @@
     </div>
   </div>
 
-  <div class="col"><app-req-topology></app-req-topology></div>
+  <div class="col"><app-req-topology [associatedDevices]="true"></app-req-topology></div>
 </div>
 
 @if (scan) {
@@ -100,18 +106,40 @@
               'network.mesh.coverage.warning'
                 | translate: { answered: scan.scan.answered, requested: scan.scan.requested }
             "></span>
+          <!-- On a standalone collection `scan` describes the collection, not
+               a neighbour scan: the nodes that did not answer cost one ZDP
+               request each, not a neighbour table's worth of retries. -->
           <ul class="mb-0 mt-1 small">
             @if (scan.scan.timeout) {
-              <li [innerHTML]="'network.mesh.coverage.timeout' | translate: { count: scan.scan.timeout }"></li>
+              @if (isTreeOnly(scan)) {
+                <li [innerHTML]="'network.mesh.coverage.timeout.tree' | translate: { count: scan.scan.timeout }"></li>
+              } @else {
+                <li [innerHTML]="'network.mesh.coverage.timeout' | translate: { count: scan.scan.timeout }"></li>
+              }
             }
             @if (scan.scan.not_scanned) {
-              <li [innerHTML]="'network.mesh.coverage.notscanned' | translate: { count: scan.scan.not_scanned }"></li>
+              @if (isTreeOnly(scan)) {
+                <li
+                  [innerHTML]="
+                    'network.mesh.coverage.notscanned.tree' | translate: { count: scan.scan.not_scanned }
+                  "></li>
+              } @else {
+                <li [innerHTML]="'network.mesh.coverage.notscanned' | translate: { count: scan.scan.not_scanned }"></li>
+              }
             }
           </ul>
         </div>
       }
 
-      @if (!collects('routes')) {
+      <!-- Two different statements, and running them together is what the
+           `tables` field exists to prevent: a backend that collects no routing
+           table at all, and a scan that did not ask for one. -->
+      @if (isTreeOnly(scan)) {
+        <p class="small text-muted mb-2">
+          <i class="fa fa-circle-info me-1"></i>
+          <span [innerHTML]="'network.mesh.treeonly' | translate"></span>
+        </p>
+      } @else if (!collects('routes')) {
         <p class="small text-muted mb-2">
           <i class="fa fa-circle-info me-1"></i>
           <span [innerHTML]="'network.mesh.noroutes' | translate: { source: scan.source }"></span>

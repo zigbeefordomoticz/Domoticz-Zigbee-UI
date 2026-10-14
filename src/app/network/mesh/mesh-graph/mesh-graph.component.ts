@@ -27,7 +27,7 @@ import {
   MESH_COORDINATOR_FAMILY,
   MESH_FAMILY_ICONS
 } from '../mesh-device-type';
-import { MeshLink, MeshLinkKind, MeshNeighbourRow, MeshNode, MeshRouteHop } from '../mesh-graph.model';
+import { MeshChildLink, MeshLink, MeshLinkKind, MeshNeighbourRow, MeshNode, MeshRouteHop } from '../mesh-graph.model';
 import { iconClass, iconDataUri } from '../mesh-icons';
 
 /** LQI bands, as agreed on issue #167. */
@@ -43,6 +43,8 @@ const COLOUR_GOOD = '#28a745';
 const COLOUR_NO_LQI = '#adb5bd';
 /** Routing-table hops, which carry no LQI at all. */
 const COLOUR_ROUTE = '#fd7e14';
+/** Parent -> child edges of the Associated Devices table, which carry no LQI either. */
+const COLOUR_CHILD = '#d63384';
 
 const COLOUR_COORDINATOR = '#6f42c1';
 const COLOUR_ROUTER = COLOUR_FAIR;
@@ -55,8 +57,15 @@ const COLOUR_STALE = '#ffc107';
 const HEALTH_UNREACHABLE = 'Not Reachable';
 const HEALTH_STALE = 'Not seen last 24hours';
 
-/** Which edges to draw. `routes` needs `"routes"` in the scan's `tables`. */
-type EdgeMode = 'neighbours' | 'routes' | 'both';
+/**
+ * Which edges to draw, and every mode needs its table in the scan's `tables`.
+ *
+ * The modes are exclusive rather than a set of overlays, because the three
+ * tables answer three different questions about the same mesh and a node pair
+ * can appear in all of them at once. `children` is the one view that answers
+ * "what is this device attached to" — see `MeshChildLink`.
+ */
+type EdgeMode = 'neighbours' | 'routes' | 'both' | 'children';
 
 /**
  * How a node is drawn, over and above its type.
@@ -92,6 +101,8 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
    */
   @Input() deviceTypes = new Map<string, MeshDeviceType>();
   @ViewChild('graph') graphContainer: ElementRef<HTMLDivElement>;
+  /** The element that goes fullscreen: the graph and the controls it carries. */
+  @ViewChild('graphShell') graphShell: ElementRef<HTMLDivElement>;
 
   form: FormGroup;
   layouts = ['cose', 'concentric', 'breadthfirst', 'circle', 'grid'];
@@ -99,11 +110,29 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   nodes: MeshNode[] = [];
   links: MeshLink[] = [];
   hops: MeshRouteHop[] = [];
+  childLinks: MeshChildLink[] = [];
 
-  /** True when this scan's backend collects a routing table at all. */
+  /** True when this scan carries a neighbour table at all. */
+  hasNeighbours = false;
+  /** True when this scan carries a routing table at all. */
   hasRoutes = false;
-  /** True when this scan's backend collects each node's children. */
+  /** True when this scan carries each node's children. */
   hasAssociatedDevices = false;
+  /**
+   * A scan that carries the children table and nothing else: what
+   * `GET /topology-scan-associated-devices` files.
+   *
+   * Its `neighbours` and `routes` are empty because they were never asked
+   * for, which is not the same statement as a backend that cannot collect
+   * them — so the tree is not merely the best view here, it is the only one.
+   */
+  treeOnly = false;
+
+  /** Children claimed by more than one parent: devices that have reparented. */
+  contestedChildren = 0;
+
+  /** True while the graph is the document's fullscreen element. */
+  isFullscreen = false;
 
   /** Rows whose endpoints are not in `nodes`, which the contract says cannot happen. */
   orphanRows = 0;
@@ -111,13 +140,24 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   visibleNodes = 0;
   visibleLinks = 0;
   visibleHops = 0;
+  visibleChildLinks = 0;
 
   selectedNode: MeshNode;
   /** The selected node's ZDeviceID, when the device list has one for it. */
   selectedDeviceType: MeshDeviceType;
   selectedNeighbours: MeshNeighbourRow[] = [];
   selectedRoutes: Array<TopologyScanRoute & { roles: string[] }> = [];
+  /** Nodes that declare the selected node as one of their children. */
+  selectedParents: string[] = [];
   selectedChildren: string[] = [];
+  /**
+   * Whether the selected node answered with a child list at all.
+   *
+   * `null` and `[]` are two different statements in this payload and must not
+   * be run together: the first is "this scan does not carry the table", the
+   * second "this node was asked and declared no children".
+   */
+  selectedChildrenKnown = false;
   selectedLink: MeshLink;
   selectedHop: MeshRouteHop;
 
@@ -137,6 +177,17 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   private cy: cytoscape.Core;
   private viewReady = false;
   private nodesById = new Map<string, MeshNode>();
+  /** Every node that claims a given nwkid as its child, by that child's nwkid. */
+  private parentsById = new Map<string, string[]>();
+  /**
+   * True while the edge mode is one this component picked, not one the user did.
+   *
+   * It matters when the next scan arrives. A mode the user chose is theirs to
+   * keep; a mode forced on them because the previous scan carried nothing else
+   * has to be derived again, or opening a standalone Associated Devices
+   * collection would leave every scan afterwards on the tree.
+   */
+  private modeForced = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -170,11 +221,17 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
   ngAfterViewInit(): void {
     this.viewReady = true;
+    // Esc and the browser's own chrome leave fullscreen without going through
+    // the button, so the state is read off the event rather than toggled.
+    document.addEventListener('fullscreenchange', this.onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', this.onFullscreenChange);
     this.render();
   }
 
   override ngOnDestroy(): void {
     super.ngOnDestroy();
+    document.removeEventListener('fullscreenchange', this.onFullscreenChange);
+    document.removeEventListener('webkitfullscreenchange', this.onFullscreenChange);
     this.destroyGraph();
   }
 
@@ -196,6 +253,33 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     }
   }
 
+  /** True when this browser will let an element go fullscreen. */
+  get fullscreenSupported(): boolean {
+    const target = document as any;
+    return !!(document.fullscreenEnabled || target.webkitFullscreenEnabled);
+  }
+
+  /**
+   * Fill the screen with the graph, and leave again.
+   *
+   * The Fullscreen API on the graph's own element, rather than a second
+   * browser window: a window would have to fetch the scan again and would
+   * open on the default filters, the default layout and no selection — so the
+   * view somebody wants to see larger is precisely the one it could not show.
+   */
+  toggleFullscreen(): void {
+    const element = this.graphShell?.nativeElement as any;
+    const target = document as any;
+    if (document.fullscreenElement || target.webkitFullscreenElement) {
+      (document.exitFullscreen ?? target.webkitExitFullscreen)?.call(document);
+      return;
+    }
+    const request = element?.requestFullscreen ?? element?.webkitRequestFullscreen;
+    // A refusal is not an error worth reporting: the graph is still on the
+    // page, at the size it was.
+    Promise.resolve(request?.call(element)).catch((): void => undefined);
+  }
+
   clearSelection(): void {
     this.selectedNode = undefined;
     this.selectedDeviceType = undefined;
@@ -203,9 +287,29 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     this.selectedHop = undefined;
     this.selectedNeighbours = [];
     this.selectedRoutes = [];
+    this.selectedParents = [];
     this.selectedChildren = [];
+    this.selectedChildrenKnown = false;
     this.cy?.elements().removeClass('faded highlighted');
   }
+
+  /**
+   * Keep the state and the graph's own measurements in step with the browser.
+   *
+   * Cytoscape measures its container when it is created and on resize events
+   * only, and a fullscreen transition fires neither: without `resize()` the
+   * graph keeps drawing into the box it had and the new space stays blank.
+   */
+  private readonly onFullscreenChange = (): void => {
+    this.zone.run(() => {
+      const target = document as any;
+      const current = document.fullscreenElement ?? target.webkitFullscreenElement;
+      this.isFullscreen = !!this.graphShell && current === this.graphShell.nativeElement;
+      this.cy?.resize();
+      this.fit();
+      this.cdr.detectChanges();
+    });
+  };
 
   /** Colour of an LQI reading. `null` is not a reading and gets its own colour. */
   lqiColour(lqi: number | null): string {
@@ -218,14 +322,24 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     return lqi <= LQI_FAIR_MAX ? COLOUR_FAIR : COLOUR_GOOD;
   }
 
+  /** The mode the edge selector is on. */
+  get edgeMode(): EdgeMode {
+    return (this.form?.get('edges').value as EdgeMode) ?? 'neighbours';
+  }
+
   /** True when the current mode draws neighbour links. */
   get drawsLinks(): boolean {
-    return this.form?.get('edges').value !== 'routes';
+    return this.edgeMode === 'neighbours' || this.edgeMode === 'both';
   }
 
   /** True when the current mode draws routing hops. */
   get drawsHops(): boolean {
-    return this.hasRoutes && this.form?.get('edges').value !== 'neighbours';
+    return this.hasRoutes && (this.edgeMode === 'routes' || this.edgeMode === 'both');
+  }
+
+  /** True when the current mode draws the parent/child tree. */
+  get drawsChildren(): boolean {
+    return this.hasAssociatedDevices && this.edgeMode === 'children';
   }
 
   label(nwkid: string): string {
@@ -290,14 +404,21 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   private buildForm(): void {
+    // Per scan, never per source: zigpy's answer varies between two scans of
+    // the same installation, and a standalone Associated Devices collection
+    // carries one table where a full scan carries three.
+    this.hasNeighbours = !!this.scan.tables?.includes('neighbours');
     this.hasRoutes = !!this.scan.tables?.includes('routes');
     this.hasAssociatedDevices = !!this.scan.tables?.includes('associated_devices');
+    this.treeOnly = this.hasAssociatedDevices && !this.hasNeighbours && !this.hasRoutes;
 
     if (this.form) {
-      // A backend that cannot answer routes must not be left showing a routes
-      // overlay selected against a previous scan from one that could.
-      if (!this.hasRoutes && this.form.get('edges').value !== 'neighbours') {
-        this.form.get('edges').setValue('neighbours', { emitEvent: false });
+      // Two scans in a row need not carry the same tables, so a mode the new
+      // scan cannot draw must not be left selected against the old one: it
+      // would show an empty graph and blame the mesh for it.
+      if (this.modeForced || !this.modeAvailable(this.edgeMode)) {
+        this.form.get('edges').setValue(this.defaultMode(), { emitEvent: false });
+        this.modeForced = true;
       }
       this.syncControlAvailability();
       return;
@@ -306,14 +427,17 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     this.form = this.formBuilder.group({
       focusedNode: [null],
       layout: ['cose'],
-      edges: ['neighbours'],
+      edges: [this.defaultMode()],
       showTree: [true],
       showSibling: [true],
       // none_of_above and previous_child: present in the payload, off by
       // default, as the API document suggests.
       showOther: [false],
       showUnknown: [true],
-      lqiThreshold: [0],
+      // Both bounds inclusive, and a link neither end measured is outside no
+      // window at all: `null` is not a reading, so it is not a value to
+      // compare. See `applyFilters`.
+      lqiRange: [[0, 255]],
       hideEndDevices: [false],
       hideIsolated: [false],
       showIcons: [true]
@@ -321,11 +445,14 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
     this.subs.sink = this.form.get('focusedNode').valueChanges.subscribe((nwkid: string) => this.focusNode(nwkid));
     this.subs.sink = this.form.get('layout').valueChanges.subscribe(() => this.runLayout());
+    // Only a user's change reaches here: every programmatic one above passes
+    // `emitEvent: false`.
     this.subs.sink = this.form.get('edges').valueChanges.subscribe(() => {
+      this.modeForced = false;
       this.syncControlAvailability();
       this.applyFilters();
     });
-    ['showTree', 'showSibling', 'showOther', 'showUnknown', 'lqiThreshold', 'hideEndDevices', 'hideIsolated'].forEach(
+    ['showTree', 'showSibling', 'showOther', 'showUnknown', 'lqiRange', 'hideEndDevices', 'hideIsolated'].forEach(
       name => {
         this.subs.sink = this.form.get(name).valueChanges.subscribe(() => this.applyFilters());
       }
@@ -336,18 +463,51 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     this.syncControlAvailability();
   }
 
+  /** Whether this scan carries the table a mode draws from. */
+  private modeAvailable(mode: EdgeMode): boolean {
+    switch (mode) {
+      case 'neighbours':
+        return this.hasNeighbours;
+      case 'routes':
+        return this.hasRoutes;
+      case 'both':
+        return this.hasNeighbours && this.hasRoutes;
+      case 'children':
+        return this.hasAssociatedDevices;
+    }
+  }
+
+  /**
+   * The mode to open a scan on.
+   *
+   * Neighbours when there are any, because that is the mesh as a radio
+   * network. A standalone Associated Devices collection has none, and opening
+   * it on a view it cannot draw would present it as an empty mesh rather than
+   * as the tree it is.
+   */
+  private defaultMode(): EdgeMode {
+    if (this.hasNeighbours) {
+      return 'neighbours';
+    }
+    if (this.hasAssociatedDevices) {
+      return 'children';
+    }
+    return this.hasRoutes ? 'routes' : 'neighbours';
+  }
+
   /**
    * Grey out the controls the current mode cannot act on.
    *
-   * A routing-table row carries neither an LQI nor a relationship, so in
-   * routes-only mode the threshold and the four relationship filters do
-   * nothing at all. Leaving them live is what made a screen of orange routing
-   * hops read as a mesh with no link above LQI 100: the legend was still
-   * advertising the LQI bands, and the threshold still showed a number.
+   * Neither a routing-table row nor an Associated Devices row carries an LQI
+   * or a relationship, so in those modes the LQI window and the four
+   * relationship filters do nothing at all. Leaving them live is what made a
+   * screen of orange routing hops read as a mesh with no link above LQI 100:
+   * the legend was still advertising the LQI bands, and the window still
+   * showed a range.
    */
   private syncControlAvailability(): void {
     const drawsLinks = this.drawsLinks;
-    ['lqiThreshold', 'showTree', 'showSibling', 'showOther', 'showUnknown'].forEach(name => {
+    ['lqiRange', 'showTree', 'showSibling', 'showOther', 'showUnknown'].forEach(name => {
       const control = this.form.get(name);
       // emitEvent: false, because enabling or disabling a control fires
       // valueChanges, and every one of these re-enters applyFilters().
@@ -378,6 +538,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
     this.links = this.buildLinks(scan.neighbours ?? []);
     this.hops = this.buildHops(scan.routes ?? []);
+    this.childLinks = this.buildChildLinks(this.nodes);
 
     this.buildIconLegend();
 
@@ -506,6 +667,55 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     });
   }
 
+  /**
+   * Turn the nodes' `associated_devices` into parent -> child edges.
+   *
+   * The table is flat — one list of nwkids per node — so the edges are built
+   * from the `nodes` collection rather than from a collection of their own,
+   * and a child is resolved by joining it back against `nodes`: a child the
+   * scan does not list is a device the plugin does not know, and is counted
+   * with the other rows naming an absent node rather than drawn against
+   * nothing.
+   *
+   * Nothing is deduplicated across parents on purpose. Two parents claiming
+   * one child is a device that reparented and a stale entry left behind, and
+   * drawing both edges is how that becomes visible.
+   */
+  private buildChildLinks(nodes: MeshNode[]): MeshChildLink[] {
+    const parentsByChild = new Map<string, string[]>();
+    const links: MeshChildLink[] = [];
+
+    nodes.forEach(node => {
+      // `null` is "this scan does not carry the table" and `[]` is "asked, and
+      // declared no children"; neither produces an edge, so they are the same
+      // thing here and only here.
+      (node.associated_devices ?? []).forEach(child => {
+        if (child === node.nwkid) {
+          return;
+        }
+        if (!this.nodesById.has(child)) {
+          this.orphanRows += 1;
+          return;
+        }
+        const parents = parentsByChild.get(child) ?? [];
+        if (parents.includes(node.nwkid)) {
+          return;
+        }
+        parents.push(node.nwkid);
+        parentsByChild.set(child, parents);
+        links.push({ id: `child-${links.length}`, parent: node.nwkid, child, contested: false });
+      });
+    });
+
+    this.parentsById = parentsByChild;
+    this.contestedChildren = Array.from(parentsByChild.values()).filter(parents => parents.length > 1).length;
+    links.forEach(link => {
+      link.contested = (parentsByChild.get(link.child) ?? []).length > 1;
+    });
+
+    return links;
+  }
+
   private render(): void {
     if (!this.viewReady || !this.graphContainer || !this.nodes.length) {
       return;
@@ -591,7 +801,19 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       }
     }));
 
-    return [...nodes, ...links, ...hops];
+    const children: cytoscape.ElementDefinition[] = this.childLinks.map(link => ({
+      group: 'edges',
+      data: {
+        id: link.id,
+        // Directed parent -> child: the arrow is the whole content of the row.
+        source: link.parent,
+        target: link.child,
+        kind: 'child',
+        contested: link.contested
+      }
+    }));
+
+    return [...nodes, ...links, ...hops, ...children];
   }
 
   /** Severity order: health first, then how the scan went, then nothing to say. */
@@ -780,6 +1002,28 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       },
       { selector: 'edge[kind = "route"][?inactive]', style: { 'line-style': 'dashed', opacity: 0.4 } },
 
+      {
+        // The tree is directed too, and a parent -> child edge carries no LQI
+        // either, so it is told apart the same way: its own colour and an
+        // arrow, not an LQI band.
+        selector: 'edge[kind = "child"]',
+        style: {
+          'line-color': COLOUR_CHILD,
+          'line-style': 'solid',
+          width: 2,
+          'target-arrow-shape': 'triangle',
+          'target-arrow-color': COLOUR_CHILD,
+          'arrow-scale': 0.9
+        }
+      },
+      {
+        // A child two parents claim: both edges are drawn, and both are
+        // marked, because which of the two is current cannot be told from
+        // this table alone.
+        selector: 'edge[kind = "child"][?contested]',
+        style: { 'line-color': COLOUR_POOR, 'target-arrow-color': COLOUR_POOR, 'line-style': 'dashed' }
+      },
+
       { selector: 'node:selected', style: { 'border-color': '#212529', 'border-width': 4 } },
       { selector: 'edge:selected', style: { opacity: 1, width: 5 } },
       { selector: '.highlighted', style: { opacity: 1, 'font-weight': 'bold' } },
@@ -823,14 +1067,16 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     if (!this.cy) {
       return;
     }
-    const edges = this.form.get('edges').value as EdgeMode;
+    const drawsLinks = this.drawsLinks;
+    const drawsHops = this.drawsHops;
+    const drawsChildren = this.drawsChildren;
     const kinds: Record<MeshLinkKind, boolean> = {
       tree: !!this.form.get('showTree').value,
       sibling: !!this.form.get('showSibling').value,
       other: !!this.form.get('showOther').value,
       unknown: !!this.form.get('showUnknown').value
     };
-    const threshold = Number(this.form.get('lqiThreshold').value) || 0;
+    const [lqiMin, lqiMax] = (this.form.get('lqiRange').value as number[]) ?? [0, 255];
     const hideEndDevices = !!this.form.get('hideEndDevices').value;
     const hideIsolated = !!this.form.get('hideIsolated').value;
 
@@ -840,16 +1086,21 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       });
 
       this.cy.edges().forEach(edge => {
-        const kind = edge.data('kind') as MeshLinkKind | 'route';
+        const kind = edge.data('kind') as MeshLinkKind | 'route' | 'child';
         let hidden: boolean;
 
         if (kind === 'route') {
-          hidden = edges === 'neighbours';
+          hidden = !drawsHops;
+        } else if (kind === 'child') {
+          hidden = !drawsChildren;
         } else {
           // A link neither end measured has no reading to compare with the
-          // threshold, so the threshold does not apply to it.
-          const belowThreshold = !!edge.data('hasLqi') && Number(edge.data('lqi')) < threshold;
-          hidden = edges === 'routes' || !kinds[kind] || belowThreshold;
+          // window, so the window does not apply to it: `null` is not a low
+          // LQI, and hiding it would be a filter on a measurement that was
+          // never made.
+          const outsideWindow =
+            !!edge.data('hasLqi') && (Number(edge.data('lqi')) < lqiMin || Number(edge.data('lqi')) > lqiMax);
+          hidden = !drawsLinks || !kinds[kind] || outsideWindow;
         }
 
         edge.toggleClass('hidden', hidden || edge.source().hasClass('hidden') || edge.target().hasClass('hidden'));
@@ -869,8 +1120,9 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     });
 
     this.visibleNodes = this.cy.nodes().not('.hidden').length;
-    this.visibleLinks = this.cy.edges('[kind != "route"]').not('.hidden').length;
+    this.visibleLinks = this.cy.edges('[kind != "route"][kind != "child"]').not('.hidden').length;
     this.visibleHops = this.cy.edges('[kind = "route"]').not('.hidden').length;
+    this.visibleChildLinks = this.cy.edges('[kind = "child"]').not('.hidden').length;
   }
 
   private selectEdge(id: string): void {
@@ -882,7 +1134,13 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     const hop = this.hops.find(candidate => candidate.id === id);
     if (hop) {
       this.selectHop(hop);
+      return;
     }
+    // A parent -> child edge has nothing to put in a panel that the two nodes
+    // do not already say, so selecting one highlights it and leaves the panel
+    // alone rather than opening an empty card.
+    this.clearSelection();
+    this.highlightEdge(id);
   }
 
   private selectNode(nwkid: string): void {
@@ -896,7 +1154,9 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     this.selectedDeviceType = this.deviceTypes?.get(nwkid);
     this.selectedNeighbours = this.neighbourRows(nwkid);
     this.selectedRoutes = this.routeRows(nwkid);
+    this.selectedParents = this.parentsById.get(nwkid) ?? [];
     this.selectedChildren = node.associated_devices ?? [];
+    this.selectedChildrenKnown = Array.isArray(node.associated_devices);
 
     const element = this.cy.getElementById(nwkid);
     this.cy.batch(() => {
@@ -911,7 +1171,9 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     this.selectedHop = undefined;
     this.selectedNeighbours = [];
     this.selectedRoutes = [];
+    this.selectedParents = [];
     this.selectedChildren = [];
+    this.selectedChildrenKnown = false;
     this.selectedLink = link;
     this.highlightEdge(link.id);
   }
@@ -922,7 +1184,9 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     this.selectedLink = undefined;
     this.selectedNeighbours = [];
     this.selectedRoutes = [];
+    this.selectedParents = [];
     this.selectedChildren = [];
+    this.selectedChildrenKnown = false;
     this.selectedHop = hop;
     this.highlightEdge(hop.id);
   }

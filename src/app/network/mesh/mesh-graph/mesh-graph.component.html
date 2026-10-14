@@ -34,11 +34,18 @@
               <div class="col-6 col-lg-3">
                 <label class="form-label mb-1" translate="network.mesh.edges"></label>
                 <select class="form-select" formControlName="edges">
-                  <option value="neighbours">{{ 'network.mesh.edges.neighbours' | translate }}</option>
+                  <option value="neighbours" [disabled]="!hasNeighbours">
+                    {{ 'network.mesh.edges.neighbours' | translate }}
+                  </option>
                   <option value="routes" [disabled]="!hasRoutes">
                     {{ 'network.mesh.edges.routes' | translate }}
                   </option>
-                  <option value="both" [disabled]="!hasRoutes">{{ 'network.mesh.edges.both' | translate }}</option>
+                  <option value="both" [disabled]="!hasNeighbours || !hasRoutes">
+                    {{ 'network.mesh.edges.both' | translate }}
+                  </option>
+                  <option value="children" [disabled]="!hasAssociatedDevices">
+                    {{ 'network.mesh.edges.children' | translate }}
+                  </option>
                 </select>
               </div>
 
@@ -53,10 +60,21 @@
 
               <div class="col-12 col-lg-3">
                 <label class="form-label mb-1">
-                  {{ 'network.mesh.threshold' | translate }}
-                  <span class="badge text-bg-secondary">{{ form.get('lqiThreshold').value }}</span>
+                  {{ 'network.mesh.lqiwindow' | translate }}
+                  <span class="badge text-bg-secondary"
+                    >{{ form.get('lqiRange').value[0] }} – {{ form.get('lqiRange').value[1] }}</span
+                  >
                 </label>
-                <input type="range" class="form-range" min="0" max="255" step="5" formControlName="lqiThreshold" />
+                <!-- Two handles rather than one: a weak link and an
+                     implausibly strong reading are two different findings, and
+                     a lower bound alone cannot isolate either. -->
+                <p-slider
+                  class="mesh-lqi-slider"
+                  formControlName="lqiRange"
+                  [range]="true"
+                  [min]="0"
+                  [max]="255"
+                  [step]="5"></p-slider>
               </div>
             </div>
 
@@ -146,6 +164,15 @@
                     (click)="runLayout()">
                     <i class="fa fa-sync"></i>
                   </button>
+                  @if (fullscreenSupported) {
+                    <button
+                      type="button"
+                      class="btn btn-light"
+                      title="{{ 'network.mesh.fullscreen' | translate }}"
+                      (click)="toggleFullscreen()">
+                      <i class="fa fa-expand-arrows-alt"></i>
+                    </button>
+                  }
                 </div>
               </div>
             </div>
@@ -183,6 +210,12 @@
             } @else if (hasRoutes && hops.length) {
               · {{ 'network.mesh.counts.hops.hidden' | translate: { total: hops.length } }}
             }
+            @if (drawsChildren) {
+              ·
+              {{ 'network.mesh.counts.children' | translate: { visible: visibleChildLinks, total: childLinks.length } }}
+            } @else if (hasAssociatedDevices && childLinks.length) {
+              · {{ 'network.mesh.counts.children.hidden' | translate: { total: childLinks.length } }}
+            }
           </span>
         </div>
 
@@ -214,6 +247,15 @@
           @if (drawsHops) {
             <span><span class="legend-line legend-route"></span>{{ 'network.mesh.legend.route' | translate }}</span>
           }
+          @if (drawsChildren) {
+            <span><span class="legend-line legend-child"></span>{{ 'network.mesh.legend.child' | translate }}</span>
+            @if (contestedChildren) {
+              <span
+                ><span class="legend-line legend-contested"></span
+                >{{ 'network.mesh.legend.contested' | translate }}</span
+              >
+            }
+          }
         </div>
 
         <!-- Only the families this scan contains, and only while the icons are
@@ -231,13 +273,56 @@
           </div>
         }
 
-        @if (!drawsLinks) {
+        @if (drawsChildren) {
+          <p class="small text-muted mb-2">
+            <i class="fa fa-circle-info me-1"></i><span translate="network.mesh.treemode.note"></span>
+          </p>
+        } @else if (!drawsLinks) {
           <p class="small text-muted mb-2">
             <i class="fa fa-circle-info me-1"></i><span translate="network.mesh.routesmode.note"></span>
           </p>
         }
 
-        <div #graph class="mesh-graph"></div>
+        <div #graphShell class="mesh-graph-shell" [class.fullscreen]="isFullscreen">
+          <div #graph class="mesh-graph"></div>
+
+          <!-- The controls above the graph are outside this element, so they
+               are out of reach once it fills the screen. This copy is hidden
+               until then. -->
+          <div class="mesh-graph-tools btn-group btn-group-sm" role="group">
+            <button
+              type="button"
+              class="btn btn-light"
+              title="{{ 'network.mesh.zoomin' | translate }}"
+              (click)="zoomIn()">
+              <i class="fa fa-search-plus"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-light"
+              title="{{ 'network.mesh.zoomout' | translate }}"
+              (click)="zoomOut()">
+              <i class="fa fa-search-minus"></i>
+            </button>
+            <button type="button" class="btn btn-light" title="{{ 'network.mesh.fit' | translate }}" (click)="fit()">
+              <i class="fa fa-expand"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-light"
+              title="{{ 'network.mesh.relayout' | translate }}"
+              (click)="runLayout()">
+              <i class="fa fa-sync"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-light"
+              title="{{ 'network.mesh.fullscreen.exit' | translate }}"
+              (click)="toggleFullscreen()">
+              <i class="fa fa-compress-arrows-alt"></i>
+            </button>
+          </div>
+        </div>
 
         <p class="small text-muted mt-1 mb-0" translate="network.mesh.graph.note"></p>
 
@@ -245,6 +330,16 @@
           <p class="small text-warning mt-1 mb-0">
             <i class="fa fa-triangle-exclamation me-1"></i>
             <span [innerHTML]="'network.mesh.orphans' | translate: { count: orphanRows }"></span>
+          </p>
+        }
+
+        <!-- Only while the tree is on screen: the finding is about edges this
+             mode does not draw, and the sentence ends by saying how they are
+             drawn. -->
+        @if (drawsChildren && contestedChildren) {
+          <p class="small text-warning mt-1 mb-0">
+            <i class="fa fa-triangle-exclamation me-1"></i>
+            <span [innerHTML]="'network.mesh.contested' | translate: { count: contestedChildren }"></span>
           </p>
         }
 
@@ -338,14 +433,47 @@
                 <dd class="col-sm-3">{{ reading(selectedNode.rssi) }}</dd>
 
                 @if (hasAssociatedDevices) {
+                  <!-- The parent comes first: it is the question this table
+                       exists to answer, and the only one that can be answered
+                       for a sleepy end device, which answers no scan itself.
+                       More than one parent is a device that has reparented and
+                       a stale entry left behind in the old parent's table. -->
+                  <dt class="col-sm-3" translate="network.mesh.node.parent"></dt>
+                  <dd class="col-sm-9">
+                    @if (selectedParents.length) {
+                      @for (parent of selectedParents; track parent) {
+                        <span
+                          class="badge me-1"
+                          [class]="selectedParents.length > 1 ? 'text-bg-warning' : 'text-bg-light'"
+                          >{{ label(parent) }} ({{ parent }})</span
+                        >
+                      }
+                      @if (selectedParents.length > 1) {
+                        <span class="small text-muted" translate="network.mesh.node.parent.contested"></span>
+                      }
+                    } @else {
+                      <span class="text-muted" translate="network.mesh.node.parent.none"></span>
+                    }
+                  </dd>
+
                   <dt class="col-sm-3" translate="network.mesh.node.children"></dt>
                   <dd class="col-sm-9">
                     @if (selectedChildren.length) {
                       @for (child of selectedChildren; track child) {
                         <span class="badge text-bg-light me-1">{{ label(child) }} ({{ child }})</span>
                       }
+                    } @else if (selectedChildrenKnown) {
+                      <!-- Declared no children, which is not the same as not
+                           having been asked. On a scan that also carries a
+                           neighbour table the two cannot be told apart, so the
+                           claim is qualified; on a standalone collection the
+                           scan status above answers it. -->
+                      <span translate="network.mesh.node.children.none"></span>
+                      @if (!treeOnly) {
+                        <span class="small text-muted ms-1" translate="network.mesh.node.children.ambiguous"></span>
+                      }
                     } @else {
-                      -
+                      <span class="text-muted">-</span>
                     }
                   </dd>
                 }

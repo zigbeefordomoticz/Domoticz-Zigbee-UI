@@ -181,8 +181,35 @@ export class MeshComponent extends UnsubscribeOnDestroyAdapter implements OnInit
     return !!scan?.scan && scan.scan.answered < scan.scan.requested;
   }
 
-  /** A table the scan's backend cannot collect at all, as opposed to one that came back empty. */
+  /** A table this scan does not carry at all, as opposed to one that came back empty. */
   collects(table: TopologyTable): boolean {
     return !!this.scan?.tables?.includes(table);
+  }
+
+  /**
+   * The same question of a listing entry, which carries its own `tables`.
+   *
+   * Read per scan and never per source: a standalone Associated Devices
+   * collection and a full scan can sit side by side in this list, written by
+   * the same backend, carrying different tables.
+   */
+  carries(summary: TopologyScanSummary, table: TopologyTable): boolean {
+    return !!summary?.tables?.includes(table);
+  }
+
+  /**
+   * A scan carrying the children table and nothing else: what
+   * `GET /topology-scan-associated-devices` files.
+   *
+   * Its empty `neighbours` and `routes` are not a failed scan — they were
+   * never asked for — so it has to be labelled differently from a scan whose
+   * backend cannot collect them.
+   */
+  isTreeOnly(scan: { tables: TopologyTable[] }): boolean {
+    return (
+      !!scan?.tables?.includes('associated_devices') &&
+      !scan.tables.includes('neighbours') &&
+      !scan.tables.includes('routes')
+    );
   }
 }
