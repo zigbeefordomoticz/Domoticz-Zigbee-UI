@@ -734,11 +734,11 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
           'background-fit': 'contain',
           'background-opacity': 0,
           'border-width': 0,
-          width: 26,
-          height: 26
+          width: 36,
+          height: 36
         }
       },
-      { selector: 'node[?icon][type = "coordinator"]', style: { width: 36, height: 36 } },
+      { selector: 'node[?icon][type = "coordinator"]', style: { width: 48, height: 48 } },
 
       { selector: 'node[state = "unreachable"]', style: { 'border-color': COLOUR_POOR, 'border-width': 4 } },
       {

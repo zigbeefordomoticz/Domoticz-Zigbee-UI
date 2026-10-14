@@ -37,9 +37,16 @@ export class MeshComponent extends UnsubscribeOnDestroyAdapter implements OnInit
    * What each node is, by nwkid, for the graph's node icons.
    *
    * `/topology-scan` does not carry a device's ZDeviceID, so it is joined in
-   * from `/zdevice`. Like the `health`, `model`, `lqi`, `rssi` and `battery`
-   * the scan itself repeats, this is the device's value *now* rather than as
-   * of the scan — which for what a device *is* is the stabler of the two.
+   * from `/zdevice-raw`. Like the `health`, `model`, `lqi`, `rssi` and
+   * `battery` the scan itself repeats, this is the device's value *now*
+   * rather than as of the scan — which for what a device *is* is the stabler
+   * of the two.
+   *
+   * `/zdevice-raw` rather than `/zdevice` because only the raw record carries
+   * `Epv2`, the per-endpoint descriptors. The device-level `ZDeviceID` is the
+   * last endpoint decoded, which on most mains-powered devices is the Green
+   * Power proxy — see `resolveDeviceType`. It is a larger payload, and the
+   * only one that answers the question correctly.
    *
    * A device the plugin has no descriptor for is simply absent from the map,
    * and so is every device if the call fails: the graph then draws the nodes
@@ -65,19 +72,24 @@ export class MeshComponent extends UnsubscribeOnDestroyAdapter implements OnInit
     this.loadDeviceTypes();
   }
 
-  /** Join `/zdevice` for the ZDeviceID of every device, the coordinator included. */
+  /** Join `/zdevice-raw` for the ZDeviceID of every device, endpoints included. */
   private loadDeviceTypes(): void {
-    this.subs.sink = this.apiService.getZDevices(true).subscribe({
+    this.subs.sink = this.apiService.getRawZDevices().subscribe({
       next: devices => {
         const types = new Map<string, MeshDeviceType>();
         (devices ?? []).forEach(device => {
+          const nwkid = device?.NwkID;
+          if (!nwkid) {
+            return;
+          }
           const type = resolveDeviceType({
-            nwkid: device._NwkId,
+            nwkid,
             zdeviceId: device.ZDeviceID,
-            profileId: device.ProfileID
+            profileId: device.ProfileID,
+            endpoints: device.Epv2
           });
           if (type) {
-            types.set(device._NwkId, type);
+            types.set(nwkid, type);
           }
         });
         // A new Map rather than a mutated one, so the graph's @Input sees it.

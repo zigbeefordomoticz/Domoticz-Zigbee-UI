@@ -82,23 +82,40 @@ export const MESH_FAMILY_ICONS: Record<MeshDeviceFamily, string> = {
  */
 export const MESH_COORDINATOR_FAMILY: MeshDeviceFamily = 'bridge';
 
-/** A resolved ZDeviceID: what to draw, and what to name it in the panel. */
+/**
+ * A ZDeviceID as reported, resolved as far as it can be.
+ *
+ * `family` and `label` are absent when neither table names the id. That is not
+ * the same as a device that reported nothing at all, and the panel must not
+ * say it is: an id we have no name for is a finding — it is how the Green
+ * Power endpoint overwriting a device's own descriptor shows up — and the raw
+ * value is the only thing that makes it visible.
+ */
 export interface MeshDeviceType {
   /** The id as the plugin reported it, four lowercase hex digits. */
   id: string;
-  /** Which table the id was read against. */
-  profile: 'zha' | 'zll';
-  family: MeshDeviceFamily;
+  /** The profile as reported, four lowercase hex digits, or `''` when absent. */
+  profileId: string;
+  /** Which table named the id, when one did. */
+  profile?: 'zha' | 'zll';
+  /** The endpoint the id came from, when it was not the device's global field. */
+  endpoint?: string;
+  family?: MeshDeviceFamily;
   /** The Zigbee device description, in the plugin's wording. Not translated. */
-  label: string;
+  label?: string;
 }
 
-/** What the plugin reports per device on `/zdevice`, reduced to what is needed here. */
+/** What the plugin keeps per device, reduced to what is needed here. */
 export interface MeshDeviceIdentity {
   nwkid: string;
   /** May be absent, empty, or `{}` on a device whose descriptor never arrived. */
   zdeviceId?: unknown;
   profileId?: unknown;
+  /**
+   * `Epv2`: endpoint → `{ ProfileID, ZDeviceID, ... }`, as the plugin records
+   * each simple descriptor. This is the reliable half — see `candidates()`.
+   */
+  endpoints?: unknown;
 }
 
 type Entry = [MeshDeviceFamily, string];
@@ -118,8 +135,16 @@ const ZHA_DEVICES: Record<number, Entry> = {
   0x0009: ['plug', 'Mains Power Outlet'],
   0x000a: ['lock', 'Door Lock'],
   0x000b: ['lock', 'Door Lock Controller'],
-  0x000c: ['plug', 'Smart Plug'],
+  // The plugin's own table, from the NXP guide, calls 0x000c a smart plug.
+  // The current ZCL device list — and zigpy — call it a simple sensor, which
+  // is what reports it in practice: a Hue dimmer, for one.
+  0x000c: ['sensor', 'Simple Sensor'],
   0x000d: ['energy', 'Consumption Awareness Device'],
+  // The rest of the generic range, which the NXP guide predates.
+  0x0050: ['bridge', 'Home Gateway'],
+  0x0051: ['plug', 'Smart Plug'],
+  0x0052: ['plug', 'White Goods'],
+  0x0053: ['energy', 'Meter Interface'],
   // Lighting
   0x0100: ['light', 'On/Off Light'],
   0x0101: ['light', 'Dimmable Light'],
@@ -129,8 +154,13 @@ const ZHA_DEVICES: Record<number, Entry> = {
   0x0105: ['switch', 'Colour Dimmer Switch'],
   0x0106: ['illuminance', 'Light Sensor'],
   0x0107: ['occupancy', 'Occupancy Sensor'],
+  0x0108: ['light', 'On/Off Ballast'],
+  0x0109: ['light', 'Dimmable Ballast'],
+  0x010a: ['plug', 'On/Off Plug-in Unit'],
+  0x010b: ['plug', 'Dimmable Plug-in Unit'],
   0x010c: ['light', 'White Color Temperature Light'],
   0x010d: ['light', 'Extended Color Light'],
+  0x010e: ['illuminance', 'Light Level Sensor'],
   // Closures
   0x0200: ['covering', 'Shade'],
   0x0201: ['covering', 'Shade Controller'],
@@ -167,8 +197,22 @@ const ZLL_DEVICES: Record<number, Entry> = {
   0x0850: ['sensor', 'On/Off sensor']
 };
 
-/** ZigBee Light Link, the one profile that needs its own table. */
+/** ZigBee Home Automation, and ZigBee Light Link: the two profiles with a table. */
+const PROFILE_ZHA = 0x0104;
 const PROFILE_ZLL = 0xc05e;
+
+/**
+ * ZigBee Green Power, whose endpoint is the reason this file reads `Epv2` at
+ * all.
+ *
+ * The plugin writes the global `ZDeviceID` and `ProfileID` on every simple
+ * descriptor it decodes, so they end up holding whichever endpoint answered
+ * last — and on a mains-powered device that is usually endpoint `f2`, the
+ * Green Power proxy, which reports profile `0xa1e0` and device id `0x0061`.
+ * A Hue bulb then says "Green Power proxy" rather than "extended colour
+ * light". Its own endpoint still says the truth, so that is what is read.
+ */
+const PROFILE_GREEN_POWER = 0xa1e0;
 
 /**
  * A hex field as the plugin serves it, or `null`.
@@ -189,31 +233,121 @@ function hexField(value: unknown): number | null {
   return parseInt(text, 16);
 }
 
+/** One (device id, profile) pair a device reported, and where it reported it. */
+interface Candidate {
+  id: number;
+  profileId: number | null;
+  /** The endpoint it came from; absent for the device's global fields. */
+  endpoint?: string;
+}
+
 /**
- * Resolve one device's ZDeviceID, or `undefined` when there is nothing to draw.
+ * Every id a device reported, best first.
  *
- * An id outside the tables resolves to nothing rather than to a guess: a
- * device reporting `0x0051` is telling us something we do not have a name
- * for, and a wrong icon is worse than none.
+ * The global fields come first because they are what the device settled on,
+ * then each endpoint in order. Green Power is dropped wherever it appears: it
+ * is never what a reader means by "what is this device", and on most
+ * mains-powered devices it is exactly what the global field holds.
+ */
+function candidates(identity: MeshDeviceIdentity | undefined): Candidate[] {
+  const list: Candidate[] = [];
+
+  const globalId = hexField(identity?.zdeviceId);
+  if (globalId !== null) {
+    list.push({ id: globalId, profileId: hexField(identity?.profileId) });
+  }
+
+  const endpoints = identity?.endpoints;
+  if (endpoints && typeof endpoints === 'object') {
+    Object.keys(endpoints as Record<string, unknown>)
+      .sort()
+      .forEach(endpoint => {
+        const content = (endpoints as Record<string, unknown>)[endpoint];
+        if (!content || typeof content !== 'object') {
+          return;
+        }
+        const id = hexField((content as Record<string, unknown>).ZDeviceID);
+        if (id !== null) {
+          list.push({ id, profileId: hexField((content as Record<string, unknown>).ProfileID), endpoint });
+        }
+      });
+  }
+
+  return list.filter(candidate => candidate.profileId !== PROFILE_GREEN_POWER);
+}
+
+/** The table a candidate's profile points at, and the other one as a fallback. */
+function lookup(candidate: Candidate): ['zha' | 'zll', Entry] | undefined {
+  const zll = candidate.profileId === PROFILE_ZLL;
+  const order: Array<['zha' | 'zll', Record<number, Entry>]> = zll
+    ? [
+        ['zll', ZLL_DEVICES],
+        ['zha', ZHA_DEVICES]
+      ]
+    : [
+        ['zha', ZHA_DEVICES],
+        ['zll', ZLL_DEVICES]
+      ];
+
+  for (const [profile, table] of order) {
+    if (table[candidate.id]) {
+      return [profile, table[candidate.id]];
+    }
+  }
+  return undefined;
+}
+
+/** True for a profile a table was written for, as opposed to a vendor's own. */
+function namedProfile(profileId: number | null): boolean {
+  return profileId === PROFILE_ZHA || profileId === PROFILE_ZLL;
+}
+
+/**
+ * Resolve one device's ZDeviceID. `undefined` only when it reported none at
+ * all, anywhere.
+ *
+ * The candidate that wins is the first that a table names, preferring one
+ * reported under a profile the tables were written for: Develco's plugs carry
+ * their real descriptor on endpoint `02` under profile `0x0104` while their
+ * global fields hold endpoint `01`'s proprietary `0xc0c9` profile, where the
+ * same id means something else entirely.
+ *
+ * The profile also decides which table is read first, because ZHA `0x0200` is
+ * a shade and ZLL `0x0200` is a colour light. The other table is then tried,
+ * which costs nothing — the first has already said it does not know the id —
+ * and catches the devices reporting a ZLL controller id under profile
+ * `0x0104`, as IKEA's remotes do.
+ *
+ * An id in neither table draws no icon rather than a guess, but it is still
+ * returned: a device reporting `0x0061` is telling us something, and the
+ * panel shows it as it arrived.
  */
 export function resolveDeviceType(identity: MeshDeviceIdentity | undefined): MeshDeviceType | undefined {
-  const id = hexField(identity?.zdeviceId);
-  if (id === null) {
+  const reported = candidates(identity);
+  if (!reported.length) {
     return undefined;
   }
 
-  const zll = hexField(identity?.profileId) === PROFILE_ZLL;
-  const entry = zll ? ZLL_DEVICES[id] : ZHA_DEVICES[id];
-  if (!entry) {
-    return undefined;
-  }
+  const named = reported.filter(candidate => namedProfile(candidate.profileId));
+  const ranked = [...named, ...reported.filter(candidate => !namedProfile(candidate.profileId))];
 
-  return {
-    id: id.toString(16).padStart(4, '0'),
-    profile: zll ? 'zll' : 'zha',
-    family: entry[0],
-    label: entry[1]
+  const chosen = ranked.find(candidate => lookup(candidate)) ?? ranked[0];
+  const match = lookup(chosen);
+
+  const type: MeshDeviceType = {
+    id: chosen.id.toString(16).padStart(4, '0'),
+    profileId: chosen.profileId === null ? '' : chosen.profileId.toString(16).padStart(4, '0')
   };
+  if (chosen.endpoint) {
+    type.endpoint = chosen.endpoint;
+  }
+  if (match) {
+    type.profile = match[0];
+    type.family = match[1][0];
+    type.label = match[1][1];
+  }
+
+  return type;
 }
 
 /** Every family has a glyph, and every glyph exists. Guards a typo in the tables. */
