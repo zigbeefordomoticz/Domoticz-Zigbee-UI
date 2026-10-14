@@ -1,0 +1,525 @@
+<div class="row mt-1">
+  <div class="col">
+    <div class="card">
+      <div class="card-header fw-bold" translate="network.mesh.graph.header"></div>
+      <div class="card-body">
+        <p class="card-text" [innerHTML]="'network.mesh.graph.subtitle' | translate"></p>
+
+        @if (form) {
+          <form [formGroup]="form">
+            <div class="row g-2 align-items-end mb-2">
+              <div class="col-12 col-lg-4">
+                <label class="form-label mb-1" translate="network.mesh.focus"></label>
+                <ng-select
+                  [items]="nodes"
+                  [multiple]="false"
+                  [closeOnSelect]="true"
+                  [searchable]="true"
+                  bindLabel="label"
+                  bindValue="nwkid"
+                  placeholder="{{ 'network.mesh.focus.placeholder' | translate }}"
+                  appendTo="body"
+                  formControlName="focusedNode">
+                  <ng-template ng-option-tmp let-item="item">
+                    <span
+                      >{{ item.label }}
+                      <small class="text-muted"
+                        >— {{ item.nwkid }} · {{ valueLabel('device_type', item.logical_type) }}</small
+                      ></span
+                    >
+                  </ng-template>
+                </ng-select>
+              </div>
+
+              <div class="col-6 col-lg-3">
+                <label class="form-label mb-1" translate="network.mesh.edges"></label>
+                <select class="form-select" formControlName="edges">
+                  <option value="neighbours">{{ 'network.mesh.edges.neighbours' | translate }}</option>
+                  <option value="routes" [disabled]="!hasRoutes">
+                    {{ 'network.mesh.edges.routes' | translate }}
+                  </option>
+                  <option value="both" [disabled]="!hasRoutes">{{ 'network.mesh.edges.both' | translate }}</option>
+                </select>
+              </div>
+
+              <div class="col-6 col-lg-2">
+                <label class="form-label mb-1" translate="network.mesh.layout"></label>
+                <select class="form-select" formControlName="layout">
+                  @for (layout of layouts; track layout) {
+                    <option [value]="layout">{{ layout }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-12 col-lg-3">
+                <label class="form-label mb-1">
+                  {{ 'network.mesh.threshold' | translate }}
+                  <span class="badge text-bg-secondary">{{ form.get('lqiThreshold').value }}</span>
+                </label>
+                <input type="range" class="form-range" min="0" max="255" step="5" formControlName="lqiThreshold" />
+              </div>
+            </div>
+
+            <div class="row g-2 align-items-center mb-2">
+              <div class="col-12 col-lg-7">
+                <div class="d-flex flex-wrap gap-3">
+                  <span class="small text-muted" translate="network.mesh.relationship"></span>
+                  <div class="form-check form-check-inline m-0">
+                    <input class="form-check-input" type="checkbox" id="showTree" formControlName="showTree" />
+                    <label class="form-check-label small" for="showTree" translate="network.mesh.kind.tree"></label>
+                  </div>
+                  <div class="form-check form-check-inline m-0">
+                    <input class="form-check-input" type="checkbox" id="showSibling" formControlName="showSibling" />
+                    <label
+                      class="form-check-label small"
+                      for="showSibling"
+                      translate="network.mesh.kind.sibling"></label>
+                  </div>
+                  <div class="form-check form-check-inline m-0">
+                    <input class="form-check-input" type="checkbox" id="showOther" formControlName="showOther" />
+                    <label class="form-check-label small" for="showOther" translate="network.mesh.kind.other"></label>
+                  </div>
+                  <div class="form-check form-check-inline m-0">
+                    <input class="form-check-input" type="checkbox" id="showUnknown" formControlName="showUnknown" />
+                    <label
+                      class="form-check-label small"
+                      for="showUnknown"
+                      translate="network.mesh.kind.unknown"></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-3">
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="form-check form-check-inline m-0">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="hideEndDevices"
+                      formControlName="hideEndDevices" />
+                    <label
+                      class="form-check-label small"
+                      for="hideEndDevices"
+                      translate="network.mesh.hideenddevices"></label>
+                  </div>
+                  <div class="form-check form-check-inline m-0">
+                    <input class="form-check-input" type="checkbox" id="hideIsolated" formControlName="hideIsolated" />
+                    <label
+                      class="form-check-label small"
+                      for="hideIsolated"
+                      translate="network.mesh.hideisolated"></label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-2 d-flex justify-content-lg-end">
+                <div class="btn-group btn-group-sm" role="group">
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    title="{{ 'network.mesh.zoomin' | translate }}"
+                    (click)="zoomIn()">
+                    <i class="fa fa-search-plus"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    title="{{ 'network.mesh.zoomout' | translate }}"
+                    (click)="zoomOut()">
+                    <i class="fa fa-search-minus"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    title="{{ 'network.mesh.fit' | translate }}"
+                    (click)="fit()">
+                    <i class="fa fa-expand"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-light"
+                    title="{{ 'network.mesh.relayout' | translate }}"
+                    (click)="runLayout()">
+                    <i class="fa fa-sync"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        }
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-1 mesh-legend">
+          <div class="d-flex flex-wrap gap-3">
+            <span
+              ><span class="legend-shape legend-coordinator"></span
+              >{{ 'network.mesh.value.device_type.coordinator' | translate }}</span
+            >
+            <span
+              ><span class="legend-shape legend-router"></span
+              >{{ 'network.mesh.value.device_type.router' | translate }}</span
+            >
+            <span
+              ><span class="legend-shape legend-enddevice"></span
+              >{{ 'network.mesh.value.device_type.end_device' | translate }}</span
+            >
+            <span
+              ><span class="legend-shape legend-unknownnode"></span
+              >{{ 'network.mesh.value.device_type.unknown' | translate }}</span
+            >
+          </div>
+          <span class="text-muted">
+            {{
+              'network.mesh.counts'
+                | translate
+                  : {
+                      visibleNodes: visibleNodes,
+                      nodes: nodes.length,
+                      visibleLinks: visibleLinks,
+                      links: links.length,
+                      visibleHops: visibleHops,
+                      hops: hops.length
+                    }
+            }}
+          </span>
+        </div>
+
+        <div class="d-flex flex-wrap gap-3 mb-2 mesh-legend">
+          <span
+            ><span class="legend-border legend-unreachable"></span
+            >{{ 'network.mesh.legend.unreachable' | translate }}</span
+          >
+          <span
+            ><span class="legend-border legend-timeout"></span
+            >{{ 'network.mesh.value.scan_status.timeout' | translate }}</span
+          >
+          <span
+            ><span class="legend-border legend-notscanned"></span
+            >{{ 'network.mesh.value.scan_status.not_scanned' | translate }}</span
+          >
+          <span><span class="legend-border legend-stale"></span>{{ 'network.mesh.legend.stale' | translate }}</span>
+          <span><span class="legend-line legend-poor"></span>LQI &le; {{ lqiPoorMax }}</span>
+          <span><span class="legend-line legend-fair"></span>LQI {{ lqiPoorMax + 1 }} – {{ lqiFairMax }}</span>
+          <span><span class="legend-line legend-good"></span>LQI &gt; {{ lqiFairMax }}</span>
+          <span><span class="legend-line legend-nolqi"></span>{{ 'network.mesh.legend.nolqi' | translate }}</span>
+          <span><span class="legend-line legend-dashed"></span>{{ 'network.mesh.kind.sibling' | translate }}</span>
+          <span><span class="legend-line legend-dotted"></span>{{ 'network.mesh.kind.other' | translate }}</span>
+          @if (hasRoutes) {
+            <span><span class="legend-line legend-route"></span>{{ 'network.mesh.legend.route' | translate }}</span>
+          }
+        </div>
+
+        <div #graph class="mesh-graph"></div>
+
+        <p class="small text-muted mt-1 mb-0" translate="network.mesh.graph.note"></p>
+
+        @if (orphanRows) {
+          <p class="small text-warning mt-1 mb-0">
+            <i class="fa fa-triangle-exclamation me-1"></i>
+            <span [innerHTML]="'network.mesh.orphans' | translate: { count: orphanRows }"></span>
+          </p>
+        }
+
+        @if (!nodes.length) {
+          <p class="text-muted mt-2" translate="network.mesh.empty"></p>
+        }
+
+        <!-- Node panel -->
+        @if (selectedNode) {
+          <div class="card mt-3">
+            <div class="card-header fw-bold d-flex justify-content-between align-items-center">
+              <span
+                >{{ selectedNode.label }} <small class="text-muted">{{ selectedNode.nwkid }}</small></span
+              >
+              <button type="button" class="btn-close" (click)="clearSelection()"></button>
+            </div>
+            <div class="card-body">
+              <dl class="row mb-2">
+                <dt class="col-sm-3" translate="network.mesh.node.nwkid"></dt>
+                <dd class="col-sm-3">{{ selectedNode.nwkid }}</dd>
+                <dt class="col-sm-3" translate="network.mesh.node.ieee"></dt>
+                <dd class="col-sm-3">{{ selectedNode.ieee || '-' }}</dd>
+
+                <dt class="col-sm-3" translate="network.mesh.node.type"></dt>
+                <dd class="col-sm-3">{{ valueLabel('device_type', selectedNode.logical_type) }}</dd>
+                <dt class="col-sm-3" translate="network.mesh.node.model"></dt>
+                <dd class="col-sm-3">{{ selectedNode.model || '-' }}</dd>
+
+                <dt class="col-sm-3" translate="network.mesh.node.scanstatus"></dt>
+                <dd class="col-sm-3">
+                  {{ valueLabel('scan_status', selectedNode.scan_status) }}
+                  @if (valueHelp('scan_status', selectedNode.scan_status); as help) {
+                    <i class="fa fa-circle-info text-muted ms-1" [title]="help"></i>
+                  }
+                </dd>
+                <dt class="col-sm-3" translate="network.mesh.node.rxonidle"></dt>
+                <dd class="col-sm-3">{{ valueLabel('flag', selectedNode.rx_on_when_idle) }}</dd>
+
+                <dt class="col-sm-3" translate="network.mesh.node.health"></dt>
+                <dd class="col-sm-3">{{ selectedNode.health || '-' }}</dd>
+                <dt class="col-sm-3" translate="network.mesh.node.battery"></dt>
+                <dd class="col-sm-3">{{ reading(selectedNode.battery) }}</dd>
+
+                <dt class="col-sm-3" translate="network.mesh.node.lqi"></dt>
+                <dd class="col-sm-3">{{ reading(selectedNode.lqi) }}</dd>
+                <dt class="col-sm-3" translate="network.mesh.node.rssi"></dt>
+                <dd class="col-sm-3">{{ reading(selectedNode.rssi) }}</dd>
+
+                @if (hasAssociatedDevices) {
+                  <dt class="col-sm-3" translate="network.mesh.node.children"></dt>
+                  <dd class="col-sm-9">
+                    @if (selectedChildren.length) {
+                      @for (child of selectedChildren; track child) {
+                        <span class="badge text-bg-light me-1">{{ label(child) }} ({{ child }})</span>
+                      }
+                    } @else {
+                      -
+                    }
+                  </dd>
+                }
+              </dl>
+              <p class="small text-muted" translate="network.mesh.node.note"></p>
+
+              @if (selectedNeighbours.length) {
+                <h6 class="fw-bold" translate="network.mesh.node.neighbours"></h6>
+                <p-table
+                  [rowHover]="true"
+                  styleClass="p-datatable-sm"
+                  responsiveLayout="scroll"
+                  [value]="selectedNeighbours"
+                  [rows]="10"
+                  [paginator]="selectedNeighbours.length > 10"
+                  [rowsPerPageOptions]="[10, 25, 50]">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>{{ 'network.mesh.table.direction' | translate }}</th>
+                      <th pSortableColumn="peerLabel">
+                        {{ 'network.mesh.table.peer' | translate }}<p-sortIcon field="peerLabel"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="relationship">
+                        {{ 'network.mesh.table.relationship' | translate
+                        }}<p-sortIcon field="relationship"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="lqi">
+                        {{ 'network.mesh.table.lqi' | translate }}<p-sortIcon field="lqi"></p-sortIcon>
+                      </th>
+                      <th>{{ 'network.mesh.table.devicetype' | translate }}</th>
+                      <th>{{ 'network.mesh.table.depth' | translate }}</th>
+                      <th>{{ 'network.mesh.table.rxonidle' | translate }}</th>
+                      <th>{{ 'network.mesh.table.permitjoining' | translate }}</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-row>
+                    <tr>
+                      <td>
+                        <span class="small text-muted">{{
+                          'network.mesh.table.direction.' + row.direction
+                            | translate: { node: selectedNode.label, peer: row.peerLabel }
+                        }}</span>
+                      </td>
+                      <td>
+                        {{ row.peerLabel }} <small class="text-muted">{{ row.peer }}</small>
+                      </td>
+                      <td>{{ valueLabel('relationship', row.relationship) }}</td>
+                      <td>
+                        <span class="lqi-dot" [style.background-color]="lqiColour(row.lqi)"></span
+                        >{{ reading(row.lqi) }}
+                      </td>
+                      <td>{{ valueLabel('device_type', row.device_type) }}</td>
+                      <td>{{ reading(row.depth) }}</td>
+                      <td>{{ valueLabel('flag', row.rx_on_when_idle) }}</td>
+                      <td>{{ valueLabel('flag', row.permit_joining) }}</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <p class="small text-muted mt-1" translate="network.mesh.node.neighbours.note"></p>
+              }
+
+              @if (hasRoutes && selectedRoutes.length) {
+                <h6 class="fw-bold mt-3" translate="network.mesh.node.routes"></h6>
+                <p-table
+                  [rowHover]="true"
+                  styleClass="p-datatable-sm"
+                  responsiveLayout="scroll"
+                  [value]="selectedRoutes"
+                  [rows]="10"
+                  [paginator]="selectedRoutes.length > 10"
+                  [rowsPerPageOptions]="[10, 25, 50]">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>{{ 'network.mesh.table.role' | translate }}</th>
+                      <th>{{ 'network.mesh.table.reporter' | translate }}</th>
+                      <th>{{ 'network.mesh.table.destination' | translate }}</th>
+                      <th>{{ 'network.mesh.table.nexthop' | translate }}</th>
+                      <th>{{ 'network.mesh.table.status' | translate }}</th>
+                      <th>{{ 'network.mesh.table.flags' | translate }}</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-row>
+                    <tr>
+                      <td>
+                        @for (role of row.roles; track role) {
+                          <span class="badge text-bg-light me-1">{{
+                            'network.mesh.table.role.' + role | translate
+                          }}</span>
+                        }
+                      </td>
+                      <td>
+                        {{ label(row.reporter) }} <small class="text-muted">{{ row.reporter }}</small>
+                      </td>
+                      <td>
+                        {{ label(row.destination) }} <small class="text-muted">{{ row.destination }}</small>
+                      </td>
+                      <td>
+                        {{ label(row.next_hop) }} <small class="text-muted">{{ row.next_hop }}</small>
+                      </td>
+                      <td>{{ valueLabel('route_status', row.status) }}</td>
+                      <td>
+                        @if (row.many_to_one) {
+                          <span class="badge text-bg-light me-1">{{ 'network.mesh.table.manytoone' | translate }}</span>
+                        }
+                        @if (row.memory_constrained) {
+                          <span class="badge text-bg-light me-1">{{
+                            'network.mesh.table.memoryconstrained' | translate
+                          }}</span>
+                        }
+                        @if (row.route_record_required) {
+                          <span class="badge text-bg-light me-1">{{
+                            'network.mesh.table.routerecord' | translate
+                          }}</span>
+                        }
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Neighbour link panel -->
+        @if (selectedLink) {
+          <div class="card mt-3">
+            <div class="card-header fw-bold d-flex justify-content-between align-items-center">
+              <span>{{ label(selectedLink.a) }} &harr; {{ label(selectedLink.b) }}</span>
+              <button type="button" class="btn-close" (click)="clearSelection()"></button>
+            </div>
+            <div class="card-body">
+              @if (selectedLink.oneSided) {
+                <p class="small text-warning">
+                  <i class="fa fa-triangle-exclamation me-1"></i><span translate="network.mesh.link.onesided"></span>
+                </p>
+              }
+              <dl class="row mb-2">
+                @if (selectedLink.aReported) {
+                  <dt class="col-sm-5">
+                    {{
+                      'network.mesh.link.hears'
+                        | translate: { reporter: label(selectedLink.a), peer: label(selectedLink.b) }
+                    }}
+                  </dt>
+                  <dd class="col-sm-7">
+                    <span class="lqi-dot" [style.background-color]="lqiColour(selectedLink.aReported.lqi)"></span>
+                    {{ reading(selectedLink.aReported.lqi) }}
+                    <small class="text-muted">
+                      · {{ valueLabel('relationship', selectedLink.aReported.relationship) }} ·
+                      {{ 'network.mesh.table.depth' | translate }} {{ reading(selectedLink.aReported.depth) }} ·
+                      {{ 'network.mesh.table.rxonidle' | translate }}
+                      {{ valueLabel('flag', selectedLink.aReported.rx_on_when_idle) }} ·
+                      {{ 'network.mesh.table.permitjoining' | translate }}
+                      {{ valueLabel('flag', selectedLink.aReported.permit_joining) }}
+                    </small>
+                  </dd>
+                }
+                @if (selectedLink.bReported) {
+                  <dt class="col-sm-5">
+                    {{
+                      'network.mesh.link.hears'
+                        | translate: { reporter: label(selectedLink.b), peer: label(selectedLink.a) }
+                    }}
+                  </dt>
+                  <dd class="col-sm-7">
+                    <span class="lqi-dot" [style.background-color]="lqiColour(selectedLink.bReported.lqi)"></span>
+                    {{ reading(selectedLink.bReported.lqi) }}
+                    <small class="text-muted">
+                      · {{ valueLabel('relationship', selectedLink.bReported.relationship) }} ·
+                      {{ 'network.mesh.table.depth' | translate }} {{ reading(selectedLink.bReported.depth) }} ·
+                      {{ 'network.mesh.table.rxonidle' | translate }}
+                      {{ valueLabel('flag', selectedLink.bReported.rx_on_when_idle) }} ·
+                      {{ 'network.mesh.table.permitjoining' | translate }}
+                      {{ valueLabel('flag', selectedLink.bReported.permit_joining) }}
+                    </small>
+                  </dd>
+                }
+              </dl>
+              <p class="small text-muted" translate="network.mesh.link.note"></p>
+            </div>
+          </div>
+        }
+
+        <!-- Routing hop panel -->
+        @if (selectedHop) {
+          <div class="card mt-3">
+            <div class="card-header fw-bold d-flex justify-content-between align-items-center">
+              <span>{{ label(selectedHop.reporter) }} &rarr; {{ label(selectedHop.nextHop) }}</span>
+              <button type="button" class="btn-close" (click)="clearSelection()"></button>
+            </div>
+            <div class="card-body">
+              <p class="card-text small">
+                {{
+                  'network.mesh.hop.subtitle'
+                    | translate
+                      : {
+                          reporter: label(selectedHop.reporter),
+                          nextHop: label(selectedHop.nextHop),
+                          count: selectedHop.rows.length
+                        }
+                }}
+              </p>
+              <p-table
+                [rowHover]="true"
+                styleClass="p-datatable-sm"
+                responsiveLayout="scroll"
+                [value]="selectedHop.rows"
+                [rows]="10"
+                [paginator]="selectedHop.rows.length > 10"
+                [rowsPerPageOptions]="[10, 25, 50]">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>{{ 'network.mesh.table.destination' | translate }}</th>
+                    <th>{{ 'network.mesh.table.status' | translate }}</th>
+                    <th>{{ 'network.mesh.table.flags' | translate }}</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-row>
+                  <tr>
+                    <td>
+                      {{ label(row.destination) }} <small class="text-muted">{{ row.destination }}</small>
+                      @if (row.destination === selectedHop.nextHop) {
+                        <span class="badge text-bg-light ms-1">{{ 'network.mesh.hop.direct' | translate }}</span>
+                      }
+                    </td>
+                    <td>{{ valueLabel('route_status', row.status) }}</td>
+                    <td>
+                      @if (row.many_to_one) {
+                        <span class="badge text-bg-light me-1">{{ 'network.mesh.table.manytoone' | translate }}</span>
+                      }
+                      @if (row.memory_constrained) {
+                        <span class="badge text-bg-light me-1">{{
+                          'network.mesh.table.memoryconstrained' | translate
+                        }}</span>
+                      }
+                      @if (row.route_record_required) {
+                        <span class="badge text-bg-light me-1">{{ 'network.mesh.table.routerecord' | translate }}</span>
+                      }
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+              <p class="small text-muted mt-1" translate="network.mesh.hop.note"></p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

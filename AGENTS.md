@@ -163,7 +163,7 @@ not treat the dependency set as free to move.
   that is expected signal, not something to suppress.
 - **Two angular-eslint rules are off on purpose** — `prefer-standalone` and
   `prefer-inject`, with reasons recorded in `.eslintrc.json`. Running
-  `eslint --fix` on the first would strip `standalone: false` from all 57
+  `eslint --fix` on the first would strip `standalone: false` from all 59
   components and break the build.
 
 See the Dependency State section of `CLAUDE.md` for the detail, including what

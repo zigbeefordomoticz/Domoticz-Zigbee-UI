@@ -60,7 +60,7 @@ src/
   convert parts of the app to standalone components piecemeal.
 - **One API surface.** Components inject `ApiService`; they never touch
   `HttpClient`. The `routes` constant at the top of `api.service.ts` is the
-  single list of endpoints (57).
+  single list of endpoints (58).
 - **Interceptor-applied base path.** `environment.api_url` is `/rest-z4d/1`.
   `api-prefix.interceptor.ts` prepends it to every request. Absolute URLs (for
   example log downloads) opt out with `httpClient.disableApiPrefix()`.
@@ -74,7 +74,7 @@ src/
 | `/`             | `dashboard`    | Traffic, health, battery, optimisation summary      |
 | `/device`       | `device`       | Device list, detail, per-device parameters          |
 | `/group`        | `group`        | Zigbee group creation and membership                |
-| `/network`      | `network`      | Topology and interference reports                   |
+| `/network`      | `network`      | Topology, mesh graph, interference reports          |
 | `/admin`        | `admin`        | Coordinator administration, OTA firmware            |
 | `/settings`     | `settings`     | Plugin settings editor                              |
 | `/manufacturer` | `manufacturer` | Vendor panels: CASA.iA, ZLinky, TICmeter, Chameleon |
@@ -401,11 +401,11 @@ primeng' }` so the `@layer bootstrap, primeng` declaration in `main.scss`
 Both are recorded with their reasons in `.eslintrc.json`. Do not run
 `eslint --fix` expecting them to be harmless:
 
-- **`prefer-standalone`** (arrived in angular-eslint 19) reports all 57
+- **`prefer-standalone`** (arrived in angular-eslint 19) reports all 59
   `standalone: false` flags. `--fix` would strip them and break the build. This
   application is module-based by design; see `AGENTS.md`.
-- **`prefer-inject`** (arrived in angular-eslint 20) reports 173 constructor
-  injection sites across 50 files. Converting them is a codebase-wide style
+- **`prefer-inject`** (arrived in angular-eslint 20) reports 181 constructor
+  injection sites across 52 files. Converting them is a codebase-wide style
   refactor, not a version bump. The schematic is
   `ng generate @angular/core:inject` if it is ever taken on deliberately.
 
