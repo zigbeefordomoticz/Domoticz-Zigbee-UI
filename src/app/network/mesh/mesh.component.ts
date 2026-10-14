@@ -9,6 +9,7 @@ import {
 } from '@app/shared/models/topology-scan';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { MeshDeviceType, resolveDeviceType } from './mesh-device-type';
 
 /**
  * The mesh graph page: the `/topology-scan` report picker, the scan coverage
@@ -32,6 +33,20 @@ export class MeshComponent extends UnsubscribeOnDestroyAdapter implements OnInit
   selected: TopologyScanSummary;
   scan: TopologyScan;
 
+  /**
+   * What each node is, by nwkid, for the graph's node icons.
+   *
+   * `/topology-scan` does not carry a device's ZDeviceID, so it is joined in
+   * from `/zdevice`. Like the `health`, `model`, `lqi`, `rssi` and `battery`
+   * the scan itself repeats, this is the device's value *now* rather than as
+   * of the scan — which for what a device *is* is the stabler of the two.
+   *
+   * A device the plugin has no descriptor for is simply absent from the map,
+   * and so is every device if the call fails: the graph then draws the nodes
+   * it has always drawn, without icons.
+   */
+  deviceTypes = new Map<string, MeshDeviceType>();
+
   loadingScans = false;
   loadingScan = false;
   confirmDeleteAll = false;
@@ -47,6 +62,33 @@ export class MeshComponent extends UnsubscribeOnDestroyAdapter implements OnInit
 
   ngOnInit(): void {
     this.loadScans(true);
+    this.loadDeviceTypes();
+  }
+
+  /** Join `/zdevice` for the ZDeviceID of every device, the coordinator included. */
+  private loadDeviceTypes(): void {
+    this.subs.sink = this.apiService.getZDevices(true).subscribe({
+      next: devices => {
+        const types = new Map<string, MeshDeviceType>();
+        (devices ?? []).forEach(device => {
+          const type = resolveDeviceType({
+            nwkid: device._NwkId,
+            zdeviceId: device.ZDeviceID,
+            profileId: device.ProfileID
+          });
+          if (type) {
+            types.set(device._NwkId, type);
+          }
+        });
+        // A new Map rather than a mutated one, so the graph's @Input sees it.
+        this.deviceTypes = types;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        // Nothing to do: no icons is a supported state of the graph, and
+        // ApiService has already reported the failure.
+      }
+    });
   }
 
   /** Reload the report list. `autoSelect` opens the newest scan, as on arrival. */

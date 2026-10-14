@@ -20,7 +20,15 @@ import {
 } from '@app/shared/models/topology-scan';
 import { TranslateService } from '@ngx-translate/core';
 import cytoscape from 'cytoscape';
+import {
+  familyIcon,
+  MeshDeviceFamily,
+  MeshDeviceType,
+  MESH_COORDINATOR_FAMILY,
+  MESH_FAMILY_ICONS
+} from '../mesh-device-type';
 import { MeshLink, MeshLinkKind, MeshNeighbourRow, MeshNode, MeshRouteHop } from '../mesh-graph.model';
+import { iconClass, iconDataUri } from '../mesh-icons';
 
 /** LQI bands, as agreed on issue #167. */
 const LQI_POOR_MAX = 100;
@@ -75,6 +83,14 @@ type NodeState = 'unreachable' | 'timeout' | 'not_scanned' | 'stale' | 'ok';
 })
 export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements OnChanges, AfterViewInit {
   @Input() scan: TopologyScan;
+  /**
+   * What each node is, by nwkid, joined in from `/zdevice` by the page.
+   *
+   * Empty is a supported state, and the normal one for the first moments of
+   * the page: the scan and the device list are two independent calls, so the
+   * graph draws without icons and retints itself when they arrive.
+   */
+  @Input() deviceTypes = new Map<string, MeshDeviceType>();
   @ViewChild('graph') graphContainer: ElementRef<HTMLDivElement>;
 
   form: FormGroup;
@@ -97,6 +113,8 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   visibleHops = 0;
 
   selectedNode: MeshNode;
+  /** The selected node's ZDeviceID, when the device list has one for it. */
+  selectedDeviceType: MeshDeviceType;
   selectedNeighbours: MeshNeighbourRow[] = [];
   selectedRoutes: Array<TopologyScanRoute & { roles: string[] }> = [];
   selectedChildren: string[] = [];
@@ -106,6 +124,15 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   /** Exposed for the legend. */
   readonly lqiPoorMax = LQI_POOR_MAX;
   readonly lqiFairMax = LQI_FAIR_MAX;
+
+  /**
+   * The icon families this scan actually contains.
+   *
+   * Only the glyphs on screen are listed. A legend of nineteen device families
+   * on a mesh of lights and plugs is a wall of text that says nothing about
+   * this network.
+   */
+  iconLegend: Array<{ family: MeshDeviceFamily; icon: string }> = [];
 
   private cy: cytoscape.Core;
   private viewReady = false;
@@ -121,13 +148,24 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.scan || !this.scan) {
+    if (!this.scan) {
       return;
     }
-    this.buildForm();
-    this.build(this.scan);
-    this.clearSelection();
-    this.render();
+    if (changes.scan) {
+      this.buildForm();
+      this.build(this.scan);
+      this.clearSelection();
+      this.render();
+      return;
+    }
+    if (changes.deviceTypes) {
+      // The ZDeviceIDs usually land after the graph is already drawn. The
+      // nodes are retinted in place rather than re-rendered, so neither the
+      // layout nor the filters the user has set are thrown away.
+      this.buildIconLegend();
+      this.applyIcons();
+      this.cdr.detectChanges();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -160,6 +198,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
   clearSelection(): void {
     this.selectedNode = undefined;
+    this.selectedDeviceType = undefined;
     this.selectedLink = undefined;
     this.selectedHop = undefined;
     this.selectedNeighbours = [];
@@ -191,6 +230,32 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
   label(nwkid: string): string {
     return this.nodesById.get(nwkid)?.label ?? nwkid;
+  }
+
+  /** True when the graph is drawing device icons rather than plain shapes. */
+  get showsIcons(): boolean {
+    return !!this.form?.get('showIcons').value;
+  }
+
+  /** The Font Awesome class of a family's glyph, for the legend and the panel. */
+  familyIconClass(family: MeshDeviceFamily): string {
+    return iconClass(familyIcon(family));
+  }
+
+  /**
+   * The icon family of a node, or `undefined` when there is nothing to say.
+   *
+   * An unresolved ZDeviceID deliberately draws no icon: the node keeps the
+   * shape it has always had, which reads as "the mesh knows where this is,
+   * the plugin does not know what it is". The coordinator is the one
+   * exception — see `MESH_COORDINATOR_FAMILY`.
+   */
+  familyOf(node: TopologyScanNode): MeshDeviceFamily | undefined {
+    const family = this.deviceTypes?.get(node.nwkid)?.family;
+    if (family) {
+      return family;
+    }
+    return node.logical_type === 'coordinator' ? MESH_COORDINATOR_FAMILY : undefined;
   }
 
   /**
@@ -250,7 +315,8 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       showUnknown: [true],
       lqiThreshold: [0],
       hideEndDevices: [false],
-      hideIsolated: [false]
+      hideIsolated: [false],
+      showIcons: [true]
     });
 
     this.subs.sink = this.form.get('focusedNode').valueChanges.subscribe((nwkid: string) => this.focusNode(nwkid));
@@ -264,6 +330,9 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
         this.subs.sink = this.form.get(name).valueChanges.subscribe(() => this.applyFilters());
       }
     );
+    // Icons are a drawing choice, not a filter: nothing is added to or taken
+    // off the graph, so applyFilters() has no part in it.
+    this.subs.sink = this.form.get('showIcons').valueChanges.subscribe(() => this.applyIcons());
     this.syncControlAvailability();
   }
 
@@ -309,6 +378,8 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
     this.links = this.buildLinks(scan.neighbours ?? []);
     this.hops = this.buildHops(scan.routes ?? []);
+
+    this.buildIconLegend();
 
     this.links.forEach(link => {
       const a = this.nodesById.get(link.a);
@@ -486,7 +557,12 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
         label: node.name ? `${node.name}\n${node.nwkid}` : node.nwkid,
         type: node.logical_type,
         state: this.stateOf(node),
-        isolated: node.links === 0
+        isolated: node.links === 0,
+        // `''` when there is no glyph to draw. The stylesheet selects on
+        // `[?icon]`, the truthy form: `[icon]` matches a field that is merely
+        // defined, which would catch every node and leave the empty ones
+        // invisible.
+        icon: this.iconOf(node)
       }
     }));
 
@@ -530,6 +606,70 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       return 'not_scanned';
     }
     return node.health === HEALTH_STALE ? 'stale' : 'ok';
+  }
+
+  /**
+   * The `icon` field of a node, or nothing at all.
+   *
+   * Cytoscape draws on a canvas, so the glyph is an SVG data URI rather than
+   * a font element, and it is tinted here: with the box gone, the colour of
+   * the glyph is what carries the coordinator/router/end-device channel.
+   */
+  private iconOf(node: TopologyScanNode): string {
+    if (!this.showsIcons) {
+      return '';
+    }
+    const family = this.familyOf(node);
+    const icon = family ? familyIcon(family) : '';
+    return icon ? iconDataUri(icon, this.typeColour(node.logical_type)) : '';
+  }
+
+  /** The colour of a logical type, shared by the node fill and its glyph. */
+  private typeColour(type: string): string {
+    switch (type) {
+      case 'coordinator':
+        return COLOUR_COORDINATOR;
+      case 'router':
+        return COLOUR_ROUTER;
+      case 'end_device':
+        return COLOUR_END_DEVICE;
+      default:
+        return COLOUR_UNKNOWN;
+    }
+  }
+
+  /**
+   * Retint the nodes of the graph that is already on screen.
+   *
+   * Called when the ZDeviceIDs arrive after the scan, and when the icon
+   * checkbox is toggled. Setting the one data field is enough — Cytoscape
+   * re-evaluates the stylesheet on a data change — and it leaves the layout,
+   * the selection and the filters alone.
+   */
+  private applyIcons(): void {
+    if (!this.cy) {
+      return;
+    }
+    this.cy.batch(() => {
+      this.cy.nodes().forEach(element => {
+        const node = this.nodesById.get(element.id());
+        element.data('icon', node ? this.iconOf(node) : '');
+      });
+    });
+  }
+
+  /** The families present in this scan, in the order the icon table lists them. */
+  private buildIconLegend(): void {
+    const present = new Set<MeshDeviceFamily>();
+    this.nodes.forEach(node => {
+      const family = this.familyOf(node);
+      if (family) {
+        present.add(family);
+      }
+    });
+    this.iconLegend = (Object.keys(MESH_FAMILY_ICONS) as MeshDeviceFamily[])
+      .filter(family => present.has(family))
+      .map(family => ({ family, icon: familyIcon(family) }));
   }
 
   private linkWidth(lqi: number | null): number {
@@ -579,6 +719,26 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       },
       { selector: 'node[type = "end_device"]', style: { 'background-color': COLOUR_END_DEVICE } },
       { selector: 'node[type = "unknown"]', style: { shape: 'diamond', width: 26, height: 26 } },
+
+      // A node whose ZDeviceID is known is drawn as its glyph instead of as a
+      // box: the fill is made transparent (`background-opacity` applies to
+      // the colour, not to the image) and the border is dropped, so the only
+      // thing left is the glyph, tinted to the logical type's colour. The
+      // state rules below then put the border back on the nodes that have
+      // something to report, which is why they come after this one.
+      {
+        selector: 'node[?icon]',
+        style: {
+          shape: 'round-rectangle',
+          'background-image': 'data(icon)',
+          'background-fit': 'contain',
+          'background-opacity': 0,
+          'border-width': 0,
+          width: 26,
+          height: 26
+        }
+      },
+      { selector: 'node[?icon][type = "coordinator"]', style: { width: 36, height: 36 } },
 
       { selector: 'node[state = "unreachable"]', style: { 'border-color': COLOUR_POOR, 'border-width': 4 } },
       {
@@ -733,6 +893,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     this.selectedLink = undefined;
     this.selectedHop = undefined;
     this.selectedNode = node;
+    this.selectedDeviceType = this.deviceTypes?.get(nwkid);
     this.selectedNeighbours = this.neighbourRows(nwkid);
     this.selectedRoutes = this.routeRows(nwkid);
     this.selectedChildren = node.associated_devices ?? [];
@@ -746,6 +907,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
   private selectLink(link: MeshLink): void {
     this.selectedNode = undefined;
+    this.selectedDeviceType = undefined;
     this.selectedHop = undefined;
     this.selectedNeighbours = [];
     this.selectedRoutes = [];
@@ -756,6 +918,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
   private selectHop(hop: MeshRouteHop): void {
     this.selectedNode = undefined;
+    this.selectedDeviceType = undefined;
     this.selectedLink = undefined;
     this.selectedNeighbours = [];
     this.selectedRoutes = [];

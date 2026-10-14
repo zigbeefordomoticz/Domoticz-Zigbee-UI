@@ -109,6 +109,10 @@
                       for="hideIsolated"
                       translate="network.mesh.hideisolated"></label>
                   </div>
+                  <div class="form-check form-check-inline m-0">
+                    <input class="form-check-input" type="checkbox" id="showIcons" formControlName="showIcons" />
+                    <label class="form-check-label small" for="showIcons" translate="network.mesh.icons"></label>
+                  </div>
                 </div>
               </div>
 
@@ -212,6 +216,21 @@
           }
         </div>
 
+        <!-- Only the families this scan contains, and only while the icons are
+             being drawn: a legend entry for a glyph that is not on screen is
+             noise. -->
+        @if (showsIcons && iconLegend.length) {
+          <div class="d-flex flex-wrap gap-3 mb-2 mesh-legend align-items-center">
+            <span class="text-muted" translate="network.mesh.legend.icons"></span>
+            @for (entry of iconLegend; track entry.family) {
+              <span
+                ><i class="legend-icon" [class]="familyIconClass(entry.family)"></i
+                >{{ 'network.mesh.family.' + entry.family | translate }}</span
+              >
+            }
+          </div>
+        }
+
         @if (!drawsLinks) {
           <p class="small text-muted mb-2">
             <i class="fa fa-circle-info me-1"></i><span translate="network.mesh.routesmode.note"></span>
@@ -253,6 +272,25 @@
                 <dd class="col-sm-3">{{ valueLabel('device_type', selectedNode.logical_type) }}</dd>
                 <dt class="col-sm-3" translate="network.mesh.node.model"></dt>
                 <dd class="col-sm-3">{{ selectedNode.model || '-' }}</dd>
+
+                <dt class="col-sm-3" translate="network.mesh.node.zdeviceid"></dt>
+                <dd class="col-sm-9">
+                  @if (selectedDeviceType) {
+                    <i class="me-1" [class]="familyIconClass(selectedDeviceType.family)"></i>
+                    <span class="font-monospace">0x{{ selectedDeviceType.id }}</span>
+                    <!-- The description is the Zigbee device name out of the
+                         plugin's own table, so it is shown as it is written
+                         there rather than translated. The family beside it is
+                         this application's grouping, and is. -->
+                    <span class="ms-1">{{ selectedDeviceType.label }}</span>
+                    <span class="text-muted ms-1"
+                      >· {{ 'network.mesh.family.' + selectedDeviceType.family | translate }} ·
+                      {{ selectedDeviceType.profile | uppercase }}</span
+                    >
+                  } @else {
+                    <span class="text-muted" translate="network.mesh.node.zdeviceid.unknown"></span>
+                  }
+                </dd>
 
                 <dt class="col-sm-3" translate="network.mesh.node.scanstatus"></dt>
                 <dd class="col-sm-3">

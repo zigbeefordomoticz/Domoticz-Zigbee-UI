@@ -82,6 +82,15 @@ $colour-stale: #ffc107;
   border: 3px solid $colour-stale;
 }
 
+// The icon channel. The glyph is a Font Awesome element here and an SVG data
+// URI in the graph itself, so the two are the same drawing from the same name.
+.legend-icon {
+  width: 14px;
+  margin-right: 4px;
+  text-align: center;
+  color: #495057;
+}
+
 .legend-line {
   display: inline-block;
   width: 18px;
