@@ -168,18 +168,17 @@
             >
           </div>
           <span class="text-muted">
-            {{
-              'network.mesh.counts'
-                | translate
-                  : {
-                      visibleNodes: visibleNodes,
-                      nodes: nodes.length,
-                      visibleLinks: visibleLinks,
-                      links: links.length,
-                      visibleHops: visibleHops,
-                      hops: hops.length
-                    }
-            }}
+            {{ 'network.mesh.counts.nodes' | translate: { visible: visibleNodes, total: nodes.length } }}
+            @if (drawsLinks) {
+              · {{ 'network.mesh.counts.links' | translate: { visible: visibleLinks, total: links.length } }}
+            } @else if (links.length) {
+              · {{ 'network.mesh.counts.links.hidden' | translate: { total: links.length } }}
+            }
+            @if (drawsHops) {
+              · {{ 'network.mesh.counts.hops' | translate: { visible: visibleHops, total: hops.length } }}
+            } @else if (hasRoutes && hops.length) {
+              · {{ 'network.mesh.counts.hops.hidden' | translate: { total: hops.length } }}
+            }
           </span>
         </div>
 
@@ -197,16 +196,27 @@
             >{{ 'network.mesh.value.scan_status.not_scanned' | translate }}</span
           >
           <span><span class="legend-border legend-stale"></span>{{ 'network.mesh.legend.stale' | translate }}</span>
-          <span><span class="legend-line legend-poor"></span>LQI &le; {{ lqiPoorMax }}</span>
-          <span><span class="legend-line legend-fair"></span>LQI {{ lqiPoorMax + 1 }} – {{ lqiFairMax }}</span>
-          <span><span class="legend-line legend-good"></span>LQI &gt; {{ lqiFairMax }}</span>
-          <span><span class="legend-line legend-nolqi"></span>{{ 'network.mesh.legend.nolqi' | translate }}</span>
-          <span><span class="legend-line legend-dashed"></span>{{ 'network.mesh.kind.sibling' | translate }}</span>
-          <span><span class="legend-line legend-dotted"></span>{{ 'network.mesh.kind.other' | translate }}</span>
-          @if (hasRoutes) {
+          <!-- A legend entry for a line the current mode cannot draw is worse
+               than no legend: it invites the colour on screen to be read
+               against a band it has nothing to do with. -->
+          @if (drawsLinks) {
+            <span><span class="legend-line legend-poor"></span>LQI &le; {{ lqiPoorMax }}</span>
+            <span><span class="legend-line legend-fair"></span>LQI {{ lqiPoorMax + 1 }} – {{ lqiFairMax }}</span>
+            <span><span class="legend-line legend-good"></span>LQI &gt; {{ lqiFairMax }}</span>
+            <span><span class="legend-line legend-nolqi"></span>{{ 'network.mesh.legend.nolqi' | translate }}</span>
+            <span><span class="legend-line legend-dashed"></span>{{ 'network.mesh.kind.sibling' | translate }}</span>
+            <span><span class="legend-line legend-dotted"></span>{{ 'network.mesh.kind.other' | translate }}</span>
+          }
+          @if (drawsHops) {
             <span><span class="legend-line legend-route"></span>{{ 'network.mesh.legend.route' | translate }}</span>
           }
         </div>
+
+        @if (!drawsLinks) {
+          <p class="small text-muted mb-2">
+            <i class="fa fa-circle-info me-1"></i><span translate="network.mesh.routesmode.note"></span>
+          </p>
+        }
 
         <div #graph class="mesh-graph"></div>
 

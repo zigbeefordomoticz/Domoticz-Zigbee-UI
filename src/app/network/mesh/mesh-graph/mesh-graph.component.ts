@@ -179,6 +179,16 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     return lqi <= LQI_FAIR_MAX ? COLOUR_FAIR : COLOUR_GOOD;
   }
 
+  /** True when the current mode draws neighbour links. */
+  get drawsLinks(): boolean {
+    return this.form?.get('edges').value !== 'routes';
+  }
+
+  /** True when the current mode draws routing hops. */
+  get drawsHops(): boolean {
+    return this.hasRoutes && this.form?.get('edges').value !== 'neighbours';
+  }
+
   label(nwkid: string): string {
     return this.nodesById.get(nwkid)?.label ?? nwkid;
   }
@@ -224,6 +234,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       if (!this.hasRoutes && this.form.get('edges').value !== 'neighbours') {
         this.form.get('edges').setValue('neighbours', { emitEvent: false });
       }
+      this.syncControlAvailability();
       return;
     }
 
@@ -244,17 +255,38 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
     this.subs.sink = this.form.get('focusedNode').valueChanges.subscribe((nwkid: string) => this.focusNode(nwkid));
     this.subs.sink = this.form.get('layout').valueChanges.subscribe(() => this.runLayout());
-    [
-      'edges',
-      'showTree',
-      'showSibling',
-      'showOther',
-      'showUnknown',
-      'lqiThreshold',
-      'hideEndDevices',
-      'hideIsolated'
-    ].forEach(name => {
-      this.subs.sink = this.form.get(name).valueChanges.subscribe(() => this.applyFilters());
+    this.subs.sink = this.form.get('edges').valueChanges.subscribe(() => {
+      this.syncControlAvailability();
+      this.applyFilters();
+    });
+    ['showTree', 'showSibling', 'showOther', 'showUnknown', 'lqiThreshold', 'hideEndDevices', 'hideIsolated'].forEach(
+      name => {
+        this.subs.sink = this.form.get(name).valueChanges.subscribe(() => this.applyFilters());
+      }
+    );
+    this.syncControlAvailability();
+  }
+
+  /**
+   * Grey out the controls the current mode cannot act on.
+   *
+   * A routing-table row carries neither an LQI nor a relationship, so in
+   * routes-only mode the threshold and the four relationship filters do
+   * nothing at all. Leaving them live is what made a screen of orange routing
+   * hops read as a mesh with no link above LQI 100: the legend was still
+   * advertising the LQI bands, and the threshold still showed a number.
+   */
+  private syncControlAvailability(): void {
+    const drawsLinks = this.drawsLinks;
+    ['lqiThreshold', 'showTree', 'showSibling', 'showOther', 'showUnknown'].forEach(name => {
+      const control = this.form.get(name);
+      // emitEvent: false, because enabling or disabling a control fires
+      // valueChanges, and every one of these re-enters applyFilters().
+      if (drawsLinks) {
+        control.enable({ emitEvent: false });
+      } else {
+        control.disable({ emitEvent: false });
+      }
     });
   }
 
