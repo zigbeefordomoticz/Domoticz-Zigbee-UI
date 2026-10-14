@@ -53,6 +53,15 @@ import { ShellModule } from './shell/shell.module';
       theme: {
         preset: Lara,
         options: {
+          // PrimeNG styled mode defaults darkModeSelector to 'system', which
+          // emits every dark token under @media (prefers-color-scheme: dark)
+          // plus `color-scheme: dark` on :root. The rest of the application is
+          // Bootstrap light only, so any user whose OS is in dark mode got the
+          // PrimeNG tables, inputs and surfaces rendered dark on an otherwise
+          // light page. The prebuilt lara-light-blue CSS used before PrimeNG 19
+          // had no dark variant, so this only appeared with the upgrade.
+          // 'none' turns the dark colour scheme off entirely.
+          darkModeSelector: 'none',
           cssLayer: { name: 'primeng', order: 'bootstrap, primeng' }
         }
       }
