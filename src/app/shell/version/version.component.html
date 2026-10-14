@@ -60,6 +60,19 @@
             <span>{{ 'dashboard.health.group' | translate }} {{ fork.pluginHealth?.GroupStatus }}</span>
           </div>
         }
+        @if (fork.pluginHealth?.Topology) {
+          <div class="order-2 p-2 text-center text-white">
+            <i class="fa fa-circle-nodes fa-fade me-1"></i>
+            <!-- The endpoint sends "In Progress" and nothing else today, but
+                 an unrecognised value is shown as it arrived rather than
+                 swallowed by a translation key that does not exist. -->
+            @if (fork.pluginHealth.Topology === 'In Progress') {
+              <span translate="dashboard.health.topology"></span>
+            } @else {
+              <span>{{ fork.pluginHealth.Topology }}</span>
+            }
+          </div>
+        }
         @if (fork.pluginHealth?.OTAupdateDevice) {
           <div class="order-3 p-2 text-center text-white d-none d-lg-block">
             <span translate="dashboard.health.OTA"></span

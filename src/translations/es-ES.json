@@ -72,6 +72,7 @@
   "dashboard.zgroup.button": "Groupos del Plugin (json)",
   "dashboard.coordinator.header": "Información de Coordinador",
   "dashboard.coordinator.subtitle": "Proporciona información de Coordinador",
+  "dashboard.health.topology": "Escaneo de topología en curso",
   "dashboard.health.OTA": "OTA: ",
   "dashboard.health.group": "Groupo: ",
   "dashboard.devices.indb": "En Db",

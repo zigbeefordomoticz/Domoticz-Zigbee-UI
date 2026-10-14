@@ -72,6 +72,7 @@
   "dashboard.zgroup.button": "Plugin Groepen (json)",
   "dashboard.coordinator.header": "Coördinator informatie",
   "dashboard.coordinator.subtitle": "Geeft coördinator informatie",
+  "dashboard.health.topology": "Topologiescan bezig",
   "dashboard.health.OTA": "OTA: ",
   "dashboard.health.group": "Group: ",
   "dashboard.devices.indb": "In db",
