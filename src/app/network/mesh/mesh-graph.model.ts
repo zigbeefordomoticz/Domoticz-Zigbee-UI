@@ -98,3 +98,25 @@ export interface MeshNeighbourRow {
   rx_on_when_idle: string;
   permit_joining: string;
 }
+
+/**
+ * One parent → child edge of the Associated Devices table.
+ *
+ * A row of that table is a declaration and nothing else: no LQI, no
+ * relationship and no depth, unlike a neighbour row. What makes it worth
+ * drawing is that it is the only table that places a *sleepy* end device —
+ * one that answers no scan of its own — under the router that answers for it.
+ *
+ * `contested` is a child two parents both claim. That is not a malformed
+ * payload: it is a device that has reparented, leaving a stale entry behind in
+ * its previous parent's table, and seeing it is half the reason to collect
+ * this table on its own.
+ */
+export interface MeshChildLink {
+  id: string;
+  /** The node that declared the child. */
+  parent: string;
+  child: string;
+  /** True when another node declares this child too. */
+  contested: boolean;
+}

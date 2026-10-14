@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
+import { SliderModule } from 'primeng/slider';
 
 @NgModule({
   imports: [CommonModule, NgSelectModule, TranslateModule],
@@ -25,6 +26,7 @@ import { DialogModule } from 'primeng/dialog';
     TranslateModule,
     TableModule,
     DialogModule,
+    SliderModule,
     InputTextModule,
     ButtonModule,
     DatePipe,

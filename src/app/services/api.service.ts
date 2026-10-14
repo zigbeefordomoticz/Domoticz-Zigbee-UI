@@ -40,6 +40,7 @@ const routes = {
   nwkStat: '/nwk-stat',
   topologie: '/topologie',
   topologyScan: '/topology-scan',
+  topologyScanAssociatedDevices: '/topology-scan-associated-devices',
   permitToJoin: '/permit-to-join',
   zdeviceName: '/zdevice-name',
   zgroupDevicesAvalaible: '/zgroup-list-available-device',
@@ -276,6 +277,26 @@ export class ApiService {
 
   deleteTopologyScan(timestamp: number): Observable<any> {
     return this.httpClient.delete(routes.topologyScan + '/' + timestamp).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  /**
+   * Start an Associated Devices collection on its own, without a full scan.
+   *
+   * Answers immediately; the collection itself takes minutes, and the result
+   * appears as a scan of its own carrying only that table. `/plugin-health`
+   * reports `Topology: "In Progress"` until it ends, which is what the footer
+   * indicator reads.
+   *
+   * Refused with a `400` and a `BE_Error` when the coordinator is not a zigpy
+   * one, when `ZigpyTopologyReport` is off, or while any topology scan is
+   * already running — all three are normal answers to show the user, not
+   * faults, which is why `handleError` prefers that message.
+   */
+  getReqTopologyAssociatedDevices(): Observable<any> {
+    return this.httpClient.get(routes.topologyScanAssociatedDevices).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
@@ -708,7 +729,16 @@ export class ApiService {
 
   private handleError(error: any) {
     log.error(error);
-    this.toastr.error(error.status + ' ' + error.statusText, this.translate.instant('api.global.error.notify'));
+    // The plugin sends `{"BE_Error": "..."}` on a 400 or a 404, with a message
+    // written to be shown as it is. "400 BAD REQUEST" tells the user nothing;
+    // "a topology scan is already in progress" tells them everything. The body
+    // is not always JSON — a blob response fails with a Blob here — so only a
+    // string is taken.
+    const reported = typeof error?.error?.BE_Error === 'string' ? error.error.BE_Error : null;
+    this.toastr.error(
+      reported ?? error.status + ' ' + error.statusText,
+      this.translate.instant('api.global.error.notify')
+    );
     return throwError(error);
   }
 }

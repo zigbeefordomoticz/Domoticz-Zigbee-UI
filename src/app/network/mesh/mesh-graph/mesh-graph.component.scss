@@ -5,10 +5,17 @@ $colour-fair: #0073dd;
 $colour-good: #28a745;
 $colour-no-lqi: #adb5bd;
 $colour-route: #fd7e14;
+$colour-child: #d63384;
 $colour-coordinator: #6f42c1;
 $colour-end-device: #20c997;
 $colour-unknown: #868e96;
 $colour-stale: #ffc107;
+
+// The shell exists so the graph can be put into fullscreen on its own, with
+// its controls, rather than dragging the whole card and its panels in with it.
+.mesh-graph-shell {
+  position: relative;
+}
 
 .mesh-graph {
   width: 100%;
@@ -16,6 +23,41 @@ $colour-stale: #ffc107;
   border: 1px solid #dee2e6;
   border-radius: 0.375rem;
   background-color: #fff;
+}
+
+// The fullscreen element has no page around it, so it supplies its own
+// background: without one the browser paints it black and the graph's labels,
+// which are dark on a white chip, become unreadable.
+.mesh-graph-shell.fullscreen {
+  background-color: #fff;
+
+  .mesh-graph {
+    height: 100vh;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+// The controls above the graph are outside the fullscreen element, so the
+// graph carries its own copy for the time it is fullscreen, and only then.
+.mesh-graph-tools {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  display: none;
+}
+
+.mesh-graph-shell.fullscreen .mesh-graph-tools {
+  display: inline-flex;
+}
+
+// PrimeNG's slider puts its root class on the host element and sets no width
+// of its own, so in a Bootstrap column it has to be told to fill it.
+.mesh-lqi-slider {
+  display: block;
+  width: 100%;
+  margin-top: 0.85rem;
 }
 
 .mesh-legend {
@@ -126,6 +168,15 @@ $colour-stale: #ffc107;
 
 .legend-route {
   border-top-color: $colour-route;
+}
+
+.legend-child {
+  border-top-color: $colour-child;
+}
+
+.legend-contested {
+  border-top-color: $colour-poor;
+  border-top-style: dashed;
 }
 
 .lqi-dot {
