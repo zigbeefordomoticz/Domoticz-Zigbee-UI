@@ -44,6 +44,27 @@ jobs:
       - name: npm run build prod
         run: npm run build
 
+      # Keep the build, on every run. A pull request builds the same dist the
+      # deploy would publish -- same command, same Node, same runner -- and
+      # until now threw it away, so the only way to get a CI-built bundle in
+      # front of a running plugin was to merge to beta, which is also the
+      # publish. Uploading it makes a pull request testable against real
+      # hardware without deploying anything to gh-pages.
+      #
+      # This matters more than it looks: a locally built dist is not
+      # comparable to this one. On a different Node the toolchain still
+      # builds, but emits different main.js and runtime.js. See the note in
+      # CLAUDE.md and the correction on #246.
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.event.pull_request.number || github.sha }}
+          path: dist
+          retention-days: 14
+          # A dist that built into nothing should fail here, not quietly
+          # produce an empty artifact somebody then deploys.
+          if-no-files-found: error
+
       # Deploy only from a push to beta. A pull request builds and lints, and
       # stops here. dist is already on disk from the step above, so this is the
       # same deploy the workflow has always done.
