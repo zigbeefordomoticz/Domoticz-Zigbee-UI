@@ -275,7 +275,11 @@
 
                 <dt class="col-sm-3" translate="network.mesh.node.zdeviceid"></dt>
                 <dd class="col-sm-9">
-                  @if (selectedDeviceType) {
+                  <!-- Three cases, and they must not be run together. An id
+                       this application cannot name is not the same as a
+                       device that reported none: the first is a finding, and
+                       the raw value is the only thing that shows it. -->
+                  @if (selectedDeviceType?.family) {
                     <i class="me-1" [class]="familyIconClass(selectedDeviceType.family)"></i>
                     <span class="font-monospace">0x{{ selectedDeviceType.id }}</span>
                     <!-- The description is the Zigbee device name out of the
@@ -287,6 +291,27 @@
                       >· {{ 'network.mesh.family.' + selectedDeviceType.family | translate }} ·
                       {{ selectedDeviceType.profile | uppercase }}</span
                     >
+                    @if (selectedDeviceType.endpoint) {
+                      <span class="text-muted ms-1"
+                        >· {{ 'network.mesh.node.endpoint' | translate }}
+                        <span class="font-monospace">{{ selectedDeviceType.endpoint }}</span></span
+                      >
+                    }
+                  } @else if (selectedDeviceType) {
+                    <span class="font-monospace">0x{{ selectedDeviceType.id }}</span>
+                    @if (selectedDeviceType.profileId) {
+                      <span class="text-muted ms-1"
+                        >· {{ 'network.mesh.node.profileid' | translate }}
+                        <span class="font-monospace">0x{{ selectedDeviceType.profileId }}</span></span
+                      >
+                    }
+                    @if (selectedDeviceType.endpoint) {
+                      <span class="text-muted ms-1"
+                        >· {{ 'network.mesh.node.endpoint' | translate }}
+                        <span class="font-monospace">{{ selectedDeviceType.endpoint }}</span></span
+                      >
+                    }
+                    <span class="text-muted ms-1" translate="network.mesh.node.zdeviceid.unnamed"></span>
                   } @else {
                     <span class="text-muted" translate="network.mesh.node.zdeviceid.unknown"></span>
                   }
