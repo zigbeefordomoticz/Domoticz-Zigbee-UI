@@ -84,6 +84,53 @@
               </div>
             </div>
 
+            <div class="row g-2 align-items-end mb-2 mesh-path-controls">
+              <div class="col-12 col-lg-5">
+                <label class="form-label mb-1" translate="network.mesh.path.node"></label>
+                <ng-select
+                  [items]="nodes"
+                  [multiple]="false"
+                  [closeOnSelect]="true"
+                  [searchable]="true"
+                  [clearable]="false"
+                  bindLabel="label"
+                  bindValue="nwkid"
+                  placeholder="{{ 'network.mesh.path.node.placeholder' | translate }}"
+                  appendTo="body"
+                  formControlName="pathNode">
+                  <ng-template ng-option-tmp let-item="item">
+                    <span
+                      >{{ item.label }}
+                      <small class="text-muted"
+                        >— {{ item.nwkid }} · {{ valueLabel('device_type', item.logical_type) }}</small
+                      ></span
+                    >
+                  </ng-template>
+                </ng-select>
+              </div>
+
+              <div class="col-12 col-lg-7">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <button type="button" class="btn btn-light" (click)="recomputePath()">
+                    <i class="fa fa-route me-1"></i><span translate="network.mesh.path.compute"></span>
+                  </button>
+                  @if (!pathFromCoordinator) {
+                    <button
+                      type="button"
+                      class="btn btn-light"
+                      (click)="clearPath()"
+                      translate="network.mesh.path.back"></button>
+                  }
+                  <small class="text-muted">
+                    {{
+                      (pathFromCoordinator ? 'network.mesh.path.hint.coordinator' : 'network.mesh.path.hint.node')
+                        | translate
+                    }}
+                  </small>
+                </div>
+              </div>
+            </div>
+
             <div class="row g-2 align-items-center mb-2">
               <div class="col-12 col-lg-7">
                 <div class="d-flex flex-wrap gap-3">
@@ -253,6 +300,15 @@
           @if (drawsHops) {
             <span><span class="legend-line legend-route"></span>{{ 'network.mesh.legend.route' | translate }}</span>
           }
+          @if (hasPath) {
+            <span><span class="legend-line legend-path"></span>{{ 'network.mesh.legend.path' | translate }}</span>
+            @if (estimatedHops) {
+              <span
+                ><span class="legend-line legend-path-estimated"></span
+                >{{ 'network.mesh.legend.path.estimated' | translate }}</span
+              >
+            }
+          }
           @if (drawsChildren) {
             <span><span class="legend-line legend-child"></span>{{ 'network.mesh.legend.child' | translate }}</span>
             @if (contestedChildren) {
@@ -353,6 +409,133 @@
           <p class="text-muted mt-2" translate="network.mesh.empty"></p>
         }
 
+        <!-- The computed route(s) -->
+        @if (hasPath) {
+          <div class="card mt-3 mesh-path-card">
+            <div class="card-header fw-bold d-flex justify-content-between align-items-center">
+              <span>
+                {{ 'network.mesh.path.header' | translate }}
+                <small class="text-muted">
+                  @if (pathFromCoordinator) {
+                    {{ 'network.mesh.path.header.coordinator' | translate: { node: label(pathNode) } }}
+                  } @else {
+                    {{ label(pathNode) }} &rarr; {{ label(scan.coordinator) }}
+                  }
+                </small>
+              </span>
+              @if (path) {
+                <span
+                  class="badge"
+                  [class.text-bg-secondary]="path.outcome === 'tables'"
+                  [class.text-bg-warning]="path.outcome === 'hybrid' || path.outcome === 'estimate'"
+                  [class.text-bg-danger]="path.outcome === 'unreachable' || path.outcome === 'loop'">
+                  {{ 'network.mesh.path.outcome.' + path.outcome | translate }}
+                </span>
+              }
+            </div>
+            <div class="card-body">
+              <!-- One device: the hops themselves, which is the answer. -->
+              @if (path) {
+                <ol class="mesh-path-hops">
+                  @for (step of path.hops; track $index) {
+                    <li>
+                      <span class="fw-bold">{{ label(step.from) }}</span>
+                      <i class="fa fa-arrow-right mx-1 text-muted"></i>
+                      <span class="fw-bold">{{ label(step.to) }}</span>
+                      <span
+                        class="badge ms-2"
+                        [class.text-bg-light]="step.source !== 'estimate'"
+                        [class.text-bg-warning]="step.source === 'estimate'">
+                        {{ 'network.mesh.path.hop.' + step.source | translate }}
+                      </span>
+                      @if (step.lqi !== null) {
+                        <small class="text-muted ms-2">LQI {{ step.lqi }}</small>
+                      }
+                    </li>
+                  }
+                </ol>
+                <p class="small text-muted mb-1">
+                  {{
+                    'network.mesh.path.summary'
+                      | translate
+                        : { hops: path.hops.length, observed: path.observedHops, estimated: path.estimatedHops }
+                  }}
+                </p>
+              } @else {
+                <!-- The coordinator: one route per device, so the table is the
+                     summary and the graph carries the shape. -->
+                <p class="small text-muted mb-2">
+                  {{
+                    'network.mesh.path.summary.coordinator'
+                      | translate: { routes: paths.length, estimated: estimatedPaths, hops: estimatedHops }
+                  }}
+                </p>
+                <div class="mesh-path-table">
+                  <table class="table table-sm table-hover mb-0">
+                    <thead>
+                      <tr>
+                        <th translate="network.mesh.path.table.destination"></th>
+                        <th translate="network.mesh.path.table.hops"></th>
+                        <th translate="network.mesh.path.table.via"></th>
+                        <th translate="network.mesh.path.table.source"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (route of paths; track route.destination) {
+                        <tr>
+                          <td>
+                            <button
+                              type="button"
+                              class="btn btn-link btn-sm p-0"
+                              (click)="routeFrom(route.destination)">
+                              {{ label(route.destination) }}
+                            </button>
+                          </td>
+                          <td>{{ route.hops.length }}</td>
+                          <td class="text-muted small">{{ label(route.hops[0].to) }}</td>
+                          <td>
+                            <span
+                              class="badge"
+                              [class.text-bg-light]="route.outcome === 'tables'"
+                              [class.text-bg-warning]="route.outcome !== 'tables'">
+                              {{ 'network.mesh.path.outcome.' + route.outcome | translate }}
+                            </span>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+
+              @if (pathManyToOne) {
+                <p class="small text-muted mt-2 mb-1">
+                  <i class="fa fa-circle-info me-1"></i><span translate="network.mesh.path.manytoone"></span>
+                </p>
+              }
+
+              <!-- Printed on every route, not only on an estimated one: even a
+                   route read entirely out of the routing tables is a
+                   reconstruction from a snapshot, and the radios owe it
+                   nothing. -->
+              <p class="small text-warning mt-2 mb-0">
+                <i class="fa fa-triangle-exclamation me-1"></i>
+                <span [innerHTML]="'network.mesh.path.caveat' | translate"></span>
+              </p>
+            </div>
+          </div>
+        } @else if (path) {
+          <div class="card mt-3 mesh-path-card">
+            <div class="card-header fw-bold">
+              {{ 'network.mesh.path.header' | translate }}
+              <small class="text-muted">{{ label(path.source) }} &rarr; {{ label(path.destination) }}</small>
+            </div>
+            <div class="card-body">
+              <p class="small mb-0" translate="{{ 'network.mesh.path.none.' + path.outcome }}"></p>
+            </div>
+          </div>
+        }
+
         <!-- Node panel -->
         @if (selectedNode) {
           <div class="card mt-3">
@@ -360,7 +543,19 @@
               <span
                 >{{ selectedNode.label }} <small class="text-muted">{{ selectedNode.nwkid }}</small></span
               >
-              <button type="button" class="btn-close" (click)="clearSelection()"></button>
+              <span class="d-flex align-items-center gap-2">
+                <!-- The common move is to ask the same question of one device
+                     after another, so this sets the source and leaves the
+                     destination where it is. -->
+                <button
+                  type="button"
+                  class="btn btn-sm btn-light"
+                  (click)="routeFrom(selectedNode.nwkid)"
+                  title="{{ 'network.mesh.path.from.here.title' | translate }}">
+                  <i class="fa fa-route me-1"></i><span translate="network.mesh.path.from.here"></span>
+                </button>
+                <button type="button" class="btn-close" (click)="clearSelection()"></button>
+              </span>
             </div>
             <div class="card-body">
               <dl class="row mb-2">
