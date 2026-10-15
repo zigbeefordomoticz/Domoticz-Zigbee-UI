@@ -92,7 +92,7 @@
                   [multiple]="false"
                   [closeOnSelect]="true"
                   [searchable]="true"
-                  [clearable]="false"
+                  [clearable]="true"
                   bindLabel="label"
                   bindValue="nwkid"
                   placeholder="{{ 'network.mesh.path.node.placeholder' | translate }}"
@@ -111,25 +111,25 @@
 
               <div class="col-12 col-lg-7">
                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                  <button type="button" class="btn btn-light" (click)="recomputePath()">
+                  <button type="button" class="btn btn-light" [disabled]="!pathNode" (click)="recomputePath()">
                     <i class="fa fa-route me-1"></i><span translate="network.mesh.path.compute"></span>
                   </button>
-                  @if (!pathFromCoordinator) {
+                  @if (pathNode && !pathFromCoordinator) {
                     <button
                       type="button"
                       class="btn btn-light"
                       (click)="clearPath()"
                       translate="network.mesh.path.back"></button>
                   }
-                  <div class="form-check form-check-inline m-0">
-                    <input class="form-check-input" type="checkbox" id="showPath" formControlName="showPath" />
-                    <label class="form-check-label small" for="showPath" translate="network.mesh.path.show"></label>
-                  </div>
                   <small class="text-muted">
-                    {{
-                      (pathFromCoordinator ? 'network.mesh.path.hint.coordinator' : 'network.mesh.path.hint.node')
-                        | translate
-                    }}
+                    @if (!pathNode) {
+                      {{ 'network.mesh.path.hint.none' | translate }}
+                    } @else {
+                      {{
+                        (pathFromCoordinator ? 'network.mesh.path.hint.coordinator' : 'network.mesh.path.hint.node')
+                          | translate
+                      }}
+                    }
                   </small>
                 </div>
               </div>
@@ -304,7 +304,7 @@
           @if (drawsHops) {
             <span><span class="legend-line legend-route"></span>{{ 'network.mesh.legend.route' | translate }}</span>
           }
-          @if (drawsPath) {
+          @if (hasPath) {
             <span><span class="legend-line legend-path"></span>{{ 'network.mesh.legend.path' | translate }}</span>
             @if (estimatedHops) {
               <span

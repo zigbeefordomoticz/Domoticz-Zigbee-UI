@@ -240,7 +240,7 @@
   "network.mesh.path.node.placeholder": "Nome o id di rete",
   "network.mesh.path.compute": "Ricalcola i percorsi",
   "network.mesh.path.back": "Torna al coordinatore",
-  "network.mesh.path.show": "Disegna il percorso calcolato",
+  "network.mesh.path.hint.none": "Nessun percorso viene calcolato finché non si sceglie un dispositivo. Scegli il coordinatore per vedere come raggiunge ogni dispositivo, o un altro dispositivo per il suo percorso di uscita.",
   "network.mesh.path.hint.coordinator": "Come il coordinatore raggiunge ogni dispositivo. Scegli un dispositivo per vedere il suo percorso.",
   "network.mesh.path.hint.node": "Come questo dispositivo raggiunge il coordinatore.",
   "network.mesh.path.header.coordinator": "{{node}} verso ogni dispositivo",
