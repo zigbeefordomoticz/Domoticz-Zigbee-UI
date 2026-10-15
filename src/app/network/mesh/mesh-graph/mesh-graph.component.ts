@@ -29,6 +29,7 @@ import {
 } from '../mesh-device-type';
 import { MeshChildLink, MeshLink, MeshLinkKind, MeshNeighbourRow, MeshNode, MeshRouteHop } from '../mesh-graph.model';
 import { iconClass, iconDataUri } from '../mesh-icons';
+import { buildRouteGraph, computePath, computePathsFrom, MeshPath, MeshRouteGraph } from '../mesh-route';
 
 /** LQI bands, as agreed on issue #167. */
 const LQI_POOR_MAX = 100;
@@ -45,6 +46,8 @@ const COLOUR_NO_LQI = '#adb5bd';
 const COLOUR_ROUTE = '#fd7e14';
 /** Parent -> child edges of the Associated Devices table, which carry no LQI either. */
 const COLOUR_CHILD = '#d63384';
+/** The computed path, which is an answer about the mesh rather than a part of it. */
+const COLOUR_PATH = '#6610f2';
 
 const COLOUR_COORDINATOR = '#6f42c1';
 const COLOUR_ROUTER = COLOUR_FAIR;
@@ -131,6 +134,18 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   /** Children claimed by more than one parent: devices that have reparented. */
   contestedChildren = 0;
 
+  /**
+   * The routes worked out for the selected node, and which way round they run.
+   *
+   * One control, and the direction follows from what is picked, because the
+   * question is not symmetrical. Of a device, people ask how it gets *out* —
+   * how this sensor reaches the controller. Of the coordinator, they ask how
+   * it gets *in* to everything, which is one route per node rather than one
+   * route. Asking for both ends separately would make the common question two
+   * selections long.
+   */
+  paths: MeshPath[] = [];
+
   /** True while the graph is the document's fullscreen element. */
   isFullscreen = false;
 
@@ -177,6 +192,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   private cy: cytoscape.Core;
   private viewReady = false;
   private nodesById = new Map<string, MeshNode>();
+  private routeGraph: MeshRouteGraph;
   /** Every node that claims a given nwkid as its child, by that child's nwkid. */
   private parentsById = new Map<string, string[]>();
   /**
@@ -207,6 +223,9 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       this.build(this.scan);
       this.clearSelection();
       this.render();
+      // After build(), which indexes the new scan, and after render(), which
+      // is what the path is drawn onto.
+      this.updatePath();
       return;
     }
     if (changes.deviceTypes) {
@@ -420,6 +439,10 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
         this.form.get('edges').setValue(this.defaultMode(), { emitEvent: false });
         this.modeForced = true;
       }
+      // A route is an answer about one scan. Carrying the chosen node over to
+      // the next one is fine — it is the same mesh — but a node that scan
+      // does not list is not, and neither is the old answer.
+      this.resetPathNode();
       this.syncControlAvailability();
       return;
     }
@@ -440,7 +463,12 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       lqiRange: [[0, 255]],
       hideEndDevices: [false],
       hideIsolated: [false],
-      showIcons: [true]
+      showIcons: [true],
+      // The coordinator to begin with: it is the node every mesh has, and
+      // its view — how the controller reaches everything — is the one worth
+      // opening on. Picking any other device switches to that device's route
+      // out to the coordinator.
+      pathNode: [this.scan.coordinator]
     });
 
     this.subs.sink = this.form.get('focusedNode').valueChanges.subscribe((nwkid: string) => this.focusNode(nwkid));
@@ -460,6 +488,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     // Icons are a drawing choice, not a filter: nothing is added to or taken
     // off the graph, so applyFilters() has no part in it.
     this.subs.sink = this.form.get('showIcons').valueChanges.subscribe(() => this.applyIcons());
+    this.subs.sink = this.form.get('pathNode').valueChanges.subscribe(() => this.updatePath());
     this.syncControlAvailability();
   }
 
@@ -539,6 +568,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     this.links = this.buildLinks(scan.neighbours ?? []);
     this.hops = this.buildHops(scan.routes ?? []);
     this.childLinks = this.buildChildLinks(this.nodes);
+    this.routeGraph = buildRouteGraph(scan);
 
     this.buildIconLegend();
 
@@ -753,6 +783,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       this.applyLayout();
     });
 
+    this.drawPath();
     this.cdr.detectChanges();
   }
 
@@ -1024,6 +1055,35 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
         style: { 'line-color': COLOUR_POOR, 'target-arrow-color': COLOUR_POOR, 'line-style': 'dashed' }
       },
 
+      {
+        // The computed path is drawn over whatever else is on screen: it is
+        // an answer about the mesh rather than another table of it, so it has
+        // to read as a layer rather than as one more kind of link.
+        selector: 'edge[kind = "path"]',
+        style: {
+          'line-color': COLOUR_PATH,
+          'line-style': 'solid',
+          'curve-style': 'bezier',
+          width: 6,
+          opacity: 0.9,
+          'target-arrow-shape': 'triangle',
+          'target-arrow-color': COLOUR_PATH,
+          'arrow-scale': 1.1,
+          'z-index': 100
+        }
+      },
+      {
+        // An estimated hop is dashed, and that is the whole point of the
+        // feature: a hop the routing tables stated and a hop this page worked
+        // out must never look the same.
+        selector: 'edge[kind = "path"][?estimated]',
+        style: { 'line-style': 'dashed', opacity: 0.85 }
+      },
+      {
+        selector: 'node.on-path',
+        style: { 'border-color': COLOUR_PATH, 'border-width': 4, 'border-style': 'solid', 'z-index': 100 }
+      },
+
       { selector: 'node:selected', style: { 'border-color': '#212529', 'border-width': 4 } },
       { selector: 'edge:selected', style: { opacity: 1, width: 5 } },
       { selector: '.highlighted', style: { opacity: 1, 'font-weight': 'bold' } },
@@ -1086,10 +1146,15 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       });
 
       this.cy.edges().forEach(edge => {
-        const kind = edge.data('kind') as MeshLinkKind | 'route' | 'child';
+        const kind = edge.data('kind') as MeshLinkKind | 'route' | 'child' | 'path';
         let hidden: boolean;
 
-        if (kind === 'route') {
+        if (kind === 'path') {
+          // The path is not one of the three tables and is not filtered with
+          // them: it was asked for explicitly, and a filter silently removing
+          // part of the answer is worse than a busy picture.
+          hidden = false;
+        } else if (kind === 'route') {
           hidden = !drawsHops;
         } else if (kind === 'child') {
           hidden = !drawsChildren;
@@ -1103,8 +1168,15 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
           hidden = !drawsLinks || !kinds[kind] || outsideWindow;
         }
 
-        edge.toggleClass('hidden', hidden || edge.source().hasClass('hidden') || edge.target().hasClass('hidden'));
+        edge.toggleClass(
+          'hidden',
+          kind !== 'path' && (hidden || edge.source().hasClass('hidden') || edge.target().hasClass('hidden'))
+        );
       });
+
+      // A node the path goes through is part of the answer, so no filter may
+      // take it off the picture while the path is drawn.
+      this.cy.nodes('.on-path').removeClass('hidden');
 
       if (hideIsolated) {
         // Cytoscape's selector grammar has no `:not()`, and an unparsable
@@ -1114,13 +1186,13 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
           .nodes()
           .not('.hidden')
           .forEach(node => {
-            node.toggleClass('hidden', node.connectedEdges().not('.hidden').empty());
+            node.toggleClass('hidden', !node.hasClass('on-path') && node.connectedEdges().not('.hidden').empty());
           });
       }
     });
 
     this.visibleNodes = this.cy.nodes().not('.hidden').length;
-    this.visibleLinks = this.cy.edges('[kind != "route"][kind != "child"]').not('.hidden').length;
+    this.visibleLinks = this.cy.edges('[kind != "route"][kind != "child"][kind != "path"]').not('.hidden').length;
     this.visibleHops = this.cy.edges('[kind = "route"]').not('.hidden').length;
     this.visibleChildLinks = this.cy.edges('[kind = "child"]').not('.hidden').length;
   }
@@ -1286,5 +1358,159 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   private destroyGraph(): void {
     this.cy?.destroy();
     this.cy = undefined;
+  }
+
+  // -- the computed route ---------------------------------------------------
+
+  /** The node the route view is centred on. */
+  get pathNode(): string | null {
+    return (this.form?.get('pathNode').value as string) ?? null;
+  }
+
+  /**
+   * True while the coordinator is the chosen node, which is the fan-out view.
+   *
+   * The two views answer different questions and are labelled differently, so
+   * the template asks this rather than counting the paths: one route out of a
+   * mesh with a single router is also one path.
+   */
+  get pathFromCoordinator(): boolean {
+    return !!this.pathNode && this.pathNode === this.scan?.coordinator;
+  }
+
+  /** The single route, when a device rather than the coordinator is chosen. */
+  get path(): MeshPath | undefined {
+    return this.pathFromCoordinator ? undefined : this.paths[0];
+  }
+
+  /** `true` while there is at least one hop to show. */
+  get hasPath(): boolean {
+    return this.paths.some(path => path.hops.length > 0);
+  }
+
+  /** Hops the LQI estimate had to supply, over every route on screen. */
+  get estimatedHops(): number {
+    return this.paths.reduce((total, path) => total + path.estimatedHops, 0);
+  }
+
+  /** Routes that no routing row contributed to. */
+  get estimatedPaths(): number {
+    return this.paths.filter(path => path.outcome === 'estimate').length;
+  }
+
+  /** True when any route on screen leans on a concentrator the scan cannot read. */
+  get pathManyToOne(): boolean {
+    return this.paths.some(path => path.manyToOne);
+  }
+
+  /** Back to the coordinator's view, which is where the page opens. */
+  clearPath(): void {
+    this.form?.get('pathNode').setValue(this.scan?.coordinator ?? null);
+  }
+
+  /** Work the routes out again, against the scan on screen. */
+  recomputePath(): void {
+    this.updatePath();
+  }
+
+  /** Centre the route view on a node, from the node panel. */
+  routeFrom(nwkid: string): void {
+    this.form?.get('pathNode').setValue(nwkid);
+  }
+
+  private resetPathNode(): void {
+    if (!this.pathNode || !this.nodesById.has(this.pathNode)) {
+      this.form.get('pathNode').setValue(this.scan.coordinator, { emitEvent: false });
+    }
+    this.paths = [];
+  }
+
+  /**
+   * Work out the routes for the chosen node and put them on the graph.
+   *
+   * Everything this needs is in the scan already — both directions of every
+   * neighbour link, the routing rows with their next hop and status, and the
+   * children each router declared — so it asks the plugin for nothing and
+   * costs the mesh nothing.
+   */
+  private updatePath(): void {
+    const node = this.pathNode;
+    const coordinator = this.scan?.coordinator;
+
+    if (!node || !this.routeGraph || !coordinator) {
+      this.paths = [];
+    } else if (node === coordinator) {
+      // Outward: how the controller reaches each device.
+      this.paths = computePathsFrom(
+        this.routeGraph,
+        node,
+        this.nodes.map(candidate => candidate.nwkid)
+      );
+    } else {
+      // Inward: how this device reaches the controller.
+      this.paths = [computePath(this.routeGraph, node, coordinator)];
+    }
+
+    this.drawPath();
+    this.cdr.detectChanges();
+  }
+
+  /**
+   * Replace the route edges on the graph.
+   *
+   * They are elements of their own rather than a class on the links already
+   * drawn, because a hop need not be drawn at all in the current mode: a hop
+   * taken from a routing table has no neighbour link to mark while the
+   * neighbour view is on screen, and the reverse holds in the routing view.
+   * Adding them keeps the answer whole whatever the mode.
+   *
+   * The coordinator's view walks many routes over the same first few hops, so
+   * an edge is drawn once. An edge that is observed on one route and
+   * estimated on another is drawn as observed: it is on a routing row
+   * somewhere, and the dash is reserved for a hop nothing reported.
+   */
+  private drawPath(): void {
+    if (!this.cy) {
+      return;
+    }
+
+    const edges = new Map<string, { from: string; to: string; estimated: boolean }>();
+    this.paths.forEach(path =>
+      path.hops.forEach(step => {
+        if (!this.nodesById.has(step.from) || !this.nodesById.has(step.to)) {
+          return;
+        }
+        const key = `${step.from}\u0000${step.to}`;
+        const estimated = step.source === 'estimate';
+        const existing = edges.get(key);
+        edges.set(key, { from: step.from, to: step.to, estimated: (existing?.estimated ?? true) && estimated });
+      })
+    );
+
+    this.zone.runOutsideAngular(() => {
+      this.cy.batch(() => {
+        this.cy.remove('edge[kind = "path"]');
+        this.cy.nodes().removeClass('on-path');
+
+        Array.from(edges.values()).forEach((edge, index) => {
+          this.cy.add({
+            group: 'edges',
+            data: {
+              id: `path-${index}`,
+              source: edge.from,
+              target: edge.to,
+              kind: 'path',
+              estimated: edge.estimated
+            }
+          });
+          this.cy.getElementById(edge.from).addClass('on-path');
+          this.cy.getElementById(edge.to).addClass('on-path');
+        });
+      });
+
+      // The new edges have to go through the filters once, so that the nodes
+      // they pass through are brought back if a filter had hidden them.
+      this.applyFilters();
+    });
   }
 }
