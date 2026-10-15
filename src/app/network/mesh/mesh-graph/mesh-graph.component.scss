@@ -52,12 +52,31 @@ $colour-stale: #ffc107;
   display: inline-flex;
 }
 
+// The LQI window is framed so it sits as an equal beside the selects next to
+// it, which draw their own border. The box matches .form-select's outline, and
+// its height is set to the label plus control the other columns add up to, so
+// the row's bottom edge stays level.
+.mesh-lqi-box {
+  padding: 0.3rem 0.75rem 0.8rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  background-color: #fff;
+}
+
+.mesh-lqi-label {
+  display: block;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
 // PrimeNG's slider puts its root class on the host element and sets no width
-// of its own, so in a Bootstrap column it has to be told to fill it.
+// of its own, so in a Bootstrap column it has to be told to fill it. Its
+// handles are centred on the track's ends and overhang them, so the track is
+// inset by more than a handle's radius to keep them clear of the frame.
 .mesh-lqi-slider {
   display: block;
-  width: 100%;
-  margin-top: 0.85rem;
+  width: calc(100% - 1.75rem);
+  margin: 0.55rem auto 0;
 }
 
 .mesh-legend {
