@@ -240,6 +240,7 @@
   "network.mesh.path.node.placeholder": "Nom ou adresse réseau",
   "network.mesh.path.compute": "Recalculer les routes",
   "network.mesh.path.back": "Revenir au coordinateur",
+  "network.mesh.path.show": "Tracer la route calculée",
   "network.mesh.path.hint.coordinator": "Comment le coordinateur atteint chaque équipement. Choisissez un équipement pour voir sa propre route.",
   "network.mesh.path.hint.node": "Comment cet équipement atteint le coordinateur.",
   "network.mesh.path.header.coordinator": "{{node}} vers chaque équipement",

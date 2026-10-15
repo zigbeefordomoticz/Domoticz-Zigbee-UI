@@ -121,6 +121,10 @@
                       (click)="clearPath()"
                       translate="network.mesh.path.back"></button>
                   }
+                  <div class="form-check form-check-inline m-0">
+                    <input class="form-check-input" type="checkbox" id="showPath" formControlName="showPath" />
+                    <label class="form-check-label small" for="showPath" translate="network.mesh.path.show"></label>
+                  </div>
                   <small class="text-muted">
                     {{
                       (pathFromCoordinator ? 'network.mesh.path.hint.coordinator' : 'network.mesh.path.hint.node')
@@ -300,7 +304,7 @@
           @if (drawsHops) {
             <span><span class="legend-line legend-route"></span>{{ 'network.mesh.legend.route' | translate }}</span>
           }
-          @if (hasPath) {
+          @if (drawsPath) {
             <span><span class="legend-line legend-path"></span>{{ 'network.mesh.legend.path' | translate }}</span>
             @if (estimatedHops) {
               <span
