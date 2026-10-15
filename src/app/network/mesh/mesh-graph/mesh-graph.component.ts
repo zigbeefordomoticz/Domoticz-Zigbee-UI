@@ -1113,7 +1113,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     // Filters that leave nothing standing would otherwise lay out an empty
     // collection and leave every node where it was.
     const eles = drawn.nodes().nonempty() ? drawn : this.cy.elements();
-    const options: any = { name, animate: false, fit: true, padding: 30, eles };
+    const options: any = { name, animate: false, fit: true, padding: 30, eles, boundingBox: this.canvasBox() };
 
     if (name === 'cose') {
       this.spreadCose(options);
@@ -1138,16 +1138,41 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   /**
+   * The canvas, as the box to lay the graph out in.
+   *
+   * Every layout is handed it, and `breadthfirst` is why. It is the one
+   * built-in that defaults its box to `cy.extent()` — the viewport in model
+   * coordinates — rather than to the canvas. `fit` leaves that extent at the
+   * drawn graph plus 30px of padding, so the next run spreads the tree over a
+   * box a little larger than the one it just filled, and `fit` zooms out a
+   * little further to show it. The nodes keep their size through all of this,
+   * so each press of "lay the graph out again" draws them smaller: measured
+   * over four presses on a 60-node scan, 25px -> 15px -> 9px -> 5px, where it
+   * stops only because cytoscape will not zoom out past 0.1. Handing the
+   * layout the canvas makes the box the same every time, and the run with it.
+   *
+   * `undefined` when the canvas has no size — mid-fullscreen, or while the
+   * card is hidden — which leaves each layout on its own default rather than
+   * on an empty box.
+   */
+  private canvasBox(): { x1: number; y1: number; w: number; h: number } | undefined {
+    const width = this.cy.width();
+    const height = this.cy.height();
+    return width > 0 && height > 0 ? { x1: 0, y1: 0, w: width, h: height } : undefined;
+  }
+
+  /**
    * The `cose` settings, which are what decides whether a mesh of this size
    * reads at all.
    *
    * Two things are going on:
    *
-   * - **The bounding box is passed in.** Without one `cose` hands its own
-   *   coordinates back untouched and `fit` letterboxes whatever shape they
-   *   came out as — a roughly square cloud reaching into about a third of a
-   *   wide canvas. Given a box, `cose` maps the finished positions onto it by
-   *   percentile, so the graph is spread across the width it actually has.
+   * - **The bounding box is passed in**, by `applyLayout`, for every layout.
+   *   Without one `cose` hands its own coordinates back untouched and `fit`
+   *   letterboxes whatever shape they came out as — a roughly square cloud
+   *   reaching into about a third of a wide canvas. Given a box, `cose` maps
+   *   the finished positions onto it by percentile, so the graph is spread
+   *   across the width it actually has.
    * - **The forces are orders of magnitude stronger than the defaults.**
    *   `cose`'s edge force is `(ideal - length)^2 / elasticity` and never
    *   changes sign, so an edge only ever pulls, however short it already is.
@@ -1161,11 +1186,6 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
    * landing on top of each other.
    */
   private spreadCose(options: any): void {
-    const width = this.cy.width();
-    const height = this.cy.height();
-    if (width > 0 && height > 0) {
-      options.boundingBox = { x1: 0, y1: 0, w: width, h: height };
-    }
     options.nodeDimensionsIncludeLabels = true;
     options.nodeRepulsion = 1000000;
     options.idealEdgeLength = 120;
