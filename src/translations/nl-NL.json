@@ -240,7 +240,7 @@
   "network.mesh.path.node.placeholder": "Naam of netwerk-id",
   "network.mesh.path.compute": "Routes opnieuw berekenen",
   "network.mesh.path.back": "Terug naar de coördinator",
-  "network.mesh.path.show": "Berekende route tekenen",
+  "network.mesh.path.hint.none": "Er wordt geen route berekend zolang er geen apparaat is gekozen. Kies de coördinator om te zien hoe die elk apparaat bereikt, of een ander apparaat voor zijn route naar buiten.",
   "network.mesh.path.hint.coordinator": "Hoe de coördinator elk apparaat bereikt. Kies een apparaat voor zijn eigen route.",
   "network.mesh.path.hint.node": "Hoe dit apparaat de coördinator bereikt.",
   "network.mesh.path.header.coordinator": "{{node}} naar elk apparaat",

@@ -464,16 +464,13 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       hideEndDevices: [false],
       hideIsolated: [false],
       showIcons: [true],
-      // The coordinator to begin with: it is the node every mesh has, and
-      // its view — how the controller reaches everything — is the one worth
-      // opening on. Picking any other device switches to that device's route
-      // out to the coordinator.
-      pathNode: [this.scan.coordinator],
-      // The computed route is drawn by default: it is the answer the controls
-      // above it were used to ask for. On a mesh where it reaches every
-      // device at once it is also the densest thing on screen, hence the
-      // switch.
-      showPath: [true]
+      // Nothing to begin with, which is no route at all: from the
+      // coordinator the computed route reaches every device at once, so it
+      // is a star over the top of the mesh and the densest thing on screen.
+      // It is drawn once it is asked for — the coordinator for how the
+      // controller reaches everything, any other device for that device's
+      // route out — and clearing the field takes it off again.
+      pathNode: [null]
     });
 
     this.subs.sink = this.form.get('focusedNode').valueChanges.subscribe((nwkid: string) => this.focusNode(nwkid));
@@ -494,7 +491,6 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     // off the graph, so applyFilters() has no part in it.
     this.subs.sink = this.form.get('showIcons').valueChanges.subscribe(() => this.applyIcons());
     this.subs.sink = this.form.get('pathNode').valueChanges.subscribe(() => this.updatePath());
-    this.subs.sink = this.form.get('showPath').valueChanges.subscribe(() => this.applyFilters());
     this.syncControlAvailability();
   }
 
@@ -1117,7 +1113,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     // Filters that leave nothing standing would otherwise lay out an empty
     // collection and leave every node where it was.
     const eles = drawn.nodes().nonempty() ? drawn : this.cy.elements();
-    const options: any = { name, animate: false, fit: true, padding: 30, eles };
+    const options: any = { name, animate: false, fit: true, padding: 30, eles, boundingBox: this.canvasBox() };
 
     if (name === 'cose') {
       this.spreadCose(options);
@@ -1142,16 +1138,41 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   /**
+   * The canvas, as the box to lay the graph out in.
+   *
+   * Every layout is handed it, and `breadthfirst` is why. It is the one
+   * built-in that defaults its box to `cy.extent()` — the viewport in model
+   * coordinates — rather than to the canvas. `fit` leaves that extent at the
+   * drawn graph plus 30px of padding, so the next run spreads the tree over a
+   * box a little larger than the one it just filled, and `fit` zooms out a
+   * little further to show it. The nodes keep their size through all of this,
+   * so each press of "lay the graph out again" draws them smaller: measured
+   * over four presses on a 60-node scan, 25px -> 15px -> 9px -> 5px, where it
+   * stops only because cytoscape will not zoom out past 0.1. Handing the
+   * layout the canvas makes the box the same every time, and the run with it.
+   *
+   * `undefined` when the canvas has no size — mid-fullscreen, or while the
+   * card is hidden — which leaves each layout on its own default rather than
+   * on an empty box.
+   */
+  private canvasBox(): { x1: number; y1: number; w: number; h: number } | undefined {
+    const width = this.cy.width();
+    const height = this.cy.height();
+    return width > 0 && height > 0 ? { x1: 0, y1: 0, w: width, h: height } : undefined;
+  }
+
+  /**
    * The `cose` settings, which are what decides whether a mesh of this size
    * reads at all.
    *
    * Two things are going on:
    *
-   * - **The bounding box is passed in.** Without one `cose` hands its own
-   *   coordinates back untouched and `fit` letterboxes whatever shape they
-   *   came out as — a roughly square cloud reaching into about a third of a
-   *   wide canvas. Given a box, `cose` maps the finished positions onto it by
-   *   percentile, so the graph is spread across the width it actually has.
+   * - **The bounding box is passed in**, by `applyLayout`, for every layout.
+   *   Without one `cose` hands its own coordinates back untouched and `fit`
+   *   letterboxes whatever shape they came out as — a roughly square cloud
+   *   reaching into about a third of a wide canvas. Given a box, `cose` maps
+   *   the finished positions onto it by percentile, so the graph is spread
+   *   across the width it actually has.
    * - **The forces are orders of magnitude stronger than the defaults.**
    *   `cose`'s edge force is `(ideal - length)^2 / elasticity` and never
    *   changes sign, so an edge only ever pulls, however short it already is.
@@ -1165,11 +1186,6 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
    * landing on top of each other.
    */
   private spreadCose(options: any): void {
-    const width = this.cy.width();
-    const height = this.cy.height();
-    if (width > 0 && height > 0) {
-      options.boundingBox = { x1: 0, y1: 0, w: width, h: height };
-    }
     options.nodeDimensionsIncludeLabels = true;
     options.nodeRepulsion = 1000000;
     options.idealEdgeLength = 120;
@@ -1194,7 +1210,6 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     const [lqiMin, lqiMax] = (this.form.get('lqiRange').value as number[]) ?? [0, 255];
     const hideEndDevices = !!this.form.get('hideEndDevices').value;
     const hideIsolated = !!this.form.get('hideIsolated').value;
-    const showsPath = this.showsPath;
 
     this.cy.batch(() => {
       this.cy.nodes().forEach(node => {
@@ -1208,10 +1223,10 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
         if (kind === 'path') {
           // The path is not one of the three tables and is not filtered with
           // them: it was asked for explicitly, and a filter silently removing
-          // part of the answer is worse than a busy picture. The one switch
-          // that does reach it is its own, which takes the whole route off at
-          // once rather than trimming it.
-          hidden = !showsPath;
+          // part of the answer is worse than a busy picture. Taking the
+          // route off the graph is done by clearing the node it was asked
+          // for, which removes these edges rather than hiding them.
+          hidden = false;
         } else if (kind === 'route') {
           hidden = !drawsHops;
         } else if (kind === 'child') {
@@ -1233,12 +1248,8 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       });
 
       // A node the path goes through is part of the answer, so no filter may
-      // take it off the picture while the path is drawn. Once the route is
-      // switched off there is no answer to keep whole, and those nodes go
-      // back under the ordinary filters.
-      if (showsPath) {
-        this.cy.nodes('.on-path').removeClass('hidden');
-      }
+      // take it off the picture while the path is drawn.
+      this.cy.nodes('.on-path').removeClass('hidden');
 
       if (hideIsolated) {
         // Cytoscape's selector grammar has no `:not()`, and an unparsable
@@ -1248,10 +1259,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
           .nodes()
           .not('.hidden')
           .forEach(node => {
-            node.toggleClass(
-              'hidden',
-              (!showsPath || !node.hasClass('on-path')) && node.connectedEdges().not('.hidden').empty()
-            );
+            node.toggleClass('hidden', !node.hasClass('on-path') && node.connectedEdges().not('.hidden').empty());
           });
       }
     });
@@ -1432,23 +1440,6 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     return (this.form?.get('pathNode').value as string) ?? null;
   }
 
-  /** Whether the computed route is drawn onto the graph. */
-  get showsPath(): boolean {
-    return !!this.form?.get('showPath').value;
-  }
-
-  /**
-   * Whether there is a computed route on the graph to describe.
-   *
-   * The legend answers to this and the card below the graph to `hasPath`:
-   * switching the route off takes it off the picture, and the legend with it,
-   * but the hops it found are still the answer to the question that was
-   * asked, so they stay in writing.
-   */
-  get drawsPath(): boolean {
-    return this.showsPath && this.hasPath;
-  }
-
   /**
    * True while the coordinator is the chosen node, which is the fan-out view.
    *
@@ -1485,7 +1476,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     return this.paths.some(path => path.manyToOne);
   }
 
-  /** Back to the coordinator's view, which is where the page opens. */
+  /** From one device's route back to the coordinator's view of the whole mesh. */
   clearPath(): void {
     this.form?.get('pathNode').setValue(this.scan?.coordinator ?? null);
   }
@@ -1501,8 +1492,11 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   private resetPathNode(): void {
-    if (!this.pathNode || !this.nodesById.has(this.pathNode)) {
-      this.form.get('pathNode').setValue(this.scan.coordinator, { emitEvent: false });
+    // A node the new scan does not list cannot be routed to, and an empty
+    // field is the ordinary state rather than something to fill in, so the
+    // choice is dropped rather than replaced with the coordinator.
+    if (this.pathNode && !this.nodesById.has(this.pathNode)) {
+      this.form.get('pathNode').setValue(null, { emitEvent: false });
     }
     this.paths = [];
   }
