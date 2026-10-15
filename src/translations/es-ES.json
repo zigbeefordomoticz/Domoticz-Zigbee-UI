@@ -240,6 +240,7 @@
   "network.mesh.path.node.placeholder": "Nombre o id de red",
   "network.mesh.path.compute": "Recalcular las rutas",
   "network.mesh.path.back": "Volver al coordinador",
+  "network.mesh.path.show": "Dibujar la ruta calculada",
   "network.mesh.path.hint.coordinator": "Cómo el coordinador llega a cada dispositivo. Elige un dispositivo para ver su propia ruta.",
   "network.mesh.path.hint.node": "Cómo este dispositivo llega al coordinador.",
   "network.mesh.path.header.coordinator": "{{node}} hacia cada dispositivo",

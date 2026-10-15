@@ -468,7 +468,12 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       // its view — how the controller reaches everything — is the one worth
       // opening on. Picking any other device switches to that device's route
       // out to the coordinator.
-      pathNode: [this.scan.coordinator]
+      pathNode: [this.scan.coordinator],
+      // The computed route is drawn by default: it is the answer the controls
+      // above it were used to ask for. On a mesh where it reaches every
+      // device at once it is also the densest thing on screen, hence the
+      // switch.
+      showPath: [true]
     });
 
     this.subs.sink = this.form.get('focusedNode').valueChanges.subscribe((nwkid: string) => this.focusNode(nwkid));
@@ -489,6 +494,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     // off the graph, so applyFilters() has no part in it.
     this.subs.sink = this.form.get('showIcons').valueChanges.subscribe(() => this.applyIcons());
     this.subs.sink = this.form.get('pathNode').valueChanges.subscribe(() => this.updatePath());
+    this.subs.sink = this.form.get('showPath').valueChanges.subscribe(() => this.applyFilters());
     this.syncControlAvailability();
   }
 
@@ -1092,23 +1098,35 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     ];
   }
 
+  /**
+   * Lay the drawn graph out over the whole canvas.
+   *
+   * Only what is on screen is laid out. `cy.layout()` defaults to every
+   * element, and a scan carries a great deal more than any one mode draws: on
+   * a real network the hidden part is most of it — a few hundred routing hops
+   * and association links, the bulk of them radiating from the coordinator.
+   * Hidden or not, every one of them pulled its two ends together, which is
+   * what collapsed the drawn graph into a hairball around the coordinator.
+   */
   private applyLayout(): void {
     if (!this.cy) {
       return;
     }
     const name = this.form.get('layout').value as string;
-    const options: any = { name, animate: false, fit: true, padding: 30 };
+    const drawn = this.cy.elements(':visible');
+    // Filters that leave nothing standing would otherwise lay out an empty
+    // collection and leave every node where it was.
+    const eles = drawn.nodes().nonempty() ? drawn : this.cy.elements();
+    const options: any = { name, animate: false, fit: true, padding: 30, eles };
 
     if (name === 'cose') {
-      options.nodeRepulsion = 12000;
-      options.idealEdgeLength = 90;
-      options.nodeOverlap = 16;
-      options.componentSpacing = 120;
+      this.spreadCose(options);
     }
     if (name === 'breadthfirst' || name === 'concentric') {
       // `coordinator` is in the payload so the graph has a root without
-      // hardcoding one.
-      const root = this.cy.getElementById(this.scan.coordinator);
+      // hardcoding one. A filtered-out coordinator is not a root: it is not in
+      // `eles`, and these layouts would drop the node it names.
+      const root = eles.getElementById(this.scan.coordinator);
       if (root.nonempty()) {
         if (name === 'breadthfirst') {
           options.roots = root;
@@ -1121,6 +1139,43 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     }
 
     this.cy.layout(options).run();
+  }
+
+  /**
+   * The `cose` settings, which are what decides whether a mesh of this size
+   * reads at all.
+   *
+   * Two things are going on:
+   *
+   * - **The bounding box is passed in.** Without one `cose` hands its own
+   *   coordinates back untouched and `fit` letterboxes whatever shape they
+   *   came out as — a roughly square cloud reaching into about a third of a
+   *   wide canvas. Given a box, `cose` maps the finished positions onto it by
+   *   percentile, so the graph is spread across the width it actually has.
+   * - **The forces are orders of magnitude stronger than the defaults.**
+   *   `cose`'s edge force is `(ideal - length)^2 / elasticity` and never
+   *   changes sign, so an edge only ever pulls, however short it already is.
+   *   At five links per node that beat the old repulsion by two orders of
+   *   magnitude and the nodes came to rest touching one another, held apart
+   *   by the overlap term alone. Raising repulsion and slackening the springs
+   *   together is what opens the mesh out; neither does much on its own.
+   *
+   * `nodeDimensionsIncludeLabels` puts the name and network id into the box a
+   * node is given, rather than the 36px glyph alone, so the labels stop
+   * landing on top of each other.
+   */
+  private spreadCose(options: any): void {
+    const width = this.cy.width();
+    const height = this.cy.height();
+    if (width > 0 && height > 0) {
+      options.boundingBox = { x1: 0, y1: 0, w: width, h: height };
+    }
+    options.nodeDimensionsIncludeLabels = true;
+    options.nodeRepulsion = 1000000;
+    options.idealEdgeLength = 120;
+    options.edgeElasticity = 1000;
+    options.nodeOverlap = 16;
+    options.componentSpacing = 120;
   }
 
   private applyFilters(): void {
@@ -1139,6 +1194,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     const [lqiMin, lqiMax] = (this.form.get('lqiRange').value as number[]) ?? [0, 255];
     const hideEndDevices = !!this.form.get('hideEndDevices').value;
     const hideIsolated = !!this.form.get('hideIsolated').value;
+    const showsPath = this.showsPath;
 
     this.cy.batch(() => {
       this.cy.nodes().forEach(node => {
@@ -1152,8 +1208,10 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
         if (kind === 'path') {
           // The path is not one of the three tables and is not filtered with
           // them: it was asked for explicitly, and a filter silently removing
-          // part of the answer is worse than a busy picture.
-          hidden = false;
+          // part of the answer is worse than a busy picture. The one switch
+          // that does reach it is its own, which takes the whole route off at
+          // once rather than trimming it.
+          hidden = !showsPath;
         } else if (kind === 'route') {
           hidden = !drawsHops;
         } else if (kind === 'child') {
@@ -1175,8 +1233,12 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
       });
 
       // A node the path goes through is part of the answer, so no filter may
-      // take it off the picture while the path is drawn.
-      this.cy.nodes('.on-path').removeClass('hidden');
+      // take it off the picture while the path is drawn. Once the route is
+      // switched off there is no answer to keep whole, and those nodes go
+      // back under the ordinary filters.
+      if (showsPath) {
+        this.cy.nodes('.on-path').removeClass('hidden');
+      }
 
       if (hideIsolated) {
         // Cytoscape's selector grammar has no `:not()`, and an unparsable
@@ -1186,7 +1248,10 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
           .nodes()
           .not('.hidden')
           .forEach(node => {
-            node.toggleClass('hidden', !node.hasClass('on-path') && node.connectedEdges().not('.hidden').empty());
+            node.toggleClass(
+              'hidden',
+              (!showsPath || !node.hasClass('on-path')) && node.connectedEdges().not('.hidden').empty()
+            );
           });
       }
     });
@@ -1365,6 +1430,23 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
   /** The node the route view is centred on. */
   get pathNode(): string | null {
     return (this.form?.get('pathNode').value as string) ?? null;
+  }
+
+  /** Whether the computed route is drawn onto the graph. */
+  get showsPath(): boolean {
+    return !!this.form?.get('showPath').value;
+  }
+
+  /**
+   * Whether there is a computed route on the graph to describe.
+   *
+   * The legend answers to this and the card below the graph to `hasPath`:
+   * switching the route off takes it off the picture, and the legend with it,
+   * but the hops it found are still the answer to the question that was
+   * asked, so they stay in writing.
+   */
+  get drawsPath(): boolean {
+    return this.showsPath && this.hasPath;
   }
 
   /**

@@ -240,6 +240,7 @@
   "network.mesh.path.node.placeholder": "Name or network id",
   "network.mesh.path.compute": "Work the routes out again",
   "network.mesh.path.back": "Back to the coordinator",
+  "network.mesh.path.show": "Draw the computed route",
   "network.mesh.path.hint.coordinator": "How the coordinator reaches each device. Pick a device for its own route out.",
   "network.mesh.path.hint.node": "How this device reaches the coordinator.",
   "network.mesh.path.header.coordinator": "{{node}} to every device",

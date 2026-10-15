@@ -240,6 +240,7 @@
   "network.mesh.path.node.placeholder": "Name oder Netzwerk-ID",
   "network.mesh.path.compute": "Routen neu berechnen",
   "network.mesh.path.back": "Zurück zum Koordinator",
+  "network.mesh.path.show": "Berechnete Route zeichnen",
   "network.mesh.path.hint.coordinator": "Wie der Koordinator jedes Gerät erreicht. Ein Gerät auswählen zeigt dessen eigene Route.",
   "network.mesh.path.hint.node": "Wie dieses Gerät den Koordinator erreicht.",
   "network.mesh.path.header.coordinator": "{{node}} zu jedem Gerät",
