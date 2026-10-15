@@ -9,3 +9,4 @@ export * from './route-reusable-strategy';
 export * from './logger.service';
 export * from './until-destroyed';
 export * from './language';
+export * from './highcharts-exporting';
