@@ -6,6 +6,8 @@ $colour-good: #28a745;
 $colour-no-lqi: #adb5bd;
 $colour-route: #fd7e14;
 $colour-child: #d63384;
+// The computed path, matching COLOUR_PATH in the component.
+$colour-path: #6610f2;
 $colour-coordinator: #6f42c1;
 $colour-end-device: #20c997;
 $colour-unknown: #868e96;
@@ -196,6 +198,33 @@ $colour-stale: #ffc107;
 .legend-contested {
   border-top-color: $colour-poor;
   border-top-style: dashed;
+}
+
+.legend-path {
+  border-top-color: $colour-path;
+  border-top-width: 4px;
+}
+
+// A hop nobody reported: the dash is the whole distinction between what the
+// radios decided and what this page worked out.
+.legend-path-estimated {
+  border-top: 4px dashed $colour-path;
+}
+
+// One route per device on a large mesh is a long list, and the graph above it
+// is the thing being read: the table scrolls rather than pushing it off screen.
+.mesh-path-table {
+  max-height: 18rem;
+  overflow-y: auto;
+}
+
+.mesh-path-hops {
+  margin-bottom: 0.5rem;
+  padding-left: 1.2rem;
+
+  li {
+    padding: 0.1rem 0;
+  }
 }
 
 .lqi-dot {
