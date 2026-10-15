@@ -59,22 +59,28 @@
               </div>
 
               <div class="col-12 col-lg-3">
-                <label class="form-label mb-1">
-                  {{ 'network.mesh.lqiwindow' | translate }}
-                  <span class="badge text-bg-secondary"
-                    >{{ form.get('lqiRange').value[0] }} – {{ form.get('lqiRange').value[1] }}</span
-                  >
-                </label>
-                <!-- Two handles rather than one: a weak link and an
-                     implausibly strong reading are two different findings, and
-                     a lower bound alone cannot isolate either. -->
-                <p-slider
-                  class="mesh-lqi-slider"
-                  formControlName="lqiRange"
-                  [range]="true"
-                  [min]="0"
-                  [max]="255"
-                  [step]="5"></p-slider>
+                <!-- The slider carries no frame of its own, so unboxed it reads
+                     as loose furniture beside the two selects. The rectangle
+                     gives it the same outline they have, with the label as its
+                     caption rather than floating above it. -->
+                <div class="mesh-lqi-box">
+                  <span class="mesh-lqi-label">
+                    {{ 'network.mesh.lqiwindow' | translate }}
+                    <span class="badge text-bg-secondary"
+                      >{{ form.get('lqiRange').value[0] }} – {{ form.get('lqiRange').value[1] }}</span
+                    >
+                  </span>
+                  <!-- Two handles rather than one: a weak link and an
+                       implausibly strong reading are two different findings, and
+                       a lower bound alone cannot isolate either. -->
+                  <p-slider
+                    class="mesh-lqi-slider"
+                    formControlName="lqiRange"
+                    [range]="true"
+                    [min]="0"
+                    [max]="255"
+                    [step]="5"></p-slider>
+                </div>
               </div>
             </div>
 
