@@ -60,3 +60,6 @@ testem.log
 Thumbs.db
 
 .nx/
+
+# Local worklog (kept outside the repository)
+worklog/
