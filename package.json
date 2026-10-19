@@ -41,7 +41,7 @@
     "cytoscape": "^3.34.3",
     "file-saver": "^2.0.5",
     "highcharts": "^11.4.0",
-    "jspdf": "^3.0.4",
+    "jspdf": "^4.2.1",
     "ngx-color-picker": "^16.0.0",
     "ngx-filesaver": "^17.0.0",
     "ngx-json-viewer": "^3.2.1",
