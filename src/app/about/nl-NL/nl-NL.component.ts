@@ -8,5 +8,5 @@ import { Plugin } from '@app/shared/models/plugin';
   standalone: false
 })
 export class AboutNlComponent {
-  version: string = (JSON.parse(sessionStorage.getItem('plugin')) as Plugin).PluginVersion;
+  version: string = (JSON.parse(sessionStorage.getItem('plugin')) as Plugin)?.PluginVersion;
 }
