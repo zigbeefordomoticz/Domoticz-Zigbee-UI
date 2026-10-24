@@ -26,9 +26,8 @@ export class AboutComponent implements OnInit {
   // rather than once per language.
   readonly links = {
     wiki: 'https://zigbeefordomoticz.github.io/wiki/',
-    domoticzForum: 'https://www.domoticz.com/forum/viewforum.php?f=68',
+    englishForum: 'https://forum.domoticz.com/viewforum.php?f=68',
     frenchForum: 'https://easydomoticz.com/forum/viewforum.php?f=28',
-    frenchGuide: 'https://easydomoticz.com/forum/viewtopic.php?f=28&t=10886',
     keybase: 'https://keybase.io/team/zigate',
     zigate: 'https://zigate.fr/',
     electrolama: 'https://shop.electrolama.com/',
