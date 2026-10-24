@@ -1,20 +1,75 @@
-@switch (i18nService.language) {
-  @case ('fr-FR') {
-    <app-about-fr></app-about-fr>
-  }
-  @case ('nl-NL') {
-    <app-about-nl></app-about-nl>
-  }
-  @case ('es-ES') {
-    <app-about-es></app-about-es>
-  }
-  @case ('de-DE') {
-    <app-about-de></app-about-de>
-  }
-  @case ('it-IT') {
-    <app-about-it></app-about-it>
-  }
-  @default {
-    <app-about-en></app-about-en>
-  }
-}
+<div class="text-center">
+  <h1>
+    <span translate>APP_NAME</span>
+  </h1>
+  <p><i class="far fa-bookmark"></i> <span translate>Version</span> {{ version$ | async }}</p>
+</div>
+<div class="mt-5 row">
+  <div class="col-sm text-center">
+    <p translate>about.intro</p>
+    <p [innerHTML]="'about.wiki' | translate: links"></p>
+  </div>
+</div>
+<div class="mt-3 row">
+  <div class="col-sm text-center">
+    <h3 class="mt-3" translate>about.support.title</h3>
+  </div>
+</div>
+<div class="mt-3 row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm">
+    <ul>
+      <li translate>about.support.logs</li>
+      <li [innerHTML]="'about.support.forum' | translate: links"></li>
+    </ul>
+  </div>
+  <div class="col-sm-2"></div>
+</div>
+<div class="mt-3 row">
+  <div class="col-sm text-center">
+    <h3 class="mt-3" translate>about.chat.title</h3>
+  </div>
+</div>
+<div class="mt-3 row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm">
+    <p translate>about.chat.team</p>
+    <p [innerHTML]="'about.chat.keybase' | translate: links"></p>
+  </div>
+  <div class="col-sm-2"></div>
+</div>
+<hr />
+<div class="mt-3 row">
+  <div class="col-sm text-center">
+    <h3 class="mt-3" translate>about.thanks.title</h3>
+  </div>
+</div>
+<div class="mt-3 row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm">
+    <p translate>about.thanks.manufacturers</p>
+    <ul>
+      @for (manufacturer of manufacturers; track manufacturer) {
+        <li [innerHTML]="manufacturer | translate: links"></li>
+      }
+    </ul>
+    <p translate>about.thanks.contributors</p>
+    <ul>
+      @for (credit of credits; track credit.role) {
+        <li>{{ credit.role | translate }} {{ describe(credit) }}</li>
+      }
+    </ul>
+    <p translate>about.thanks.community</p>
+    <p translate>about.thanks.donors</p>
+  </div>
+  <div class="col-sm-2"></div>
+</div>
+<div class="mt-3 row">
+  <div class="col-sm text-center">
+    <a [href]="paypal" target="_blank" translate>about.donate</a>
+  </div>
+</div>
+
+<hr />
+<div class="text-center">&#64;pipiche38 - 2018 - {{ year }}</div>
+<br />
