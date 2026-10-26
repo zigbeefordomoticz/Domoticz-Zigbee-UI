@@ -1,7 +1,7 @@
 <div class="row g-3">
   <!-- Brands -->
   <div class="col-12 col-md-6 col-xl-2">
-    <div class="card h-100">
+    <div class="card h-100 firmware-column">
       <div class="card-header fw-bold" translate="admin.firmware.column.brands"></div>
       <div class="card-body p-0">
         <p class="card-text small px-3 pt-2" [innerHTML]="'admin.firmware.subtitle' | translate"></p>
@@ -25,7 +25,7 @@
 
   <!-- Firmware of the selected brand -->
   <div class="col-12 col-md-6 col-xl-3">
-    <div class="card h-100">
+    <div class="card h-100 firmware-column">
       <div class="card-header fw-bold">
         <span translate="admin.firmware.column.firmware"></span>
         @if (selectedBrand) {
@@ -62,7 +62,7 @@
 
   <!-- Devices for the selected firmware -->
   <div class="col-12 col-md-6 col-xl-4">
-    <div class="card h-100">
+    <div class="card h-100 firmware-column">
       <div class="card-header fw-bold">
         <span translate="admin.firmware.column.devices"></span>
         @if (selectedFirmware) {
@@ -164,7 +164,7 @@
 
   <!-- Transfers: every request, whatever is selected -->
   <div class="col-12 col-md-6 col-xl-3" [class.order-first]="busy" [class.order-md-0]="busy">
-    <div class="card h-100">
+    <div class="card h-100 firmware-column">
       <div class="card-header fw-bold d-flex justify-content-between align-items-center">
         <span translate="admin.firmware.column.transfers"></span>
         @if (requests.length) {
