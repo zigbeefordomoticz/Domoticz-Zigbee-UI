@@ -203,16 +203,18 @@
                   [attr.aria-valuenow]="percent(request)"
                   aria-valuemin="0"
                   aria-valuemax="100">
-                  <div class="progress-bar" [style.width.%]="percent(request)">{{ percent(request) }} %</div>
+                  <div class="progress-bar" [style.width.%]="percent(request)"></div>
                 </div>
                 @if (request.Size) {
                   <div class="small mt-1">
-                    {{ kilobytes(request.Offset) }} / {{ kilobytes(request.Size) }} KB
+                    {{ percent(request) }} % · {{ kilobytes(request.Offset) }} / {{ kilobytes(request.Size) }} KB
                     @if (speed(request); as bytesPerSecond) {
                       · {{ bytesPerSecond | number: '1.0-0' }} B/s ·
                       {{ 'admin.firmware.transfers.left' | translate: { time: duration(timeLeft(request)) } }}
                     }
                   </div>
+                } @else {
+                  <div class="small mt-1">{{ percent(request) }} %</div>
                 }
               }
             </button>

@@ -296,18 +296,19 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
    * Compare the device with the firmware, on what the device reported in its
    * last Query Next Image Request. A device that never asked, or a plugin that
    * does not report it, gives "unknown": the plugin checks it when the device
-   * asks.
+   * asks. The image type is checked first: a device being upgraded with
+   * another image is not a candidate for this one either.
    */
   private withStatus(device: DevicesByManufacturer, firmware: Firmware): FirmwareDevice {
+    if (device.ImageType && parseInt(device.ImageType, 16) !== parseInt(firmware.ImageType, 16)) {
+      return { ...device, status: 'other' };
+    }
     const request = this.requests.find(item => item.NwkId === device.Nwkid);
     if (request) {
       return { ...device, status: 'busy', request };
     }
     if (!device.ImageType) {
       return { ...device, status: 'unknown' };
-    }
-    if (parseInt(device.ImageType, 16) !== parseInt(firmware.ImageType, 16)) {
-      return { ...device, status: 'other' };
     }
     if (!device.CurrentFileVersion) {
       return { ...device, status: 'unknown' };
