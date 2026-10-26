@@ -1,0 +1,15 @@
+// Header (logo navbar + its margin) and the fixed status footer, plus a small gap
+$firmware-column-offset: 10rem;
+
+// Side by side (Bootstrap md and up), each column fits the window: its list scrolls,
+// the card header and footer stay visible
+@media (width >= 768px) {
+  .firmware-column {
+    max-height: calc(100vh - #{$firmware-column-offset});
+
+    .card-body {
+      min-height: 0;
+      overflow-y: auto;
+    }
+  }
+}
