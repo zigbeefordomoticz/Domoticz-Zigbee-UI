@@ -11,7 +11,12 @@ import { Device, ZDevices } from '@app/shared/models/device';
 import { DeviceBind } from '@app/shared/models/device-bind';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { DomoticzEnv } from '@app/shared/models/domoticz-env';
-import { DevicesByManufacturer, FirmwareManufacturer, FirmwareUpdate } from '@app/shared/models/firmware';
+import {
+  DevicesByManufacturer,
+  FirmwareManufacturer,
+  FirmwareUpdate,
+  FirmwareUpdateAnswer
+} from '@app/shared/models/firmware';
 import { DevicesAvailable, Group } from '@app/shared/models/group';
 import { Cluster, NewDevice } from '@app/shared/models/new-hardware';
 import { Plugin } from '@app/shared/models/plugin';
@@ -574,7 +579,7 @@ export class ApiService {
     );
   }
 
-  getOtaFirmware(): Observable<FirmwareManufacturer> {
+  getOtaFirmware(): Observable<FirmwareManufacturer[]> {
     return this.httpClient.get(routes.otaFirmwareList).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
@@ -588,7 +593,7 @@ export class ApiService {
     );
   }
 
-  putOtaFirmware(devicesToUpdate: FirmwareUpdate[]): Observable<FirmwareUpdate> {
+  putOtaFirmware(devicesToUpdate: FirmwareUpdate[]): Observable<FirmwareUpdateAnswer> {
     return this.httpClient.put(routes.otaFirmwareUpdate, devicesToUpdate).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
