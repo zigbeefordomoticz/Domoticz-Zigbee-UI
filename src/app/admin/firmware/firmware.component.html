@@ -176,14 +176,26 @@
       <div class="card-body p-0">
         <div class="list-group list-group-flush">
           @for (request of requests; track request.IEEE) {
-            <button
-              type="button"
+            <div
               class="list-group-item list-group-item-action"
+              role="button"
+              tabindex="0"
               [class.list-group-item-primary]="isSelectedFirmware(request)"
-              (click)="showRequest(request)">
-              <div class="d-flex justify-content-between">
+              (click)="showRequest(request)"
+              (keydown.enter)="showRequest(request)">
+              <div class="d-flex justify-content-between align-items-start">
                 <span class="text-truncate">{{ request.Name }}</span>
-                <span class="small opacity-75 ms-2">{{ request.NwkId }}</span>
+                <span class="d-flex align-items-center ms-2">
+                  <span class="small opacity-75">{{ request.NwkId }}</span>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-link text-danger p-0 ms-2"
+                    [title]="'admin.firmware.cancel.button' | translate"
+                    [attr.aria-label]="'admin.firmware.cancel.button' | translate"
+                    (click)="$event.stopPropagation(); cancel(request, cancelContent)">
+                    <i class="fa fa-xmark"></i>
+                  </button>
+                </span>
               </div>
               <div class="small text-truncate opacity-75">{{ request.FileName }}</div>
               <div class="small mt-1">
@@ -217,7 +229,7 @@
                   <div class="small mt-1">{{ percent(request) }} %</div>
                 }
               }
-            </button>
+            </div>
           }
           @if (legacyDevice) {
             <div class="list-group-item small">{{ legacyDevice }} {{ legacyProgress }}</div>
@@ -275,6 +287,33 @@
         class="btn btn-outline-dark"
         (click)="modal.dismiss('cancel')"
         translate="admin.firmware.alert.cancel"></button>
+    </div>
+  </ng-template>
+
+  <ng-template #cancelContent let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-cancel-title" translate="admin.firmware.cancel.title"></h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div>{{ requestToCancel.Name }} - Nwkid : {{ requestToCancel.NwkId }}</div>
+      <div class="mt-2">{{ 'admin.firmware.alert.filename' | translate }} {{ requestToCancel.FileName }}</div>
+      @if (requestToCancel.State === 'Transfer') {
+        <div class="mt-2" translate="admin.firmware.cancel.transfer"></div>
+      }
+      <div class="mt-2 small text-muted" translate="admin.firmware.cancel.again"></div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('ok')"
+        translate="admin.firmware.cancel.ok"></button>
+      <button
+        type="button"
+        class="btn btn-outline-dark"
+        (click)="modal.dismiss('cancel')"
+        translate="admin.firmware.cancel.keep"></button>
     </div>
   </ng-template>
 </div>

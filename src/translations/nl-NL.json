@@ -970,5 +970,13 @@
   "admin.firmware.outcome.Timeout": "Overdracht vastgelopen",
   "admin.firmware.outcome.Dropped": "Apparaat heeft nooit gevraagd",
   "admin.firmware.outcome.Not needed": "Niet nodig",
-  "admin.firmware.outcome.Cancelled": "Geannuleerd"
+  "admin.firmware.outcome.Cancelled": "Geannuleerd",
+  "admin.firmware.cancel.button": "Update annuleren",
+  "admin.firmware.cancel.title": "Firmware-update annuleren",
+  "admin.firmware.cancel.transfer": "Het apparaat stopt meteen met downloaden en houdt zijn huidige firmware.",
+  "admin.firmware.cancel.again": "Het wordt niet meer automatisch bijgewerkt (autoServeOTA) totdat de plugin herstart of u het hier opnieuw kiest.",
+  "admin.firmware.cancel.ok": "Update annuleren",
+  "admin.firmware.cancel.keep": "Behouden",
+  "admin.firmware.result.cancelled": "Firmware-update geannuleerd voor {{name}}",
+  "admin.firmware.result.notcancelled": "Firmware-update van {{name}} niet geannuleerd"
 }

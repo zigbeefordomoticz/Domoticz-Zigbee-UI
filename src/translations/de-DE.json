@@ -970,5 +970,13 @@
   "admin.firmware.outcome.Timeout": "Übertragung hängt",
   "admin.firmware.outcome.Dropped": "Gerät hat nie angefragt",
   "admin.firmware.outcome.Not needed": "Nicht nötig",
-  "admin.firmware.outcome.Cancelled": "Abgebrochen"
+  "admin.firmware.outcome.Cancelled": "Abgebrochen",
+  "admin.firmware.cancel.button": "Update abbrechen",
+  "admin.firmware.cancel.title": "Firmware-Update abbrechen",
+  "admin.firmware.cancel.transfer": "Das Gerät bricht den Download sofort ab und behält seine aktuelle Firmware.",
+  "admin.firmware.cancel.again": "Es wird nicht mehr automatisch aktualisiert (autoServeOTA), bis das Plugin neu startet oder Sie es hier erneut auswählen.",
+  "admin.firmware.cancel.ok": "Update abbrechen",
+  "admin.firmware.cancel.keep": "Beibehalten",
+  "admin.firmware.result.cancelled": "Firmware-Update für {{name}} abgebrochen",
+  "admin.firmware.result.notcancelled": "Firmware-Update von {{name}} nicht abgebrochen"
 }
