@@ -970,5 +970,13 @@
   "admin.firmware.outcome.Timeout": "Transferencia detenida",
   "admin.firmware.outcome.Dropped": "El dispositivo nunca la pidió",
   "admin.firmware.outcome.Not needed": "No necesaria",
-  "admin.firmware.outcome.Cancelled": "Cancelada"
+  "admin.firmware.outcome.Cancelled": "Cancelada",
+  "admin.firmware.cancel.button": "Cancelar la actualización",
+  "admin.firmware.cancel.title": "Cancelar la actualización del firmware",
+  "admin.firmware.cancel.transfer": "El dispositivo detiene la descarga de inmediato y conserva su firmware actual.",
+  "admin.firmware.cancel.again": "No se volverá a actualizar automáticamente (autoServeOTA) hasta que se reinicie el plugin o lo vuelva a seleccionar aquí.",
+  "admin.firmware.cancel.ok": "Cancelar la actualización",
+  "admin.firmware.cancel.keep": "Mantenerla",
+  "admin.firmware.result.cancelled": "Actualización de firmware cancelada para {{name}}",
+  "admin.firmware.result.notcancelled": "Actualización de firmware de {{name}} no cancelada"
 }

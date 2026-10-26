@@ -970,5 +970,13 @@
   "admin.firmware.outcome.Timeout": "Transfer stalled",
   "admin.firmware.outcome.Dropped": "Device never asked",
   "admin.firmware.outcome.Not needed": "Not needed",
-  "admin.firmware.outcome.Cancelled": "Cancelled"
+  "admin.firmware.outcome.Cancelled": "Cancelled",
+  "admin.firmware.cancel.button": "Cancel the update",
+  "admin.firmware.cancel.title": "Cancel the firmware update",
+  "admin.firmware.cancel.transfer": "The device stops the download at once and keeps its current firmware.",
+  "admin.firmware.cancel.again": "It is not updated again automatically (autoServeOTA) until the plugin restarts or you pick it again here.",
+  "admin.firmware.cancel.ok": "Cancel the update",
+  "admin.firmware.cancel.keep": "Keep it",
+  "admin.firmware.result.cancelled": "Firmware update cancelled for {{name}}",
+  "admin.firmware.result.notcancelled": "Firmware update of {{name}} not cancelled"
 }

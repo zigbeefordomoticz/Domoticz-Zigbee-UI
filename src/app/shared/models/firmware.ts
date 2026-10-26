@@ -40,7 +40,7 @@ export class FirmwareUpdate {
 
 export interface FirmwareUpdateResult {
   NwkId: string;
-  Status: 'Queued' | 'Rejected';
+  Status: 'Queued' | 'Rejected' | 'Cancelled';
   Reason: string;
 }
 

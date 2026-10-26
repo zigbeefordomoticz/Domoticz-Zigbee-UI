@@ -600,6 +600,14 @@ export class ApiService {
     );
   }
 
+  /** Cancel the queued or running firmware update of a device (plugin 9.1.009). */
+  deleteOtaFirmware(nwkid: string): Observable<FirmwareUpdateAnswer> {
+    return this.httpClient.delete(routes.otaFirmwareUpdate.concat('/', nwkid)).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
   getCasiaDevices(): Observable<CasaiaDevice[]> {
     return this.httpClient.get(routes.casiaListDevices).pipe(
       map((body: any) => body),

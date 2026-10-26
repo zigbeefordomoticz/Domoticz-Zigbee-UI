@@ -63,6 +63,7 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
   private clockOffset = 0;
 
   devicesModal: FirmwareDevice[];
+  requestToCancel: OtaRequest;
 
   constructor(
     private apiService: ApiService,
@@ -196,6 +197,15 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
     });
   }
 
+  /** Cancel a queued or running firmware update, once confirmed. */
+  cancel(request: OtaRequest, content: any) {
+    this.requestToCancel = request;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-cancel-title' }).result.then(
+      () => this.cancelFirmware(request),
+      () => {}
+    );
+  }
+
   isSelectedFirmware(request: OtaRequest): boolean {
     return !!this.selectedFirmware && request.FileName === this.selectedFirmware.FileName;
   }
@@ -317,6 +327,20 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
     const offered = parseInt(firmware.Version, 16);
     const status: DeviceOtaStatus = current < offered ? 'update' : current === offered ? 'uptodate' : 'newer';
     return { ...device, status };
+  }
+
+  private cancelFirmware(request: OtaRequest) {
+    this.apiService.deleteOtaFirmware(request.NwkId).subscribe(answer => {
+      (answer?.Results ?? []).forEach(result => {
+        const name = request.Name || result.NwkId;
+        if (result.Status === 'Cancelled') {
+          this.toastr.success(this.translate.instant('admin.firmware.result.cancelled', { name }));
+        } else {
+          this.toastr.warning(result.Reason, this.translate.instant('admin.firmware.result.notcancelled', { name }));
+        }
+      });
+      this.subs.sink = this.apiService.getPluginhealth().subscribe(health => this.setTransfers(health));
+    });
   }
 
   private reportResults(answer: FirmwareUpdateAnswer) {
