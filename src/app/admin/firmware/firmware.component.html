@@ -1,88 +1,266 @@
-<div class="row row-cols-1 row-cols-md-3 g-4">
-  <div class="col">
-    <div class="card h-100" [formGroup]="form">
-      <div class="card-header fw-bold" translate="admin.firmware.title"></div>
-      <div class="card-body">
-        <p class="card-text" [innerHTML]="'admin.firmware.subtitle' | translate"></p>
-        <div class="row">
-          <div class="col-sm">
-            <ng-select
-              [items]="manufacturerList$ | async"
-              [multiple]="false"
-              [closeOnSelect]="true"
-              placeholder="{{ 'admin.firmware.manufacturer.list' | translate }}"
-              appendTo="body"
-              formControlName="manufacturer">
-            </ng-select>
-          </div>
+<div class="row g-3">
+  <!-- Brands -->
+  <div class="col-12 col-md-6 col-xl-2">
+    <div class="card h-100">
+      <div class="card-header fw-bold" translate="admin.firmware.column.brands"></div>
+      <div class="card-body p-0">
+        <p class="card-text small px-3 pt-2" [innerHTML]="'admin.firmware.subtitle' | translate"></p>
+        <div class="list-group list-group-flush">
+          @for (brand of brands; track brand) {
+            <button
+              type="button"
+              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+              [class.active]="brand === selectedBrand"
+              (click)="selectBrand(brand)">
+              {{ brand }}
+              <span class="badge rounded-pill text-bg-light">{{ firmwaresByBrand[brand].length }}</span>
+            </button>
+          } @empty {
+            <div class="list-group-item text-muted" translate="admin.firmware.nofirmware"></div>
+          }
         </div>
-        <div class="row mt-2">
-          <div class="col-sm">
-            @if (firmwares) {
-              <div>
-                <ng-select
-                  [items]="firmwares"
-                  [multiple]="false"
-                  [closeOnSelect]="true"
-                  placeholder="{{ 'admin.firmware.list' | translate }}"
-                  appendTo="body"
-                  bindLabel="label"
-                  formControlName="firmware">
-                </ng-select>
-              </div>
-            }
-          </div>
-        </div>
-        <div class="row mt-2">
-          <div class="col-sm">
-            @if (devicesList$) {
-              <div>
-                <ng-select
-                  [items]="devicesList$ | async"
-                  [multiple]="true"
-                  [closeOnSelect]="true"
-                  placeholder="{{ 'admin.firmware.devices.list' | translate }}"
-                  appendTo="body"
-                  bindLabel="label"
-                  formControlName="device">
-                </ng-select>
-              </div>
-            }
-          </div>
-        </div>
-        <div class="col-auto mt-2">
-          <input formControlName="force" id="force" type="checkbox" class="form-control-checkbox" />
-          <label class="col-form-label" for="force" translate="admin.firmware.force"></label>
-        </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="card-footer d-flex justify-content-end">
-          <button
-            class="btn btn-primary"
-            (click)="open(content)"
-            [disabled]="!form.valid"
-            translate="admin.firmware.button.update"></button>
+  <!-- Firmware of the selected brand -->
+  <div class="col-12 col-md-6 col-xl-3">
+    <div class="card h-100">
+      <div class="card-header fw-bold">
+        <span translate="admin.firmware.column.firmware"></span>
+        @if (selectedBrand) {
+          <span class="fw-normal"> ({{ selectedBrand }})</span>
+        }
+      </div>
+      <div class="card-body p-0">
+        @if (selectedBrand) {
+          <div class="list-group list-group-flush">
+            @for (firmware of firmwaresByBrand[selectedBrand]; track firmware.FileName) {
+              <button
+                type="button"
+                class="list-group-item list-group-item-action"
+                [class.active]="firmware === selectedFirmware"
+                (click)="selectFirmware(firmware)">
+                <div class="text-break small fw-semibold">{{ firmware.FileName }}</div>
+                <div class="small">
+                  {{ 'admin.firmware.imagetype' | translate }} 0x{{ firmware.ImageType | uppercase }} ·
+                  {{ 'admin.firmware.version' | translate }} 0x{{ firmware.Version | uppercase }}
+                </div>
+                <div class="small opacity-75">
+                  App {{ firmware.ApplicationRelease }}.{{ firmware.ApplicationBuild }} · Stack
+                  {{ firmware.StackRelease }}.{{ firmware.StackBuild }}
+                </div>
+              </button>
+            }
+          </div>
+        } @else {
+          <p class="text-muted p-3 mb-0" translate="admin.firmware.select.brand"></p>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Devices for the selected firmware -->
+  <div class="col-12 col-md-6 col-xl-4">
+    <div class="card h-100">
+      <div class="card-header fw-bold">
+        <span translate="admin.firmware.column.devices"></span>
+        @if (selectedFirmware) {
+          <span class="fw-normal">
+            (0x{{ selectedFirmware.ManufCode | uppercase }} / 0x{{ selectedFirmware.ImageType | uppercase }})</span
+          >
+        }
+      </div>
+      <div class="card-body p-0">
+        @if (!selectedFirmware) {
+          <p class="text-muted p-3 mb-0" translate="admin.firmware.select.firmware"></p>
+        } @else if (!devices) {
+          <p class="text-muted p-3 mb-0"><i class="fa fa-spinner fa-spin"></i></p>
+        } @else {
+          <div class="list-group list-group-flush">
+            @for (device of devices; track device.Nwkid) {
+              <label
+                class="list-group-item d-flex gap-2 align-items-start"
+                [class.list-group-item-action]="selectable(device)"
+                [class.text-muted]="!selectable(device) && !selected.has(device.Nwkid)">
+                <input
+                  class="form-check-input flex-shrink-0 mt-1"
+                  type="checkbox"
+                  [checked]="selected.has(device.Nwkid)"
+                  [disabled]="!selectable(device) && !selected.has(device.Nwkid)"
+                  (change)="toggle(device)" />
+                <span class="flex-grow-1">
+                  <span class="d-block">
+                    {{ device.DeviceName || device.Nwkid }}
+                    <span class="small opacity-75">{{ device.Nwkid }}/{{ device.Ep }}</span>
+                  </span>
+                  <span class="d-block small">
+                    @if (device.CurrentFileVersion) {
+                      <span class="me-1">0x{{ device.CurrentFileVersion }}</span>
+                    }
+                    @switch (device.status) {
+                      @case ('update') {
+                        <span class="badge text-bg-success" translate="admin.firmware.device.update"></span>
+                      }
+                      @case ('uptodate') {
+                        <span class="badge text-bg-secondary" translate="admin.firmware.device.uptodate"></span>
+                      }
+                      @case ('newer') {
+                        <span class="badge text-bg-warning" translate="admin.firmware.device.newer"></span>
+                      }
+                      @case ('busy') {
+                        <span class="badge text-bg-primary">{{
+                          'admin.firmware.state.' + device.request.State | translate
+                        }}</span>
+                      }
+                      @default {
+                        <span class="badge text-bg-light border" translate="admin.firmware.device.unknown"></span>
+                      }
+                    }
+                  </span>
+                </span>
+              </label>
+            } @empty {
+              <p class="text-muted p-3 mb-0" translate="admin.firmware.nodevice"></p>
+            }
+            @if (otherDevices.length) {
+              <button
+                type="button"
+                class="list-group-item list-group-item-action small text-muted"
+                (click)="showOtherDevices = !showOtherDevices">
+                <i class="fa me-1" [ngClass]="showOtherDevices ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                {{ 'admin.firmware.device.other' | translate: { count: otherDevices.length } }}
+              </button>
+              @if (showOtherDevices) {
+                @for (device of otherDevices; track device.Nwkid) {
+                  <div class="list-group-item small text-muted">
+                    {{ device.DeviceName || device.Nwkid }} {{ device.Nwkid }}/{{ device.Ep }} ·
+                    {{ 'admin.firmware.imagetype' | translate }} 0x{{ device.ImageType }}
+                  </div>
+                }
+              }
+            }
+          </div>
+        }
+      </div>
+      @if (selectedFirmware) {
+        <div class="card-footer d-flex justify-content-between align-items-center text-body">
+          <div class="form-check mb-0">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="force"
+              [checked]="force"
+              (change)="setForce($any($event.target).checked)" />
+            <label class="form-check-label" for="force" translate="admin.firmware.force"></label>
+          </div>
+          <button class="btn btn-primary" (click)="open(content)" [disabled]="selected.size === 0">
+            {{ 'admin.firmware.button.update.selected' | translate: { count: selected.size } }}
+          </button>
         </div>
+      }
+    </div>
+  </div>
+
+  <!-- Transfers: every request, whatever is selected -->
+  <div class="col-12 col-md-6 col-xl-3" [class.order-first]="busy" [class.order-md-0]="busy">
+    <div class="card h-100">
+      <div class="card-header fw-bold d-flex justify-content-between align-items-center">
+        <span translate="admin.firmware.column.transfers"></span>
+        @if (requests.length) {
+          <span class="fw-normal small">{{
+            'admin.firmware.transfers.summary' | translate: { active: activeCount, queued: queuedCount }
+          }}</span>
+        }
+      </div>
+      <div class="card-body p-0">
+        <div class="list-group list-group-flush">
+          @for (request of requests; track request.IEEE) {
+            <button
+              type="button"
+              class="list-group-item list-group-item-action"
+              [class.list-group-item-primary]="isSelectedFirmware(request)"
+              (click)="showRequest(request)">
+              <div class="d-flex justify-content-between">
+                <span class="text-truncate">{{ request.Name }}</span>
+                <span class="small opacity-75 ms-2">{{ request.NwkId }}</span>
+              </div>
+              <div class="small text-truncate opacity-75">{{ request.FileName }}</div>
+              <div class="small mt-1">
+                <span class="badge" [ngClass]="stateClass(request)">{{
+                  'admin.firmware.state.' + request.State | translate
+                }}</span>
+                @if (request.State === 'Queued' || request.State === 'Waiting') {
+                  <span class="ms-1">{{
+                    'admin.firmware.transfers.since' | translate: { time: (request.QueuedTime * 1000 | date: 'HH:mm') }
+                  }}</span>
+                }
+              </div>
+              @if (request.State === 'Transfer') {
+                <div
+                  class="progress mt-1"
+                  role="progressbar"
+                  [attr.aria-valuenow]="percent(request)"
+                  aria-valuemin="0"
+                  aria-valuemax="100">
+                  <div class="progress-bar" [style.width.%]="percent(request)">{{ percent(request) }} %</div>
+                </div>
+                @if (request.Size) {
+                  <div class="small mt-1">
+                    {{ kilobytes(request.Offset) }} / {{ kilobytes(request.Size) }} KB
+                    @if (speed(request); as bytesPerSecond) {
+                      · {{ bytesPerSecond | number: '1.0-0' }} B/s ·
+                      {{ 'admin.firmware.transfers.left' | translate: { time: duration(timeLeft(request)) } }}
+                    }
+                  </div>
+                }
+              }
+            </button>
+          }
+          @if (legacyDevice) {
+            <div class="list-group-item small">{{ legacyDevice }} {{ legacyProgress }}</div>
+          }
+          @if (!requests.length && !legacyDevice) {
+            <p class="text-muted p-3 mb-0" translate="admin.firmware.transfers.empty"></p>
+          }
+        </div>
+        @if (finished.length) {
+          <div class="small fw-bold px-3 pt-3 pb-1" translate="admin.firmware.transfers.finished"></div>
+          <div class="list-group list-group-flush">
+            @for (request of finished; track request.IEEE + request.EndTime) {
+              <div class="list-group-item small" [class.list-group-item-primary]="isSelectedFirmware(request)">
+                <div class="d-flex justify-content-between">
+                  <span class="text-truncate">{{ request.Name }}</span>
+                  <span class="badge ms-2" [ngClass]="outcomeClass(request)">{{ outcome(request) }}</span>
+                </div>
+                <div class="text-truncate opacity-75">
+                  {{ request.EndTime * 1000 | date: 'dd/MM HH:mm' }} · {{ request.FileName }}
+                </div>
+              </div>
+            }
+          </div>
+        }
       </div>
     </div>
   </div>
 
   <ng-template #content let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title" translate="admin.firmware.alert.title"></h4>
+      <h4 class="modal-title" id="modal-basic-title" translate="admin.firmware.confirm.title"></h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-      {{ 'admin.firmware.alert.subject' | translate }}
-      <div class="col-sm mt-2">{{ 'admin.firmware.alert.brand' | translate }} {{ form.get('manufacturer').value }}</div>
-      <div class="col-sm mt-2">{{ 'admin.firmware.alert.filename' | translate }} {{ firmwareModal.FileName }}</div>
-      <div class="col-sm mt-2">
-        {{ 'admin.firmware.alert.list.devices' | translate }}
-        @for (device of devicesModal; track device) {
-          <div class="col-sm mt-2">
-            {{ 'admin.firmware.alert.device' | translate }} : {{ device.DeviceName }} - Nwkid : {{ device.Nwkid }}
-          </div>
+      <div>{{ 'admin.firmware.alert.brand' | translate }} {{ selectedBrand }}</div>
+      <div class="mt-2">{{ 'admin.firmware.alert.filename' | translate }} {{ selectedFirmware.FileName }}</div>
+      @if (force) {
+        <div class="mt-2 text-warning" translate="admin.firmware.force"></div>
+      }
+      <div class="mt-2">{{ 'admin.firmware.alert.list.devices' | translate }}</div>
+      <ul class="mb-0">
+        @for (device of devicesModal; track device.Nwkid) {
+          <li>{{ device.DeviceName || device.Nwkid }} - Nwkid : {{ device.Nwkid }}</li>
         }
-      </div>
+      </ul>
     </div>
     <div class="modal-footer">
       <button
