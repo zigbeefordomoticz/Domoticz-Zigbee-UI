@@ -202,25 +202,28 @@
                 <span class="badge" [ngClass]="stateClass(request)">{{
                   'admin.firmware.state.' + request.State | translate
                 }}</span>
-                @if (request.State === 'Queued' || request.State === 'Waiting') {
+                @if (request.State === 'Queued' || request.State === 'Waiting' || request.State === 'Stalled') {
                   <span class="ms-1">{{
                     'admin.firmware.transfers.since' | translate: { time: (request.QueuedTime * 1000 | date: 'HH:mm') }
                   }}</span>
                 }
               </div>
-              @if (request.State === 'Transfer') {
+              @if (request.State === 'Transfer' || request.State === 'Stalled') {
                 <div
                   class="progress mt-1"
                   role="progressbar"
                   [attr.aria-valuenow]="percent(request)"
                   aria-valuemin="0"
                   aria-valuemax="100">
-                  <div class="progress-bar" [style.width.%]="percent(request)"></div>
+                  <div
+                    class="progress-bar"
+                    [class.bg-danger]="request.State === 'Stalled'"
+                    [style.width.%]="percent(request)"></div>
                 </div>
                 @if (request.Size) {
                   <div class="small mt-1">
                     {{ percent(request) }} % · {{ kilobytes(request.Offset) }} / {{ kilobytes(request.Size) }} KB
-                    @if (speed(request); as bytesPerSecond) {
+                    @if (request.State === 'Transfer' && speed(request); as bytesPerSecond) {
                       · {{ bytesPerSecond | number: '1.0-0' }} B/s ·
                       {{ 'admin.firmware.transfers.left' | translate: { time: duration(timeLeft(request)) } }}
                     }

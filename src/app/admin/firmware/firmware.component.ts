@@ -270,6 +270,8 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
         return 'text-bg-info';
       case 'Waiting':
         return 'text-bg-warning';
+      case 'Stalled':
+        return 'text-bg-danger';
       default:
         return 'text-bg-secondary';
     }

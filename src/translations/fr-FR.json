@@ -1145,6 +1145,7 @@
   "admin.firmware.state.Notifying": "Notifié",
   "admin.firmware.state.Waiting": "Attend que l'objet demande",
   "admin.firmware.state.Transfer": "Transfert",
+  "admin.firmware.state.Stalled": "Bloqué, reprend quand l'appareil le demande",
   "admin.firmware.transfers.summary": "{{active}} en cours · {{queued}} en attente",
   "admin.firmware.transfers.since": "depuis {{time}}",
   "admin.firmware.transfers.left": "reste ~{{time}}",
