@@ -45,6 +45,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   battery2: any;
   battery3: any;
   battery4: any;
+  batteryTotal = 0;
 
   advancedPieLoad: any;
   advancedPieSent: any;
@@ -379,7 +380,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           );
         });
 
-        this.colorShemeState = this.colorSchemeGBROG;
+        // Rebuilt on every refresh: filtering the shared scheme in place lost blue / red for good
+        this.colorShemeState = { domain: [...this.colorSchemeGBROG.domain] };
 
         this.advancedPieState = [];
         this.advancedPieState.push({
@@ -423,6 +425,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           (device: any) => device.Battery > 35 && device.Battery <= 75 && device.Health !== 'Disabled'
         );
         this.battery4 = devicesOnBattery.filter((device: any) => device.Battery > 75 && device.Health !== 'Disabled');
+        this.batteryTotal = this.battery1.length + this.battery2.length + this.battery3.length + this.battery4.length;
         this.advancedPieBattery = [
           {
             name: this.translateService.instant('dashboard.devices.battery.inf.15'),
