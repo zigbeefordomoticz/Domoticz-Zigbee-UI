@@ -955,6 +955,7 @@
   "admin.firmware.state.Notifying": "Notified",
   "admin.firmware.state.Waiting": "Waiting for the device to ask",
   "admin.firmware.state.Transfer": "Transfer",
+  "admin.firmware.state.Stalled": "Stalled, resumes when the device asks",
   "admin.firmware.transfers.summary": "{{active}} active · {{queued}} queued",
   "admin.firmware.transfers.since": "since {{time}}",
   "admin.firmware.transfers.left": "~{{time}} left",

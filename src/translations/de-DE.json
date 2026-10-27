@@ -955,6 +955,7 @@
   "admin.firmware.state.Notifying": "Benachrichtigt",
   "admin.firmware.state.Waiting": "Wartet auf die Anfrage des Geräts",
   "admin.firmware.state.Transfer": "Übertragung",
+  "admin.firmware.state.Stalled": "Hängt, wird fortgesetzt, wenn das Gerät anfragt",
   "admin.firmware.transfers.summary": "{{active}} aktiv · {{queued}} wartend",
   "admin.firmware.transfers.since": "seit {{time}}",
   "admin.firmware.transfers.left": "noch ~{{time}}",

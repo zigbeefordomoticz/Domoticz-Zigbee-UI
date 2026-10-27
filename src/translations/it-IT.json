@@ -955,6 +955,7 @@
   "admin.firmware.state.Notifying": "Notificato",
   "admin.firmware.state.Waiting": "In attesa della richiesta del dispositivo",
   "admin.firmware.state.Transfer": "Trasferimento",
+  "admin.firmware.state.Stalled": "Bloccato, riprende quando il dispositivo lo richiede",
   "admin.firmware.transfers.summary": "{{active}} attivi · {{queued}} in coda",
   "admin.firmware.transfers.since": "dalle {{time}}",
   "admin.firmware.transfers.left": "~{{time}} rimanenti",

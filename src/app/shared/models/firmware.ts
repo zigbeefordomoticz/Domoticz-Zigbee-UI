@@ -60,7 +60,7 @@ export interface OtaRequest {
   IEEE: string;
   Name: string;
   FileName: string;
-  State: 'Queued' | 'Notifying' | 'Waiting' | 'Transfer' | string;
+  State: 'Queued' | 'Notifying' | 'Waiting' | 'Transfer' | 'Stalled' | string;
   Status: 'Active' | 'Not Active';
   // "NN%" during a transfer; the outcome once ended (Success, Failed, Timeout, ...)
   Progress: string;

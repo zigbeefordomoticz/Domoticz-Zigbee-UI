@@ -955,6 +955,7 @@
   "admin.firmware.state.Notifying": "Gemeld",
   "admin.firmware.state.Waiting": "Wacht tot het apparaat erom vraagt",
   "admin.firmware.state.Transfer": "Overdracht",
+  "admin.firmware.state.Stalled": "Vastgelopen, gaat verder zodra het apparaat erom vraagt",
   "admin.firmware.transfers.summary": "{{active}} actief · {{queued}} in wachtrij",
   "admin.firmware.transfers.since": "sinds {{time}}",
   "admin.firmware.transfers.left": "nog ~{{time}}",
