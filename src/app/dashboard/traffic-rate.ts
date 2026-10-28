@@ -14,13 +14,13 @@ export interface RatePoint {
  * True when the plugin sends per-interval counts: RxCount / TxCount (messages since the previous
  * point) and Time (epoch) on each trend point. Older plugins send only Rxps / Txps, averages
  * since the plugin started, from which no rate can be derived.
+ *
+ * Only a point without them shows an older plugin. With no point yet (the plugin records none
+ * until its start-up is over), nothing says so, and the rate chart is drawn empty.
  */
 export function hasIntervalCounts(trend: Trend[]): boolean {
-  return (
-    trend.length > 1 &&
-    trend.every(
-      point => typeof point.Time === 'number' && typeof point.RxCount === 'number' && typeof point.TxCount === 'number'
-    )
+  return trend.every(
+    point => typeof point.Time === 'number' && typeof point.RxCount === 'number' && typeof point.TxCount === 'number'
   );
 }
 
