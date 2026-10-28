@@ -58,6 +58,9 @@
   <div class="card-header d-flex flex-wrap align-items-baseline gap-2">
     <span class="fw-bold">{{ 'dashboard.devices.section' | translate }}</span>
     <span class="small text-body-secondary">{{ 'dashboard.devices.click' | translate }}</span>
+    <a class="ms-auto small" routerLink="/device">
+      <i class="fas fa-tablet me-1" aria-hidden="true"></i>{{ 'device' | translate }} →
+    </a>
   </div>
   @if (pluginStats) {
     <div class="card-body">
