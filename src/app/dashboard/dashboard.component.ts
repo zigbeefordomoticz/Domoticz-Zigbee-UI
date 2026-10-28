@@ -14,6 +14,35 @@ import { forkJoin, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { PluginStats } from '../shared/models/plugin-stats';
 
+interface DeviceSegment {
+  label: string;
+  color: string;
+  devices: any[];
+  count: number;
+  percent?: number;
+}
+
+interface DeviceGroup {
+  title: string;
+  info: string;
+  infoParams: object;
+  empty: string;
+  total: number;
+  segments: DeviceSegment[];
+}
+
+// One meaning per colour: green fine, amber attention, red problem, greys unknown / disabled; blues are neutral
+const COLORS = {
+  good: 'var(--bs-success)',
+  goodLight: '#75b798',
+  attention: 'var(--bs-warning)',
+  problem: 'var(--bs-danger)',
+  unknown: '#adb5bd',
+  disabled: 'var(--bs-secondary)',
+  neutral: 'var(--bs-primary)',
+  neutralLight: '#9ec5fe'
+};
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -31,15 +60,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   devices: any;
   certified: DeviceByName[];
   routers: any;
-  inDbs: any;
   healthsLive: any;
   healthsDisabled: any;
   healthsNotSeen: any;
   healthsNotReachable: any;
   healthsOthers: any = {};
   pluginStats: PluginStats;
-  maxLoad: any = {};
-  currentLoad: any = {};
   devicesOther: any;
   certifiedDevices: any;
   notCertifiedDevices: any;
@@ -48,50 +74,11 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   battery2: any;
   battery3: any;
   battery4: any;
-  batteryTotal = 0;
-
-  advancedPieLoad: any;
-  advancedPieSent: any;
-  advancedPieDevice: any;
-  advancedPieState: any[] = [];
-  advancedPieBattery: any;
-  advancedPieCertified: any;
-  advancedPieLoadLabel: string;
-  advancedPieSentLabel: string;
-  advancedPieDeviceLabel: string;
-  advancedPieStateLabel: string;
-  advancedPieBatteryLabel: string;
-  advancedCertifiedLabel: string;
+  deviceGroups: DeviceGroup[] = [];
+  sinceStart: { label: string; value: string }[] = [];
 
   getScreenWidth: any;
   getScreenHeight: any;
-
-  gaugeType = 'full';
-  gaugeAppendText = '';
-
-  thick = 15;
-
-  animations = true;
-  gradient = false;
-  tooltipDisabled = false;
-  colorShemeState: {
-    domain: string[];
-  };
-  colorSchemeROBG = {
-    domain: ['red', 'orange', 'green', 'blue']
-  };
-  colorSchemeGBROG = {
-    domain: ['green', 'blue', 'red', 'orange', 'gray']
-  };
-  colorSchemeBG = {
-    domain: ['blue', 'green']
-  };
-  colorSchemePC = {
-    domain: ['purple', 'cyan']
-  };
-  colorSchemeGO = {
-    domain: ['green', 'orange']
-  };
 
   plugin: Plugin;
   pluginHealth: any;
@@ -143,7 +130,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     if (!this.poll) {
       this.getStats().subscribe();
     }
-    this.getInfos();
     this.apiService.getCoordinator().subscribe(coordinator => (this.coordinator = coordinator));
     this.apiService.getOtaFirmwareAvailable().subscribe(firmware => (this.firmwareAvailable = firmware ?? []));
   }
@@ -152,19 +138,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   onWindowResize() {
     this.getScreenWidth = window.innerWidth;
     this.getScreenHeight = window.innerHeight;
-  }
-
-  getInfos() {
-    this.advancedPieLoadLabel = this.translateService.instant('dashboard.trafic.maxload.label');
-    this.advancedPieSentLabel = this.translateService.instant('dashboard.trafic.label');
-    this.advancedPieDeviceLabel = this.translateService.instant('dashboard.devices.label');
-    this.advancedPieStateLabel = this.translateService.instant('dashboard.devices.state.label');
-    this.advancedPieBatteryLabel = this.translateService.instant('dashboard.devices.battery.label');
-    this.advancedCertifiedLabel = this.translateService.instant('dashboard.devices.optimized.label');
-  }
-
-  percentageFormatting(value: any) {
-    return Math.round(value);
   }
 
   createChart() {
@@ -271,46 +244,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     this.subs.add(this.chart.ref$.subscribe());
   }
 
-  open(name: string, event: any) {
-    if (name === 'device') {
-      if (event.name === this.translateService.instant('dashboard.devices.routers')) {
-        this.devicesToOverlay = this.routers;
-      } else {
-        this.devicesToOverlay = this.devicesOther;
-      }
-    } else if (name === 'state') {
-      if (event.name === this.translateService.instant('dashboard.devices.live')) {
-        this.devicesToOverlay = this.healthsLive;
-      } else if (event.name === this.translateService.instant('dashboard.devices.disabled')) {
-        this.devicesToOverlay = this.healthsDisabled;
-      } else if (event.name === this.translateService.instant('dashboard.devices.others')) {
-        this.devicesToOverlay = this.healthsOthers;
-      } else if (event.name === this.translateService.instant('dashboard.devices.notReachable')) {
-        this.devicesToOverlay = this.healthsNotReachable;
-      } else {
-        this.devicesToOverlay = this.healthsNotSeen;
-      }
-    } else if (name === 'battery') {
-      if (event.name === this.translateService.instant('dashboard.devices.battery.inf.15')) {
-        this.devicesToOverlay = this.battery1;
-      } else if (event.name === this.translateService.instant('dashboard.devices.battery.inf.35')) {
-        this.devicesToOverlay = this.battery2;
-      } else if (event.name === this.translateService.instant('dashboard.devices.battery.inf.75')) {
-        this.devicesToOverlay = this.battery3;
-      } else {
-        this.devicesToOverlay = this.battery4;
-      }
-    } else if (name === 'certified') {
-      if (event.name === this.translateService.instant('dashboard.devices.optimized')) {
-        this.devicesToOverlay = this.certifiedDevices;
-      } else {
-        this.devicesToOverlay = this.notCertifiedDevices;
-      }
-    }
-
-    this.showOverlay();
-  }
-
   showDevices(devices: any[]) {
     this.devicesToOverlay = devices;
     this.showOverlay();
@@ -326,6 +259,73 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   refresh() {
     this.getStats().subscribe();
     this.versionService.setReload(true);
+  }
+
+  private buildDeviceGroups() {
+    const segment = (label: string, color: string, devices: any[]): DeviceSegment => ({
+      label,
+      color,
+      devices,
+      count: devices.length
+    });
+    const group = (
+      title: string,
+      info: string,
+      segments: DeviceSegment[],
+      empty = '',
+      infoParams: object = {}
+    ): DeviceGroup => {
+      const total = segments.reduce((sum, s) => sum + s.count, 0);
+      segments.forEach(s => (s.percent = total ? Math.round((s.count * 100) / total) : 0));
+      return { title, info, infoParams, empty, total, segments };
+    };
+
+    this.deviceGroups = [
+      group(
+        'dashboard.health.title',
+        'dashboard.health.comment',
+        [
+          segment('dashboard.devices.live', COLORS.good, this.healthsLive),
+          segment('dashboard.devices.notseen', COLORS.attention, this.healthsNotSeen),
+          segment('dashboard.devices.notReachable', COLORS.problem, this.healthsNotReachable),
+          segment('dashboard.devices.others', COLORS.unknown, this.healthsOthers),
+          segment('dashboard.devices.disabled', COLORS.disabled, this.healthsDisabled)
+        ],
+        '',
+        { hours: this.healthTimeOutHours }
+      ),
+      group('dashboard.device.title', 'dashboard.devices.comment', [
+        segment('dashboard.devices.routers', COLORS.neutral, this.routers),
+        segment('dashboard.devices.enddevice', COLORS.neutralLight, this.devicesOther)
+      ]),
+      group(
+        'dashboard.battery.title',
+        'dashboard.battery.comment',
+        [
+          segment('dashboard.devices.battery.inf.15', COLORS.problem, this.battery1),
+          segment('dashboard.devices.battery.inf.35', COLORS.attention, this.battery2),
+          segment('dashboard.devices.battery.inf.75', COLORS.goodLight, this.battery3),
+          segment('dashboard.devices.battery.sup.75', COLORS.good, this.battery4)
+        ],
+        'dashboard.battery.none'
+      ),
+      group('dashboard.optimized.title', 'dashboard.optimized.comment', [
+        segment('dashboard.devices.optimized', COLORS.good, this.certifiedDevices),
+        segment('dashboard.devices.not.optimized', COLORS.attention, this.notCertifiedDevices)
+      ])
+    ];
+  }
+
+  private buildSinceStart() {
+    const stats = this.pluginStats;
+    const format = (value: number) => (value ?? 0).toLocaleString(this.translateService.currentLang);
+    this.sinceStart = [
+      { label: 'dashboard.since.received', value: format(stats.Received) },
+      { label: 'dashboard.since.sent', value: format(stats.Sent) },
+      { label: 'dashboard.since.retx', value: format(stats.ReTx) },
+      { label: 'dashboard.since.apsfailure', value: format(stats.APSFailure) },
+      { label: 'dashboard.since.maxload', value: format(stats.MaxLoad) }
+    ];
   }
 
   private getStats() {
@@ -345,49 +345,13 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.devices = devices ? devices : [];
         this.certified = certified ? certified : [];
         this.createChart();
-        this.maxLoad.label = this.translateService.instant('dashboard.trafic.maxload');
-        this.maxLoad.total = pluginStats.MaxLoad;
-        this.currentLoad.label = this.translateService.instant('dashboard.trafic.currentload');
-        this.currentLoad.total = pluginStats.CurrentLoad;
-        this.advancedPieLoad = [
-          {
-            name: this.translateService.instant('dashboard.trafic.maxload'),
-            value: pluginStats.MaxLoad - pluginStats.CurrentLoad
-          },
-          { name: this.translateService.instant('dashboard.trafic.currentload'), value: pluginStats.CurrentLoad }
-        ];
-        this.advancedPieSent = [
-          { name: this.translateService.instant('dashboard.trafic.send'), value: pluginStats.Sent },
-          { name: this.translateService.instant('dashboard.trafic.receive'), value: pluginStats.Received }
-        ];
 
-        this.devices.total = this.devices.length;
-        this.devices.label = this.translateService.instant('devices');
         this.routers = this.devices.filter(
           (router: any) => router.LogicalType === 'Router' && router.Health !== 'Disabled'
         );
         this.devicesOther = this.devices.filter(
           (router: any) => router.LogicalType !== 'Router' && router.Health !== 'Disabled'
         );
-        this.routers.label = this.translateService.instant('dashboard.devices.routers');
-        this.routers.total = ((this.routers.length / this.devices.total) * 100).toFixed(0);
-        this.routers.append = '%';
-
-        this.inDbs = this.devices.filter((router: any) => router.Status === 'inDB');
-        this.inDbs.label = this.translateService.instant('dashboard.devices.indb');
-        this.inDbs.total = ((this.inDbs.length / this.devices.total) * 100).toFixed(0);
-        this.inDbs.append = '%';
-
-        this.advancedPieDevice = [
-          {
-            name: this.translateService.instant('dashboard.devices.routers'),
-            value: this.routers.length
-          },
-          {
-            name: this.translateService.instant('dashboard.devices.enddevice'),
-            value: this.devicesOther.length
-          }
-        ];
 
         this.healthsLive = this.devices.filter((device: any) => device.Health === 'Live' && device.Status !== 'notDB');
         this.healthsDisabled = this.devices.filter(
@@ -410,42 +374,14 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           );
         });
 
-        // Rebuilt on every refresh: filtering the shared scheme in place lost blue / red for good
-        this.colorShemeState = { domain: [...this.colorSchemeGBROG.domain] };
-
-        this.advancedPieState = [];
-        this.advancedPieState.push({
-          name: this.translateService.instant('dashboard.devices.live'),
-          value: this.healthsLive.length
-        });
-
-        if (this.healthsDisabled.length > 0) {
-          this.advancedPieState.push({
-            name: this.translateService.instant('dashboard.devices.disabled'),
-            value: this.healthsDisabled.length
-          });
-        } else {
-          this.colorShemeState.domain = this.colorShemeState.domain.filter(color => color !== 'blue');
-        }
-        if (this.healthsNotReachable.length > 0) {
-          this.advancedPieState.push({
-            name: this.translateService.instant('dashboard.devices.notReachable'),
-            value: this.healthsNotReachable.length
-          });
-        } else {
-          this.colorShemeState.domain = this.colorShemeState.domain.filter(color => color !== 'red');
-        }
-        this.advancedPieState.push({
-          name: this.translateService.instant('dashboard.devices.notseen'),
-          value: this.healthsNotSeen.length
-        });
-        this.advancedPieState.push({
-          name: this.translateService.instant('dashboard.devices.others'),
-          value: this.healthsOthers.length
-        });
-
+        // A battery device that has not reported yet has Battery "": that is no level, not "< 15 %"
         const devicesOnBattery = this.devices.filter(
-          (device: any) => device.PowerSource === 'Battery' && device.Status !== 'notDB'
+          (device: any) =>
+            device.PowerSource === 'Battery' &&
+            device.Status !== 'notDB' &&
+            device.Battery !== '' &&
+            device.Battery !== null &&
+            device.Battery !== undefined
         );
         this.battery1 = devicesOnBattery.filter((device: any) => device.Battery <= 15 && device.Health !== 'Disabled');
         this.battery2 = devicesOnBattery.filter(
@@ -455,25 +391,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           (device: any) => device.Battery > 35 && device.Battery <= 75 && device.Health !== 'Disabled'
         );
         this.battery4 = devicesOnBattery.filter((device: any) => device.Battery > 75 && device.Health !== 'Disabled');
-        this.batteryTotal = this.battery1.length + this.battery2.length + this.battery3.length + this.battery4.length;
-        this.advancedPieBattery = [
-          {
-            name: this.translateService.instant('dashboard.devices.battery.inf.15'),
-            value: this.battery1.length
-          },
-          {
-            name: this.translateService.instant('dashboard.devices.battery.inf.35'),
-            value: this.battery2.length
-          },
-          {
-            name: this.translateService.instant('dashboard.devices.battery.inf.75'),
-            value: this.battery3.length
-          },
-          {
-            name: this.translateService.instant('dashboard.devices.battery.sup.75'),
-            value: this.battery4.length
-          }
-        ];
 
         this.certifiedDevices = this.certified.filter(
           (device: any) => device.CertifiedDevice && device.Health !== 'Disabled'
@@ -481,17 +398,9 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.notCertifiedDevices = this.certified.filter(
           (device: any) => !device.CertifiedDevice && device.Health !== 'Disabled'
         );
-        this.advancedPieCertified = [
-          {
-            name: this.translateService.instant('dashboard.devices.optimized'),
-            value: this.certifiedDevices.length
-          },
-          {
-            name: this.translateService.instant('dashboard.devices.not.optimized'),
-            value: this.notCertifiedDevices.length
-          }
-        ];
 
+        this.buildDeviceGroups();
+        this.buildSinceStart();
         this.headerService.setError(pluginStats.Error);
       })
     );
