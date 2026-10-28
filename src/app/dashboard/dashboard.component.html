@@ -24,7 +24,7 @@
                 [gradient]="gradient"
                 [tooltipDisabled]="tooltipDisabled"
                 (select)="open('state', $event)"
-                [scheme]="colorSchemeGBROG"
+                [scheme]="colorShemeState"
                 [label]="advancedPieStateLabel"
                 [percentageFormatting]="percentageFormatting">
               </ngx-charts-advanced-pie-chart>
@@ -122,16 +122,20 @@
             <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
             <div class="col-sm-1"></div>
             <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieBattery"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                (select)="open('battery', $event)"
-                [scheme]="colorSchemeROBG"
-                [label]="advancedPieBatteryLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
+              @if (batteryTotal > 0) {
+                <ngx-charts-advanced-pie-chart
+                  [results]="advancedPieBattery"
+                  [animations]="animations"
+                  [gradient]="gradient"
+                  [tooltipDisabled]="tooltipDisabled"
+                  (select)="open('battery', $event)"
+                  [scheme]="colorSchemeROBG"
+                  [label]="advancedPieBatteryLabel"
+                  [percentageFormatting]="percentageFormatting">
+                </ngx-charts-advanced-pie-chart>
+              } @else {
+                <div class="dashboard-empty text-body-secondary" translate="dashboard.battery.none"></div>
+              }
             </div>
             <div class="row">
               <div class="col-sm border-start border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>

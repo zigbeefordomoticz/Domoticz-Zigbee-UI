@@ -41,3 +41,10 @@
 .card {
   --bs-card-border-width: none;
 }
+
+.dashboard-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+}

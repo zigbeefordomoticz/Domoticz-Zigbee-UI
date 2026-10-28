@@ -45,6 +45,7 @@
   "dashboard.devices.battery.inf.75": "< 75%",
   "dashboard.devices.battery.sup.75": "> 75%",
   "dashboard.battery.comment": "État de charge de la batterie des objets ayant une batterie.",
+  "dashboard.battery.none": "Aucun objet sur batterie",
   "dashboard.optimized.title": "Objets optimisés",
   "dashboard.optimized.comment": "Optimisés = objets pour lesquels une configuration a été faite dans le plugin.<br>Non-optimisés = objets qui peuvent ne pas fonctionner complètement et/ou générer de la charge ou du traffic anormal.<br><a target='_blank' href='https://zigbeefordomoticz.github.io/wiki/fr-fr/Tuto_Gerer-objet-non-optimise'>Plus d'infos sur le wiki</a>",
   "dashboard.devices.optimized": "optimisés",
