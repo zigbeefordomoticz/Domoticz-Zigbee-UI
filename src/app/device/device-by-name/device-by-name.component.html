@@ -178,7 +178,7 @@
               <td>{{ row.RSSI }}</td>
             }
             <td>{{ row.Status }}</td>
-            <td>{{ row.Health }}</td>
+            <td>{{ row.Health | healthLabel | translate }}</td>
             <td>
               <i
                 ngbPopover="{{ 'device.byname.parameter.popover.text' | translate }}"
