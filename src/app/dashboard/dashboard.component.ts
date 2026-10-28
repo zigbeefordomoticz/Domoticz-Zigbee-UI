@@ -158,7 +158,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       title: { text: '' },
       credits: { enabled: false },
       legend: { align: 'center', verticalAlign: 'top' },
-      xAxis: { type: 'datetime', labels: { format: '{value:%H:%M}' } },
+      // Labels show minutes: a shorter tick interval (a few minutes of data) would repeat them
+      xAxis: { type: 'datetime', minTickInterval: 60 * 1000, labels: { format: '{value:%H:%M}' } },
       yAxis: [
         { title: { text: this.translateService.instant('dashboard.trend.yaxis.rate') }, min: 0 },
         {
