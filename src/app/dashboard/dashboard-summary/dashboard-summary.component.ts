@@ -137,7 +137,7 @@ export class DashboardSummaryComponent implements OnChanges {
     const firmware = Array.isArray(this.firmwareAvailable) ? this.firmwareAvailable : [];
     const firmwareDevices = [...new Set(firmware.map(fw => fw.nwkid))].map(nwkid => byNwkId.get(nwkid)).filter(Boolean);
 
-    this.figures = this.buildFigures(devices.length, live.length, firmware.length, byNwkId);
+    this.figures = this.buildFigures(devices.length, live.length, byNwkId);
 
     const items: AttentionItem[] = [];
     const devicesItem = (category: string, tone: Tone, title: string, list: any[], detail = this.names(list)) => {
@@ -250,7 +250,7 @@ export class DashboardSummaryComponent implements OnChanges {
     this.items = items;
   }
 
-  private buildFigures(total: number, live: number, firmwareCount: number, byNwkId: Map<string, any>): KeyFigure[] {
+  private buildFigures(total: number, live: number, byNwkId: Map<string, any>): KeyFigure[] {
     const stats = this.pluginStats;
     const acked = stats.APSAck ?? 0;
     const failed = stats.APSFailure ?? 0;
@@ -266,7 +266,7 @@ export class DashboardSummaryComponent implements OnChanges {
       .map(transfer => (byNwkId.get(transfer.nwkid)?.ZDeviceName || transfer.nwkid) + ' ' + transfer.progress);
     const otaRunning = otaTransfers.length > 0;
 
-    return [
+    const figures: KeyFigure[] = [
       {
         label: this.t('dashboard.kpi.devices'),
         value: live + ' / ' + total,
@@ -309,19 +309,19 @@ export class DashboardSummaryComponent implements OnChanges {
           date: this.datePipe.transform(stats.StartTime * 1000, 'dd/MM/yyyy HH:mm')
         }),
         tone: 'secondary'
-      },
-      {
-        label: this.t('dashboard.kpi.ota'),
-        value: otaRunning ? this.t('dashboard.kpi.ota.running') : this.t('dashboard.kpi.ota.none'),
-        detail: otaRunning
-          ? otaTransfers.join(', ')
-          : firmwareCount
-            ? this.t('dashboard.kpi.ota.available', { count: firmwareCount })
-            : this.t('dashboard.kpi.ota.idle'),
-        tone: otaRunning || firmwareCount ? 'info' : 'secondary',
-        link: { route: '/admin/firmware', text: this.t('dashboard.kpi.ota.link') }
       }
     ];
+    // Only while a transfer runs: available firmware is a "Needs attention" item
+    if (otaRunning) {
+      figures.push({
+        label: this.t('dashboard.kpi.ota'),
+        value: this.t('dashboard.kpi.ota.running'),
+        detail: otaTransfers.join(', '),
+        tone: 'info',
+        link: { route: '/admin/firmware', text: this.t('dashboard.kpi.ota.link') }
+      });
+    }
+    return figures;
   }
 
   /**
