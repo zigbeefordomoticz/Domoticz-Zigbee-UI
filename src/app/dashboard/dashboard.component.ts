@@ -12,7 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import { forkJoin, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
-import { PluginStats } from '../shared/models/plugin-stats';
+import { PluginStats, Trend } from '../shared/models/plugin-stats';
+import { hasIntervalCounts, messagesPerMinute } from './traffic-rate';
 
 interface DeviceSegment {
   label: string;
@@ -57,6 +58,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
   poll = false;
   chart: Chart;
+  // The plugin sends per-interval counts: the chart shows messages per minute, else averages since start
+  trendRate = false;
   devices: any;
   certified: DeviceByName[];
   routers: any;
@@ -141,11 +144,67 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   createChart() {
+    const trend = this.pluginStats.Trend ?? [];
+    this.trendRate = hasIntervalCounts(trend);
+    this.chart = new Chart(this.trendRate ? this.rateChartOptions(trend) : this.averageChartOptions(trend));
+    this.subs.add(this.chart.ref$.subscribe());
+  }
+
+  private rateChartOptions(trend: Trend[]): any {
+    const rates = messagesPerMinute(trend);
+    return {
+      chart: { type: 'line', height: 200 },
+      time: { useUTC: false },
+      title: { text: '' },
+      credits: { enabled: false },
+      legend: { align: 'center', verticalAlign: 'top' },
+      xAxis: { type: 'datetime', labels: { format: '{value:%H:%M}' } },
+      yAxis: [
+        { title: { text: this.translateService.instant('dashboard.trend.yaxis.rate') }, min: 0 },
+        {
+          title: { text: this.translateService.instant('dashboard.load') },
+          min: 0,
+          allowDecimals: false,
+          opposite: true
+        }
+      ],
+      tooltip: { shared: true, xDateFormat: '%H:%M:%S' },
+      plotOptions: { series: { marker: { enabled: false } } },
+      series: [
+        {
+          name: this.translateService.instant('dashboard.since.received'),
+          data: rates.map(point => [point.time, point.rx]),
+          type: 'line',
+          color: '#0d6efd'
+        },
+        {
+          name: this.translateService.instant('dashboard.since.sent'),
+          data: rates.map(point => [point.time, point.tx]),
+          type: 'line',
+          color: '#fd7e14'
+        },
+        {
+          name: this.translateService.instant('dashboard.load'),
+          data: rates.map(point => [point.time, point.load]),
+          type: 'area',
+          step: 'left',
+          lineWidth: 0,
+          fillOpacity: 0.15,
+          zIndex: -1,
+          yAxis: 1,
+          color: '#6f42c1'
+        }
+      ]
+    };
+  }
+
+  // Plugins before #2197: Rxps / Txps are averages since the plugin started
+  private averageChartOptions(trend: Trend[]): any {
     const tx: any[] = [];
     const rx: any[] = [];
     const load: any[] = [];
 
-    const sorted = this.pluginStats.Trend.sort((t1, t2) => {
+    const sorted = [...trend].sort((t1, t2) => {
       const ts1 = t1._TS;
       const ts2 = t2._TS;
       if (ts1 > ts2) {
@@ -239,9 +298,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       ]
     };
 
-    this.chart = new Chart(chart);
-
-    this.subs.add(this.chart.ref$.subscribe());
+    return chart;
   }
 
   showDevices(devices: any[]) {

@@ -28,9 +28,15 @@
           <div class="d-flex align-items-center gap-1 mb-2">
             <span class="fw-semibold" [innerHTML]="'dashboard.trend.title' | translate"></span>
             <ng-container
-              *ngTemplateOutlet="info; context: { key: 'dashboard.trend.comment', params: {} }"></ng-container>
+              *ngTemplateOutlet="
+                info;
+                context: { key: trendRate ? 'dashboard.trend.comment.rate' : 'dashboard.trend.comment', params: {} }
+              "></ng-container>
           </div>
           <div [chart]="chart"></div>
+          <div class="small text-body-secondary mt-1">
+            {{ (trendRate ? 'dashboard.trend.caption.rate' : 'dashboard.trend.caption.average') | translate }}
+          </div>
         </div>
         <div class="col-lg-4">
           <div class="fw-semibold mb-2">{{ 'dashboard.since.title' | translate }}</div>

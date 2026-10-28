@@ -27,4 +27,8 @@ export interface Trend {
   Txps: number;
   _TS: number;
   Load: number;
+  // Since plugin #2197: messages received / sent since the previous point, and the point's epoch
+  Time?: number;
+  RxCount?: number;
+  TxCount?: number;
 }
