@@ -22,6 +22,8 @@ import { PluginStats } from '../shared/models/plugin-stats';
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   visible: boolean = false;
   settingsToSave: Array<Setting> = [];
+  // Plugin HealthTimeOut, in hours, for the health card's definitions (plugin default 6 h)
+  healthTimeOutHours = 6;
 
   poll = false;
   chart: Chart;
@@ -109,6 +111,13 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       res.forEach(setting => {
         this.settingsToSave = this.settingsToSave.concat(setting.ListOfSettings);
       });
+      const healthTimeOut = this.settingsToSave.find(setting => setting.Name === 'HealthTimeOut');
+      if (healthTimeOut) {
+        const seconds = Number(healthTimeOut.current_value ?? healthTimeOut.default_value);
+        if (!isNaN(seconds)) {
+          this.healthTimeOutHours = Math.round((seconds / 3600) * 10) / 10;
+        }
+      }
     });
 
     this.subs.sink = this.headerService.polling.subscribe(poll => {

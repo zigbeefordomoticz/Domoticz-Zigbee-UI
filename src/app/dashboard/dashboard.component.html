@@ -30,7 +30,9 @@
               </ngx-charts-advanced-pie-chart>
             </div>
             <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.health.comment' | translate"></div>
+              <div
+                class="col-sm border-start border-3"
+                [innerHTML]="'dashboard.health.comment' | translate: { hours: healthTimeOutHours }"></div>
               <div class="col-sm-1"></div>
             </div>
           </div>
@@ -232,7 +234,7 @@
         <td>{{ row.ZDeviceName }}</td>
         <td>{{ row.Status }}</td>
         <td>{{ row.Battery }}</td>
-        <td>{{ row.Health }}</td>
+        <td>{{ row.Health | healthLabel | translate }}</td>
       </tr>
     </ng-template>
   </p-table>

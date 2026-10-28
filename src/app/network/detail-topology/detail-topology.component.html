@@ -114,7 +114,7 @@
                                 {{ row.Status }}
                               </td>
                               <td>
-                                {{ row.Health }}
+                                {{ row.Health | healthLabel | translate }}
                               </td>
                               <td>
                                 {{ row.Battery }}
