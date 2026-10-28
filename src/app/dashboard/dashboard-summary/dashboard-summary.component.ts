@@ -325,20 +325,20 @@ export class DashboardSummaryComponent implements OnChanges {
   }
 
   /**
-   * Release: the git branch is the one the VERSION file names (or there is no git checkout), so the
-   * version says it all. Any other branch, or a detached HEAD, is shown with its commit instead:
-   * the same rule as the plugin's startup log (Modules/pluginHelpers.py:plugin_identity).
+   * A release runs from a stable* branch (or from no git checkout at all): its version says it all.
+   * Any other branch, or a detached HEAD, is shown with its commit only: the VERSION file there is
+   * the one the branch started from, and would mislead.
    */
   private pluginFigure(): KeyFigure {
     const branch = this.plugin?.PluginBranch;
     const version = this.plugin?.PluginVersion || '—';
     const commit = this.plugin?.PluginCommit?.slice(0, SHORT_COMMIT_LENGTH);
     const gitBranch = this.plugin?.PluginCommitBranch;
-    const release = !commit || (!!gitBranch && gitBranch === branch);
+    const release = !commit || (gitBranch ?? '').startsWith('stable');
     return {
       label: this.t('dashboard.kpi.plugin'),
       value: release ? version : gitBranch || this.t('dashboard.kpi.plugin.detached'),
-      detail: release ? branch || '—' : this.t('dashboard.kpi.plugin.commit', { commit, version }),
+      detail: release ? gitBranch || branch || '—' : this.t('dashboard.kpi.plugin.commit', { commit }),
       tone: release ? 'secondary' : 'warning'
     };
   }

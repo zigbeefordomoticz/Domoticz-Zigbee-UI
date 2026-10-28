@@ -101,7 +101,7 @@
   "dashboard.kpi.ota.running": "En cours",
   "dashboard.kpi.ota.link": "Admin → Firmware",
   "dashboard.kpi.plugin": "Plugin",
-  "dashboard.kpi.plugin.commit": "Commit {{commit}} · version {{version}}",
+  "dashboard.kpi.plugin.commit": "Commit {{commit}}",
   "dashboard.kpi.plugin.detached": "HEAD détaché",
   "dashboard.attention.title": "À surveiller",
   "dashboard.attention.exportall": "Tout exporter",

@@ -101,7 +101,7 @@
   "dashboard.kpi.ota.running": "Bezig",
   "dashboard.kpi.ota.link": "Admin → Firmware",
   "dashboard.kpi.plugin": "Plug-in",
-  "dashboard.kpi.plugin.commit": "Commit {{commit}} · versie {{version}}",
+  "dashboard.kpi.plugin.commit": "Commit {{commit}}",
   "dashboard.kpi.plugin.detached": "Losgekoppelde HEAD",
   "dashboard.attention.title": "Aandacht nodig",
   "dashboard.attention.exportall": "Alles exporteren",
