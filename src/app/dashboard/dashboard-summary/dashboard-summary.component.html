@@ -10,8 +10,10 @@
               <button
                 type="button"
                 class="btn btn-link p-0 ms-auto figure-info"
-                [ngbTooltip]="figure.info"
-                [attr.aria-label]="figure.info">
+                [ngbPopover]="figure.info"
+                [autoClose]="'outside'"
+                popoverClass="dashboard-popover"
+                [attr.aria-label]="'dashboard.info' | translate">
                 <i class="fas fa-circle-info" aria-hidden="true"></i>
               </button>
             }
