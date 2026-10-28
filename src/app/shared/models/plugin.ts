@@ -31,6 +31,9 @@ export interface Plugin {
   NetworkSize?: string;
   CoordinatorModel?: string;
   PluginVersion?: string;
+  PluginBranch?: string;
+  PluginCommit?: string | null;
+  PluginCommitBranch?: string | null;
   CoordinatorFirmwareVersion?: string;
   CoordinatorIEEE?: string;
   NetworkDevices: Array<any>;

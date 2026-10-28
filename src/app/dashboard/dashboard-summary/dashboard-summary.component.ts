@@ -15,6 +15,8 @@ import { map } from 'rxjs/operators';
 const HEALTH_NOT_REACHABLE = 'Not Reachable';
 const HEALTH_NOT_SEEN = 'Not seen last 24hours';
 const LOW_BATTERY = 15;
+// As git abbreviates a commit, and the plugin logs it (Modules/pluginHelpers.py)
+const SHORT_COMMIT_LENGTH = 7;
 
 type Tone = 'success' | 'warning' | 'danger' | 'info' | 'secondary';
 
@@ -299,6 +301,7 @@ export class DashboardSummaryComponent implements OnChanges {
         }),
         tone: 'success'
       },
+      this.pluginFigure(),
       {
         label: this.t('dashboard.kpi.uptime'),
         value: this.uptime(stats.Uptime),
@@ -321,10 +324,32 @@ export class DashboardSummaryComponent implements OnChanges {
     ];
   }
 
+  /**
+   * Release: the git branch is the one the VERSION file names (or there is no git checkout), so the
+   * version says it all. Any other branch, or a detached HEAD, is shown with its commit instead:
+   * the same rule as the plugin's startup log (Modules/pluginHelpers.py:plugin_identity).
+   */
+  private pluginFigure(): KeyFigure {
+    const branch = this.plugin?.PluginBranch;
+    const version = this.plugin?.PluginVersion || '—';
+    const commit = this.plugin?.PluginCommit?.slice(0, SHORT_COMMIT_LENGTH);
+    const gitBranch = this.plugin?.PluginCommitBranch;
+    const release = !commit || (!!gitBranch && gitBranch === branch);
+    return {
+      label: this.t('dashboard.kpi.plugin'),
+      value: release ? version : gitBranch || this.t('dashboard.kpi.plugin.detached'),
+      detail: release ? branch || '—' : this.t('dashboard.kpi.plugin.commit', { commit, version }),
+      tone: release ? 'secondary' : 'warning'
+    };
+  }
+
   private exportHeader() {
     return {
       exported: new Date().toISOString(),
       plugin: this.plugin?.PluginVersion ?? null,
+      pluginBranch: this.plugin?.PluginBranch ?? null,
+      pluginCommit: this.plugin?.PluginCommit ?? null,
+      pluginGitBranch: this.plugin?.PluginCommitBranch ?? null,
       coordinator: {
         model: this.plugin?.CoordinatorModel ?? null,
         firmware: this.plugin?.CoordinatorFirmwareVersion ?? null,
