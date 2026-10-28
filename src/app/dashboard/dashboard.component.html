@@ -1,3 +1,16 @@
+@if (pluginStats) {
+  <app-dashboard-summary
+    [pluginStats]="pluginStats"
+    [devices]="devices"
+    [certified]="certified"
+    [plugin]="plugin"
+    [pluginHealth]="pluginHealth"
+    [groups]="groups"
+    [coordinator]="coordinator"
+    [firmwareAvailable]="firmwareAvailable"
+    [healthTimeOutHours]="healthTimeOutHours"
+    (viewDevices)="showDevices($event)"></app-dashboard-summary>
+}
 <div class="col-12 card">
   <div class="card-header">
     <span class="fw-bold">{{ 'dashboard.trafic.title' | translate }}</span>
