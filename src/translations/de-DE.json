@@ -87,7 +87,7 @@
   "dashboard.kpi.received": "Empfangen / min",
   "dashboard.kpi.sent": "Gesendet: {{value}} / min · Durchschnitt seit Start",
   "dashboard.kpi.delivery": "Zustellung",
-  "dashboard.kpi.delivery.info": "Unicast-Nachrichten, die das Gerät bestätigt hat (APS ack), von den bestätigten oder fehlgeschlagenen (APS failure), seit dem Pluginstart.",
+  "dashboard.kpi.delivery.info": "Unicast-Nachrichten, die das Gerät bestätigt hat (APS ack), von den bestätigten oder fehlgeschlagenen (APS nack), seit dem Pluginstart.",
   "dashboard.kpi.delivery.detail": "{{ack}} bestätigt · {{failed}} fehlgeschlagen",
   "dashboard.kpi.delivery.none": "Noch keine bestätigte Nachricht",
   "dashboard.kpi.coordinator": "Koordinator",

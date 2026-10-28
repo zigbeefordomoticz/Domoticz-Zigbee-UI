@@ -87,7 +87,7 @@
   "dashboard.kpi.received": "Received / min",
   "dashboard.kpi.sent": "Sent: {{value}} / min · average since start",
   "dashboard.kpi.delivery": "Delivery",
-  "dashboard.kpi.delivery.info": "Unicast messages acknowledged by the device (APS ack), out of those acknowledged or failed (APS failure), since the plugin started.",
+  "dashboard.kpi.delivery.info": "Unicast messages acknowledged by the device (APS ack), out of those acknowledged or failed (APS nack), since the plugin started.",
   "dashboard.kpi.delivery.detail": "{{ack}} acknowledged · {{failed}} failed",
   "dashboard.kpi.delivery.none": "No acknowledged message yet",
   "dashboard.kpi.coordinator": "Coordinator",

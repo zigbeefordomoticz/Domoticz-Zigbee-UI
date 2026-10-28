@@ -87,7 +87,7 @@
   "dashboard.kpi.received": "Recibidos / min",
   "dashboard.kpi.sent": "Enviados: {{value}} / min · media desde el inicio",
   "dashboard.kpi.delivery": "Entrega",
-  "dashboard.kpi.delivery.info": "Mensajes unicast confirmados por el dispositivo (APS ack), entre los confirmados o fallidos (APS failure), desde el inicio del plugin.",
+  "dashboard.kpi.delivery.info": "Mensajes unicast confirmados por el dispositivo (APS ack), entre los confirmados o fallidos (APS nack), desde el inicio del plugin.",
   "dashboard.kpi.delivery.detail": "{{ack}} confirmados · {{failed}} fallidos",
   "dashboard.kpi.delivery.none": "Aún ningún mensaje confirmado",
   "dashboard.kpi.coordinator": "Coordinador",

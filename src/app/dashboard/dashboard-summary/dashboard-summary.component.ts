@@ -253,7 +253,8 @@ export class DashboardSummaryComponent implements OnChanges {
   private buildFigures(total: number, live: number, byNwkId: Map<string, any>): KeyFigure[] {
     const stats = this.pluginStats;
     const acked = stats.APSAck ?? 0;
-    const failed = stats.APSFailure ?? 0;
+    // A unicast not acknowledged is counted in APSNck; APSFailure is not incremented by the plugin
+    const failed = stats.APSNck ?? 0;
     const delivery = acked + failed > 0 ? (acked * 100) / (acked + failed) : null;
 
     // One "<nwkid>" / "<progress>" pair per transfer, comma separated when several run at once.

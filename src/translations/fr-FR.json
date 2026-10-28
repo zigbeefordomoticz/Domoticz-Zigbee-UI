@@ -87,7 +87,7 @@
   "dashboard.kpi.received": "Reçus / min",
   "dashboard.kpi.sent": "Envoyés : {{value}} / min · moyenne depuis le démarrage",
   "dashboard.kpi.delivery": "Acquittement",
-  "dashboard.kpi.delivery.info": "Messages unicast acquittés par l'objet (APS ack), parmi ceux acquittés ou en échec (APS failure), depuis le démarrage du plugin.",
+  "dashboard.kpi.delivery.info": "Messages unicast acquittés par l'objet (APS ack), parmi ceux acquittés ou en échec (APS nack), depuis le démarrage du plugin.",
   "dashboard.kpi.delivery.detail": "{{ack}} acquittés · {{failed}} en échec",
   "dashboard.kpi.delivery.none": "Aucun message acquitté pour l'instant",
   "dashboard.kpi.coordinator": "Coordinateur",
