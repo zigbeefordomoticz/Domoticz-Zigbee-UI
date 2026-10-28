@@ -87,7 +87,7 @@
   "dashboard.kpi.received": "Ontvangen / min",
   "dashboard.kpi.sent": "Verzonden: {{value}} / min · gemiddelde sinds start",
   "dashboard.kpi.delivery": "Aflevering",
-  "dashboard.kpi.delivery.info": "Unicast-berichten bevestigd door het apparaat (APS ack), van de bevestigde of mislukte (APS failure), sinds de start van de plug-in.",
+  "dashboard.kpi.delivery.info": "Unicast-berichten bevestigd door het apparaat (APS ack), van de bevestigde of mislukte (APS nack), sinds de start van de plug-in.",
   "dashboard.kpi.delivery.detail": "{{ack}} bevestigd · {{failed}} mislukt",
   "dashboard.kpi.delivery.none": "Nog geen bevestigd bericht",
   "dashboard.kpi.coordinator": "Coördinator",

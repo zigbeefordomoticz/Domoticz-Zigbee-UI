@@ -380,7 +380,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       { label: 'dashboard.since.received', value: format(stats.Received) },
       { label: 'dashboard.since.sent', value: format(stats.Sent) },
       { label: 'dashboard.since.retx', value: format(stats.ReTx) },
-      { label: 'dashboard.since.apsfailure', value: format(stats.APSFailure) },
+      { label: 'dashboard.since.apsfailure', value: format(stats.APSNck) },
       { label: 'dashboard.since.maxload', value: format(stats.MaxLoad) }
     ];
   }
