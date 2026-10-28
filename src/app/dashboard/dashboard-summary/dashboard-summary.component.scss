@@ -1,3 +1,15 @@
+// Seven tiles: one row on a wide screen, wrapping to four, three... then two on a phone
+.figures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  > div {
+    flex: 1 1 11rem;
+    min-width: 0;
+  }
+}
+
 .figure-label {
   display: flex;
   align-items: center;

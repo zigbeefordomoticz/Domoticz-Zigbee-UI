@@ -1,6 +1,6 @@
-<div class="row row-cols-2 row-cols-md-3 row-cols-xl-6 g-3 mb-3">
+<div class="figures mb-3">
   @for (figure of figures; track figure.label) {
-    <div class="col">
+    <div>
       <div class="card h-100">
         <div class="card-body">
           <div class="figure-label">
@@ -16,7 +16,7 @@
               </button>
             }
           </div>
-          <div class="figure-value">{{ figure.value }}</div>
+          <div class="figure-value text-truncate" [title]="figure.value">{{ figure.value }}</div>
           <div class="figure-detail">
             {{ figure.detail }}
             @if (figure.link) {
