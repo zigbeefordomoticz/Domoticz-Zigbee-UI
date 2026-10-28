@@ -382,8 +382,10 @@ export class DashboardSummaryComponent implements OnChanges {
     return shown.join(', ') + (list.length > 3 ? ' +' + (list.length - 3) : '');
   }
 
+  // The plugin sends the channel as a number; only its placeholder without a coordinator sends hex ("0b")
   private channel(): number | null {
-    const channel = parseInt(this.coordinator?.Channel, 16);
+    const value = this.coordinator?.Channel;
+    const channel = typeof value === 'number' ? value : parseInt(value, 16);
     return isNaN(channel) ? null : channel;
   }
 

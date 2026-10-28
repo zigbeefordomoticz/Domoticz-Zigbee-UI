@@ -401,6 +401,10 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         this.pluginStats = pluginStats;
         this.devices = devices ? devices : [];
         this.certified = certified ? certified : [];
+        // While the radio starts, the plugin answers without a channel: ask again until it has one
+        if (this.coordinator && this.coordinator.Channel == null) {
+          this.apiService.getCoordinator().subscribe(coordinator => (this.coordinator = coordinator));
+        }
         this.createChart();
 
         this.routers = this.devices.filter(
