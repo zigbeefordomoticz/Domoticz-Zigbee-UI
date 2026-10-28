@@ -1,0 +1,87 @@
+<div class="row row-cols-2 row-cols-md-3 row-cols-xl-6 g-3 mb-3">
+  @for (figure of figures; track figure.label) {
+    <div class="col">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="figure-label">
+            <i class="fas fa-circle figure-dot text-{{ figure.tone }}" aria-hidden="true"></i>
+            <span>{{ figure.label }}</span>
+            @if (figure.info) {
+              <button
+                type="button"
+                class="btn btn-link p-0 ms-auto figure-info"
+                [ngbTooltip]="figure.info"
+                [attr.aria-label]="figure.info">
+                <i class="fas fa-circle-info" aria-hidden="true"></i>
+              </button>
+            }
+          </div>
+          <div class="figure-value">{{ figure.value }}</div>
+          <div class="figure-detail">
+            {{ figure.detail }}
+            @if (figure.link) {
+              · <a [routerLink]="figure.link.route">{{ figure.link.text }}</a>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+@if (items.length > 0) {
+  <div class="card mb-3">
+    <div class="card-header d-flex flex-wrap align-items-center gap-2">
+      <span class="fw-bold">{{ 'dashboard.attention.title' | translate }}</span>
+      <span class="badge rounded-pill text-bg-warning">{{ items.length }}</span>
+      <button
+        type="button"
+        class="btn btn-sm btn-outline-primary ms-auto"
+        [title]="'dashboard.attention.exportall.info' | translate"
+        (click)="exportAll()">
+        <i class="fas fa-download me-1" aria-hidden="true"></i>{{ 'dashboard.attention.exportall' | translate }}
+      </button>
+    </div>
+    <ul class="list-group list-group-flush attention-list">
+      @for (item of items; track item.category) {
+        <li class="list-group-item d-flex align-items-center gap-3">
+          <i class="fas fa-circle figure-dot text-{{ item.tone }}" aria-hidden="true"></i>
+          <div class="flex-grow-1 attention-text">
+            <div class="fw-semibold">
+              {{ item.title }}
+              @if (item.count) {
+                <span class="badge rounded-pill text-bg-light border ms-1">{{ item.count }}</span>
+              }
+            </div>
+            <div class="small text-body-secondary text-truncate">{{ item.detail }}</div>
+          </div>
+          <div class="btn-group flex-shrink-0">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              [title]="('dashboard.attention.view' | translate) + ': ' + item.title"
+              [attr.aria-label]="('dashboard.attention.view' | translate) + ': ' + item.title"
+              (click)="view(item)">
+              <i class="fas fa-eye" aria-hidden="true"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              [title]="('dashboard.attention.download' | translate) + ': z4d-' + item.category + '.json'"
+              [attr.aria-label]="('dashboard.attention.download' | translate) + ': z4d-' + item.category + '.json'"
+              (click)="download(item)">
+              <i class="fas fa-download" aria-hidden="true"></i>
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+} @else {
+  <div class="card mb-3">
+    <div class="card-body d-flex align-items-center gap-2">
+      <i class="fas fa-circle-check text-success" aria-hidden="true"></i>
+      <span>{{ 'dashboard.attention.allclear' | translate }}</span>
+    </div>
+  </div>
+}

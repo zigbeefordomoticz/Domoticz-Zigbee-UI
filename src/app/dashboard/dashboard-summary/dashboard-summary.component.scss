@@ -1,0 +1,41 @@
+.figure-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+}
+
+.figure-dot {
+  font-size: 0.5rem;
+}
+
+.figure-info {
+  color: var(--bs-secondary-color);
+}
+
+.figure-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.figure-detail {
+  font-size: 0.8125rem;
+  color: var(--bs-secondary-color);
+}
+
+// About four rows, then the list scrolls: Traffic and Devices stay in place
+.attention-list {
+  max-height: 15.75rem;
+  overflow-y: auto;
+}
+
+.attention-text {
+  min-width: 0;
+}

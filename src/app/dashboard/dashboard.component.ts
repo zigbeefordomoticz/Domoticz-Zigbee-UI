@@ -4,6 +4,7 @@ import { HeaderService } from '@app/services/header-service';
 import { VersionService } from '@app/services/version-service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { Group } from '@app/shared/models/group';
 import { Plugin } from '@app/shared/models/plugin';
 import { Setting } from '@app/shared/models/setting';
 import { environment } from '@env/environment';
@@ -93,6 +94,11 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   };
 
   plugin: Plugin;
+  pluginHealth: any;
+  groups: Group[] = [];
+  // Loaded once: static, and /ota-firmware-available logs a Status line per device on every call
+  coordinator: any;
+  firmwareAvailable: any[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -138,6 +144,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.getStats().subscribe();
     }
     this.getInfos();
+    this.apiService.getCoordinator().subscribe(coordinator => (this.coordinator = coordinator));
+    this.apiService.getOtaFirmwareAvailable().subscribe(firmware => (this.firmwareAvailable = firmware ?? []));
   }
 
   @HostListener('window:resize')
@@ -300,6 +308,15 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       }
     }
 
+    this.showOverlay();
+  }
+
+  showDevices(devices: any[]) {
+    this.devicesToOverlay = devices;
+    this.showOverlay();
+  }
+
+  private showOverlay() {
     const width = (this.getScreenWidth * 80) / 100;
     if (width > 768) {
       this.visible = true;
@@ -316,10 +333,14 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
       this.apiService.getPluginStats(),
       this.apiService.getZDevices(),
       this.apiService.getPlugin(),
-      this.apiService.getZDeviceName()
+      this.apiService.getZDeviceName(),
+      this.apiService.getPluginhealth(),
+      this.apiService.getZGroups()
     ]).pipe(
-      map(([pluginStats, devices, plugin, certified]) => {
+      map(([pluginStats, devices, plugin, certified, pluginHealth, groups]) => {
         this.plugin = plugin;
+        this.pluginHealth = pluginHealth;
+        this.groups = Array.isArray(groups) ? groups : [];
         this.pluginStats = pluginStats;
         this.devices = devices ? devices : [];
         this.certified = certified ? certified : [];

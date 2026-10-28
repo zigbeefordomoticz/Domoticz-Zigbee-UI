@@ -6,9 +6,11 @@ import { SharedModule } from '@app/shared';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
+import { FileSaverModule } from 'ngx-filesaver';
 import * as more from 'highcharts/highcharts-more.src';
 import * as exporting from 'highcharts/modules/exporting.src';
 import * as offlineExporting from 'highcharts/modules/offline-exporting.src';
+import { DashboardSummaryComponent } from './dashboard-summary/dashboard-summary.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
@@ -22,9 +24,10 @@ import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
     ReactiveFormsModule,
     TranslateModule,
     ChartModule,
+    FileSaverModule,
     SharedModule
   ],
-  declarations: [DashboardComponent, PluginStatsComponent],
+  declarations: [DashboardComponent, DashboardSummaryComponent, PluginStatsComponent],
   providers: [{ provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting, offlineExporting] }]
 })
 export class DashboardModule {}
