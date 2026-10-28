@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '@app/shared';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import { FileSaverModule } from 'ngx-filesaver';
 import * as more from 'highcharts/highcharts-more.src';
@@ -18,7 +17,6 @@ import { PluginStatsComponent } from './plugin-stats/plugin-stats.component';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
-    NgxChartsModule,
     DashboardRoutingModule,
     CommonModule,
     ReactiveFormsModule,

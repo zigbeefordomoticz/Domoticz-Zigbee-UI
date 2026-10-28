@@ -11,183 +11,116 @@
     [healthTimeOutHours]="healthTimeOutHours"
     (viewDevices)="showDevices($event)"></app-dashboard-summary>
 }
-<div class="col-12 card">
-  <div class="card-header">
+<div class="card">
+  <div class="card-header d-flex align-items-center">
     <span class="fw-bold">{{ 'dashboard.trafic.title' | translate }}</span>
     @if (!poll) {
       <button
-        class="d-none d-md-block btn btn-default btn-primary float-bottom float-end"
+        class="d-none d-md-block btn btn-default btn-primary ms-auto"
         (click)="refresh()"
         translate="dashboard.button.refresh"></button>
     }
   </div>
+  @if (pluginStats) {
+    <div class="card-body">
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="d-flex align-items-center gap-1 mb-2">
+            <span class="fw-semibold" [innerHTML]="'dashboard.trend.title' | translate"></span>
+            <ng-container
+              *ngTemplateOutlet="info; context: { key: 'dashboard.trend.comment', params: {} }"></ng-container>
+          </div>
+          <div [chart]="chart"></div>
+        </div>
+        <div class="col-lg-4">
+          <div class="fw-semibold mb-2">{{ 'dashboard.since.title' | translate }}</div>
+          <dl class="mb-0">
+            @for (row of sinceStart; track row.label) {
+              <div class="d-flex justify-content-between gap-3 py-1 border-top">
+                <dt class="fw-normal text-body-secondary">{{ row.label | translate }}</dt>
+                <dd class="mb-0 fw-semibold dashboard-number">{{ row.value }}</dd>
+              </div>
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+  }
 </div>
-@if (pluginStats) {
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.health.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieState"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                (select)="open('state', $event)"
-                [scheme]="colorShemeState"
-                [label]="advancedPieStateLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-            <div class="row">
-              <div
-                class="col-sm border-start border-3"
-                [innerHTML]="'dashboard.health.comment' | translate: { hours: healthTimeOutHours }"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.traffic.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieSent"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                [scheme]="colorSchemeBG"
-                [label]="advancedPieSentLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.traffic.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.trend.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <div class="col-sm" [chart]="chart"></div>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.trend.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-}
 
-<div class="col-12 card mt-2">
-  <div class="card-header fw-bold">
-    {{ 'dashboard.devices.title' | translate }}
+<div class="card mt-3">
+  <div class="card-header d-flex flex-wrap align-items-baseline gap-2">
+    <span class="fw-bold">{{ 'dashboard.devices.section' | translate }}</span>
+    <span class="small text-body-secondary">{{ 'dashboard.devices.click' | translate }}</span>
   </div>
-</div>
-@if (pluginStats) {
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
+  @if (pluginStats) {
+    <div class="card-body">
+      <div class="row row-cols-1 row-cols-lg-2 g-4">
+        @for (group of deviceGroups; track group.title) {
           <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.device.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieDevice"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                (select)="open('device', $event)"
-                [scheme]="colorSchemePC"
-                [label]="advancedPieDeviceLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
+            <div class="d-flex align-items-center gap-1 mb-2">
+              <span class="fw-semibold" [innerHTML]="group.title | translate"></span>
+              <ng-container
+                *ngTemplateOutlet="info; context: { key: group.info, params: group.infoParams }"></ng-container>
+              <span class="ms-auto small text-body-secondary dashboard-number">{{ group.total }}</span>
             </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.devices.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.battery.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              @if (batteryTotal > 0) {
-                <ngx-charts-advanced-pie-chart
-                  [results]="advancedPieBattery"
-                  [animations]="animations"
-                  [gradient]="gradient"
-                  [tooltipDisabled]="tooltipDisabled"
-                  (select)="open('battery', $event)"
-                  [scheme]="colorSchemeROBG"
-                  [label]="advancedPieBatteryLabel"
-                  [percentageFormatting]="percentageFormatting">
-                </ngx-charts-advanced-pie-chart>
-              } @else {
-                <div class="dashboard-empty text-body-secondary" translate="dashboard.battery.none"></div>
+            @if (group.total > 0) {
+              <div class="dashboard-bar mb-2">
+                @for (segment of group.segments; track segment.label) {
+                  @if (segment.count > 0) {
+                    <button
+                      type="button"
+                      class="dashboard-bar-segment"
+                      [style.flex-grow]="segment.count"
+                      [style.background]="segment.color"
+                      [title]="(segment.label | translate) + ': ' + segment.count + ' (' + segment.percent + ' %)'"
+                      [attr.aria-label]="
+                        (segment.label | translate) + ': ' + segment.count + ' (' + segment.percent + ' %)'
+                      "
+                      (click)="showDevices(segment.devices)"></button>
+                  }
+                }
+              </div>
+              <div class="d-flex flex-wrap gap-2">
+                @for (segment of group.segments; track segment.label) {
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-secondary dashboard-chip"
+                    [disabled]="segment.count === 0"
+                    (click)="showDevices(segment.devices)">
+                    <span class="dashboard-dot" [style.background]="segment.color"></span>
+                    <span class="dashboard-chip-label">{{ segment.label | translate }}</span>
+                    <span class="fw-semibold dashboard-number">{{ segment.count }}</span>
+                    <span class="dashboard-percent">{{ segment.percent }} %</span>
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="dashboard-bar mb-2"></div>
+              @if (group.empty) {
+                <p class="small text-body-secondary mb-0">{{ group.empty | translate }}</p>
               }
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.battery.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
+            }
           </div>
-        </div>
+        }
       </div>
     </div>
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <div class="col">
-            <div class="col-sm" [innerHTML]="'dashboard.optimized.title' | translate"></div>
-            <div class="col-sm-1"></div>
-            <div class="row">
-              <ngx-charts-advanced-pie-chart
-                [results]="advancedPieCertified"
-                [animations]="animations"
-                [gradient]="gradient"
-                [tooltipDisabled]="tooltipDisabled"
-                (select)="open('certified', $event)"
-                [scheme]="colorSchemeGO"
-                [label]="advancedCertifiedLabel"
-                [percentageFormatting]="percentageFormatting">
-              </ngx-charts-advanced-pie-chart>
-            </div>
-            <div class="row">
-              <div class="col-sm border-start border-3" [innerHTML]="'dashboard.optimized.comment' | translate"></div>
-              <div class="col-sm-1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-}
+  }
+</div>
+
+<!-- Definitions behind an (i): a popover, as some contain a link (Optimized -> wiki) -->
+<ng-template #info let-key="key" let-params="params">
+  <button
+    type="button"
+    class="btn btn-link p-0 dashboard-info"
+    [ngbPopover]="definition"
+    [autoClose]="'outside'"
+    popoverClass="dashboard-popover"
+    [attr.aria-label]="'dashboard.info' | translate">
+    <i class="fas fa-circle-info" aria-hidden="true"></i>
+  </button>
+  <ng-template #definition><div [innerHTML]="key | translate: params"></div></ng-template>
+</ng-template>
 
 <p-dialog header="Header" [(visible)]="visible" [position]="'bottom'" [style]="{ width: '75vw' }">
   <ng-template pTemplate="header">
