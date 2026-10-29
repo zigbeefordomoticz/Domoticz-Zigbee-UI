@@ -118,6 +118,8 @@
   "dashboard.attention.notoptimized": "Niet geoptimaliseerd",
   "dashboard.attention.notoptimized.detail": "Geen gecertificeerde configuratie, generieke afhandeling: {{names}}",
   "dashboard.attention.firmware": "Firmware-update beschikbaar",
+  "dashboard.attention.firmware.download": "Versie {{newest}} downloaden (geïnstalleerd: {{current}})",
+  "dashboard.attention.firmware.nourl": "Versie {{newest}} (geïnstalleerd: {{current}}); de plugin heeft er geen downloadlink voor",
   "dashboard.info": "Over dit gegeven",
   "dashboard.devices.section": "Apparaten",
   "dashboard.devices.click": "Klik op een balk of label om de apparaten te tonen",

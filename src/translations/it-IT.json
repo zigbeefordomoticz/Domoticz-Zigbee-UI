@@ -118,6 +118,8 @@
   "dashboard.attention.notoptimized": "Non ottimizzati",
   "dashboard.attention.notoptimized.detail": "Nessuna configurazione certificata, gestione generica: {{names}}",
   "dashboard.attention.firmware": "Aggiornamento firmware disponibile",
+  "dashboard.attention.firmware.download": "Scarica la versione {{newest}} (installata: {{current}})",
+  "dashboard.attention.firmware.nourl": "Versione {{newest}} (installata: {{current}}); il plugin non ha un link per scaricarla",
   "dashboard.info": "Informazioni su questo dato",
   "dashboard.devices.section": "Dispositivi",
   "dashboard.devices.click": "Fare clic su una barra o un'etichetta per elencare i dispositivi",

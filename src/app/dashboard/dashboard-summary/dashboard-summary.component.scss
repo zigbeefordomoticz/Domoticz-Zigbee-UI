@@ -51,3 +51,9 @@
 .attention-text {
   min-width: 0;
 }
+
+// "A, B, C": the comma is not part of a link
+.attention-entry:not(:last-child)::after {
+  content: ",";
+  color: var(--bs-secondary-color);
+}

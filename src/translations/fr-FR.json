@@ -118,6 +118,8 @@
   "dashboard.attention.notoptimized": "Non optimisés",
   "dashboard.attention.notoptimized.detail": "Pas de configuration certifiée, gestion générique : {{names}}",
   "dashboard.attention.firmware": "Mise à jour firmware disponible",
+  "dashboard.attention.firmware.download": "Télécharger la version {{newest}} (installée : {{current}})",
+  "dashboard.attention.firmware.nourl": "Version {{newest}} (installée : {{current}}) ; le plugin n'a pas de lien de téléchargement",
   "dashboard.info": "À propos de ce chiffre",
   "dashboard.devices.section": "Objets",
   "dashboard.devices.click": "Cliquez sur une barre ou une étiquette pour lister les objets",

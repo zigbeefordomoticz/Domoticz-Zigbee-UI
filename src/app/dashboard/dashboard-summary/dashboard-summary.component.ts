@@ -37,6 +37,8 @@ interface AttentionItem {
   count?: number;
   devices?: any[];
   route?: string;
+  // Shown instead of detail; an entry with an href is a link
+  entries?: { text: string; href?: string; title?: string }[];
   export: () => Observable<object>;
 }
 
@@ -134,7 +136,7 @@ export class DashboardSummaryComponent implements OnChanges {
         return { group, members, lost };
       })
       .filter(entry => entry.lost.length > 0);
-    const firmware = Array.isArray(this.firmwareAvailable) ? this.firmwareAvailable : [];
+    const firmware = this.firmwareRows();
     const firmwareDevices = [...new Set(firmware.map(fw => fw.nwkid))].map(nwkid => byNwkId.get(nwkid)).filter(Boolean);
 
     this.figures = this.buildFigures(devices.length, live.length, byNwkId);
@@ -230,6 +232,17 @@ export class DashboardSummaryComponent implements OnChanges {
         detail: this.names(firmwareDevices),
         count: firmware.length,
         devices: firmwareDevices,
+        entries: firmware.map(fw => ({
+          text: byNwkId.get(fw.nwkid)?.ZDeviceName || fw.zdevicename || fw.nwkid,
+          href: this.isUrl(fw.url) ? fw.url : undefined,
+          title: this.t(
+            this.isUrl(fw.url) ? 'dashboard.attention.firmware.download' : 'dashboard.attention.firmware.nourl',
+            {
+              newest: fw.newestversion,
+              current: fw.currentversion
+            }
+          )
+        })),
         export: () =>
           of({
             category: 'firmware-available',
@@ -242,7 +255,8 @@ export class DashboardSummaryComponent implements OnChanges {
               Manufacturer: fw.manufacturername,
               FirmwareType: fw.fwtype,
               CurrentVersion: fw.currentversion,
-              NewestVersion: fw.newestversion
+              NewestVersion: fw.newestversion,
+              URL: this.isUrl(fw.url) ? fw.url : null
             }))
           })
       });
@@ -357,6 +371,26 @@ export class DashboardSummaryComponent implements OnChanges {
         channel: this.channel()
       }
     };
+  }
+
+  /**
+   * One row per device and firmware type. The plugin keys OTAUpdate by image type: a number while
+   * it runs, a string once reloaded from disk, so after a restart a firmware is listed twice.
+   * The later row is the one found since the restart.
+   */
+  private firmwareRows(): any[] {
+    const rows = new Map<string, any>();
+    for (const fw of Array.isArray(this.firmwareAvailable) ? this.firmwareAvailable : []) {
+      const key = fw.nwkid + '/' + String(fw.fwtype);
+      rows.delete(key);
+      rows.set(key, fw);
+    }
+    return [...rows.values()];
+  }
+
+  // The plugin sends "N/A" when it has no URL
+  private isUrl(value: any): boolean {
+    return typeof value === 'string' && /^https?:\/\//.test(value);
   }
 
   private deviceRow(device: any) {

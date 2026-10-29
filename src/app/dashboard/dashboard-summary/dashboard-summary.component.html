@@ -55,7 +55,26 @@
                 <span class="badge rounded-pill text-bg-light border ms-1">{{ item.count }}</span>
               }
             </div>
-            <div class="small text-body-secondary text-truncate">{{ item.detail }}</div>
+            @if (item.entries?.length) {
+              <div class="small text-body-secondary text-truncate">
+                @for (entry of item.entries; track $index) {
+                  @if (entry.href) {
+                    <a
+                      class="attention-entry"
+                      [href]="entry.href"
+                      [title]="entry.title"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >{{ entry.text }}<i class="fas fa-download ms-1" aria-hidden="true"></i
+                    ></a>
+                  } @else {
+                    <span class="attention-entry" [title]="entry.title">{{ entry.text }}</span>
+                  }
+                }
+              </div>
+            } @else {
+              <div class="small text-body-secondary text-truncate">{{ item.detail }}</div>
+            }
           </div>
           <div class="btn-group flex-shrink-0">
             <button
