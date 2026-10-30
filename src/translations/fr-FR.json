@@ -293,6 +293,8 @@
   "device.details.removed": "Objet supprimé.",
   "device.details.row.open": "Détails de {{name}}",
   "device.details.conf": "D'après la configuration de l'objet",
+  "device.details.blakadder.missing": "Pas encore de page Blakadder pour cet objet.",
+  "device.details.blakadder.create": "Merci de créer la fiche de l'objet",
   "device.details.rssi": "Force du signal (RSSI), dernières mesures",
   "device.details.rssi.summary": "Dernière {{latest}} dBm · min {{min}} · max {{max}}",
   "device.details.rssi.reading": "Mesure {{index}} sur {{count}} : {{value}} dBm",

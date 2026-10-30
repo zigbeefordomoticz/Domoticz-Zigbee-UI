@@ -293,6 +293,8 @@
   "device.details.removed": "Dispositivo eliminado.",
   "device.details.row.open": "Detalles de {{name}}",
   "device.details.conf": "Según la configuración del dispositivo",
+  "device.details.blakadder.missing": "Aún no hay página de Blakadder para este dispositivo.",
+  "device.details.blakadder.create": "Por favor, crea la ficha del dispositivo",
   "device.details.rssi": "Intensidad de señal (RSSI), últimas lecturas",
   "device.details.rssi.summary": "Última {{latest}} dBm · mín {{min}} · máx {{max}}",
   "device.details.rssi.reading": "Lectura {{index}} de {{count}}: {{value}} dBm",
