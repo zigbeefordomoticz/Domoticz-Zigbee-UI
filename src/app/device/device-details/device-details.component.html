@@ -145,7 +145,7 @@
               }
               <line class="baseline" x1="0" [attr.x2]="chartWidth" [attr.y1]="chartHeight" [attr.y2]="chartHeight" />
             </svg>
-            <div class="d-flex justify-content-between small text-body-secondary mt-1">
+            <div class="signal-summary d-flex justify-content-between small text-body-secondary mt-1">
               <span>{{
                 'device.details.' + chart.kind + '.summary'
                   | translate: { latest: chart.latest, min: chart.min, max: chart.max }

@@ -48,11 +48,15 @@
   min-width: 0;
 }
 
+// Bars scale with the width; wider would make them heavy again. The summary under it ends where the chart ends.
+.signal-chart,
+.signal-summary {
+  max-width: 22rem;
+}
+
 .signal-chart {
   display: block;
   width: 100%;
-  // Bars scale with the width; wider would make them heavy again
-  max-width: 22rem;
   height: auto;
   overflow: visible;
 
