@@ -15,6 +15,20 @@
 </div>
 
 <div class="modal-body d-flex flex-column gap-4">
+  @if (notes.length) {
+    <section class="notes" aria-labelledby="device-details-notes">
+      <h3 class="section-title" id="device-details-notes">{{ 'device.details.conf' | translate }}</h3>
+      @for (note of notes; track $index) {
+        @if (note.url) {
+          <a class="d-inline-block small" [href]="note.url" target="_blank" rel="noopener noreferrer"
+            >{{ note.text }}<i class="fas fa-arrow-up-right-from-square ms-1" aria-hidden="true"></i
+          ></a>
+        } @else {
+          <p class="mb-1 note" [class.fw-semibold]="note.lead">{{ note.text }}</p>
+        }
+      }
+    </section>
+  }
   <div class="d-flex flex-wrap gap-4">
     <dl class="facts mb-0">
       <dt>{{ 'device.details.name' | translate }}</dt>
@@ -66,24 +80,27 @@
       <dd>{{ device.Health | healthLabel | translate }}</dd>
     </dl>
 
-    <section class="lqi flex-grow-1" aria-labelledby="device-details-lqi">
-      <h3 class="section-title" id="device-details-lqi">{{ 'device.details.lqi' | translate }}</h3>
+    <section class="lqi flex-grow-1" aria-labelledby="device-details-signal">
+      <h3 class="section-title" id="device-details-signal">
+        {{ (loading || signalKind === 'rssi' ? 'device.details.rssi' : 'device.details.lqi') | translate }}
+      </h3>
       @if (loading) {
         <span class="text-body-secondary">…</span>
-      } @else if (lqi.length === 0) {
-        <span class="text-body-secondary">{{ 'device.details.lqi.none' | translate }}</span>
+      } @else if (signal.length === 0) {
+        <span class="text-body-secondary">{{ 'device.details.signal.none' | translate }}</span>
       } @else {
         <svg
           class="lqi-chart"
           [attr.viewBox]="'0 -4 ' + chartWidth + ' ' + (chartHeight + 4)"
           role="img"
-          [attr.aria-label]="'device.details.lqi.chart' | translate: { count: lqi.length }">
+          [attr.aria-label]="'device.details.' + signalKind + '.chart' | translate: { count: signal.length }">
           <line class="grid" x1="0" [attr.x2]="chartWidth" [attr.y1]="chartHeight / 2" [attr.y2]="chartHeight / 2" />
           @for (bar of bars; track $index) {
             <path class="bar bar-{{ bar.tone }}" [attr.d]="bar.path">
               <title>
                 {{
-                  'device.details.lqi.reading' | translate: { index: $index + 1, count: bars.length, value: bar.value }
+                  'device.details.' + signalKind + '.reading'
+                    | translate: { index: $index + 1, count: bars.length, value: bar.value }
                 }}
               </title>
             </path>
@@ -91,8 +108,11 @@
           <line class="baseline" x1="0" [attr.x2]="chartWidth" [attr.y1]="chartHeight" [attr.y2]="chartHeight" />
         </svg>
         <div class="d-flex justify-content-between small text-body-secondary mt-1">
-          <span>{{ 'device.details.lqi.summary' | translate: { latest: lqiLatest, min: lqiMin, max: lqiMax } }}</span>
-          <span>0–255</span>
+          <span>{{
+            'device.details.' + signalKind + '.summary'
+              | translate: { latest: signalLatest, min: signalMin, max: signalMax }
+          }}</span>
+          <span>{{ signalRange }}</span>
         </div>
       }
     </section>
@@ -122,7 +142,7 @@
     } @else if (!descriptor) {
       <span class="text-body-secondary">{{ 'device.details.nd.none' | translate }}</span>
     } @else {
-      <dl class="facts facts-wide mb-2">
+      <dl class="facts facts-wide mb-0">
         <dt>{{ 'device.details.nd.logicaltype' | translate }}</dt>
         <dd>{{ 'device.details.nd.type.' + descriptor.logicalType | translate }}</dd>
         <dt>{{ 'device.details.nd.band' | translate }}</dt>
@@ -204,9 +224,6 @@
           </span>
         </dd>
       </dl>
-      <div class="small text-body-secondary">
-        {{ 'device.details.nd.raw' | translate }} <span class="font-monospace">{{ descriptor.raw }}</span>
-      </div>
     }
   </section>
 </div>

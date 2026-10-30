@@ -100,10 +100,19 @@ export function decodeNodeDescriptor(raw: unknown): NodeDescriptor | null {
 
 /** RollingLQI: the plugin keeps the last 10 readings (a deque, served as a list); anything else is ignored. */
 export function rollingLqi(value: unknown): number[] {
+  return rolling(value, 0, 255);
+}
+
+/** RollingRSSI: the last 10 RSSI readings in dBm (a list); only radios that report RSSI fill it. */
+export function rollingRssi(value: unknown): number[] {
+  return rolling(value, -128, 0);
+}
+
+function rolling(value: unknown, min: number, max: number): number[] {
   return Array.isArray(value)
     ? value
         .map(Number)
-        .filter(lqi => Number.isFinite(lqi) && lqi >= 0 && lqi <= 255)
+        .filter(reading => Number.isFinite(reading) && reading >= min && reading <= max)
         .slice(-10)
     : [];
 }

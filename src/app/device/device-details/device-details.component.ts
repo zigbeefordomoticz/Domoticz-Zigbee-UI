@@ -6,11 +6,11 @@ import { DeviceByName } from '@app/shared/models/device-by-name';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { decodeNodeDescriptor, NodeDescriptor, rollingLqi } from './node-descriptor';
+import { decodeNodeDescriptor, NodeDescriptor, rollingLqi, rollingRssi } from './node-descriptor';
 
 const PROFILES: { [id: string]: string } = { '0104': 'Home Automation', c05e: 'Light Link', a1e0: 'Green Power' };
 
-// LQI chart geometry (SVG user units); bars are drawn on a 0-255 scale
+// Signal chart geometry (SVG user units)
 const CHART_WIDTH = 300;
 const CHART_HEIGHT = 96;
 const BAR_GAP = 2;
@@ -18,7 +18,22 @@ const SLOTS = 10;
 
 export type DetailsAction = 'parameters' | 'remove';
 
-interface LqiBar {
+/** A note from the model configuration: text, or a link when the value is a URL. */
+interface ConfNote {
+  text: string;
+  url?: string;
+  lead?: boolean;
+}
+
+type SignalKind = 'rssi' | 'lqi';
+
+// Bar scale and colour thresholds: RSSI in dBm (-100 to 0), LQI 0-255 as the table
+const SIGNAL: { [kind in SignalKind]: { floor: number; ceiling: number; good: number; fair: number } } = {
+  rssi: { floor: -100, ceiling: 0, good: -65, fair: -80 },
+  lqi: { floor: 0, ceiling: 255, good: 100, fair: 40 }
+};
+
+interface SignalBar {
   path: string;
   value: number;
   tone: string;
@@ -26,7 +41,7 @@ interface LqiBar {
 
 /**
  * Details of one device: what /zdevice-name already gave the table, plus the plugin's record from
- * /zdevice-raw/<nwkid> (manufacturer, profile / device id, RollingLQI, node descriptor).
+ * /zdevice-raw/<nwkid> (manufacturer, profile / device id, RollingRSSI or RollingLQI, node descriptor).
  * Closes with 'parameters' or 'remove' for the table to act on.
  */
 @Component({
@@ -52,9 +67,13 @@ export class DeviceDetailsComponent implements OnInit {
   deviceId = '';
   deviceLabel = '';
   deviceEndpoint = '';
-  lqi: number[] = [];
-  bars: LqiBar[] = [];
+  // RollingRSSI when the radio reports RSSI, else RollingLQI
+  signalKind: SignalKind = 'rssi';
+  signal: number[] = [];
+  bars: SignalBar[] = [];
   descriptor: NodeDescriptor | null = null;
+  // _description, _comment, _blakadder of the model configuration (plugin "DeviceConfInfo", absent before it)
+  notes: ConfNote[] = [];
 
   constructor(
     public modal: NgbActiveModal,
@@ -66,7 +85,10 @@ export class DeviceDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.apiService.getRawZDevice(this.device._NwkId).subscribe({
-      next: answer => this.read(answer?.Device),
+      next: answer => {
+        this.read(answer?.Device);
+        this.notes = this.confNotes(answer?.DeviceConfInfo);
+      },
       error: () => {
         this.loading = false;
         this.failed = true;
@@ -78,16 +100,21 @@ export class DeviceDetailsComponent implements OnInit {
     return this.device.ZDeviceName || this.device.Model || this.device._NwkId;
   }
 
-  get lqiLatest(): number {
-    return this.lqi[this.lqi.length - 1];
+  get signalLatest(): number {
+    return this.signal[this.signal.length - 1];
   }
 
-  get lqiMin(): number {
-    return Math.min(...this.lqi);
+  get signalMin(): number {
+    return Math.min(...this.signal);
   }
 
-  get lqiMax(): number {
-    return Math.max(...this.lqi);
+  get signalMax(): number {
+    return Math.max(...this.signal);
+  }
+
+  get signalRange(): string {
+    const { floor, ceiling } = SIGNAL[this.signalKind];
+    return this.signalKind === 'rssi' ? `${floor} – ${ceiling} dBm` : `${floor}–${ceiling}`;
   }
 
   copy() {
@@ -124,17 +151,49 @@ export class DeviceDetailsComponent implements OnInit {
       this.deviceEndpoint = type.endpoint ?? '';
     }
 
-    this.lqi = rollingLqi(record.RollingLQI);
-    this.bars = this.lqiBars(this.lqi);
+    const rssi = rollingRssi(record.RollingRSSI);
+    this.signalKind = rssi.length ? 'rssi' : 'lqi';
+    this.signal = rssi.length ? rssi : rollingLqi(record.RollingLQI);
+    this.bars = this.signalBars(this.signal, SIGNAL[this.signalKind]);
     this.descriptor = decodeNodeDescriptor(record._rawNodeDescriptor);
   }
 
+  /** Description first, then the comment and the Blakadder page; a value repeated is shown once. */
+  private confNotes(info: unknown): ConfNote[] {
+    if (!info || typeof info !== 'object') {
+      return [];
+    }
+    const notes: ConfNote[] = [];
+    const seen = new Set<string>();
+    const add = (value: unknown, lead = false) => {
+      const text = (Array.isArray(value) ? value.join('\n') : typeof value === 'string' ? value : '').trim();
+      if (!text || seen.has(text)) {
+        return;
+      }
+      seen.add(text);
+      notes.push(/^https?:\/\/\S+$/.test(text) ? { text: this.linkText(text), url: text } : { text, lead });
+    };
+    const values = info as { [key: string]: unknown };
+    add(values._description, true);
+    add(values._comment);
+    add(values._blakadder);
+    return notes;
+  }
+
+  /** "zigbee.blakadder.com › Philips_8718699673147": the site, and which page of it. */
+  private linkText(url: string): string {
+    const { hostname, pathname } = new URL(url);
+    const page = decodeURIComponent(pathname.replace(/\/+$/, '').split('/').pop() ?? '').replace(/\.html?$/, '');
+    return page ? `${hostname} › ${page}` : hostname;
+  }
+
   /** One bar per reading, oldest left; the slots of missing readings stay empty on the left. */
-  private lqiBars(values: number[]): LqiBar[] {
+  private signalBars(values: number[], scale: (typeof SIGNAL)[SignalKind]): SignalBar[] {
     const slot = CHART_WIDTH / SLOTS;
     const offset = SLOTS - values.length;
     return values.map((value, index) => {
-      const height = Math.max(2, (value / 255) * CHART_HEIGHT);
+      const share = Math.min(1, Math.max(0, (value - scale.floor) / (scale.ceiling - scale.floor)));
+      const height = Math.max(2, share * CHART_HEIGHT);
       const x = (offset + index) * slot + BAR_GAP / 2;
       const width = slot - BAR_GAP;
       const y = CHART_HEIGHT - height;
@@ -145,7 +204,7 @@ export class DeviceDetailsComponent implements OnInit {
           `M${x},${CHART_HEIGHT} V${y + r} Q${x},${y} ${x + r},${y} ` +
           `H${x + width - r} Q${x + width},${y} ${x + width},${y + r} V${CHART_HEIGHT} Z`,
         value,
-        tone: value >= 100 ? 'good' : value >= 40 ? 'fair' : 'poor'
+        tone: value >= scale.good ? 'good' : value >= scale.fair ? 'fair' : 'poor'
       };
     });
   }
