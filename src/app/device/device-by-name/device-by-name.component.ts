@@ -119,7 +119,7 @@ export class DeviceByNameComponent implements OnChanges {
     // Cancel, the cross and Escape dismiss: the promise rejects, nothing to do
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       () => this.delete(),
-      () => undefined
+      (): void => undefined
     );
   }
 
@@ -150,7 +150,7 @@ export class DeviceByNameComponent implements OnChanges {
           );
         }
       },
-      () => undefined
+      (): void => undefined
     );
   }
 
