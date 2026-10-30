@@ -304,14 +304,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
 
   showDevices(devices: any[]) {
     this.devicesToOverlay = devices;
-    this.showOverlay();
-  }
-
-  private showOverlay() {
-    const width = (this.getScreenWidth * 80) / 100;
-    if (width > 768) {
-      this.visible = true;
-    }
+    this.visible = true;
   }
 
   refresh() {

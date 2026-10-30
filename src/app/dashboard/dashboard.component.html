@@ -131,7 +131,12 @@
   <ng-template #definition><div [innerHTML]="key | translate: params"></div></ng-template>
 </ng-template>
 
-<p-dialog header="Header" [(visible)]="visible" [position]="'bottom'" [style]="{ width: '75vw' }">
+<p-dialog
+  header="Header"
+  [(visible)]="visible"
+  [position]="'bottom'"
+  [style]="{ width: '75vw' }"
+  [breakpoints]="{ '960px': '95vw' }">
   <ng-template pTemplate="header">
     <div class="col-sm" translate="dashboard.popup.device.header"></div>
   </ng-template>
