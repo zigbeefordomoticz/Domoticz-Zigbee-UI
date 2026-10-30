@@ -3,11 +3,13 @@ import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } fro
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { DeviceParamEditorComponent } from '../device-param-editor/device-param-editor.component';
+import { parsePluginParam } from '../device-param-editor/plugin-param';
 
 const log = new Logger('DeviceByNameComponent');
 
@@ -70,12 +72,6 @@ export class DeviceByNameComponent implements OnChanges {
   nameDraft = '';
   saving = false;
   rowToDelete: DeviceByName;
-  rowParameter: DeviceByName;
-  parameter: string;
-  enabled = false;
-  prefixEnabled = 'Disabled';
-  enabledTrue = "'Disabled': 0";
-  enabledFalse = "'Disabled': 1";
   showRSSI = false;
 
   private readonly filterTests: { [id in Filter]: (row: DeviceRow) => boolean } = {
@@ -97,6 +93,7 @@ export class DeviceByNameComponent implements OnChanges {
     private apiService: ApiService,
     private translate: TranslateService,
     private modalService: NgbModal,
+    private offcanvas: NgbOffcanvas,
     private toastr: ToastrService,
     private clipboard: Clipboard
   ) {}
@@ -123,39 +120,28 @@ export class DeviceByNameComponent implements OnChanges {
     );
   }
 
-  editParameter(content: any): void {
-    this.parameter = this.rowParameter.Param || '{}';
-
-    this.enabled = !this.parameter.includes(this.enabledFalse);
-    if (this.enabled) {
-      this.parameter = this.parameter.replace(this.enabledTrue.concat(','), '');
-      this.parameter = this.parameter.replace(this.enabledTrue, '');
-    } else {
-      this.parameter = this.parameter.replace(this.enabledFalse.concat(','), '');
-      this.parameter = this.parameter.replace(this.enabledFalse, '');
-    }
-
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      () => {
-        if (this.parameter.includes(this.prefixEnabled)) {
-          this.toastr.error(this.translate.instant('device.byname.error.notify'));
-        } else {
-          if (this.enabled) {
-            this.parameter = this.parameter.replace('{', '{'.concat(this.enabledTrue).concat(', '));
-          } else {
-            this.parameter = this.parameter.replace('{', '{'.concat(this.enabledFalse).concat(', '));
-          }
-          this.saveDevice(this.rowParameter, { Param: this.parameter }).subscribe(() =>
-            this.toastr.success(this.translate.instant('api.global.succes.saved.notify'))
-          );
-        }
-      },
+  /** Parameters side panel; it closes only once the plugin has accepted the change. */
+  editParameters(row: DeviceRow) {
+    const device = row.device;
+    const panel = this.offcanvas.open(DeviceParamEditorComponent, {
+      position: 'end',
+      panelClass: 'device-param-panel',
+      ariaLabelledBy: 'device-param-editor-title'
+    });
+    panel.componentInstance.device = device;
+    panel.componentInstance.save = (param: string) => {
+      const disabled = !!parsePluginParam(param).values?.Disabled;
+      // What the plugin does on a Param change: Health Disabled, or unknown when re-enabled; applied at heartbeat
+      const health = disabled ? 'Disabled' : device.Health === 'Disabled' ? 'unknown' : device.Health;
+      return this.saveDevice(device, { Param: param, CheckParam: true, Health: health }).pipe(
+        tap(() => this.toastr.success(this.translate.instant('device.param.saved', { name: row.name })))
+      );
+    };
+    // Cancel, the cross, Escape and a click outside dismiss: nothing to do
+    panel.result.then(
+      (): void => undefined,
       (): void => undefined
     );
-  }
-
-  onChangeEnabled() {
-    this.enabled = !this.enabled;
   }
 
   delete() {
@@ -272,8 +258,11 @@ export class DeviceByNameComponent implements OnChanges {
     };
   }
 
-  /** Keys of the Param the plugin sends as a Python dict repr ("{'Disabled': 0, 'Calibration': 0}"). */
+  /** Top-level keys of the device Param; a Param the editor cannot read still counts its quoted keys. */
   private paramKeys(param: string): string[] {
-    return [...String(param ?? '').matchAll(/['"]([^'"]+)['"]\s*:/g)].map(match => match[1]);
+    const parsed = parsePluginParam(param);
+    return parsed.values
+      ? Object.keys(parsed.values)
+      : [...String(param ?? '').matchAll(/['"]([^'"]+)['"]\s*:/g)].map(match => match[1]);
   }
 }
