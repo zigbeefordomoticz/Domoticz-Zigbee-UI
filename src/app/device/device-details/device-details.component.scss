@@ -43,6 +43,16 @@
   color: var(--bs-secondary-color);
 }
 
+// Facts column; the facts list keeps its own height
+.identity {
+  flex: 1 1 22rem;
+  min-width: 0;
+
+  .facts {
+    flex: none;
+  }
+}
+
 .signal {
   flex: 1 1 16rem;
   min-width: 0;
