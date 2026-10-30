@@ -1,0 +1,234 @@
+<div class="modal-header align-items-start">
+  <div class="title">
+    <h2 class="modal-title h5 mb-1 text-truncate" id="device-details-title">{{ title }}</h2>
+    <div class="d-flex flex-wrap align-items-center gap-2 small text-body-secondary">
+      <span class="badge rounded-pill health-{{ healthTone }}">{{ device.Health | healthLabel | translate }}</span>
+      <span class="font-monospace">{{ device._NwkId }}</span>
+      <span>{{ device.Model || '—' }}</span>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="btn-close"
+    [attr.aria-label]="'device.details.close' | translate"
+    (click)="modal.dismiss('cross')"></button>
+</div>
+
+<div class="modal-body d-flex flex-column gap-4">
+  <div class="d-flex flex-wrap gap-4">
+    <dl class="facts mb-0">
+      <dt>{{ 'device.details.name' | translate }}</dt>
+      <dd>
+        @if (device.ZDeviceName) {
+          {{ device.ZDeviceName }}
+        } @else {
+          <span class="text-body-secondary fst-italic">{{ 'device.details.noname' | translate }}</span>
+        }
+      </dd>
+      <dt>{{ 'device.details.nwkid' | translate }}</dt>
+      <dd class="font-monospace">{{ device._NwkId }}</dd>
+      <dt>{{ 'device.details.ieee' | translate }}</dt>
+      <dd class="font-monospace">{{ device.IEEE }}</dd>
+      <dt>{{ 'device.details.model' | translate }}</dt>
+      <dd>{{ device.Model || '—' }}</dd>
+      <dt>{{ 'device.details.manufacturer' | translate }}</dt>
+      <dd>{{ loading ? '…' : manufacturerName || '—' }}</dd>
+      <dt>{{ 'device.details.manufacturerid' | translate }}</dt>
+      <dd class="font-monospace">{{ loading ? '…' : manufacturerId ? '0x' + manufacturerId : '—' }}</dd>
+      <dt>{{ 'device.details.profile' | translate }}</dt>
+      <dd>
+        @if (profileId) {
+          <span class="font-monospace">0x{{ profileId }}</span>
+          @if (profileName) {
+            · {{ profileName }}
+          }
+        } @else {
+          {{ loading ? '…' : '—' }}
+        }
+      </dd>
+      <dt>{{ 'device.details.deviceid' | translate }}</dt>
+      <dd>
+        @if (deviceId) {
+          <span class="font-monospace">0x{{ deviceId }}</span>
+          @if (deviceLabel) {
+            · {{ deviceLabel }}
+          }
+          @if (deviceEndpoint) {
+            <span class="text-body-secondary"
+              >({{ 'device.details.endpoint' | translate: { ep: deviceEndpoint } }})</span
+            >
+          }
+        } @else {
+          {{ loading ? '…' : '—' }}
+        }
+      </dd>
+      <dt>{{ 'device.details.health' | translate }}</dt>
+      <dd>{{ device.Health | healthLabel | translate }}</dd>
+    </dl>
+
+    <section class="lqi flex-grow-1" aria-labelledby="device-details-lqi">
+      <h3 class="section-title" id="device-details-lqi">{{ 'device.details.lqi' | translate }}</h3>
+      @if (loading) {
+        <span class="text-body-secondary">…</span>
+      } @else if (lqi.length === 0) {
+        <span class="text-body-secondary">{{ 'device.details.lqi.none' | translate }}</span>
+      } @else {
+        <svg
+          class="lqi-chart"
+          [attr.viewBox]="'0 -4 ' + chartWidth + ' ' + (chartHeight + 4)"
+          role="img"
+          [attr.aria-label]="'device.details.lqi.chart' | translate: { count: lqi.length }">
+          <line class="grid" x1="0" [attr.x2]="chartWidth" [attr.y1]="chartHeight / 2" [attr.y2]="chartHeight / 2" />
+          @for (bar of bars; track $index) {
+            <path class="bar bar-{{ bar.tone }}" [attr.d]="bar.path">
+              <title>
+                {{
+                  'device.details.lqi.reading' | translate: { index: $index + 1, count: bars.length, value: bar.value }
+                }}
+              </title>
+            </path>
+          }
+          <line class="baseline" x1="0" [attr.x2]="chartWidth" [attr.y1]="chartHeight" [attr.y2]="chartHeight" />
+        </svg>
+        <div class="d-flex justify-content-between small text-body-secondary mt-1">
+          <span>{{ 'device.details.lqi.summary' | translate: { latest: lqiLatest, min: lqiMin, max: lqiMax } }}</span>
+          <span>0–255</span>
+        </div>
+      }
+    </section>
+  </div>
+
+  @if (failed) {
+    <div class="alert alert-warning py-2 mb-0 small">{{ 'device.details.failed' | translate }}</div>
+  }
+
+  <section aria-labelledby="device-details-widgets">
+    <h3 class="section-title" id="device-details-widgets">
+      {{ 'device.details.widgets' | translate }} · {{ device.WidgetList?.length ?? 0 }}
+    </h3>
+    <div class="d-flex flex-wrap gap-2">
+      @for (widget of device.WidgetList ?? []; track $index) {
+        <span class="badge text-bg-light border fw-normal widget">{{ widget }}</span>
+      } @empty {
+        <span class="text-body-secondary">{{ 'device.details.widgets.none' | translate }}</span>
+      }
+    </div>
+  </section>
+
+  <section aria-labelledby="device-details-nd">
+    <h3 class="section-title" id="device-details-nd">{{ 'device.details.nd' | translate }}</h3>
+    @if (loading) {
+      <span class="text-body-secondary">…</span>
+    } @else if (!descriptor) {
+      <span class="text-body-secondary">{{ 'device.details.nd.none' | translate }}</span>
+    } @else {
+      <dl class="facts facts-wide mb-2">
+        <dt>{{ 'device.details.nd.logicaltype' | translate }}</dt>
+        <dd>{{ 'device.details.nd.type.' + descriptor.logicalType | translate }}</dd>
+        <dt>{{ 'device.details.nd.band' | translate }}</dt>
+        <dd>{{ descriptor.frequencyBands.join(', ') || '—' }}</dd>
+        <dt>{{ 'device.details.nd.mac' | translate }}</dt>
+        <dd>
+          <span class="font-monospace me-2">0x{{ descriptor.macCapability.toString(16).padStart(2, '0') }}</span>
+          <span class="flags">
+            <span>{{
+              (descriptor.fullFunctionDevice ? 'device.details.nd.mac.ffd' : 'device.details.nd.mac.rfd') | translate
+            }}</span>
+            <span>{{
+              (descriptor.mainsPowered ? 'device.details.nd.mac.mains' : 'device.details.nd.mac.battery') | translate
+            }}</span>
+            @if (descriptor.receiverOnWhenIdle) {
+              <span>{{ 'device.details.nd.mac.rxon' | translate }}</span>
+            }
+            @if (descriptor.securityCapable) {
+              <span>{{ 'device.details.nd.mac.security' | translate }}</span>
+            }
+            @if (descriptor.alternatePanCoordinator) {
+              <span>{{ 'device.details.nd.mac.altpan' | translate }}</span>
+            }
+            @if (descriptor.allocateAddress) {
+              <span>{{ 'device.details.nd.mac.alloc' | translate }}</span>
+            }
+          </span>
+        </dd>
+        <dt>{{ 'device.details.nd.manufcode' | translate }}</dt>
+        <dd class="font-monospace">0x{{ descriptor.manufacturerCode }}</dd>
+        <dt>{{ 'device.details.nd.buffer' | translate }}</dt>
+        <dd>{{ 'device.details.nd.bytes' | translate: { count: descriptor.maxBufferSize } }}</dd>
+        <dt>{{ 'device.details.nd.rx' | translate }}</dt>
+        <dd>{{ 'device.details.nd.bytes' | translate: { count: descriptor.maxIncomingTransferSize } }}</dd>
+        <dt>{{ 'device.details.nd.tx' | translate }}</dt>
+        <dd>{{ 'device.details.nd.bytes' | translate: { count: descriptor.maxOutgoingTransferSize } }}</dd>
+        <dt>{{ 'device.details.nd.server' | translate }}</dt>
+        <dd>
+          <span class="font-monospace me-2">0x{{ descriptor.serverMask.toString(16).padStart(4, '0') }}</span>
+          <span class="flags">
+            @for (role of descriptor.serverRoles; track role) {
+              <span>{{ 'device.details.nd.server.' + role | translate }}</span>
+            } @empty {
+              <span>{{ 'device.details.nd.server.none' | translate }}</span>
+            }
+          </span>
+        </dd>
+        <dt>{{ 'device.details.nd.stack' | translate }}</dt>
+        <dd>
+          {{
+            descriptor.stackComplianceRevision
+              ? 'R' + descriptor.stackComplianceRevision
+              : ('device.details.nd.stack.old' | translate)
+          }}
+        </dd>
+        <dt>{{ 'device.details.nd.descriptors' | translate }}</dt>
+        <dd>
+          <span class="flags">
+            @if (descriptor.complexDescriptor) {
+              <span>{{ 'device.details.nd.complex' | translate }}</span>
+            }
+            @if (descriptor.userDescriptor) {
+              <span>{{ 'device.details.nd.user' | translate }}</span>
+            }
+            @if (descriptor.extendedActiveEndpointList) {
+              <span>{{ 'device.details.nd.extep' | translate }}</span>
+            }
+            @if (descriptor.extendedSimpleDescriptorList) {
+              <span>{{ 'device.details.nd.extsd' | translate }}</span>
+            }
+            @if (
+              !descriptor.complexDescriptor &&
+              !descriptor.userDescriptor &&
+              !descriptor.extendedActiveEndpointList &&
+              !descriptor.extendedSimpleDescriptorList
+            ) {
+              <span>{{ 'device.details.nd.flags.none' | translate }}</span>
+            }
+          </span>
+        </dd>
+      </dl>
+      <div class="small text-body-secondary">
+        {{ 'device.details.nd.raw' | translate }} <span class="font-monospace">{{ descriptor.raw }}</span>
+      </div>
+    }
+  </section>
+</div>
+
+<div class="modal-footer justify-content-between">
+  <div class="d-flex flex-wrap align-items-center gap-2 remove">
+    <button type="button" class="btn btn-outline-danger" [disabled]="!canRemove" (click)="close('remove')">
+      <i class="fas fa-trash me-1" aria-hidden="true"></i>{{ 'device.details.remove' | translate }}
+    </button>
+    @if (!canRemove) {
+      <span class="small text-body-secondary">{{ 'device.details.remove.help' | translate }}</span>
+    }
+  </div>
+  <div class="d-flex flex-wrap gap-2">
+    <button type="button" class="btn btn-outline-secondary" (click)="copy()">
+      <i class="fas fa-copy me-1" aria-hidden="true"></i>{{ 'device.details.copy' | translate }}
+    </button>
+    <button type="button" class="btn btn-outline-primary" (click)="close('parameters')">
+      <i class="fas fa-sliders me-1" aria-hidden="true"></i>{{ 'device.details.parameters' | translate }}
+    </button>
+    <button type="button" class="btn btn-primary" (click)="modal.dismiss('close')">
+      {{ 'device.details.close' | translate }}
+    </button>
+  </div>
+</div>
