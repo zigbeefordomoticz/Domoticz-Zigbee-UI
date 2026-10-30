@@ -42,9 +42,20 @@ interface SignalBar {
   tone: string;
 }
 
+/** One chart: the last readings of RollingLQI or RollingRSSI. */
+interface SignalChart {
+  kind: SignalKind;
+  values: number[];
+  bars: SignalBar[];
+  latest: number;
+  min: number;
+  max: number;
+  range: string;
+}
+
 /**
  * Details of one device: what /zdevice-name already gave the table, plus the plugin's record from
- * /zdevice-raw/<nwkid> (manufacturer, profile / device id, RollingRSSI or RollingLQI, messages received, node
+ * /zdevice-raw/<nwkid> (manufacturer, profile / device id, RollingLQI and RollingRSSI, messages received, node
  * descriptor).
  * Closes with 'parameters' or 'remove' for the table to act on.
  */
@@ -71,10 +82,9 @@ export class DeviceDetailsComponent implements OnInit {
   deviceId = '';
   deviceLabel = '';
   deviceEndpoint = '';
-  // RollingRSSI when the radio reports RSSI, else RollingLQI
-  signalKind: SignalKind = 'rssi';
-  signal: number[] = [];
-  bars: SignalBar[] = [];
+  // RollingLQI (link quality the coordinator measured on the frames received from the device), always; then
+  // RollingRSSI (the device RSSI zigpy reports), only when the radio library fills it
+  charts: SignalChart[] = [];
   descriptor: NodeDescriptor | null = null;
   // ZDO / ZCL frames received since the plugin start; null when the plugin does not count them (older plugin)
   received: { zdo: number; zcl: number } | null = null;
@@ -122,23 +132,6 @@ export class DeviceDetailsComponent implements OnInit {
     return this.device.ZDeviceName || this.device.Model || this.device._NwkId;
   }
 
-  get signalLatest(): number {
-    return this.signal[this.signal.length - 1];
-  }
-
-  get signalMin(): number {
-    return Math.min(...this.signal);
-  }
-
-  get signalMax(): number {
-    return Math.max(...this.signal);
-  }
-
-  get signalRange(): string {
-    const { floor, ceiling } = SIGNAL[this.signalKind];
-    return this.signalKind === 'rssi' ? `${floor} – ${ceiling} dBm` : `${floor}–${ceiling}`;
-  }
-
   copy() {
     this.apiService.getNonOptimizedDevice(this.device._NwkId).subscribe(json => {
       this.clipboard.copy(JSON.stringify(json));
@@ -173,10 +166,11 @@ export class DeviceDetailsComponent implements OnInit {
       this.deviceEndpoint = type.endpoint ?? '';
     }
 
+    this.charts = [this.signalChart('lqi', rollingLqi(record.RollingLQI))];
     const rssi = rollingRssi(record.RollingRSSI);
-    this.signalKind = rssi.length ? 'rssi' : 'lqi';
-    this.signal = rssi.length ? rssi : rollingLqi(record.RollingLQI);
-    this.bars = this.signalBars(this.signal, SIGNAL[this.signalKind]);
+    if (rssi.length) {
+      this.charts.push(this.signalChart('rssi', rssi));
+    }
     this.descriptor = decodeNodeDescriptor(record._rawNodeDescriptor);
     if (typeof record.ReceivedZDO === 'number' || typeof record.ReceivedZCL === 'number') {
       this.received = { zdo: this.count(record.ReceivedZDO), zcl: this.count(record.ReceivedZCL) };
@@ -229,6 +223,19 @@ export class DeviceDetailsComponent implements OnInit {
     const { hostname, pathname } = new URL(url);
     const page = decodeURIComponent(pathname.replace(/\/+$/, '').split('/').pop() ?? '').replace(/\.html?$/, '');
     return page ? `${hostname} › ${page}` : hostname;
+  }
+
+  private signalChart(kind: SignalKind, values: number[]): SignalChart {
+    const scale = SIGNAL[kind];
+    return {
+      kind,
+      values,
+      bars: this.signalBars(values, scale),
+      latest: values[values.length - 1],
+      min: Math.min(...values),
+      max: Math.max(...values),
+      range: kind === 'rssi' ? `${scale.floor} – ${scale.ceiling} dBm` : `${scale.floor}–${scale.ceiling}`
+    };
   }
 
   /** One bar per reading, oldest left; the slots of missing readings stay empty on the left. */
