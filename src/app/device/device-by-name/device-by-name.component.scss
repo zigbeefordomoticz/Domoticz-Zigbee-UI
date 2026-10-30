@@ -21,27 +21,6 @@
   }
 }
 
-// Health pill: one tone per plugin Health family (see healthTone in the component)
-.health-success {
-  background: var(--bs-success-bg-subtle);
-  color: var(--bs-success-text-emphasis);
-}
-
-.health-warning {
-  background: var(--bs-warning-bg-subtle);
-  color: var(--bs-warning-text-emphasis);
-}
-
-.health-danger {
-  background: var(--bs-danger-bg-subtle);
-  color: var(--bs-danger-text-emphasis);
-}
-
-.health-secondary {
-  background: var(--bs-secondary-bg);
-  color: var(--bs-secondary-color);
-}
-
 // Parameters saved, not yet applied by the plugin (CheckParam)
 .pending-dot {
   display: inline-block;
@@ -71,5 +50,15 @@
   &:hover .name-pen,
   &:focus-visible .name-pen {
     opacity: 1;
+  }
+}
+
+// The row opens the details window
+.device-row {
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: -2px;
   }
 }

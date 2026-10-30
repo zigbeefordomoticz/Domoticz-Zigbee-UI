@@ -1,5 +1,4 @@
-import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
@@ -8,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { DetailsAction, DeviceDetailsComponent } from '../device-details/device-details.component';
 import { DeviceParamEditorComponent } from '../device-param-editor/device-param-editor.component';
 import { parsePluginParam } from '../device-param-editor/plugin-param';
 
@@ -53,6 +53,8 @@ interface DeviceRow {
   statusWarning: string;
   paramCount: number;
   attention: boolean;
+  // Only a device that failed pairing, is not in Domoticz or has no widget can be removed
+  removable: boolean;
 }
 
 @Component({
@@ -83,6 +85,8 @@ export class DeviceByNameComponent implements OnChanges {
     enddevices: row => !row.router
   };
 
+  @ViewChild('content') private removeConfirm: TemplateRef<unknown>;
+
   // Focus the name input as soon as a row switches to edit mode; select once ngModel has filled it
   @ViewChild('nameInput') set nameInput(input: ElementRef<HTMLInputElement>) {
     input?.nativeElement.focus();
@@ -94,8 +98,7 @@ export class DeviceByNameComponent implements OnChanges {
     private translate: TranslateService,
     private modalService: NgbModal,
     private offcanvas: NgbOffcanvas,
-    private toastr: ToastrService,
-    private clipboard: Clipboard
+    private toastr: ToastrService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -116,6 +119,33 @@ export class DeviceByNameComponent implements OnChanges {
     // Cancel, the cross and Escape dismiss: the promise rejects, nothing to do
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       () => this.delete(),
+      (): void => undefined
+    );
+  }
+
+  /** A click on the row, outside its buttons and inputs, or Enter on the focused row. */
+  openDetails(event: Event, row: DeviceRow) {
+    const target = event.target as HTMLElement;
+    if (event.type === 'keydown' ? target !== event.currentTarget : target.closest('button, a, input, .input-group')) {
+      return;
+    }
+    const details = this.modalService.open(DeviceDetailsComponent, {
+      size: 'lg',
+      scrollable: true,
+      ariaLabelledBy: 'device-details-title'
+    });
+    details.componentInstance.device = row.device;
+    details.componentInstance.canRemove = row.removable;
+    details.componentInstance.healthTone = row.healthTone;
+    details.result.then(
+      (action: DetailsAction) => {
+        if (action === 'parameters') {
+          this.editParameters(row);
+        } else if (action === 'remove') {
+          this.rowToDelete = row.device;
+          this.open(this.removeConfirm);
+        }
+      },
       (): void => undefined
     );
   }
@@ -147,6 +177,7 @@ export class DeviceByNameComponent implements OnChanges {
   delete() {
     this.apiService.deleteZDeviceName(this.rowToDelete._NwkId).subscribe(() => {
       this.rows = this.rows.filter(row => row.device !== this.rowToDelete);
+      this.toastr.success(this.translate.instant('device.details.removed'));
       this.rowToDelete = null;
       this.applyFilter();
     });
@@ -197,10 +228,6 @@ export class DeviceByNameComponent implements OnChanges {
         this.refreshRow(device);
       })
     );
-  }
-
-  copy(row: DeviceByName) {
-    this.apiService.getNonOptimizedDevice(row._NwkId).subscribe(json => this.clipboard.copy(JSON.stringify(json)));
   }
 
   /** A saved change: the table sorts and searches on the row's copy. */
@@ -254,7 +281,8 @@ export class DeviceByNameComponent implements OnChanges {
       healthTone: HEALTH_TONE[device.Health] ?? 'secondary',
       statusWarning,
       paramCount: this.paramKeys(device.Param).filter(key => key !== 'Disabled').length,
-      attention: healthRank < HEALTH_RANK.unknown || lowBattery || statusWarning !== ''
+      attention: healthRank < HEALTH_RANK.unknown || lowBattery || statusWarning !== '',
+      removable: consistency === 'not in DZ' || consistency === 'Bad Pairing' || (device.WidgetList ?? []).length === 0
     };
   }
 

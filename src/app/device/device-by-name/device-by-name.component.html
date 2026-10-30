@@ -75,13 +75,16 @@
             <th style="min-width: 7rem" pSortableColumn="paramCount">
               {{ 'device.byname.devicename.param' | translate }}<p-sortIcon field="paramCount"></p-sortIcon>
             </th>
-            <th style="width: 3rem">
-              <span class="visually-hidden">{{ 'device.byname.delete.colum' | translate }}</span>
-            </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-row>
-          <tr>
+          <!-- A click outside the name and Parameters buttons opens the details; Enter when the row has the focus -->
+          <tr
+            class="device-row"
+            tabindex="0"
+            [attr.aria-label]="'device.details.row.open' | translate: { name: row.name }"
+            (click)="openDetails($event, row)"
+            (keydown.enter)="openDetails($event, row)">
             <td>
               @if (editingNwkId === row.device._NwkId) {
                 <div class="input-group input-group-sm">
@@ -146,26 +149,17 @@
             </td>
             <td>
               <div class="text-truncate">{{ row.device.Model || '—' }}</div>
-              <button
-                type="button"
-                class="btn btn-link btn-sm p-0 small text-decoration-none"
+              <div
+                class="small"
                 [class.text-success]="row.device.CertifiedDevice"
-                [class.text-warning-emphasis]="!row.device.CertifiedDevice"
-                [ngbPopover]="
-                  (row.device.CertifiedDevice
-                    ? 'device.byname.optimized.popover.text.ok'
-                    : 'device.byname.optimized.popover.text.ko'
-                  ) | translate
-                "
-                triggers="mouseenter:mouseleave"
-                (click)="copy(row.device)">
+                [class.text-warning-emphasis]="!row.device.CertifiedDevice">
                 @if (row.device.CertifiedDevice) {
                   <i class="fas fa-check me-1" aria-hidden="true"></i>{{ 'device.byname.optimized' | translate }}
                 } @else {
                   <i class="fas fa-triangle-exclamation me-1" aria-hidden="true"></i
                   >{{ 'device.byname.notoptimized' | translate }}
                 }
-              </button>
+              </div>
             </td>
             <td>
               <div class="font-monospace fw-semibold">{{ row.device._NwkId }}</div>
@@ -230,27 +224,11 @@
                 }
               </button>
             </td>
-            <td>
-              @if (
-                row.device.ConsistencyCheck === 'not in DZ' ||
-                row.device.ConsistencyCheck === 'Bad Pairing' ||
-                row.widgetCount === 0
-              ) {
-                <button
-                  type="button"
-                  class="btn btn-sm btn-link text-danger"
-                  [title]="'device.byname.delete.colum' | translate"
-                  [attr.aria-label]="('device.byname.delete.colum' | translate) + ' ' + row.name"
-                  (click)="rowToDelete = row.device; open(content)">
-                  <i class="fa fa-trash" aria-hidden="true"></i>
-                </button>
-              }
-            </td>
           </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="8" class="text-center text-body-secondary py-4">
+            <td colspan="7" class="text-center text-body-secondary py-4">
               {{ 'device.byname.filter.empty' | translate }}
             </td>
           </tr>
