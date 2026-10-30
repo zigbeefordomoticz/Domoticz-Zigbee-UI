@@ -1162,5 +1162,8 @@
   "admin.firmware.cancel.ok": "Update annuleren",
   "admin.firmware.cancel.keep": "Behouden",
   "admin.firmware.result.cancelled": "Firmware-update geannuleerd voor {{name}}",
-  "admin.firmware.result.notcancelled": "Firmware-update van {{name}} niet geannuleerd"
+  "admin.firmware.result.notcancelled": "Firmware-update van {{name}} niet geannuleerd",
+  "device.details.received": "Berichten ontvangen sinds de start van de plugin",
+  "device.details.received.zdo": "netwerkbeheer, detectie",
+  "device.details.received.zcl": "attribuutrapporten, opdrachten"
 }

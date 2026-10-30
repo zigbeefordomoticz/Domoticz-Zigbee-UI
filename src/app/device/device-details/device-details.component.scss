@@ -85,6 +85,41 @@
   }
 }
 
+// ZDO / ZCL messages received: two tiles, the figure above its label so both figures line up
+.received {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 28rem;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--bs-border-radius);
+    background: var(--bs-tertiary-bg);
+  }
+
+  dt {
+    font-weight: 600;
+  }
+
+  .hint {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--bs-secondary-color);
+  }
+
+  dd {
+    order: -1;
+    margin: 0 0 0.125rem;
+    font-size: 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
 .widget {
   font-size: 0.8125rem;
 }

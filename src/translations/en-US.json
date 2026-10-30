@@ -1162,5 +1162,8 @@
   "admin.firmware.cancel.ok": "Cancel the update",
   "admin.firmware.cancel.keep": "Keep it",
   "admin.firmware.result.cancelled": "Firmware update cancelled for {{name}}",
-  "admin.firmware.result.notcancelled": "Firmware update of {{name}} not cancelled"
+  "admin.firmware.result.notcancelled": "Firmware update of {{name}} not cancelled",
+  "device.details.received": "Messages received since plugin start",
+  "device.details.received.zdo": "network management, discovery",
+  "device.details.received.zcl": "attribute reports, commands"
 }

@@ -143,6 +143,19 @@
           <span>{{ signalRange }}</span>
         </div>
       }
+      @if (received) {
+        <h3 class="section-title mt-4" id="device-details-received">{{ 'device.details.received' | translate }}</h3>
+        <dl class="received mb-0" aria-labelledby="device-details-received">
+          <div>
+            <dt>ZDO <span class="hint">{{ 'device.details.received.zdo' | translate }}</span></dt>
+            <dd>{{ received.zdo | number }}</dd>
+          </div>
+          <div>
+            <dt>ZCL <span class="hint">{{ 'device.details.received.zcl' | translate }}</span></dt>
+            <dd>{{ received.zcl | number }}</dd>
+          </div>
+        </dl>
+      }
     </section>
   </div>
 

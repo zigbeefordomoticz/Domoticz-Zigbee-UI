@@ -1162,5 +1162,8 @@
   "admin.firmware.cancel.ok": "Update abbrechen",
   "admin.firmware.cancel.keep": "Beibehalten",
   "admin.firmware.result.cancelled": "Firmware-Update für {{name}} abgebrochen",
-  "admin.firmware.result.notcancelled": "Firmware-Update von {{name}} nicht abgebrochen"
+  "admin.firmware.result.notcancelled": "Firmware-Update von {{name}} nicht abgebrochen",
+  "device.details.received": "Seit dem Plugin-Start empfangene Nachrichten",
+  "device.details.received.zdo": "Netzwerkverwaltung, Erkennung",
+  "device.details.received.zcl": "Attributberichte, Befehle"
 }
