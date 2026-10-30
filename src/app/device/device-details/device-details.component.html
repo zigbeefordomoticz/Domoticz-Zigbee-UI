@@ -48,11 +48,11 @@
       <dt>{{ 'device.details.manufacturer' | translate }}</dt>
       <dd>
         @if (manufacturerName || manufacturerCode) {
-          {{ manufacturerName }}
+          <span class="font-monospace">{{ manufacturerCode }}</span>
           @if (manufacturerName && manufacturerCode) {
             ·
           }
-          <span class="font-monospace">{{ manufacturerCode }}</span>
+          {{ manufacturerName }}
         } @else {
           {{ loading ? '…' : '—' }}
         }
