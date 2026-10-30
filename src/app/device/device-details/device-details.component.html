@@ -46,9 +46,17 @@
       <dt>{{ 'device.details.model' | translate }}</dt>
       <dd>{{ device.Model || '—' }}</dd>
       <dt>{{ 'device.details.manufacturer' | translate }}</dt>
-      <dd>{{ loading ? '…' : manufacturerName || '—' }}</dd>
-      <dt>{{ 'device.details.manufacturerid' | translate }}</dt>
-      <dd class="font-monospace">{{ loading ? '…' : manufacturerId ? '0x' + manufacturerId : '—' }}</dd>
+      <dd>
+        @if (manufacturerName || manufacturerCode) {
+          {{ manufacturerName }}
+          @if (manufacturerName && manufacturerCode) {
+            ·
+          }
+          <span class="font-monospace">{{ manufacturerCode }}</span>
+        } @else {
+          {{ loading ? '…' : '—' }}
+        }
+      </dd>
       <dt>{{ 'device.details.profile' | translate }}</dt>
       <dd>
         @if (profileId) {

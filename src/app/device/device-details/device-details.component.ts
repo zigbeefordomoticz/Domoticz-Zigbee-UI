@@ -96,6 +96,18 @@ export class DeviceDetailsComponent implements OnInit {
     });
   }
 
+  /**
+   * "0x1021" when the plugin holds the 4-hex manufacturer code; some device modules store a name in
+   * "Manufacturer" instead: shown as is, and not at all when it repeats the manufacturer name.
+   */
+  get manufacturerCode(): string {
+    const id = this.manufacturerId.trim();
+    if (/^[0-9a-f]{4}$/i.test(id)) {
+      return '0x' + id.toLowerCase();
+    }
+    return id.toLowerCase() === this.manufacturerName.trim().toLowerCase() ? '' : id;
+  }
+
   get title(): string {
     return this.device.ZDeviceName || this.device.Model || this.device._NwkId;
   }
