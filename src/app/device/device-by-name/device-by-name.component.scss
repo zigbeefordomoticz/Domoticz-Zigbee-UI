@@ -55,3 +55,25 @@ textarea {
   background: var(--bs-orange);
   vertical-align: middle;
 }
+
+// The name reads as text; the pen shows it can be edited
+.name-button {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--bs-body-color);
+  text-align: left;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  .name-pen {
+    font-size: 0.75rem;
+    color: var(--bs-secondary-color);
+    opacity: 0;
+  }
+
+  &:hover .name-pen,
+  &:focus-visible .name-pen {
+    opacity: 1;
+  }
+}

@@ -1,11 +1,13 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 const log = new Logger('DeviceByNameComponent');
 
@@ -63,7 +65,10 @@ export class DeviceByNameComponent implements OnChanges {
   visibleRows: DeviceRow[] = [];
   filters: { id: Filter; count: number }[] = [];
   filter: Filter = 'all';
-  hasEditing = false;
+  // The device whose name is being edited in its row, and the text typed so far
+  editingNwkId: string = null;
+  nameDraft = '';
+  saving = false;
   rowToDelete: DeviceByName;
   rowParameter: DeviceByName;
   parameter: string;
@@ -81,6 +86,12 @@ export class DeviceByNameComponent implements OnChanges {
     routers: row => row.router,
     enddevices: row => !row.router
   };
+
+  // Focus the name input as soon as a row switches to edit mode; select once ngModel has filled it
+  @ViewChild('nameInput') set nameInput(input: ElementRef<HTMLInputElement>) {
+    input?.nativeElement.focus();
+    setTimeout(() => input?.nativeElement.select());
+  }
 
   constructor(
     private apiService: ApiService,
@@ -105,9 +116,11 @@ export class DeviceByNameComponent implements OnChanges {
   }
 
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => {
-      this.delete();
-    });
+    // Cancel, the cross and Escape dismiss: the promise rejects, nothing to do
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      () => this.delete(),
+      (): void => undefined
+    );
   }
 
   editParameter(content: any): void {
@@ -122,19 +135,23 @@ export class DeviceByNameComponent implements OnChanges {
       this.parameter = this.parameter.replace(this.enabledFalse, '');
     }
 
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(() => {
-      if (this.parameter.includes(this.prefixEnabled)) {
-        this.toastr.error(this.translate.instant('device.byname.error.notify'));
-      } else {
-        if (this.enabled) {
-          this.parameter = this.parameter.replace('{', '{'.concat(this.enabledTrue).concat(', '));
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      () => {
+        if (this.parameter.includes(this.prefixEnabled)) {
+          this.toastr.error(this.translate.instant('device.byname.error.notify'));
         } else {
-          this.parameter = this.parameter.replace('{', '{'.concat(this.enabledFalse).concat(', '));
+          if (this.enabled) {
+            this.parameter = this.parameter.replace('{', '{'.concat(this.enabledTrue).concat(', '));
+          } else {
+            this.parameter = this.parameter.replace('{', '{'.concat(this.enabledFalse).concat(', '));
+          }
+          this.saveDevice(this.rowParameter, { Param: this.parameter }).subscribe(() =>
+            this.toastr.success(this.translate.instant('api.global.succes.saved.notify'))
+          );
         }
-        this.updateValueJson(this.parameter, 'Param', this.rowParameter._NwkId);
-        this.refreshRow(this.rowParameter);
-      }
-    });
+      },
+      (): void => undefined
+    );
   }
 
   onChangeEnabled() {
@@ -149,30 +166,59 @@ export class DeviceByNameComponent implements OnChanges {
     });
   }
 
-  private updateValueJson<K extends keyof DeviceByName>(value: DeviceByName[K], col: K, nwkId: string): void {
-    this.hasEditing = true;
-    const rowUpdated = this.devices.find(device => device._NwkId === nwkId);
-    if (rowUpdated) {
-      rowUpdated[col] = value;
-    } else {
-      log.error('row not found');
+  startEdit(row: DeviceRow) {
+    this.editingNwkId = row.device._NwkId;
+    this.nameDraft = row.device.ZDeviceName ?? '';
+  }
+
+  cancelEdit() {
+    if (!this.saving) {
+      this.editingNwkId = null;
     }
   }
 
-  updateDevices() {
-    this.apiService.putZDeviceName(this.rows.map(row => row.device)).subscribe((result: any) => {
-      log.debug(result);
-      this.hasEditing = false;
-      this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
+  /** Enter: send this device only. An unchanged name just leaves edit mode. */
+  saveName(row: DeviceRow) {
+    const name = this.nameDraft.trim();
+    if (this.saving) {
+      return;
+    }
+    if (name === (row.device.ZDeviceName ?? '')) {
+      this.editingNwkId = null;
+      return;
+    }
+    this.saving = true;
+    this.saveDevice(row.device, { ZDeviceName: name }).subscribe({
+      next: () => {
+        this.saving = false;
+        this.editingNwkId = null;
+        this.toastr.success(this.translate.instant('device.byname.name.saved', { name: name || row.device._NwkId }));
+      },
+      // The error is already toasted by ApiService; keep the input so the name can be retried
+      error: () => (this.saving = false)
     });
+  }
+
+  /**
+   * PUT /zdevice-name with this one device. The plugin reads IEEE, ZDeviceName and Param of each row it
+   * receives (Param is required, even for a rename) and leaves every other device alone.
+   */
+  private saveDevice(device: DeviceByName, changes: Partial<DeviceByName>): Observable<void> {
+    return this.apiService.putZDeviceName([{ ...device, ...changes }]).pipe(
+      map(result => {
+        log.debug(result);
+        Object.assign(device, changes);
+        this.refreshRow(device);
+      })
+    );
   }
 
   copy(row: DeviceByName) {
     this.apiService.getNonOptimizedDevice(row._NwkId).subscribe(json => this.clipboard.copy(JSON.stringify(json)));
   }
 
-  /** A name typed in the row: the table sorts and searches on the row's copy. */
-  refreshRow(device: DeviceByName) {
+  /** A saved change: the table sorts and searches on the row's copy. */
+  private refreshRow(device: DeviceByName) {
     const index = this.rows.findIndex(row => row.device === device);
     if (index > -1) {
       this.rows[index] = this.toRow(device);
