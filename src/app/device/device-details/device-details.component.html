@@ -50,71 +50,66 @@
     </section>
   }
   <div class="d-flex flex-wrap gap-4">
-    <!-- Messages received under the facts when the RSSI chart makes the chart column tall, else under the charts -->
-    <div class="identity d-flex flex-column gap-4">
-      <dl class="facts mb-0">
-        <dt>{{ 'device.details.name' | translate }}</dt>
-        <dd>
-          @if (device.ZDeviceName) {
-            {{ device.ZDeviceName }}
-          } @else {
-            <span class="text-body-secondary fst-italic">{{ 'device.details.noname' | translate }}</span>
+    <dl class="facts mb-0">
+      <dt>{{ 'device.details.name' | translate }}</dt>
+      <dd>
+        @if (device.ZDeviceName) {
+          {{ device.ZDeviceName }}
+        } @else {
+          <span class="text-body-secondary fst-italic">{{ 'device.details.noname' | translate }}</span>
+        }
+      </dd>
+      <dt>{{ 'device.details.nwkid' | translate }}</dt>
+      <dd class="font-monospace">{{ device._NwkId }}</dd>
+      <dt>{{ 'device.details.ieee' | translate }}</dt>
+      <dd class="font-monospace">{{ device.IEEE }}</dd>
+      <dt>{{ 'device.details.model' | translate }}</dt>
+      <dd>{{ device.Model || '—' }}</dd>
+      <dt>{{ 'device.details.manufacturer' | translate }}</dt>
+      <dd>
+        @if (manufacturerName || manufacturerCode) {
+          <span class="font-monospace">{{ manufacturerCode }}</span>
+          @if (manufacturerName && manufacturerCode) {
+            ·
           }
-        </dd>
-        <dt>{{ 'device.details.nwkid' | translate }}</dt>
-        <dd class="font-monospace">{{ device._NwkId }}</dd>
-        <dt>{{ 'device.details.ieee' | translate }}</dt>
-        <dd class="font-monospace">{{ device.IEEE }}</dd>
-        <dt>{{ 'device.details.model' | translate }}</dt>
-        <dd>{{ device.Model || '—' }}</dd>
-        <dt>{{ 'device.details.manufacturer' | translate }}</dt>
-        <dd>
-          @if (manufacturerName || manufacturerCode) {
-            <span class="font-monospace">{{ manufacturerCode }}</span>
-            @if (manufacturerName && manufacturerCode) {
-              ·
-            }
-            {{ manufacturerName }}
-          } @else {
-            {{ loading ? '…' : '—' }}
+          {{ manufacturerName }}
+        } @else {
+          {{ loading ? '…' : '—' }}
+        }
+      </dd>
+      <dt>{{ 'device.details.profile' | translate }}</dt>
+      <dd>
+        @if (profileId) {
+          <span class="font-monospace">0x{{ profileId }}</span>
+          @if (profileName) {
+            · {{ profileName }}
           }
-        </dd>
-        <dt>{{ 'device.details.profile' | translate }}</dt>
-        <dd>
-          @if (profileId) {
-            <span class="font-monospace">0x{{ profileId }}</span>
-            @if (profileName) {
-              · {{ profileName }}
-            }
-          } @else {
-            {{ loading ? '…' : '—' }}
+        } @else {
+          {{ loading ? '…' : '—' }}
+        }
+      </dd>
+      <dt>{{ 'device.details.deviceid' | translate }}</dt>
+      <dd>
+        @if (deviceId) {
+          <span class="font-monospace">0x{{ deviceId }}</span>
+          @if (deviceLabel) {
+            · {{ deviceLabel }}
           }
-        </dd>
-        <dt>{{ 'device.details.deviceid' | translate }}</dt>
-        <dd>
-          @if (deviceId) {
-            <span class="font-monospace">0x{{ deviceId }}</span>
-            @if (deviceLabel) {
-              · {{ deviceLabel }}
-            }
-            @if (deviceEndpoint) {
-              <span class="text-body-secondary"
-                >({{ 'device.details.endpoint' | translate: { ep: deviceEndpoint } }})</span
-              >
-            }
-          } @else {
-            {{ loading ? '…' : '—' }}
+          @if (deviceEndpoint) {
+            <span class="text-body-secondary"
+              >({{ 'device.details.endpoint' | translate: { ep: deviceEndpoint } }})</span
+            >
           }
-        </dd>
-        <dt>{{ 'device.details.health' | translate }}</dt>
-        <dd>{{ device.Health | healthLabel | translate }}</dd>
-      </dl>
-      @if (received && charts.length > 1) {
-        <ng-container *ngTemplateOutlet="receivedCounts" />
-      }
-    </div>
+        } @else {
+          {{ loading ? '…' : '—' }}
+        }
+      </dd>
+      <dt>{{ 'device.details.health' | translate }}</dt>
+      <dd>{{ device.Health | healthLabel | translate }}</dd>
+    </dl>
 
-    <div class="signal flex-grow-1 d-flex flex-column gap-4">
+    <!-- One chart or two, centred against the facts -->
+    <div class="signal flex-grow-1 d-flex flex-column justify-content-center gap-4">
       @if (loading) {
         <section aria-labelledby="device-details-lqi">
           <h3 class="section-title" id="device-details-lqi">{{ 'device.details.lqi' | translate }}</h3>
@@ -135,12 +130,9 @@
               [attr.viewBox]="'0 -4 ' + chartWidth + ' ' + (chartHeight + 4)"
               role="img"
               [attr.aria-label]="'device.details.' + chart.kind + '.chart' | translate: { count: chart.values.length }">
-              <line
-                class="grid"
-                x1="0"
-                [attr.x2]="chartWidth"
-                [attr.y1]="chartHeight / 2"
-                [attr.y2]="chartHeight / 2" />
+              @for (y of chart.thresholds; track $index) {
+                <line class="grid" x1="0" [attr.x2]="chartWidth" [attr.y1]="y" [attr.y2]="y" />
+              }
               @for (bar of chart.bars; track $index) {
                 <path class="bar bar-{{ bar.tone }}" [attr.d]="bar.path">
                   <title>
@@ -153,7 +145,7 @@
               }
               <line class="baseline" x1="0" [attr.x2]="chartWidth" [attr.y1]="chartHeight" [attr.y2]="chartHeight" />
             </svg>
-            <div class="d-flex justify-content-between small text-body-secondary mt-1">
+            <div class="signal-summary d-flex justify-content-between small text-body-secondary mt-1">
               <span>{{
                 'device.details.' + chart.kind + '.summary'
                   | translate: { latest: chart.latest, min: chart.min, max: chart.max }
@@ -163,11 +155,28 @@
           }
         </section>
       }
-      @if (received && charts.length <= 1) {
-        <ng-container *ngTemplateOutlet="receivedCounts" />
-      }
     </div>
   </div>
+
+  @if (received) {
+    <section aria-labelledby="device-details-received">
+      <h3 class="section-title" id="device-details-received">{{ 'device.details.received' | translate }}</h3>
+      <dl class="received mb-0">
+        <div>
+          <dt>
+            ZDO <span class="hint">{{ 'device.details.received.zdo' | translate }}</span>
+          </dt>
+          <dd>{{ received.zdo | number }}</dd>
+        </div>
+        <div>
+          <dt>
+            ZCL <span class="hint">{{ 'device.details.received.zcl' | translate }}</span>
+          </dt>
+          <dd>{{ received.zcl | number }}</dd>
+        </div>
+      </dl>
+    </section>
+  }
 
   @if (failed) {
     <div class="alert alert-warning py-2 mb-0 small">{{ 'device.details.failed' | translate }}</div>
@@ -305,23 +314,3 @@
     </button>
   </div>
 </div>
-
-<ng-template #receivedCounts>
-  <section aria-labelledby="device-details-received">
-    <h3 class="section-title" id="device-details-received">{{ 'device.details.received' | translate }}</h3>
-    <dl class="received mb-0">
-      <div>
-        <dt>
-          ZDO <span class="hint">{{ 'device.details.received.zdo' | translate }}</span>
-        </dt>
-        <dd>{{ received.zdo | number }}</dd>
-      </div>
-      <div>
-        <dt>
-          ZCL <span class="hint">{{ 'device.details.received.zcl' | translate }}</span>
-        </dt>
-        <dd>{{ received.zcl | number }}</dd>
-      </div>
-    </dl>
-  </section>
-</ng-template>

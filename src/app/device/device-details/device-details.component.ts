@@ -13,10 +13,10 @@ const BLAKADDER_NEW = 'https://zigbee.blakadder.com/new.html';
 
 const PROFILES: { [id: string]: string } = { '0104': 'Home Automation', c05e: 'Light Link', a1e0: 'Green Power' };
 
-// Signal chart geometry (SVG user units)
+// Signal chart geometry (SVG user units): a low strip, thin bars centred in their slot
 const CHART_WIDTH = 300;
-const CHART_HEIGHT = 96;
-const BAR_GAP = 2;
+const CHART_HEIGHT = 40;
+const BAR_WIDTH = 12;
 const SLOTS = 10;
 
 export type DetailsAction = 'parameters' | 'remove';
@@ -47,6 +47,8 @@ interface SignalChart {
   kind: SignalKind;
   values: number[];
   bars: SignalBar[];
+  // Heights of the fair and good thresholds, drawn as dashed lines
+  thresholds: number[];
   latest: number;
   min: number;
   max: number;
@@ -231,6 +233,7 @@ export class DeviceDetailsComponent implements OnInit {
       kind,
       values,
       bars: this.signalBars(values, scale),
+      thresholds: [scale.fair, scale.good].map(value => CHART_HEIGHT - this.barHeight(value, scale)),
       latest: values[values.length - 1],
       min: Math.min(...values),
       max: Math.max(...values),
@@ -243,13 +246,12 @@ export class DeviceDetailsComponent implements OnInit {
     const slot = CHART_WIDTH / SLOTS;
     const offset = SLOTS - values.length;
     return values.map((value, index) => {
-      const share = Math.min(1, Math.max(0, (value - scale.floor) / (scale.ceiling - scale.floor)));
-      const height = Math.max(2, share * CHART_HEIGHT);
-      const x = (offset + index) * slot + BAR_GAP / 2;
-      const width = slot - BAR_GAP;
+      const height = Math.max(2, this.barHeight(value, scale));
+      const x = (offset + index) * slot + (slot - BAR_WIDTH) / 2;
+      const width = BAR_WIDTH;
       const y = CHART_HEIGHT - height;
       // Rounded at the data end only, square on the baseline
-      const r = Math.min(4, width / 2, height);
+      const r = Math.min(2, width / 2, height);
       return {
         path:
           `M${x},${CHART_HEIGHT} V${y + r} Q${x},${y} ${x + r},${y} ` +
@@ -258,6 +260,11 @@ export class DeviceDetailsComponent implements OnInit {
         tone: value >= scale.good ? 'good' : value >= scale.fair ? 'fair' : 'poor'
       };
     });
+  }
+
+  /** Height of a value on the chart, the full scale (floor to ceiling) kept so devices compare. */
+  private barHeight(value: number, scale: (typeof SIGNAL)[SignalKind]): number {
+    return Math.min(1, Math.max(0, (value - scale.floor) / (scale.ceiling - scale.floor))) * CHART_HEIGHT;
   }
 
   private count(value: unknown): number {
