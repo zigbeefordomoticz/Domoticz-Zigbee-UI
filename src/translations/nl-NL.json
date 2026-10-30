@@ -1132,6 +1132,7 @@
   "admin.firmware.device.newer": "draait een nieuwere versie (Update forceren)",
   "admin.firmware.device.unknown": "versie onbekend tot het apparaat erom vraagt",
   "admin.firmware.device.other": "Andere image-types ({{count}})",
+  "admin.firmware.device.otherfile": "met {{file}}",
   "admin.firmware.nodevice": "Geen apparaat van deze fabrikant",
   "admin.firmware.button.update.selected": "Bijwerken ({{count}})",
   "admin.firmware.state.Queued": "In wachtrij",

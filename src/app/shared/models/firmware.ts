@@ -28,6 +28,16 @@ export interface DevicesByManufacturer {
   // ("" when it never asked). Absent with an older plugin.
   ImageType?: string;
   CurrentFileVersion?: string;
+  // From plugin 9.1.009: one entry per image the device asked for, as a device may hold
+  // several (NodOn SIN-4-FP-21: radio 0x0006, power board 0x0106). [] until the device asks
+  // again after the plugin update; absent with an older plugin.
+  Images?: DeviceOtaImage[];
+}
+
+export interface DeviceOtaImage {
+  ImageType: string;
+  ManufCode: string;
+  CurrentFileVersion: string;
 }
 
 export class FirmwareUpdate {
