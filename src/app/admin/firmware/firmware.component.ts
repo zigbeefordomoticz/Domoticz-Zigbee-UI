@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import {
+  DeviceOtaImage,
   DevicesByManufacturer,
   Firmware,
   FirmwareManufacturer,
@@ -34,6 +35,10 @@ export type DeviceOtaStatus = 'update' | 'uptodate' | 'newer' | 'unknown' | 'bus
 export interface FirmwareDevice extends DevicesByManufacturer {
   status: DeviceOtaStatus;
   request?: OtaRequest;
+  // The version the device reported for the image type of the selected firmware
+  currentVersion?: string;
+  // The image types the device asked for, for the "other devices" list
+  imageTypes?: string;
 }
 
 @Component({
@@ -306,29 +311,52 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
 
   /**
    * Compare the device with the firmware, on what the device reported in its
-   * last Query Next Image Request. A device that never asked, or a plugin that
-   * does not report it, gives "unknown": the plugin checks it when the device
-   * asks. The image type is checked first: a device being upgraded with
-   * another image is not a candidate for this one either.
+   * Query Next Image Requests for the firmware's image type. A device may hold
+   * several images (`Images`, one entry per image type it asked for); with a
+   * plugin or a device entry without it, the last request is used. A device
+   * that never asked, or a plugin that does not report it, gives "unknown": the
+   * plugin checks it when the device asks. The image type is checked first: a
+   * device that asked only for other images is not a candidate for this one.
+   * A device gets one firmware at a time: with a request for any file, it is busy.
    */
   private withStatus(device: DevicesByManufacturer, firmware: Firmware): FirmwareDevice {
-    if (device.ImageType && parseInt(device.ImageType, 16) !== parseInt(firmware.ImageType, 16)) {
-      return { ...device, status: 'other' };
+    const images = this.queriedImages(device);
+    const imageTypes = images.map(image => '0x' + image.ImageType).join(', ');
+    const queried = images.find(image => this.isImageOf(image, firmware));
+    if (images.length && !queried) {
+      return { ...device, status: 'other', imageTypes };
     }
+    const currentVersion = queried?.CurrentFileVersion;
     const request = this.requests.find(item => item.NwkId === device.Nwkid);
     if (request) {
-      return { ...device, status: 'busy', request };
+      return { ...device, status: 'busy', request, currentVersion, imageTypes };
     }
-    if (!device.ImageType) {
-      return { ...device, status: 'unknown' };
+    if (!currentVersion) {
+      return { ...device, status: 'unknown', imageTypes };
     }
-    if (!device.CurrentFileVersion) {
-      return { ...device, status: 'unknown' };
-    }
-    const current = parseInt(device.CurrentFileVersion, 16);
+    const current = parseInt(currentVersion, 16);
     const offered = parseInt(firmware.Version, 16);
     const status: DeviceOtaStatus = current < offered ? 'update' : current === offered ? 'uptodate' : 'newer';
-    return { ...device, status };
+    return { ...device, status, currentVersion, imageTypes };
+  }
+
+  /** The images the device asked for: `Images`, or else its last request. */
+  private queriedImages(device: DevicesByManufacturer): DeviceOtaImage[] {
+    if (device.Images?.length) {
+      return device.Images;
+    }
+    if (device.ImageType) {
+      return [{ ImageType: device.ImageType, ManufCode: '', CurrentFileVersion: device.CurrentFileVersion }];
+    }
+    return [];
+  }
+
+  private isImageOf(image: DeviceOtaImage, firmware: Firmware): boolean {
+    if (parseInt(image.ImageType, 16) !== parseInt(firmware.ImageType, 16)) {
+      return false;
+    }
+    // Image types are manufacturer specific; the last request alone carries no code
+    return !image.ManufCode || parseInt(image.ManufCode, 16) === parseInt(firmware.ManufCode, 16);
   }
 
   private cancelFirmware(request: OtaRequest) {

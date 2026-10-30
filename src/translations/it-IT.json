@@ -1132,6 +1132,7 @@
   "admin.firmware.device.newer": "versione più recente installata (Forza aggiornamento)",
   "admin.firmware.device.unknown": "versione sconosciuta finché il dispositivo non la richiede",
   "admin.firmware.device.other": "Altri tipi di immagine ({{count}})",
+  "admin.firmware.device.otherfile": "con {{file}}",
   "admin.firmware.nodevice": "Nessun dispositivo di questo produttore",
   "admin.firmware.button.update.selected": "Aggiorna ({{count}})",
   "admin.firmware.state.Queued": "In coda",

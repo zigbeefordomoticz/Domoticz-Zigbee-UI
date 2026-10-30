@@ -1132,6 +1132,7 @@
   "admin.firmware.device.newer": "neuere Version installiert (Update erzwingen)",
   "admin.firmware.device.unknown": "Version unbekannt, bis das Gerät anfragt",
   "admin.firmware.device.other": "Andere Image-Typen ({{count}})",
+  "admin.firmware.device.otherfile": "mit {{file}}",
   "admin.firmware.nodevice": "Kein Gerät dieses Herstellers",
   "admin.firmware.button.update.selected": "Aktualisieren ({{count}})",
   "admin.firmware.state.Queued": "In der Warteschlange",

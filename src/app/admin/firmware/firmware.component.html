@@ -95,8 +95,8 @@
                     <span class="small opacity-75">{{ device.Nwkid }}/{{ device.Ep }}</span>
                   </span>
                   <span class="d-block small">
-                    @if (device.CurrentFileVersion) {
-                      <span class="me-1">0x{{ device.CurrentFileVersion }}</span>
+                    @if (device.currentVersion) {
+                      <span class="me-1">0x{{ device.currentVersion }}</span>
                     }
                     @switch (device.status) {
                       @case ('update') {
@@ -112,6 +112,11 @@
                         <span class="badge text-bg-primary">{{
                           'admin.firmware.state.' + device.request.State | translate
                         }}</span>
+                        @if (device.request.FileName !== selectedFirmware.FileName) {
+                          <span class="ms-1 text-break">{{
+                            'admin.firmware.device.otherfile' | translate: { file: device.request.FileName }
+                          }}</span>
+                        }
                       }
                       @default {
                         <span class="badge text-bg-light border" translate="admin.firmware.device.unknown"></span>
@@ -135,7 +140,7 @@
                 @for (device of otherDevices; track device.Nwkid) {
                   <div class="list-group-item small text-muted">
                     {{ device.DeviceName || device.Nwkid }} {{ device.Nwkid }}/{{ device.Ep }} ·
-                    {{ 'admin.firmware.imagetype' | translate }} 0x{{ device.ImageType }}
+                    {{ 'admin.firmware.imagetype' | translate }} {{ device.imageTypes }}
                   </div>
                 }
               }
