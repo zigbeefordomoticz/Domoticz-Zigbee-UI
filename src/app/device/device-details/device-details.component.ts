@@ -44,7 +44,8 @@ interface SignalBar {
 
 /**
  * Details of one device: what /zdevice-name already gave the table, plus the plugin's record from
- * /zdevice-raw/<nwkid> (manufacturer, profile / device id, RollingRSSI or RollingLQI, node descriptor).
+ * /zdevice-raw/<nwkid> (manufacturer, profile / device id, RollingRSSI or RollingLQI, messages received, node
+ * descriptor).
  * Closes with 'parameters' or 'remove' for the table to act on.
  */
 @Component({
@@ -75,6 +76,8 @@ export class DeviceDetailsComponent implements OnInit {
   signal: number[] = [];
   bars: SignalBar[] = [];
   descriptor: NodeDescriptor | null = null;
+  // ZDO / ZCL frames received since the plugin start; null when the plugin does not count them (older plugin)
+  received: { zdo: number; zcl: number } | null = null;
   // _description, _comment of the model configuration (plugin "DeviceConfInfo", absent before it)
   notes: ConfNote[] = [];
   // The device's Blakadder page from the same notes; { } when it has none; null without DeviceConfInfo (older plugin)
@@ -175,6 +178,9 @@ export class DeviceDetailsComponent implements OnInit {
     this.signal = rssi.length ? rssi : rollingLqi(record.RollingLQI);
     this.bars = this.signalBars(this.signal, SIGNAL[this.signalKind]);
     this.descriptor = decodeNodeDescriptor(record._rawNodeDescriptor);
+    if (typeof record.ReceivedZDO === 'number' || typeof record.ReceivedZCL === 'number') {
+      this.received = { zdo: this.count(record.ReceivedZDO), zcl: this.count(record.ReceivedZCL) };
+    }
   }
 
   /** Description first, then the comment; a value repeated is shown once. Blakadder pages have their own line. */
@@ -245,6 +251,10 @@ export class DeviceDetailsComponent implements OnInit {
         tone: value >= scale.good ? 'good' : value >= scale.fair ? 'fair' : 'poor'
       };
     });
+  }
+
+  private count(value: unknown): number {
+    return typeof value === 'number' ? value : 0;
   }
 
   // The plugin stores {} or "" for a field never received

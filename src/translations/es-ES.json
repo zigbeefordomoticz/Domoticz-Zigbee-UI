@@ -1162,5 +1162,8 @@
   "admin.firmware.cancel.ok": "Cancelar la actualización",
   "admin.firmware.cancel.keep": "Mantenerla",
   "admin.firmware.result.cancelled": "Actualización de firmware cancelada para {{name}}",
-  "admin.firmware.result.notcancelled": "Actualización de firmware de {{name}} no cancelada"
+  "admin.firmware.result.notcancelled": "Actualización de firmware de {{name}} no cancelada",
+  "device.details.received": "Mensajes recibidos desde el inicio del plugin",
+  "device.details.received.zdo": "gestión de red, descubrimiento",
+  "device.details.received.zcl": "informes de atributos, comandos"
 }
