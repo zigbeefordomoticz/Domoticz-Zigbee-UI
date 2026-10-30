@@ -1,0 +1,34 @@
+// The panel body scrolls, the Save footer stays at the bottom
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.offcanvas-body {
+  flex: 1;
+}
+
+.title {
+  min-width: 0;
+}
+
+.enabled-switch {
+  width: 2.75rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+.json {
+  min-height: 14rem;
+  resize: vertical;
+}
+
+.pending-dot {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--bs-orange);
+}

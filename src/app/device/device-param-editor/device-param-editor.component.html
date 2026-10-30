@@ -1,0 +1,164 @@
+<div class="offcanvas-header border-bottom align-items-start">
+  <div class="title">
+    <h2 class="offcanvas-title h5 mb-1" id="device-param-editor-title">
+      {{ 'device.byname.parameter.alert.title' | translate }}
+    </h2>
+    <div class="text-body-secondary small text-truncate">
+      {{ title }} · {{ device.Model || '—' }} · <span class="font-monospace">{{ device._NwkId }}</span>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="btn-close"
+    [attr.aria-label]="'device.param.close' | translate"
+    (click)="offcanvas.dismiss('cross')"></button>
+</div>
+
+<div class="offcanvas-body d-flex flex-column gap-3">
+  @if (device.CheckParam) {
+    <div class="alert alert-warning d-flex gap-2 align-items-start py-2 mb-0 small" role="status">
+      <span class="pending-dot mt-1" aria-hidden="true"></span>
+      {{ 'device.param.pending' | translate }}
+    </div>
+  }
+
+  <div class="d-flex align-items-center justify-content-between gap-3 border rounded p-3">
+    <div>
+      <label class="fw-semibold d-block" for="device-param-enabled">{{
+        'device.byname.devicename.enabled' | translate
+      }}</label>
+      <span class="small text-body-secondary">{{
+        (enabled ? 'device.param.enabled.on' : 'device.param.enabled.off') | translate
+      }}</span>
+    </div>
+    <div class="form-check form-switch m-0">
+      <input
+        class="form-check-input enabled-switch"
+        type="checkbox"
+        role="switch"
+        id="device-param-enabled"
+        [(ngModel)]="enabled" />
+    </div>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-between gap-2">
+    <span class="fw-semibold">{{ 'device.param.params' | translate }}</span>
+    <a class="small" href="https://zigbeefordomoticz.github.io/wiki/en-eng/HowTo_Device-parameters" target="_blank">{{
+      'device.param.help' | translate
+    }}</a>
+  </div>
+
+  <ul class="nav nav-pills nav-fill bg-body-tertiary rounded p-1 gap-1" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        type="button"
+        class="nav-link py-1"
+        role="tab"
+        [class.active]="tab === 'fields'"
+        [attr.aria-selected]="tab === 'fields'"
+        (click)="showFields()">
+        {{ 'device.param.tab.fields' | translate }}
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        type="button"
+        class="nav-link py-1"
+        role="tab"
+        [class.active]="tab === 'json'"
+        [attr.aria-selected]="tab === 'json'"
+        (click)="showJson()">
+        {{ 'device.param.tab.json' | translate }}
+      </button>
+    </li>
+  </ul>
+
+  @if (tab === 'fields') {
+    <div class="d-flex flex-column gap-3">
+      @for (field of fields; track field.key) {
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <label class="font-monospace small fw-semibold flex-grow-1" [for]="'device-param-' + field.key">{{
+              field.key
+            }}</label>
+            <button
+              type="button"
+              class="btn btn-sm btn-link text-body-secondary p-0"
+              [attr.aria-label]="'device.param.remove' | translate: { key: field.key }"
+              [title]="'device.param.remove' | translate: { key: field.key }"
+              (click)="remove(field)">
+              <i class="fas fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+          <input
+            class="form-control form-control-sm font-monospace"
+            type="text"
+            [id]="'device-param-' + field.key"
+            [class.is-invalid]="field.error"
+            [(ngModel)]="field.text"
+            (ngModelChange)="checkField(field)" />
+          @if (field.error) {
+            <div class="invalid-feedback">{{ 'device.param.field.invalid' | translate }}</div>
+          }
+        </div>
+      } @empty {
+        <span class="text-body-secondary">{{ 'device.param.none' | translate }}</span>
+      }
+
+      <div>
+        <label class="small text-body-secondary mb-1" for="device-param-new">{{
+          'device.param.add.label' | translate
+        }}</label>
+        <div class="input-group input-group-sm">
+          <input
+            class="form-control font-monospace"
+            type="text"
+            id="device-param-new"
+            [class.is-invalid]="addError"
+            [placeholder]="'device.param.add.placeholder' | translate"
+            [(ngModel)]="newKey"
+            (ngModelChange)="addError = ''"
+            (keydown.enter)="add()" />
+          <button type="button" class="btn btn-outline-primary" [disabled]="!newKey.trim()" (click)="add()">
+            {{ 'device.param.add.button' | translate }}
+          </button>
+        </div>
+        @if (addError) {
+          <div class="small text-danger mt-1">{{ addError }}</div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="d-flex flex-column gap-2">
+      @if (unreadable) {
+        <div class="small text-warning-emphasis">{{ 'device.param.json.unreadable' | translate }}</div>
+      }
+      <textarea
+        class="form-control font-monospace json"
+        rows="10"
+        spellcheck="false"
+        [attr.aria-label]="'device.param.json.label' | translate"
+        [class.is-invalid]="jsonError"
+        [(ngModel)]="jsonText"
+        (ngModelChange)="checkJson()"></textarea>
+      <span class="small" role="status" [class.text-danger]="jsonError" [class.text-success]="!jsonError">
+        {{ jsonError || ('device.param.json.valid' | translate: { count: jsonCount }) }}
+      </span>
+    </div>
+  }
+</div>
+
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 border-top bg-body-tertiary px-3 py-2">
+  <span class="small text-body-secondary">{{ 'device.param.footer' | translate }}</span>
+  <div class="d-flex gap-2">
+    <button type="button" class="btn btn-outline-secondary" (click)="offcanvas.dismiss('cancel')">
+      {{ 'device.byname.parameter.alert.cancel' | translate }}
+    </button>
+    <button type="button" class="btn btn-primary" [disabled]="!canSave" (click)="submit()">
+      @if (saving) {
+        <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+      }
+      {{ 'device.param.save' | translate }}
+    </button>
+  </div>
+</div>

@@ -265,3 +265,8 @@ a {
   /* stylelint-disable-next-line declaration-no-important */
   line-height: 1em !important;
 }
+
+// Device Management parameters panel (NgbOffcanvas, attached to <body>, so not reachable from the component)
+.offcanvas.device-param-panel {
+  --bs-offcanvas-width: 36rem;
+}

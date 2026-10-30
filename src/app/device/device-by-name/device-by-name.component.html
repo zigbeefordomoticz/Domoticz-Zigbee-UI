@@ -218,7 +218,7 @@
                 [ngbPopover]="'device.byname.parameter.popover.text' | translate"
                 [popoverTitle]="'device.byname.parameter.popover.title' | translate"
                 triggers="mouseenter:mouseleave"
-                (click)="rowParameter = row.device; editParameter(editContent)">
+                (click)="editParameters(row)">
                 <i class="fas fa-sliders me-1" aria-hidden="true"></i>
                 {{
                   row.paramCount === 0
@@ -277,33 +277,5 @@
       class="btn btn-outline-dark"
       (click)="modal.dismiss('cancel')"
       translate="device.byname.alert.cancel"></button>
-  </div>
-</ng-template>
-
-<ng-template #editContent let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" translate="device.byname.parameter.alert.title"></h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
-  </div>
-  <div class="modal-body">
-    <div [innerHTML]="'device.byname.parameter.alert.subject' | translate"></div>
-    <div class="switch switch-sm mt-3 me-2 pe-3">
-      <input type="checkbox" [checked]="enabled" id="switch-enabled" (click)="onChangeEnabled()" />
-      <label class="mb-0" for="switch-enabled" translate="device.byname.devicename.enabled"></label>
-    </div>
-    <div class="mt-3">{{ 'device.byname.devicename.param' | translate }} :</div>
-    <textarea [(ngModel)]="parameter" name="parameter" rows="5"></textarea>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.dismiss('cancel')"
-      translate="device.byname.parameter.alert.cancel"></button>
-    <button
-      type="button"
-      class="btn btn-primary"
-      (click)="modal.close('save')"
-      translate="device.byname.parameter.alert.save"></button>
   </div>
 </ng-template>
