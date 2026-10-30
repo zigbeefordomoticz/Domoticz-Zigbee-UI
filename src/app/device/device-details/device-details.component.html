@@ -50,63 +50,69 @@
     </section>
   }
   <div class="d-flex flex-wrap gap-4">
-    <dl class="facts mb-0">
-      <dt>{{ 'device.details.name' | translate }}</dt>
-      <dd>
-        @if (device.ZDeviceName) {
-          {{ device.ZDeviceName }}
-        } @else {
-          <span class="text-body-secondary fst-italic">{{ 'device.details.noname' | translate }}</span>
-        }
-      </dd>
-      <dt>{{ 'device.details.nwkid' | translate }}</dt>
-      <dd class="font-monospace">{{ device._NwkId }}</dd>
-      <dt>{{ 'device.details.ieee' | translate }}</dt>
-      <dd class="font-monospace">{{ device.IEEE }}</dd>
-      <dt>{{ 'device.details.model' | translate }}</dt>
-      <dd>{{ device.Model || '—' }}</dd>
-      <dt>{{ 'device.details.manufacturer' | translate }}</dt>
-      <dd>
-        @if (manufacturerName || manufacturerCode) {
-          <span class="font-monospace">{{ manufacturerCode }}</span>
-          @if (manufacturerName && manufacturerCode) {
-            ·
+    <!-- Messages received under the facts when the RSSI chart makes the chart column tall, else under the charts -->
+    <div class="identity d-flex flex-column gap-4">
+      <dl class="facts mb-0">
+        <dt>{{ 'device.details.name' | translate }}</dt>
+        <dd>
+          @if (device.ZDeviceName) {
+            {{ device.ZDeviceName }}
+          } @else {
+            <span class="text-body-secondary fst-italic">{{ 'device.details.noname' | translate }}</span>
           }
-          {{ manufacturerName }}
-        } @else {
-          {{ loading ? '…' : '—' }}
-        }
-      </dd>
-      <dt>{{ 'device.details.profile' | translate }}</dt>
-      <dd>
-        @if (profileId) {
-          <span class="font-monospace">0x{{ profileId }}</span>
-          @if (profileName) {
-            · {{ profileName }}
+        </dd>
+        <dt>{{ 'device.details.nwkid' | translate }}</dt>
+        <dd class="font-monospace">{{ device._NwkId }}</dd>
+        <dt>{{ 'device.details.ieee' | translate }}</dt>
+        <dd class="font-monospace">{{ device.IEEE }}</dd>
+        <dt>{{ 'device.details.model' | translate }}</dt>
+        <dd>{{ device.Model || '—' }}</dd>
+        <dt>{{ 'device.details.manufacturer' | translate }}</dt>
+        <dd>
+          @if (manufacturerName || manufacturerCode) {
+            <span class="font-monospace">{{ manufacturerCode }}</span>
+            @if (manufacturerName && manufacturerCode) {
+              ·
+            }
+            {{ manufacturerName }}
+          } @else {
+            {{ loading ? '…' : '—' }}
           }
-        } @else {
-          {{ loading ? '…' : '—' }}
-        }
-      </dd>
-      <dt>{{ 'device.details.deviceid' | translate }}</dt>
-      <dd>
-        @if (deviceId) {
-          <span class="font-monospace">0x{{ deviceId }}</span>
-          @if (deviceLabel) {
-            · {{ deviceLabel }}
+        </dd>
+        <dt>{{ 'device.details.profile' | translate }}</dt>
+        <dd>
+          @if (profileId) {
+            <span class="font-monospace">0x{{ profileId }}</span>
+            @if (profileName) {
+              · {{ profileName }}
+            }
+          } @else {
+            {{ loading ? '…' : '—' }}
           }
-          @if (deviceEndpoint) {
-            <span class="text-body-secondary"
-              >({{ 'device.details.endpoint' | translate: { ep: deviceEndpoint } }})</span
-            >
+        </dd>
+        <dt>{{ 'device.details.deviceid' | translate }}</dt>
+        <dd>
+          @if (deviceId) {
+            <span class="font-monospace">0x{{ deviceId }}</span>
+            @if (deviceLabel) {
+              · {{ deviceLabel }}
+            }
+            @if (deviceEndpoint) {
+              <span class="text-body-secondary"
+                >({{ 'device.details.endpoint' | translate: { ep: deviceEndpoint } }})</span
+              >
+            }
+          } @else {
+            {{ loading ? '…' : '—' }}
           }
-        } @else {
-          {{ loading ? '…' : '—' }}
-        }
-      </dd>
-      <dt>{{ 'device.details.health' | translate }}</dt>
-      <dd>{{ device.Health | healthLabel | translate }}</dd>
-    </dl>
+        </dd>
+        <dt>{{ 'device.details.health' | translate }}</dt>
+        <dd>{{ device.Health | healthLabel | translate }}</dd>
+      </dl>
+      @if (received && charts.length > 1) {
+        <ng-container *ngTemplateOutlet="receivedCounts" />
+      }
+    </div>
 
     <div class="signal flex-grow-1 d-flex flex-column gap-4">
       @if (loading) {
@@ -157,24 +163,8 @@
           }
         </section>
       }
-      @if (received) {
-        <section aria-labelledby="device-details-received">
-          <h3 class="section-title" id="device-details-received">{{ 'device.details.received' | translate }}</h3>
-          <dl class="received mb-0">
-            <div>
-              <dt>
-                ZDO <span class="hint">{{ 'device.details.received.zdo' | translate }}</span>
-              </dt>
-              <dd>{{ received.zdo | number }}</dd>
-            </div>
-            <div>
-              <dt>
-                ZCL <span class="hint">{{ 'device.details.received.zcl' | translate }}</span>
-              </dt>
-              <dd>{{ received.zcl | number }}</dd>
-            </div>
-          </dl>
-        </section>
+      @if (received && charts.length <= 1) {
+        <ng-container *ngTemplateOutlet="receivedCounts" />
       }
     </div>
   </div>
@@ -315,3 +305,23 @@
     </button>
   </div>
 </div>
+
+<ng-template #receivedCounts>
+  <section aria-labelledby="device-details-received">
+    <h3 class="section-title" id="device-details-received">{{ 'device.details.received' | translate }}</h3>
+    <dl class="received mb-0">
+      <div>
+        <dt>
+          ZDO <span class="hint">{{ 'device.details.received.zdo' | translate }}</span>
+        </dt>
+        <dd>{{ received.zdo | number }}</dd>
+      </div>
+      <div>
+        <dt>
+          ZCL <span class="hint">{{ 'device.details.received.zcl' | translate }}</span>
+        </dt>
+        <dd>{{ received.zcl | number }}</dd>
+      </div>
+    </dl>
+  </section>
+</ng-template>
