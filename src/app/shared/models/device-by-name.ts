@@ -8,6 +8,7 @@ export interface DeviceByName {
   ZDeviceName: string;
   _NwkId: string;
   Param?: string;
+  CheckParam?: boolean;
   Battery?: any;
   ConsistencyCheck?: string;
   LQI?: number;

@@ -8,197 +8,214 @@
       translate="{{ 'device.byname.validate.button' | translate }}"></button>
   </div>
   <div class="card-body">
-    <p
-      class="card-text"
-      [innerHTML]="'group.create.subtitle' | translate"
-      [innerHTML]="'device.byname.subtitle' | translate"></p>
+    <p class="card-text" [innerHTML]="'device.byname.subtitle' | translate"></p>
     <div class="card-text">
       <p-table
         #dt1
-        [globalFilterFields]="['_NwkId', 'IEEE', 'Model', 'WidgetList', 'ZDeviceName', 'MacCapa', 'Status', 'Health']"
+        [globalFilterFields]="['name', 'device._NwkId', 'device.IEEE', 'device.Model', 'device.WidgetList']"
         [rowHover]="true"
         styleClass="p-datatable-sm"
-        dataKey="_NwkId"
+        dataKey="device._NwkId"
         responsiveLayout="scroll"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="{{ 'TOTAL' | translate }}"
         [rowsPerPageOptions]="[10, 25, 50]"
-        [value]="rows"
-        [rows]="10"
+        [value]="visibleRows"
+        [rows]="25"
         [paginator]="true"
         [scrollable]="true"
         stateStorage="local"
-        stateKey="device">
+        stateKey="device-table">
         <ng-template pTemplate="caption">
-          <div class="flex">
-            <span class="p-input-icon-left ml-auto">
-              <i class="pi pi-search"></i>
+          <div class="d-flex flex-wrap align-items-center gap-2">
+            <div
+              class="d-flex flex-wrap gap-2"
+              role="group"
+              [attr.aria-label]="'device.byname.filter.label' | translate">
+              @for (chip of filters; track chip.id) {
+                <button
+                  type="button"
+                  class="btn btn-sm rounded-pill"
+                  [class.btn-primary]="filter === chip.id"
+                  [class.btn-outline-secondary]="filter !== chip.id"
+                  [attr.aria-pressed]="filter === chip.id"
+                  (click)="setFilter(chip.id)">
+                  {{ 'device.byname.filter.' + chip.id | translate }}
+                  <span class="ms-1 opacity-75">{{ chip.count }}</span>
+                </button>
+              }
+            </div>
+            <div class="input-group input-group-sm ms-auto search">
+              <span class="input-group-text"><i class="fas fa-magnifying-glass" aria-hidden="true"></i></span>
+              <input
+                type="search"
+                class="form-control"
+                (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                [value]="$any(dt1.filters['global'])?.value"
+                [attr.aria-label]="'device.byname.search' | translate"
+                placeholder="{{ 'device.byname.search' | translate }}" />
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="min-width: 15rem" pSortableColumn="name">
+              {{ 'device.byname.devicename.column' | translate }}<p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th style="min-width: 11rem" pSortableColumn="device.Model">
+              {{ 'device.byname.model.column' | translate }}<p-sortIcon field="device.Model"></p-sortIcon>
+            </th>
+            <th style="min-width: 9rem" pSortableColumn="device._NwkId">
+              {{ 'device.byname.address.column' | translate }}<p-sortIcon field="device._NwkId"></p-sortIcon>
+            </th>
+            <th style="min-width: 7rem" pSortableColumn="powerSort">
+              {{ 'device.byname.power.column' | translate }}<p-sortIcon field="powerSort"></p-sortIcon>
+            </th>
+            <th style="min-width: 8rem" pSortableColumn="lqi">
+              {{ 'device.byname.lqi.column' | translate }}<p-sortIcon field="lqi"></p-sortIcon>
+            </th>
+            <th style="min-width: 8rem" pSortableColumn="healthRank">
+              {{ 'device.byname.health.column' | translate }}<p-sortIcon field="healthRank"></p-sortIcon>
+            </th>
+            <th style="min-width: 7rem" pSortableColumn="paramCount">
+              {{ 'device.byname.devicename.param' | translate }}<p-sortIcon field="paramCount"></p-sortIcon>
+            </th>
+            <th style="width: 3rem">
+              <span class="visually-hidden">{{ 'device.byname.delete.colum' | translate }}</span>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row>
+          <tr>
+            <td>
               <input
                 pInputText
                 type="text"
-                (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                [value]="$any(dt1.filters['global'])?.value"
-                placeholder="{{ 'device.byname.placeholder' | translate }}" />
-            </span>
-          </div>
-        </ng-template>
-        <ng-template pTemplate="header" let-columns>
-          <tr>
-            <th style="width: 1rem">
-              {{ 'device.byname.trash.column' | translate }}
-            </th>
-            <th style="width: 1rem">
-              {{ 'device.byname.optimized.column' | translate }}
-            </th>
-            <th style="width: 7rem" pSortableColumn="_NwkId">
-              {{ 'device.byname.shortid.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
-            </th>
-            <th style="width: 5rem" pSortableColumn="IEEE">
-              {{ 'device.byname.ieee.column' | translate }}<p-sortIcon field="IEEE"></p-sortIcon>
-            </th>
-            <th style="width: 13rem" pSortableColumn="Model">
-              {{ 'device.byname.model.column' | translate }}<p-sortIcon field="Model"></p-sortIcon>
-            </th>
-            <th style="width: 15rem" pSortableColumn="WidgetList">
-              {{ 'device.byname.widget.column' | translate }}<p-sortIcon field="WidgetList"></p-sortIcon>
-            </th>
-            <th style="width: 20rem" pSortableColumn="ZDeviceName">
-              {{ 'device.byname.devicename.column' | translate }}<p-sortIcon field="ZDeviceName"></p-sortIcon>
-            </th>
-            <th style="width: 10rem" pSortableColumn="MacCapa">
-              {{ 'device.byname.capabilities.column' | translate }}<p-sortIcon field="MacCapa"></p-sortIcon>
-            </th>
-            <th style="width: 5rem" pSortableColumn="LQI">
-              {{ 'device.byname.lqi.column' | translate }}<p-sortIcon field="LQI"></p-sortIcon>
-            </th>
-            @if (showRSSI) {
-              <th style="width: 5rem" pSortableColumn="RSSI">
-                {{ 'device.byname.rssi.column' | translate }}<p-sortIcon field="RSSI"></p-sortIcon>
-              </th>
-            }
-            <th style="width: 7rem" pSortableColumn="Status">
-              {{ 'device.byname.status.column' | translate }}<p-sortIcon field="Status"></p-sortIcon>
-            </th>
-            <th style="width: 6rem" pSortableColumn="Health">
-              {{ 'device.byname.health.column' | translate }}<p-sortIcon field="Health"></p-sortIcon>
-            </th>
-            <th style="width: 2rem">
-              {{ 'device.byname.devicename.param' | translate }}
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template
-          pTemplate="body"
-          let-editing="editing"
-          let-row
-          let-rowIndex="rowIndex"
-          let-columns="columns"
-          let-expanded="expanded">
-          <tr>
+                class="w-100"
+                [(ngModel)]="row.device.ZDeviceName"
+                [placeholder]="row.device.Model || row.device._NwkId"
+                [attr.aria-label]="('device.byname.devicename.column' | translate) + ' ' + row.device._NwkId"
+                (input)="hasEditing = true"
+                (change)="refreshRow(row.device)" />
+              <div class="small text-body-secondary text-truncate mt-1">
+                @if (row.widgetCount === 0) {
+                  {{ 'device.byname.widgets.none' | translate }}
+                } @else if (row.widgetCount === 1) {
+                  {{ row.device.WidgetList[0] }}
+                } @else {
+                  {{ 'device.byname.widgets.count' | translate: { count: row.widgetCount } }} ·
+                  {{ row.device.WidgetList[0] }}, …
+                }
+              </div>
+            </td>
             <td>
-              @if (row.Param !== '{}') {
+              <div class="text-truncate">{{ row.device.Model || '—' }}</div>
+              <button
+                type="button"
+                class="btn btn-link btn-sm p-0 small text-decoration-none"
+                [class.text-success]="row.device.CertifiedDevice"
+                [class.text-warning-emphasis]="!row.device.CertifiedDevice"
+                [ngbPopover]="
+                  (row.device.CertifiedDevice
+                    ? 'device.byname.optimized.popover.text.ok'
+                    : 'device.byname.optimized.popover.text.ko'
+                  ) | translate
+                "
+                triggers="mouseenter:mouseleave"
+                (click)="copy(row.device)">
+                @if (row.device.CertifiedDevice) {
+                  <i class="fas fa-check me-1" aria-hidden="true"></i>{{ 'device.byname.optimized' | translate }}
+                } @else {
+                  <i class="fas fa-triangle-exclamation me-1" aria-hidden="true"></i
+                  >{{ 'device.byname.notoptimized' | translate }}
+                }
+              </button>
+            </td>
+            <td>
+              <div class="font-monospace fw-semibold">{{ row.device._NwkId }}</div>
+              <div class="font-monospace small text-body-secondary">{{ row.device.IEEE }}</div>
+            </td>
+            <td>
+              <div [class.text-danger]="row.lowBattery">
+                @if (row.mains) {
+                  <i class="fas fa-plug me-1" aria-hidden="true"></i>{{ 'device.byname.power.mains' | translate }}
+                } @else {
+                  <i class="fas fa-battery-half me-1" aria-hidden="true"></i
+                  >{{ row.battery === null ? '—' : row.battery + ' %' }}
+                }
+              </div>
+              <div class="small text-body-secondary">
+                {{ (row.router ? 'device.byname.role.router' : 'device.byname.role.enddevice') | translate }}
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <span class="lqi-bar" aria-hidden="true">
+                  <span
+                    [style.width.%]="(row.lqi * 100) / 255"
+                    [class.bg-success]="row.lqi >= 100"
+                    [class.bg-warning]="row.lqi >= 40 && row.lqi < 100"
+                    [class.bg-danger]="row.lqi < 40"></span>
+                </span>
+                <span class="tabular">{{ row.device.LQI === '' ? '—' : row.lqi }}</span>
+              </div>
+              @if (showRSSI && row.device.RSSI) {
+                <div class="small text-body-secondary">
+                  {{ 'device.byname.rssi.column' | translate }} {{ row.device.RSSI }}
+                </div>
+              }
+            </td>
+            <td>
+              <span class="badge rounded-pill health-{{ row.healthTone }}">{{
+                row.device.Health | healthLabel | translate
+              }}</span>
+              @if (row.statusWarning) {
+                <div class="small text-warning-emphasis mt-1">
+                  {{ row.statusWarning | translate: { status: row.device.Status } }}
+                </div>
+              }
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-secondary text-nowrap"
+                [ngbPopover]="'device.byname.parameter.popover.text' | translate"
+                [popoverTitle]="'device.byname.parameter.popover.title' | translate"
+                triggers="mouseenter:mouseleave"
+                (click)="rowParameter = row.device; editParameter(editContent)">
+                <i class="fas fa-sliders me-1" aria-hidden="true"></i>
+                {{
+                  row.paramCount === 0
+                    ? ('device.byname.param.none' | translate)
+                    : ('device.byname.param.count' | translate: { count: row.paramCount })
+                }}
+                @if (row.device.CheckParam) {
+                  <span class="pending-dot ms-1" [title]="'device.byname.param.pending' | translate"></span>
+                }
+              </button>
+            </td>
+            <td>
+              @if (
+                row.device.ConsistencyCheck === 'not in DZ' ||
+                row.device.ConsistencyCheck === 'Bad Pairing' ||
+                row.widgetCount === 0
+              ) {
                 <button
                   type="button"
-                  pButton
-                  pRipple
-                  [pRowToggler]="row"
-                  class="p-button-text p-button-rounded p-button-plain"
-                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                  class="btn btn-sm btn-link text-danger"
+                  [title]="'device.byname.delete.colum' | translate"
+                  [attr.aria-label]="('device.byname.delete.colum' | translate) + ' ' + row.name"
+                  (click)="rowToDelete = row.device; open(content)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
               }
-              @if (
-                row.ConsistencyCheck === 'not in DZ' ||
-                row.ConsistencyCheck === 'Bad Pairing' ||
-                !row.WidgetList ||
-                row.WidgetList.length === 0
-              ) {
-                <i
-                  class="fa fa-trash"
-                  style="cursor: pointer"
-                  title="{{ 'device.byname.delete.colum' | translate }}"
-                  (click)="rowToDelete = row; open(content)"></i>
-              }
-            </td>
-            <td>
-              @if (row.CertifiedDevice) {
-                <div (click)="copy(row)">
-                  <div class="container">
-                    <shared-custom-icon
-                      ngbPopover="{{ 'device.byname.optimized.popover.text.ok' | translate }}"
-                      triggers="mouseenter:mouseleave"
-                      popoverTitle="{{ 'device.byname.optimized.popover.title.ok' | translate }}"
-                      class="container__icon container__icon--green"
-                      iconName="CHECK_ICON">
-                    </shared-custom-icon>
-                  </div>
-                </div>
-              }
-              @if (!row.CertifiedDevice) {
-                <div (click)="copy(row)">
-                  <div class="container">
-                    <shared-custom-icon
-                      ngbPopover="{{ 'device.byname.optimized.popover.text.ko' | translate }}"
-                      triggers="mouseenter:mouseleave"
-                      popoverTitle="{{ 'device.byname.optimized.popover.title.ko' | translate }}"
-                      class="container__icon container__icon--orange"
-                      iconName="X_ICON">
-                    </shared-custom-icon>
-                  </div>
-                </div>
-              }
-            </td>
-            <td>{{ row._NwkId }}</td>
-            <td>{{ row.IEEE }}</td>
-            <td>{{ row.Model }}</td>
-            <td>
-              @for (widget of row.WidgetList; track widget) {
-                <div>
-                  {{ widget }}
-                </div>
-              }
-            </td>
-            <td [pEditableColumn]="row.ZDeviceName" pEditableColumnField="ZDeviceName">
-              <p-cellEditor>
-                <ng-template pTemplate="input">
-                  <input pInputText type="text" [(ngModel)]="row.ZDeviceName" (input)="hasEditing = true" />
-                </ng-template>
-                <ng-template pTemplate="output">
-                  <input pInputText type="text" [(ngModel)]="row.ZDeviceName" (input)="hasEditing = true" />
-                </ng-template>
-              </p-cellEditor>
-            </td>
-            <td>
-              @for (capa of row.MacCapa; track capa) {
-                <div>
-                  {{ capa }}
-                </div>
-              }
-            </td>
-            <td>{{ row.LQI }}</td>
-            @if (showRSSI) {
-              <td>{{ row.RSSI }}</td>
-            }
-            <td>{{ row.Status }}</td>
-            <td>{{ row.Health | healthLabel | translate }}</td>
-            <td>
-              <i
-                ngbPopover="{{ 'device.byname.parameter.popover.text' | translate }}"
-                triggers="mouseenter:mouseleave"
-                popoverTitle="{{ 'device.byname.parameter.popover.title' | translate }}"
-                class="fas fa-cog"
-                style="cursor: pointer"
-                [style.color]="row.CheckParam ? 'orange' : 'green'"
-                (click)="rowParameter = row; editParameter(editContent)"></i>
             </td>
           </tr>
         </ng-template>
-        <ng-template pTemplate="expandedrow" let-row>
+        <ng-template pTemplate="emptymessage">
           <tr>
-            <td colspan="12">
-              <div style="padding-left: 35px">
-                <div>
-                  <strong>{{ 'device.byname.devicename.param' | translate }} : </strong> {{ row.Param }}
-                </div>
-              </div>
+            <td colspan="8" class="text-center text-body-secondary py-4">
+              {{ 'device.byname.filter.empty' | translate }}
             </td>
           </tr>
         </ng-template>
