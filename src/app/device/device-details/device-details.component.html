@@ -15,9 +15,11 @@
 </div>
 
 <div class="modal-body d-flex flex-column gap-4">
-  @if (notes.length) {
-    <section class="notes" aria-labelledby="device-details-notes">
-      <h3 class="section-title" id="device-details-notes">{{ 'device.details.conf' | translate }}</h3>
+  @if (notes.length || blakadder) {
+    <section class="notes" [attr.aria-labelledby]="notes.length ? 'device-details-notes' : 'device-details-blakadder'">
+      @if (notes.length) {
+        <h3 class="section-title" id="device-details-notes">{{ 'device.details.conf' | translate }}</h3>
+      }
       @for (note of notes; track $index) {
         @if (note.url) {
           <a class="d-inline-block small" [href]="note.url" target="_blank" rel="noopener noreferrer"
@@ -26,6 +28,24 @@
         } @else {
           <p class="mb-1 note" [class.fw-semibold]="note.lead">{{ note.text }}</p>
         }
+      }
+      @if (blakadder) {
+        <div class="d-flex flex-wrap align-items-center gap-2 small" [class.mt-2]="notes.length">
+          <span class="fw-semibold" id="device-details-blakadder"
+            ><i class="fas fa-book-open me-1" aria-hidden="true"></i>Blakadder</span
+          >
+          @if (blakadder.url) {
+            <a [href]="blakadder.url" target="_blank" rel="noopener noreferrer"
+              >{{ blakadder.text }}<i class="fas fa-arrow-up-right-from-square ms-1" aria-hidden="true"></i
+            ></a>
+          } @else {
+            <span class="text-body-secondary">{{ 'device.details.blakadder.missing' | translate }}</span>
+            <a [href]="blakadderNew" target="_blank" rel="noopener noreferrer"
+              >{{ 'device.details.blakadder.create' | translate
+              }}<i class="fas fa-arrow-up-right-from-square ms-1" aria-hidden="true"></i
+            ></a>
+          }
+        </div>
       }
     </section>
   }

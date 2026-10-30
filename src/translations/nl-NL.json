@@ -293,6 +293,8 @@
   "device.details.removed": "Apparaat verwijderd.",
   "device.details.row.open": "Details van {{name}}",
   "device.details.conf": "Uit de apparaatconfiguratie",
+  "device.details.blakadder.missing": "Nog geen Blakadder-pagina voor dit apparaat.",
+  "device.details.blakadder.create": "Maak alstublieft de apparaatinfo aan",
   "device.details.rssi": "Signaalsterkte (RSSI), laatste metingen",
   "device.details.rssi.summary": "Laatste {{latest}} dBm · min {{min}} · max {{max}}",
   "device.details.rssi.reading": "Meting {{index}} van {{count}}: {{value}} dBm",

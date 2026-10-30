@@ -8,6 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { decodeNodeDescriptor, NodeDescriptor, rollingLqi, rollingRssi } from './node-descriptor';
 
+// Where Blakadder takes a device it does not list yet
+const BLAKADDER_NEW = 'https://zigbee.blakadder.com/new.html';
+
 const PROFILES: { [id: string]: string } = { '0104': 'Home Automation', c05e: 'Light Link', a1e0: 'Green Power' };
 
 // Signal chart geometry (SVG user units)
@@ -72,8 +75,11 @@ export class DeviceDetailsComponent implements OnInit {
   signal: number[] = [];
   bars: SignalBar[] = [];
   descriptor: NodeDescriptor | null = null;
-  // _description, _comment, _blakadder of the model configuration (plugin "DeviceConfInfo", absent before it)
+  // _description, _comment of the model configuration (plugin "DeviceConfInfo", absent before it)
   notes: ConfNote[] = [];
+  // The device's Blakadder page from the same notes; { } when it has none; null without DeviceConfInfo (older plugin)
+  blakadder: { url?: string; text?: string } | null = null;
+  readonly blakadderNew = BLAKADDER_NEW;
 
   constructor(
     public modal: NgbActiveModal,
@@ -88,6 +94,7 @@ export class DeviceDetailsComponent implements OnInit {
       next: answer => {
         this.read(answer?.Device);
         this.notes = this.confNotes(answer?.DeviceConfInfo);
+        this.blakadder = this.blakadderPage(answer?.DeviceConfInfo);
       },
       error: () => {
         this.loading = false;
@@ -170,7 +177,7 @@ export class DeviceDetailsComponent implements OnInit {
     this.descriptor = decodeNodeDescriptor(record._rawNodeDescriptor);
   }
 
-  /** Description first, then the comment and the Blakadder page; a value repeated is shown once. */
+  /** Description first, then the comment; a value repeated is shown once. Blakadder pages have their own line. */
   private confNotes(info: unknown): ConfNote[] {
     if (!info || typeof info !== 'object') {
       return [];
@@ -179,7 +186,7 @@ export class DeviceDetailsComponent implements OnInit {
     const seen = new Set<string>();
     const add = (value: unknown, lead = false) => {
       const text = (Array.isArray(value) ? value.join('\n') : typeof value === 'string' ? value : '').trim();
-      if (!text || seen.has(text)) {
+      if (!text || seen.has(text) || this.isBlakadder(text)) {
         return;
       }
       seen.add(text);
@@ -188,8 +195,27 @@ export class DeviceDetailsComponent implements OnInit {
     const values = info as { [key: string]: unknown };
     add(values._description, true);
     add(values._comment);
-    add(values._blakadder);
     return notes;
+  }
+
+  /** The Blakadder page named in the notes: _blakadder, or a _comment / _description that is that URL. */
+  private blakadderPage(info: unknown): { url?: string; text?: string } | null {
+    if (!info || typeof info !== 'object') {
+      return null;
+    }
+    const values = info as { [key: string]: unknown };
+    const url = [values._blakadder, values._comment, values._description]
+      .map(value => (typeof value === 'string' ? value.trim() : ''))
+      .find(value => this.isBlakadder(value));
+    return url ? { url, text: this.linkText(url) } : {};
+  }
+
+  private isBlakadder(text: string): boolean {
+    if (!/^https?:\/\/\S+$/.test(text)) {
+      return false;
+    }
+    const host = new URL(text).hostname;
+    return host === 'blakadder.com' || host.endsWith('.blakadder.com');
   }
 
   /** "zigbee.blakadder.com › Philips_8718699673147": the site, and which page of it. */
