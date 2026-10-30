@@ -1,11 +1,6 @@
 <div class="card">
   <div class="card-header fw-bold">
     {{ 'device.byname.header' | translate }}
-    <button
-      [disabled]="!hasEditing"
-      (click)="updateDevices()"
-      class="btn btn-primary float-end"
-      translate="{{ 'device.byname.validate.button' | translate }}"></button>
   </div>
   <div class="card-body">
     <p class="card-text" [innerHTML]="'device.byname.subtitle' | translate"></p>
@@ -88,15 +83,56 @@
         <ng-template pTemplate="body" let-row>
           <tr>
             <td>
-              <input
-                pInputText
-                type="text"
-                class="w-100"
-                [(ngModel)]="row.device.ZDeviceName"
-                [placeholder]="row.device.Model || row.device._NwkId"
-                [attr.aria-label]="('device.byname.devicename.column' | translate) + ' ' + row.device._NwkId"
-                (input)="hasEditing = true"
-                (change)="refreshRow(row.device)" />
+              @if (editingNwkId === row.device._NwkId) {
+                <div class="input-group input-group-sm">
+                  <input
+                    #nameInput
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="nameDraft"
+                    [disabled]="saving"
+                    [placeholder]="row.device.Model || row.device._NwkId"
+                    [attr.aria-label]="('device.byname.devicename.column' | translate) + ' ' + row.device._NwkId"
+                    (keydown.enter)="saveName(row)"
+                    (keydown.escape)="cancelEdit()"
+                    (blur)="cancelEdit()" />
+                  <!-- mousedown would blur the input, and blur cancels: keep the focus -->
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    [disabled]="saving"
+                    [title]="'device.byname.name.save' | translate"
+                    [attr.aria-label]="'device.byname.name.save' | translate"
+                    (mousedown)="$event.preventDefault()"
+                    (click)="saveName(row)">
+                    <i class="fas fa-check" aria-hidden="true"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    [disabled]="saving"
+                    [title]="'device.byname.name.cancel' | translate"
+                    [attr.aria-label]="'device.byname.name.cancel' | translate"
+                    (mousedown)="$event.preventDefault()"
+                    (click)="cancelEdit()">
+                    <i class="fas fa-xmark" aria-hidden="true"></i>
+                  </button>
+                </div>
+              } @else {
+                <button
+                  type="button"
+                  class="btn btn-link p-0 name-button"
+                  [title]="'device.byname.name.edit' | translate"
+                  [attr.aria-label]="('device.byname.name.edit' | translate) + ' ' + row.name"
+                  (click)="startEdit(row)">
+                  @if (row.device.ZDeviceName) {
+                    <span class="fw-semibold">{{ row.device.ZDeviceName }}</span>
+                  } @else {
+                    <span class="text-body-secondary fst-italic">{{ row.name }}</span>
+                  }
+                  <i class="fas fa-pen ms-2 name-pen" aria-hidden="true"></i>
+                </button>
+              }
               <div class="small text-body-secondary text-truncate mt-1">
                 @if (row.widgetCount === 0) {
                   {{ 'device.byname.widgets.none' | translate }}
@@ -247,7 +283,7 @@
 <ng-template #editContent let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title" translate="device.byname.parameter.alert.title"></h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.close('cancel')"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
   </div>
   <div class="modal-body">
     <div [innerHTML]="'device.byname.parameter.alert.subject' | translate"></div>
