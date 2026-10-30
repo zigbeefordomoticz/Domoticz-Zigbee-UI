@@ -1,27 +1,57 @@
-.container {
-  display: flex;
+textarea {
+  width: 100%;
+}
 
-  &--green {
-    color: green;
-  }
+.search {
+  width: 20rem;
+  max-width: 100%;
+}
 
-  &--primary-color {
-    color: var(--primary-color);
-  }
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
 
-  &__icon {
-    flex: 1;
+.lqi-bar {
+  display: inline-block;
+  width: 3.5rem;
+  height: 0.375rem;
+  overflow: hidden;
+  border-radius: 0.1875rem;
+  background: var(--bs-secondary-bg);
 
-    &--orange {
-      color: orange;
-    }
-
-    &--green {
-      color: green;
-    }
+  > span {
+    display: block;
+    height: 100%;
   }
 }
 
-textarea {
-  width: 100%;
+// Health pill: one tone per plugin Health family (see healthTone in the component)
+.health-success {
+  background: var(--bs-success-bg-subtle);
+  color: var(--bs-success-text-emphasis);
+}
+
+.health-warning {
+  background: var(--bs-warning-bg-subtle);
+  color: var(--bs-warning-text-emphasis);
+}
+
+.health-danger {
+  background: var(--bs-danger-bg-subtle);
+  color: var(--bs-danger-text-emphasis);
+}
+
+.health-secondary {
+  background: var(--bs-secondary-bg);
+  color: var(--bs-secondary-color);
+}
+
+// Parameters saved, not yet applied by the plugin (CheckParam)
+.pending-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--bs-orange);
+  vertical-align: middle;
 }
