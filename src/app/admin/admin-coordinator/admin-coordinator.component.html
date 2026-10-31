@@ -1,0 +1,137 @@
+<div class="coordinator-row">
+  <div class="side">
+    <section class="card">
+      <div class="card-body">
+        <h2 class="card-title" translate="admin.coord.info.title"></h2>
+        <dl class="facts">
+          <dt translate="admin.coord.radio"></dt>
+          <dd>{{ plugin?.CoordinatorModel || '—' }}</dd>
+          <dt translate="admin.coord.firmware"></dt>
+          <dd>{{ plugin?.CoordinatorFirmwareVersion || coordinator?.['Display Firmware Version'] || '—' }}</dd>
+          <dt translate="admin.coord.ieee"></dt>
+          <dd class="font-monospace">{{ coordinator?.IEEE || '—' }}</dd>
+          <dt translate="admin.coord.nwkid"></dt>
+          <dd class="font-monospace">{{ coordinator?.['Short Address'] || '—' }}</dd>
+          <dt translate="admin.coord.channel"></dt>
+          <dd>{{ channel ?? '—' }}</dd>
+          <dt translate="admin.coord.panid"></dt>
+          <dd class="font-monospace">{{ coordinator?.PANID || '—' }}</dd>
+          <dt translate="admin.coord.extpanid"></dt>
+          <dd class="font-monospace">{{ coordinator?.['Extended PANID'] || '—' }}</dd>
+        </dl>
+      </div>
+    </section>
+
+    @if (canSoftReset) {
+      <section class="card">
+        <div class="card-body">
+          <h2 class="card-title" translate="admin.coord.reset.title"></h2>
+          <div class="action-row">
+            <span class="hint" translate="admin.coord.reset.hint"></span>
+            <button type="button" class="btn btn-outline-secondary" (click)="softReset()">
+              {{ 'admin.coord.reset.button' | translate }}
+            </button>
+          </div>
+        </div>
+      </section>
+    }
+  </div>
+
+  <section class="card channel-card">
+    <div class="card-body">
+      <h2 class="card-title" translate="admin.coord.channel.title"></h2>
+      @if (hasEnergy) {
+        <p class="hint">
+          {{
+            'admin.coord.channel.energy'
+              | translate: { date: (scanTime * 1000 | date: 'dd/MM/yyyy HH:mm'), count: scanRouters }
+          }}
+        </p>
+        <div class="chart" aria-hidden="true">
+          @for (bar of bars; track bar.channel) {
+            <div class="column">
+              <span class="value">{{ bar.level ?? '' }}</span>
+              <div
+                class="bar"
+                [class.current]="bar.channel === channel"
+                [class.selected]="bar.channel === selected"
+                [style.height.%]="bar.height"></div>
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="hint">
+          {{ 'admin.coord.channel.noscan' | translate }}
+          <a routerLink="/network/energy-level">{{ 'admin.coord.channel.scanlink' | translate }}</a>
+        </p>
+      }
+
+      <div class="channels" role="group" [attr.aria-label]="'admin.coord.channel.title' | translate">
+        @for (bar of bars; track bar.channel) {
+          <button
+            type="button"
+            class="channel"
+            [class.current]="bar.channel === channel"
+            [class.selected]="bar.channel === selected"
+            [attr.aria-pressed]="bar.channel === selected"
+            [attr.aria-label]="levelLabel(bar)"
+            [title]="levelLabel(bar)"
+            [disabled]="bar.channel === channel"
+            (click)="select(bar.channel)">
+            {{ bar.channel }}
+          </button>
+        }
+      </div>
+
+      <div class="legend">
+        <span
+          ><i class="swatch current"></i
+          >{{ 'admin.coord.channel.current' | translate: { channel: channel ?? '—' } }}</span
+        >
+        @if (selected) {
+          <span
+            ><i class="swatch selected"></i
+            >{{ 'admin.coord.channel.selected' | translate: { channel: selected } }}</span
+          >
+        }
+        <span translate="admin.coord.channel.wifi"></span>
+      </div>
+
+      <div class="alert alert-warning small mb-3" role="note">
+        <b translate="admin.coord.channel.warning.title"></b>
+        {{ 'admin.coord.channel.warning' | translate }}
+      </div>
+
+      <div class="actions">
+        @if (selected) {
+          <button type="button" class="btn btn-outline-secondary" (click)="selected = null">
+            {{ 'admin.coord.channel.cancel' | translate }}
+          </button>
+        }
+        <button type="button" class="btn btn-primary" [disabled]="!selected" (click)="confirmChannel(channelModal)">
+          {{ 'admin.coord.channel.button' | translate: { channel: selected ?? '…' } }}
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<ng-template #channelModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="channel-title">
+      {{ 'admin.coord.channel.confirm.title' | translate: { channel: selected } }}
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cross')"></button>
+  </div>
+  <div class="modal-body" translate="admin.coord.channel.warning"></div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="modal.dismiss('cancel')"
+      translate="admin.coord.channel.cancel"></button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('change')">
+      {{ 'admin.coord.channel.button' | translate: { channel: selected } }}
+    </button>
+  </div>
+</ng-template>
