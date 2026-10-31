@@ -59,6 +59,9 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
   devices: FirmwareDevice[];
   otherDevices: FirmwareDevice[] = [];
   showOtherDevices = false;
+  // Devices the plugin never offers the selected file to, because of their model
+  excludedDevices: DevicesByManufacturer[] = [];
+  showExcludedDevices = false;
   selected = new Set<string>();
   force = false;
 
@@ -132,7 +135,10 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
       if (firmware !== this.selectedFirmware) {
         return;
       }
-      const all = (devices ?? []).map(device => this.withStatus(device, firmware));
+      // The plugin says which files a device must never get (ExcludedFiles): not offered here
+      const excluded = (device: DevicesByManufacturer) => device.ExcludedFiles?.includes(firmware.FileName);
+      this.excludedDevices = (devices ?? []).filter(excluded);
+      const all = (devices ?? []).filter(device => !excluded(device)).map(device => this.withStatus(device, firmware));
       this.devices = all.filter(device => device.status !== 'other');
       this.otherDevices = all.filter(device => device.status === 'other');
     });
@@ -294,6 +300,8 @@ export class FirmwareComponent extends UnsubscribeOnDestroyAdapter implements On
     this.devices = null;
     this.otherDevices = [];
     this.showOtherDevices = false;
+    this.excludedDevices = [];
+    this.showExcludedDevices = false;
     this.selected.clear();
   }
 
