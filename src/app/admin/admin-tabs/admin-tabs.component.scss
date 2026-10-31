@@ -1,0 +1,79 @@
+.status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.8125rem;
+  background-color: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-lg);
+}
+
+.status-item {
+  display: inline-flex;
+  gap: 0.375rem;
+  align-items: center;
+  color: var(--bs-body-color);
+
+  b {
+    font-weight: 600;
+  }
+}
+
+a.status-item:hover {
+  text-decoration: underline;
+}
+
+.dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.dot-success {
+  background-color: var(--bs-success);
+}
+
+.dot-info {
+  background-color: var(--bs-primary);
+}
+
+.dot-warning {
+  background-color: var(--bs-warning);
+}
+
+.dot-muted {
+  background-color: var(--bs-secondary-bg-subtle);
+  border: 1px solid var(--bs-border-color);
+}
+
+// One line of tabs; on a phone it scrolls sideways rather than wrapping under itself
+.admin-tabs {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+.admin-tab {
+  margin-bottom: -1px;
+  padding: 0.625rem 0.875rem;
+  color: var(--bs-secondary-color);
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    color: var(--bs-body-color);
+  }
+
+  &.active {
+    font-weight: 600;
+    color: var(--bs-body-color);
+    border-bottom-color: var(--bs-primary);
+  }
+}

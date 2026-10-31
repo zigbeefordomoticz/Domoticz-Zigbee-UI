@@ -7,14 +7,14 @@ import { ErasePdmComponent } from './erase-pdm/erase-pdm.component';
 import { FirmwareComponent } from './firmware/firmware.component';
 import { PermitToJoinRouterComponent } from './permit-to-join-router/permit-to-join-router.component';
 import { PermitToJoinComponent } from './permit-to-join/permit-to-join.component';
-import { ReloadPluginComponent } from './reload-plugin/reload-plugin.component';
 import { RescanGroupComponent } from './rescan-group/rescan-group.component';
 import { ScanGroupDeviceComponent } from './scan-group-device/scan-group-device.component';
 import { SwResetComponent } from './sw-reset/sw-reset.component';
 import { SwitchChannelComponent } from './switch-channel/switch-channel.component';
 import { PairingFullResetComponent } from './pairing-full-reset/pairing-full-reset.component';
 import { RecreateWidgetComponent } from './recreate-widget/recreate-widget.component';
-import { UpdatePluginComponent } from './update-plugin/update-plugin.component';
+import { AdminPluginComponent } from './admin-plugin/admin-plugin.component';
+import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
 
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
@@ -25,14 +25,14 @@ import { UpdatePluginComponent } from './update-plugin/update-plugin.component';
     PermitToJoinRouterComponent,
     SwResetComponent,
     ErasePdmComponent,
-    ReloadPluginComponent,
     RescanGroupComponent,
     AssistProvisionningComponent,
     ScanGroupDeviceComponent,
     SwitchChannelComponent,
     PairingFullResetComponent,
     RecreateWidgetComponent,
-    UpdatePluginComponent
+    AdminTabsComponent,
+    AdminPluginComponent
   ]
 })
 export class AdminModule {}

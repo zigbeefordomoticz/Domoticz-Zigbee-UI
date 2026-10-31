@@ -1,0 +1,67 @@
+<div class="status-bar" role="status">
+  <span class="status-item">
+    <span class="dot dot-success"></span>
+    <span translate="dashboard.kpi.plugin"></span>
+    @if (identity?.release) {
+      <b>{{ identity?.version || '—' }}</b>
+      @if (identity?.branch) {
+        <span>· {{ identity.branch }}</span>
+      }
+    } @else if (identity) {
+      <b>{{ identity.gitBranch || ('dashboard.kpi.plugin.detached' | translate) }}</b>
+      <span>· {{ 'dashboard.kpi.plugin.commit' | translate: { commit: identity.commit } }}</span>
+    }
+  </span>
+  <span class="status-item">
+    <span class="dot dot-success"></span>
+    <span translate="dashboard.kpi.coordinator"></span>
+    <b>{{ plugin?.CoordinatorModel || '—' }}</b>
+    @if (channel !== null) {
+      <span>· {{ 'admin.status.channel' | translate: { channel: channel } }}</span>
+    }
+  </span>
+  <span class="status-item">
+    <span class="dot" [class.dot-success]="pairingOpen" [class.dot-muted]="!pairingOpen"></span>
+    <span translate="admin.status.pairing"></span>
+    @if (pairingPermanent) {
+      <b translate="admin.status.pairing.permanent"></b>
+    } @else if (pairingOpen) {
+      <b>{{ 'admin.status.pairing.left' | translate: { time: pairingLeft } }}</b>
+    } @else {
+      <b translate="admin.status.pairing.closed"></b>
+    }
+  </span>
+  @if (otaDevice) {
+    <a class="status-item" routerLink="/admin/firmware">
+      <span class="dot dot-info"></span>
+      <span translate="admin.status.ota"></span>
+      <b>{{ otaDevice }} {{ otaProgress }}</b>
+    </a>
+  }
+  @if (restartNeeded > 0) {
+    <a class="status-item" routerLink="/admin" [queryParams]="{ action: 'plugin' }">
+      <span class="dot dot-warning"></span>
+      <b translate="admin.status.restart"></b>
+    </a>
+  }
+</div>
+
+<nav class="admin-tabs" [attr.aria-label]="'admin.tabs.label' | translate">
+  @for (tab of tabs; track tab.action) {
+    <a
+      class="admin-tab"
+      [class.active]="active === tab.action"
+      [attr.aria-current]="active === tab.action ? 'page' : null"
+      routerLink="/admin"
+      [queryParams]="{ action: tab.action }"
+      >{{ tab.label | translate }}</a
+    >
+  }
+  <a
+    class="admin-tab"
+    [class.active]="active === 'firmware'"
+    [attr.aria-current]="active === 'firmware' ? 'page' : null"
+    routerLink="/admin/firmware"
+    >{{ 'admin.firmware' | translate }}</a
+  >
+</nav>

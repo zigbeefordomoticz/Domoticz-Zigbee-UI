@@ -1,37 +1,28 @@
-<div class="row row-cols-1 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
-  @if (action === 'pairing') {
-    <app-assist-provisionning></app-assist-provisionning>
-  }
-  @if (action === 'pairing') {
-    <app-permit-to-join></app-permit-to-join>
-  }
-  @if (action === 'pairing') {
-    <app-permit-to-join-router></app-permit-to-join-router>
-  }
-  @if (action === 'pairing') {
-    <app-pairing-full-reset></app-pairing-full-reset>
-  }
-  @if (action === 'pairing') {
-    <app-recreate-widget></app-recreate-widget>
-  }
-  @if (action === 'coordinator') {
-    <app-sw-reset></app-sw-reset>
-  }
-  @if (action === 'coordinator') {
-    <app-switch-channel></app-switch-channel>
-  }
-  @if (action === 'group') {
-    <app-rescan-group></app-rescan-group>
-  }
-  @if (action === 'group') {
-    <app-scan-group-device></app-scan-group-device>
-  }
-  @if (action === 'plugin') {
-    <div class="col-md-12 col-lg-12 col-xl-12 col-xxl-6">
-      <app-update-plugin></app-update-plugin>
+<app-admin-tabs [active]="action"></app-admin-tabs>
+
+@switch (action) {
+  @case ('pairing') {
+    <div class="row row-cols-1 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+      <app-assist-provisionning></app-assist-provisionning>
+      <app-permit-to-join></app-permit-to-join>
+      <app-permit-to-join-router></app-permit-to-join-router>
+      <app-pairing-full-reset></app-pairing-full-reset>
+      <app-recreate-widget></app-recreate-widget>
     </div>
   }
-  @if (action === 'plugin') {
-    <div class="col"><app-reload-plugin></app-reload-plugin></div>
+  @case ('group') {
+    <div class="row row-cols-1 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+      <app-rescan-group></app-rescan-group>
+      <app-scan-group-device></app-scan-group-device>
+    </div>
   }
-</div>
+  @case ('coordinator') {
+    <div class="row row-cols-1 row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+      <app-sw-reset></app-sw-reset>
+      <app-switch-channel></app-switch-channel>
+    </div>
+  }
+  @default {
+    <app-admin-plugin></app-admin-plugin>
+  }
+}

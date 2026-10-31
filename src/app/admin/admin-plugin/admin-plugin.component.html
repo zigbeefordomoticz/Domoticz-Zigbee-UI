@@ -1,0 +1,120 @@
+<div class="plugin-grid">
+  <section class="card">
+    <div class="card-body">
+      <h2 class="card-title" translate="admin.plugin.upgrade.title"></h2>
+      <p class="hint" translate="admin.plugin.upgrade.subtitle"></p>
+
+      <dl class="facts">
+        <!-- Off a release the VERSION file is the one the branch started from: branch + commit only -->
+        @if (identity?.release) {
+          <dt translate="admin.plugin.installed"></dt>
+          <dd>{{ identity.version || '—' }}</dd>
+        }
+        <dt translate="admin.plugin.branch"></dt>
+        <dd>
+          @if (identity && !identity.release && !identity.gitBranch) {
+            {{ 'dashboard.kpi.plugin.detached' | translate }}
+          } @else {
+            {{ identity?.branch || '—' }}
+          }
+        </dd>
+        @if (identity?.commit) {
+          <dt translate="admin.plugin.commit"></dt>
+          <dd class="font-monospace">{{ identity.commit }}</dd>
+        }
+        <dt translate="admin.plugin.certified"></dt>
+        <dd>{{ plugin?.CertifiedDbVersion || '—' }}</dd>
+      </dl>
+
+      <ol class="steps">
+        <li>
+          <span
+            class="step-number"
+            [class.step-now]="state === 'idle' || state === 'running'"
+            [class.step-done]="state === 'done'"
+            [class.step-failed]="state === 'failed'"
+            >1</span
+          >
+          <div>
+            <b translate="admin.plugin.step.upgrade"></b>
+            @switch (state) {
+              @case ('running') {
+                <span class="hint" translate="admin.plugin.step.upgrade.running"></span>
+              }
+              @case ('done') {
+                <span class="hint" translate="admin.plugin.step.upgrade.done"></span>
+              }
+              @case ('failed') {
+                <span class="hint text-danger-emphasis" translate="admin.plugin.step.upgrade.failed"></span>
+              }
+              @default {
+                <span class="hint" translate="admin.plugin.step.upgrade.hint"></span>
+              }
+            }
+          </div>
+        </li>
+        <li>
+          <span class="step-number" [class.step-now]="state === 'done'">2</span>
+          <div>
+            <b translate="admin.plugin.step.restart"></b>
+            <span class="hint" translate="admin.plugin.step.restart.hint"></span>
+          </div>
+        </li>
+      </ol>
+
+      @if (output) {
+        <pre class="console">{{ output }}</pre>
+      }
+
+      <div class="actions">
+        @if (state === 'done') {
+          <button type="button" class="btn btn-outline-secondary" (click)="upgrade()">
+            {{ 'admin.plugin.upgrade.again' | translate }}
+          </button>
+          <button type="button" class="btn btn-primary" (click)="confirmRestart(restartModal)">
+            {{ 'admin.plugin.restart.now' | translate }}
+          </button>
+        } @else {
+          <button type="button" class="btn btn-primary" [disabled]="state === 'running'" (click)="upgrade()">
+            @if (state === 'running') {
+              <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            }
+            {{ 'admin.plugin.upgrade.button' | translate }}
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-body">
+      <h2 class="card-title" translate="admin.plugin.restart.title"></h2>
+      <div class="action-row">
+        <span class="hint" translate="admin.plugin.restart.hint"></span>
+        <button type="button" class="btn btn-outline-danger" (click)="confirmRestart(restartModal)">
+          {{ 'admin.plugin.restart.button' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<ng-template #restartModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="restart-title" translate="admin.plugin.reload.alert.title"></h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cross')"></button>
+  </div>
+  <div class="modal-body" translate="admin.plugin.restart.hint"></div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="modal.dismiss('cancel')"
+      translate="admin.plugin.reload.alert.cancel"></button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.close('restart')"
+      translate="admin.plugin.reload.alert.erase"></button>
+  </div>
+</ng-template>

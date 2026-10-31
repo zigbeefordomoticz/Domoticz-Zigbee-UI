@@ -1,0 +1,121 @@
+// Upgrade on the left, restart beside it; one column on a phone
+.plugin-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+
+  > .card {
+    flex: 1 1 22rem;
+    min-width: 0;
+  }
+}
+
+.card-title {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.hint {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--bs-secondary-color);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content auto;
+  gap: 0.375rem 1.25rem;
+  margin: 1rem 0;
+
+  dt {
+    font-weight: 400;
+    color: var(--bs-secondary-color);
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.steps {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.625rem 0;
+    border-top: 1px solid var(--bs-border-color-translucent);
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+}
+
+.step-number {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--bs-secondary-color);
+  background-color: var(--bs-secondary-bg);
+  border-radius: 50%;
+}
+
+.step-now {
+  color: #fff;
+  background-color: var(--bs-primary);
+}
+
+.step-done {
+  color: #fff;
+  background-color: var(--bs-success);
+}
+
+.step-failed {
+  color: #fff;
+  background-color: var(--bs-danger);
+}
+
+// The script's output as it came, kept readable when long
+.console {
+  max-height: 18rem;
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.875rem;
+  overflow: auto;
+  font-size: 0.78rem;
+  color: #d7dae0;
+  white-space: pre-wrap;
+  background-color: #16181d;
+  border-radius: var(--bs-border-radius);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+
+  .hint {
+    flex: 1 1 14rem;
+  }
+}
