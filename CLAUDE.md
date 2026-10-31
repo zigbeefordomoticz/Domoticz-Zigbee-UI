@@ -228,7 +228,7 @@ image under `src/assets/`).
 This is the easiest thing to get wrong.
 
 The settings screens use **the raw plugin parameter name as the translation
-key**. `settings/setting/setting.component.html` and
+key**. `settings/settings.component.html` and
 `tools/debug-settings/debug-setting/debug-setting.component.html` both do:
 
 ```html
