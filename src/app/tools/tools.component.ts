@@ -37,6 +37,7 @@ interface SourceGroup {
 })
 export class ToolsComponent implements OnInit {
   @ViewChild('viewer') viewerRef: ElementRef<HTMLElement>;
+  @ViewChild('layout') layoutRef: ElementRef<HTMLElement>;
 
   logFile: LogFile = null;
   groups: SourceGroup[] = [];
@@ -48,6 +49,10 @@ export class ToolsComponent implements OnInit {
   json: any = null;
   readAt: Date = null;
   loading = false;
+
+  // Viewer width in px, set by dragging the line on its left; null = the default share of the page
+  viewerWidth: number | null = readWidth();
+  private dragFrom: { x: number; width: number } | null = null;
 
   private sources: Record<string, Source>;
 
@@ -179,6 +184,56 @@ export class ToolsComponent implements OnInit {
       });
   }
 
+  // A group of two sources fits beside another one: Groups and Coordinator share a line
+  groupBasis(group: SourceGroup): number {
+    return Math.min(group.sources.length, 3) * 15;
+  }
+
+  startResize(event: PointerEvent) {
+    const viewer = this.viewerRef?.nativeElement;
+    if (!viewer || event.button !== 0) {
+      return;
+    }
+    (event.target as HTMLElement).setPointerCapture(event.pointerId);
+    this.dragFrom = { x: event.clientX, width: viewer.getBoundingClientRect().width };
+    event.preventDefault();
+  }
+
+  resize(event: PointerEvent) {
+    if (this.dragFrom) {
+      // The line is on the viewer's left: dragging it left widens the viewer
+      this.setWidth(this.dragFrom.width - (event.clientX - this.dragFrom.x));
+    }
+  }
+
+  endResize(event: PointerEvent) {
+    if (this.dragFrom) {
+      (event.target as HTMLElement).releasePointerCapture?.(event.pointerId);
+      this.dragFrom = null;
+      saveWidth(this.viewerWidth);
+    }
+  }
+
+  resizeByKey(event: KeyboardEvent) {
+    const step = event.key === 'ArrowLeft' ? 32 : event.key === 'ArrowRight' ? -32 : 0;
+    const viewer = this.viewerRef?.nativeElement;
+    if (step && viewer) {
+      event.preventDefault();
+      this.setWidth(viewer.getBoundingClientRect().width + step);
+      saveWidth(this.viewerWidth);
+    }
+  }
+
+  resetWidth() {
+    this.viewerWidth = null;
+    saveWidth(null);
+  }
+
+  private setWidth(width: number) {
+    const total = this.layoutRef?.nativeElement.getBoundingClientRect().width ?? window.innerWidth;
+    this.viewerWidth = Math.round(Math.max(VIEWER_MIN, Math.min(width, total - LIST_MIN)));
+  }
+
   downloadLog() {
     const logFile = this.logFile;
     this.apiService.downloadLog(logFile.URL).subscribe(file => this.fileSaverService.save(file.body, logFile.Filename));
@@ -203,5 +258,31 @@ export class ToolsComponent implements OnInit {
     const d = new Date();
     const two = (n: number) => String(n).padStart(2, '0');
     return `${d.getFullYear()}${two(d.getMonth() + 1)}${two(d.getDate())}-${two(d.getHours())}${two(d.getMinutes())}`;
+  }
+}
+
+// Pixels: the viewer stays readable, and the list keeps one column of sources
+const VIEWER_MIN = 280;
+const LIST_MIN = 320;
+const WIDTH_KEY = 'z4d.tools.viewerWidth';
+
+function readWidth(): number | null {
+  try {
+    const width = parseInt(localStorage.getItem(WIDTH_KEY), 10);
+    return width > 0 ? width : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveWidth(width: number | null) {
+  try {
+    if (width) {
+      localStorage.setItem(WIDTH_KEY, String(width));
+    } else {
+      localStorage.removeItem(WIDTH_KEY);
+    }
+  } catch {
+    // Private window or blocked storage: the width lasts until the page is left
   }
 }

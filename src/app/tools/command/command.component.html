@@ -55,155 +55,168 @@
         } @else if (noCommand) {
           <div class="row-cap hint" translate="tools.cmd.none"></div>
         } @else {
-          @for (type of switchTypes; track type) {
-            <div class="row-cap">
-              <div class="cap-label">
-                {{ 'tools.cmd.power' | translate }}<span class="sub">{{ type }}</span>
-              </div>
-              <div class="cap-controls">
-                <button type="button" class="btn btn-outline-secondary" (click)="send('On', type)">
-                  {{ 'tools.cmd.on' | translate }}
-                </button>
-                <button type="button" class="btn btn-outline-secondary" (click)="send('Off', type)">
-                  {{ 'tools.cmd.off' | translate }}
-                </button>
-                <button type="button" class="btn btn-outline-secondary" (click)="send('Toggle', type)">
-                  {{ 'tools.cmd.toggle' | translate }}
-                </button>
-              </div>
-            </div>
-          }
-          @if (hasType('LvlControl')) {
-            <div class="row-cap">
-              <label class="cap-label" for="cmd-level"
-                >{{ 'tools.cmd.level' | translate }}<span class="sub">SetLevel · %</span></label
-              >
-              <div class="cap-controls">
-                <input id="cmd-level" type="range" class="form-range" min="0" max="100" [(ngModel)]="level" />
-                <span class="value">{{ level }} %</span>
-                <button type="button" class="btn btn-primary" (click)="send('SetLevel', 'LvlControl', +level)">
-                  {{ 'tools.cmd.send' | translate }}
-                </button>
-              </div>
-            </div>
-          }
-          @if (hasType('WindowCovering')) {
-            <div class="row-cap">
-              <div class="cap-label">{{ 'tools.cmd.cover' | translate }}<span class="sub">WindowCovering</span></div>
-              <div class="cap-controls">
-                <button type="button" class="btn btn-outline-secondary" (click)="send('On', 'WindowCovering')">
-                  {{ 'tools.cmd.open' | translate }}
-                </button>
-                <button type="button" class="btn btn-outline-secondary" (click)="send('Off', 'WindowCovering')">
-                  {{ 'tools.cmd.close' | translate }}
-                </button>
-                <button type="button" class="btn btn-outline-secondary" (click)="send('Stop', 'WindowCovering')">
-                  {{ 'tools.cmd.stop' | translate }}
-                </button>
-              </div>
-            </div>
-            <div class="row-cap">
-              <label class="cap-label" for="cmd-cover"
-                >{{ 'tools.cmd.coverlevel' | translate }}<span class="sub">SetLevel · %</span></label
-              >
-              <div class="cap-controls">
-                <input id="cmd-cover" type="range" class="form-range" min="0" max="100" [(ngModel)]="cover" />
-                <span class="value">{{ cover }} %</span>
-                <button type="button" class="btn btn-primary" (click)="send('SetLevel', 'WindowCovering', +cover)">
-                  {{ 'tools.cmd.send' | translate }}
-                </button>
-              </div>
-            </div>
-          }
-          @if (hasType('ThermoSetpoint')) {
-            <div class="row-cap">
-              <label class="cap-label" for="cmd-setpoint"
-                >{{ 'tools.cmd.setpoint' | translate }}<span class="sub">SetPoint · °C</span></label
-              >
-              <div class="cap-controls">
-                <input
-                  id="cmd-setpoint"
-                  type="number"
-                  class="form-control narrow"
-                  min="5"
-                  max="35"
-                  [(ngModel)]="setpoint" />
-                <span class="value">°C</span>
-                <button type="button" class="btn btn-primary" (click)="send('SetPoint', 'ThermoSetpoint', +setpoint)">
-                  {{ 'tools.cmd.send' | translate }}
-                </button>
-              </div>
-            </div>
-          }
-          @for (type of colorTypes; track type) {
-            <div class="row-cap">
-              <label class="cap-label" [for]="'cmd-color-' + type"
-                >{{ 'tools.cmd.colour' | translate }}<span class="sub">{{ type }}</span></label
-              >
-              <div class="cap-controls">
-                <input
-                  [id]="'cmd-color-' + type"
-                  type="color"
-                  class="form-control form-control-color"
-                  [(ngModel)]="color" />
-                <input
-                  type="range"
-                  class="form-range"
-                  min="0"
-                  max="100"
-                  [(ngModel)]="brightness"
-                  [attr.aria-label]="'tools.cmd.brightness' | translate" />
-                <span class="value">{{ brightness }} %</span>
-                <button type="button" class="btn btn-primary" (click)="sendColor(type)">
-                  {{ 'tools.cmd.send' | translate }}
-                </button>
-              </div>
-            </div>
+          @if (hasDeviceCommands) {
+            <details class="section" [open]="!collapsed.commands" (toggle)="toggled('commands', $event)">
+              <summary>{{ 'tools.cmd.section.commands' | translate }}</summary>
+              @for (type of switchTypes; track type) {
+                <div class="row-cap">
+                  <div class="cap-label">
+                    {{ 'tools.cmd.power' | translate }}<span class="sub">{{ type }}</span>
+                  </div>
+                  <div class="cap-controls">
+                    <button type="button" class="btn btn-outline-secondary" (click)="send('On', type)">
+                      {{ 'tools.cmd.on' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="send('Off', type)">
+                      {{ 'tools.cmd.off' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="send('Toggle', type)">
+                      {{ 'tools.cmd.toggle' | translate }}
+                    </button>
+                  </div>
+                </div>
+              }
+              @if (hasType('LvlControl')) {
+                <div class="row-cap">
+                  <label class="cap-label" for="cmd-level"
+                    >{{ 'tools.cmd.level' | translate }}<span class="sub">SetLevel · %</span></label
+                  >
+                  <div class="cap-controls">
+                    <input id="cmd-level" type="range" class="form-range" min="0" max="100" [(ngModel)]="level" />
+                    <span class="value">{{ level }} %</span>
+                    <button type="button" class="btn btn-primary" (click)="send('SetLevel', 'LvlControl', +level)">
+                      {{ 'tools.cmd.send' | translate }}
+                    </button>
+                  </div>
+                </div>
+              }
+              @if (hasType('WindowCovering')) {
+                <div class="row-cap">
+                  <div class="cap-label">
+                    {{ 'tools.cmd.cover' | translate }}<span class="sub">WindowCovering</span>
+                  </div>
+                  <div class="cap-controls">
+                    <button type="button" class="btn btn-outline-secondary" (click)="send('On', 'WindowCovering')">
+                      {{ 'tools.cmd.open' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="send('Off', 'WindowCovering')">
+                      {{ 'tools.cmd.close' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="send('Stop', 'WindowCovering')">
+                      {{ 'tools.cmd.stop' | translate }}
+                    </button>
+                  </div>
+                </div>
+                <div class="row-cap">
+                  <label class="cap-label" for="cmd-cover"
+                    >{{ 'tools.cmd.coverlevel' | translate }}<span class="sub">SetLevel · %</span></label
+                  >
+                  <div class="cap-controls">
+                    <input id="cmd-cover" type="range" class="form-range" min="0" max="100" [(ngModel)]="cover" />
+                    <span class="value">{{ cover }} %</span>
+                    <button type="button" class="btn btn-primary" (click)="send('SetLevel', 'WindowCovering', +cover)">
+                      {{ 'tools.cmd.send' | translate }}
+                    </button>
+                  </div>
+                </div>
+              }
+              @if (hasType('ThermoSetpoint')) {
+                <div class="row-cap">
+                  <label class="cap-label" for="cmd-setpoint"
+                    >{{ 'tools.cmd.setpoint' | translate }}<span class="sub">SetPoint · °C</span></label
+                  >
+                  <div class="cap-controls">
+                    <input
+                      id="cmd-setpoint"
+                      type="number"
+                      class="form-control narrow"
+                      min="5"
+                      max="35"
+                      [(ngModel)]="setpoint" />
+                    <span class="value">°C</span>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="send('SetPoint', 'ThermoSetpoint', +setpoint)">
+                      {{ 'tools.cmd.send' | translate }}
+                    </button>
+                  </div>
+                </div>
+              }
+              @for (type of colorTypes; track type) {
+                <div class="row-cap">
+                  <label class="cap-label" [for]="'cmd-color-' + type"
+                    >{{ 'tools.cmd.colour' | translate }}<span class="sub">{{ type }}</span></label
+                  >
+                  <div class="cap-controls">
+                    <input
+                      [id]="'cmd-color-' + type"
+                      type="color"
+                      class="form-control form-control-color"
+                      [(ngModel)]="color" />
+                    <input
+                      type="range"
+                      class="form-range"
+                      min="0"
+                      max="100"
+                      [(ngModel)]="brightness"
+                      [attr.aria-label]="'tools.cmd.brightness' | translate" />
+                    <span class="value">{{ brightness }} %</span>
+                    <button type="button" class="btn btn-primary" (click)="sendColor(type)">
+                      {{ 'tools.cmd.send' | translate }}
+                    </button>
+                  </div>
+                </div>
+              }
+              @if (has('PowerStateAfterOffOn')) {
+                <div class="row-cap">
+                  <label class="cap-label" for="cmd-poweron"
+                    >{{ 'tools.cmd.poweron' | translate }}<span class="sub">PowerStateAfterOffOn</span></label
+                  >
+                  <div class="cap-controls">
+                    <select id="cmd-poweron" class="form-select narrow-select" [(ngModel)]="powerOn">
+                      @for (item of powerOnModes; track item.value) {
+                        <option [ngValue]="item.value">{{ item.label | translate }}</option>
+                      }
+                    </select>
+                    <button type="button" class="btn btn-primary" (click)="send('PowerStateAfterOffOn', null, powerOn)">
+                      {{ 'tools.cmd.send' | translate }}
+                    </button>
+                  </div>
+                </div>
+              }
+            </details>
           }
           @if (has('Identify') || has('IdentifyEffect')) {
-            <div class="row-cap">
-              <label class="cap-label" for="cmd-effect">{{ 'tools.cmd.identify' | translate }}</label>
-              <div class="cap-controls">
-                @if (has('Identify')) {
-                  <button type="button" class="btn btn-outline-secondary" (click)="send('Identify', null)">
-                    {{ 'tools.cmd.identify.button' | translate }}
-                  </button>
-                }
-                @if (has('IdentifyEffect')) {
-                  <select id="cmd-effect" class="form-select narrow-select" [(ngModel)]="effect">
-                    @for (item of effects; track item.value) {
-                      <option [ngValue]="item.value">{{ item.label | translate }}</option>
-                    }
-                  </select>
-                  <button type="button" class="btn btn-primary" (click)="send('IdentifyEffect', null, effect)">
-                    {{ 'tools.cmd.send' | translate }}
-                  </button>
-                }
-              </div>
-            </div>
-          }
-          @if (has('PowerStateAfterOffOn')) {
-            <div class="row-cap">
-              <label class="cap-label" for="cmd-poweron"
-                >{{ 'tools.cmd.poweron' | translate }}<span class="sub">PowerStateAfterOffOn</span></label
-              >
-              <div class="cap-controls">
-                <select id="cmd-poweron" class="form-select narrow-select" [(ngModel)]="powerOn">
-                  @for (item of powerOnModes; track item.value) {
-                    <option [ngValue]="item.value">{{ item.label | translate }}</option>
+            <details class="section" [open]="!collapsed.identify" (toggle)="toggled('identify', $event)">
+              <summary>{{ 'tools.cmd.identify' | translate }}</summary>
+              <div class="row-cap">
+                <label class="cap-label" for="cmd-effect">{{ 'tools.cmd.identify' | translate }}</label>
+                <div class="cap-controls">
+                  @if (has('Identify')) {
+                    <button type="button" class="btn btn-outline-secondary" (click)="send('Identify', null)">
+                      {{ 'tools.cmd.identify.button' | translate }}
+                    </button>
                   }
-                </select>
-                <button type="button" class="btn btn-primary" (click)="send('PowerStateAfterOffOn', null, powerOn)">
-                  {{ 'tools.cmd.send' | translate }}
-                </button>
+                  @if (has('IdentifyEffect')) {
+                    <select id="cmd-effect" class="form-select narrow-select" [(ngModel)]="effect">
+                      @for (item of effects; track item.value) {
+                        <option [ngValue]="item.value">{{ item.label | translate }}</option>
+                      }
+                    </select>
+                    <button type="button" class="btn btn-primary" (click)="send('IdentifyEffect', null, effect)">
+                      {{ 'tools.cmd.send' | translate }}
+                    </button>
+                  }
+                </div>
               </div>
-            </div>
+            </details>
           }
         }
 
         @if (plugin?.Zigpy) {
-          <details class="raw">
-            <summary>{{ 'tools.cmd.raw.title' | translate }}</summary>
+          <div class="raw">
+            <h3 class="section-title">{{ 'tools.cmd.raw.title' | translate }}</h3>
             <p class="hint px-3" translate="tools.cmd.raw.hint"></p>
             <div class="raw-grid">
               <div>
@@ -254,7 +267,7 @@
                 {{ 'tools.cmd.raw.send' | translate }}
               </button>
             </div>
-          </details>
+          </div>
         }
       </section>
     }

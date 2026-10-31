@@ -1,53 +1,68 @@
-<div class="status-bar" role="status">
-  <span class="status-item">
-    <span class="dot dot-success"></span>
-    <span translate="dashboard.kpi.plugin"></span>
+<div class="figures" role="status">
+  <div class="figure">
+    <div class="figure-label"><span class="dot dot-success"></span>{{ 'dashboard.kpi.plugin' | translate }}</div>
     @if (identity?.release) {
-      <b>{{ identity?.version || '—' }}</b>
-      @if (identity?.branch) {
-        <span>· {{ identity.branch }}</span>
-      }
+      <div class="figure-value text-truncate">{{ identity?.version || '—' }}</div>
+      <div class="figure-detail text-truncate">{{ identity?.branch }}</div>
     } @else if (identity) {
-      <b>{{ identity.gitBranch || ('dashboard.kpi.plugin.detached' | translate) }}</b>
-      <span>· {{ 'dashboard.kpi.plugin.commit' | translate: { commit: identity.commit } }}</span>
-    }
-  </span>
-  <span class="status-item">
-    <span class="dot dot-success"></span>
-    <span translate="dashboard.kpi.coordinator"></span>
-    <b>{{ plugin?.CoordinatorModel || '—' }}</b>
-    @if (channel !== null) {
-      <span>· {{ 'admin.status.channel' | translate: { channel: channel } }}</span>
-    }
-  </span>
-  <span class="status-item">
-    <span class="dot" [class.dot-success]="pairingOpen" [class.dot-muted]="!pairingOpen"></span>
-    <span translate="admin.status.pairing"></span>
-    @if (pairingPermanent) {
-      <b translate="admin.status.pairing.permanent"></b>
-    } @else if (pairingOpen) {
-      <b>{{ 'admin.status.pairing.left' | translate: { time: pairingLeft } }}</b>
+      <div class="figure-value text-truncate" [title]="identity.gitBranch">
+        {{ identity.gitBranch || ('dashboard.kpi.plugin.detached' | translate) }}
+      </div>
+      <div class="figure-detail">{{ 'dashboard.kpi.plugin.commit' | translate: { commit: identity.commit } }}</div>
     } @else {
-      <b translate="admin.status.pairing.closed"></b>
+      <div class="figure-value">—</div>
     }
-  </span>
+  </div>
+  <div class="figure">
+    <div class="figure-label"><span class="dot dot-success"></span>{{ 'admin.status.radio' | translate }}</div>
+    <div class="figure-value text-truncate">{{ plugin?.CoordinatorModel || '—' }}</div>
+    <div class="figure-detail text-truncate">{{ radio }}</div>
+  </div>
+  <div class="figure">
+    <div class="figure-label"><span class="dot dot-success"></span>{{ 'admin.status.firmware' | translate }}</div>
+    <div class="figure-value text-truncate" [title]="firmware">{{ firmware }}</div>
+    <div class="figure-detail" translate="admin.status.firmware.detail"></div>
+  </div>
+  <div class="figure">
+    <div class="figure-label"><span class="dot dot-success"></span>{{ 'admin.status.channel' | translate }}</div>
+    <div class="figure-value">{{ channel ?? '—' }}</div>
+    <div class="figure-detail">{{ channel !== null ? megahertz + ' MHz' : '' }}</div>
+  </div>
+  <a class="figure" routerLink="/admin" [queryParams]="{ action: 'pairing' }">
+    <div class="figure-label">
+      <span class="dot" [class.dot-success]="pairingOpen" [class.dot-muted]="!pairingOpen"></span>
+      {{ 'admin.status.pairing' | translate }}
+    </div>
+    @if (pairingPermanent) {
+      <div class="figure-value" translate="admin.status.pairing.open"></div>
+      <div class="figure-detail" translate="admin.status.pairing.permanent"></div>
+    } @else if (pairingOpen) {
+      <div class="figure-value" translate="admin.status.pairing.open"></div>
+      <div class="figure-detail">{{ 'admin.status.pairing.left' | translate: { time: pairingLeft } }}</div>
+    } @else {
+      <div class="figure-value" translate="admin.status.pairing.closed"></div>
+      <div class="figure-detail">{{ 'admin.pairing' | translate }} →</div>
+    }
+  </a>
   @if (otaDevice) {
-    <a class="status-item" routerLink="/admin/firmware">
-      <span class="dot dot-info"></span>
-      <span translate="admin.status.ota"></span>
-      <b>{{ otaDevice }} {{ otaProgress }}</b>
+    <a class="figure" routerLink="/admin/firmware">
+      <div class="figure-label"><span class="dot dot-info"></span>{{ 'admin.status.ota' | translate }}</div>
+      <div class="figure-value text-truncate">{{ otaProgress || '…' }}</div>
+      <div class="figure-detail text-truncate">{{ otaDevice }}</div>
     </a>
   }
   @if (groupScan) {
-    <a class="status-item" routerLink="/admin" [queryParams]="{ action: 'group' }">
-      <span class="dot dot-info"></span>
-      <b translate="admin.status.groupscan"></b>
+    <a class="figure" routerLink="/admin" [queryParams]="{ action: 'group' }">
+      <div class="figure-label"><span class="dot dot-info"></span>{{ 'admin.group' | translate }}</div>
+      <div class="figure-value text-truncate" translate="admin.status.scanning"></div>
+      <div class="figure-detail" translate="admin.status.groupscan"></div>
     </a>
   }
   @if (restartNeeded > 0) {
-    <a class="status-item" routerLink="/admin" [queryParams]="{ action: 'plugin' }">
-      <span class="dot dot-warning"></span>
-      <b translate="admin.status.restart"></b>
+    <a class="figure figure-warning" routerLink="/admin" [queryParams]="{ action: 'plugin' }">
+      <div class="figure-label"><span class="dot dot-warning"></span>{{ 'admin.status.restart' | translate }}</div>
+      <div class="figure-value" translate="admin.status.restart.value"></div>
+      <div class="figure-detail">{{ 'admin.plugin' | translate }} →</div>
     </a>
   }
 </div>

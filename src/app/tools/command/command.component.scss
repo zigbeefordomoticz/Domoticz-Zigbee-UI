@@ -138,8 +138,9 @@
   min-width: 10rem;
 }
 
-.raw {
-  border-top: 1px solid var(--bs-border-color-translucent);
+// Device commands and Identify fold away; the raw command is always shown
+.section {
+  border-bottom: 1px solid var(--bs-border-color-translucent);
 
   summary {
     padding: 0.75rem 1rem;
@@ -147,6 +148,17 @@
     font-weight: 600;
     cursor: pointer;
   }
+
+  &[open] summary {
+    padding-bottom: 0.25rem;
+  }
+}
+
+.section-title {
+  margin: 0;
+  padding: 0.75rem 1rem 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .raw-grid {
