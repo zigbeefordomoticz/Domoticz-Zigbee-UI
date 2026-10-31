@@ -307,13 +307,35 @@ Read this before touching `package.json`.
 - **There are no open advisories against `@angular/core`, `common`, `compiler`
   or `router`.** That was the point of the upgrade, and it worked. Before it
   there were 23.
-- **The remaining advisories are development-scope and currently unfixable by
-  anyone.** They all trace back to `braces`, whose latest release (3.0.3) is
-  itself the vulnerable one, so there is no version to upgrade to. The chain is
-  `braces` → `micromatch` → `fast-glob` → `globby` → `@typescript-eslint/*`,
-  `stylelint`, `lint-staged`, `chokidar` → `webpack-dev-server` →
-  `@angular-devkit/build-angular`. `npm audit fix` reshuffles the lockfile and
-  clears nothing. Do not go hunting for a fix; there is not one yet.
+- **Most new advisories can be fixed on Angular 21.** On 2026-10-31, all 26
+  open Dependabot alerts were cleared without Angular 22, as follows:
+  - `@angular/cli` and `@angular-devkit/build-angular` 21.2.26 → 21.2.29
+    brought `vite` 7.3.7, `undici` 7.30.1 and `@modelcontextprotocol/sdk`
+    1.32.1.
+  - `jspdf` went 3 → 4. Its only breaking change is in the Node build, and PDF
+    export was checked in a browser.
+  - `npm update fast-uri serialize-javascript undici` covered the rest that
+    stayed in range.
+  - `uuid` needed an override (below).
+
+  Dependabot's grouped security PR could not do this: it reached for `vite` 8.
+  Treat its PR as a list of advisories, not as the fix.
+- **`overrides`: `sockjs` → `uuid ^11.1.1`.** `sockjs` 0.3.24 (via
+  `webpack-dev-server`, used only by `ng serve`) pins `uuid ^8.3.2`. It calls
+  only `require('uuid').v4`, which uuid 11's CommonJS build still exports. Drop
+  the override when `webpack-dev-server` no longer depends on `sockjs`.
+- **webpack 5.112 (build-angular 21.2.28+) breaks on kept interface imports.**
+  `@ngtools/webpack`'s `elideImports` keeps an interface import when that
+  interface is `extends`-ed or re-exported, and webpack now errors with
+  `export 'X' was not found`. The upstream report is angular/angular-cli#34580;
+  the fix was merged after 21.2.29. Until it ships, use `import type` for such
+  interfaces, as `admin/firmware/firmware.component.ts` does.
+- **Still open after that:** `highcharts` 11.4.8. Its four advisories are about
+  chart options, which this app writes itself, and the fix needs Highcharts 12,
+  a major bump that is its own change. `angular-highcharts` 17 does not peer on
+  `highcharts`; its 22.x needs Angular 22. `follow-redirects`, `glob` and `minimatch` remain
+  too, all build-time. `npm audit fix` without `--force` rewrites the lockfile
+  well beyond the advisory, so update the named package instead.
 - **`.github/dependabot.yml` no longer pins anything.** The `ignore` block and
   the group's `exclude-patterns` both existed only because Angular was stuck at
   17.3, and both were removed with the upgrade. Do not reintroduce them without

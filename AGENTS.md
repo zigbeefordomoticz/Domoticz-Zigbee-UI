@@ -144,9 +144,21 @@ not treat the dependency set as free to move.
 
 - Angular is at **21.2** on **Node 22**. There are **no open advisories against
   `@angular/core`, `common`, `compiler` or `router`**.
-- The advisories that remain are development-scope and **currently unfixable by
-  anyone** — they all trace back to `braces`, whose latest release is itself the
-  vulnerable one. `npm audit fix` clears nothing. Do not go looking for a fix.
+- **Most new advisories can be fixed without Angular 22.** Check each one: an
+  Angular **patch** release (`@angular/cli`, `@angular-devkit/build-angular`)
+  or an in-range `npm update <pkg>` usually clears it. Dependabot's grouped
+  security PR often cannot install, because it reaches for a major
+  (`build-angular` 22, `vite` 8). Close it and do the in-range update by hand
+  instead. `npm audit fix` without `--force` is still not the tool: it rewrites
+  the lockfile far beyond the advisory.
+- **One `overrides` entry exists:** `sockjs` → `uuid ^11.1.1`. `sockjs` (via
+  `webpack-dev-server`, `ng serve` only) pins `uuid ^8.3.2`, and only
+  `uuid.v4()` is used, which uuid 11's CommonJS build still exports. Remove the
+  entry once `webpack-dev-server` stops pulling `sockjs`.
+- **`build-angular` 21.2.28+ ships webpack 5.112**, which fails the build when
+  `@ngtools/webpack` keeps an interface import alive (angular/angular-cli#34580,
+  fix merged after 21.2.29). Use `import type` for interfaces that are
+  `extends`-ed or re-exported. See `admin/firmware/firmware.component.ts`.
 - `.github/dependabot.yml` **no longer pins anything.** The `ignore` block
   existed only because Angular was stuck at 17.3 and was removed with the
   upgrade. Do not reintroduce it without a reason that will still hold in six
