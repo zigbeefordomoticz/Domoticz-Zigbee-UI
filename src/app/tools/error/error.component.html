@@ -1,18 +1,146 @@
 <app-tools-tabs active="error"></app-tools-tabs>
 
-<div class="row d-flex ms-2 gap-2">
-  <button
-    class="col-xl-2 col-lg-4 col-sm-5 btn btn-primary"
-    (click)="onClick('log-error-history')"
-    translate="tools.error.log-history.button"></button>
-  <button
-    class="col-xl-2 col-lg-4 col-sm-5 btn btn-primary"
-    (click)="onClick('clear-error-history')"
-    translate="tools.error.log-history.clear"></button>
+<div class="toolbar">
+  <input
+    type="search"
+    class="form-control search"
+    [(ngModel)]="search"
+    [placeholder]="'tools.errors.search' | translate"
+    [attr.aria-label]="'tools.errors.search' | translate" />
+  <select class="form-select module" [(ngModel)]="module" [attr.aria-label]="'tools.errors.module' | translate">
+    <option value="">{{ 'tools.errors.allmodules' | translate }}</option>
+    @for (name of modules; track name) {
+      <option [value]="name">{{ name }}</option>
+    }
+  </select>
+  <div class="actions">
+    <button type="button" class="btn btn-outline-secondary" (click)="load()">
+      {{ 'tools.data.refresh' | translate }}
+    </button>
+    <button type="button" class="btn btn-outline-secondary" [disabled]="!count" (click)="download()">
+      {{ 'tools.errors.download' | translate }}
+    </button>
+    <button type="button" class="btn btn-outline-danger" [disabled]="!count" (click)="confirmClear()">
+      {{ 'tools.errors.clear' | translate }}
+    </button>
+  </div>
 </div>
-@if (json) {
-  <div class="row ms-2 mt-2" [hidden]="isLoading">
-    <button class="col-lg-1 mb-2 btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
-    <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
+
+@if (loaded && !count) {
+  <section class="card">
+    <div class="card-body hint" translate="tools.errors.none"></div>
+  </section>
+} @else {
+  <div class="errors-layout">
+    <nav class="card list" [attr.aria-label]="'tools.tabs.errors' | translate">
+      @for (session of sessions; track $index) {
+        @if (shown(session).length) {
+          <div class="session">
+            <b>
+              @if (session.start) {
+                {{ 'tools.errors.started' | translate: { date: (session.start * 1000 | date: 'dd/MM HH:mm') } }}
+              } @else {
+                {{ 'tools.errors.earlier' | translate }}
+              }
+            </b>
+            <span>{{ session.plugin }} · {{ shown(session).length }}</span>
+          </div>
+          @for (error of shown(session); track $index) {
+            <button
+              type="button"
+              class="entry"
+              [class.active]="selected === error"
+              [attr.aria-current]="selected === error ? 'true' : null"
+              (click)="select(session, error)">
+              <span class="meta">
+                <span>{{ error.time * 1000 | date: 'dd/MM HH:mm:ss' }} · {{ error.module }}</span>
+                @if (error.code) {
+                  <span class="code">{{ error.code }}</span>
+                }
+              </span>
+              <b>{{ error.message }}</b>
+              @if (error.nwkid) {
+                <span class="meta">{{ error.device?.name || error.nwkid }} · {{ error.nwkid }}</span>
+              }
+            </button>
+          }
+        }
+      }
+    </nav>
+
+    <section #detail class="card detail">
+      @if (selected; as error) {
+        <div class="detail-head">
+          @if (error.code) {
+            <span class="code">{{ error.code }}</span>
+          }
+          <h2>{{ error.message }}</h2>
+          <p class="hint m-0">
+            {{ error.time * 1000 | date: 'dd/MM/yyyy HH:mm:ss' }} · {{ 'tools.errors.modulelabel' | translate }}
+            {{ error.module }} · {{ 'tools.errors.thread' | translate }}
+            <span class="font-monospace">{{ error.thread }}</span>
+          </p>
+        </div>
+        @if (error.nwkid) {
+          <div class="detail-section">
+            <h3 translate="tools.errors.device"></h3>
+            <dl class="facts">
+              @if (error.device?.name) {
+                <dt translate="tools.errors.name"></dt>
+                <dd>{{ error.device.name }}</dd>
+              }
+              <dt>NwkId</dt>
+              <dd class="font-monospace">{{ error.nwkid }}</dd>
+              @if (error.device?.model) {
+                <dt translate="admin.provisioning.field.model"></dt>
+                <dd>{{ error.device.model }}</dd>
+              }
+            </dl>
+          </div>
+        }
+        <div class="detail-section">
+          <h3 translate="tools.errors.plugin"></h3>
+          <dl class="facts">
+            <dt translate="tools.errors.health"></dt>
+            <dd>{{ error.health || '—' }}</dd>
+            <dt translate="tools.errors.pairing"></dt>
+            <dd>{{ (error.permitToJoin ? 'tools.errors.yes' : 'tools.errors.no') | translate }}</dd>
+            <dt translate="tools.errors.version"></dt>
+            <dd>{{ selectedSession?.plugin || '—' }}</dd>
+            <dt translate="tools.errors.firmware"></dt>
+            <dd>{{ selectedSession?.firmware || '—' }}</dd>
+          </dl>
+        </div>
+        @if (error.context) {
+          <div class="detail-section">
+            <h3 translate="tools.errors.context"></h3>
+            <pre class="context">{{ contextText(error) }}</pre>
+          </div>
+        }
+        <div class="detail-actions">
+          <button type="button" class="btn btn-primary" (click)="copyIssue()">
+            {{ 'tools.errors.copy' | translate }}
+          </button>
+        </div>
+      } @else {
+        <div class="card-body hint" translate="tools.errors.pick"></div>
+      }
+    </section>
   </div>
 }
+
+<ng-template #clearModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="clear-title" translate="tools.errors.clear.title"></h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cross')"></button>
+  </div>
+  <div class="modal-body" translate="tools.errors.clear.text"></div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">
+      {{ 'tools.bind.cancel' | translate }}
+    </button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('clear')">
+      {{ 'tools.errors.clear.confirm' | translate }}
+    </button>
+  </div>
+</ng-template>
