@@ -11,6 +11,7 @@ import { RawCommandZigpyComponent } from './command/raw-command-zigpy/raw-comman
 import { DebugSettingComponent } from './debug-settings/debug-setting/debug-setting.component';
 import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
 import { ToolsRoutingModule } from './tools-routing.module';
+import { ToolsTabsComponent } from './tools-tabs/tools-tabs.component';
 import { ToolsComponent } from './tools.component';
 import { ErrorComponent } from './error/error.component';
 import { ReportingComponent } from './reporting/reporting.component';
@@ -21,6 +22,7 @@ import { ConfigureByClusterReportingComponent } from './reporting/configure-by-c
   imports: [SharedModule, ToolsRoutingModule, NgxJsonViewerModule, FileSaverModule, ColorPickerModule],
   declarations: [
     ToolsComponent,
+    ToolsTabsComponent,
     DebugCommandComponent,
     BindingComponent,
     RawCommandComponent,
