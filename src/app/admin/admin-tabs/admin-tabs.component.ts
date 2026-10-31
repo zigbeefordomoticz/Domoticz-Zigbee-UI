@@ -3,15 +3,12 @@ import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { Plugin } from '@app/shared/models/plugin';
 import { coordinatorChannel, pluginIdentity, PluginIdentity } from '@app/shared/utils/plugin-identity';
-import { interval } from 'rxjs';
-
-// /permit-to-join answers the seconds left, 0 when closed and 255 for no time limit
-const PERMIT_TO_JOIN_PERMANENT = 255;
+import { pairingLeft, PairingStateService, PERMIT_TO_JOIN_PERMANENT } from '../pairing-state.service';
 
 /**
  * Status bar and tabs on top of every Admin page.
  *
- * The status is read once when the page opens; only the pairing countdown moves on its own.
+ * The status is read once when the page opens; the pairing state is shared with the Provisioning tab.
  */
 @Component({
   selector: 'app-admin-tabs',
@@ -37,7 +34,10 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
     { action: 'coordinator', label: 'admin.coordinator' }
   ];
 
-  constructor(private apiService: ApiService) {
+  constructor(
+    private apiService: ApiService,
+    private pairingState: PairingStateService
+  ) {
     super();
   }
 
@@ -47,17 +47,13 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
       this.identity = pluginIdentity(plugin);
     });
     this.apiService.getCoordinator().subscribe(coordinator => (this.channel = coordinatorChannel(coordinator)));
-    this.apiService.getPermitToJoin().subscribe(result => (this.permitToJoin = result?.PermitToJoin ?? null));
+    this.subs.sink = this.pairingState.seconds$.subscribe(seconds => (this.permitToJoin = seconds));
+    this.pairingState.refresh().subscribe();
     this.apiService.getPluginhealth().subscribe(health => {
       this.otaDevice = health?.OTAupdateDevice || null;
       this.otaProgress = health?.OTAupdateProgress ?? null;
     });
     this.apiService.getRestartNeeded().subscribe(result => (this.restartNeeded = result?.RestartNeeded ?? 0));
-    this.subs.sink = interval(1000).subscribe(() => {
-      if (this.permitToJoin > 0 && this.permitToJoin !== PERMIT_TO_JOIN_PERMANENT) {
-        this.permitToJoin--;
-      }
-    });
   }
 
   get pairingOpen(): boolean {
@@ -69,7 +65,6 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   get pairingLeft(): string {
-    const seconds = Math.max(0, this.permitToJoin ?? 0);
-    return Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2, '0');
+    return pairingLeft(this.permitToJoin);
   }
 }
