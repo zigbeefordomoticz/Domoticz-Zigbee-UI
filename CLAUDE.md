@@ -228,11 +228,11 @@ image under `src/assets/`).
 This is the easiest thing to get wrong.
 
 The settings screens use **the raw plugin parameter name as the translation
-key**. `settings/settings.component.html` and
-`tools/debug-settings/debug-setting/debug-setting.component.html` both do:
+key**. `settings/settings.component.ts` and
+`tools/debug-settings/debug-settings.component.ts` both label a setting with:
 
-```html
-<label translate="{{ setting.Name }}"></label>
+```ts
+this.translate.instant(setting.Name);
 ```
 
 where `setting.Name` is the parameter name from the plugin's
