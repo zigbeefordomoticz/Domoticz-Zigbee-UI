@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
-import {
+import { FirmwareUpdate } from '@app/shared/models/firmware';
+// `import type` so @ngtools/webpack cannot keep these interfaces as runtime
+// imports: DevicesByManufacturer is `extends`-ed below, which build-angular
+// 21.2.28+ (webpack 5.112) turns into a build error (angular/angular-cli#34580).
+import type {
   DeviceOtaImage,
   DevicesByManufacturer,
   Firmware,
   FirmwareManufacturer,
-  FirmwareUpdate,
   FirmwareUpdateAnswer,
   OtaRequest
 } from '@app/shared/models/firmware';
