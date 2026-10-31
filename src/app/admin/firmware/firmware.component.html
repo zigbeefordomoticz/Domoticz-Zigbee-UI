@@ -147,6 +147,22 @@
                 }
               }
             }
+            @if (excludedDevices.length) {
+              <button
+                type="button"
+                class="list-group-item list-group-item-action small text-muted"
+                (click)="showExcludedDevices = !showExcludedDevices">
+                <i class="fa me-1" [ngClass]="showExcludedDevices ? 'fa-caret-down' : 'fa-caret-right'"></i>
+                {{ 'admin.firmware.device.excluded' | translate: { count: excludedDevices.length } }}
+              </button>
+              @if (showExcludedDevices) {
+                @for (device of excludedDevices; track device.Nwkid) {
+                  <div class="list-group-item small text-muted">
+                    {{ device.DeviceName || device.Nwkid }} {{ device.Nwkid }}/{{ device.Ep }}
+                  </div>
+                }
+              }
+            }
           </div>
         }
       </div>

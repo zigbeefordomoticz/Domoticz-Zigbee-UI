@@ -1474,6 +1474,7 @@
   "admin.firmware.device.newer": "runs a newer version (Force update)",
   "admin.firmware.device.unknown": "version unknown until the device asks",
   "admin.firmware.device.other": "Other image types ({{count}})",
+  "admin.firmware.device.excluded": "Not for this device model ({{count}})",
   "admin.firmware.device.otherfile": "with {{file}}",
   "admin.firmware.nodevice": "No device of this manufacturer",
   "admin.firmware.button.update.selected": "Update ({{count}})",

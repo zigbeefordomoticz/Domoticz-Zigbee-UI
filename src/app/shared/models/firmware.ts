@@ -32,6 +32,10 @@ export interface DevicesByManufacturer {
   // several (NodOn SIN-4-FP-21: radio 0x0006, power board 0x0106). [] until the device asks
   // again after the plugin update; absent with an older plugin.
   Images?: DeviceOtaImage[];
+  // From plugin 9.1.009: the firmware files of this manufacturer code the plugin never
+  // offers to this device, because of its model (Schneider Wiser Heat legacy EH-ZB-*
+  // models). [] for most devices; absent with an older plugin.
+  ExcludedFiles?: string[];
 }
 
 export interface DeviceOtaImage {
