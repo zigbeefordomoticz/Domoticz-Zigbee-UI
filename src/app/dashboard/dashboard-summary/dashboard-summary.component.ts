@@ -6,6 +6,7 @@ import { HeaderService } from '@app/services/header-service';
 import { Group } from '@app/shared/models/group';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
+import { coordinatorChannel, pluginIdentity } from '@app/shared/utils/plugin-identity';
 import { TranslateService } from '@ngx-translate/core';
 import { FileSaverService } from 'ngx-filesaver';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -15,8 +16,6 @@ import { map } from 'rxjs/operators';
 const HEALTH_NOT_REACHABLE = 'Not Reachable';
 const HEALTH_NOT_SEEN = 'Not seen last 24hours';
 const LOW_BATTERY = 15;
-// As git abbreviates a commit, and the plugin logs it (Modules/pluginHelpers.py)
-const SHORT_COMMIT_LENGTH = 7;
 
 type Tone = 'success' | 'warning' | 'danger' | 'info' | 'secondary';
 
@@ -325,22 +324,14 @@ export class DashboardSummaryComponent implements OnChanges {
     return figures;
   }
 
-  /**
-   * A release runs from a stable* branch (or from no git checkout at all): its version says it all.
-   * Any other branch, or a detached HEAD, is shown with its commit only: the VERSION file there is
-   * the one the branch started from, and would mislead.
-   */
+  // Version on a release, branch + commit otherwise (see shared/utils/plugin-identity.ts)
   private pluginFigure(): KeyFigure {
-    const branch = this.plugin?.PluginBranch;
-    const version = this.plugin?.PluginVersion || '—';
-    const commit = this.plugin?.PluginCommit?.slice(0, SHORT_COMMIT_LENGTH);
-    const gitBranch = this.plugin?.PluginCommitBranch;
-    const release = !commit || (gitBranch ?? '').startsWith('stable');
+    const id = pluginIdentity(this.plugin);
     return {
       label: this.t('dashboard.kpi.plugin'),
-      value: release ? version : gitBranch || this.t('dashboard.kpi.plugin.detached'),
-      detail: release ? gitBranch || branch || '—' : this.t('dashboard.kpi.plugin.commit', { commit }),
-      tone: release ? 'secondary' : 'warning'
+      value: id.release ? id.version || '—' : id.gitBranch || this.t('dashboard.kpi.plugin.detached'),
+      detail: id.release ? id.branch || '—' : this.t('dashboard.kpi.plugin.commit', { commit: id.commit }),
+      tone: id.release ? 'secondary' : 'warning'
     };
   }
 
@@ -382,11 +373,8 @@ export class DashboardSummaryComponent implements OnChanges {
     return shown.join(', ') + (list.length > 3 ? ' +' + (list.length - 3) : '');
   }
 
-  // The plugin sends the channel as a number; only its placeholder without a coordinator sends hex ("0b")
   private channel(): number | null {
-    const value = this.coordinator?.Channel;
-    const channel = typeof value === 'number' ? value : parseInt(value, 16);
-    return isNaN(channel) ? null : channel;
+    return coordinatorChannel(this.coordinator);
   }
 
   private number(value: number): string {
