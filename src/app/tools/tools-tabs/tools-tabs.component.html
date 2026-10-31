@@ -1,0 +1,14 @@
+<nav class="tools-tabs" [attr.aria-label]="'tools.tabs.label' | translate">
+  @for (tab of tabs; track tab.path) {
+    <a
+      class="tools-tab"
+      [class.active]="active === tab.path"
+      [attr.aria-current]="active === tab.path ? 'page' : null"
+      [routerLink]="['/tools', tab.path]"
+      >{{ tab.label | translate }}
+      @if (tab.path === 'error' && newErrors) {
+        <span class="new-errors" [attr.aria-label]="'tools.tabs.newerrors' | translate"></span>
+      }
+    </a>
+  }
+</nav>

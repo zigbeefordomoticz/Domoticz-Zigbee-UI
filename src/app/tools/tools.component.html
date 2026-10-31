@@ -1,86 +1,112 @@
-<div class="row d-flex ms-2 gap-2">
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('zdevice-raw')"
-    translate="tools.tools.zdevice-raw.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="getAllNonOptimizedDevice()"
-    translate="tools.tools.non-optimized.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('zgroups')"
-    translate="tools.tools.zgroup.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('plugin-stat')"
-    translate="tools.tools.plugin-stat.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('coordinator')"
-    translate="tools.tools.coordinator.infos.button"></button>
-  @if (logFile$ | async; as logFile) {
-    <button
-      class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-      (click)="download(logFile)"
-      translate="tools.tools.log.button"></button>
-  }
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('infos')"
-    translate="tools.tools.infos.plugin.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('plugin-health')"
-    translate="tools.tools.plugin-health.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('settings')"
-    translate="tools.tools.settings.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('domoticz-env')"
-    translate="tools.tools.domoticz-env.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('battery-state')"
-    translate="tools.tools.battery-state.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('zdevice-name')"
-    translate="tools.tools.zdevice-name.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('zgroup-list-available-device')"
-    translate="tools.tools.zgroup-list-available-device.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('ota-firmware-available')"
-    translate="tools.tools.ota-firmware-available.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('ieee2nwk-raw')"
-    translate="tools.tools.ieee2nwk-raw.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('help')"
-    translate="tools.tools.help.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('zlinky')"
-    translate="tools.tools.zlinky.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('gamma-troniques-ticmeter')"
-    translate="tools.tools.gamma-troniques-ticmeter.button"></button>
-  <button
-    class="col-lg-2 col-md-4 col-sm-5 btn btn-primary"
-    (click)="onClick('chameleon-ticmeter')"
-    translate="tools.tools.chameleon-ticmeter.button"></button>
-</div>
-@if (json) {
-  <div class="row ms-2 mt-2" [hidden]="isLoading">
-    <button class="col-lg-1 mb-2 btn btn-primary" (click)="export(json)" translate="tools.tools.export"></button>
-    <ngx-json-viewer [expanded]="false" [json]="json"></ngx-json-viewer>
+<app-tools-tabs active="link"></app-tools-tabs>
+
+<div class="data-layout">
+  <div class="data-main">
+    <section class="card">
+      <div class="card-body">
+        <h2 class="card-title" translate="tools.data.bundle.title"></h2>
+        <p class="hint" translate="tools.data.bundle.subtitle"></p>
+        <div class="bundle">
+          @for (source of bundle; track source.key) {
+            <label class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                [checked]="bundleSelected.has(source.key)"
+                (change)="toggleBundle(source.key)" />
+              <span class="form-check-label">{{ 'tools.data.' + source.key | translate }}</span>
+            </label>
+          }
+        </div>
+        <div class="bundle-foot">
+          <span class="hint" translate="tools.data.bundle.redacted"></span>
+          <button
+            type="button"
+            class="btn btn-primary"
+            [disabled]="!bundleSelected.size || bundling"
+            (click)="downloadBundle()">
+            @if (bundling) {
+              <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            }
+            {{ 'tools.data.bundle.download' | translate }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-body">
+        <h2 class="card-title" translate="tools.data.views.title"></h2>
+        @for (group of groups; track group.key) {
+          <p class="section-title">{{ 'tools.data.group.' + group.key | translate }}</p>
+          <div class="sources">
+            @for (source of group.sources; track source.key) {
+              <div class="source" [class.active]="viewed?.key === source.key">
+                <b>{{ 'tools.data.' + source.key | translate }}</b>
+                <span class="hint">{{ 'tools.data.' + source.key + '.hint' | translate }}</span>
+                <div class="source-actions">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="view(source)">
+                    {{ 'tools.data.view' | translate }}
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="download(source)">
+                    {{ 'tools.data.download' | translate }}
+                  </button>
+                </div>
+              </div>
+            }
+            @if (group.key === 'plugin' && logFile) {
+              <div class="source">
+                <b translate="tools.data.log"></b>
+                <span class="hint">{{ logFile.Filename }}</span>
+                <div class="source-actions">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="downloadLog()">
+                    {{ 'tools.data.download' | translate }}
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </section>
   </div>
-}
+
+  @if (viewed) {
+    <aside #viewer class="card viewer" [attr.aria-label]="'tools.data.' + viewed.key | translate">
+      <div class="viewer-head">
+        <div>
+          <h2 class="card-title">{{ 'tools.data.' + viewed.key | translate }}</h2>
+          <span class="hint font-monospace">
+            GET {{ viewed.route }}
+            @if (readAt && !loading) {
+              · {{ readAt | date: 'HH:mm:ss' }}
+            }
+          </span>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          [attr.aria-label]="'tools.data.close' | translate"
+          (click)="close()"></button>
+      </div>
+      <div class="viewer-actions">
+        <button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="loading" (click)="copy()">
+          {{ 'tools.data.copy' | translate }}
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="download(viewed)">
+          {{ 'tools.data.download' | translate }}
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" [disabled]="loading" (click)="refresh()">
+          {{ 'tools.data.refresh' | translate }}
+        </button>
+      </div>
+      <div class="viewer-body">
+        @if (loading) {
+          <span class="spinner-border spinner-border-sm text-primary" role="status"></span>
+        } @else {
+          <ngx-json-viewer [json]="json" [expanded]="false"></ngx-json-viewer>
+        }
+      </div>
+    </aside>
+  }
+</div>
