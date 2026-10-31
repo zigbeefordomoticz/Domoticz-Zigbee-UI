@@ -1,127 +1,127 @@
 <app-tools-tabs active="debug"></app-tools-tabs>
 
-@if (settings) {
-  <form [formGroup]="form">
-    <fieldset class="h-100">
-      <legend>
-        <div class="row">
-          <h5 class="col-sm-8" [innerHTML]="'tools.debugsetting.help.legend' | translate"></h5>
-          <div class="col-sm-4">
-            <div class="d-flex flex-row-reverse align-items-center">
-              <div class="p-2">
-                <button
-                  [disabled]="!form.valid"
-                  (click)="updateSettings()"
-                  class="btn btn-primary"
-                  translate="tools.debugsetting.validate.button"></button>
-              </div>
-              <div class="p-2 ms-3">
-                <button
-                  (click)="reinitSettings()"
-                  class="btn btn-secondary"
-                  translate="tools.debugsetting.reinit.button"></button>
-              </div>
-              <div class="switch switch-sm me-2 pr-2 float-right">
-                <input
-                  [checked]="advanced"
-                  (click)="advancedSettings($event)"
-                  type="checkbox"
-                  class="switch"
-                  id="switch-advanced" />
-                <label class="mb-0" for="switch-advanced" translate="tools.debugsetting.advanced.button"></label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </legend>
-    </fieldset>
-    <div class="row row-cols-1 row-cols-sm-1 g-4">
-      <div class="col">
-        @for (listOfSettings of settings; track listOfSettings) {
-          <div>
-            @if (hasBasicSettings(listOfSettings.ListOfSettings)) {
-              <div class="card">
-                <div
-                  class="card-header fw-bold"
-                  [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
-                <div class="card-body">
-                  <div class="card-text">
-                    <p [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></p>
-                  </div>
-                  <div class="card-text">
-                    <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center">
-                      @for (setting of listOfSettings.ListOfSettings; track setting) {
-                        @if (!setting.Advanced && setting.DataType === 'bool') {
-                          <app-debug-setting [setting]="setting" [advanced]="advanced"></app-debug-setting>
-                        }
-                      }
-                    </div>
-                    <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center mt-2">
-                      @for (setting of listOfSettings.ListOfSettings; track setting) {
-                        @if (!setting.Advanced && setting.DataType !== 'bool') {
-                          <app-debug-setting [setting]="setting" [advanced]="advanced"></app-debug-setting>
-                        }
-                      }
-                    </div>
-                    <div class="row row-cols-1 row-cols-xl-6 row-cols-md-3 row-cols-sm-1 align-items-center mt-2">
-                      @for (setting of listOfSettings.ListOfSettings; track setting) {
-                        @if (setting.Advanced && setting.Advanced === advanced) {
-                          <app-debug-setting [setting]="setting" [advanced]="advanced"></app-debug-setting>
-                        }
-                      }
-                    </div>
-                  </div>
-                </div>
-              </div>
-            }
-          </div>
+<div class="top">
+  <section class="card">
+    <div class="card-body">
+      <h2 class="card-title" translate="tools.debug.presets.title"></h2>
+      <p class="hint" translate="tools.debug.presets.hint"></p>
+      <div class="presets">
+        @for (preset of presets; track preset.key) {
+          <button type="button" class="preset" (click)="applyPreset(preset.modules)">
+            <b>{{ 'tools.debug.preset.' + preset.key | translate }}</b>
+            <span class="hint">{{ presetModules(preset.modules) }}</span>
+          </button>
         }
       </div>
     </div>
-  </form>
-}
+  </section>
 
-<ng-template #contentRestart let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" translate="setting.reloadplugin.alert.title"></h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body" translate="setting.reloadplugin.alert.subject"></div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.dismiss('cancel')"
-      translate="setting.reloadplugin.alert.cancel"></button>
-  </div>
-</ng-template>
+  <section class="card">
+    <div class="card-body">
+      <h2 class="card-title" translate="tools.debug.limits.title"></h2>
+      <p class="hint" translate="tools.debug.limits.hint"></p>
+      @for (setting of limits; track setting.Name) {
+        @if (setting.Name === 'MatchingNwkId') {
+          <div class="field">
+            <label for="debug-devices" translate="tools.debug.devices"></label>
+            <ng-select
+              labelForId="debug-devices"
+              [items]="devices"
+              bindLabel="ZDeviceName"
+              bindValue="_NwkId"
+              [multiple]="true"
+              [ngModel]="matching"
+              (ngModelChange)="setMatching($event)"
+              [placeholder]="'tools.debug.devices.all' | translate">
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.ZDeviceName || item._NwkId }} <span class="text-body-secondary">· {{ item._NwkId }}</span>
+              </ng-template>
+            </ng-select>
+            <small class="hint"
+              >{{ 'tools.debug.devices.hint' | translate }} <span class="font-monospace">MatchingNwkId</span></small
+            >
+          </div>
+        } @else {
+          <div class="field field-inline">
+            <label [for]="'debug-' + setting.Name">
+              {{ 'tools.debug.limit.' + setting.Name | translate }}
+              @if (restartNeeded(setting)) {
+                <span class="tag" translate="tools.debug.restarttag"></span>
+              }
+              <small class="hint d-block font-monospace">{{ setting.Name }}</small>
+            </label>
+            <input
+              class="form-control narrow"
+              type="number"
+              min="0"
+              [id]="'debug-' + setting.Name"
+              [(ngModel)]="values[setting.Name]" />
+          </div>
+        }
+      }
+    </div>
+  </section>
+</div>
 
-<ng-template #contentReset let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" translate="setting.resetplugin.alert.title"></h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+<section class="card modules">
+  <div class="modules-head">
+    <div>
+      <h2 class="card-title" translate="tools.debug.modules.title"></h2>
+      <span class="hint">{{ 'tools.debug.modules.on' | translate: { count: enabled.length } }}</span>
+    </div>
+    <div class="head-tools">
+      <input
+        type="search"
+        class="form-control"
+        [(ngModel)]="search"
+        [placeholder]="'tools.debug.search' | translate"
+        [attr.aria-label]="'tools.debug.search' | translate" />
+      <button type="button" class="btn btn-link" [disabled]="!enabled.length" (click)="allOff()">
+        {{ 'tools.debug.alloff' | translate }}
+      </button>
+    </div>
   </div>
-  <div class="modal-body" translate="setting.resetplugin.alert.subject"></div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.dismiss('cancel')"
-      translate="setting.resetplugin.alert.cancel"></button>
-  </div>
-</ng-template>
 
-<ng-template #contentErase let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" translate="setting.eraseplugin.alert.title"></h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  <div class="categories">
+    @for (category of categories; track category.key) {
+      @if (shown(category).length) {
+        <div class="category">
+          <h3>
+            {{ 'tools.debug.cat.' + category.key | translate }}
+            <span class="hint">{{
+              'tools.debug.cat.count' | translate: { on: onIn(category), total: category.settings.length }
+            }}</span>
+          </h3>
+          @for (setting of shown(category); track setting.Name) {
+            <div class="form-check form-switch toggle" [class.on]="values[setting.Name]">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                [id]="'debug-' + setting.Name"
+                [(ngModel)]="values[setting.Name]" />
+              <label class="form-check-label" [for]="'debug-' + setting.Name">
+                {{ label(setting) }}
+                @if (label(setting) !== setting.Name) {
+                  <small class="hint d-block font-monospace">{{ setting.Name }}</small>
+                }
+              </label>
+            </div>
+          }
+        </div>
+      }
+    }
   </div>
-  <div class="modal-body" translate="setting.eraseplugin.alert.subject"></div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.dismiss('cancel')"
-      translate="setting.eraseplugin.alert.cancel"></button>
+
+  <div class="save-bar">
+    <span class="hint flex-grow-1">{{ 'tools.debug.changes' | translate: { count: changes.length } }}</span>
+    @if (changes.length) {
+      <button type="button" class="btn btn-outline-secondary" (click)="discard()">
+        {{ 'tools.bind.discard' | translate }}
+      </button>
+    }
+    <button type="button" class="btn btn-primary" [disabled]="!changes.length || saving" (click)="save()">
+      {{ 'tools.bind.save' | translate: { count: changes.length } }}
+    </button>
   </div>
-</ng-template>
+</section>

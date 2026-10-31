@@ -6,7 +6,6 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { BindingComponent } from './binding/binding.component';
 import { CommandComponent } from './command/command.component';
 import { RawCommandComponent } from './command/raw-command/raw-command.component';
-import { DebugSettingComponent } from './debug-settings/debug-setting/debug-setting.component';
 import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
 import { ToolsRoutingModule } from './tools-routing.module';
 import { ToolsTabsComponent } from './tools-tabs/tools-tabs.component';
@@ -22,7 +21,6 @@ import { ErrorComponent } from './error/error.component';
     RawCommandComponent,
     CommandComponent,
     DebugSettingsComponent,
-    DebugSettingComponent,
     ErrorComponent
   ]
 })
