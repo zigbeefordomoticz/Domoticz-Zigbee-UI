@@ -1,59 +1,168 @@
-@if (settings) {
-  <form [formGroup]="form">
-    <fieldset class="h-100">
-      <legend>
-        <div class="row">
-          <h5 class="col-sm-8" [innerHTML]="'setting.help.legend' | translate"></h5>
-          <div class="col-sm-4">
-            <div class="d-flex flex-row-reverse align-items-center">
-              <div class="p-2">
-                <button
-                  [disabled]="!form.valid"
-                  (click)="updateSettings()"
-                  class="btn btn-primary"
-                  translate="setting.validate.button"></button>
-              </div>
-              <div class="p-2 ms-3">
-                <button (click)="reinitSettings()" class="btn btn-secondary" translate="setting.reinit.button"></button>
-              </div>
-              <div class="switch switch-sm">
-                <input
-                  [checked]="advanced"
-                  (click)="advancedSettings($event)"
-                  type="checkbox"
-                  class="switch"
-                  id="switch-advanced" />
-                <label class="mb-0" for="switch-advanced" translate="setting.advanced.button"></label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </legend>
-      <p class="card-text" [innerHTML]="'setting.help.link' | translate"></p>
-    </fieldset>
-    <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
-      @for (listOfSettings of settings; track listOfSettings) {
-        <div>
-          @if (hasBasicSettings(listOfSettings.ListOfSettings)) {
-            <div class="card h-100">
-              <div
-                class="card-header fw-bold"
-                [innerHTML]="getTranslation('setting.header.', listOfSettings._Theme)"></div>
-              <div class="card-body">
-                <p class="card-text" [innerHTML]="getTranslation('setting.subtitle.', listOfSettings._Theme)"></p>
-                <div class="card-text">
-                  @for (setting of listOfSettings.ListOfSettings; track setting) {
-                    <app-setting [setting]="setting" [advanced]="advanced"></app-setting>
-                  }
-                </div>
-              </div>
-            </div>
-          }
-        </div>
+<div class="settings-head">
+  <input
+    type="search"
+    class="form-control search"
+    [(ngModel)]="search"
+    [placeholder]="'settings.page.search' | translate"
+    [attr.aria-label]="'settings.page.search' | translate" />
+  <div class="form-check form-switch m-0">
+    <input class="form-check-input" type="checkbox" role="switch" id="settings-advanced" [(ngModel)]="advanced" />
+    <label class="form-check-label" for="settings-advanced" translate="settings.page.advanced"></label>
+  </div>
+  <a
+    class="ms-auto"
+    target="_blank"
+    rel="noopener"
+    href="https://zigbeefordomoticz.github.io/wiki/en-eng/WebUI_Settings"
+    >{{ 'settings.page.wiki' | translate }}</a
+  >
+</div>
+
+<div class="settings-layout">
+  <nav class="themes" [attr.aria-label]="'settings.page.themes' | translate">
+    @for (item of visibleThemes; track item._Theme) {
+      <button
+        type="button"
+        class="theme"
+        [class.active]="!search && theme === item._Theme"
+        [attr.aria-current]="!search && theme === item._Theme ? 'true' : null"
+        (click)="selectTheme(item._Theme)">
+        <span [innerHTML]="'setting.header.' + item._Theme | translate"></span>
+        @if (changedIn(item._Theme); as count) {
+          <span class="count">{{ count }}</span>
+        }
+      </button>
+    }
+  </nav>
+
+  <section class="card main">
+    <div class="main-head">
+      @if (search.trim()) {
+        <h2>
+          {{
+            (shown.length ? 'settings.page.results' : 'settings.page.noresult')
+              | translate: { count: shown.length, term: search.trim() }
+          }}
+        </h2>
+      } @else if (theme) {
+        <h2 [innerHTML]="'setting.header.' + theme | translate"></h2>
+        <p class="hint" [innerHTML]="'setting.subtitle.' + theme | translate"></p>
       }
     </div>
-  </form>
-}
+
+    @for (row of shown; track row.setting.Name) {
+      <div class="item" [class.changed]="changed(row)">
+        <div class="item-text">
+          <label class="item-label" [for]="'setting-' + row.setting.Name">{{ label(row) }}</label>
+          <div class="item-meta">
+            <span class="name">{{ row.setting.Name }}</span>
+            @if (search.trim()) {
+              <span class="tag" [innerHTML]="'setting.header.' + row.theme | translate"></span>
+            }
+            @if (row.setting.Advanced) {
+              <span class="tag" translate="settings.page.badge.advanced"></span>
+            }
+            @if (level(row.setting); as restart) {
+              <span class="tag tag-restart">{{ 'settings.page.badge.restart.' + restart | translate }}</span>
+            }
+          </div>
+        </div>
+        <div class="item-control">
+          @switch (row.setting.DataType) {
+            @case ('bool') {
+              <div class="form-check form-switch m-0">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  [id]="'setting-' + row.setting.Name"
+                  [(ngModel)]="values[row.setting.Name]" />
+              </div>
+            }
+            @case ('list') {
+              <select class="form-select" [id]="'setting-' + row.setting.Name" [(ngModel)]="values[row.setting.Name]">
+                @for (option of row.options; track option.label) {
+                  <option [ngValue]="option.value">{{ option.label }}</option>
+                }
+              </select>
+            }
+            @case ('int') {
+              <input
+                class="form-control narrow"
+                type="number"
+                [id]="'setting-' + row.setting.Name"
+                [class.is-invalid]="!isValid(row)"
+                [(ngModel)]="values[row.setting.Name]" />
+            }
+            @case ('hex') {
+              <input
+                class="form-control narrow font-monospace"
+                type="text"
+                [id]="'setting-' + row.setting.Name"
+                [class.is-invalid]="!isValid(row)"
+                [(ngModel)]="values[row.setting.Name]" />
+            }
+            @default {
+              <input
+                class="form-control wide"
+                type="text"
+                [id]="'setting-' + row.setting.Name"
+                [(ngModel)]="values[row.setting.Name]" />
+            }
+          }
+          @if (!isValid(row)) {
+            <small class="text-danger" translate="settings.page.invalid"></small>
+          } @else if (differsFromDefault(row)) {
+            <small class="default">
+              {{ 'settings.page.default' | translate: { value: display(row, row.setting.default_value) } }} ·
+              <button type="button" class="btn btn-link btn-sm p-0 align-baseline" (click)="resetToDefault(row)">
+                {{ 'settings.page.reset' | translate }}
+              </button>
+            </small>
+          }
+        </div>
+      </div>
+    }
+  </section>
+
+  <aside class="card review" [attr.aria-label]="'settings.page.review.label' | translate">
+    <div class="review-head">
+      <h2>{{ 'settings.page.review.title' | translate: { count: changes.length } }}</h2>
+    </div>
+    @for (change of changes; track change.row.setting.Name) {
+      <div class="review-item">
+        <span class="name">{{ change.row.setting.Name }}</span>
+        <span>{{ label(change.row) }}:</span>
+        <span class="old">{{ display(change.row, change.from) }}</span>
+        →
+        <b>{{ display(change.row, change.to) }}</b>
+      </div>
+    } @empty {
+      <p class="hint px-3" translate="settings.page.review.none"></p>
+    }
+    @if (impact) {
+      <div class="impact" [class.impact-high]="impact > 1">
+        {{ 'settings.page.review.impact.' + impact | translate }}
+      </div>
+    }
+    @if (changes.length) {
+      <div class="review-actions">
+        <button type="button" class="btn btn-outline-secondary" (click)="discard()">
+          {{ 'settings.page.discard' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" [disabled]="!valid || saving" (click)="save()">
+          {{ 'settings.page.save' | translate: { count: changes.length } }}
+        </button>
+      </div>
+    }
+    <div class="review-foot">
+      <button type="button" class="btn btn-link btn-sm px-0" (click)="allToDefaults()">
+        {{ 'settings.page.defaults' | translate }}
+      </button>
+      <p class="hint" translate="settings.page.defaults.hint"></p>
+    </div>
+  </aside>
+</div>
 
 <ng-template #contentRestart let-modal>
   <div class="modal-header">
