@@ -1,11 +1,284 @@
 <app-tools-tabs active="command"></app-tools-tabs>
 
-<div class="row row-cols-1 row-cols-xxl-3 row-cols-lg-2 row-cols-md-1 row-cols-sm-1 g-4">
-  <app-debug-command></app-debug-command>
-  @if (!plugin?.Zigpy) {
-    <app-raw-command></app-raw-command>
-  }
-  @if (plugin?.Zigpy) {
-    <app-raw-command-zigpy></app-raw-command-zigpy>
-  }
+<div class="command-layout">
+  <nav class="card device-list" [attr.aria-label]="'tools.cmd.devices' | translate">
+    <input
+      type="search"
+      class="form-control mb-2"
+      [(ngModel)]="search"
+      [placeholder]="'tools.cmd.search' | translate"
+      [attr.aria-label]="'tools.cmd.search' | translate" />
+    <div class="devices">
+      @for (item of shown; track item._NwkId) {
+        <button
+          type="button"
+          class="device"
+          [class.active]="device?._NwkId === item._NwkId"
+          [attr.aria-current]="device?._NwkId === item._NwkId ? 'true' : null"
+          (click)="select(item)">
+          <b>{{ item.ZDeviceName || item._NwkId }}</b>
+          <span class="sub">
+            <span class="font-monospace">{{ item._NwkId }}</span>
+            @if (item.Model) {
+              · {{ item.Model }}
+            }
+            @if (item.LogicalType !== 'Router') {
+              · {{ 'tools.cmd.enddevice' | translate }}
+            }
+          </span>
+        </button>
+      }
+    </div>
+  </nav>
+
+  <div class="main">
+    @if (!device) {
+      <section class="card">
+        <div class="card-body hint" translate="tools.cmd.pick"></div>
+      </section>
+    } @else {
+      <section #panel class="card">
+        <div class="device-head">
+          <div>
+            <h2>{{ device.ZDeviceName || device._NwkId }}</h2>
+            <span class="sub"
+              ><span class="font-monospace">{{ device._NwkId }}</span>
+              @if (device.Model) {
+                · {{ device.Model }}
+              }
+            </span>
+          </div>
+        </div>
+
+        @if (!capabilities) {
+          <div class="row-cap"><span class="spinner-border spinner-border-sm text-primary" role="status"></span></div>
+        } @else if (noCommand) {
+          <div class="row-cap hint" translate="tools.cmd.none"></div>
+        } @else {
+          @for (type of switchTypes; track type) {
+            <div class="row-cap">
+              <div class="cap-label">
+                {{ 'tools.cmd.power' | translate }}<span class="sub">{{ type }}</span>
+              </div>
+              <div class="cap-controls">
+                <button type="button" class="btn btn-outline-secondary" (click)="send('On', type)">
+                  {{ 'tools.cmd.on' | translate }}
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="send('Off', type)">
+                  {{ 'tools.cmd.off' | translate }}
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="send('Toggle', type)">
+                  {{ 'tools.cmd.toggle' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+          @if (hasType('LvlControl')) {
+            <div class="row-cap">
+              <label class="cap-label" for="cmd-level"
+                >{{ 'tools.cmd.level' | translate }}<span class="sub">SetLevel · %</span></label
+              >
+              <div class="cap-controls">
+                <input id="cmd-level" type="range" class="form-range" min="0" max="100" [(ngModel)]="level" />
+                <span class="value">{{ level }} %</span>
+                <button type="button" class="btn btn-primary" (click)="send('SetLevel', 'LvlControl', +level)">
+                  {{ 'tools.cmd.send' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+          @if (hasType('WindowCovering')) {
+            <div class="row-cap">
+              <div class="cap-label">{{ 'tools.cmd.cover' | translate }}<span class="sub">WindowCovering</span></div>
+              <div class="cap-controls">
+                <button type="button" class="btn btn-outline-secondary" (click)="send('On', 'WindowCovering')">
+                  {{ 'tools.cmd.open' | translate }}
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="send('Off', 'WindowCovering')">
+                  {{ 'tools.cmd.close' | translate }}
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="send('Stop', 'WindowCovering')">
+                  {{ 'tools.cmd.stop' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="row-cap">
+              <label class="cap-label" for="cmd-cover"
+                >{{ 'tools.cmd.coverlevel' | translate }}<span class="sub">SetLevel · %</span></label
+              >
+              <div class="cap-controls">
+                <input id="cmd-cover" type="range" class="form-range" min="0" max="100" [(ngModel)]="cover" />
+                <span class="value">{{ cover }} %</span>
+                <button type="button" class="btn btn-primary" (click)="send('SetLevel', 'WindowCovering', +cover)">
+                  {{ 'tools.cmd.send' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+          @if (hasType('ThermoSetpoint')) {
+            <div class="row-cap">
+              <label class="cap-label" for="cmd-setpoint"
+                >{{ 'tools.cmd.setpoint' | translate }}<span class="sub">SetPoint · °C</span></label
+              >
+              <div class="cap-controls">
+                <input
+                  id="cmd-setpoint"
+                  type="number"
+                  class="form-control narrow"
+                  min="5"
+                  max="35"
+                  [(ngModel)]="setpoint" />
+                <span class="value">°C</span>
+                <button type="button" class="btn btn-primary" (click)="send('SetPoint', 'ThermoSetpoint', +setpoint)">
+                  {{ 'tools.cmd.send' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+          @for (type of colorTypes; track type) {
+            <div class="row-cap">
+              <label class="cap-label" [for]="'cmd-color-' + type"
+                >{{ 'tools.cmd.colour' | translate }}<span class="sub">{{ type }}</span></label
+              >
+              <div class="cap-controls">
+                <input
+                  [id]="'cmd-color-' + type"
+                  type="color"
+                  class="form-control form-control-color"
+                  [(ngModel)]="color" />
+                <input
+                  type="range"
+                  class="form-range"
+                  min="0"
+                  max="100"
+                  [(ngModel)]="brightness"
+                  [attr.aria-label]="'tools.cmd.brightness' | translate" />
+                <span class="value">{{ brightness }} %</span>
+                <button type="button" class="btn btn-primary" (click)="sendColor(type)">
+                  {{ 'tools.cmd.send' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+          @if (has('Identify') || has('IdentifyEffect')) {
+            <div class="row-cap">
+              <label class="cap-label" for="cmd-effect">{{ 'tools.cmd.identify' | translate }}</label>
+              <div class="cap-controls">
+                @if (has('Identify')) {
+                  <button type="button" class="btn btn-outline-secondary" (click)="send('Identify', null)">
+                    {{ 'tools.cmd.identify.button' | translate }}
+                  </button>
+                }
+                @if (has('IdentifyEffect')) {
+                  <select id="cmd-effect" class="form-select narrow-select" [(ngModel)]="effect">
+                    @for (item of effects; track item.value) {
+                      <option [ngValue]="item.value">{{ item.label | translate }}</option>
+                    }
+                  </select>
+                  <button type="button" class="btn btn-primary" (click)="send('IdentifyEffect', null, effect)">
+                    {{ 'tools.cmd.send' | translate }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+          @if (has('PowerStateAfterOffOn')) {
+            <div class="row-cap">
+              <label class="cap-label" for="cmd-poweron"
+                >{{ 'tools.cmd.poweron' | translate }}<span class="sub">PowerStateAfterOffOn</span></label
+              >
+              <div class="cap-controls">
+                <select id="cmd-poweron" class="form-select narrow-select" [(ngModel)]="powerOn">
+                  @for (item of powerOnModes; track item.value) {
+                    <option [ngValue]="item.value">{{ item.label | translate }}</option>
+                  }
+                </select>
+                <button type="button" class="btn btn-primary" (click)="send('PowerStateAfterOffOn', null, powerOn)">
+                  {{ 'tools.cmd.send' | translate }}
+                </button>
+              </div>
+            </div>
+          }
+        }
+
+        @if (plugin?.Zigpy) {
+          <details class="raw">
+            <summary>{{ 'tools.cmd.raw.title' | translate }}</summary>
+            <p class="hint px-3" translate="tools.cmd.raw.hint"></p>
+            <div class="raw-grid">
+              <div>
+                <label class="form-label" for="raw-profile" translate="tools.cmd.raw.profile"></label>
+                <input id="raw-profile" class="form-control font-monospace" [(ngModel)]="raw.ProfileId" />
+              </div>
+              <div>
+                <label class="form-label" for="raw-cluster" translate="tools.cmd.raw.cluster"></label>
+                <input id="raw-cluster" class="form-control font-monospace" [(ngModel)]="raw.ClusterId" />
+              </div>
+              <div>
+                <label class="form-label" for="raw-src" translate="tools.cmd.raw.sourceep"></label>
+                <input id="raw-src" class="form-control font-monospace" [(ngModel)]="raw.SourceEp" />
+              </div>
+              <div>
+                <label class="form-label" for="raw-tgt" translate="tools.cmd.raw.targetep"></label>
+                <input id="raw-tgt" class="form-control font-monospace" [(ngModel)]="raw.TargetEp" />
+              </div>
+              <div>
+                <label class="form-label" for="raw-sqn" translate="tools.cmd.raw.sqn"></label>
+                <input id="raw-sqn" class="form-control font-monospace" [(ngModel)]="raw.Sqn" />
+              </div>
+            </div>
+            <div class="raw-options">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="raw-group" [(ngModel)]="raw.GroupAddressFlag" />
+                <label class="form-check-label" for="raw-group" translate="tools.cmd.raw.togroup"></label>
+              </div>
+              @if (raw.GroupAddressFlag) {
+                <input
+                  class="form-control font-monospace narrow"
+                  [(ngModel)]="raw.group"
+                  [placeholder]="'tools.cmd.raw.groupid' | translate"
+                  [attr.aria-label]="'tools.cmd.raw.groupid' | translate" />
+              }
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="raw-ack" [(ngModel)]="raw.AckMode" />
+                <label class="form-check-label" for="raw-ack" translate="tools.cmd.raw.ack"></label>
+              </div>
+            </div>
+            <div class="raw-send">
+              <input
+                class="form-control font-monospace"
+                [(ngModel)]="raw.Payload"
+                [placeholder]="'tools.cmd.raw.payload' | translate"
+                [attr.aria-label]="'tools.cmd.raw.payload' | translate" />
+              <button type="button" class="btn btn-primary" [disabled]="!rawValid" (click)="sendRaw()">
+                {{ 'tools.cmd.raw.send' | translate }}
+              </button>
+            </div>
+          </details>
+        }
+      </section>
+    }
+
+    <section class="card">
+      <div class="card-body pb-2">
+        <h2 class="card-title" translate="tools.cmd.log.title"></h2>
+      </div>
+      @for (entry of sent; track entry.time) {
+        <div class="log-row">
+          <span class="font-monospace">{{ entry.time | date: 'HH:mm:ss' }}</span>
+          <span>{{ entry.device }}</span>
+          <span class="font-monospace">{{ entry.text }}</span>
+          <span class="badge rounded-pill" [class.text-bg-success]="entry.ok" [class.text-bg-danger]="!entry.ok">
+            {{ (entry.ok ? 'tools.cmd.log.sent' : 'tools.cmd.log.failed') | translate }}
+          </span>
+        </div>
+      } @empty {
+        <p class="hint px-3 pb-3" translate="tools.cmd.log.empty"></p>
+      }
+    </section>
+
+    @if (plugin && !plugin.Zigpy) {
+      <app-raw-command></app-raw-command>
+    }
+  </div>
 </div>

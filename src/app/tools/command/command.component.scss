@@ -1,0 +1,201 @@
+// Device list on the left, the device's commands beside it; stacked on a phone
+.command-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.device-list {
+  flex: 1 1 16rem;
+  padding: 0.625rem;
+
+  @media (width >= 768px) {
+    max-width: 19rem;
+  }
+}
+
+.devices {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.device {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.625rem;
+  color: var(--bs-body-color);
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: var(--bs-border-radius);
+
+  b {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  &.active {
+    background-color: var(--bs-primary-bg-subtle);
+
+    b {
+      color: var(--bs-primary-text-emphasis);
+    }
+  }
+}
+
+.sub {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+}
+
+.hint {
+  font-size: 0.8125rem;
+  color: var(--bs-secondary-color);
+}
+
+.main {
+  display: flex;
+  flex: 999 1 32rem;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.device-head {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+
+  h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+}
+
+.row-cap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--bs-border-color-translucent);
+
+  &:first-of-type {
+    border-top: 0;
+  }
+}
+
+.cap-label {
+  flex: 0 0 10rem;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  .sub {
+    font-weight: 400;
+  }
+}
+
+.cap-controls {
+  display: flex;
+  flex: 1 1 18rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  min-width: 0;
+
+  .form-range {
+    flex: 1 1 10rem;
+  }
+}
+
+.value {
+  min-width: 3rem;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.narrow {
+  width: 7rem;
+}
+
+.narrow-select {
+  width: auto;
+  min-width: 10rem;
+}
+
+.raw {
+  border-top: 1px solid var(--bs-border-color-translucent);
+
+  summary {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+.raw-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0 1rem 0.75rem;
+
+  > div {
+    flex: 1 1 7rem;
+  }
+
+  .form-label {
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+}
+
+.raw-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: center;
+  padding: 0 1rem 0.75rem;
+  font-size: 0.875rem;
+
+  .form-check {
+    margin: 0;
+  }
+}
+
+.raw-send {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+
+  .form-control {
+    flex: 1 1 16rem;
+  }
+}
+
+.log-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.875rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  border-top: 1px solid var(--bs-border-color-translucent);
+}
