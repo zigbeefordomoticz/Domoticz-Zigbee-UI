@@ -38,6 +38,12 @@
       <b>{{ otaDevice }} {{ otaProgress }}</b>
     </a>
   }
+  @if (groupScan) {
+    <a class="status-item" routerLink="/admin" [queryParams]="{ action: 'group' }">
+      <span class="dot dot-info"></span>
+      <b translate="admin.status.groupscan"></b>
+    </a>
+  }
   @if (restartNeeded > 0) {
     <a class="status-item" routerLink="/admin" [queryParams]="{ action: 'plugin' }">
       <span class="dot dot-warning"></span>

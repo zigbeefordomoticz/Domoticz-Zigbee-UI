@@ -25,6 +25,7 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
   permitToJoin: number | null = null;
   otaDevice: string | null = null;
   otaProgress: string | null = null;
+  groupScan = false;
   restartNeeded = 0;
 
   readonly tabs = [
@@ -52,6 +53,7 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
     this.apiService.getPluginhealth().subscribe(health => {
       this.otaDevice = health?.OTAupdateDevice || null;
       this.otaProgress = health?.OTAupdateProgress ?? null;
+      this.groupScan = health?.GroupStatus === 'scan';
     });
     this.apiService.getRestartNeeded().subscribe(result => (this.restartNeeded = result?.RestartNeeded ?? 0));
   }
