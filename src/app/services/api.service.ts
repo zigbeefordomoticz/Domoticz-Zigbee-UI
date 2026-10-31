@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Logger } from '@app/core';
-import { Binding } from '@app/shared/models/binding';
+import { Binding, BindingTable } from '@app/shared/models/binding';
 import { Capabilities } from '@app/shared/models/capabilities';
 import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
 import { Command } from '@app/shared/models/command';
@@ -70,6 +70,8 @@ const routes = {
   rawCommandZigpy: '/raw-zigbee',
   bindLSTcluster: '/bind-lst-cluster',
   bindLSTdevice: '/bind-lst-device',
+  bindingTableReq: '/binding-table-req',
+  bindingTableDisp: '/binding-table-disp',
   scanDeviceForGrp: '/scan-device-for-grp',
   logErrorHistory: '/log-error-history',
   clearErrorHistory: '/clear-error-history',
@@ -552,6 +554,21 @@ export class ApiService {
 
   getBindLSTcluster(): Observable<Cluster[]> {
     return this.httpClient.get(routes.bindLSTcluster).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  // Asks the device for its binding table; the answer is stored by the plugin, read with getBindingTable()
+  getBindingTableRequest(nwkId: string): Observable<any> {
+    return this.httpClient.get(routes.bindingTableReq + '/' + nwkId).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getBindingTable(nwkId: string): Observable<BindingTable | null> {
+    return this.httpClient.get(routes.bindingTableDisp + '/' + nwkId).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
