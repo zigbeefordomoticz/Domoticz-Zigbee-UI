@@ -1,0 +1,192 @@
+<div class="provisioning-row">
+  <section class="card pair-card">
+    <div class="card-body">
+      <h2 class="card-title" translate="admin.provisioning.pair.title"></h2>
+      <p class="hint" translate="admin.provisioning.pair.subtitle"></p>
+
+      <div class="modes" role="radiogroup" [attr.aria-label]="'admin.provisioning.pair.title' | translate">
+        <label class="mode" [class.selected]="mode === 'all'">
+          <input type="radio" class="form-check-input" name="pairing-mode" value="all" [(ngModel)]="mode" />
+          <span>
+            <b translate="admin.provisioning.mode.all"></b>
+            <span class="hint" translate="admin.provisioning.mode.all.hint"></span>
+          </span>
+        </label>
+        <label class="mode" [class.selected]="mode === 'router'">
+          <input type="radio" class="form-check-input" name="pairing-mode" value="router" [(ngModel)]="mode" />
+          <span>
+            <b translate="admin.provisioning.mode.router"></b>
+            <span class="hint" translate="admin.provisioning.mode.router.hint"></span>
+          </span>
+        </label>
+        @if (mode === 'router') {
+          <ng-select
+            [items]="routers"
+            bindLabel="ZDeviceName"
+            bindValue="_NwkId"
+            [(ngModel)]="router"
+            [searchable]="true"
+            [clearable]="false"
+            [placeholder]="'admin.provisioning.router.placeholder' | translate"
+            [attr.aria-label]="'admin.provisioning.router.placeholder' | translate">
+            <ng-template ng-option-tmp let-item="item">
+              {{ item.ZDeviceName }} <span class="text-body-secondary">· {{ item._NwkId }}</span>
+            </ng-template>
+          </ng-select>
+        }
+      </div>
+
+      <div class="pair-state">
+        @if (open) {
+          <span class="badge rounded-pill text-bg-success">
+            {{ (permanent ? 'admin.provisioning.state.permanent' : 'admin.provisioning.state.open') | translate }}
+          </span>
+          @if (!permanent) {
+            <div class="timer" aria-live="polite">{{ left }}</div>
+            <div
+              class="progress"
+              role="progressbar"
+              [attr.aria-valuenow]="progress"
+              aria-valuemin="0"
+              aria-valuemax="100">
+              <div class="progress-bar bg-success" [style.width.%]="progress"></div>
+            </div>
+          }
+          <div class="actions">
+            <button type="button" class="btn btn-outline-secondary" (click)="stop()">
+              {{ 'admin.provisioning.stop.button' | translate }}
+            </button>
+            @if (!permanent) {
+              <button type="button" class="btn btn-success" [disabled]="!canOpen" (click)="extend()">
+                {{ 'admin.provisioning.extend.button' | translate }}
+              </button>
+            }
+          </div>
+        } @else {
+          <span class="badge rounded-pill text-bg-light border" translate="admin.provisioning.state.closed"></span>
+          <div class="actions">
+            <button type="button" class="btn btn-success" [disabled]="!canOpen" (click)="openPairing()">
+              {{ 'admin.provisioning.open.button' | translate }}
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="card feed-card">
+    <div class="card-body">
+      <h2 class="card-title" translate="admin.provisioning.joined.title"></h2>
+      <p class="hint" translate="admin.provisioning.joined.subtitle"></p>
+
+      @if (open) {
+        <div class="joined waiting">
+          <span class="spinner-grow spinner-grow-sm text-primary" aria-hidden="true"></span>
+          <span translate="admin.provisioning.joined.waiting"></span>
+        </div>
+      } @else if (joined.length === 0) {
+        <p class="empty" translate="admin.provisioning.joined.empty"></p>
+      }
+
+      @for (item of joined; track item.nwkId) {
+        <div class="joined">
+          <div class="joined-head">
+            <div>
+              @if (deviceOf(item.nwkId)?.ZDeviceName || item.hardware?.Model; as title) {
+                <b>{{ title }}</b>
+                <span class="font-monospace text-body-secondary"> · {{ item.nwkId }}</span>
+              } @else {
+                <b class="font-monospace">{{ item.nwkId }}</b>
+              }
+            </div>
+            <span
+              class="badge rounded-pill"
+              [class.text-bg-primary]="item.status === 'joining'"
+              [class.text-bg-success]="item.status === 'inDB'"
+              [class.text-bg-danger]="item.status === 'Failed'"
+              [class.text-bg-warning]="item.status === 'Unexpected'">
+              {{ 'admin.provisioning.status.' + item.status | translate }}
+            </span>
+          </div>
+          @if (item.status !== 'inDB') {
+            <p class="hint mb-1">{{ 'admin.provisioning.hint.' + item.status | translate }}</p>
+          }
+          @if (item.hardware; as hw) {
+            <dl class="facts">
+              @if (hw.Model) {
+                <dt translate="admin.provisioning.field.model"></dt>
+                <dd>{{ hw.Model }}</dd>
+              }
+              <dt>IEEE</dt>
+              <dd class="font-monospace">{{ hw.IEEE }}</dd>
+              <dt translate="admin.provisioning.field.certified"></dt>
+              <dd>{{ 'admin.provisioning.certified.' + certified(hw.PluginCertified) | translate }}</dd>
+              @if (hw.ProfileId) {
+                <dt translate="admin.provisioning.field.type"></dt>
+                <dd>
+                  {{ hw.ProfileId }} {{ hw.ProfileIdDesc }}
+                  @if (hw.ZDeviceID) {
+                    · {{ hw.ZDeviceID }} {{ hw.ZDeviceIDDesc }}
+                  }
+                </dd>
+              }
+              @for (ep of hw.Ep; track ep.Ep) {
+                <dt>{{ 'admin.provisioning.field.endpoint' | translate: { ep: ep.Ep } }}</dt>
+                <dd>
+                  @for (cluster of ep.Clusters; track cluster.ClusterId) {
+                    <span class="cluster">{{ cluster.ClusterId }} {{ cluster.ClusterDesc }}</span>
+                  }
+                </dd>
+              }
+              @if (deviceOf(item.nwkId)?.WidgetList?.length) {
+                <dt translate="admin.provisioning.field.widgets"></dt>
+                <dd>{{ deviceOf(item.nwkId).WidgetList.join(', ') }}</dd>
+              }
+            </dl>
+          }
+        </div>
+      }
+    </div>
+  </section>
+</div>
+
+<section class="card">
+  <div class="card-body">
+    <h2 class="card-title" translate="admin.provisioning.paired.title"></h2>
+    <p class="hint" translate="admin.provisioning.paired.subtitle"></p>
+    <ng-select
+      class="device-select"
+      [items]="devices"
+      bindLabel="ZDeviceName"
+      bindValue="_NwkId"
+      [(ngModel)]="device"
+      [searchable]="true"
+      [searchFn]="searchDevice"
+      [placeholder]="'admin.provisioning.paired.placeholder' | translate"
+      [attr.aria-label]="'admin.provisioning.paired.placeholder' | translate">
+      <ng-template ng-option-tmp let-item="item">
+        {{ item.ZDeviceName }}
+        <span class="text-body-secondary">· {{ item._NwkId }}{{ item.Model ? ' · ' + item.Model : '' }}</span>
+      </ng-template>
+    </ng-select>
+
+    <div class="action-row">
+      <div>
+        <b translate="admin.provisioning.reset.title"></b>
+        <span class="hint" translate="admin.provisioning.reset.hint"></span>
+      </div>
+      <button type="button" class="btn btn-outline-secondary" [disabled]="!device" (click)="fullReset()">
+        {{ 'admin.fullreset.button' | translate }}
+      </button>
+    </div>
+    <div class="action-row">
+      <div>
+        <b translate="admin.provisioning.recreate.title"></b>
+        <span class="hint" translate="admin.provisioning.recreate.hint"></span>
+      </div>
+      <button type="button" class="btn btn-outline-secondary" [disabled]="!device" (click)="recreateWidgets()">
+        {{ 'admin.recreate.button' | translate }}
+      </button>
+    </div>
+  </div>
+</section>

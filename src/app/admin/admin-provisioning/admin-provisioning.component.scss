@@ -1,0 +1,161 @@
+// Pairing panel beside the devices that joined; one column on a phone
+.provisioning-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.pair-card {
+  flex: 1 1 20rem;
+  max-width: 28rem;
+}
+
+.feed-card {
+  flex: 999 1 28rem;
+  min-width: 0;
+}
+
+.card-title {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.hint {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--bs-secondary-color);
+}
+
+.modes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin-top: 1rem;
+}
+
+.mode {
+  display: flex;
+  gap: 0.625rem;
+  align-items: flex-start;
+  padding: 0.75rem;
+  cursor: pointer;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-lg);
+
+  input {
+    flex: none;
+    margin-top: 0.2rem;
+  }
+
+  &.selected {
+    background-color: var(--bs-primary-bg-subtle);
+    border-color: var(--bs-primary);
+  }
+}
+
+.pair-state {
+  margin-top: 1rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--bs-border-color-translucent);
+}
+
+.timer {
+  margin: 0.375rem 0 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.progress {
+  height: 0.375rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.875rem;
+}
+
+.empty {
+  margin: 1rem 0 0;
+  color: var(--bs-secondary-color);
+}
+
+.joined {
+  margin-top: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-lg);
+
+  &.waiting {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-weight: 600;
+  }
+}
+
+.joined-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.375rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content auto;
+  gap: 0.125rem 0.875rem;
+  margin: 0;
+  font-size: 0.8125rem;
+
+  dt {
+    font-weight: 400;
+    color: var(--bs-secondary-color);
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.cluster {
+  display: inline-block;
+  margin: 0.125rem 0.25rem 0.125rem 0;
+  padding: 0 0.375rem;
+  font-size: 0.75rem;
+  background-color: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-sm);
+}
+
+.device-select {
+  max-width: 30rem;
+  margin: 0.75rem 0 0.25rem;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--bs-border-color-translucent);
+
+  > div {
+    flex: 1 1 18rem;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
