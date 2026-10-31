@@ -1,85 +1,208 @@
 <app-tools-tabs active="binding"></app-tools-tabs>
 
-<div class="row row-cols-1 row-cols-xxl-3 row-cols-lg-2 row-cols-md-1 row-cols-sm-1 g-4">
-  <form [formGroup]="form">
-    <div class="card">
-      <div class="card-header fw-bold" translate="tools.binding.title"></div>
-      <div class="card-body">
-        <p class="card-text" [innerHTML]="'tools.binding.subtitle' | translate"></p>
-        <div class="card-text">
-          <div class="row">
-            <div class="col-sm-6">
-              <div>
-                <ng-select
-                  [items]="clusters$ | async"
-                  [multiple]="false"
-                  [closeOnSelect]="true"
-                  placeholder="{{ 'tools.binding.cluster' | translate }}"
-                  appendTo="body"
-                  bindLabel="fullName"
-                  bindValue="ClusterId"
-                  formControlName="cluster">
-                </ng-select>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-sm-6">
-              <div>
-                <ng-select
-                  [items]="devicesSource"
-                  [multiple]="false"
-                  (change)="filterDevices($event)"
-                  [closeOnSelect]="true"
-                  placeholder="{{ 'tools.binding.sourceEp' | translate }}"
-                  appendTo="body"
-                  bindLabel="ZDeviceName"
-                  formControlName="source">
-                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                    <span>
-                      <b>Device name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> :
-                      {{ item.Ep }} - <b>Nwkid</b> : {{ item.NwkId }}
-                    </span>
-                  </ng-template>
-                </ng-select>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-2">
-            <div class="col-sm-6">
-              <div>
-                <ng-select
-                  [items]="devicesTargetFiltered"
-                  [multiple]="false"
-                  [closeOnSelect]="true"
-                  bindLabel="ZDeviceName"
-                  placeholder="{{ 'tools.binding.destEp' | translate }}"
-                  appendTo="body"
-                  formControlName="target">
-                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-                    <span>
-                      <b>Device name</b> : {{ item.ZDeviceName }} - <b>IEEE</b> : {{ item.IEEE }} - <b>Ep</b> :
-                      {{ item.Ep }} - <b>Nwkid</b> : {{ item.NwkId }}
-                    </span>
-                  </ng-template>
-                </ng-select>
-              </div>
-            </div>
-          </div>
+<div class="bind-layout">
+  <nav class="card device-list" [attr.aria-label]="'tools.cmd.devices' | translate">
+    <input
+      type="search"
+      class="form-control mb-2"
+      [(ngModel)]="search"
+      [placeholder]="'tools.cmd.search' | translate"
+      [attr.aria-label]="'tools.cmd.search' | translate" />
+    <div class="devices">
+      @for (item of shown; track item._NwkId) {
+        <button
+          type="button"
+          class="device"
+          [class.active]="device?._NwkId === item._NwkId"
+          [attr.aria-current]="device?._NwkId === item._NwkId ? 'true' : null"
+          (click)="select(item)">
+          <b>{{ item.ZDeviceName || item._NwkId }}</b>
+          <span class="sub"
+            ><span class="font-monospace">{{ item._NwkId }}</span>
+            @if (item.Model) {
+              · {{ item.Model }}
+            }
+          </span>
+        </button>
+      }
+    </div>
+  </nav>
+
+  <section #panel class="card main">
+    @if (!device) {
+      <div class="card-body hint" translate="tools.bind.pick"></div>
+    } @else {
+      <div class="device-head">
+        <div>
+          <h2>{{ device.ZDeviceName || device._NwkId }}</h2>
+          <span class="sub">
+            <span class="font-monospace">{{ device._NwkId }}</span> ·
+            @if (table) {
+              {{
+                'tools.bind.table.read'
+                  | translate: { date: (table.TimeStamp * 1000 | date: 'dd/MM HH:mm'), status: table.Status }
+              }}
+            } @else {
+              {{ 'tools.bind.table.none' | translate }}
+            }
+          </span>
+        </div>
+        <div class="head-actions">
+          <button type="button" class="btn btn-outline-secondary" (click)="requestTable()">
+            {{ 'tools.bind.table.request' | translate }}
+          </button>
+          @if (zigpy) {
+            <button type="button" class="btn btn-outline-secondary" (click)="sendReporting()">
+              {{ 'tools.bind.report.send' | translate }}
+            </button>
+          }
         </div>
       </div>
-      <div class="card-footer d-flex justify-content-end">
-        <button
-          class="btn btn-primary"
-          (click)="putBinding()"
-          [disabled]="!form.valid"
-          translate="tools.binding.button.put"></button>
-        <button
-          class="ms-2 btn btn-primary"
-          (click)="putUnBinding()"
-          [disabled]="!form.valid"
-          translate="tools.unbinding.button.put"></button>
-      </div>
-    </div>
-  </form>
+
+      @if (loading) {
+        <div class="p-3"><span class="spinner-border spinner-border-sm text-primary" role="status"></span></div>
+      } @else if (!rows.length) {
+        <p class="hint p-3 m-0" translate="tools.bind.empty"></p>
+      } @else {
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th translate="tools.bind.col.cluster"></th>
+                <th translate="tools.bind.col.bound"></th>
+                @if (zigpy) {
+                  <th translate="tools.bind.col.min"></th>
+                  <th translate="tools.bind.col.max"></th>
+                  <th translate="tools.bind.col.change"></th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of rows; track row.ep + row.id) {
+                <tr class="cluster">
+                  <td>
+                    <b class="font-monospace">{{ row.id }}</b> {{ row.name }}
+                    <span class="sub">ep {{ row.ep }}</span>
+                  </td>
+                  <td [attr.colspan]="zigpy ? 4 : 1">
+                    <div class="bindings">
+                      @for (binding of row.bindings; track $index) {
+                        <span class="binding">
+                          {{ binding.label }}
+                          @if (binding.ep) {
+                            · ep {{ binding.ep }}
+                          }
+                          @if (binding.destIeee) {
+                            <button
+                              type="button"
+                              class="unbind"
+                              [attr.aria-label]="'tools.bind.unbind' | translate: { target: binding.label }"
+                              [title]="'tools.bind.unbind' | translate: { target: binding.label }"
+                              (click)="unbind(row, binding)">
+                              ×
+                            </button>
+                          }
+                        </span>
+                      }
+                      @if (adding !== row) {
+                        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="startBind(row)">
+                          + {{ 'tools.bind.bind' | translate }}
+                        </button>
+                      }
+                    </div>
+                    @if (adding === row) {
+                      <div class="add">
+                        <label class="small" [for]="'bind-target-' + row.ep + row.id">{{
+                          'tools.bind.to' | translate
+                        }}</label>
+                        <select
+                          class="form-select form-select-sm"
+                          [id]="'bind-target-' + row.ep + row.id"
+                          [(ngModel)]="target">
+                          <option [ngValue]="null" disabled>{{ 'tools.bind.choose' | translate }}</option>
+                          @for (item of targets; track item.NwkId + item.Ep) {
+                            <option [ngValue]="item">
+                              {{ item.ZDeviceName || item.NwkId }} · ep {{ item.Ep }} · {{ item.NwkId }}
+                            </option>
+                          }
+                        </select>
+                        <button type="button" class="btn btn-sm btn-primary" [disabled]="!target" (click)="bind()">
+                          {{ 'tools.bind.bind' | translate }}
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="adding = null">
+                          {{ 'tools.bind.cancel' | translate }}
+                        </button>
+                      </div>
+                    }
+                  </td>
+                </tr>
+                @for (report of row.reports; track report.attribute) {
+                  <tr class="report" [class.changed]="changed(report)">
+                    <td class="attr">
+                      <span class="font-monospace">{{ report.attribute }}</span>
+                    </td>
+                    <td>
+                      <span class="sub">{{ 'tools.bind.type' | translate: { type: report.info.DataType } }}</span>
+                    </td>
+                    <td>
+                      <input
+                        class="form-control form-control-sm cell"
+                        [class.is-invalid]="!reportValid(report)"
+                        [value]="value(report, 'MinInterval')"
+                        (change)="setValue(report, 'MinInterval', $any($event.target).value)"
+                        [attr.aria-label]="
+                          ('tools.bind.col.min' | translate) + ' ' + row.id + '/' + report.attribute
+                        " />
+                    </td>
+                    <td>
+                      <input
+                        class="form-control form-control-sm cell"
+                        [class.is-invalid]="!reportValid(report)"
+                        [value]="value(report, 'MaxInterval')"
+                        (change)="setValue(report, 'MaxInterval', $any($event.target).value)"
+                        [attr.aria-label]="
+                          ('tools.bind.col.max' | translate) + ' ' + row.id + '/' + report.attribute
+                        " />
+                    </td>
+                    <td>
+                      @if (changeEditable(report)) {
+                        <input
+                          class="form-control form-control-sm cell"
+                          [value]="value(report, 'Change')"
+                          (change)="setValue(report, 'Change', $any($event.target).value)"
+                          [attr.aria-label]="
+                            ('tools.bind.col.change' | translate) + ' ' + row.id + '/' + report.attribute
+                          " />
+                      } @else {
+                        <span class="sub">—</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      @if (zigpy && reporting?.length) {
+        <div class="foot">
+          <button type="button" class="btn btn-outline-danger" (click)="resetReporting()">
+            {{ 'tools.bind.report.defaults' | translate }}
+          </button>
+          <span class="hint flex-grow-1" translate="tools.bind.report.hint"></span>
+          @if (changes) {
+            <button type="button" class="btn btn-outline-secondary" (click)="discard()">
+              {{ 'tools.bind.discard' | translate }}
+            </button>
+          }
+          <button type="button" class="btn btn-primary" [disabled]="!changes || !valid" (click)="saveReporting()">
+            {{ 'tools.bind.save' | translate: { count: changes } }}
+          </button>
+        </div>
+      } @else if (!zigpy) {
+        <p class="hint p-3 m-0" translate="tools.bind.report.zigpyonly"></p>
+      }
+    }
+  </section>
 </div>

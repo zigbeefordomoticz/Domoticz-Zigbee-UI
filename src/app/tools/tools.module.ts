@@ -12,9 +12,6 @@ import { ToolsRoutingModule } from './tools-routing.module';
 import { ToolsTabsComponent } from './tools-tabs/tools-tabs.component';
 import { ToolsComponent } from './tools.component';
 import { ErrorComponent } from './error/error.component';
-import { ReportingComponent } from './reporting/reporting.component';
-import { ConfigureReportingComponent } from './reporting/configure/configure.component';
-import { ConfigureByClusterReportingComponent } from './reporting/configure-by-cluster/configure-cluster.component';
 
 @NgModule({
   imports: [SharedModule, ToolsRoutingModule, NgxJsonViewerModule, FileSaverModule, ColorPickerModule],
@@ -26,10 +23,7 @@ import { ConfigureByClusterReportingComponent } from './reporting/configure-by-c
     CommandComponent,
     DebugSettingsComponent,
     DebugSettingComponent,
-    ErrorComponent,
-    ConfigureReportingComponent,
-    ReportingComponent,
-    ConfigureByClusterReportingComponent
+    ErrorComponent
   ]
 })
 export class ToolsModule {}

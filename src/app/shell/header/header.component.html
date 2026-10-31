@@ -139,21 +139,12 @@
               routerLinkActive="active">
               <i class="fas fa-lightbulb me-2"></i> <span translate="tools.command"></span>
             </li>
-            @if (plugin?.Zigpy) {
-              <li
-                class="dropdown-item nav-item nav-link"
-                (click)="toggleMenu()"
-                routerLink="/tools/configure"
-                routerLinkActive="active">
-                <i class="fas fa-user-cog me-2"></i> <span translate="tools.reporting.configure"></span>
-              </li>
-            }
             <li
               class="dropdown-item nav-item nav-link"
               (click)="toggleMenu()"
               routerLink="/tools/binding"
               routerLinkActive="active">
-              <i class="fas fa-compress-arrows-alt me-2"></i> <span translate="tools.binding"></span>
+              <i class="fas fa-compress-arrows-alt me-2"></i> <span translate="tools.tabs.bindrep"></span>
             </li>
             <li
               class="dropdown-item nav-item nav-link"

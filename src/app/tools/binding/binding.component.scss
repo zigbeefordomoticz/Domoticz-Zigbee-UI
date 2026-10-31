@@ -1,0 +1,163 @@
+// Device list on the left, the device's clusters beside it; stacked on a phone
+.bind-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.device-list {
+  flex: 1 1 16rem;
+  padding: 0.625rem;
+
+  @media (width >= 768px) {
+    max-width: 19rem;
+  }
+}
+
+.devices {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.device {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.625rem;
+  color: var(--bs-body-color);
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: var(--bs-border-radius);
+
+  b {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  &:hover {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  &.active {
+    background-color: var(--bs-primary-bg-subtle);
+
+    b {
+      color: var(--bs-primary-text-emphasis);
+    }
+  }
+}
+
+.sub {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+}
+
+.hint {
+  font-size: 0.8125rem;
+  color: var(--bs-secondary-color);
+}
+
+.main {
+  flex: 999 1 34rem;
+  min-width: 0;
+}
+
+.device-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+
+  h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+}
+
+.head-actions,
+.bindings,
+.add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+th {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--bs-secondary-color);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+td,
+th {
+  padding: 0.4375rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+tr.cluster td {
+  background-color: var(--bs-tertiary-bg);
+  border-top: 1px solid var(--bs-border-color);
+}
+
+tr.report.changed td {
+  background-color: var(--bs-primary-bg-subtle);
+}
+
+.attr {
+  padding-left: 1.75rem;
+}
+
+.binding {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  padding: 0.0625rem 0.25rem 0.0625rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--bs-success-text-emphasis);
+  background-color: var(--bs-success-bg-subtle);
+  border-radius: var(--bs-border-radius-sm);
+}
+
+.unbind {
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  padding: 0;
+  color: inherit;
+  background: none;
+  border: 0;
+}
+
+.add {
+  margin-top: 0.375rem;
+
+  .form-select {
+    width: auto;
+    max-width: 22rem;
+  }
+}
+
+.cell {
+  width: 5.5rem;
+  font-family: var(--bs-font-monospace);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--bs-border-color-translucent);
+}
