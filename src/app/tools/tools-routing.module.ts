@@ -13,6 +13,8 @@ const routes: Routes = [
   { path: 'binding', component: BindingComponent, data: { title: extract('binding') } },
   { path: 'link', component: ToolsComponent, data: { title: extract('tools') } },
   { path: 'error', component: ErrorComponent, data: { title: extract('error') } },
+  // The Tools menu entry opens the first tab
+  { path: '', redirectTo: 'link', pathMatch: 'full' },
   // Reporting is part of Binding / Reporting; the former address still works
   { path: 'configure', redirectTo: 'binding', pathMatch: 'full' }
 ];

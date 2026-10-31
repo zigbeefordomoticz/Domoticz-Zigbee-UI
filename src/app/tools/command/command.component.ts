@@ -50,6 +50,8 @@ export class CommandComponent implements OnInit {
   effect = '00';
   powerOn = '01';
 
+  collapsed = readCollapsed();
+
   raw = {
     ProfileId: '0104',
     ClusterId: '0006',
@@ -117,6 +119,28 @@ export class CommandComponent implements OnInit {
 
   hasType(type: string): boolean {
     return this.types.includes(type);
+  }
+
+  get hasDeviceCommands(): boolean {
+    return (
+      this.switchTypes.length > 0 ||
+      this.colorTypes.length > 0 ||
+      ['LvlControl', 'WindowCovering', 'ThermoSetpoint'].some(type => this.hasType(type)) ||
+      this.has('PowerStateAfterOffOn')
+    );
+  }
+
+  // The device commands and Identify fold away; the browser remembers which are folded
+  toggled(section: 'commands' | 'identify', event: Event) {
+    const collapsed = !(event.target as HTMLDetailsElement).open;
+    if (this.collapsed[section] !== collapsed) {
+      this.collapsed = { ...this.collapsed, [section]: collapsed };
+      try {
+        localStorage.setItem(COLLAPSED_KEY, JSON.stringify(this.collapsed));
+      } catch {
+        // Private window or blocked storage: the choice lasts until the page is left
+      }
+    }
   }
 
   get noCommand(): boolean {
@@ -202,5 +226,16 @@ export class CommandComponent implements OnInit {
       },
       error: () => this.sent.unshift({ ...entry, ok: false })
     });
+  }
+}
+
+const COLLAPSED_KEY = 'z4d.tools.command.collapsed';
+
+function readCollapsed(): { commands: boolean; identify: boolean } {
+  try {
+    const stored = JSON.parse(localStorage.getItem(COLLAPSED_KEY) ?? '{}');
+    return { commands: stored?.commands === true, identify: stored?.identify === true };
+  } catch {
+    return { commands: false, identify: false };
   }
 }

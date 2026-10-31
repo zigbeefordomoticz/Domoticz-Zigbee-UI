@@ -6,7 +6,7 @@ import { coordinatorChannel, pluginIdentity, PluginIdentity } from '@app/shared/
 import { pairingLeft, PairingStateService, PERMIT_TO_JOIN_PERMANENT } from '../pairing-state.service';
 
 /**
- * Status bar and tabs on top of every Admin page.
+ * Key figures and tabs on top of every Admin page.
  *
  * The status is read once when the page opens; the pairing state is shared with the Provisioning tab.
  */
@@ -58,6 +58,23 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
     this.apiService.getRestartNeeded().subscribe(result => (this.restartNeeded = result?.RestartNeeded ?? 0));
   }
 
+  // The library zigpy talks to the radio with, from the coordinator chosen in Domoticz (Mode1)
+  get radio(): string {
+    if (!this.plugin) {
+      return '';
+    }
+    return this.plugin.Zigpy ? RADIO_LIBRARY[this.plugin.Mode1] || this.plugin.Mode1 || 'zigpy' : 'ZiGate';
+  }
+
+  get firmware(): string {
+    return this.plugin?.CoordinatorFirmwareVersion || this.plugin?.FirmwareVersion || '—';
+  }
+
+  // IEEE 802.15.4, 2.4 GHz: channel 11 is 2405 MHz, then 5 MHz apart
+  get megahertz(): number {
+    return 2405 + 5 * (this.channel - 11);
+  }
+
   get pairingOpen(): boolean {
     return this.permitToJoin > 0;
   }
@@ -70,3 +87,10 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
     return pairingLeft(this.permitToJoin);
   }
 }
+
+const RADIO_LIBRARY: Record<string, string> = {
+  ZigpyZNP: 'Texas Instruments · zigpy-znp',
+  ZigpyEZSP: 'Silicon Labs · bellows',
+  ZigpydeCONZ: 'deCONZ · zigpy-deconz',
+  ZigpyBLZ: 'Bouffalo Lab · zigpy-blz'
+};
