@@ -1,0 +1,125 @@
+@if (!enabled) {
+  <div class="alert alert-warning d-flex flex-wrap gap-2 align-items-center justify-content-between" role="status">
+    <div>
+      <b translate="admin.groups.off.title"></b>
+      <div translate="admin.groups.off.text"></div>
+    </div>
+    <a class="btn btn-outline-dark" routerLink="/settings">{{ 'admin.groups.off.link' | translate }}</a>
+  </div>
+} @else {
+  <section class="card">
+    <div class="card-header-row">
+      <div>
+        <h2 class="card-title" translate="admin.groups.title"></h2>
+        <p class="hint">
+          {{ 'admin.groups.subtitle' | translate }}
+          <a routerLink="/group">{{ 'admin.groups.subtitle.link' | translate }}</a>
+        </p>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-outline-secondary" [disabled]="!rows.length" (click)="scanAll()">
+          {{ 'admin.groups.scan.all' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" [disabled]="!selected.size" (click)="scanSelected()">
+          {{ 'admin.groups.scan.selected' | translate: { count: selected.size } }}
+        </button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input
+        type="search"
+        class="form-control search"
+        [(ngModel)]="search"
+        [placeholder]="'admin.groups.search' | translate"
+        [attr.aria-label]="'admin.groups.search' | translate" />
+      <div class="chips" role="group">
+        @for (option of ['all', 'nogroup', 'selected']; track option) {
+          <button
+            type="button"
+            class="chip"
+            [class.active]="filter === option"
+            [attr.aria-pressed]="filter === option"
+            (click)="filter = $any(option)">
+            {{ 'admin.groups.filter.' + option | translate }}
+          </button>
+        }
+      </div>
+      @if (scanning) {
+        <span class="scan-state" role="status">
+          <span class="spinner-border spinner-border-sm text-primary" aria-hidden="true"></span>
+          {{ 'admin.groups.scanning' | translate }}
+        </span>
+      }
+      <button type="button" class="btn btn-sm btn-link ms-auto" (click)="refresh()">
+        {{ 'admin.groups.refresh' | translate }}
+      </button>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th class="check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                [checked]="allShownSelected"
+                (change)="toggleShown()"
+                [attr.aria-label]="'admin.groups.select.all' | translate" />
+            </th>
+            <th translate="admin.groups.col.device"></th>
+            <th translate="admin.groups.col.nwkid"></th>
+            <th class="d-none d-md-table-cell" translate="admin.groups.col.widgets"></th>
+            <th translate="admin.groups.col.member"></th>
+            <th class="d-none d-md-table-cell" translate="admin.groups.col.asked"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of shown; track row.nwkId) {
+            <tr [class.selected]="selected.has(row.nwkId)" (click)="toggle(row.nwkId)">
+              <td class="check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  [checked]="selected.has(row.nwkId)"
+                  (click)="$event.stopPropagation()"
+                  (change)="toggle(row.nwkId)"
+                  [attr.aria-label]="row.name" />
+              </td>
+              <td>
+                <b>{{ row.name }}</b>
+                @if (row.model) {
+                  <span class="sub">{{ row.model }}</span>
+                }
+              </td>
+              <td class="font-monospace">{{ row.nwkId }}</td>
+              <td class="d-none d-md-table-cell">
+                @for (widget of row.widgets; track widget._ID + widget.Ep) {
+                  <span class="sub">{{ widget.Name }} · ep {{ widget.Ep }}</span>
+                }
+              </td>
+              <td>
+                @for (group of row.groups; track group) {
+                  <span class="group">{{ group }}</span>
+                } @empty {
+                  <span class="sub" translate="admin.groups.nogroup"></span>
+                }
+              </td>
+              <td class="d-none d-md-table-cell">
+                <span class="sub">{{ row.asked ? (row.asked | date: 'HH:mm') : '—' }}</span>
+              </td>
+            </tr>
+          } @empty {
+            @if (loaded) {
+              <tr>
+                <td colspan="6" class="py-3 text-body-secondary" translate="admin.groups.empty"></td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="hint foot" translate="admin.groups.hint"></p>
+  </section>
+}
