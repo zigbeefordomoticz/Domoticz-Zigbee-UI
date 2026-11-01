@@ -1,0 +1,73 @@
+<div class="figures" role="status">
+  <a class="figure" routerLink="/admin" [queryParams]="{ action: 'coordinator' }">
+    <div class="figure-label"><span class="dot dot-success"></span>{{ 'admin.status.channel' | translate }}</div>
+    <div class="figure-value">{{ channel ?? '—' }}</div>
+    <div class="figure-detail">{{ channel !== null ? megahertz + ' MHz' : '' }}</div>
+  </a>
+  <div class="figure">
+    <div class="figure-label"><span class="dot dot-success"></span>{{ 'network.status.devices' | translate }}</div>
+    <div class="figure-value">{{ routers !== null ? routers + endDevices : '—' }}</div>
+    <div class="figure-detail">
+      @if (routers !== null) {
+        {{ 'network.status.devices.detail' | translate: { routers: routers, others: endDevices } }}
+      }
+    </div>
+  </div>
+  <a class="figure" routerLink="/network" [queryParams]="{ view: 'mesh' }">
+    <div class="figure-label">
+      <span
+        class="dot"
+        [class.dot-info]="scanRunning"
+        [class.dot-success]="!scanRunning && lastScan"
+        [class.dot-muted]="!scanRunning && !lastScan"></span>
+      {{ 'network.status.topology' | translate }}
+    </div>
+    @if (scanRunning) {
+      <div class="figure-value" translate="network.status.topology.running"></div>
+      <div class="figure-detail">
+        @if (lastScan) {
+          {{ 'network.status.last' | translate: { date: (lastScan.timestamp * 1000 | date: 'dd/MM HH:mm') } }}
+        }
+      </div>
+    } @else if (lastScan) {
+      <div class="figure-value">{{ lastScan.timestamp * 1000 | date: 'dd/MM HH:mm' }}</div>
+      <div class="figure-detail">
+        {{
+          'network.status.topology.answered'
+            | translate: { answered: lastScan.scan?.answered ?? 0, requested: lastScan.scan?.requested ?? 0 }
+        }}
+      </div>
+    } @else {
+      <div class="figure-value">{{ scansRead ? ('network.status.none' | translate) : '—' }}</div>
+      <div class="figure-detail"></div>
+    }
+  </a>
+  <a class="figure" routerLink="/network" [queryParams]="{ view: 'interference' }">
+    <div class="figure-label">
+      <span class="dot" [class.dot-success]="lastInterference" [class.dot-muted]="!lastInterference"></span>
+      {{ 'network.status.interference' | translate }}
+    </div>
+    @if (lastInterference) {
+      <div class="figure-value">{{ lastInterference * 1000 | date: 'dd/MM HH:mm' }}</div>
+      <div class="figure-detail">
+        {{ 'network.status.interference.reports' | translate: { count: interferenceReports } }}
+      </div>
+    } @else {
+      <div class="figure-value">{{ interferenceRead ? ('network.status.none' | translate) : '—' }}</div>
+      <div class="figure-detail"></div>
+    }
+  </a>
+</div>
+
+<nav class="page-tabs" [attr.aria-label]="'network.tabs.label' | translate">
+  @for (tab of tabs; track tab.view) {
+    <a
+      class="page-tab"
+      [class.active]="active === tab.view"
+      [attr.aria-current]="active === tab.view ? 'page' : null"
+      routerLink="/network"
+      [queryParams]="{ view: tab.view }"
+      >{{ tab.label | translate }}</a
+    >
+  }
+</nav>

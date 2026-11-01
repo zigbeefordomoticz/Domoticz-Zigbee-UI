@@ -13,7 +13,7 @@ import { pairingLeft, PairingStateService, PERMIT_TO_JOIN_PERMANENT } from '../p
 @Component({
   selector: 'app-admin-tabs',
   templateUrl: './admin-tabs.component.html',
-  styleUrls: ['./admin-tabs.component.scss'],
+  styleUrls: ['../../shared/page-tabs.scss'],
   standalone: false
 })
 export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {

@@ -1699,5 +1699,15 @@
   "admin.firmware.result.notcancelled": "Mise à jour du firmware de {{name}} non annulée",
   "device.details.received": "Messages reçus depuis le démarrage du plugin",
   "device.details.received.zdo": "gestion du réseau, découverte",
-  "device.details.received.zcl": "rapports d'attributs, commandes"
+  "device.details.received.zcl": "rapports d'attributs, commandes",
+  "network.tabs.label": "Sections du réseau",
+  "network.status.devices": "Équipements",
+  "network.status.devices.detail": "{{routers}} routeurs · {{others}} équipements terminaux",
+  "network.status.topology": "Scan de topologie",
+  "network.status.topology.answered": "{{answered}} routeurs sur {{requested}} ont répondu",
+  "network.status.topology.running": "En cours",
+  "network.status.last": "Dernier : {{date}}",
+  "network.status.none": "Aucun scan",
+  "network.status.interference": "Scan d'interférences",
+  "network.status.interference.reports": "Rapports conservés : {{count}}"
 }

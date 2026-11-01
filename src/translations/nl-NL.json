@@ -1509,5 +1509,15 @@
   "admin.firmware.result.notcancelled": "Firmware-update van {{name}} niet geannuleerd",
   "device.details.received": "Berichten ontvangen sinds de start van de plugin",
   "device.details.received.zdo": "netwerkbeheer, detectie",
-  "device.details.received.zcl": "attribuutrapporten, opdrachten"
+  "device.details.received.zcl": "attribuutrapporten, opdrachten",
+  "network.tabs.label": "Netwerkonderdelen",
+  "network.status.devices": "Apparaten",
+  "network.status.devices.detail": "{{routers}} routers · {{others}} eindapparaten",
+  "network.status.topology": "Topologiescan",
+  "network.status.topology.answered": "{{answered}} van {{requested}} routers antwoordden",
+  "network.status.topology.running": "Bezig",
+  "network.status.last": "Laatste: {{date}}",
+  "network.status.none": "Nog geen scan",
+  "network.status.interference": "Interferentiescan",
+  "network.status.interference.reports": "Bewaarde rapporten: {{count}}"
 }
