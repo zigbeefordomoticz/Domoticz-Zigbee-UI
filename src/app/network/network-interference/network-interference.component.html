@@ -1,0 +1,206 @@
+<section class="card">
+  <div class="card-body">
+    <div class="head">
+      <div>
+        <h2 class="card-title" translate="network.interference.title"></h2>
+        <span class="hint">
+          @if (channel !== null) {
+            {{ 'network.interference.subtitle' | translate: { channel: channel } }}
+          } @else {
+            {{ 'network.interference.scale' | translate }}
+          }
+        </span>
+      </div>
+      <div class="actions">
+        @if (zigate && scans.length) {
+          <div class="btn-group btn-group-sm" role="group" [attr.aria-label]="'network.interference.rows' | translate">
+            <button
+              type="button"
+              class="btn"
+              [class.btn-dark]="mode === 'scan'"
+              [class.btn-outline-secondary]="mode !== 'scan'"
+              [attr.aria-pressed]="mode === 'scan'"
+              (click)="mode = 'scan'">
+              {{ 'network.interference.byscan' | translate }}
+            </button>
+            <button
+              type="button"
+              class="btn"
+              [class.btn-dark]="mode === 'router'"
+              [class.btn-outline-secondary]="mode !== 'router'"
+              [attr.aria-pressed]="mode === 'router'"
+              (click)="mode = 'router'">
+              {{ 'network.interference.byrouter' | translate }}
+            </button>
+          </div>
+        }
+        @if (zigate) {
+          <button type="button" class="btn btn-outline-secondary" [disabled]="waiting" (click)="scan(true)">
+            {{ 'network.interference.scanfull' | translate }}
+          </button>
+        }
+        <button type="button" class="btn btn-primary" [disabled]="waiting" (click)="scan()">
+          @if (waiting) {
+            <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+            {{ 'network.interference.waiting' | translate }}
+          } @else {
+            {{ 'network.interference.scan' | translate }}
+          }
+        </button>
+      </div>
+    </div>
+
+    @if (channel !== null && scans.length) {
+      <p class="own-channel" role="note">
+        <i class="fa fa-circle-info" aria-hidden="true"></i>
+        <span>{{ 'network.interference.ownchannel' | translate: { channel: channel } }}</span>
+      </p>
+    }
+
+    @if (!loaded) {
+      <p class="hint mt-3"><i class="fa fa-sync fa-spin me-2"></i>{{ 'network.interference.loading' | translate }}</p>
+    } @else if (!scans.length) {
+      <p class="empty">{{ 'network.interference.empty' | translate }}</p>
+    } @else if (mode === 'scan' || !zigate) {
+      <div class="heatmap-box">
+        <table class="heatmap">
+          <thead>
+            <tr>
+              <th scope="col" class="row-head">{{ 'network.interference.col.scan' | translate }}</th>
+              @for (c of channels; track c) {
+                <th scope="col" [class.current]="c === channel">{{ c }}</th>
+              }
+              <th scope="col"><span class="visually-hidden" translate="network.interference.delete"></span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (scan of scans; track scan.timestamp) {
+              <tr>
+                <th scope="row" class="row-head">
+                  {{ scan.time | date: 'dd/MM/yyyy HH:mm' }}
+                  <span class="hint">
+                    @if (scan.routers.length > 1) {
+                      {{
+                        'network.interference.answered'
+                          | translate: { answered: scan.answered, count: scan.routers.length }
+                      }}
+                    } @else {
+                      {{ 'network.interference.coordinator' | translate }}
+                    }
+                  </span>
+                </th>
+                @if (scan.levels) {
+                  @for (c of channels; track c; let i = $index) {
+                    <td [class]="band(level(scan.levels, i))" [class.current]="c === channel">
+                      {{ level(scan.levels, i) ?? '—' }}
+                    </td>
+                  }
+                } @else {
+                  <td class="band-none" [attr.colspan]="channels.length">
+                    {{ 'network.interference.noanswer' | translate }}
+                  </td>
+                }
+                <td class="row-action">
+                  <button
+                    type="button"
+                    class="btn btn-link btn-sm"
+                    [attr.aria-label]="
+                      ('network.interference.delete' | translate) + ' ' + (scan.time | date: 'dd/MM/yyyy HH:mm')
+                    "
+                    (click)="delete(scan.timestamp)">
+                    {{ 'network.interference.delete' | translate }}
+                  </button>
+                </td>
+              </tr>
+            }
+            @if (scans.length > 1 && average) {
+              <tr class="average">
+                <th scope="row" class="row-head">
+                  {{ 'network.interference.average' | translate: { count: scans.length } }}
+                </th>
+                @for (c of channels; track c; let i = $index) {
+                  <td [class]="band(level(average, i))" [class.current]="c === channel">
+                    {{ level(average, i) ?? '—' }}
+                  </td>
+                }
+                <td></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="router-pick">
+        <label for="routerScan" class="form-label mb-0">{{ 'network.interference.col.scan' | translate }}</label>
+        <select id="routerScan" class="form-select form-select-sm" [(ngModel)]="routerScan">
+          @for (scan of scans; track scan.timestamp) {
+            <option [value]="scan.timestamp">{{ scan.time | date: 'dd/MM/yyyy HH:mm' }}</option>
+          }
+        </select>
+        <span class="hint" translate="network.interference.byrouter.note"></span>
+      </div>
+      <div class="heatmap-box">
+        <table class="heatmap">
+          <thead>
+            <tr>
+              <th scope="col" class="row-head">{{ 'network.interference.col.router' | translate }}</th>
+              <th scope="col">{{ 'network.interference.col.tx' | translate }}</th>
+              <th scope="col">{{ 'network.interference.col.fail' | translate }}</th>
+              @for (c of channels; track c) {
+                <th scope="col" [class.current]="c === channel">{{ c }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (router of selectedRouterScan?.routers; track router.nwkId) {
+              <tr>
+                <th scope="row" class="row-head">
+                  {{ router.name }}<span class="hint font-monospace">{{ router.nwkId }}</span>
+                </th>
+                <td class="band-none">{{ router.tx ?? '—' }}</td>
+                <td class="band-none" [class.fw-bold]="router.fail">{{ router.fail ?? '—' }}</td>
+                @if (router.levels) {
+                  @for (c of channels; track c; let i = $index) {
+                    <td [class]="band(level(router.levels, i))" [class.current]="c === channel">
+                      {{ level(router.levels, i) ?? '—' }}
+                    </td>
+                  }
+                } @else {
+                  <td class="band-none" [attr.colspan]="channels.length">
+                    {{ 'network.interference.noanswer' | translate }}
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    @if (scans.length) {
+      <div class="legend">
+        <span><i class="band-a"></i>0–40</span>
+        <span><i class="band-b"></i>41–80</span>
+        <span><i class="band-c"></i>81–120</span>
+        <span><i class="band-d"></i>121–160</span>
+        <span><i class="band-e"></i>161–255</span>
+        <span><i class="current-key"></i>{{ 'network.interference.legend.channel' | translate }}</span>
+        <span>{{ 'network.interference.wifi' | translate }}</span>
+      </div>
+    }
+  </div>
+
+  @if (quietest.length) {
+    <div class="card-footer advice">
+      <span>
+        {{ 'network.interference.quietest' | translate }}
+        @for (q of quietest; track q.channel; let last = $last) {
+          <strong>{{ q.channel }}</strong> ({{ q.level }}){{ last ? '' : ',' }}
+        }
+      </span>
+      <a class="btn btn-outline-secondary btn-sm" routerLink="/admin" [queryParams]="{ action: 'coordinator' }">
+        {{ 'network.interference.coordlink' | translate }}
+      </a>
+    </div>
+  }
+</section>

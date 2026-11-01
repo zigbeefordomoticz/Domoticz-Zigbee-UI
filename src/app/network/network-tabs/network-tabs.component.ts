@@ -6,7 +6,8 @@ import { coordinatorChannel } from '@app/shared/utils/plugin-identity';
 /**
  * Key figures and tabs on top of the Network page, as on Admin.
  *
- * The figures are read once when the page opens. The footer keeps watching a
+ * The figures are read once when the page opens; the Interference tab asks for
+ * its figure again when it adds or deletes a report. The footer keeps watching a
  * running topology scan; the Topology scan figure only says whether one was
  * running when the page opened.
  */
@@ -57,6 +58,11 @@ export class NetworkTabsComponent implements OnInit {
 
     this.apiService.getPluginhealth().subscribe(health => (this.scanRunning = !!health?.Topology));
 
+    this.refreshInterference();
+  }
+
+  /** Read the interference figure again, after the Interference tab added or deleted a report. */
+  refreshInterference(): void {
     // `/nwk-stat` lists the stored reports by their timestamp, in seconds
     this.apiService.getNwkStats().subscribe(timestamps => {
       const times = (timestamps || []).map(Number).filter(time => !isNaN(time));

@@ -8,16 +8,13 @@ import * as network from 'highcharts/modules/networkgraph.src';
 import * as offlineExporting from 'highcharts/modules/offline-exporting.src';
 import * as sankey from 'highcharts/modules/sankey.src';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { DetailNwkStatComponent } from './detail-nwk-stat/detail-nwk-stat.component';
 import { DetailTopologyComponent } from './detail-topology/detail-topology.component';
 import { MeshGraphComponent } from './mesh/mesh-graph/mesh-graph.component';
 import { MeshComponent } from './mesh/mesh.component';
+import { NetworkInterferenceComponent } from './network-interference/network-interference.component';
 import { NetworkTabsComponent } from './network-tabs/network-tabs.component';
 import { NetworkComponent } from './network.component';
 import { NetworkRoutingModule } from './network-routing.module';
-import { NwkStatsComponent } from './nwk-stats/nwk-stats.component';
-import { ReqNetworkFullComponent } from './req-network-full/req-network-full.component';
-import { ReqNetworkInterComponent } from './req-network-inter/req-network-inter.component';
 import { ReqTopologyComponent } from './req-topology/req-topology.component';
 import { TopologyComponent } from './topology/topology.component';
 
@@ -26,15 +23,12 @@ import { TopologyComponent } from './topology/topology.component';
   declarations: [
     NetworkComponent,
     NetworkTabsComponent,
-    NwkStatsComponent,
     TopologyComponent,
     DetailTopologyComponent,
     MeshComponent,
     MeshGraphComponent,
     ReqTopologyComponent,
-    ReqNetworkInterComponent,
-    DetailNwkStatComponent,
-    ReqNetworkFullComponent
+    NetworkInterferenceComponent
   ],
   providers: [
     { provide: HIGHCHARTS_MODULES, useFactory: () => [more, exporting, offlineExporting, sankey, wheel, network] }

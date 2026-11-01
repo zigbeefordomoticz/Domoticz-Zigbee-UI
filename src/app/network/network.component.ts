@@ -7,8 +7,8 @@ const VIEWS = ['mesh', 'topology', 'interference'];
 /**
  * The Network page: key figures, then one tab per view.
  *
- * Each tab hosts the page that used to have its own menu entry, unchanged:
- * Mesh graph, Topology and Interference level.
+ * Mesh graph and Topology are the pages that used to have their own menu entry, unchanged;
+ * Interference level is NetworkInterferenceComponent.
  */
 @Component({
   selector: 'app-network',
