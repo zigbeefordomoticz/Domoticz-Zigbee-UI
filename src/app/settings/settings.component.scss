@@ -172,6 +172,26 @@
   text-align: right;
 }
 
+// File names and URLs: the value goes under the label, at the full width of the column
+.item-path {
+  .item-text,
+  .item-control {
+    flex-basis: 100%;
+  }
+
+  .item-control {
+    align-items: stretch;
+  }
+
+  .wide {
+    font-size: 0.875rem;
+  }
+
+  .default {
+    overflow-wrap: anywhere;
+  }
+}
+
 .review {
   flex: 1 1 16rem;
 
@@ -193,6 +213,7 @@
 .review-item {
   padding: 0.5rem 1rem;
   font-size: 0.8125rem;
+  overflow-wrap: anywhere;
   border-top: 1px solid var(--bs-border-color-translucent);
 
   .name {
