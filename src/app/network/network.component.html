@@ -1,11 +1,11 @@
-<app-network-tabs [active]="view"></app-network-tabs>
+<app-network-tabs #tabs [active]="view"></app-network-tabs>
 
 @switch (view) {
   @case ('topology') {
     <app-topology></app-topology>
   }
   @case ('interference') {
-    <app-nwk-stats></app-nwk-stats>
+    <app-network-interference (reportsChanged)="tabs.refreshInterference()"></app-network-interference>
   }
   @default {
     <app-mesh></app-mesh>

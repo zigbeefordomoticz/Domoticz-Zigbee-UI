@@ -1,0 +1,193 @@
+.card-title {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.hint {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--bs-secondary-color);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.own-channel {
+  display: flex;
+  gap: 0.625rem;
+  align-items: flex-start;
+  margin: 1rem 0 0;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  color: var(--bs-info-text-emphasis);
+  background-color: var(--bs-info-bg-subtle);
+  border: 1px solid var(--bs-info-border-subtle);
+  border-radius: var(--bs-border-radius);
+
+  i {
+    margin-top: 0.2rem;
+  }
+}
+
+.empty {
+  margin: 1.25rem 0 0.25rem;
+  color: var(--bs-secondary-color);
+}
+
+.router-pick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  margin-top: 1rem;
+
+  select {
+    width: auto;
+  }
+}
+
+// One column per channel: the table scrolls sideways on a narrow screen rather than squeezing the numbers
+.heatmap-box {
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.heatmap {
+  width: 100%;
+  min-width: 56rem;
+  border-spacing: 3px;
+  border-collapse: separate;
+
+  th {
+    padding: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--bs-secondary-color);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  th.current {
+    color: var(--bs-body-bg);
+    background-color: var(--bs-body-color);
+    border-radius: var(--bs-border-radius-sm);
+  }
+
+  // Stays in view while the channels scroll sideways on a phone
+  .row-head {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    padding-right: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--bs-body-color);
+    text-align: left;
+    background-color: var(--bs-body-bg);
+  }
+
+  thead .row-head {
+    color: var(--bs-secondary-color);
+  }
+
+  td {
+    min-width: 2.25rem;
+    padding: 0.4rem 0;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    border-radius: 3px;
+  }
+
+  // The network's own channel: outlined, its traffic is counted with the noise
+  td.current {
+    box-shadow: inset 0 0 0 2px var(--bs-orange);
+  }
+
+  .average td,
+  .average .row-head {
+    font-weight: 700;
+  }
+
+  .row-action {
+    padding: 0;
+  }
+}
+
+// Energy bands, light to dark; each sets its own text colour so the numbers stay readable in either theme
+.band-none {
+  color: var(--bs-body-color);
+  background-color: var(--bs-tertiary-bg);
+}
+
+.band-a {
+  color: #052c65;
+  background-color: #e7f1ff;
+}
+
+.band-b {
+  color: #052c65;
+  background-color: #b6d4fe;
+}
+
+.band-c {
+  color: #052c65;
+  background-color: #6ea8fe;
+}
+
+.band-d {
+  color: #031633;
+  background-color: #3d8bfd;
+}
+
+.band-e {
+  color: #fff;
+  background-color: #0a58ca;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 1rem;
+  align-items: center;
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+
+  i {
+    display: inline-block;
+    width: 1.375rem;
+    height: 0.75rem;
+    margin-right: 0.25rem;
+    vertical-align: -0.125rem;
+    border-radius: 2px;
+  }
+
+  .current-key {
+    box-shadow: inset 0 0 0 2px var(--bs-orange);
+  }
+}
+
+.advice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  // .card-footer takes --bs-card-cap-color, which the theme leaves transparent
+  color: var(--bs-body-color);
+}
