@@ -1603,5 +1603,7 @@
   "group.page.delete": "Groep verwijderen…",
   "group.page.delete.confirm": "{{name}} verwijderen? Elk lid wordt gevraagd de groep te verlaten. Als het laatste heeft geantwoord, verwijdert de plugin de groep en haar Domoticz-widget.",
   "group.page.delete.yes": "Verwijderen",
-  "group.page.cancel": "Annuleren"
+  "group.page.cancel": "Annuleren",
+  "management.tabs.devices": "Apparaten",
+  "management.tabs.groups": "Groepen"
 }

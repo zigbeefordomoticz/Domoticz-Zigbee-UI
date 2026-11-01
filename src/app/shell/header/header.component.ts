@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { I18nService, Language } from '@app/core';
 import { HeaderService } from '@app/services/header-service';
 import { Plugin } from '@app/shared/models/plugin';
@@ -38,9 +39,16 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     private toastr: ToastrService,
     private i18nService: I18nService,
     private apiService: ApiService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router
   ) {
     super();
+  }
+
+  /** Management opens Devices; it stays marked on both of its tabs, Devices and Groups. */
+  get managementActive(): boolean {
+    const path = this.router.url.split(/[?#]/)[0];
+    return ['/device', '/group'].some(page => path === page || path.startsWith(page + '/'));
   }
 
   ngOnInit() {

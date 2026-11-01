@@ -1,0 +1,11 @@
+<nav class="page-tabs" [attr.aria-label]="'management' | translate">
+  @for (tab of tabs; track tab.path) {
+    <a
+      class="page-tab"
+      [class.active]="active === tab.path"
+      [attr.aria-current]="active === tab.path ? 'page' : null"
+      [routerLink]="['/', tab.path]"
+      >{{ tab.label | translate }}</a
+    >
+  }
+</nav>
