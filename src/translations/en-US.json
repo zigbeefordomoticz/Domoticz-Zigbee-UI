@@ -1605,5 +1605,6 @@
   "group.page.delete.yes": "Delete",
   "group.page.cancel": "Cancel",
   "management.tabs.devices": "Devices",
-  "management.tabs.groups": "Groups"
+  "management.tabs.groups": "Groups",
+  "group.page.add.empty": "Every device that can join is already in this group."
 }

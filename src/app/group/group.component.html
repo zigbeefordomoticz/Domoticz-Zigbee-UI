@@ -257,26 +257,46 @@
             <input
               type="search"
               class="form-control form-control-sm"
+              role="combobox"
+              autocomplete="off"
+              aria-autocomplete="list"
+              aria-controls="group-add-list"
+              [attr.aria-expanded]="addOpen"
+              [attr.aria-activedescendant]="addOpen && candidates.length ? 'group-add-' + addActive : null"
               [(ngModel)]="addSearch"
+              (ngModelChange)="onAddSearch()"
+              (focus)="openAdd()"
+              (click)="addOpen = true"
+              (blur)="addOpen = false"
+              (keydown)="onAddKey($event)"
               [placeholder]="'group.page.add' | translate"
               [attr.aria-label]="'group.page.add' | translate" />
-            @if (addSearch.trim()) {
-              <ul class="candidates list-unstyled mb-0">
-                @for (endpoint of candidates; track endpoint.key) {
-                  <li>
-                    <button type="button" class="candidate" (click)="add(endpoint)">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                      <span>
-                        <b>{{ endpoint.widgets.join(' · ') || endpoint.deviceName }}</b>
-                        <span class="hint">
-                          {{ endpoint.model || endpoint.deviceName }} ·
-                          <span class="font-monospace">{{ endpoint.nwkId }} / {{ endpoint.ep }}</span>
-                        </span>
+            @if (addOpen) {
+              <ul id="group-add-list" class="candidates list-unstyled mb-0" role="listbox">
+                @for (endpoint of candidates; track endpoint.key; let i = $index) {
+                  <!-- mousedown keeps the focus in the field, so the list stays open for the next one -->
+                  <li
+                    role="option"
+                    class="candidate"
+                    [id]="'group-add-' + i"
+                    [class.active]="i === addActive"
+                    [attr.aria-selected]="i === addActive"
+                    (mousedown)="$event.preventDefault()"
+                    (mouseenter)="addActive = i"
+                    (click)="add(endpoint)">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <span>
+                      <b>{{ addLabel(endpoint) }}</b>
+                      <span class="hint">
+                        {{ endpoint.model || endpoint.deviceName }} ·
+                        <span class="font-monospace">{{ endpoint.nwkId }} / {{ endpoint.ep }}</span>
                       </span>
-                    </button>
+                    </span>
                   </li>
                 } @empty {
-                  <li class="hint px-2 py-1">{{ 'group.page.add.none' | translate }}</li>
+                  <li class="hint px-2 py-1">
+                    {{ (addSearch.trim() ? 'group.page.add.none' : 'group.page.add.empty') | translate }}
+                  </li>
                 }
               </ul>
             }

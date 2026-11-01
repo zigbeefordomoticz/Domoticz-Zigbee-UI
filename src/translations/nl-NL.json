@@ -1605,5 +1605,6 @@
   "group.page.delete.yes": "Verwijderen",
   "group.page.cancel": "Annuleren",
   "management.tabs.devices": "Apparaten",
-  "management.tabs.groups": "Groepen"
+  "management.tabs.groups": "Groepen",
+  "group.page.add.empty": "Alle apparaten die kunnen deelnemen zitten al in deze groep."
 }

@@ -87,6 +87,9 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   search = '';
   addSearch = '';
+  // The member picker: its list shows while the field has the focus; addActive is the row Enter adds
+  addOpen = false;
+  addActive = 0;
   selectedId: string | null = null;
   draft: Draft | null = null;
   pendingSelect: string | 'new' | null = null;
@@ -195,18 +198,61 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     return !!this.draft && !!this.draft.name.trim() && (this.membersAfterSave > 0 || this.draft.coordinator);
   }
 
+  /** Every endpoint that can still join, by name; typing narrows the list, an empty field shows them all. */
   get candidates(): Endpoint[] {
     if (!this.draft) {
       return [];
     }
     const term = this.addSearch.trim().toLowerCase();
-    if (!term) {
-      return [];
-    }
     const inDraft = new Set(this.draft.members.map(member => member.key));
     return [...this.groupable.values()]
-      .filter(endpoint => !inDraft.has(endpoint.key) && this.matches(endpoint, term))
-      .slice(0, 8);
+      .filter(endpoint => !inDraft.has(endpoint.key) && (!term || this.matches(endpoint, term)))
+      .sort((a, b) => this.addLabel(a).localeCompare(this.addLabel(b)) || a.key.localeCompare(b.key));
+  }
+
+  addLabel(endpoint: Endpoint): string {
+    return endpoint.widgets.join(' · ') || endpoint.deviceName || endpoint.nwkId;
+  }
+
+  openAdd(): void {
+    this.addOpen = true;
+    this.addActive = 0;
+  }
+
+  onAddSearch(): void {
+    this.addOpen = true;
+    this.addActive = 0;
+  }
+
+  /** Arrow keys move in the list, Enter adds the marked row, Escape closes the list. */
+  onAddKey(event: KeyboardEvent): void {
+    const count = this.addOpen ? this.candidates.length : 0;
+    switch (event.key) {
+      case 'ArrowDown':
+      case 'ArrowUp':
+        event.preventDefault();
+        if (!this.addOpen) {
+          this.openAdd();
+          return;
+        }
+        if (count) {
+          this.addActive = (this.addActive + (event.key === 'ArrowDown' ? 1 : count - 1)) % count;
+          this.showActive();
+        }
+        break;
+      case 'Enter':
+        if (count) {
+          event.preventDefault();
+          this.add(this.candidates[Math.min(this.addActive, count - 1)]);
+        }
+        break;
+      case 'Escape':
+        if (this.addOpen) {
+          event.preventDefault();
+          this.addOpen = false;
+        }
+        break;
+    }
   }
 
   toggleRemove(member: DraftMember): void {
@@ -219,7 +265,13 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   add(endpoint: Endpoint): void {
     this.draft.members.push({ ...endpoint, status: 'added' });
+    // The list stays open on the next one, to add several in a row
     this.addSearch = '';
+    this.addActive = Math.min(this.addActive, Math.max(this.candidates.length - 1, 0));
+  }
+
+  private showActive(): void {
+    setTimeout(() => document.getElementById('group-add-' + this.addActive)?.scrollIntoView({ block: 'nearest' }));
   }
 
   discard(): void {
