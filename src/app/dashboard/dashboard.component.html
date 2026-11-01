@@ -86,7 +86,7 @@
                       [attr.aria-label]="
                         (segment.label | translate) + ': ' + segment.count + ' (' + segment.percent + ' %)'
                       "
-                      (click)="showDevices(segment.devices)"></button>
+                      (click)="showSegment(group, segment)"></button>
                   }
                 }
               </div>
@@ -96,7 +96,7 @@
                     type="button"
                     class="btn btn-sm btn-outline-secondary dashboard-chip"
                     [disabled]="segment.count === 0"
-                    (click)="showDevices(segment.devices)">
+                    (click)="showSegment(group, segment)">
                     <span class="dashboard-dot" [style.background]="segment.color"></span>
                     <span class="dashboard-chip-label">{{ segment.label | translate }}</span>
                     <span class="fw-semibold dashboard-number">{{ segment.count }}</span>
@@ -131,71 +131,75 @@
   <ng-template #definition><div [innerHTML]="key | translate: params"></div></ng-template>
 </ng-template>
 
-<p-dialog
-  header="Header"
-  [(visible)]="visible"
-  [position]="'bottom'"
-  [style]="{ width: '75vw' }"
-  [breakpoints]="{ '960px': '95vw' }">
-  <ng-template pTemplate="header">
-    <div class="col-sm" translate="dashboard.popup.device.header"></div>
-  </ng-template>
-  <h5 class="card-title" [innerHTML]="'dashboard.popup.device.subtitle' | translate"></h5>
-  <p-table
-    #dt1
-    [rowHover]="true"
-    styleClass="p-datatable-sm"
-    responsiveLayout="scroll"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="{{ 'TOTAL' | translate }}"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [value]="devicesToOverlay"
-    [rows]="10"
-    [paginator]="true"
-    [scrollable]="true"
-    stateStorage="local"
-    stateKey="dashboard">
-    <ng-template pTemplate="header" let-columns>
-      <tr>
-        <th style="width: 7rem" pSortableColumn="_NwkId">
-          {{ 'device.byname.shortid.column' | translate }}<p-sortIcon field="_NwkId"></p-sortIcon>
-        </th>
-        <th style="width: 5rem" pSortableColumn="IEEE">
-          {{ 'device.byname.ieee.column' | translate }}<p-sortIcon field="IEEE"></p-sortIcon>
-        </th>
-        <th style="width: 13rem" pSortableColumn="Model">
-          {{ 'device.byname.model.column' | translate }}<p-sortIcon field="Model"></p-sortIcon>
-        </th>
-        <th style="width: 20rem" pSortableColumn="ZDeviceName">
-          {{ 'device.byname.devicename.column' | translate }}<p-sortIcon field="ZDeviceName"></p-sortIcon>
-        </th>
-        <th style="width: 7rem" pSortableColumn="Status">
-          {{ 'device.byname.status.column' | translate }}<p-sortIcon field="Status"></p-sortIcon>
-        </th>
-        <th style="width: 7rem" pSortableColumn="Battery">
-          {{ 'device.byname.battery.column' | translate }}<p-sortIcon field="Battery"></p-sortIcon>
-        </th>
-        <th style="width: 6rem" pSortableColumn="Health">
-          {{ 'device.byname.health.column' | translate }}<p-sortIcon field="Health"></p-sortIcon>
-        </th>
-      </tr>
-    </ng-template>
-    <ng-template
-      pTemplate="body"
-      let-editing="editing"
-      let-row
-      let-rowIndex="rowIndex"
-      let-columns="columns"
-      let-expanded="expanded">
-      <tr>
-        <td>{{ row._NwkId }}</td>
-        <td>{{ row.IEEE }}</td>
-        <td>{{ row.Model }}</td>
-        <td>{{ row.ZDeviceName }}</td>
-        <td>{{ row.Status }}</td>
-        <td>{{ row.Battery }}</td>
-        <td>{{ row.Health | healthLabel | translate }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</p-dialog>
+<!-- The devices behind a bar, a chip or a "Needs attention" item; a row opens the device Details window -->
+<ng-template #deviceList let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title h5 d-flex align-items-center gap-2 mb-0" id="dashboard-list-title">
+      <span class="dashboard-dot flex-shrink-0" [style.background]="list.color" aria-hidden="true"></span>
+      <span>{{ list.title }}</span>
+      <span class="badge rounded-pill text-bg-light border">{{ list.rows.length }}</span>
+    </h2>
+    <button
+      type="button"
+      class="btn-close"
+      [attr.aria-label]="'device.details.close' | translate"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body p-0">
+    @if (list.rows.length > listSearchFrom) {
+      <div class="p-3 pb-2">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text"><i class="fas fa-magnifying-glass" aria-hidden="true"></i></span>
+          <input
+            type="search"
+            class="form-control"
+            [(ngModel)]="listSearch"
+            [attr.aria-label]="'dashboard.list.search' | translate"
+            placeholder="{{ 'dashboard.list.search' | translate }}" />
+        </div>
+      </div>
+    }
+    <div class="list-group list-group-flush">
+      @for (row of listRows(); track row.nwkId) {
+        <button
+          type="button"
+          class="list-group-item list-group-item-action d-flex align-items-center gap-3 dashboard-list-row"
+          [disabled]="!row.details"
+          [attr.aria-label]="'device.details.row.open' | translate: { name: row.name }"
+          (click)="openDetails(row)">
+          <div class="flex-grow-1 min-w-0">
+            <div class="text-truncate" [class.fw-semibold]="row.named" [class.fst-italic]="!row.named">
+              {{ row.name }}
+            </div>
+            <div class="small text-body-secondary text-truncate">
+              @if (row.model && row.named) {
+                {{ row.model }} ·
+              }
+              <span class="font-monospace">{{ row.nwkId }}</span>
+              <span class="d-none d-md-inline font-monospace"> · {{ row.ieee }}</span>
+            </div>
+          </div>
+          <div class="d-flex flex-column align-items-end gap-1 flex-shrink-0">
+            <span class="badge rounded-pill health-{{ row.tone }}">{{ row.health | healthLabel | translate }}</span>
+            @if (row.battery !== null) {
+              <span class="small dashboard-number" [class.text-danger]="row.lowBattery">
+                <i class="fas fa-battery-half me-1" aria-hidden="true"></i>{{ row.battery }} %
+              </span>
+            }
+          </div>
+          <i class="fas fa-chevron-right small text-body-secondary flex-shrink-0" aria-hidden="true"></i>
+        </button>
+      } @empty {
+        <p class="text-center text-body-secondary py-4 mb-0">{{ 'device.byname.filter.empty' | translate }}</p>
+      }
+    </div>
+  </div>
+  <div class="modal-footer justify-content-between">
+    <a routerLink="/device" (click)="modal.dismiss()">
+      <i class="fas fa-tablet me-1" aria-hidden="true"></i>{{ 'device' | translate }} →
+    </a>
+    <button type="button" class="btn btn-primary" (click)="modal.dismiss()">
+      {{ 'device.details.close' | translate }}
+    </button>
+  </div>
+</ng-template>

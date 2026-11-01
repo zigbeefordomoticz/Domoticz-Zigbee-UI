@@ -293,22 +293,26 @@
   </section>
 </div>
 
-<div class="modal-footer justify-content-between">
-  <div class="d-flex flex-wrap align-items-center gap-2 remove">
-    <button type="button" class="btn btn-outline-danger" [disabled]="!canRemove" (click)="close('remove')">
-      <i class="fas fa-trash me-1" aria-hidden="true"></i>{{ 'device.details.remove' | translate }}
-    </button>
-    @if (!canRemove) {
-      <span class="small text-body-secondary">{{ 'device.details.remove.help' | translate }}</span>
-    }
-  </div>
+<div class="modal-footer" [class.justify-content-between]="actions">
+  @if (actions) {
+    <div class="d-flex flex-wrap align-items-center gap-2 remove">
+      <button type="button" class="btn btn-outline-danger" [disabled]="!canRemove" (click)="close('remove')">
+        <i class="fas fa-trash me-1" aria-hidden="true"></i>{{ 'device.details.remove' | translate }}
+      </button>
+      @if (!canRemove) {
+        <span class="small text-body-secondary">{{ 'device.details.remove.help' | translate }}</span>
+      }
+    </div>
+  }
   <div class="d-flex flex-wrap gap-2">
     <button type="button" class="btn btn-outline-secondary" (click)="copy()">
       <i class="fas fa-copy me-1" aria-hidden="true"></i>{{ 'device.details.copy' | translate }}
     </button>
-    <button type="button" class="btn btn-outline-primary" (click)="close('parameters')">
-      <i class="fas fa-sliders me-1" aria-hidden="true"></i>{{ 'device.details.parameters' | translate }}
-    </button>
+    @if (actions) {
+      <button type="button" class="btn btn-outline-primary" (click)="close('parameters')">
+        <i class="fas fa-sliders me-1" aria-hidden="true"></i>{{ 'device.details.parameters' | translate }}
+      </button>
+    }
     <button type="button" class="btn btn-primary" (click)="modal.dismiss('close')">
       {{ 'device.details.close' | translate }}
     </button>
