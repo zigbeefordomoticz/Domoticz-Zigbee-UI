@@ -67,10 +67,10 @@
   }
 </div>
 
-<nav class="admin-tabs" [attr.aria-label]="'admin.tabs.label' | translate">
+<nav class="page-tabs" [attr.aria-label]="'admin.tabs.label' | translate">
   @for (tab of tabs; track tab.action) {
     <a
-      class="admin-tab"
+      class="page-tab"
       [class.active]="active === tab.action"
       [attr.aria-current]="active === tab.action ? 'page' : null"
       routerLink="/admin"
@@ -79,7 +79,7 @@
     >
   }
   <a
-    class="admin-tab"
+    class="page-tab"
     [class.active]="active === 'firmware'"
     [attr.aria-current]="active === 'firmware' ? 'page' : null"
     routerLink="/admin/firmware"

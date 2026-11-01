@@ -44,34 +44,15 @@
             </li>
           </ul>
         </li>
-        <li ngbDropdown routerLinkActive="active" class="nav-item dropdown">
-          <a class="nav-link nav-item dropdown-toggle" id="dropdown2" ngbDropdownToggle translate="network"></a>
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown2">
-            <li
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              routerLink="/network/topology"
-              routerLinkActive="active">
-              <i class="fas fa-wifi me-2"></i> <span translate="network.topo"></span>
-            </li>
-            <li
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              routerLink="/network/mesh"
-              routerLinkActive="active">
-              <i class="fas fa-circle-nodes me-2"></i> <span translate="network.mesh"></span>
-            </li>
-            <li
-              class="dropdown-item nav-link nav-item"
-              (click)="toggleMenu()"
-              routerLink="/network/energy-level"
-              routerLinkActive="active">
-              <i class="fas fa-broadcast-tower me-2"></i> <span translate="network.energy"></span>
-            </li>
-          </ul>
+
+        <!-- Network, Admin and Tools open their page; the page's tabs lead to each part -->
+        <li class="dropdown">
+          <a class="nav-item nav-link mx-2" routerLink="/network" routerLinkActive="active" (click)="toggleMenu()">
+            <i class="fas fa-circle-nodes"></i>
+            <span translate>network</span>
+          </a>
         </li>
 
-        <!-- Admin and Tools open their page; the page's tabs lead to each part -->
         <li class="dropdown">
           <a class="nav-item nav-link mx-2" routerLink="/admin" routerLinkActive="active" (click)="toggleMenu()">
             <i class="fas fa-satellite-dish"></i>

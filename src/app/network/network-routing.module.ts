@@ -1,15 +1,17 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { inject, NgModule } from '@angular/core';
+import { Router, RouterModule, Routes } from '@angular/router';
 import { extract } from '@app/core';
-import { MeshComponent } from './mesh/mesh.component';
-import { NwkStatsComponent } from './nwk-stats/nwk-stats.component';
-import { TopologyComponent } from './topology/topology.component';
+import { NetworkComponent } from './network.component';
+
+// The views had their own address before they became tabs; bookmarks and old links still open the right one
+const toTab = (view: string) => () => inject(Router).createUrlTree(['/network'], { queryParams: { view } });
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
-  { path: 'topology', component: TopologyComponent, data: { title: extract('network.topo') } },
-  { path: 'mesh', component: MeshComponent, data: { title: extract('network.mesh') } },
-  { path: 'energy-level', component: NwkStatsComponent, data: { title: extract('network.energy') } }
+  { path: '', component: NetworkComponent, data: { title: extract('network') } },
+  { path: 'mesh', redirectTo: toTab('mesh') },
+  { path: 'topology', redirectTo: toTab('topology') },
+  { path: 'energy-level', redirectTo: toTab('interference') }
 ];
 
 @NgModule({

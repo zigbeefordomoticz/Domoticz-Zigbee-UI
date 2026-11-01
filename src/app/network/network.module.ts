@@ -12,6 +12,8 @@ import { DetailNwkStatComponent } from './detail-nwk-stat/detail-nwk-stat.compon
 import { DetailTopologyComponent } from './detail-topology/detail-topology.component';
 import { MeshGraphComponent } from './mesh/mesh-graph/mesh-graph.component';
 import { MeshComponent } from './mesh/mesh.component';
+import { NetworkTabsComponent } from './network-tabs/network-tabs.component';
+import { NetworkComponent } from './network.component';
 import { NetworkRoutingModule } from './network-routing.module';
 import { NwkStatsComponent } from './nwk-stats/nwk-stats.component';
 import { ReqNetworkFullComponent } from './req-network-full/req-network-full.component';
@@ -22,6 +24,8 @@ import { TopologyComponent } from './topology/topology.component';
 @NgModule({
   imports: [NetworkRoutingModule, SharedModule, ChartModule, NgScrollbarModule],
   declarations: [
+    NetworkComponent,
+    NetworkTabsComponent,
     NwkStatsComponent,
     TopologyComponent,
     DetailTopologyComponent,

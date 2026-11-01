@@ -1,0 +1,13 @@
+<app-network-tabs [active]="view"></app-network-tabs>
+
+@switch (view) {
+  @case ('topology') {
+    <app-topology></app-topology>
+  }
+  @case ('interference') {
+    <app-nwk-stats></app-nwk-stats>
+  }
+  @default {
+    <app-mesh></app-mesh>
+  }
+}

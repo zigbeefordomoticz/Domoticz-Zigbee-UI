@@ -62,7 +62,9 @@
       } @else {
         <p class="hint">
           {{ 'admin.coord.channel.noscan' | translate }}
-          <a routerLink="/network/energy-level">{{ 'admin.coord.channel.scanlink' | translate }}</a>
+          <a routerLink="/network" [queryParams]="{ view: 'interference' }"
+            >{{ 'network' | translate }} › {{ 'network.energy' | translate }}</a
+          >
         </p>
       }
 
