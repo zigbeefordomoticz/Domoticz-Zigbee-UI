@@ -1603,5 +1603,7 @@
   "group.page.delete": "Elimina gruppo…",
   "group.page.delete.confirm": "Eliminare {{name}}? A ogni membro viene chiesto di lasciare il gruppo. Quando l'ultimo ha risposto, il plugin rimuove il gruppo e il suo widget Domoticz.",
   "group.page.delete.yes": "Elimina",
-  "group.page.cancel": "Annulla"
+  "group.page.cancel": "Annulla",
+  "management.tabs.devices": "Dispositivi",
+  "management.tabs.groups": "Gruppi"
 }

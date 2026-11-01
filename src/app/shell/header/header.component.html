@@ -25,27 +25,19 @@
             <span>{{ plugin?.Name }}</span>
           </a>
         </li>
-        <li ngbDropdown routerLinkActive="active" class="nav-item dropdown">
-          <a class="nav-link nav-item dropdown-toggle" id="dropdown1" ngbDropdownToggle translate="management"></a>
-          <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdown1">
-            <li
-              class="dropdown-item nav-item nav-link"
-              (click)="toggleMenu()"
-              routerLink="/device"
-              routerLinkActive="active">
-              <i class="fas fa-tablet me-2"></i> <span translate="device"></span>
-            </li>
-            <li
-              class="dropdown-item nav-link nav-item"
-              (click)="toggleMenu()"
-              routerLink="/group"
-              routerLinkActive="active">
-              <i class="fas fa-layer-group me-2"></i> <span translate="group"></span>
-            </li>
-          </ul>
+        <!-- Management, Network, Admin and Tools open their page; the page's tabs lead to each part -->
+        <li class="dropdown">
+          <a
+            class="nav-item nav-link mx-2"
+            routerLink="/device"
+            [class.active]="managementActive"
+            [attr.aria-current]="managementActive ? 'page' : null"
+            (click)="toggleMenu()">
+            <i class="fas fa-layer-group"></i>
+            <span translate>management</span>
+          </a>
         </li>
 
-        <!-- Network, Admin and Tools open their page; the page's tabs lead to each part -->
         <li class="dropdown">
           <a class="nav-item nav-link mx-2" routerLink="/network" routerLinkActive="active" (click)="toggleMenu()">
             <i class="fas fa-circle-nodes"></i>
