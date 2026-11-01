@@ -1795,5 +1795,6 @@
   "group.page.delete.yes": "Supprimer",
   "group.page.cancel": "Annuler",
   "management.tabs.devices": "Appareils",
-  "management.tabs.groups": "Groupes"
+  "management.tabs.groups": "Groupes",
+  "group.page.add.empty": "Tous les appareils qui peuvent rejoindre sont déjà dans ce groupe."
 }
