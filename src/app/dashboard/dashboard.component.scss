@@ -101,3 +101,12 @@
 :host ::ng-deep .dashboard-popover {
   max-width: 24rem;
 }
+
+// Device list window: the name and address truncate, the health pill and battery keep their width
+.dashboard-list-row {
+  min-height: 3.5rem;
+}
+
+.min-w-0 {
+  min-width: 0;
+}

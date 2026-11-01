@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnChanges, SimpleChanges, TemplateRef, Vi
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { healthTone } from '@app/shared/utils/health-label.pipe';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -22,13 +23,6 @@ const HEALTH_RANK: { [health: string]: number } = {
   '': 2,
   Disabled: 3,
   Live: 4
-};
-const HEALTH_TONE: { [health: string]: string } = {
-  Live: 'success',
-  TimedOut: 'warning',
-  'Not seen last 24hours': 'warning',
-  'Not Reachable': 'danger',
-  Disabled: 'secondary'
 };
 // Same threshold as the dashboard "Battery below 15 %" item
 const LOW_BATTERY = 15;
@@ -278,7 +272,7 @@ export class DeviceByNameComponent implements OnChanges {
       powerSort: mains ? MAINS_SORT : (battery ?? -1),
       lqi: Number(device.LQI) || 0,
       healthRank,
-      healthTone: HEALTH_TONE[device.Health] ?? 'secondary',
+      healthTone: healthTone(device.Health),
       statusWarning,
       paramCount: this.paramKeys(device.Param).filter(key => key !== 'Disabled').length,
       attention: healthRank < HEALTH_RANK.unknown || lowBattery || statusWarning !== '',

@@ -271,7 +271,7 @@ a {
   --bs-offcanvas-width: 36rem;
 }
 
-// Device Management: Health pill, one tone per plugin Health family (healthTone in device-by-name), also used by the Details window
+// Device Management: Health pill, one tone per plugin Health family (healthTone in shared/utils/health-label.pipe.ts), also the Details window and the dashboard list
 .health-success {
   background: var(--bs-success-bg-subtle);
   color: var(--bs-success-text-emphasis);

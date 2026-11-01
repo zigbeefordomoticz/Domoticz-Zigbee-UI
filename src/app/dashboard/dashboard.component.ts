@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { VersionService } from '@app/services/version-service';
@@ -7,12 +7,15 @@ import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Group } from '@app/shared/models/group';
 import { Plugin } from '@app/shared/models/plugin';
 import { Setting } from '@app/shared/models/setting';
+import { DeviceDetailsComponent } from '@app/device/device-details/device-details.component';
 import { environment } from '@env/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import { forkJoin, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { PluginStats, Trend } from '../shared/models/plugin-stats';
+import { DeviceListRequest, DeviceListRow, toDeviceListRow } from './device-list';
 import { hasIntervalCounts, messagesPerMinute } from './traffic-rate';
 
 interface DeviceSegment {
@@ -51,7 +54,12 @@ const COLORS = {
   standalone: false
 })
 export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
-  visible: boolean = false;
+  // The device list window: its title, dot colour and lines, and the search typed in it
+  list: { title: string; color: string; rows: DeviceListRow[] } = { title: '', color: '', rows: [] };
+  listSearch = '';
+  // Above this many lines the window offers a search
+  readonly listSearchFrom = 10;
+  @ViewChild('deviceList') private deviceList: TemplateRef<unknown>;
   settingsToSave: Array<Setting> = [];
   // Plugin HealthTimeOut, in hours, for the health card's definitions (plugin default 6 h)
   healthTimeOutHours = 6;
@@ -72,7 +80,6 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   devicesOther: any;
   certifiedDevices: any;
   notCertifiedDevices: any;
-  devicesToOverlay: any[];
   battery1: any;
   battery2: any;
   battery3: any;
@@ -94,7 +101,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     private apiService: ApiService,
     private versionService: VersionService,
     private headerService: HeaderService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private modalService: NgbModal
   ) {
     super();
   }
@@ -302,9 +310,46 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
     return chart;
   }
 
-  showDevices(devices: any[]) {
-    this.devicesToOverlay = devices;
-    this.visible = true;
+  /** A bar segment or chip: "Plugin devices · Live". */
+  showSegment(group: DeviceGroup, segment: DeviceSegment) {
+    // Segment labels are lower case ("live"), capitalised by CSS on the chips
+    const label = String(this.translateService.instant(segment.label)).trim();
+    const title = this.translateService.instant(group.title) + ' · ' + label.charAt(0).toUpperCase() + label.slice(1);
+    this.showDevices({ title, color: segment.color, devices: segment.devices });
+  }
+
+  /** Lists the devices, sorted by name; the Details window needs the /zdevice-name record. */
+  showDevices(request: DeviceListRequest) {
+    const byNwkId = new Map((this.certified ?? []).map(device => [device._NwkId, device]));
+    const rows = (request.devices ?? []).map(device => toDeviceListRow(device, byNwkId.get(device._NwkId) ?? null));
+    rows.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base', numeric: true }));
+    this.list = { title: request.title, color: request.color, rows };
+    this.listSearch = '';
+    this.modalService.open(this.deviceList, { scrollable: true, ariaLabelledBy: 'dashboard-list-title' }).result.then(
+      (): void => undefined,
+      (): void => undefined
+    );
+  }
+
+  listRows(): DeviceListRow[] {
+    const search = this.listSearch.trim().toLowerCase();
+    return search ? this.list.rows.filter(row => row.search.includes(search)) : this.list.rows;
+  }
+
+  /** Opens on top of the list: closing the Details window goes back to it. */
+  openDetails(row: DeviceListRow) {
+    const details = this.modalService.open(DeviceDetailsComponent, {
+      size: 'lg',
+      scrollable: true,
+      ariaLabelledBy: 'device-details-title'
+    });
+    details.componentInstance.device = row.details;
+    details.componentInstance.healthTone = row.tone;
+    details.componentInstance.actions = false;
+    details.result.then(
+      (): void => undefined,
+      (): void => undefined
+    );
   }
 
   refresh() {

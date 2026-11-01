@@ -72,6 +72,8 @@ export class DeviceDetailsComponent implements OnInit {
   @Input() canRemove = false;
   // The table's Health pill tone (health-success, -warning, -danger, -secondary in theme.scss)
   @Input() healthTone = 'secondary';
+  // Remove and Parameters close the window for Device Management to act on; the dashboard has neither
+  @Input() actions = true;
 
   readonly chartWidth = CHART_WIDTH;
   readonly chartHeight = CHART_HEIGHT;

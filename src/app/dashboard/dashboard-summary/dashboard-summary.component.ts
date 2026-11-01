@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FileSaverService } from 'ngx-filesaver';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DeviceListRequest } from '../device-list';
 
 // Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
 const HEALTH_NOT_REACHABLE = 'Not Reachable';
@@ -62,7 +63,7 @@ export class DashboardSummaryComponent implements OnChanges {
   @Input() coordinator: any;
   @Input() firmwareAvailable: any[] = [];
   @Input() healthTimeOutHours = 6;
-  @Output() viewDevices = new EventEmitter<any[]>();
+  @Output() viewDevices = new EventEmitter<DeviceListRequest>();
 
   figures: KeyFigure[] = [];
   items: AttentionItem[] = [];
@@ -86,7 +87,7 @@ export class DashboardSummaryComponent implements OnChanges {
     if (item.route) {
       this.router.navigate([item.route]);
     } else {
-      this.viewDevices.emit(item.devices);
+      this.viewDevices.emit({ title: item.title, color: 'var(--bs-' + item.tone + ')', devices: item.devices });
     }
   }
 

@@ -17,6 +17,20 @@ const HEALTH_LABELS: { [health: string]: string } = {
   '': 'device.health.unknown'
 };
 
+// Health pill tone, one per family: classes health-success, -warning, -danger, -secondary in theme.scss
+const HEALTH_TONES: { [health: string]: string } = {
+  Live: 'success',
+  TimedOut: 'warning',
+  'Not seen last 24hours': 'warning',
+  'Not Reachable': 'danger',
+  Disabled: 'secondary'
+};
+
+/** Plugin Health value -> pill tone (Device Management, Details window, dashboard list). */
+export function healthTone(health: string): string {
+  return HEALTH_TONES[health ?? ''] ?? 'secondary';
+}
+
 @Pipe({
   name: 'healthLabel',
   standalone: false
