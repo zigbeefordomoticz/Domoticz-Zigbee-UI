@@ -51,7 +51,7 @@
     </div>
 
     @for (row of shown; track row.setting.Name) {
-      <div class="item" [class.changed]="changed(row)">
+      <div class="item" [class.changed]="changed(row)" [class.item-path]="row.setting.DataType === 'path'">
         <div class="item-text">
           <label class="item-label" [for]="'setting-' + row.setting.Name">{{ label(row) }}</label>
           <div class="item-meta">
@@ -100,6 +100,15 @@
                 type="text"
                 [id]="'setting-' + row.setting.Name"
                 [class.is-invalid]="!isValid(row)"
+                [(ngModel)]="values[row.setting.Name]" />
+            }
+            @case ('path') {
+              <input
+                class="form-control wide font-monospace"
+                type="text"
+                spellcheck="false"
+                [id]="'setting-' + row.setting.Name"
+                [title]="values[row.setting.Name] || ''"
                 [(ngModel)]="values[row.setting.Name]" />
             }
             @default {
