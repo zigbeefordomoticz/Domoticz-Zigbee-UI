@@ -164,13 +164,31 @@
       <dl class="received mb-0">
         <div>
           <dt>
-            ZDO <span class="hint">{{ 'device.details.received.zdo' | translate }}</span>
+            <span class="label">
+              ZDO
+              @let zdoRate = rate(received.zdo);
+              @if (zdoRate !== null) {
+                <span class="rate" [title]="'device.details.received.rate.title' | translate: { uptime: uptimeText }">{{
+                  'device.details.received.rate' | translate: { rate: rateText(zdoRate) }
+                }}</span>
+              }
+            </span>
+            <span class="hint">{{ 'device.details.received.zdo' | translate }}</span>
           </dt>
           <dd>{{ received.zdo | number }}</dd>
         </div>
         <div>
           <dt>
-            ZCL <span class="hint">{{ 'device.details.received.zcl' | translate }}</span>
+            <span class="label">
+              ZCL
+              @let zclRate = rate(received.zcl);
+              @if (zclRate !== null) {
+                <span class="rate" [title]="'device.details.received.rate.title' | translate: { uptime: uptimeText }">{{
+                  'device.details.received.rate' | translate: { rate: rateText(zclRate) }
+                }}</span>
+              }
+            </span>
+            <span class="hint">{{ 'device.details.received.zcl' | translate }}</span>
           </dt>
           <dd>{{ received.zcl | number }}</dd>
         </div>

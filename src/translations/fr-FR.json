@@ -1699,6 +1699,8 @@
   "device.details.received": "Messages reçus depuis le démarrage du plugin",
   "device.details.received.zdo": "gestion du réseau, découverte",
   "device.details.received.zcl": "rapports d'attributs, commandes",
+  "device.details.received.rate": "{{ rate }}/min",
+  "device.details.received.rate.title": "Moyenne par minute depuis le démarrage du plugin (il y a {{ uptime }})",
   "network.tabs.label": "Sections du réseau",
   "network.status.devices": "Équipements",
   "network.status.devices.detail": "{{routers}} routeurs · {{others}} équipements terminaux",

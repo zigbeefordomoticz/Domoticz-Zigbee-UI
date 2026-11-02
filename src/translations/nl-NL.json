@@ -1509,6 +1509,8 @@
   "device.details.received": "Berichten ontvangen sinds de start van de plugin",
   "device.details.received.zdo": "netwerkbeheer, detectie",
   "device.details.received.zcl": "attribuutrapporten, opdrachten",
+  "device.details.received.rate": "{{ rate }}/min",
+  "device.details.received.rate.title": "Gemiddelde per minuut sinds de start van de plugin ({{ uptime }} geleden)",
   "network.tabs.label": "Netwerkonderdelen",
   "network.status.devices": "Apparaten",
   "network.status.devices.detail": "{{routers}} routers · {{others}} eindapparaten",
