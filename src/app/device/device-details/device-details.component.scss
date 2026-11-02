@@ -113,6 +113,22 @@
     font-weight: 600;
   }
 
+  // ZDO / ZCL on the left, the average per minute on the right of the same line
+  .label {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .rate {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--bs-secondary-color);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
   .hint {
     display: block;
     font-size: 0.75rem;

@@ -1509,6 +1509,8 @@
   "device.details.received": "Mensajes recibidos desde el inicio del plugin",
   "device.details.received.zdo": "gestión de red, descubrimiento",
   "device.details.received.zcl": "informes de atributos, comandos",
+  "device.details.received.rate": "{{ rate }}/min",
+  "device.details.received.rate.title": "Media por minuto desde el inicio del plugin (hace {{ uptime }})",
   "network.tabs.label": "Secciones de la red",
   "network.status.devices": "Dispositivos",
   "network.status.devices.detail": "{{routers}} routers · {{others}} dispositivos finales",

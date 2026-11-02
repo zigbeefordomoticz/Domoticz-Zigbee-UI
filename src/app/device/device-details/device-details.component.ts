@@ -1,5 +1,6 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component, Input, OnInit } from '@angular/core';
+import { formatNumber } from '@angular/common';
+import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { resolveDeviceType } from '@app/network/mesh/mesh-device-type';
 import { ApiService } from '@app/services/api.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
@@ -92,6 +93,8 @@ export class DeviceDetailsComponent implements OnInit {
   descriptor: NodeDescriptor | null = null;
   // ZDO / ZCL frames received since the plugin start; null when the plugin does not count them (older plugin)
   received: { zdo: number; zcl: number } | null = null;
+  // Minutes since the plugin start, on the plugin's clock (/plugin-stat Uptime); null until known or under a minute
+  uptimeMinutes: number | null = null;
   // _description, _comment of the model configuration (plugin "DeviceConfInfo", absent before it)
   notes: ConfNote[] = [];
   // The device's Blakadder page from the same notes; { } when it has none; null without DeviceConfInfo (older plugin)
@@ -103,7 +106,8 @@ export class DeviceDetailsComponent implements OnInit {
     private apiService: ApiService,
     private clipboard: Clipboard,
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    @Inject(LOCALE_ID) private locale: string
   ) {}
 
   ngOnInit() {
@@ -118,6 +122,34 @@ export class DeviceDetailsComponent implements OnInit {
         this.failed = true;
       }
     });
+    // The per-minute rates need the plugin uptime; without it the tiles show the counts alone
+    this.apiService.getPluginStats().subscribe({
+      next: stats => {
+        const uptime = Number(stats?.Uptime);
+        this.uptimeMinutes = Number.isFinite(uptime) && uptime >= 60 ? uptime / 60 : null;
+      },
+      error: () => (this.uptimeMinutes = null)
+    });
+  }
+
+  /** Average messages per minute since the plugin start; null while the uptime is unknown. */
+  rate(count: number): number | null {
+    return this.uptimeMinutes ? count / this.uptimeMinutes : null;
+  }
+
+  /** The rate as shown: 2 decimals under 1 / min, 1 under 10, none above; "< 0.01" rather than 0 for a few messages. */
+  rateText(rate: number): string {
+    if (rate > 0 && rate < 0.01) {
+      return '< ' + formatNumber(0.01, this.locale, '1.2-2');
+    }
+    return formatNumber(rate, this.locale, rate < 1 ? '1.2-2' : rate < 10 ? '1.1-1' : '1.0-0');
+  }
+
+  /** The uptime as "2 h 05 min" / "12 min" for the rate tooltip. */
+  get uptimeText(): string {
+    const minutes = Math.floor(this.uptimeMinutes ?? 0);
+    const hours = Math.floor(minutes / 60);
+    return hours ? `${hours} h ${String(minutes % 60).padStart(2, '0')} min` : `${minutes} min`;
   }
 
   /**

@@ -1509,6 +1509,8 @@
   "device.details.received": "Seit dem Plugin-Start empfangene Nachrichten",
   "device.details.received.zdo": "Netzwerkverwaltung, Erkennung",
   "device.details.received.zcl": "Attributberichte, Befehle",
+  "device.details.received.rate": "{{ rate }}/Min.",
+  "device.details.received.rate.title": "Durchschnitt pro Minute seit dem Plugin-Start (vor {{ uptime }})",
   "network.tabs.label": "Netzwerkbereiche",
   "network.status.devices": "Geräte",
   "network.status.devices.detail": "{{routers}} Router · {{others}} Endgeräte",
