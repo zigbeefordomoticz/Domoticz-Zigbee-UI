@@ -2,9 +2,12 @@
 
 Technical reference for working in this repository.
 
-**`AGENTS.md` holds the mandatory rules — read it first.** This file is the
-detail behind them: how the app is wired, where things live, and how to carry
-out the tasks that come up most often.
+**`AGENTS.md` holds the mandatory rules.** It is imported here, so it loads
+with this file in every session. This file is the detail behind them: how the
+app is wired, where things live, and how to carry out the tasks that come up
+most often.
+
+@AGENTS.md
 
 ---
 
@@ -451,7 +454,7 @@ Neither blocks anything; both are their own small change:
 
 ## Guidelines
 
-- Read and follow `AGENTS.md` (mandatory).
+- Follow `AGENTS.md`, imported at the top of this file (mandatory).
 - One logical change per pull request.
 - `npm run lint` and `npm run build` must pass before you propose a change.
 - Match the surrounding code: module-based Angular, `ApiService` for all calls,
