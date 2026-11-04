@@ -1696,5 +1696,9 @@
   "group.scenes.check.refused": "{{name}} was not captured with ID {{id}}: {{reason}}",
   "group.scenes.error.SCENE_ID_INVALID": "A scene ID is two hexadecimal digits, such as 2a.",
   "group.scenes.error.SCENE_ID_IN_USE": "This ID is already used in this group. Re-capture that scene to replace it.",
-  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Another new scene is being checked. Try again in a moment."
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Another new scene is being checked. Try again in a moment.",
+  "group.page.id.hint": "Leave it empty to let the plugin choose. Enter four hexadecimal digits, such as 0a2b, to match a device set on a fixed group.",
+  "group.page.id.invalid": "A group id is four hexadecimal digits, such as 0a2b.",
+  "group.page.id.reserved": "This id is reserved: 0000, fff8 to ffff and the ping group cannot be used.",
+  "group.page.id.inuse": "Another group already uses this id."
 }

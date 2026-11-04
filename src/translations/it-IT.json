@@ -1696,5 +1696,9 @@
   "group.scenes.check.refused": "{{name}} non è stata catturata con l'ID {{id}}: {{reason}}",
   "group.scenes.error.SCENE_ID_INVALID": "Un ID scena è composto da due cifre esadecimali, ad esempio 2a.",
   "group.scenes.error.SCENE_ID_IN_USE": "Questo ID è già usato in questo gruppo. Ricattura quella scena per sostituirla.",
-  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "È in corso la verifica di un'altra nuova scena. Riprova tra un momento."
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "È in corso la verifica di un'altra nuova scena. Riprova tra un momento.",
+  "group.page.id.hint": "Lasciare vuoto per farlo scegliere al plugin. Inserire quattro cifre esadecimali, ad esempio 0a2b, per corrispondere a un dispositivo impostato su un gruppo fisso.",
+  "group.page.id.invalid": "Un id gruppo è composto da quattro cifre esadecimali, ad esempio 0a2b.",
+  "group.page.id.reserved": "Questo id è riservato: 0000, da fff8 a ffff e il gruppo di ping non possono essere usati.",
+  "group.page.id.inuse": "Un altro gruppo usa già questo id."
 }

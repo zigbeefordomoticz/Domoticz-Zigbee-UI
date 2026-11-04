@@ -230,8 +230,24 @@
 
           <dl class="facts">
             <div>
-              <dt>{{ 'group.page.facts.id' | translate }}</dt>
-              <dd class="font-monospace">{{ draft.id || ('group.page.facts.new' | translate) }}</dd>
+              <dt>
+                <label for="groupId">{{ 'group.page.facts.id' | translate }}</label>
+              </dt>
+              <dd class="font-monospace">
+                @if (draft.id) {
+                  {{ draft.id }}
+                } @else {
+                  <input
+                    id="groupId"
+                    type="text"
+                    class="form-control form-control-sm font-monospace group-id"
+                    autocomplete="off"
+                    maxlength="4"
+                    [class.is-invalid]="requestedIdProblem"
+                    [placeholder]="'group.page.facts.new' | translate"
+                    [(ngModel)]="draft.requestedId" />
+                }
+              </dd>
             </div>
             @if (selectedRow?.group.WidgetStyle || selectedRow?.group.Cluster) {
               <div>
@@ -240,6 +256,12 @@
               </div>
             }
           </dl>
+
+          @if (!draft.id) {
+            <p class="hint group-id-hint" [class.text-danger]="requestedIdProblem">
+              {{ requestedIdProblem || 'group.page.id.hint' | translate }}
+            </p>
+          }
 
           <div class="editor-section">
             <div class="form-check form-switch">

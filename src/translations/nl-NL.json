@@ -1696,5 +1696,9 @@
   "group.scenes.check.refused": "{{name}} is niet vastgelegd met ID {{id}}: {{reason}}",
   "group.scenes.error.SCENE_ID_INVALID": "Een scène-ID bestaat uit twee hexadecimale cijfers, bijvoorbeeld 2a.",
   "group.scenes.error.SCENE_ID_IN_USE": "Deze ID wordt al gebruikt in deze groep. Leg die scène opnieuw vast om hem te vervangen.",
-  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Er wordt een andere nieuwe scène gecontroleerd. Probeer het zo meteen opnieuw."
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Er wordt een andere nieuwe scène gecontroleerd. Probeer het zo meteen opnieuw.",
+  "group.page.id.hint": "Laat leeg om de plugin te laten kiezen. Voer vier hexadecimale cijfers in, bijvoorbeeld 0a2b, om aan te sluiten op een apparaat met een vaste groep.",
+  "group.page.id.invalid": "Een groeps-id bestaat uit vier hexadecimale cijfers, bijvoorbeeld 0a2b.",
+  "group.page.id.reserved": "Deze id is gereserveerd: 0000, fff8 tot ffff en de ping-groep kunnen niet worden gebruikt.",
+  "group.page.id.inuse": "Een andere groep gebruikt deze id al."
 }

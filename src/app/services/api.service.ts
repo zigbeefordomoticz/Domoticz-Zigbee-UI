@@ -381,6 +381,11 @@ export class ApiService {
     );
   }
 
+  /** Leaves its errors to the caller: the plugin refuses a chosen id with {"error": <code>}, to translate. */
+  createZGroupWithId(groups: any): Observable<any> {
+    return this.httpClient.put(routes.zGroups, groups);
+  }
+
   putZGroups(groups: any): Observable<any> {
     return this.httpClient.put(routes.zGroups, groups).pipe(
       map((body: any) => body),

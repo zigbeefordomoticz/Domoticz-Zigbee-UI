@@ -20,6 +20,16 @@ import {
 
 const NATIVE_SCENES_SETTING = 'enableNativeScenes';
 
+// One to four hex digits, as typed: the plugin takes four. Above 0xfff7 is reserved by the ZCL
+const GROUP_ID_INPUT = /^[0-9a-f]{1,4}$/i;
+const MAX_GROUP_ID = 0xfff7;
+// What the plugin refuses a chosen id with, as translation keys
+const GROUP_ID_ERRORS: { [code: string]: string } = {
+  GROUP_ID_INVALID: 'group.page.id.invalid',
+  GROUP_ID_RESERVED: 'group.page.id.reserved',
+  GROUP_ID_IN_USE: 'group.page.id.inuse'
+};
+
 // Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
 const NOT_REACHED = ['Not Reachable', 'TimedOut', 'Not seen last 24hours'];
 
@@ -35,6 +45,8 @@ interface DraftMember extends Endpoint {
 
 interface Draft {
   id: string | null;
+  // The id asked for a new group, as typed. Empty: the plugin chooses
+  requestedId: string;
   name: string;
   coordinator: boolean;
   members: DraftMember[];
@@ -308,7 +320,33 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   }
 
   get valid(): boolean {
-    return !!this.draft && !!this.draft.name.trim() && (this.membersAfterSave > 0 || this.draft.coordinator);
+    return (
+      !!this.draft &&
+      !!this.draft.name.trim() &&
+      !this.requestedIdProblem &&
+      (this.membersAfterSave > 0 || this.draft.coordinator)
+    );
+  }
+
+  /** The id asked for a new group, as the plugin wants it. */
+  get requestedId(): string | null {
+    const id = this.draft?.requestedId.trim().toLowerCase();
+    return id ? id.padStart(4, '0') : null;
+  }
+
+  /** A translation key. The plugin also refuses its ping group, which the page does not know. */
+  get requestedIdProblem(): string | null {
+    const id = this.requestedId;
+    if (!id) {
+      return null;
+    }
+    if (!GROUP_ID_INPUT.test(id)) {
+      return 'group.page.id.invalid';
+    }
+    if (parseInt(id, 16) === 0 || parseInt(id, 16) > MAX_GROUP_ID) {
+      return 'group.page.id.reserved';
+    }
+    return this.rows.some(row => row.group._GroupId === id) ? 'group.page.id.inuse' : null;
   }
 
   /** Every endpoint that can still join, by name; typing narrows the list, an empty field shows them all. */
@@ -400,7 +438,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     const body = draft.id
       ? this.rows.map(row => (row.group._GroupId === draft.id ? this.payloadOfDraft(draft) : this.payloadOf(row)))
       : [this.payloadOfDraft(draft)];
-    this.send(body, draft.id, draft.name.trim());
+    this.send(body, draft.id ?? this.requestedId, draft.name.trim());
   }
 
   delete(): void {
@@ -454,7 +492,8 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   private send(body: object[], id: string | null, newName: string | null): void {
     this.saving = true;
-    this.apiService.putZGroups(body).subscribe({
+    const chosenId = !!this.requestedId;
+    (chosenId ? this.apiService.createZGroupWithId(body) : this.apiService.putZGroups(body)).subscribe({
       next: () => {
         this.saving = false;
         this.sent = true;
@@ -471,7 +510,16 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
           this.subs.sink = timer(delay).subscribe(() => this.load(id, newName && !id ? newName : null));
         });
       },
-      error: () => (this.saving = false)
+      error: error => {
+        this.saving = false;
+        if (chosenId) {
+          const key = GROUP_ID_ERRORS[error?.error?.error];
+          this.toastr.error(
+            key ? this.translate.instant(key) : error?.status + ' ' + error?.statusText,
+            this.translate.instant('api.global.error.notify')
+          );
+        }
+      }
     });
   }
 
@@ -482,13 +530,22 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     this.confirmDelete = false;
     this.addSearch = '';
     if (id === 'new') {
-      this.draft = { id: null, name: '', coordinator: false, members: [], baseName: '', baseCoordinator: false };
+      this.draft = {
+        id: null,
+        requestedId: '',
+        name: '',
+        coordinator: false,
+        members: [],
+        baseName: '',
+        baseCoordinator: false
+      };
       return;
     }
     const row = this.rows.find(other => other.group._GroupId === id);
     this.draft = row
       ? {
           id: row.group._GroupId,
+          requestedId: '',
           name: row.group.GroupName,
           coordinator: row.coordinator,
           members: row.members.map(member => ({ ...member, status: 'kept' as const })),
@@ -586,6 +643,8 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     }
     return {
       ...(draft.id ? { _GroupId: draft.id } : {}),
+      // Never as _GroupId: the plugin skips an unknown one, then removes every group not in the list
+      ...(this.requestedId ? { requestedGroupId: this.requestedId } : {}),
       GroupName: draft.name.trim(),
       coordinatorInside: draft.coordinator,
       devicesSelected

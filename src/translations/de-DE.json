@@ -1696,5 +1696,9 @@
   "group.scenes.check.refused": "{{name}} wurde nicht mit ID {{id}} erfasst: {{reason}}",
   "group.scenes.error.SCENE_ID_INVALID": "Eine Szenen-ID besteht aus zwei Hexadezimalziffern, z. B. 2a.",
   "group.scenes.error.SCENE_ID_IN_USE": "Diese ID wird in dieser Gruppe bereits verwendet. Erfassen Sie diese Szene neu, um sie zu ersetzen.",
-  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Eine andere neue Szene wird gerade geprüft. Versuchen Sie es gleich noch einmal."
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Eine andere neue Szene wird gerade geprüft. Versuchen Sie es gleich noch einmal.",
+  "group.page.id.hint": "Leer lassen, damit das Plugin eine wählt. Geben Sie vier Hexadezimalziffern ein, z. B. 0a2b, passend zu einem Gerät mit fester Gruppe.",
+  "group.page.id.invalid": "Eine Gruppen-ID besteht aus vier Hexadezimalziffern, z. B. 0a2b.",
+  "group.page.id.reserved": "Diese ID ist reserviert: 0000, fff8 bis ffff und die Ping-Gruppe können nicht verwendet werden.",
+  "group.page.id.inuse": "Eine andere Gruppe verwendet diese ID bereits."
 }
