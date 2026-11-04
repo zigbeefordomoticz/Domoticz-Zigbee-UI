@@ -1,0 +1,86 @@
+<p class="hint mb-1">
+  {{
+    (scene.discovered ? 'group.scenes.info.found' : 'group.scenes.info.created')
+      | translate: { date: (scene.createdAt * 1000 | date: 'dd/MM/yyyy HH:mm') }
+  }}
+  ·
+  {{ 'group.scenes.info.changed' | translate: { date: (scene.updatedAt * 1000 | date: 'dd/MM/yyyy HH:mm') } }}
+  ·
+  @if (scene.lastRecalled) {
+    {{ 'group.scenes.info.recalled' | translate: { date: (scene.lastRecalled * 1000 | date: 'dd/MM/yyyy HH:mm') } }}
+  } @else {
+    {{ 'group.scenes.info.neverrecalled' | translate }}
+  }
+</p>
+
+<div class="table-responsive">
+  <table class="table table-sm align-middle mb-1">
+    <thead>
+      <tr>
+        <th>{{ 'group.page.col.widget' | translate }}</th>
+        <th>{{ 'group.page.col.device' | translate }}</th>
+        <th>{{ 'group.page.col.ep' | translate }}</th>
+        <th>{{ 'group.scenes.col.state' | translate }}</th>
+        <th>{{ 'group.scenes.col.status' | translate }}</th>
+        <th>{{ 'group.scenes.col.check' | translate }}</th>
+        <th>{{ 'group.page.col.health' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (member of scene.members; track member.ieee + member.endpoint) {
+        <tr>
+          <td>{{ label(member) }}</td>
+          <td>
+            {{ endpoint(member)?.model || member.name }}
+            <span class="hint font-monospace">{{ member.nwkId }}</span>
+          </td>
+          <td class="font-monospace">{{ member.endpoint }}</td>
+          <td class="state">{{ state(member) }}</td>
+          <td>
+            @if (member.capability === 'fallback') {
+              <span class="hint">{{ 'group.scenes.status.direct' | translate }}</span>
+            } @else if (member.status === 'failed') {
+              <span class="badge rounded-pill health-warning">{{ problem(member) }}</span>
+            } @else {
+              <span class="badge rounded-pill health-{{ member.status === 'synced' ? 'success' : 'secondary' }}">
+                {{ 'group.scenes.status.' + member.status | translate }}
+              </span>
+            }
+          </td>
+          <td class="text-nowrap">
+            @if (member.lastCheck) {
+              {{ member.lastCheck * 1000 | date: 'dd/MM HH:mm' }}
+            }
+          </td>
+          <td>
+            @if (endpoint(member)?.health; as health) {
+              <span class="badge rounded-pill health-{{ healthTone(health) }}">{{
+                health | healthLabel | translate
+              }}</span>
+            }
+          </td>
+        </tr>
+      }
+      @for (device of scene.missing; track device.ieee + device.endpoint) {
+        <tr>
+          <td>{{ label(device) }}</td>
+          <td>{{ endpoint(device)?.model || device.name }}</td>
+          <td class="font-monospace">{{ device.endpoint }}</td>
+          <td colspan="3">
+            <span class="hint">{{ 'group.scenes.missing' | translate }}</span>
+          </td>
+          <td>
+            @if (endpoint(device)?.health; as health) {
+              <span class="badge rounded-pill health-{{ healthTone(health) }}">{{
+                health | healthLabel | translate
+              }}</span>
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+@if (showHint) {
+  <p class="hint mb-0">{{ 'group.scenes.state.hint' | translate }}</p>
+}

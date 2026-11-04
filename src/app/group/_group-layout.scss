@@ -1,0 +1,120 @@
+// Shared by the Groups & Scenes page, by group and by scene
+
+.hint {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--bs-secondary-color);
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+// Group list beside the editor; the list goes on top on a phone
+.group-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.group-list {
+  flex: 1 1 18rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.group-editor {
+  flex: 999 1 34rem;
+  min-width: 0;
+}
+
+.list-head {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+}
+
+.list-search {
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+}
+
+.group-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.625rem 1rem;
+  font: inherit;
+  color: var(--bs-body-color);
+  text-align: left;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+
+  &:hover {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  &.active {
+    background-color: var(--bs-primary-bg-subtle);
+    box-shadow: inset 3px 0 0 var(--bs-primary);
+  }
+}
+
+.min-w-0 {
+  min-width: 0;
+}
+
+.editor-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: flex-end;
+  padding: 1rem;
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+
+  .name-input {
+    max-width: 24rem;
+  }
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2.5rem;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+
+  dt {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--bs-secondary-color);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 600;
+  }
+}
+
+.editor-section {
+  padding: 1rem;
+  border-bottom: 1px solid var(--bs-border-color-translucent);
+}
+
+.section-title {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}

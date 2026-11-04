@@ -53,7 +53,7 @@
             </thead>
             <tbody>
               @for (scene of view.scenes; track scene.sceneId) {
-                <tr>
+                <tr [id]="'scene-' + scene.sceneId">
                   <td>
                     <button
                       type="button"
@@ -212,31 +212,7 @@
                 @if (expanded.has(scene.sceneId)) {
                   <tr class="scene-detail">
                     <td colspan="4">
-                      @for (member of scene.members; track member.ieee + member.endpoint) {
-                        <div class="detail-row">
-                          <span>{{ member.name || member.nwkId }}</span>
-                          @if (member.capability === 'fallback') {
-                            <span class="hint">{{
-                              'group.scenes.direct' | translate: { state: directState(member) }
-                            }}</span>
-                          } @else if (member.status === 'failed') {
-                            <span class="badge rounded-pill health-warning">{{ memberProblem(member) }}</span>
-                          } @else {
-                            <span
-                              class="badge rounded-pill health-{{
-                                member.status === 'synced' ? 'success' : 'secondary'
-                              }}">
-                              {{ 'group.scenes.status.' + member.status | translate }}
-                            </span>
-                          }
-                        </div>
-                      }
-                      @for (member of scene.missing; track member.ieee + member.endpoint) {
-                        <div class="detail-row">
-                          <span>{{ member.name || member.ieee }}</span>
-                          <span class="hint">{{ 'group.scenes.missing' | translate }}</span>
-                        </div>
-                      }
+                      <app-scene-members [scene]="scene" [endpoints]="endpoints"></app-scene-members>
                     </td>
                   </tr>
                 }

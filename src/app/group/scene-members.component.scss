@@ -1,0 +1,18 @@
+.hint {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--bs-secondary-color);
+}
+
+// The translations are lower case, to read inside a sentence
+.state::first-letter {
+  text-transform: uppercase;
+}
+
+// On the tinted row of the scene table
+table,
+td,
+th {
+  background-color: transparent;
+}

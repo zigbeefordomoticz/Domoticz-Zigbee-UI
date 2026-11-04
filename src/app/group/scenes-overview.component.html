@@ -1,0 +1,98 @@
+<div class="group-layout">
+  <aside class="card group-list" [attr.aria-label]="'group.scenes.title' | translate">
+    <div class="list-head">
+      <h2 class="card-title mb-0">{{ 'group.scenes.title' | translate }}</h2>
+    </div>
+    <div class="list-search">
+      <input
+        type="search"
+        class="form-control form-control-sm"
+        [(ngModel)]="search"
+        [placeholder]="'group.scenes.overview.search' | translate"
+        [attr.aria-label]="'group.scenes.overview.search' | translate" />
+    </div>
+    @if (!entries.length) {
+      <p class="hint p-3 mb-0">{{ 'group.scenes.overview.none' | translate }}</p>
+    } @else if (!filteredEntries.length) {
+      <p class="hint p-3 mb-0">{{ 'group.scenes.overview.nomatch' | translate }}</p>
+    }
+    <ul class="list-unstyled mb-0">
+      @for (entry of filteredEntries; track entry.key) {
+        <li>
+          <button
+            type="button"
+            class="group-item"
+            [class.active]="selected?.key === entry.key"
+            [attr.aria-current]="selected?.key === entry.key ? 'true' : null"
+            (click)="selectedKey = entry.key">
+            <span class="min-w-0">
+              <b class="d-block text-break">{{ entry.name }}</b>
+              <span class="hint">
+                {{ groupNames(entry) }} ·
+                {{ 'group.scenes.overview.devices' | translate: { count: entry.devices } }}
+              </span>
+            </span>
+            <span class="badge rounded-pill health-{{ entry.tone }}">{{ entry.synced }} / {{ entry.native }}</span>
+          </button>
+        </li>
+      }
+    </ul>
+  </aside>
+
+  @if (selected; as entry) {
+    <section class="card group-editor">
+      <div class="editor-head">
+        <h2 class="card-title mb-0 flex-grow-1 text-break">{{ entry.name }}</h2>
+        @if (entry.scenes.length > 1) {
+          <button type="button" class="btn btn-primary btn-sm" [disabled]="busy" (click)="recallEverywhere(entry)">
+            {{ 'group.scenes.overview.testall' | translate: { count: entry.scenes.length } }}
+          </button>
+        }
+      </div>
+
+      @for (item of entry.scenes; track item.group.groupId) {
+        <div class="editor-section">
+          <div class="section-title">
+            <span class="min-w-0">
+              <b class="d-block text-break">{{ item.group.groupName }}</b>
+              <span class="hint">
+                <span class="font-monospace">{{ item.group.groupId }}</span> ·
+                <span class="font-monospace">{{ 'group.scenes.id' | translate: { id: item.scene.sceneId } }}</span>
+                ·
+                {{ 'group.scenes.col.transition' | translate }}
+                @if (item.scene.transitionTime === null) {
+                  {{ 'group.scenes.transition.unknown' | translate }}
+                } @else {
+                  {{ 'group.scenes.seconds' | translate: { count: item.scene.transitionTime } }}
+                }
+                @if (item.scene.discovered) {
+                  · {{ 'group.scenes.discovered' | translate }}
+                }
+              </span>
+            </span>
+            <span class="title-side">
+              <span class="badge rounded-pill health-{{ tone(item.scene) }}">
+                {{ item.scene.synced }} / {{ item.scene.native }}
+              </span>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                [disabled]="busy"
+                (click)="recall(item.scene)">
+                {{ 'group.scenes.test' | translate }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-sm"
+                (click)="openScene.emit({ groupId: item.group.groupId, sceneId: item.scene.sceneId })">
+                {{ 'group.scenes.overview.open' | translate }}
+              </button>
+            </span>
+          </div>
+          <app-scene-members [scene]="item.scene" [endpoints]="endpoints" [showHint]="false"></app-scene-members>
+        </div>
+      }
+      <p class="hint state-hint">{{ 'group.scenes.state.hint' | translate }}</p>
+    </section>
+  }
+</div>

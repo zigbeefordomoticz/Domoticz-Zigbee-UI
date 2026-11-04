@@ -3,39 +3,31 @@ import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { ZDevices } from '@app/shared/models/device';
+import type { GroupEndpoint } from '@app/shared/models/group';
 import { DevicesAvailable, Group } from '@app/shared/models/group';
+import { GroupScenes, SceneRef } from '@app/shared/models/scene';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription, forkJoin, of, timer } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
+import {
+  POLL_WHILE_PENDING_MS,
+  healthTone,
+  sceneMemberKey,
+  sceneNeedsAttention,
+  sceneWorkRunning
+} from './scene-helpers';
+
+const NATIVE_SCENES_SETTING = 'enableNativeScenes';
 
 // Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
-const HEALTH_TONE: { [health: string]: string } = {
-  Live: 'success',
-  TimedOut: 'warning',
-  'Not seen last 24hours': 'warning',
-  'Not Reachable': 'danger',
-  Disabled: 'secondary'
-};
 const NOT_REACHED = ['Not Reachable', 'TimedOut', 'Not seen last 24hours'];
 
 // After a save the plugin changes a membership only when the device answers: read the groups again a few times
 const REREAD_AFTER_SAVE_MS = [0, 3000, 8000];
 const SCAN_POLL_MS = 5000;
 
-/** One device endpoint, the unit a group is made of. */
-interface Endpoint {
-  key: string;
-  nwkId: string;
-  ep: string;
-  ieee: string;
-  widgets: string[];
-  deviceName: string;
-  model: string;
-  health: string;
-  // false when the plugin does not offer it for groups now (battery device, IKEA remote, not ready…)
-  groupable: boolean;
-}
+type Endpoint = GroupEndpoint;
 
 interface DraftMember extends Endpoint {
   status: 'kept' | 'added' | 'removed';
@@ -81,6 +73,16 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   loaded = false;
   scanStatus: string | null = null;
 
+  // Native scenes: nothing calls /scenes before the setting says so. Null while there is nothing to show,
+  // as on a plugin not restarted since the setting changed
+  scenesEnabled = false;
+  sceneGroups: GroupScenes[] | null = null;
+  byScene = false;
+  focusScene: SceneRef | null = null;
+  endpoints = new Map<string, Endpoint>();
+
+  readonly healthTone = healthTone;
+
   rows: GroupRow[] = [];
   groupable = new Map<string, Endpoint>();
   coordinatorNwkId = '0000';
@@ -101,6 +103,8 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   private devices = new Map<string, ZDevices>();
   private scanPoll: Subscription | null = null;
+  private sceneRead: Subscription | null = null;
+  private scenePoll: Subscription | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -121,6 +125,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
         if (this.scanStatus === 'scan') {
           this.followScan();
         }
+        this.readScenesSetting();
       } else {
         this.loaded = true;
       }
@@ -157,6 +162,77 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
         }
       });
     this.subs.sink = this.scanPoll;
+  }
+
+  // ---- scenes -----------------------------------------------------------------------------------
+
+  private readScenesSetting(): void {
+    this.subs.sink = this.apiService.getSettings().subscribe(settings => {
+      const setting = (settings || [])
+        .flatMap(theme => theme.ListOfSettings || [])
+        .find(candidate => candidate.Name === NATIVE_SCENES_SETTING);
+      this.scenesEnabled =
+        !!setting && !['0', 'false'].includes(String(setting.current_value)) && !!setting.current_value;
+      this.readScenes();
+    });
+  }
+
+  /** Read again while a capture or a scan goes on: both end on the plugin side. */
+  readScenes(): void {
+    if (!this.scenesEnabled) {
+      return;
+    }
+    this.scenePoll?.unsubscribe();
+    this.sceneRead?.unsubscribe();
+    this.sceneRead = this.apiService.getAllScenes().subscribe({
+      next: groups => {
+        this.sceneGroups = groups || [];
+        if (this.sceneGroups.some(sceneWorkRunning)) {
+          this.scenePoll = timer(POLL_WHILE_PENDING_MS).subscribe(() => this.readScenes());
+          this.subs.sink = this.scenePoll;
+        }
+      },
+      error: error => {
+        if (error?.error?.error === 'SCENES_DISABLED') {
+          this.sceneGroups = null;
+          this.byScene = false;
+        }
+      }
+    });
+    this.subs.sink = this.sceneRead;
+  }
+
+  showGroups(): void {
+    this.byScene = false;
+    this.focusScene = null;
+  }
+
+  showScenes(): void {
+    this.byScene = true;
+    this.readScenes();
+  }
+
+  /** From the view by scene to the group, where a scene is changed. */
+  openScene(scene: SceneRef): void {
+    this.focusScene = scene;
+    this.byScene = false;
+    this.select(scene.groupId);
+  }
+
+  sceneCountOf(groupId: string): number {
+    return this.sceneGroups?.find(group => group.groupId === groupId)?.scenes.length ?? 0;
+  }
+
+  get sceneCount(): number {
+    return (this.sceneGroups || []).reduce((count, group) => count + group.scenes.length, 0);
+  }
+
+  get groupsWithScenes(): number {
+    return (this.sceneGroups || []).filter(group => group.scenes.length).length;
+  }
+
+  get scenesToCheck(): number {
+    return (this.sceneGroups || []).flatMap(group => group.scenes).filter(sceneNeedsAttention).length;
   }
 
   // ---- figures ----------------------------------------------------------------------------------
@@ -340,10 +416,6 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     );
   }
 
-  healthTone(health: string): string {
-    return HEALTH_TONE[health] ?? 'secondary';
-  }
-
   // ---- data ------------------------------------------------------------------------------------
 
   private load(keepId: string | null = this.draft?.id ?? null, newName: string | null = null): void {
@@ -357,7 +429,14 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
       this.rows = (Array.isArray(groups) ? groups : [])
         .map(group => this.toRow(group))
         .sort((a, b) => a.group._GroupId.localeCompare(b.group._GroupId));
+      this.endpoints = new Map(
+        [...this.rows.flatMap(row => row.members), ...this.groupable.values()].map(endpoint => [
+          sceneMemberKey(endpoint.ieee, endpoint.ep),
+          endpoint
+        ])
+      );
       this.loaded = true;
+      this.readScenes();
 
       // A new group has no id until the plugin gives it one: find it by its name, highest id first
       const created = newName
@@ -397,6 +476,9 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   }
 
   private open(id: string | 'new' | null): void {
+    if (this.focusScene?.groupId !== id) {
+      this.focusScene = null;
+    }
     this.confirmDelete = false;
     this.addSearch = '';
     if (id === 'new') {

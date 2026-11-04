@@ -390,6 +390,10 @@ export class ApiService {
 
   // Scene calls leave their errors to the caller: the plugin answers {"error": <code>}, to translate
 
+  getAllScenes(): Observable<GroupScenes[]> {
+    return this.httpClient.get<GroupScenes[]>(routes.scenes);
+  }
+
   getGroupScenes(groupId: string): Observable<GroupScenes> {
     return this.httpClient.get<GroupScenes>(routes.scenes + '/' + groupId);
   }

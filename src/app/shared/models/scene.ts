@@ -16,6 +16,7 @@ export interface SceneMember extends SceneDevice {
   lastCheck?: number | null;
   // A ZCL status such as "89", "timeout", "interrupted", or "absent" when a scan no longer finds it
   error?: string | null;
+  // What the plugin last saw at the capture: none on a member a scan found
   snapshot?: { onOff: number | null; level: number | null };
 }
 
@@ -27,12 +28,21 @@ export interface Scene {
   transitionTime: number | null;
   // Found on the devices by a scan, not captured by the plugin
   discovered: boolean;
+  createdAt: number;
+  // A capture or a rename
+  updatedAt: number;
+  // From the plugin only: a remote recalling it does not count
   lastRecalled: number | null;
   members: SceneMember[];
   // In the group but not in the scene: a capture brings them in
   missing: SceneDevice[];
   synced: number;
   native: number;
+}
+
+export interface SceneRef {
+  groupId: string;
+  sceneId: string;
 }
 
 /** The last scan of a group: the plugin does not keep it across a restart. */
