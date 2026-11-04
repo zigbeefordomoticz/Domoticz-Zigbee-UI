@@ -1,0 +1,259 @@
+@if (enabled) {
+  <div class="editor-section">
+    <div class="section-title">
+      <h2 class="card-title mb-0">{{ 'group.scenes.title' | translate }}</h2>
+      @if (view) {
+        <span class="hint">{{ 'group.scenes.count' | translate: { count: view.scenes.length } }}</span>
+      }
+    </div>
+
+    @if (restartNeeded) {
+      <p class="hint mb-0">{{ 'group.scenes.restart' | translate }}</p>
+    } @else if (!view) {
+      <p class="hint mb-0"><i class="fa fa-sync fa-spin me-2"></i>{{ 'group.page.loading' | translate }}</p>
+    } @else if (!view.capable && !view.scenes.length) {
+      <p class="hint mb-0">{{ 'group.scenes.notcapable' | translate: { name: view.groupName } }}</p>
+    } @else {
+      @if (view.scenes.length) {
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead>
+              <tr>
+                <th>{{ 'group.scenes.col.scene' | translate }}</th>
+                <th>{{ 'group.scenes.col.transition' | translate }}</th>
+                <th>{{ 'group.scenes.col.lights' | translate }}</th>
+                <th>
+                  <span class="visually-hidden">{{ 'group.scenes.col.actions' | translate }}</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (scene of view.scenes; track scene.sceneId) {
+                <tr>
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-link btn-sm p-0 text-start text-reset text-decoration-none"
+                      [attr.aria-expanded]="expanded.has(scene.sceneId)"
+                      (click)="toggle(scene)">
+                      <i
+                        class="fa me-1"
+                        [class.fa-chevron-right]="!expanded.has(scene.sceneId)"
+                        [class.fa-chevron-down]="expanded.has(scene.sceneId)"
+                        aria-hidden="true"></i>
+                      <b>{{ scene.name }}</b>
+                    </button>
+                    <span class="hint font-monospace">{{ 'group.scenes.id' | translate: { id: scene.sceneId } }}</span>
+                  </td>
+                  <td>{{ 'group.scenes.seconds' | translate: { count: scene.transitionTime } }}</td>
+                  <td>
+                    <span class="badge rounded-pill health-{{ tone(scene) }}">
+                      {{ scene.synced }} / {{ scene.native }}
+                    </span>
+                    @if (scene.missing.length) {
+                      <span class="hint">{{
+                        'group.scenes.missing.short' | translate: { count: scene.missing.length }
+                      }}</span>
+                    }
+                  </td>
+                  <td>
+                    <div class="scene-actions">
+                      <button
+                        type="button"
+                        class="btn btn-outline-primary btn-sm"
+                        [disabled]="busy"
+                        (click)="recall(scene)">
+                        {{ 'group.scenes.test' | translate }}
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary btn-sm"
+                        [disabled]="busy"
+                        (click)="startRecapture(scene)">
+                        {{ 'group.scenes.recapture' | translate }}
+                      </button>
+                      @if (hasFailed(scene)) {
+                        <button
+                          type="button"
+                          class="btn btn-outline-secondary btn-sm"
+                          [disabled]="busy"
+                          (click)="retry(scene)">
+                          {{ 'group.scenes.retry' | translate }}
+                        </button>
+                      }
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary btn-sm"
+                        [disabled]="busy"
+                        (click)="startRename(scene)">
+                        {{ 'group.scenes.rename' | translate }}
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm"
+                        [disabled]="busy"
+                        (click)="startDelete(scene)">
+                        {{ 'group.scenes.delete' | translate }}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                @if (renaming?.sceneId === scene.sceneId) {
+                  <tr>
+                    <td colspan="4">
+                      <div class="confirm-row">
+                        <input
+                          type="text"
+                          class="form-control form-control-sm w-auto flex-grow-1"
+                          [(ngModel)]="renaming.name"
+                          [maxlength]="maxNameLength"
+                          [attr.aria-label]="'group.scenes.new.name' | translate" />
+                        <span class="d-flex gap-2">
+                          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="closeForms()">
+                            {{ 'group.page.cancel' | translate }}
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-primary btn-sm"
+                            [disabled]="busy || !renaming.name.trim()"
+                            (click)="rename()">
+                            {{ 'group.scenes.rename' | translate }}
+                          </button>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                }
+
+                @if (recapturing?.sceneId === scene.sceneId) {
+                  <tr>
+                    <td colspan="4">
+                      <div class="confirm-row" role="alertdialog">
+                        <span>{{ 'group.scenes.recapture.confirm' | translate: { name: scene.name } }}</span>
+                        <label class="d-flex gap-2 align-items-center mb-0">
+                          {{ 'group.scenes.new.transition' | translate }}
+                          <input
+                            type="number"
+                            class="form-control form-control-sm transition-field"
+                            min="0"
+                            step="1"
+                            [max]="maxTransition"
+                            [(ngModel)]="recapturing.transition" />
+                        </label>
+                        <span class="d-flex gap-2">
+                          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="closeForms()">
+                            {{ 'group.page.cancel' | translate }}
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-primary btn-sm"
+                            [disabled]="busy || !validTransition(recapturing.transition)"
+                            (click)="recapture()">
+                            {{ 'group.scenes.recapture.yes' | translate }}
+                          </button>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                }
+
+                @if (deleting === scene.sceneId) {
+                  <tr>
+                    <td colspan="4">
+                      <div class="confirm-row danger" role="alertdialog">
+                        <span>{{ 'group.scenes.delete.confirm' | translate: { name: scene.name } }}</span>
+                        <span class="d-flex gap-2">
+                          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="closeForms()">
+                            {{ 'group.page.cancel' | translate }}
+                          </button>
+                          <button type="button" class="btn btn-danger btn-sm" [disabled]="busy" (click)="delete()">
+                            {{ 'group.scenes.delete.yes' | translate }}
+                          </button>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                }
+
+                @if (expanded.has(scene.sceneId)) {
+                  <tr class="scene-detail">
+                    <td colspan="4">
+                      @for (member of scene.members; track member.ieee + member.endpoint) {
+                        <div class="detail-row">
+                          <span>{{ member.name || member.nwkId }}</span>
+                          @if (member.capability === 'fallback') {
+                            <span class="hint">{{
+                              'group.scenes.direct' | translate: { state: directState(member) }
+                            }}</span>
+                          } @else if (member.status === 'failed') {
+                            <span class="badge rounded-pill health-warning">{{ memberProblem(member) }}</span>
+                          } @else {
+                            <span
+                              class="badge rounded-pill health-{{
+                                member.status === 'synced' ? 'success' : 'secondary'
+                              }}">
+                              {{ 'group.scenes.status.' + member.status | translate }}
+                            </span>
+                          }
+                        </div>
+                      }
+                      @for (member of scene.missing; track member.ieee + member.endpoint) {
+                        <div class="detail-row">
+                          <span>{{ member.name || member.ieee }}</span>
+                          <span class="hint">{{ 'group.scenes.missing' | translate }}</span>
+                        </div>
+                      }
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <p class="hint mb-0">{{ 'group.scenes.none' | translate }}</p>
+      }
+
+      @if (directMembers.length) {
+        <p class="hint mt-2 mb-0">
+          {{ 'group.scenes.directmembers' | translate: { names: directMembers.join(', ') } }}
+        </p>
+      }
+
+      @if (view.capable) {
+        <div class="new-scene">
+          <h3 class="card-title mb-0">{{ 'group.scenes.new' | translate }}</h3>
+          <span class="hint">{{ 'group.scenes.new.hint' | translate }}</span>
+          <div class="new-scene-fields">
+            <div class="name">
+              <label class="form-label small mb-1" for="sceneName">{{ 'group.scenes.new.name' | translate }}</label>
+              <input
+                id="sceneName"
+                type="text"
+                class="form-control form-control-sm"
+                [(ngModel)]="newName"
+                [maxlength]="maxNameLength" />
+            </div>
+            <div class="transition">
+              <label class="form-label small mb-1" for="sceneTransition">{{
+                'group.scenes.new.transition' | translate
+              }}</label>
+              <input
+                id="sceneTransition"
+                type="number"
+                class="form-control form-control-sm"
+                min="0"
+                step="1"
+                [max]="maxTransition"
+                [(ngModel)]="newTransition" />
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" [disabled]="busy || !canCreate" (click)="create()">
+              {{ 'group.scenes.new.capture' | translate }}
+            </button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+}

@@ -304,6 +304,10 @@
           </div>
         </div>
 
+        @if (draft.id) {
+          <app-group-scenes [groupId]="draft.id" [revision]="rows"></app-group-scenes>
+        }
+
         @if (confirmDelete) {
           <div class="confirm-row danger" role="alertdialog">
             <span>{{ 'group.page.delete.confirm' | translate: { name: selectedRow?.group.GroupName } }}</span>

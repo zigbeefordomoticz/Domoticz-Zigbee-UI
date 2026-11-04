@@ -22,6 +22,7 @@ import { Cluster, NewDevice } from '@app/shared/models/new-hardware';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
 import { Relation } from '@app/shared/models/relation';
+import { GroupScenes, Scene } from '@app/shared/models/scene';
 import { Setting, Settings } from '@app/shared/models/setting';
 import { TopologyScan, TopologyScanSummary } from '@app/shared/models/topology-scan';
 import { TranslateService } from '@ngx-translate/core';
@@ -38,6 +39,7 @@ const routes = {
   zDevices: '/zdevice',
   zdeviceRaw: '/zdevice-raw',
   zGroups: '/zgroup',
+  scenes: '/scenes',
   settings: '/setting',
   settingsDebug: '/setting-debug',
   plugin: '/plugin',
@@ -384,6 +386,36 @@ export class ApiService {
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
+  }
+
+  // Scene calls leave their errors to the caller: the plugin answers {"error": <code>}, to translate
+
+  getGroupScenes(groupId: string): Observable<GroupScenes> {
+    return this.httpClient.get<GroupScenes>(routes.scenes + '/' + groupId);
+  }
+
+  createScene(groupId: string, scene: { name: string; transitionTime: number }): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId, scene);
+  }
+
+  renameScene(groupId: string, sceneId: string, scene: { name: string }): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId, scene);
+  }
+
+  captureScene(groupId: string, sceneId: string, scene: { transitionTime: number }): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId + '/capture', scene);
+  }
+
+  recallScene(groupId: string, sceneId: string): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId + '/recall', {});
+  }
+
+  retryScene(groupId: string, sceneId: string): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId + '/retry', {});
+  }
+
+  deleteScene(groupId: string, sceneId: string): Observable<object> {
+    return this.httpClient.delete(routes.scenes + '/' + groupId + '/' + sceneId);
   }
 
   getCoordinator(): Observable<any> {
