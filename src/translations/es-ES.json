@@ -1658,5 +1658,13 @@
   "group.scenes.error.GROUP_NOT_ALLOWED": "Las escenas no pueden usar este grupo.",
   "group.scenes.error.NO_CAPABLE_MEMBER": "Ningún dispositivo de este grupo admite escenas Zigbee.",
   "group.scenes.error.SCENE_ID_EXHAUSTED": "Este grupo ha alcanzado el límite de 255 escenas.",
-  "group.scenes.error.COORDINATOR_BUSY": "El coordinador está ocupado. Inténtelo de nuevo en un momento."
+  "group.scenes.error.COORDINATOR_BUSY": "El coordinador está ocupado. Inténtelo de nuevo en un momento.",
+  "group.scenes.scan": "Analizar",
+  "group.scenes.scan.running": "Analizando…",
+  "group.scenes.scan.hint": "Pregunta a cada dispositivo qué escenas contiene, incluidas las creadas por un mando u otro controlador",
+  "group.scenes.scan.result": "Último análisis: {{members}} dispositivo(s) consultado(s), {{found}} escena(s) nueva(s) encontrada(s).",
+  "group.scenes.scan.noanswer": "Sin respuesta de: {{names}}.",
+  "group.scenes.discovered": "Encontrada en los dispositivos",
+  "group.scenes.transition.unknown": "Desconocida",
+  "group.scenes.failed.absent": "Ya no está en este dispositivo"
 }

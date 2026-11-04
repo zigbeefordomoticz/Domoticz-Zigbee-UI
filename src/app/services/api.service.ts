@@ -394,6 +394,10 @@ export class ApiService {
     return this.httpClient.get<GroupScenes>(routes.scenes + '/' + groupId);
   }
 
+  scanGroupScenes(groupId: string): Observable<GroupScenes> {
+    return this.httpClient.put<GroupScenes>(routes.scenes + '/' + groupId + '/scan', {});
+  }
+
   createScene(groupId: string, scene: { name: string; transitionTime: number }): Observable<Scene> {
     return this.httpClient.put<Scene>(routes.scenes + '/' + groupId, scene);
   }

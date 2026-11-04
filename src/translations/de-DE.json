@@ -1658,5 +1658,13 @@
   "group.scenes.error.GROUP_NOT_ALLOWED": "Szenen können diese Gruppe nicht verwenden.",
   "group.scenes.error.NO_CAPABLE_MEMBER": "Kein Gerät dieser Gruppe unterstützt Zigbee-Szenen.",
   "group.scenes.error.SCENE_ID_EXHAUSTED": "Diese Gruppe hat die Grenze von 255 Szenen erreicht.",
-  "group.scenes.error.COORDINATOR_BUSY": "Der Koordinator ist ausgelastet. Versuchen Sie es gleich noch einmal."
+  "group.scenes.error.COORDINATOR_BUSY": "Der Koordinator ist ausgelastet. Versuchen Sie es gleich noch einmal.",
+  "group.scenes.scan": "Scannen",
+  "group.scenes.scan.running": "Scan läuft…",
+  "group.scenes.scan.hint": "Fragt jedes Gerät nach seinen Szenen, auch nach solchen von einer Fernbedienung oder einem anderen Controller",
+  "group.scenes.scan.result": "Letzter Scan: {{members}} Gerät(e) gefragt, {{found}} neue Szene(n) gefunden.",
+  "group.scenes.scan.noanswer": "Keine Antwort von: {{names}}.",
+  "group.scenes.discovered": "Auf den Geräten gefunden",
+  "group.scenes.transition.unknown": "Unbekannt",
+  "group.scenes.failed.absent": "Nicht mehr auf diesem Gerät"
 }

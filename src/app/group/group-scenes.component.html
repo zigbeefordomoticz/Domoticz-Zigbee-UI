@@ -3,7 +3,22 @@
     <div class="section-title">
       <h2 class="card-title mb-0">{{ 'group.scenes.title' | translate }}</h2>
       @if (view) {
-        <span class="hint">{{ 'group.scenes.count' | translate: { count: view.scenes.length } }}</span>
+        <span class="title-side">
+          <span class="hint">{{ 'group.scenes.count' | translate: { count: view.scenes.length } }}</span>
+          @if (view.capable) {
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              [title]="'group.scenes.scan.hint' | translate"
+              [disabled]="busy || scanning"
+              (click)="scan()">
+              @if (scanning) {
+                <i class="fa fa-sync fa-spin me-1" aria-hidden="true"></i>
+              }
+              {{ (scanning ? 'group.scenes.scan.running' : 'group.scenes.scan') | translate }}
+            </button>
+          }
+        </span>
       }
     </div>
 
@@ -14,6 +29,15 @@
     } @else if (!view.capable && !view.scenes.length) {
       <p class="hint mb-0">{{ 'group.scenes.notcapable' | translate: { name: view.groupName } }}</p>
     } @else {
+      @if (view.scan && !view.scan.running) {
+        <p class="hint" role="status">
+          {{ 'group.scenes.scan.result' | translate: { found: view.scan.found, members: view.scan.members } }}
+          @if (view.scan.noAnswer.length) {
+            {{ 'group.scenes.scan.noanswer' | translate: { names: view.scan.noAnswer.join(', ') } }}
+          }
+        </p>
+      }
+
       @if (view.scenes.length) {
         <div class="table-responsive">
           <table class="table table-sm align-middle mb-0">
@@ -44,8 +68,17 @@
                       <b>{{ scene.name }}</b>
                     </button>
                     <span class="hint font-monospace">{{ 'group.scenes.id' | translate: { id: scene.sceneId } }}</span>
+                    @if (scene.discovered) {
+                      <span class="hint">{{ 'group.scenes.discovered' | translate }}</span>
+                    }
                   </td>
-                  <td>{{ 'group.scenes.seconds' | translate: { count: scene.transitionTime } }}</td>
+                  <td>
+                    @if (scene.transitionTime === null) {
+                      {{ 'group.scenes.transition.unknown' | translate }}
+                    } @else {
+                      {{ 'group.scenes.seconds' | translate: { count: scene.transitionTime } }}
+                    }
+                  </td>
                   <td>
                     <span class="badge rounded-pill health-{{ tone(scene) }}">
                       {{ scene.synced }} / {{ scene.native }}

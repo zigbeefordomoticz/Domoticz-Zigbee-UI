@@ -1658,5 +1658,13 @@
   "group.scenes.error.GROUP_NOT_ALLOWED": "Scènes kunnen deze groep niet gebruiken.",
   "group.scenes.error.NO_CAPABLE_MEMBER": "Geen enkel apparaat in deze groep ondersteunt Zigbee-scènes.",
   "group.scenes.error.SCENE_ID_EXHAUSTED": "Deze groep heeft de limiet van 255 scènes bereikt.",
-  "group.scenes.error.COORDINATOR_BUSY": "De coördinator is bezet. Probeer het zo meteen opnieuw."
+  "group.scenes.error.COORDINATOR_BUSY": "De coördinator is bezet. Probeer het zo meteen opnieuw.",
+  "group.scenes.scan": "Scannen",
+  "group.scenes.scan.running": "Scannen…",
+  "group.scenes.scan.hint": "Vraagt elk apparaat welke scènes het bevat, ook die van een afstandsbediening of een andere controller",
+  "group.scenes.scan.result": "Laatste scan: {{members}} apparaat/apparaten bevraagd, {{found}} nieuwe scène(s) gevonden.",
+  "group.scenes.scan.noanswer": "Geen antwoord van: {{names}}.",
+  "group.scenes.discovered": "Gevonden op de apparaten",
+  "group.scenes.transition.unknown": "Onbekend",
+  "group.scenes.failed.absent": "Niet meer op dit apparaat"
 }

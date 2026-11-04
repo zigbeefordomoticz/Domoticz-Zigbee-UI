@@ -15,6 +15,12 @@
   border-bottom: 1px solid var(--bs-border-color-translucent);
 }
 
+.title-side {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
 .section-title {
   display: flex;
   gap: 0.5rem;

@@ -14,7 +14,7 @@ export interface SceneMember extends SceneDevice {
   nwkId: string;
   status: SceneMemberStatus;
   lastCheck?: number | null;
-  // A ZCL status such as "89", "timeout" or "interrupted"
+  // A ZCL status such as "89", "timeout", "interrupted", or "absent" when a scan no longer finds it
   error?: string | null;
   snapshot?: { onOff: number | null; level: number | null };
 }
@@ -23,14 +23,25 @@ export interface Scene {
   groupId: string;
   sceneId: string;
   name: string;
-  // Whole seconds: the unit a device stores
-  transitionTime: number;
+  // Whole seconds: the unit a device stores. Unknown (null) on a scene a scan found
+  transitionTime: number | null;
+  // Found on the devices by a scan, not captured by the plugin
+  discovered: boolean;
   lastRecalled: number | null;
   members: SceneMember[];
   // In the group but not in the scene: a capture brings them in
   missing: SceneDevice[];
   synced: number;
   native: number;
+}
+
+/** The last scan of a group: the plugin does not keep it across a restart. */
+export interface SceneScan {
+  running: boolean;
+  at: number;
+  members: number;
+  found: number;
+  noAnswer: string[];
 }
 
 export interface GroupScenes {
@@ -40,4 +51,5 @@ export interface GroupScenes {
   capable: boolean;
   members: Array<SceneDevice & { nwkId: string }>;
   scenes: Scene[];
+  scan: SceneScan | null;
 }

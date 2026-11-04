@@ -44,13 +44,22 @@
         }
       </div>
     </div>
-    <a class="figure" routerLink="/admin" [queryParams]="{ action: 'group' }">
+    <div class="figure">
       <div class="figure-label">{{ 'group.page.fig.scan' | translate }}</div>
       <div class="figure-value">
         {{ (scanStatus === 'scan' ? 'group.page.fig.scan.running' : 'group.page.fig.scan.ready') | translate }}
       </div>
-      <div class="figure-detail">{{ 'group.page.fig.scan.link' | translate }} →</div>
-    </a>
+      <div class="figure-detail figure-actions">
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm"
+          [disabled]="scanStatus === 'scan'"
+          (click)="scanGroups()">
+          {{ 'admin.groups.scan.all' | translate }}
+        </button>
+        <a routerLink="/admin" [queryParams]="{ action: 'group' }">{{ 'group.page.fig.scan.link' | translate }} →</a>
+      </div>
+    </div>
   </div>
 
   @if (sent) {

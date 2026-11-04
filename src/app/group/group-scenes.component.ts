@@ -9,7 +9,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 const NATIVE_SCENES_SETTING = 'enableNativeScenes';
 
-// Each response has 30 s on the plugin side, which always ends a capture: the polling stops by itself
+// Each response has 30 s on the plugin side, which always ends a capture or a scan: the polling stops by itself
 const POLL_WHILE_PENDING_MS = 2000;
 
 const DEFAULT_TRANSITION = 1;
@@ -31,7 +31,7 @@ const KNOWN_ERRORS = [
 ];
 
 // Why a member failed: anything else is a ZCL status, shown as it is
-const KNOWN_MEMBER_ERRORS = ['timeout', 'interrupted', '89'];
+const KNOWN_MEMBER_ERRORS = ['timeout', 'interrupted', 'absent', '89'];
 
 interface ReadResult {
   id: string;
@@ -124,6 +124,10 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
 
   // ---- figures ----------------------------------------------------------------------------------
 
+  get scanning(): boolean {
+    return !!this.view?.scan?.running;
+  }
+
   get directMembers(): string[] {
     return (this.view?.members || []).filter(member => member.capability === 'fallback').map(member => member.name);
   }
@@ -182,6 +186,10 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
     return Number.isInteger(value) && value >= 0 && value <= MAX_TRANSITION;
   }
 
+  scan(): void {
+    this.act(this.apiService.scanGroupScenes(this.groupId));
+  }
+
   create(): void {
     if (!this.canCreate) {
       return;
@@ -205,7 +213,7 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
 
   startRecapture(scene: Scene): void {
     this.closeForms();
-    this.recapturing = { sceneId: scene.sceneId, transition: scene.transitionTime };
+    this.recapturing = { sceneId: scene.sceneId, transition: scene.transitionTime ?? DEFAULT_TRANSITION };
   }
 
   recapture(): void {
@@ -285,7 +293,7 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
     }
     this.restartNeeded = false;
     this.view = view;
-    if (view.scenes.some(scene => scene.members.some(member => member.status === 'pending'))) {
+    if (view.scan?.running || view.scenes.some(scene => scene.members.some(member => member.status === 'pending'))) {
       this.poll = timer(POLL_WHILE_PENDING_MS).subscribe(() => this.read());
     }
   }

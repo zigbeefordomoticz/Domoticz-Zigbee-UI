@@ -6,8 +6,8 @@ import { ZDevices } from '@app/shared/models/device';
 import { DevicesAvailable, Group } from '@app/shared/models/group';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin, of, timer } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Subscription, forkJoin, of, timer } from 'rxjs';
+import { catchError, concatMap } from 'rxjs/operators';
 
 // Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
 const HEALTH_TONE: { [health: string]: string } = {
@@ -21,6 +21,7 @@ const NOT_REACHED = ['Not Reachable', 'TimedOut', 'Not seen last 24hours'];
 
 // After a save the plugin changes a membership only when the device answers: read the groups again a few times
 const REREAD_AFTER_SAVE_MS = [0, 3000, 8000];
+const SCAN_POLL_MS = 5000;
 
 /** One device endpoint, the unit a group is made of. */
 interface Endpoint {
@@ -99,6 +100,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   restartNeeded = false;
 
   private devices = new Map<string, ZDevices>();
+  private scanPoll: Subscription | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -116,10 +118,45 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
       this.scanStatus = health?.GroupStatus ?? null;
       if (this.enabled) {
         this.load();
+        if (this.scanStatus === 'scan') {
+          this.followScan();
+        }
       } else {
         this.loaded = true;
       }
     });
+  }
+
+  // ---- membership scan --------------------------------------------------------------------------
+
+  /** As in Admin › Group: it asks every router, and only queues the requests. */
+  scanGroups(): void {
+    this.apiService.getRescanGroup().subscribe(() => {
+      this.toastr.success(this.translate.instant('api.global.succes.scanlaunched.notify'));
+      this.scanStatus = 'scan';
+      this.followScan();
+      this.apiService.getRestartNeeded().subscribe(restart => {
+        if (restart?.RestartNeeded === 1) {
+          this.headerService.setRestart(true);
+        }
+      });
+    });
+  }
+
+  // GroupStatus is "scan" while the plugin sends the requests; the groups are read again once it is done
+  private followScan(): void {
+    this.scanPoll?.unsubscribe();
+    this.scanPoll = timer(SCAN_POLL_MS, SCAN_POLL_MS)
+      .pipe(concatMap(() => this.apiService.getPluginhealth()))
+      .subscribe(health => {
+        this.scanStatus = health?.GroupStatus ?? null;
+        if (this.scanStatus !== 'scan') {
+          this.scanPoll?.unsubscribe();
+          this.scanPoll = null;
+          this.load();
+        }
+      });
+    this.subs.sink = this.scanPoll;
   }
 
   // ---- figures ----------------------------------------------------------------------------------
