@@ -12,6 +12,8 @@ import { POLL_WHILE_PENDING_MS, sceneErrorText, sceneTone, sceneWorkRunning } fr
 const DEFAULT_TRANSITION = 1;
 const MAX_TRANSITION = 65534;
 const MAX_NAME_LENGTH = 32;
+// One or two hex digits, as typed: the plugin takes two
+const SCENE_ID_INPUT = /^[0-9a-f]{1,2}$/i;
 
 interface ReadResult {
   id: string;
@@ -56,6 +58,7 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
 
   newName = '';
   newTransition: number = DEFAULT_TRANSITION;
+  newSceneId = '';
 
   expanded = new Set<string>();
   renaming: { sceneId: string; name: string } | null = null;
@@ -112,6 +115,16 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
     return !!this.view?.scan?.running;
   }
 
+  /** A capture waiting for its scan: the plugin takes no other new scene until then. */
+  get checking(): boolean {
+    return this.view?.scan?.capture?.state === 'waiting';
+  }
+
+  get refusal(): string | null {
+    const capture = this.view?.scan?.capture;
+    return capture?.state === 'refused' ? sceneErrorText({ error: { error: capture.error } }, this.translate) : null;
+  }
+
   get directMembers(): string[] {
     return (this.view?.members || []).filter(member => member.capability === 'fallback').map(member => member.name);
   }
@@ -129,7 +142,11 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
   // ---- actions ----------------------------------------------------------------------------------
 
   get canCreate(): boolean {
-    return !!this.newName.trim() && this.validTransition(this.newTransition);
+    return !!this.newName.trim() && this.validTransition(this.newTransition) && this.validSceneId;
+  }
+
+  get validSceneId(): boolean {
+    return !this.newSceneId.trim() || SCENE_ID_INPUT.test(this.newSceneId.trim());
   }
 
   validTransition(value: number): boolean {
@@ -144,10 +161,16 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
     if (!this.canCreate) {
       return;
     }
-    const body = { name: this.newName.trim(), transitionTime: this.newTransition };
+    const sceneId = this.newSceneId.trim().toLowerCase().padStart(2, '0');
+    const body = {
+      name: this.newName.trim(),
+      transitionTime: this.newTransition,
+      ...(this.newSceneId.trim() ? { sceneId } : {})
+    };
     this.act(this.apiService.createScene(this.groupId, body), () => {
       this.newName = '';
       this.newTransition = DEFAULT_TRANSITION;
+      this.newSceneId = '';
     });
   }
 

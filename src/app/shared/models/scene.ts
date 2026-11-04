@@ -45,8 +45,18 @@ export interface SceneRef {
   sceneId: string;
 }
 
+/** A new scene with a chosen ID: its capture waits for the scan, which starts or refuses it. */
+export interface SceneScanCapture {
+  sceneId: string;
+  name: string;
+  state: 'waiting' | 'started' | 'refused';
+  // A code of group.scenes.error, when refused
+  error: string | null;
+}
+
 /** The last scan of a group: the plugin does not keep it across a restart. */
 export interface SceneScan {
+  capture: SceneScanCapture | null;
   running: boolean;
   at: number;
   members: number;

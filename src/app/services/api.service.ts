@@ -402,8 +402,12 @@ export class ApiService {
     return this.httpClient.put<GroupScenes>(routes.scenes + '/' + groupId + '/scan', {});
   }
 
-  createScene(groupId: string, scene: { name: string; transitionTime: number }): Observable<Scene> {
-    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId, scene);
+  /** With a sceneId the capture waits for a scan: the answer is then the group, and its scan gives the outcome. */
+  createScene(
+    groupId: string,
+    scene: { name: string; transitionTime: number; sceneId?: string }
+  ): Observable<Scene | GroupScenes> {
+    return this.httpClient.put<Scene | GroupScenes>(routes.scenes + '/' + groupId, scene);
   }
 
   renameScene(groupId: string, sceneId: string, scene: { name: string }): Observable<Scene> {

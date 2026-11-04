@@ -1689,5 +1689,12 @@
   "group.scenes.info.found": "Found {{date}}",
   "group.scenes.info.changed": "last change {{date}}",
   "group.scenes.info.recalled": "last recalled from here {{date}}",
-  "group.scenes.info.neverrecalled": "never recalled from here"
+  "group.scenes.info.neverrecalled": "never recalled from here",
+  "group.scenes.new.id": "Scene ID (optional)",
+  "group.scenes.new.id.hint": "Two hexadecimal digits, such as 2a. Leave it empty to let the plugin choose. A chosen ID is first checked on the devices, which can take 30 s: keep the lights as they are until the capture starts.",
+  "group.scenes.check.running": "Checking that ID {{id}} is free on the devices, before capturing {{name}}…",
+  "group.scenes.check.refused": "{{name}} was not captured with ID {{id}}: {{reason}}",
+  "group.scenes.error.SCENE_ID_INVALID": "A scene ID is two hexadecimal digits, such as 2a.",
+  "group.scenes.error.SCENE_ID_IN_USE": "This ID is already used in this group. Re-capture that scene to replace it.",
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Another new scene is being checked. Try again in a moment."
 }

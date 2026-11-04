@@ -1689,5 +1689,12 @@
   "group.scenes.info.found": "Encontrada el {{date}}",
   "group.scenes.info.changed": "último cambio {{date}}",
   "group.scenes.info.recalled": "última activación desde aquí {{date}}",
-  "group.scenes.info.neverrecalled": "nunca activada desde aquí"
+  "group.scenes.info.neverrecalled": "nunca activada desde aquí",
+  "group.scenes.new.id": "ID de escena (opcional)",
+  "group.scenes.new.id.hint": "Dos dígitos hexadecimales, por ejemplo 2a. Déjelo vacío para que el plugin elija uno. Un ID elegido se comprueba primero en los dispositivos, lo que puede tardar 30 s: mantenga las luces como están hasta que empiece la captura.",
+  "group.scenes.check.running": "Comprobando que el ID {{id}} está libre en los dispositivos, antes de capturar {{name}}…",
+  "group.scenes.check.refused": "{{name}} no se ha capturado con el ID {{id}}: {{reason}}",
+  "group.scenes.error.SCENE_ID_INVALID": "Un ID de escena tiene dos dígitos hexadecimales, por ejemplo 2a.",
+  "group.scenes.error.SCENE_ID_IN_USE": "Este ID ya se usa en este grupo. Vuelva a capturar esa escena para reemplazarla.",
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Se está comprobando otra escena nueva. Inténtelo de nuevo en un momento."
 }

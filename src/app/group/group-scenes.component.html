@@ -38,6 +38,22 @@
         </p>
       }
 
+      @if (checking) {
+        <p class="hint" role="status">
+          <i class="fa fa-sync fa-spin me-1" aria-hidden="true"></i>
+          {{
+            'group.scenes.check.running' | translate: { id: view.scan.capture.sceneId, name: view.scan.capture.name }
+          }}
+        </p>
+      } @else if (refusal) {
+        <div class="alert alert-warning py-2" role="alert">
+          {{
+            'group.scenes.check.refused'
+              | translate: { id: view.scan.capture.sceneId, name: view.scan.capture.name, reason: refusal }
+          }}
+        </div>
+      }
+
       @if (view.scenes.length) {
         <div class="table-responsive">
           <table class="table table-sm align-middle mb-0">
@@ -244,6 +260,17 @@
                 [(ngModel)]="newName"
                 [maxlength]="maxNameLength" />
             </div>
+            <div class="scene-id">
+              <label class="form-label small mb-1" for="sceneId">{{ 'group.scenes.new.id' | translate }}</label>
+              <input
+                id="sceneId"
+                type="text"
+                class="form-control form-control-sm font-monospace"
+                autocomplete="off"
+                maxlength="2"
+                [class.is-invalid]="!validSceneId"
+                [(ngModel)]="newSceneId" />
+            </div>
             <div class="transition">
               <label class="form-label small mb-1" for="sceneTransition">{{
                 'group.scenes.new.transition' | translate
@@ -257,10 +284,15 @@
                 [max]="maxTransition"
                 [(ngModel)]="newTransition" />
             </div>
-            <button type="button" class="btn btn-primary btn-sm" [disabled]="busy || !canCreate" (click)="create()">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              [disabled]="busy || checking || !canCreate"
+              (click)="create()">
               {{ 'group.scenes.new.capture' | translate }}
             </button>
           </div>
+          <span class="hint mt-1">{{ 'group.scenes.new.id.hint' | translate }}</span>
         </div>
       }
     }

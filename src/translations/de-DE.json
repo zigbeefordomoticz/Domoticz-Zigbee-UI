@@ -1689,5 +1689,12 @@
   "group.scenes.info.found": "Gefunden am {{date}}",
   "group.scenes.info.changed": "letzte Änderung {{date}}",
   "group.scenes.info.recalled": "zuletzt von hier abgerufen {{date}}",
-  "group.scenes.info.neverrecalled": "noch nie von hier abgerufen"
+  "group.scenes.info.neverrecalled": "noch nie von hier abgerufen",
+  "group.scenes.new.id": "Szenen-ID (optional)",
+  "group.scenes.new.id.hint": "Zwei Hexadezimalziffern, z. B. 2a. Leer lassen, damit das Plugin eine wählt. Eine gewählte ID wird zuerst auf den Geräten geprüft, was 30 s dauern kann: Lassen Sie die Lampen unverändert, bis die Erfassung beginnt.",
+  "group.scenes.check.running": "Es wird geprüft, ob ID {{id}} auf den Geräten frei ist, bevor {{name}} erfasst wird…",
+  "group.scenes.check.refused": "{{name}} wurde nicht mit ID {{id}} erfasst: {{reason}}",
+  "group.scenes.error.SCENE_ID_INVALID": "Eine Szenen-ID besteht aus zwei Hexadezimalziffern, z. B. 2a.",
+  "group.scenes.error.SCENE_ID_IN_USE": "Diese ID wird in dieser Gruppe bereits verwendet. Erfassen Sie diese Szene neu, um sie zu ersetzen.",
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Eine andere neue Szene wird gerade geprüft. Versuchen Sie es gleich noch einmal."
 }

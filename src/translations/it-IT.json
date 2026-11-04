@@ -1689,5 +1689,12 @@
   "group.scenes.info.found": "Trovata il {{date}}",
   "group.scenes.info.changed": "ultima modifica {{date}}",
   "group.scenes.info.recalled": "ultimo richiamo da qui {{date}}",
-  "group.scenes.info.neverrecalled": "mai richiamata da qui"
+  "group.scenes.info.neverrecalled": "mai richiamata da qui",
+  "group.scenes.new.id": "ID scena (facoltativo)",
+  "group.scenes.new.id.hint": "Due cifre esadecimali, ad esempio 2a. Lasciare vuoto per farlo scegliere al plugin. Un ID scelto viene prima verificato sui dispositivi, operazione che può richiedere 30 s: lasciare le luci come sono fino all'inizio della cattura.",
+  "group.scenes.check.running": "Verifica che l'ID {{id}} sia libero sui dispositivi, prima di catturare {{name}}…",
+  "group.scenes.check.refused": "{{name}} non è stata catturata con l'ID {{id}}: {{reason}}",
+  "group.scenes.error.SCENE_ID_INVALID": "Un ID scena è composto da due cifre esadecimali, ad esempio 2a.",
+  "group.scenes.error.SCENE_ID_IN_USE": "Questo ID è già usato in questo gruppo. Ricattura quella scena per sostituirla.",
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "È in corso la verifica di un'altra nuova scena. Riprova tra un momento."
 }

@@ -1689,5 +1689,12 @@
   "group.scenes.info.found": "Gevonden op {{date}}",
   "group.scenes.info.changed": "laatste wijziging {{date}}",
   "group.scenes.info.recalled": "laatst opgeroepen vanaf hier {{date}}",
-  "group.scenes.info.neverrecalled": "nooit opgeroepen vanaf hier"
+  "group.scenes.info.neverrecalled": "nooit opgeroepen vanaf hier",
+  "group.scenes.new.id": "Scène-ID (optioneel)",
+  "group.scenes.new.id.hint": "Twee hexadecimale cijfers, bijvoorbeeld 2a. Laat leeg om de plugin te laten kiezen. Een gekozen ID wordt eerst op de apparaten gecontroleerd, wat 30 s kan duren: laat de lampen zoals ze zijn tot het vastleggen begint.",
+  "group.scenes.check.running": "Controleren of ID {{id}} vrij is op de apparaten, voordat {{name}} wordt vastgelegd…",
+  "group.scenes.check.refused": "{{name}} is niet vastgelegd met ID {{id}}: {{reason}}",
+  "group.scenes.error.SCENE_ID_INVALID": "Een scène-ID bestaat uit twee hexadecimale cijfers, bijvoorbeeld 2a.",
+  "group.scenes.error.SCENE_ID_IN_USE": "Deze ID wordt al gebruikt in deze groep. Leg die scène opnieuw vast om hem te vervangen.",
+  "group.scenes.error.SCENE_ID_CHECK_RUNNING": "Er wordt een andere nieuwe scène gecontroleerd. Probeer het zo meteen opnieuw."
 }
