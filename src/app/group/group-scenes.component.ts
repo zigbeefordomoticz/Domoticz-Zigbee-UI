@@ -7,13 +7,21 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription, of, timer } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { POLL_WHILE_PENDING_MS, sceneErrorText, sceneTone, sceneWorkRunning } from './scene-helpers';
+import {
+  POLL_WHILE_PENDING_MS,
+  isSectionFolded,
+  saveSectionFolded,
+  sceneErrorText,
+  sceneTone,
+  sceneWorkRunning
+} from './scene-helpers';
 
 const DEFAULT_TRANSITION = 1;
 const MAX_TRANSITION = 65534;
 const MAX_NAME_LENGTH = 32;
 // One or two hex digits, as typed: the plugin takes two
 const SCENE_ID_INPUT = /^[0-9a-f]{1,2}$/i;
+const FOLDED_SECTION = 'scenes';
 
 interface ReadResult {
   id: string;
@@ -52,6 +60,7 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
   readonly maxTransition = MAX_TRANSITION;
   readonly tone = sceneTone;
 
+  collapsed = isSectionFolded(FOLDED_SECTION);
   restartNeeded = false;
   view: GroupScenes | null = null;
   busy = false;
@@ -98,6 +107,8 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
       this.expanded.clear();
     }
     if ((changes.groupId || changes.focusScene) && this.focusScene?.groupId === this.groupId) {
+      // Open for this visit: a scene chosen in the view by scene has to be seen
+      this.collapsed = false;
       this.expanded.add(this.focusScene.sceneId);
       this.scrollTo = this.focusScene.sceneId;
     }
@@ -107,6 +118,11 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
   override ngOnDestroy(): void {
     this.poll?.unsubscribe();
     super.ngOnDestroy();
+  }
+
+  toggleCollapsed(): void {
+    this.collapsed = !this.collapsed;
+    saveSectionFolded(FOLDED_SECTION, this.collapsed);
   }
 
   // ---- figures ----------------------------------------------------------------------------------

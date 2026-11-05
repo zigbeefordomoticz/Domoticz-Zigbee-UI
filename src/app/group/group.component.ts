@@ -13,12 +13,15 @@ import { catchError, concatMap } from 'rxjs/operators';
 import {
   POLL_WHILE_PENDING_MS,
   healthTone,
+  isSectionFolded,
+  saveSectionFolded,
   sceneMemberKey,
   sceneNeedsAttention,
   sceneWorkRunning
 } from './scene-helpers';
 
 const NATIVE_SCENES_SETTING = 'enableNativeScenes';
+const FOLDED_SECTION = 'members';
 
 // One to four hex digits, as typed: the plugin takes four. Above 0xfff7 is reserved by the ZCL
 const GROUP_ID_INPUT = /^[0-9a-f]{1,4}$/i;
@@ -92,6 +95,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   byScene = false;
   focusScene: SceneRef | null = null;
   endpoints = new Map<string, Endpoint>();
+  membersCollapsed = isSectionFolded(FOLDED_SECTION);
 
   readonly healthTone = healthTone;
 
@@ -313,6 +317,16 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
       (this.draft.name.trim() !== this.draft.baseName ? 1 : 0) +
       (this.draft.coordinator !== this.draft.baseCoordinator ? 1 : 0)
     );
+  }
+
+  /** A new group always shows them: choosing its members is the point. */
+  get membersHidden(): boolean {
+    return this.membersCollapsed && !!this.draft?.id;
+  }
+
+  toggleMembers(): void {
+    this.membersCollapsed = !this.membersCollapsed;
+    saveSectionFolded(FOLDED_SECTION, this.membersCollapsed);
   }
 
   get membersAfterSave(): number {

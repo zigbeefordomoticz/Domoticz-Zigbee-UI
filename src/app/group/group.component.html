@@ -279,111 +279,134 @@
           </div>
 
           <div class="editor-section">
-            <div class="section-title">
-              <h2 class="card-title mb-0">{{ 'group.page.members' | translate }}</h2>
+            <div class="section-title" [class.folded]="membersHidden">
+              <h2 class="card-title mb-0">
+                @if (draft.id) {
+                  <button
+                    type="button"
+                    class="section-toggle"
+                    aria-controls="group-members"
+                    [attr.aria-expanded]="!membersHidden"
+                    (click)="toggleMembers()">
+                    <i
+                      class="fa"
+                      [class.fa-chevron-right]="membersHidden"
+                      [class.fa-chevron-down]="!membersHidden"
+                      aria-hidden="true"></i>
+                    {{ 'group.page.members' | translate }}
+                  </button>
+                } @else {
+                  {{ 'group.page.members' | translate }}
+                }
+              </h2>
               <span class="hint">{{ 'group.page.members.after' | translate: { count: membersAfterSave } }}</span>
             </div>
-            @if (draft.members.length) {
-              <div class="table-responsive">
-                <table class="table table-sm align-middle mb-0">
-                  <thead>
-                    <tr>
-                      <th>{{ 'group.page.col.widget' | translate }}</th>
-                      <th>{{ 'group.page.col.device' | translate }}</th>
-                      <th>{{ 'group.page.col.ep' | translate }}</th>
-                      <th>{{ 'group.page.col.health' | translate }}</th>
-                      <th>
-                        <span class="visually-hidden">{{ 'group.page.remove' | translate }}</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (member of draft.members; track member.key) {
-                      <tr [class.added]="member.status === 'added'" [class.removed]="member.status === 'removed'">
-                        <td>
-                          <span [class.text-decoration-line-through]="member.status === 'removed'">{{
-                            member.widgets.length ? member.widgets.join(' · ') : member.deviceName
-                          }}</span>
-                          @if (member.status !== 'kept') {
-                            <span class="hint">{{ 'group.page.' + member.status | translate }}</span>
-                          } @else if (!member.groupable) {
-                            <span class="hint">{{ 'group.page.notgroupable' | translate }}</span>
-                          }
-                        </td>
-                        <td>
-                          {{ member.model || member.deviceName }}
-                          <span class="hint font-monospace">{{ member.nwkId }}</span>
-                        </td>
-                        <td class="font-monospace">{{ member.ep }}</td>
-                        <td>
-                          @if (member.health) {
-                            <span class="badge rounded-pill health-{{ healthTone(member.health) }}">{{
-                              member.health | healthLabel | translate
-                            }}</span>
-                          }
-                        </td>
-                        <td class="text-end">
-                          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="toggleRemove(member)">
-                            {{ (member.status === 'kept' ? 'group.page.remove' : 'group.page.undo') | translate }}
-                          </button>
-                        </td>
+            <div id="group-members" [hidden]="membersHidden">
+              @if (draft.members.length) {
+                <div class="table-responsive">
+                  <table class="table table-sm align-middle mb-0">
+                    <thead>
+                      <tr>
+                        <th>{{ 'group.page.col.widget' | translate }}</th>
+                        <th>{{ 'group.page.col.device' | translate }}</th>
+                        <th>{{ 'group.page.col.ep' | translate }}</th>
+                        <th>{{ 'group.page.col.health' | translate }}</th>
+                        <th>
+                          <span class="visually-hidden">{{ 'group.page.remove' | translate }}</span>
+                        </th>
                       </tr>
-                    }
-                  </tbody>
-                </table>
-              </div>
-            } @else {
-              <p class="hint mb-0">{{ 'group.page.members.none' | translate }}</p>
-            }
-
-            <div class="add-member">
-              <input
-                type="search"
-                class="form-control form-control-sm"
-                role="combobox"
-                autocomplete="off"
-                aria-autocomplete="list"
-                aria-controls="group-add-list"
-                [attr.aria-expanded]="addOpen"
-                [attr.aria-activedescendant]="addOpen && candidates.length ? 'group-add-' + addActive : null"
-                [(ngModel)]="addSearch"
-                (ngModelChange)="onAddSearch()"
-                (focus)="openAdd()"
-                (click)="addOpen = true"
-                (blur)="addOpen = false"
-                (keydown)="onAddKey($event)"
-                [placeholder]="'group.page.add' | translate"
-                [attr.aria-label]="'group.page.add' | translate" />
-              @if (addOpen) {
-                <ul id="group-add-list" class="candidates list-unstyled mb-0" role="listbox">
-                  @for (endpoint of candidates; track endpoint.key; let i = $index) {
-                    <!-- mousedown keeps the focus in the field, so the list stays open for the next one -->
-                    <li
-                      role="option"
-                      class="candidate"
-                      [id]="'group-add-' + i"
-                      [class.active]="i === addActive"
-                      [attr.aria-selected]="i === addActive"
-                      (mousedown)="$event.preventDefault()"
-                      (mouseenter)="addActive = i"
-                      (click)="add(endpoint)">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                      <span>
-                        <b>{{ addLabel(endpoint) }}</b>
-                        <span class="hint">
-                          {{ endpoint.model || endpoint.deviceName }} ·
-                          <span class="font-monospace">{{ endpoint.nwkId }} / {{ endpoint.ep }}</span>
-                        </span>
-                      </span>
-                    </li>
-                  } @empty {
-                    <li class="hint px-2 py-1">
-                      {{ (addSearch.trim() ? 'group.page.add.none' : 'group.page.add.empty') | translate }}
-                    </li>
-                  }
-                </ul>
+                    </thead>
+                    <tbody>
+                      @for (member of draft.members; track member.key) {
+                        <tr [class.added]="member.status === 'added'" [class.removed]="member.status === 'removed'">
+                          <td>
+                            <span [class.text-decoration-line-through]="member.status === 'removed'">{{
+                              member.widgets.length ? member.widgets.join(' · ') : member.deviceName
+                            }}</span>
+                            @if (member.status !== 'kept') {
+                              <span class="hint">{{ 'group.page.' + member.status | translate }}</span>
+                            } @else if (!member.groupable) {
+                              <span class="hint">{{ 'group.page.notgroupable' | translate }}</span>
+                            }
+                          </td>
+                          <td>
+                            {{ member.model || member.deviceName }}
+                            <span class="hint font-monospace">{{ member.nwkId }}</span>
+                          </td>
+                          <td class="font-monospace">{{ member.ep }}</td>
+                          <td>
+                            @if (member.health) {
+                              <span class="badge rounded-pill health-{{ healthTone(member.health) }}">{{
+                                member.health | healthLabel | translate
+                              }}</span>
+                            }
+                          </td>
+                          <td class="text-end">
+                            <button
+                              type="button"
+                              class="btn btn-outline-secondary btn-sm"
+                              (click)="toggleRemove(member)">
+                              {{ (member.status === 'kept' ? 'group.page.remove' : 'group.page.undo') | translate }}
+                            </button>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              } @else {
+                <p class="hint mb-0">{{ 'group.page.members.none' | translate }}</p>
               }
-              <span class="hint">{{ 'group.page.add.hint' | translate }}</span>
+
+              <div class="add-member">
+                <input
+                  type="search"
+                  class="form-control form-control-sm"
+                  role="combobox"
+                  autocomplete="off"
+                  aria-autocomplete="list"
+                  aria-controls="group-add-list"
+                  [attr.aria-expanded]="addOpen"
+                  [attr.aria-activedescendant]="addOpen && candidates.length ? 'group-add-' + addActive : null"
+                  [(ngModel)]="addSearch"
+                  (ngModelChange)="onAddSearch()"
+                  (focus)="openAdd()"
+                  (click)="addOpen = true"
+                  (blur)="addOpen = false"
+                  (keydown)="onAddKey($event)"
+                  [placeholder]="'group.page.add' | translate"
+                  [attr.aria-label]="'group.page.add' | translate" />
+                @if (addOpen) {
+                  <ul id="group-add-list" class="candidates list-unstyled mb-0" role="listbox">
+                    @for (endpoint of candidates; track endpoint.key; let i = $index) {
+                      <!-- mousedown keeps the focus in the field, so the list stays open for the next one -->
+                      <li
+                        role="option"
+                        class="candidate"
+                        [id]="'group-add-' + i"
+                        [class.active]="i === addActive"
+                        [attr.aria-selected]="i === addActive"
+                        (mousedown)="$event.preventDefault()"
+                        (mouseenter)="addActive = i"
+                        (click)="add(endpoint)">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <span>
+                          <b>{{ addLabel(endpoint) }}</b>
+                          <span class="hint">
+                            {{ endpoint.model || endpoint.deviceName }} ·
+                            <span class="font-monospace">{{ endpoint.nwkId }} / {{ endpoint.ep }}</span>
+                          </span>
+                        </span>
+                      </li>
+                    } @empty {
+                      <li class="hint px-2 py-1">
+                        {{ (addSearch.trim() ? 'group.page.add.none' : 'group.page.add.empty') | translate }}
+                      </li>
+                    }
+                  </ul>
+                }
+                <span class="hint">{{ 'group.page.add.hint' | translate }}</span>
+              </div>
             </div>
           </div>
 

@@ -117,4 +117,26 @@
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+
+  &.folded {
+    margin-bottom: 0;
+  }
+}
+
+.section-toggle {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+
+  i {
+    width: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--bs-secondary-color);
+  }
 }

@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 // Each response has 30 s on the plugin side, which always ends a capture or a scan: the polling stops by itself
 export const POLL_WHILE_PENDING_MS = 2000;
+const SECTION_FOLDED_KEY = 'z4d.group.folded.';
 
 // The plugin refuses a request with {"error": <code>}, translated as group.scenes.error.<code>
 const KNOWN_ERRORS = [
@@ -29,6 +30,27 @@ const HEALTH_TONE: { [health: string]: string } = {
   'Not Reachable': 'danger',
   Disabled: 'secondary'
 };
+
+/** The sections of the group editor a viewer folded. Only a convenience: without storage they are all open. */
+export function isSectionFolded(section: string): boolean {
+  try {
+    return localStorage.getItem(SECTION_FOLDED_KEY + section) === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function saveSectionFolded(section: string, folded: boolean): void {
+  try {
+    if (folded) {
+      localStorage.setItem(SECTION_FOLDED_KEY + section, '1');
+    } else {
+      localStorage.removeItem(SECTION_FOLDED_KEY + section);
+    }
+  } catch {
+    // Folded for this visit only
+  }
+}
 
 export function healthTone(health: string): string {
   return HEALTH_TONE[health] ?? 'secondary';
