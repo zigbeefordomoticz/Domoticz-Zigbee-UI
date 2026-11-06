@@ -7,7 +7,12 @@
   }}</a>
 </div>
 
-@if (!enabled) {
+@if (starting) {
+  <div class="alert alert-info" role="status">
+    <b translate="admin.groups.starting.title"></b>
+    <div translate="admin.groups.starting.text"></div>
+  </div>
+} @else if (!enabled) {
   <div class="alert alert-warning d-flex flex-wrap gap-2 align-items-center justify-content-between" role="status">
     <div>
       <b translate="admin.groups.off.title"></b>
