@@ -68,6 +68,9 @@
                 @if (item.scene.discovered) {
                   · {{ 'group.scenes.discovered' | translate }}
                 }
+                @if (item.scene.comment) {
+                  · {{ item.scene.comment }}
+                }
               </span>
             </span>
             <span class="title-side">

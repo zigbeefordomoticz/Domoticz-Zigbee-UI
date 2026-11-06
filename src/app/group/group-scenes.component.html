@@ -104,6 +104,9 @@
                       @if (scene.discovered) {
                         <span class="hint">{{ 'group.scenes.discovered' | translate }}</span>
                       }
+                      @if (scene.comment) {
+                        <span class="hint scene-comment">{{ scene.comment }}</span>
+                      }
                     </td>
                     <td>
                       @if (scene.transitionTime === null) {
@@ -152,7 +155,7 @@
                           class="btn btn-outline-secondary btn-sm"
                           [disabled]="busy"
                           (click)="startRename(scene)">
-                          {{ 'group.scenes.rename' | translate }}
+                          {{ 'group.scenes.edit' | translate }}
                         </button>
                         <button
                           type="button"
@@ -175,6 +178,13 @@
                             [(ngModel)]="renaming.name"
                             [maxlength]="maxNameLength"
                             [attr.aria-label]="'group.scenes.new.name' | translate" />
+                          <input
+                            type="text"
+                            class="form-control form-control-sm w-auto flex-grow-1"
+                            [(ngModel)]="renaming.comment"
+                            [maxlength]="maxCommentLength"
+                            [placeholder]="'group.scenes.comment' | translate"
+                            [attr.aria-label]="'group.scenes.comment' | translate" />
                           <span class="d-flex gap-2">
                             <button type="button" class="btn btn-outline-secondary btn-sm" (click)="closeForms()">
                               {{ 'group.page.cancel' | translate }}
@@ -184,7 +194,7 @@
                               class="btn btn-primary btn-sm"
                               [disabled]="busy || !renaming.name.trim()"
                               (click)="rename()">
-                              {{ 'group.scenes.rename' | translate }}
+                              {{ 'group.scenes.save' | translate }}
                             </button>
                           </span>
                         </div>
@@ -301,6 +311,15 @@
                   [max]="maxTransition"
                   [(ngModel)]="newTransition" />
               </div>
+              <div class="comment">
+                <label class="form-label small mb-1" for="sceneComment">{{ 'group.scenes.comment' | translate }}</label>
+                <input
+                  id="sceneComment"
+                  type="text"
+                  class="form-control form-control-sm"
+                  [(ngModel)]="newComment"
+                  [maxlength]="maxCommentLength" />
+              </div>
               <button
                 type="button"
                 class="btn btn-primary btn-sm"
@@ -309,7 +328,9 @@
                 {{ 'group.scenes.new.capture' | translate }}
               </button>
             </div>
-            <span class="hint mt-1">{{ 'group.scenes.new.id.hint' | translate }}</span>
+            <span class="hint mt-1">
+              {{ 'group.scenes.new.id' | translate }}: {{ 'group.scenes.new.id.hint' | translate }}
+            </span>
           </div>
         }
       }

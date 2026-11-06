@@ -18,6 +18,7 @@ import {
 
 const DEFAULT_TRANSITION = 1;
 const MAX_TRANSITION = 65534;
+const MAX_COMMENT_LENGTH = 200;
 const MAX_NAME_LENGTH = 32;
 // One or two hex digits, as typed: the plugin takes two
 const SCENE_ID_INPUT = /^[0-9a-f]{1,2}$/i;
@@ -57,6 +58,7 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
   @Output() changed = new EventEmitter<void>();
 
   readonly maxNameLength = MAX_NAME_LENGTH;
+  readonly maxCommentLength = MAX_COMMENT_LENGTH;
   readonly maxTransition = MAX_TRANSITION;
   readonly tone = sceneTone;
 
@@ -68,9 +70,10 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
   newName = '';
   newTransition: number = DEFAULT_TRANSITION;
   newSceneId = '';
+  newComment = '';
 
   expanded = new Set<string>();
-  renaming: { sceneId: string; name: string } | null = null;
+  renaming: { sceneId: string; name: string; comment: string } | null = null;
   recapturing: { sceneId: string; transition: number } | null = null;
   deleting: string | null = null;
 
@@ -181,12 +184,14 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
     const body = {
       name: this.newName.trim(),
       transitionTime: this.newTransition,
+      comment: this.newComment.trim(),
       ...(this.newSceneId.trim() ? { sceneId } : {})
     };
     this.act(this.apiService.createScene(this.groupId, body), () => {
       this.newName = '';
       this.newTransition = DEFAULT_TRANSITION;
       this.newSceneId = '';
+      this.newComment = '';
     });
   }
 
@@ -214,12 +219,12 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
 
   startRename(scene: Scene): void {
     this.closeForms();
-    this.renaming = { sceneId: scene.sceneId, name: scene.name };
+    this.renaming = { sceneId: scene.sceneId, name: scene.name, comment: scene.comment };
   }
 
   rename(): void {
-    const { sceneId, name } = this.renaming;
-    this.act(this.apiService.renameScene(this.groupId, sceneId, { name: name.trim() }), () => {
+    const { sceneId, name, comment } = this.renaming;
+    this.act(this.apiService.renameScene(this.groupId, sceneId, { name: name.trim(), comment: comment.trim() }), () => {
       this.renaming = null;
     });
   }

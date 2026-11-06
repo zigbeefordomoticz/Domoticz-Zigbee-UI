@@ -23,6 +23,7 @@
         <th>{{ 'group.scenes.col.state' | translate }}</th>
         <th>{{ 'group.scenes.col.status' | translate }}</th>
         <th>{{ 'group.scenes.col.check' | translate }}</th>
+        <th [title]="'group.scenes.slots.hint' | translate">{{ 'group.scenes.col.slots' | translate }}</th>
         <th>{{ 'group.page.col.health' | translate }}</th>
       </tr>
     </thead>
@@ -52,6 +53,11 @@
               {{ member.lastCheck * 1000 | date: 'dd/MM HH:mm' }}
             }
           </td>
+          <td class="text-nowrap" [title]="'group.scenes.slots.hint' | translate">
+            @if (member.sceneSlots; as slots) {
+              {{ slots.used }} / {{ slots.total ?? '?' }}
+            }
+          </td>
           <td>
             @if (endpoint(member)?.health; as health) {
               <span class="badge rounded-pill health-{{ healthTone(health) }}">{{
@@ -66,7 +72,7 @@
           <td>{{ label(device) }}</td>
           <td>{{ endpoint(device)?.model || device.name }}</td>
           <td class="font-monospace">{{ device.endpoint }}</td>
-          <td colspan="3">
+          <td colspan="4">
             <span class="hint">{{ 'group.scenes.missing' | translate }}</span>
           </td>
           <td>

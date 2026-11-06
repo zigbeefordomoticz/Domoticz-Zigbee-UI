@@ -3,6 +3,12 @@ export type SceneMemberStatus = 'pending' | 'synced' | 'failed' | 'n/a';
 
 export type SceneCapability = 'native' | 'fallback';
 
+/** The scenes on a device and the size of its table, which only a scan can give. */
+export interface SceneSlots {
+  used: number;
+  total: number | null;
+}
+
 export interface SceneDevice {
   ieee: string;
   name: string;
@@ -18,12 +24,16 @@ export interface SceneMember extends SceneDevice {
   error?: string | null;
   // What the plugin last saw at the capture: none on a member a scan found
   snapshot?: { onOff: number | null; level: number | null };
+  // None on a member without the Scenes cluster
+  sceneSlots: SceneSlots | null;
 }
 
 export interface Scene {
   groupId: string;
   sceneId: string;
   name: string;
+  // Only known to the plugin, like the name: a scan cannot bring it back
+  comment: string;
   // Whole seconds: the unit a device stores. Unknown (null) on a scene a scan found
   transitionTime: number | null;
   // Found on the devices by a scan, not captured by the plugin
@@ -69,7 +79,7 @@ export interface GroupScenes {
   groupName: string;
   // At least one member has the Scenes cluster
   capable: boolean;
-  members: Array<SceneDevice & { nwkId: string }>;
+  members: Array<SceneDevice & { nwkId: string; sceneSlots: SceneSlots | null }>;
   scenes: Scene[];
   scan: SceneScan | null;
 }
