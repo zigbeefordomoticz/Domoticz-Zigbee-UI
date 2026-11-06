@@ -85,6 +85,7 @@ interface GroupRow {
 })
 export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   enabled = true;
+  starting = false;
   loaded = false;
   scanStatus: string | null = null;
 
@@ -133,8 +134,10 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   ngOnInit() {
     this.apiService.getPluginhealth().subscribe(health => {
-      // GroupStatus is missing when group management is off; /zgroup then answers nothing useful
-      this.enabled = health?.GroupStatus !== undefined;
+      // GroupStatus is missing when group management is not enabled, and Starting until the plugin
+      // has started it: /zgroup then answers nothing useful
+      this.starting = health?.GroupStatus === 'Starting';
+      this.enabled = health?.GroupStatus !== undefined && !this.starting;
       this.scanStatus = health?.GroupStatus ?? null;
       if (this.enabled) {
         this.load();
