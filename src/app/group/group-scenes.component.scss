@@ -46,6 +46,17 @@
   border-top: 1px solid var(--bs-border-color-translucent);
 }
 
+// The whole width of a form row, and its own line in the new scene
+app-scene-device-picker {
+  flex: 1 1 100%;
+  min-width: 0;
+
+  &.new-scene-devices {
+    display: block;
+    margin-top: 0.5rem;
+  }
+}
+
 .new-scene-fields {
   display: flex;
   flex-wrap: wrap;

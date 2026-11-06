@@ -410,16 +410,26 @@ export class ApiService {
   /** With a sceneId the capture waits for a scan: the answer is then the group, and its scan gives the outcome. */
   createScene(
     groupId: string,
-    scene: { name: string; transitionTime: number; sceneId?: string; comment?: string }
+    scene: { name: string; transitionTime: number; sceneId?: string; comment?: string; members: string[] }
   ): Observable<Scene | GroupScenes> {
     return this.httpClient.put<Scene | GroupScenes>(routes.scenes + '/' + groupId, scene);
   }
 
-  renameScene(groupId: string, sceneId: string, scene: { name: string; comment: string }): Observable<Scene> {
+  /** members is what the scene keeps: the others forget it, and stay in the group. */
+  editScene(
+    groupId: string,
+    sceneId: string,
+    scene: { name: string; comment: string; members: string[] }
+  ): Observable<Scene> {
     return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId, scene);
   }
 
-  captureScene(groupId: string, sceneId: string, scene: { transitionTime: number }): Observable<Scene> {
+  /** members is what the scene is on after it: the others of the scene forget it. */
+  captureScene(
+    groupId: string,
+    sceneId: string,
+    scene: { transitionTime: number; members: string[] }
+  ): Observable<Scene> {
     return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId + '/capture', scene);
   }
 

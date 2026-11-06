@@ -44,7 +44,7 @@ export interface Scene {
   // From the plugin only: a remote recalling it does not count
   lastRecalled: number | null;
   members: SceneMember[];
-  // In the group but not in the scene: a capture brings them in
+  // In the group but not in the scene, left out or come since: a capture can take them
   missing: SceneDevice[];
   synced: number;
   native: number;

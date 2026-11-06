@@ -1,4 +1,5 @@
-import { GroupScenes, Scene } from '@app/shared/models/scene';
+import { GroupEndpoint } from '@app/shared/models/group';
+import { GroupScenes, Scene, SceneDevice } from '@app/shared/models/scene';
 import { TranslateService } from '@ngx-translate/core';
 
 // Each response has 30 s on the plugin side, which always ends a capture or a scan: the polling stops by itself
@@ -11,6 +12,8 @@ const KNOWN_ERRORS = [
   'NAME_INVALID',
   'NAME_DUPLICATE',
   'TRANSITION_INVALID',
+  'COMMENT_INVALID',
+  'MEMBERS_INVALID',
   'GROUP_NOT_FOUND',
   'SCENE_NOT_FOUND',
   'GROUP_NOT_ALLOWED',
@@ -57,7 +60,7 @@ export function healthTone(health: string): string {
 }
 
 export function sceneNeedsAttention(scene: Scene): boolean {
-  return scene.synced < scene.native || scene.missing.length > 0;
+  return scene.synced < scene.native;
 }
 
 export function scenePending(scene: Scene): boolean {
@@ -86,4 +89,10 @@ export function sceneErrorText(error: any, translate: TranslateService): string 
 /** Keyed as in the store of the plugin. */
 export function sceneMemberKey(ieee: string, ep: string): string {
   return `${ieee}-${ep}`;
+}
+
+/** Its widgets when the Groups page knows them: that is the name the user sees everywhere else. */
+export function sceneDeviceLabel(device: SceneDevice, endpoints: Map<string, GroupEndpoint>): string {
+  const endpoint = endpoints.get(sceneMemberKey(device.ieee, device.endpoint));
+  return endpoint?.widgets.join(' · ') || device.name || endpoint?.deviceName || device.ieee;
 }

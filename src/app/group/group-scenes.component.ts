@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { GroupEndpoint } from '@app/shared/models/group';
-import { GroupScenes, Scene, SceneRef } from '@app/shared/models/scene';
+import { GroupScenes, Scene, SceneDevice, SceneRef } from '@app/shared/models/scene';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, Subscription, of, timer } from 'rxjs';
@@ -12,6 +12,7 @@ import {
   isSectionFolded,
   saveSectionFolded,
   sceneErrorText,
+  sceneMemberKey,
   sceneTone,
   sceneWorkRunning
 } from './scene-helpers';
@@ -71,10 +72,11 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
   newTransition: number = DEFAULT_TRANSITION;
   newSceneId = '';
   newComment = '';
+  newLeftOut = new Set<string>();
 
   expanded = new Set<string>();
-  renaming: { sceneId: string; name: string; comment: string } | null = null;
-  recapturing: { sceneId: string; transition: number } | null = null;
+  editing: { scene: Scene; name: string; comment: string; leftOut: Set<string> } | null = null;
+  recapturing: { sceneId: string; transition: number; leftOut: Set<string> } | null = null;
   deleting: string | null = null;
 
   private reads = new Subject<string>();
@@ -108,6 +110,7 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
       this.view = null;
       this.closeForms();
       this.expanded.clear();
+      this.newLeftOut = new Set();
     }
     if ((changes.groupId || changes.focusScene) && this.focusScene?.groupId === this.groupId) {
       // Open for this visit: a scene chosen in the view by scene has to be seen
@@ -161,11 +164,23 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
   // ---- actions ----------------------------------------------------------------------------------
 
   get canCreate(): boolean {
-    return !!this.newName.trim() && this.validTransition(this.newTransition) && this.validSceneId;
+    return (
+      !!this.newName.trim() &&
+      this.validTransition(this.newTransition) &&
+      this.validSceneId &&
+      this.hasNative(this.view.members, this.newLeftOut)
+    );
   }
 
   get validSceneId(): boolean {
     return !this.newSceneId.trim() || SCENE_ID_INPUT.test(this.newSceneId.trim());
+  }
+
+  /** The plugin refuses a scene with no device that can hold it: a recall would reach none. */
+  hasNative(devices: SceneDevice[], leftOut: Set<string>): boolean {
+    return devices.some(
+      device => device.capability === 'native' && !leftOut.has(sceneMemberKey(device.ieee, device.endpoint))
+    );
   }
 
   validTransition(value: number): boolean {
@@ -185,6 +200,7 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
       name: this.newName.trim(),
       transitionTime: this.newTransition,
       comment: this.newComment.trim(),
+      members: this.kept(this.view.members, this.newLeftOut),
       ...(this.newSceneId.trim() ? { sceneId } : {})
     };
     this.act(this.apiService.createScene(this.groupId, body), () => {
@@ -192,6 +208,7 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
       this.newTransition = DEFAULT_TRANSITION;
       this.newSceneId = '';
       this.newComment = '';
+      this.newLeftOut = new Set();
     });
   }
 
@@ -207,25 +224,31 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
 
   startRecapture(scene: Scene): void {
     this.closeForms();
-    this.recapturing = { sceneId: scene.sceneId, transition: scene.transitionTime ?? DEFAULT_TRANSITION };
+    this.recapturing = {
+      sceneId: scene.sceneId,
+      transition: scene.transitionTime ?? DEFAULT_TRANSITION,
+      leftOut: new Set(scene.missing.map(device => sceneMemberKey(device.ieee, device.endpoint)))
+    };
   }
 
   recapture(): void {
-    const { sceneId, transition } = this.recapturing;
-    this.act(this.apiService.captureScene(this.groupId, sceneId, { transitionTime: transition }), () => {
+    const { sceneId, transition, leftOut } = this.recapturing;
+    const members = this.kept(this.view.members, leftOut);
+    this.act(this.apiService.captureScene(this.groupId, sceneId, { transitionTime: transition, members }), () => {
       this.recapturing = null;
     });
   }
 
-  startRename(scene: Scene): void {
+  startEdit(scene: Scene): void {
     this.closeForms();
-    this.renaming = { sceneId: scene.sceneId, name: scene.name, comment: scene.comment };
+    this.editing = { scene, name: scene.name, comment: scene.comment, leftOut: new Set() };
   }
 
-  rename(): void {
-    const { sceneId, name, comment } = this.renaming;
-    this.act(this.apiService.renameScene(this.groupId, sceneId, { name: name.trim(), comment: comment.trim() }), () => {
-      this.renaming = null;
+  edit(): void {
+    const { scene, name, comment, leftOut } = this.editing;
+    const changes = { name: name.trim(), comment: comment.trim(), members: this.kept(scene.members, leftOut) };
+    this.act(this.apiService.editScene(this.groupId, scene.sceneId, changes), () => {
+      this.editing = null;
     });
   }
 
@@ -242,9 +265,13 @@ export class GroupScenesComponent extends UnsubscribeOnDestroyAdapter implements
   }
 
   closeForms(): void {
-    this.renaming = null;
+    this.editing = null;
     this.recapturing = null;
     this.deleting = null;
+  }
+
+  private kept(devices: SceneDevice[], leftOut: Set<string>): string[] {
+    return devices.map(device => sceneMemberKey(device.ieee, device.endpoint)).filter(key => !leftOut.has(key));
   }
 
   private act(request: Observable<unknown>, done?: () => void): void {

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { GroupEndpoint } from '@app/shared/models/group';
 import { Scene, SceneDevice, SceneMember } from '@app/shared/models/scene';
 import { TranslateService } from '@ngx-translate/core';
-import { healthTone, sceneMemberKey } from './scene-helpers';
+import { healthTone, sceneDeviceLabel, sceneMemberKey } from './scene-helpers';
 
 // Why a member failed: anything else is a ZCL status, shown as it is
 const KNOWN_MEMBER_ERRORS = ['timeout', 'interrupted', 'absent', '89'];
@@ -35,8 +35,7 @@ export class SceneMembersComponent {
   }
 
   label(device: SceneDevice): string {
-    const endpoint = this.endpoint(device);
-    return endpoint?.widgets.join(' · ') || device.name || endpoint?.deviceName || device.ieee;
+    return sceneDeviceLabel(device, this.endpoints);
   }
 
   problem(member: SceneMember): string | null {
