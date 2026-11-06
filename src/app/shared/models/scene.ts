@@ -22,8 +22,8 @@ export interface SceneMember extends SceneDevice {
   lastCheck?: number | null;
   // A ZCL status such as "89", "timeout", "interrupted", or "absent" when a scan no longer finds it
   error?: string | null;
-  // What the plugin last saw at the capture: none on a member a scan found
-  snapshot?: { onOff: number | null; level: number | null };
+  // What the plugin last saw at the capture: none on a member a scan found. A cover has a position
+  snapshot?: { onOff: number | null; level: number | null; lift?: number; tilt?: number };
   // None on a member without the Scenes cluster
   sceneSlots: SceneSlots | null;
 }

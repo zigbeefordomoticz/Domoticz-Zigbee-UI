@@ -49,6 +49,9 @@ export class SceneMembersComponent {
 
   state(member: SceneMember): string {
     const snapshot = member.snapshot;
+    if (snapshot?.lift !== undefined || snapshot?.tilt !== undefined) {
+      return this.position(snapshot);
+    }
     if (!snapshot || (snapshot.onOff === null && snapshot.level === null)) {
       // A direct member is sent this state: without one, a recall leaves it alone
       return this.translate.instant(
@@ -61,5 +64,14 @@ export class SceneMembersComponent {
     return snapshot.level === null
       ? this.translate.instant('group.scenes.direct.on')
       : this.translate.instant('group.scenes.direct.level', { percent: Math.round((snapshot.level * 100) / 254) });
+  }
+
+  private position(snapshot: SceneMember['snapshot']): string {
+    const lift = snapshot.lift !== undefined ? ['group.scenes.direct.lift', snapshot.lift] : null;
+    const tilt = snapshot.tilt !== undefined ? ['group.scenes.direct.tilt', snapshot.tilt] : null;
+    return [lift, tilt]
+      .filter(part => part)
+      .map(([key, percent]) => this.translate.instant(key as string, { percent }))
+      .join(' · ');
   }
 }
