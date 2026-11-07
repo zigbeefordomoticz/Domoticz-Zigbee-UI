@@ -1825,5 +1825,7 @@
   "admin.provisioning.gp.hint.window-closed": "Demande d'appairage refusée : l'appairage est fermé. Ouvrez l'appairage, puis recommencez.",
   "admin.provisioning.gp.hint.not-pairing": "L'appareil atteint le réseau, mais n'est pas dans son mode d'appairage.",
   "admin.provisioning.gp.hint.encrypted": "Un appareil pas encore appairé. Mettez-le dans son mode d'appairage.",
-  "admin.provisioning.gp.via": "via {{nwk}}"
+  "admin.provisioning.gp.via": "via {{nwk}}",
+  "admin.provisioning.gp.hint.leave-pairing": "Sortez maintenant l'appareil de son mode d'appairage, comme l'indique sa notice (souvent : appuyer sur un autre bouton). Laissés dans ce mode, certains appareils changent de canal à l'appui suivant et ne sont plus entendus.",
+  "admin.provisioning.gp.hint.still-pairing": "L'appareil est appairé mais encore dans son mode d'appairage : sortez-le-en, comme l'indique sa notice."
 }

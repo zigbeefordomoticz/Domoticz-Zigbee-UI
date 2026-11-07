@@ -1635,5 +1635,7 @@
   "admin.provisioning.gp.hint.window-closed": "Koppelverzoek geweigerd: koppelen is gesloten. Open het koppelen en herhaal.",
   "admin.provisioning.gp.hint.not-pairing": "Het apparaat bereikt het netwerk, maar staat niet in de koppelmodus.",
   "admin.provisioning.gp.hint.encrypted": "Een nog niet gekoppeld apparaat. Zet het in de koppelmodus.",
-  "admin.provisioning.gp.via": "via {{nwk}}"
+  "admin.provisioning.gp.via": "via {{nwk}}",
+  "admin.provisioning.gp.hint.leave-pairing": "Haal het apparaat nu uit de koppelmodus, zoals de handleiding aangeeft (vaak: een andere knop indrukken). Blijven ze erin, dan wisselen sommige apparaten bij de volgende druk van kanaal en worden ze niet meer gehoord.",
+  "admin.provisioning.gp.hint.still-pairing": "Het apparaat is gekoppeld maar staat nog in de koppelmodus: haal het eruit, zoals de handleiding aangeeft."
 }

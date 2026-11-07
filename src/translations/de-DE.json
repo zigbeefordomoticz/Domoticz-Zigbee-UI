@@ -1635,5 +1635,7 @@
   "admin.provisioning.gp.hint.window-closed": "Anlernanfrage abgelehnt: das Anlernen ist geschlossen. Öffnen Sie das Anlernen und wiederholen Sie.",
   "admin.provisioning.gp.hint.not-pairing": "Das Gerät erreicht das Netzwerk, ist aber nicht in seinem Anlernmodus.",
   "admin.provisioning.gp.hint.encrypted": "Ein noch nicht gekoppeltes Gerät. Versetzen Sie es in seinen Anlernmodus.",
-  "admin.provisioning.gp.via": "über {{nwk}}"
+  "admin.provisioning.gp.via": "über {{nwk}}",
+  "admin.provisioning.gp.hint.leave-pairing": "Nehmen Sie das Gerät jetzt aus seinem Anlernmodus, wie in seiner Anleitung beschrieben (oft: eine andere Taste drücken). Bleibt es darin, wechseln manche Geräte beim nächsten Druck den Kanal und werden nicht mehr gehört.",
+  "admin.provisioning.gp.hint.still-pairing": "Das Gerät ist gekoppelt, aber noch in seinem Anlernmodus: beenden Sie ihn, wie in seiner Anleitung beschrieben."
 }

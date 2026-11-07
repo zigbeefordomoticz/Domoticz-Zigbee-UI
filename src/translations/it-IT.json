@@ -1635,5 +1635,7 @@
   "admin.provisioning.gp.hint.window-closed": "Richiesta di associazione rifiutata: l'associazione è chiusa. Apri l'associazione, poi ripeti.",
   "admin.provisioning.gp.hint.not-pairing": "Il dispositivo raggiunge la rete, ma non è nella sua modalità di associazione.",
   "admin.provisioning.gp.hint.encrypted": "Un dispositivo non ancora accoppiato. Mettilo nella sua modalità di associazione.",
-  "admin.provisioning.gp.via": "tramite {{nwk}}"
+  "admin.provisioning.gp.via": "tramite {{nwk}}",
+  "admin.provisioning.gp.hint.leave-pairing": "Ora fai uscire il dispositivo dalla sua modalità di associazione, come indica il manuale (spesso: premere un altro pulsante). Lasciati in questa modalità, alcuni dispositivi cambiano canale alla pressione successiva e non vengono più sentiti.",
+  "admin.provisioning.gp.hint.still-pairing": "Il dispositivo è accoppiato ma ancora nella sua modalità di associazione: fallo uscire, come indica il manuale."
 }

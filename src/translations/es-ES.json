@@ -1635,5 +1635,7 @@
   "admin.provisioning.gp.hint.window-closed": "Petición de emparejamiento rechazada: el emparejamiento está cerrado. Ábralo y repita.",
   "admin.provisioning.gp.hint.not-pairing": "El dispositivo llega a la red, pero no está en su modo de emparejamiento.",
   "admin.provisioning.gp.hint.encrypted": "Un dispositivo aún no emparejado. Póngalo en su modo de emparejamiento.",
-  "admin.provisioning.gp.via": "vía {{nwk}}"
+  "admin.provisioning.gp.via": "vía {{nwk}}",
+  "admin.provisioning.gp.hint.leave-pairing": "Ahora saque el dispositivo de su modo de emparejamiento, como indica su manual (a menudo: pulsar otro botón). Si se deja en él, algunos dispositivos cambian de canal con la siguiente pulsación y ya no se oyen.",
+  "admin.provisioning.gp.hint.still-pairing": "El dispositivo está emparejado pero sigue en su modo de emparejamiento: sáquelo, como indica su manual."
 }

@@ -1635,5 +1635,7 @@
   "admin.provisioning.gp.hint.window-closed": "Pairing request refused: pairing is closed. Open pairing, then repeat.",
   "admin.provisioning.gp.hint.not-pairing": "The device reaches the network, but is not in its pairing mode.",
   "admin.provisioning.gp.hint.encrypted": "A device not paired yet. Put it in its pairing mode.",
-  "admin.provisioning.gp.via": "via {{nwk}}"
+  "admin.provisioning.gp.via": "via {{nwk}}",
+  "admin.provisioning.gp.hint.leave-pairing": "Now take the device out of its pairing mode, as its manual says (often: press another button). Left in it, some devices change channel at the next press and are no longer heard.",
+  "admin.provisioning.gp.hint.still-pairing": "The device is paired but still in its pairing mode: take it out, as its manual says."
 }

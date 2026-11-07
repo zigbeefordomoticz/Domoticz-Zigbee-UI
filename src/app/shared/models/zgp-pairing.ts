@@ -21,7 +21,8 @@ export interface ZgpPairingEvent {
   Proxy?: string | null;
   Rssi?: number | null;
   Lqi?: number;
-  Hint?: 'commissioning' | 'window-closed' | 'not-pairing' | 'encrypted' | null;
+  // heard: commissioning / window-closed / not-pairing / encrypted / still-pairing; commissioned: leave-pairing
+  Hint?: 'commissioning' | 'window-closed' | 'not-pairing' | 'encrypted' | 'still-pairing' | 'leave-pairing' | null;
   // commissioned / widgets
   Again?: boolean;
   Model?: string;
