@@ -27,12 +27,13 @@ import { Setting, Settings } from '@app/shared/models/setting';
 import { TopologyScan, TopologyScanSummary } from '@app/shared/models/topology-scan';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Zlinky } from './../shared/models/zlinky';
 import { LogFile } from './../shared/models/log';
 import { Gamma } from '@app/shared/models/gamma';
 import { Chameleon } from '@app/shared/models/chameleon';
+import { ZgpPairing } from '@app/shared/models/zgp-pairing';
 
 const routes = {
   devices: '/device',
@@ -97,6 +98,7 @@ const routes = {
   otaFirmwareAvailable: '/ota-firmware-available',
   ieee2nwkRaw: '/ieee2nwk-raw',
   zgpDeviceRaw: '/zgp-device-raw',
+  zgpPairing: '/zgp-pairing',
   help: '/help'
 };
 
@@ -806,6 +808,12 @@ export class ApiService {
   // Green Power devices: the plugin's store, without the security keys
   getRawZgpDevices(): Observable<any[]> {
     return this.httpClient.get<any[]>(routes.zgpDeviceRaw).pipe(catchError(error => this.handleError(error)));
+  }
+
+  // Green Power pairing feed, the events after `since`. null when the plugin has no feed (older plugin):
+  // polled every 2 s, so no error toast
+  getZgpPairing(since = 0): Observable<ZgpPairing | null> {
+    return this.httpClient.get<ZgpPairing>(routes.zgpPairing + '/' + since).pipe(catchError(() => of(null)));
   }
 
   getHelp(): Observable<any> {
