@@ -1,0 +1,23 @@
+@if (devices.length > 1) {
+  <fieldset class="scene-devices">
+    <legend class="form-label small mb-1">{{ 'group.scenes.devices' | translate }}</legend>
+    <div class="scene-device-list">
+      @for (device of devices; track key(device)) {
+        <label class="form-check mb-0">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            [checked]="!leftOut.has(key(device))"
+            (change)="toggle(device)" />
+          <span class="form-check-label">
+            {{ label(device) }}
+            <span class="hint font-monospace">{{ device.endpoint }}</span>
+          </span>
+        </label>
+      }
+    </div>
+    @if (hint) {
+      <span class="hint">{{ hint }}</span>
+    }
+  </fieldset>
+}

@@ -446,16 +446,20 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   private getStats() {
-    return forkJoin([
-      this.apiService.getPluginStats(),
-      this.apiService.getZDevices(),
-      this.apiService.getPlugin(),
-      this.apiService.getZDeviceName(),
-      this.apiService.getPluginhealth(),
-      this.apiService.getZGroups(),
-      // A plugin without Green Power has no such route: the dashboard goes on without them
-      this.apiService.getRawZgpDevices().pipe(catchError(() => of([])))
-    ]).pipe(
+    return this.apiService.getPluginhealth().pipe(
+      switchMap(pluginHealth =>
+        forkJoin([
+          this.apiService.getPluginStats(),
+          this.apiService.getZDevices(),
+          this.apiService.getPlugin(),
+          this.apiService.getZDeviceName(),
+          of(pluginHealth),
+          // Without GroupStatus group management is not enabled: the plugin would log an error at each refresh
+          pluginHealth?.GroupStatus === undefined ? of([] as Group[]) : this.apiService.getZGroups(),
+          // A plugin without Green Power has no such route: the dashboard goes on without them
+          this.apiService.getRawZgpDevices().pipe(catchError(() => of([])))
+        ])
+      ),
       map(([pluginStats, devices, plugin, certified, pluginHealth, groups, greenPower]) => {
         this.plugin = plugin;
         this.pluginHealth = pluginHealth;

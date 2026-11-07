@@ -1,0 +1,79 @@
+@use "group-layout";
+
+.title-side {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.scene-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: flex-end;
+}
+
+.scene-detail td {
+  background-color: var(--bs-tertiary-bg);
+}
+
+.confirm-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  background-color: var(--bs-warning-bg-subtle);
+  border: 1px solid var(--bs-warning-border-subtle);
+  border-radius: var(--bs-border-radius);
+
+  &.danger {
+    background-color: var(--bs-danger-bg-subtle);
+    border-color: var(--bs-danger-border-subtle);
+  }
+}
+
+.transition-field {
+  width: 5.5rem;
+}
+
+.new-scene {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--bs-border-color-translucent);
+}
+
+// The whole width of a form row, and its own line in the new scene
+app-scene-device-picker {
+  flex: 1 1 100%;
+  min-width: 0;
+
+  &.new-scene-devices {
+    display: block;
+    margin-top: 0.5rem;
+  }
+}
+
+.new-scene-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: flex-end;
+  margin-top: 0.5rem;
+
+  .name,
+  .comment {
+    flex: 1 1 12rem;
+  }
+
+  .scene-id {
+    flex: 0 0 9rem;
+  }
+
+  .transition {
+    flex: 0 0 7rem;
+  }
+}

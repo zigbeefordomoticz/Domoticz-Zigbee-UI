@@ -15,6 +15,20 @@ export interface Device {
   IEEE?: string;
 }
 
+/** One device endpoint, the unit a group is made of. */
+export interface GroupEndpoint {
+  key: string;
+  nwkId: string;
+  ep: string;
+  ieee: string;
+  widgets: string[];
+  deviceName: string;
+  model: string;
+  health: string;
+  // false when the plugin does not offer it for groups now (battery device, IKEA remote, not ready…)
+  groupable: boolean;
+}
+
 export class DevicesAvailable {
   _NwkId: string;
   WidgetList: Array<DeviceAvailable>;
