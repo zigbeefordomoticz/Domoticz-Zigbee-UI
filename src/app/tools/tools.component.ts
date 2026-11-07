@@ -76,6 +76,7 @@ export class ToolsComponent implements OnInit {
       source('zdevice-raw', '/zdevice-raw', () => api.getRawZDevices()),
       source('zdevice-name', '/zdevice-name', () => api.getZDeviceName()),
       source('ieee2nwk-raw', '/ieee2nwk-raw', () => api.getIeee2nwkRaw()),
+      source('zgp-device-raw', '/zgp-device-raw', () => api.getRawZgpDevices()),
       source('battery-state', '/battery-state', () => api.getBatteryState()),
       source('non-optimized', '/non-optmize-device-configuration', () => this.nonOptimized()),
       source('zgroups', '/zgroup', () => api.getZGroups()),
@@ -95,7 +96,7 @@ export class ToolsComponent implements OnInit {
       { key: 'plugin', sources: pick('infos', 'plugin-health', 'plugin-stat', 'settings', 'domoticz-env') },
       {
         key: 'devices',
-        sources: pick('zdevice-raw', 'zdevice-name', 'ieee2nwk-raw', 'battery-state', 'non-optimized')
+        sources: pick('zdevice-raw', 'zdevice-name', 'zgp-device-raw', 'ieee2nwk-raw', 'battery-state', 'non-optimized')
       },
       { key: 'groups', sources: pick('zgroups', 'zgroup-list-available-device') },
       { key: 'coordinator', sources: pick('coordinator', 'ota-firmware-available') },
@@ -111,6 +112,7 @@ export class ToolsComponent implements OnInit {
       'errors',
       'zdevice-raw',
       'zdevice-name',
+      'zgp-device-raw',
       'zgroups',
       'battery-state'
     );

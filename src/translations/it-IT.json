@@ -1713,5 +1713,11 @@
   "group.page.id.invalid": "Un id gruppo è composto da quattro cifre esadecimali, ad esempio 0a2b.",
   "group.page.id.reserved": "Questo id è riservato: 0000, da fff8 a ffff e il gruppo di ping non possono essere usati.",
   "group.page.id.inuse": "Un altro gruppo usa già questo id.",
-  "GreenPowerEnable": "Accetta i dispositivi Green Power quando l'associazione è aperta"
+  "GreenPowerEnable": "Accetta i dispositivi Green Power quando l'associazione è aperta",
+  "admin.provisioning.greenpower": "Green Power",
+  "admin.provisioning.hint.gp.joining": "Accoppiato. Il plugin sta creando i suoi widget.",
+  "admin.provisioning.hint.gp.Failed": "Il dispositivo è stato rimosso prima della creazione dei suoi widget. Accoppialo di nuovo.",
+  "admin.provisioning.hint.gp.Unexpected": "Nessuna configurazione dà un widget a questo dispositivo Green Power. Condividi il log del plugin con il supporto.",
+  "tools.data.zgp-device-raw": "Dispositivi Green Power (grezzi)",
+  "tools.data.zgp-device-raw.hint": "Ciò che il plugin conserva per dispositivo Green Power, senza le chiavi di sicurezza"
 }

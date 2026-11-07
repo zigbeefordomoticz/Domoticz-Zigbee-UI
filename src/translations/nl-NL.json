@@ -1713,5 +1713,11 @@
   "group.page.id.invalid": "Een groeps-id bestaat uit vier hexadecimale cijfers, bijvoorbeeld 0a2b.",
   "group.page.id.reserved": "Deze id is gereserveerd: 0000, fff8 tot ffff en de ping-groep kunnen niet worden gebruikt.",
   "group.page.id.inuse": "Een andere groep gebruikt deze id al.",
-  "GreenPowerEnable": "Green Power-apparaten accepteren wanneer koppelen open staat"
+  "GreenPowerEnable": "Green Power-apparaten accepteren wanneer koppelen open staat",
+  "admin.provisioning.greenpower": "Green Power",
+  "admin.provisioning.hint.gp.joining": "Gekoppeld. De plug-in maakt de widgets aan.",
+  "admin.provisioning.hint.gp.Failed": "Het apparaat is verwijderd voordat de widgets waren aangemaakt. Koppel het opnieuw.",
+  "admin.provisioning.hint.gp.Unexpected": "Geen configuratie geeft dit Green Power-apparaat een widget. Deel de log van de plug-in met de support.",
+  "tools.data.zgp-device-raw": "Green Power-apparaten (ruw)",
+  "tools.data.zgp-device-raw.hint": "Wat de plug-in per Green Power-apparaat bewaart, zonder de beveiligingssleutels"
 }
