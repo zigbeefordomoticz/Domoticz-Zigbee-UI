@@ -1,0 +1,17 @@
+@use "group-layout";
+
+.scene-devices {
+  flex: 1 1 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.scene-device-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+
+  .hint {
+    display: inline;
+  }
+}

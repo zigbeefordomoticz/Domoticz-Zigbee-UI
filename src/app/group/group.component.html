@@ -7,7 +7,12 @@
   }}</a>
 </div>
 
-@if (!enabled) {
+@if (starting) {
+  <div class="alert alert-info" role="status">
+    <b translate="admin.groups.starting.title"></b>
+    <div translate="admin.groups.starting.text"></div>
+  </div>
+} @else if (!enabled) {
   <div class="alert alert-warning d-flex flex-wrap gap-2 align-items-center justify-content-between" role="status">
     <div>
       <b translate="admin.groups.off.title"></b>
@@ -26,6 +31,18 @@
         }
       </div>
     </div>
+    @if (sceneGroups) {
+      <div class="figure">
+        <div class="figure-label">{{ 'group.page.fig.scenes' | translate }}</div>
+        <div class="figure-value">{{ sceneCount }}</div>
+        <div class="figure-detail">
+          {{ 'group.page.fig.scenes.detail' | translate: { count: groupsWithScenes } }}
+          @if (scenesToCheck) {
+            · {{ 'group.page.fig.scenes.attention' | translate: { count: scenesToCheck } }}
+          }
+        </div>
+      </div>
+    }
     <div class="figure">
       <div class="figure-label">{{ 'group.page.fig.devices' | translate }}</div>
       <div class="figure-value">{{ loaded ? devicesInAGroup : '—' }}</div>
@@ -44,13 +61,22 @@
         }
       </div>
     </div>
-    <a class="figure" routerLink="/admin" [queryParams]="{ action: 'group' }">
+    <div class="figure">
       <div class="figure-label">{{ 'group.page.fig.scan' | translate }}</div>
       <div class="figure-value">
         {{ (scanStatus === 'scan' ? 'group.page.fig.scan.running' : 'group.page.fig.scan.ready') | translate }}
       </div>
-      <div class="figure-detail">{{ 'group.page.fig.scan.link' | translate }} →</div>
-    </a>
+      <div class="figure-detail figure-actions">
+        <button
+          type="button"
+          class="btn btn-outline-primary btn-sm"
+          [disabled]="scanStatus === 'scan'"
+          (click)="scanGroups()">
+          {{ 'admin.groups.scan.all' | translate }}
+        </button>
+        <a routerLink="/admin" [queryParams]="{ action: 'group' }">{{ 'group.page.fig.scan.link' | translate }} →</a>
+      </div>
+    </div>
   </div>
 
   @if (sent) {
@@ -70,274 +96,370 @@
     </div>
   }
 
-  <div class="group-layout">
-    <aside class="card group-list" [attr.aria-label]="'group.page.list' | translate">
-      <div class="list-head">
-        <h2 class="card-title mb-0">{{ 'group.page.list' | translate }}</h2>
-        <button type="button" class="btn btn-primary btn-sm" (click)="select('new')">
-          <i class="fa fa-plus me-1" aria-hidden="true"></i>{{ 'group.page.new' | translate }}
-        </button>
-      </div>
-      <div class="list-search">
-        <input
-          type="search"
-          class="form-control form-control-sm"
-          [(ngModel)]="search"
-          [placeholder]="'group.page.search' | translate"
-          [attr.aria-label]="'group.page.search' | translate" />
-      </div>
-      @if (!loaded) {
-        <p class="hint p-3 mb-0"><i class="fa fa-sync fa-spin me-2"></i>{{ 'group.page.loading' | translate }}</p>
-      } @else if (!rows.length) {
-        <p class="hint p-3 mb-0">{{ 'group.page.none' | translate }}</p>
-      }
-      <ul class="list-unstyled mb-0">
-        @if (draft && !draft.id) {
-          <li>
-            <button type="button" class="group-item active" aria-current="true">
-              <span>
-                <b>{{ draft.name.trim() || ('group.page.newname' | translate) }}</b>
-                <span class="hint">{{ 'group.page.facts.new' | translate }}</span>
-              </span>
-            </button>
-          </li>
+  @if (sceneGroups) {
+    <div class="btn-group btn-group-sm view-switch" role="group" [attr.aria-label]="'group.page.view' | translate">
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="!byScene"
+        [class.btn-outline-primary]="byScene"
+        [attr.aria-pressed]="!byScene"
+        (click)="showGroups()">
+        {{ 'group.page.view.groups' | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="byScene"
+        [class.btn-outline-primary]="!byScene"
+        [attr.aria-pressed]="byScene"
+        (click)="showScenes()">
+        {{ 'group.page.view.scenes' | translate }}
+      </button>
+    </div>
+  }
+
+  @if (byScene && sceneGroups) {
+    <app-scenes-overview
+      [groups]="sceneGroups"
+      [endpoints]="endpoints"
+      (changed)="readScenes()"
+      (openScene)="openScene($event)"></app-scenes-overview>
+  } @else {
+    <div class="group-layout">
+      <aside class="card group-list" [attr.aria-label]="'group.page.list' | translate">
+        <div class="list-head">
+          <h2 class="card-title mb-0">{{ 'group.page.list' | translate }}</h2>
+          <button type="button" class="btn btn-primary btn-sm" (click)="select('new')">
+            <i class="fa fa-plus me-1" aria-hidden="true"></i>{{ 'group.page.new' | translate }}
+          </button>
+        </div>
+        <div class="list-search">
+          <input
+            type="search"
+            class="form-control form-control-sm"
+            [(ngModel)]="search"
+            [placeholder]="'group.page.search' | translate"
+            [attr.aria-label]="'group.page.search' | translate" />
+        </div>
+        @if (!loaded) {
+          <p class="hint p-3 mb-0"><i class="fa fa-sync fa-spin me-2"></i>{{ 'group.page.loading' | translate }}</p>
+        } @else if (!rows.length) {
+          <p class="hint p-3 mb-0">{{ 'group.page.none' | translate }}</p>
         }
-        @for (row of filteredRows; track row.group._GroupId) {
-          <li>
-            <button
-              type="button"
-              class="group-item"
-              [class.active]="draft?.id === row.group._GroupId"
-              [attr.aria-current]="draft?.id === row.group._GroupId ? 'true' : null"
-              (click)="select(row.group._GroupId)">
-              <span class="min-w-0">
-                <b class="d-block text-break">{{ row.group.GroupName }}</b>
-                <span class="hint">
-                  <span class="font-monospace">{{ row.group._GroupId }}</span> ·
-                  {{ 'group.page.members.count' | translate: { count: row.members.length } }}
-                  @if (row.coordinator) {
-                    · {{ 'group.page.coordinator.short' | translate }}
-                  }
+        <ul class="list-unstyled mb-0">
+          @if (draft && !draft.id) {
+            <li>
+              <button type="button" class="group-item active" aria-current="true">
+                <span>
+                  <b>{{ draft.name.trim() || ('group.page.newname' | translate) }}</b>
+                  <span class="hint">{{ 'group.page.facts.new' | translate }}</span>
                 </span>
-              </span>
-              @if (row.down) {
-                <span class="badge rounded-pill health-warning">{{
-                  'group.page.pill.down' | translate: { count: row.down }
-                }}</span>
-              } @else if (row.members.length) {
-                <span class="badge rounded-pill health-success">{{ 'group.page.pill.ok' | translate }}</span>
-              } @else {
-                <span class="badge rounded-pill health-secondary">{{ 'group.page.pill.empty' | translate }}</span>
-              }
-            </button>
-          </li>
-        }
-      </ul>
-    </aside>
-
-    <section class="card group-editor">
-      @if (pendingSelect) {
-        <div class="confirm-row" role="alertdialog" aria-live="polite">
-          <span>{{
-            'group.page.switch.confirm' | translate: { name: draft?.name || ('group.page.newname' | translate) }
-          }}</span>
-          <span class="d-flex gap-2">
-            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="pendingSelect = null">
-              {{ 'group.page.switch.keep' | translate }}
-            </button>
-            <button type="button" class="btn btn-danger btn-sm" (click)="confirmSwitch()">
-              {{ 'group.page.discard' | translate }}
-            </button>
-          </span>
-        </div>
-      }
-
-      @if (!draft) {
-        <p class="hint p-4 mb-0">{{ 'group.page.select' | translate }}</p>
-      } @else {
-        <div class="editor-head">
-          <div class="flex-grow-1">
-            <label class="form-label fw-semibold small mb-1" for="groupName">{{ 'group.page.name' | translate }}</label>
-            <input id="groupName" type="text" class="form-control name-input" [(ngModel)]="draft.name" maxlength="64" />
-          </div>
-          @if (changes) {
-            <span class="badge rounded-pill text-bg-primary">{{
-              'group.page.unsaved' | translate: { count: changes }
-            }}</span>
-          }
-        </div>
-
-        <dl class="facts">
-          <div>
-            <dt>{{ 'group.page.facts.id' | translate }}</dt>
-            <dd class="font-monospace">{{ draft.id || ('group.page.facts.new' | translate) }}</dd>
-          </div>
-          @if (selectedRow?.group.WidgetStyle || selectedRow?.group.Cluster) {
-            <div>
-              <dt>{{ 'group.page.facts.widget' | translate }}</dt>
-              <dd>{{ selectedRow.group.WidgetStyle || selectedRow.group.Cluster }}</dd>
-            </div>
-          }
-        </dl>
-
-        <div class="editor-section">
-          <div class="form-check form-switch">
-            <input
-              id="coordinatorMember"
-              class="form-check-input"
-              type="checkbox"
-              role="switch"
-              [(ngModel)]="draft.coordinator" />
-            <label class="form-check-label fw-semibold" for="coordinatorMember">{{
-              'group.page.coord.title' | translate
-            }}</label>
-          </div>
-          <span class="hint">{{ 'group.page.coord.text' | translate }}</span>
-        </div>
-
-        <div class="editor-section">
-          <div class="section-title">
-            <h2 class="card-title mb-0">{{ 'group.page.members' | translate }}</h2>
-            <span class="hint">{{ 'group.page.members.after' | translate: { count: membersAfterSave } }}</span>
-          </div>
-          @if (draft.members.length) {
-            <div class="table-responsive">
-              <table class="table table-sm align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>{{ 'group.page.col.widget' | translate }}</th>
-                    <th>{{ 'group.page.col.device' | translate }}</th>
-                    <th>{{ 'group.page.col.ep' | translate }}</th>
-                    <th>{{ 'group.page.col.health' | translate }}</th>
-                    <th>
-                      <span class="visually-hidden">{{ 'group.page.remove' | translate }}</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (member of draft.members; track member.key) {
-                    <tr [class.added]="member.status === 'added'" [class.removed]="member.status === 'removed'">
-                      <td>
-                        <b [class.text-decoration-line-through]="member.status === 'removed'">{{
-                          member.widgets.length ? member.widgets.join(' · ') : member.deviceName
-                        }}</b>
-                        @if (member.status !== 'kept') {
-                          <span class="hint">{{ 'group.page.' + member.status | translate }}</span>
-                        } @else if (!member.groupable) {
-                          <span class="hint">{{ 'group.page.notgroupable' | translate }}</span>
-                        }
-                      </td>
-                      <td>
-                        {{ member.model || member.deviceName }}
-                        <span class="hint font-monospace">{{ member.nwkId }}</span>
-                      </td>
-                      <td class="font-monospace">{{ member.ep }}</td>
-                      <td>
-                        @if (member.health) {
-                          <span class="badge rounded-pill health-{{ healthTone(member.health) }}">{{
-                            member.health | healthLabel | translate
-                          }}</span>
-                        }
-                      </td>
-                      <td class="text-end">
-                        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="toggleRemove(member)">
-                          {{ (member.status === 'kept' ? 'group.page.remove' : 'group.page.undo') | translate }}
-                        </button>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          } @else {
-            <p class="hint mb-0">{{ 'group.page.members.none' | translate }}</p>
-          }
-
-          <div class="add-member">
-            <input
-              type="search"
-              class="form-control form-control-sm"
-              role="combobox"
-              autocomplete="off"
-              aria-autocomplete="list"
-              aria-controls="group-add-list"
-              [attr.aria-expanded]="addOpen"
-              [attr.aria-activedescendant]="addOpen && candidates.length ? 'group-add-' + addActive : null"
-              [(ngModel)]="addSearch"
-              (ngModelChange)="onAddSearch()"
-              (focus)="openAdd()"
-              (click)="addOpen = true"
-              (blur)="addOpen = false"
-              (keydown)="onAddKey($event)"
-              [placeholder]="'group.page.add' | translate"
-              [attr.aria-label]="'group.page.add' | translate" />
-            @if (addOpen) {
-              <ul id="group-add-list" class="candidates list-unstyled mb-0" role="listbox">
-                @for (endpoint of candidates; track endpoint.key; let i = $index) {
-                  <!-- mousedown keeps the focus in the field, so the list stays open for the next one -->
-                  <li
-                    role="option"
-                    class="candidate"
-                    [id]="'group-add-' + i"
-                    [class.active]="i === addActive"
-                    [attr.aria-selected]="i === addActive"
-                    (mousedown)="$event.preventDefault()"
-                    (mouseenter)="addActive = i"
-                    (click)="add(endpoint)">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <span>
-                      <b>{{ addLabel(endpoint) }}</b>
-                      <span class="hint">
-                        {{ endpoint.model || endpoint.deviceName }} ·
-                        <span class="font-monospace">{{ endpoint.nwkId }} / {{ endpoint.ep }}</span>
-                      </span>
-                    </span>
-                  </li>
-                } @empty {
-                  <li class="hint px-2 py-1">
-                    {{ (addSearch.trim() ? 'group.page.add.none' : 'group.page.add.empty') | translate }}
-                  </li>
-                }
-              </ul>
-            }
-            <span class="hint">{{ 'group.page.add.hint' | translate }}</span>
-          </div>
-        </div>
-
-        @if (confirmDelete) {
-          <div class="confirm-row danger" role="alertdialog">
-            <span>{{ 'group.page.delete.confirm' | translate: { name: selectedRow?.group.GroupName } }}</span>
-            <span class="d-flex gap-2">
-              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="confirmDelete = false">
-                {{ 'group.page.cancel' | translate }}
               </button>
-              <button type="button" class="btn btn-danger btn-sm" [disabled]="saving" (click)="delete()">
-                {{ 'group.page.delete.yes' | translate }}
+            </li>
+          }
+          @for (row of filteredRows; track row.group._GroupId) {
+            <li>
+              <button
+                type="button"
+                class="group-item"
+                [class.active]="draft?.id === row.group._GroupId"
+                [attr.aria-current]="draft?.id === row.group._GroupId ? 'true' : null"
+                (click)="select(row.group._GroupId)">
+                <span class="min-w-0">
+                  <b class="d-block text-break">{{ row.group.GroupName }}</b>
+                  <span class="hint">
+                    <span class="font-monospace">{{ row.group._GroupId }}</span> ·
+                    {{ 'group.page.members.count' | translate: { count: row.members.length } }}
+                    @if (sceneCountOf(row.group._GroupId); as count) {
+                      · {{ 'group.page.scenes.count' | translate: { count: count } }}
+                    }
+                    @if (row.coordinator) {
+                      · {{ 'group.page.coordinator.short' | translate }}
+                    }
+                  </span>
+                </span>
+                @if (row.down) {
+                  <span class="badge rounded-pill health-warning">{{
+                    'group.page.pill.down' | translate: { count: row.down }
+                  }}</span>
+                } @else if (row.members.length) {
+                  <span class="badge rounded-pill health-success">{{ 'group.page.pill.ok' | translate }}</span>
+                } @else {
+                  <span class="badge rounded-pill health-secondary">{{ 'group.page.pill.empty' | translate }}</span>
+                }
+              </button>
+            </li>
+          }
+        </ul>
+      </aside>
+
+      <section class="card group-editor">
+        @if (pendingSelect) {
+          <div class="confirm-row" role="alertdialog" aria-live="polite">
+            <span>{{
+              'group.page.switch.confirm' | translate: { name: draft?.name || ('group.page.newname' | translate) }
+            }}</span>
+            <span class="d-flex gap-2">
+              <button type="button" class="btn btn-outline-secondary btn-sm" (click)="pendingSelect = null">
+                {{ 'group.page.switch.keep' | translate }}
+              </button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="confirmSwitch()">
+                {{ 'group.page.discard' | translate }}
               </button>
             </span>
           </div>
         }
 
-        <div class="editor-actions">
-          @if (draft.id) {
-            <button type="button" class="btn btn-outline-danger me-auto" (click)="confirmDelete = true">
-              {{ 'group.page.delete' | translate }}
-            </button>
-          }
-          @if (!valid && changes) {
-            <span class="hint me-auto">{{ 'group.page.invalid' | translate }}</span>
-          }
-          <button type="button" class="btn btn-outline-secondary" [disabled]="!changes || saving" (click)="discard()">
-            {{ 'group.page.discard' | translate }}
-          </button>
-          <button type="button" class="btn btn-primary" [disabled]="!changes || !valid || saving" (click)="save()">
-            @if (saving) {
-              <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+        @if (!draft) {
+          <p class="hint p-4 mb-0">{{ 'group.page.select' | translate }}</p>
+        } @else {
+          <div class="editor-head">
+            <div class="flex-grow-1">
+              <label class="form-label fw-semibold small mb-1" for="groupName">{{
+                'group.page.name' | translate
+              }}</label>
+              <input
+                id="groupName"
+                type="text"
+                class="form-control name-input"
+                [(ngModel)]="draft.name"
+                maxlength="64" />
+            </div>
+            @if (changes) {
+              <span class="badge rounded-pill text-bg-primary">{{
+                'group.page.unsaved' | translate: { count: changes }
+              }}</span>
             }
-            {{ 'group.page.save' | translate }}
-          </button>
-        </div>
-      }
-    </section>
-  </div>
+          </div>
+
+          <dl class="facts">
+            <div>
+              <dt>
+                <label for="groupId">{{ 'group.page.facts.id' | translate }}</label>
+              </dt>
+              <dd class="font-monospace">
+                @if (draft.id) {
+                  {{ draft.id }}
+                } @else {
+                  <input
+                    id="groupId"
+                    type="text"
+                    class="form-control form-control-sm font-monospace group-id"
+                    autocomplete="off"
+                    maxlength="4"
+                    [class.is-invalid]="requestedIdProblem"
+                    [placeholder]="'group.page.facts.new' | translate"
+                    [(ngModel)]="draft.requestedId" />
+                }
+              </dd>
+            </div>
+            @if (selectedRow?.group.WidgetStyle || selectedRow?.group.Cluster) {
+              <div>
+                <dt>{{ 'group.page.facts.widget' | translate }}</dt>
+                <dd>{{ selectedRow.group.WidgetStyle || selectedRow.group.Cluster }}</dd>
+              </div>
+            }
+          </dl>
+
+          @if (!draft.id) {
+            <p class="hint group-id-hint" [class.text-danger]="requestedIdProblem">
+              {{ requestedIdProblem || 'group.page.id.hint' | translate }}
+            </p>
+          }
+
+          <div class="editor-section">
+            <div class="form-check form-switch">
+              <input
+                id="coordinatorMember"
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                [(ngModel)]="draft.coordinator" />
+              <label class="form-check-label fw-semibold" for="coordinatorMember">{{
+                'group.page.coord.title' | translate
+              }}</label>
+            </div>
+            <span class="hint">{{ 'group.page.coord.text' | translate }}</span>
+          </div>
+
+          <div class="editor-section">
+            <div class="section-title" [class.folded]="membersHidden">
+              <h2 class="card-title mb-0">
+                @if (draft.id) {
+                  <button
+                    type="button"
+                    class="section-toggle"
+                    aria-controls="group-members"
+                    [attr.aria-expanded]="!membersHidden"
+                    (click)="toggleMembers()">
+                    <i
+                      class="fa"
+                      [class.fa-chevron-right]="membersHidden"
+                      [class.fa-chevron-down]="!membersHidden"
+                      aria-hidden="true"></i>
+                    {{ 'group.page.members' | translate }}
+                  </button>
+                } @else {
+                  {{ 'group.page.members' | translate }}
+                }
+              </h2>
+              <span class="hint">{{ 'group.page.members.after' | translate: { count: membersAfterSave } }}</span>
+            </div>
+            <div id="group-members" [hidden]="membersHidden">
+              @if (draft.members.length) {
+                <div class="table-responsive">
+                  <table class="table table-sm align-middle mb-0">
+                    <thead>
+                      <tr>
+                        <th>{{ 'group.page.col.widget' | translate }}</th>
+                        <th>{{ 'group.page.col.device' | translate }}</th>
+                        <th>{{ 'group.page.col.ep' | translate }}</th>
+                        <th>{{ 'group.page.col.health' | translate }}</th>
+                        <th>
+                          <span class="visually-hidden">{{ 'group.page.remove' | translate }}</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (member of draft.members; track member.key) {
+                        <tr [class.added]="member.status === 'added'" [class.removed]="member.status === 'removed'">
+                          <td>
+                            <span [class.text-decoration-line-through]="member.status === 'removed'">{{
+                              member.widgets.length ? member.widgets.join(' · ') : member.deviceName
+                            }}</span>
+                            @if (member.status !== 'kept') {
+                              <span class="hint">{{ 'group.page.' + member.status | translate }}</span>
+                            } @else if (!member.groupable) {
+                              <span class="hint">{{ 'group.page.notgroupable' | translate }}</span>
+                            }
+                          </td>
+                          <td>
+                            {{ member.model || member.deviceName }}
+                            <span class="hint font-monospace">{{ member.nwkId }}</span>
+                          </td>
+                          <td class="font-monospace">{{ member.ep }}</td>
+                          <td>
+                            @if (member.health) {
+                              <span class="badge rounded-pill health-{{ healthTone(member.health) }}">{{
+                                member.health | healthLabel | translate
+                              }}</span>
+                            }
+                          </td>
+                          <td class="text-end">
+                            <button
+                              type="button"
+                              class="btn btn-outline-secondary btn-sm"
+                              (click)="toggleRemove(member)">
+                              {{ (member.status === 'kept' ? 'group.page.remove' : 'group.page.undo') | translate }}
+                            </button>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              } @else {
+                <p class="hint mb-0">{{ 'group.page.members.none' | translate }}</p>
+              }
+
+              <div class="add-member">
+                <input
+                  type="search"
+                  class="form-control form-control-sm"
+                  role="combobox"
+                  autocomplete="off"
+                  aria-autocomplete="list"
+                  aria-controls="group-add-list"
+                  [attr.aria-expanded]="addOpen"
+                  [attr.aria-activedescendant]="addOpen && candidates.length ? 'group-add-' + addActive : null"
+                  [(ngModel)]="addSearch"
+                  (ngModelChange)="onAddSearch()"
+                  (focus)="openAdd()"
+                  (click)="addOpen = true"
+                  (blur)="addOpen = false"
+                  (keydown)="onAddKey($event)"
+                  [placeholder]="'group.page.add' | translate"
+                  [attr.aria-label]="'group.page.add' | translate" />
+                @if (addOpen) {
+                  <ul id="group-add-list" class="candidates list-unstyled mb-0" role="listbox">
+                    @for (endpoint of candidates; track endpoint.key; let i = $index) {
+                      <!-- mousedown keeps the focus in the field, so the list stays open for the next one -->
+                      <li
+                        role="option"
+                        class="candidate"
+                        [id]="'group-add-' + i"
+                        [class.active]="i === addActive"
+                        [attr.aria-selected]="i === addActive"
+                        (mousedown)="$event.preventDefault()"
+                        (mouseenter)="addActive = i"
+                        (click)="add(endpoint)">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        <span>
+                          <b>{{ addLabel(endpoint) }}</b>
+                          <span class="hint">
+                            {{ endpoint.model || endpoint.deviceName }} ·
+                            <span class="font-monospace">{{ endpoint.nwkId }} / {{ endpoint.ep }}</span>
+                          </span>
+                        </span>
+                      </li>
+                    } @empty {
+                      <li class="hint px-2 py-1">
+                        {{ (addSearch.trim() ? 'group.page.add.none' : 'group.page.add.empty') | translate }}
+                      </li>
+                    }
+                  </ul>
+                }
+                <span class="hint">{{ 'group.page.add.hint' | translate }}</span>
+              </div>
+            </div>
+          </div>
+
+          @if (draft.id) {
+            <app-group-scenes
+              [groupId]="draft.id"
+              [revision]="rows"
+              [enabled]="scenesEnabled"
+              [endpoints]="endpoints"
+              [focusScene]="focusScene"
+              (changed)="readScenes()"></app-group-scenes>
+          }
+
+          @if (confirmDelete) {
+            <div class="confirm-row danger" role="alertdialog">
+              <span>{{ 'group.page.delete.confirm' | translate: { name: selectedRow?.group.GroupName } }}</span>
+              <span class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-secondary btn-sm" (click)="confirmDelete = false">
+                  {{ 'group.page.cancel' | translate }}
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" [disabled]="saving" (click)="delete()">
+                  {{ 'group.page.delete.yes' | translate }}
+                </button>
+              </span>
+            </div>
+          }
+
+          <div class="editor-actions">
+            @if (draft.id) {
+              <button type="button" class="btn btn-outline-danger me-auto" (click)="confirmDelete = true">
+                {{ 'group.page.delete' | translate }}
+              </button>
+            }
+            @if (!valid && changes) {
+              <span class="hint me-auto">{{ 'group.page.invalid' | translate }}</span>
+            }
+            <button type="button" class="btn btn-outline-secondary" [disabled]="!changes || saving" (click)="discard()">
+              {{ 'group.page.discard' | translate }}
+            </button>
+            <button type="button" class="btn btn-primary" [disabled]="!changes || !valid || saving" (click)="save()">
+              @if (saving) {
+                <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+              }
+              {{ 'group.page.save' | translate }}
+            </button>
+          </div>
+        }
+      </section>
+    </div>
+  }
 }
