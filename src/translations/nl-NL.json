@@ -1658,5 +1658,10 @@
   "admin.gp.closed.notify": "Green Power-koppelen gesloten",
   "admin.gp.type.choose": "Kies het apparaattype voordat u het koppelen opent.",
   "dashboard.devices.greenpower": "Green Power",
-  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power"
+  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power",
+  "device.byname.filter.greenpower": "Green Power",
+  "device.byname.greenpower": "Green Power",
+  "device.byname.greenpower.readonly": "Alleen-lezen: verwijder het door zijn widget te verwijderen",
+  "device.byname.greenpower.notpolled": "Niet bevraagd",
+  "device.byname.greenpower.lastheard": "Laatst gehoord {{time}}"
 }

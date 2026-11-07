@@ -29,7 +29,7 @@ const LOW_BATTERY = 15;
 // Above any battery level: mains powered devices sort after battery ones
 const MAINS_SORT = 1000;
 
-type Filter = 'all' | 'attention' | 'notoptimized' | 'disabled' | 'routers' | 'enddevices';
+type Filter = 'all' | 'attention' | 'notoptimized' | 'disabled' | 'routers' | 'enddevices' | 'greenpower';
 
 /** One table row: the device as the plugin sent it, plus what the columns sort and filter on. */
 interface DeviceRow {
@@ -49,6 +49,8 @@ interface DeviceRow {
   attention: boolean;
   // Only a device that failed pairing, is not in Domoticz or has no widget can be removed
   removable: boolean;
+  // Green Power: read-only, no details, name, parameters or removal (they act on ListOfDevices)
+  greenPower: boolean;
 }
 
 @Component({
@@ -59,6 +61,8 @@ interface DeviceRow {
 })
 export class DeviceByNameComponent implements OnChanges {
   @Input() devices: DeviceByName[];
+  // Green Power devices, read-only rows: removed by deleting their widget
+  @Input() greenPower: DeviceByName[] = [];
   rows: DeviceRow[] = [];
   visibleRows: DeviceRow[] = [];
   filters: { id: Filter; count: number }[] = [];
@@ -73,10 +77,11 @@ export class DeviceByNameComponent implements OnChanges {
   private readonly filterTests: { [id in Filter]: (row: DeviceRow) => boolean } = {
     all: () => true,
     attention: row => row.attention,
-    notoptimized: row => !row.device.CertifiedDevice,
+    notoptimized: row => !row.greenPower && !row.device.CertifiedDevice,
     disabled: row => row.device.Health === 'Disabled',
     routers: row => row.router,
-    enddevices: row => !row.router
+    enddevices: row => !row.router && !row.greenPower,
+    greenpower: row => row.greenPower
   };
 
   @ViewChild('content') private removeConfirm: TemplateRef<unknown>;
@@ -96,10 +101,11 @@ export class DeviceByNameComponent implements OnChanges {
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.devices.currentValue !== changes.devices.previousValue) {
+    if (changes.devices || changes.greenPower) {
       const devices = Array.isArray(this.devices) ? this.devices : [];
+      const greenPower = Array.isArray(this.greenPower) ? this.greenPower : [];
       this.showRSSI = devices.filter(device => device.RSSI).length > 0;
-      this.rows = devices.map(device => this.toRow(device));
+      this.rows = [...devices, ...greenPower].map(device => this.toRow(device));
       this.applyFilter();
     }
   }
@@ -120,6 +126,9 @@ export class DeviceByNameComponent implements OnChanges {
   /** A click on the row, outside its buttons and inputs, or Enter on the focused row. */
   openDetails(event: Event, row: DeviceRow) {
     const target = event.target as HTMLElement;
+    if (row.greenPower) {
+      return;
+    }
     if (event.type === 'keydown' ? target !== event.currentTarget : target.closest('button, a, input, .input-group')) {
       return;
     }
@@ -146,6 +155,9 @@ export class DeviceByNameComponent implements OnChanges {
 
   /** Parameters side panel; it closes only once the plugin has accepted the change. */
   editParameters(row: DeviceRow) {
+    if (row.greenPower) {
+      return;
+    }
     const device = row.device;
     const panel = this.offcanvas.open(DeviceParamEditorComponent, {
       position: 'end',
@@ -178,6 +190,9 @@ export class DeviceByNameComponent implements OnChanges {
   }
 
   startEdit(row: DeviceRow) {
+    if (row.greenPower) {
+      return;
+    }
     this.editingNwkId = row.device._NwkId;
     this.nameDraft = row.device.ZDeviceName ?? '';
   }
@@ -234,14 +249,17 @@ export class DeviceByNameComponent implements OnChanges {
   }
 
   private applyFilter() {
-    this.filters = (Object.keys(this.filterTests) as Filter[]).map(id => ({
-      id,
-      count: this.rows.filter(this.filterTests[id]).length
-    }));
+    // The Green Power chip only when there is one
+    this.filters = (Object.keys(this.filterTests) as Filter[])
+      .map(id => ({ id, count: this.rows.filter(this.filterTests[id]).length }))
+      .filter(chip => chip.id !== 'greenpower' || chip.count > 0);
     this.visibleRows = this.rows.filter(this.filterTests[this.filter]);
   }
 
   private toRow(device: DeviceByName): DeviceRow {
+    if (device.GreenPower) {
+      return this.toGreenPowerRow(device);
+    }
     const capabilities = Array.isArray(device.MacCapa) ? device.MacCapa : [];
     const mains = capabilities.includes('MainPower');
     // "" or {} when the plugin has no battery reading; a number, or a string for IASBattery
@@ -262,6 +280,7 @@ export class DeviceByNameComponent implements OnChanges {
             : '';
     const healthRank = HEALTH_RANK[device.Health ?? ''] ?? HEALTH_RANK.unknown;
     return {
+      greenPower: false,
       device,
       name: device.ZDeviceName || device.Model || device._NwkId,
       widgetCount: (device.WidgetList ?? []).length,
@@ -277,6 +296,28 @@ export class DeviceByNameComponent implements OnChanges {
       paramCount: this.paramKeys(device.Param).filter(key => key !== 'Disabled').length,
       attention: healthRank < HEALTH_RANK.unknown || lowBattery || statusWarning !== '',
       removable: consistency === 'not in DZ' || consistency === 'Bad Pairing' || (device.WidgetList ?? []).length === 0
+    };
+  }
+
+  /** A Green Power device: never polled, no battery reading, no Param; sorted with the unknown health. */
+  private toGreenPowerRow(device: DeviceByName): DeviceRow {
+    return {
+      device,
+      name: device.Model || device._NwkId,
+      widgetCount: (device.WidgetList ?? []).length,
+      router: false,
+      mains: false,
+      battery: null,
+      lowBattery: false,
+      powerSort: -1,
+      lqi: Number(device.LQI) || 0,
+      healthRank: HEALTH_RANK.unknown,
+      healthTone: healthTone(''),
+      statusWarning: '',
+      paramCount: 0,
+      attention: false,
+      removable: false,
+      greenPower: true
     };
   }
 

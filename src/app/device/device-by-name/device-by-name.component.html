@@ -79,14 +79,18 @@
         </ng-template>
         <ng-template pTemplate="body" let-row>
           <!-- A click outside the name and Parameters buttons opens the details; Enter when the row has the focus -->
+          <!-- Green Power rows are read-only: no details, name, parameters or removal -->
           <tr
-            class="device-row"
-            tabindex="0"
-            [attr.aria-label]="'device.details.row.open' | translate: { name: row.name }"
+            [class.device-row]="!row.greenPower"
+            [attr.tabindex]="row.greenPower ? null : 0"
+            [attr.aria-label]="row.greenPower ? null : ('device.details.row.open' | translate: { name: row.name })"
             (click)="openDetails($event, row)"
             (keydown.enter)="openDetails($event, row)">
             <td>
-              @if (editingNwkId === row.device._NwkId) {
+              @if (row.greenPower) {
+                <span class="fw-semibold">{{ row.name }}</span>
+                <span class="badge rounded-pill text-bg-info ms-2" translate="device.byname.greenpower"></span>
+              } @else if (editingNwkId === row.device._NwkId) {
                 <div class="input-group input-group-sm">
                   <input
                     #nameInput
@@ -151,9 +155,12 @@
               <div class="text-truncate">{{ row.device.Model || '—' }}</div>
               <div
                 class="small"
-                [class.text-success]="row.device.CertifiedDevice"
+                [class.text-success]="row.device.CertifiedDevice && !row.greenPower"
+                [class.text-body-secondary]="row.greenPower"
                 [class.text-warning-emphasis]="!row.device.CertifiedDevice">
-                @if (row.device.CertifiedDevice) {
+                @if (row.greenPower) {
+                  {{ 'device.byname.greenpower.readonly' | translate }}
+                } @else if (row.device.CertifiedDevice) {
                   <i class="fas fa-check me-1" aria-hidden="true"></i>{{ 'device.byname.optimized' | translate }}
                 } @else {
                   <i class="fas fa-triangle-exclamation me-1" aria-hidden="true"></i
@@ -167,7 +174,9 @@
             </td>
             <td>
               <div [class.text-danger]="row.lowBattery">
-                @if (row.mains) {
+                @if (row.greenPower) {
+                  —
+                } @else if (row.mains) {
                   <i class="fas fa-plug me-1" aria-hidden="true"></i>{{ 'device.byname.power.mains' | translate }}
                 } @else {
                   <i class="fas fa-battery-half me-1" aria-hidden="true"></i
@@ -175,7 +184,14 @@
                 }
               </div>
               <div class="small text-body-secondary">
-                {{ (row.router ? 'device.byname.role.router' : 'device.byname.role.enddevice') | translate }}
+                {{
+                  (row.greenPower
+                    ? 'device.byname.greenpower'
+                    : row.router
+                      ? 'device.byname.role.router'
+                      : 'device.byname.role.enddevice'
+                  ) | translate
+                }}
               </div>
             </td>
             <td>
@@ -187,7 +203,9 @@
                     [class.bg-warning]="row.lqi >= 40 && row.lqi < 100"
                     [class.bg-danger]="row.lqi < 40"></span>
                 </span>
-                <span class="tabular">{{ row.device.LQI === '' ? '—' : row.lqi }}</span>
+                <span class="tabular">{{
+                  row.device.LQI === '' || row.device.LQI === null || row.device.LQI === undefined ? '—' : row.lqi
+                }}</span>
               </div>
               @if (showRSSI && row.device.RSSI) {
                 <div class="small text-body-secondary">
@@ -196,9 +214,23 @@
               }
             </td>
             <td>
-              <span class="badge rounded-pill health-{{ row.healthTone }}">{{
-                row.device.Health | healthLabel | translate
-              }}</span>
+              @if (row.greenPower) {
+                <span
+                  class="badge rounded-pill health-{{ row.healthTone }}"
+                  translate="device.byname.greenpower.notpolled"></span>
+                @if (row.device.LastSeen) {
+                  <div class="small text-body-secondary mt-1">
+                    {{
+                      'device.byname.greenpower.lastheard'
+                        | translate: { time: (row.device.LastSeen * 1000 | date: 'short') }
+                    }}
+                  </div>
+                }
+              } @else {
+                <span class="badge rounded-pill health-{{ row.healthTone }}">{{
+                  row.device.Health | healthLabel | translate
+                }}</span>
+              }
               @if (row.statusWarning) {
                 <div class="small text-warning-emphasis mt-1">
                   {{ row.statusWarning | translate: { status: row.device.Status } }}
@@ -206,23 +238,27 @@
               }
             </td>
             <td>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-secondary text-nowrap"
-                [ngbPopover]="'device.byname.parameter.popover.text' | translate"
-                [popoverTitle]="'device.byname.parameter.popover.title' | translate"
-                triggers="mouseenter:mouseleave"
-                (click)="editParameters(row)">
-                <i class="fas fa-sliders me-1" aria-hidden="true"></i>
-                {{
-                  row.paramCount === 0
-                    ? ('device.byname.param.none' | translate)
-                    : ('device.byname.param.count' | translate: { count: row.paramCount })
-                }}
-                @if (row.device.CheckParam) {
-                  <span class="pending-dot ms-1" [title]="'device.byname.param.pending' | translate"></span>
-                }
-              </button>
+              @if (row.greenPower) {
+                <span class="text-body-secondary">—</span>
+              } @else {
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary text-nowrap"
+                  [ngbPopover]="'device.byname.parameter.popover.text' | translate"
+                  [popoverTitle]="'device.byname.parameter.popover.title' | translate"
+                  triggers="mouseenter:mouseleave"
+                  (click)="editParameters(row)">
+                  <i class="fas fa-sliders me-1" aria-hidden="true"></i>
+                  {{
+                    row.paramCount === 0
+                      ? ('device.byname.param.none' | translate)
+                      : ('device.byname.param.count' | translate: { count: row.paramCount })
+                  }}
+                  @if (row.device.CheckParam) {
+                    <span class="pending-dot ms-1" [title]="'device.byname.param.pending' | translate"></span>
+                  }
+                </button>
+              }
             </td>
           </tr>
         </ng-template>

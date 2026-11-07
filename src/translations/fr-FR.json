@@ -1848,5 +1848,10 @@
   "admin.gp.closed.notify": "Appairage Green Power fermé",
   "admin.gp.type.choose": "Choisissez le type d'appareil avant d'ouvrir l'appairage.",
   "dashboard.devices.greenpower": "Green Power",
-  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power"
+  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power",
+  "device.byname.filter.greenpower": "Green Power",
+  "device.byname.greenpower": "Green Power",
+  "device.byname.greenpower.readonly": "Lecture seule : supprimez-le en supprimant son widget",
+  "device.byname.greenpower.notpolled": "Non interrogé",
+  "device.byname.greenpower.lastheard": "Entendu le {{time}}"
 }
