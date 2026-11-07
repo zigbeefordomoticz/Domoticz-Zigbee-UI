@@ -92,11 +92,14 @@
         <div class="joined">
           <div class="joined-head">
             <div>
-              @if (deviceOf(item.nwkId)?.ZDeviceName || item.hardware?.Model; as title) {
+              @if (titleOf(item); as title) {
                 <b>{{ title }}</b>
                 <span class="font-monospace text-body-secondary"> · {{ item.nwkId }}</span>
               } @else {
                 <b class="font-monospace">{{ item.nwkId }}</b>
+              }
+              @if (item.greenPower) {
+                <span class="badge rounded-pill text-bg-info ms-2" translate="admin.provisioning.greenpower"></span>
               }
             </div>
             <span
@@ -109,7 +112,7 @@
             </span>
           </div>
           @if (item.status !== 'inDB') {
-            <p class="hint mb-1">{{ 'admin.provisioning.hint.' + item.status | translate }}</p>
+            <p class="hint mb-1">{{ hintOf(item) | translate }}</p>
           }
           @if (item.hardware; as hw) {
             <dl class="facts">
@@ -138,9 +141,9 @@
                   }
                 </dd>
               }
-              @if (deviceOf(item.nwkId)?.WidgetList?.length) {
+              @if (widgetsOf(item).length) {
                 <dt translate="admin.provisioning.field.widgets"></dt>
-                <dd>{{ deviceOf(item.nwkId).WidgetList.join(', ') }}</dd>
+                <dd>{{ widgetsOf(item).join(', ') }}</dd>
               }
             </dl>
           }
@@ -149,6 +152,69 @@
     </div>
   </section>
 </div>
+
+@if (gp; as feed) {
+  <section class="card gp-card">
+    <div class="card-body">
+      <div class="gp-head">
+        <div>
+          <h2 class="card-title" translate="admin.provisioning.gp.title"></h2>
+          <p class="hint" translate="admin.provisioning.gp.subtitle"></p>
+        </div>
+        @if (feed.GreenPowerEnable) {
+          <span
+            class="badge rounded-pill"
+            [class.text-bg-success]="feed.Window.State === 'opened'"
+            [class.text-bg-light]="feed.Window.State !== 'opened'"
+            [class.border]="feed.Window.State !== 'opened'">
+            {{
+              (feed.Window.State === 'opened'
+                ? 'admin.provisioning.gp.window.opened'
+                : 'admin.provisioning.gp.window.closed'
+              ) | translate
+            }}
+          </span>
+        }
+      </div>
+
+      @if (!feed.GreenPowerEnable) {
+        <div class="alert alert-warning py-2 mb-2" role="status" translate="admin.provisioning.gp.disabled"></div>
+      }
+      @if (feed.Channel) {
+        <p class="gp-channel">{{ 'admin.provisioning.gp.channel' | translate: { channel: feed.Channel } }}</p>
+      }
+
+      @if (gpEvents.length === 0) {
+        <p class="empty" translate="admin.provisioning.gp.empty"></p>
+      } @else {
+        <ol class="gp-events" aria-live="polite">
+          @for (event of gpEvents; track event.Seq) {
+            <li class="gp-event" [class.gp-event-hint]="event.Hint">
+              <span class="gp-time font-monospace">{{ event.Time * 1000 | date: 'HH:mm:ss' }}</span>
+              <span class="gp-what">
+                @if (event.SrcId) {
+                  <span class="font-monospace">{{ event.SrcId }}</span> ·
+                }
+                {{ gpEventText(event) | translate: { command: event.CommandName, model: event.Model } }}
+                @if (event.Rssi !== null && event.Rssi !== undefined) {
+                  <span class="text-body-secondary"> · {{ event.Rssi }} dBm</span>
+                }
+                @if (event.Proxy) {
+                  <span class="text-body-secondary">
+                    · {{ 'admin.provisioning.gp.via' | translate: { nwk: event.Proxy } }}</span
+                  >
+                }
+                @if (event.Hint) {
+                  <span class="hint">{{ 'admin.provisioning.gp.hint.' + event.Hint | translate }}</span>
+                }
+              </span>
+            </li>
+          }
+        </ol>
+      }
+    </div>
+  </section>
+}
 
 <section class="card">
   <div class="card-body">

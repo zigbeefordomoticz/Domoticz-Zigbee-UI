@@ -4,10 +4,11 @@ import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-ada
 import { ZDevices } from '@app/shared/models/device';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { NewDevice, NewHardware } from '@app/shared/models/new-hardware';
+import { ZgpPairing, ZgpPairingEvent } from '@app/shared/models/zgp-pairing';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription, timer } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, filter } from 'rxjs/operators';
 import {
   pairingLeft,
   PairingStateService,
@@ -16,6 +17,10 @@ import {
 } from '../pairing-state.service';
 
 const POLL_PERIOD = 5000;
+// Green Power pairing feed: every 2 s while pairing is open, every 10 s otherwise
+const GP_POLL_PERIOD = 2000;
+const GP_IDLE_TICKS = 5;
+const GP_EVENTS_SHOWN = 15;
 
 type JoinStatus = 'joining' | 'inDB' | 'Failed' | 'Unexpected';
 
@@ -23,6 +28,8 @@ interface JoinedDevice {
   nwkId: string;
   status: JoinStatus;
   hardware?: NewHardware;
+  // A Green Power device: commissioned at once, then the plugin creates its widgets
+  greenPower?: boolean;
 }
 
 /**
@@ -33,6 +40,11 @@ interface JoinedDevice {
  * discovery (NwkId only) and, once, the ones done (with ProvisionStatus). This page keeps the done
  * ones until it is left. /new-hrdwr/enable empties that queue and opens pairing for 4 minutes.
  * Leaving the page does not close pairing.
+ *
+ * A Green Power device comes with GreenPower set. It is not in /zdevice-name: its model and widgets
+ * come with the /rcv-nw-hrdwr answer. Before that, /zgp-pairing tells what the network hears from
+ * Green Power devices (the Green Power card): a device gives no feedback of its own, and some must be
+ * set to the network's channel by hand. The card stays hidden on a plugin without that route.
  */
 @Component({
   selector: 'app-admin-provisioning',
@@ -48,8 +60,13 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
   joined: JoinedDevice[] = [];
   devices: DeviceByName[] = [];
   device: string = null;
+  // Green Power pairing feed: null until the plugin answers it
+  gp: ZgpPairing | null = null;
+  gpEvents: ZgpPairingEvent[] = [];
 
   private polling: Subscription;
+  private gpSince = 0;
+  private gpTicks = 0;
 
   constructor(
     private apiService: ApiService,
@@ -71,6 +88,7 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
       this.routers = devices.filter(device => device.LogicalType === 'Router' || device.LogicalType === 'Coordinator');
     });
     this.loadDevices();
+    this.startGreenPowerFeed();
   }
 
   override ngOnDestroy() {
@@ -144,6 +162,57 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
     return this.devices.find(device => device._NwkId === nwkId);
   }
 
+  // A Green Power device shares no NwkId with /zdevice-name: name and widgets come with its entry
+  titleOf(item: JoinedDevice): string | undefined {
+    return (item.greenPower ? undefined : this.deviceOf(item.nwkId)?.ZDeviceName) || item.hardware?.Model;
+  }
+
+  widgetsOf(item: JoinedDevice): string[] {
+    return (item.greenPower ? item.hardware?.WidgetList : this.deviceOf(item.nwkId)?.WidgetList) ?? [];
+  }
+
+  hintOf(item: JoinedDevice): string {
+    return 'admin.provisioning.hint.' + (item.greenPower ? 'gp.' : '') + item.status;
+  }
+
+  gpEventText(event: ZgpPairingEvent): string {
+    switch (event.Event) {
+      case 'heard':
+        return event.Encrypted ? 'admin.provisioning.gp.event.heard.encrypted' : 'admin.provisioning.gp.event.heard';
+      case 'window':
+        return 'admin.provisioning.gp.event.window.' + event.State;
+      case 'commissioned':
+        return 'admin.provisioning.gp.event.commissioned' + (event.Again ? '.again' : '');
+      default:
+        return 'admin.provisioning.gp.event.' + event.Event;
+    }
+  }
+
+  private startGreenPowerFeed() {
+    this.subs.sink = timer(0, GP_POLL_PERIOD)
+      .pipe(
+        filter(() => this.open || this.gpTicks++ % GP_IDLE_TICKS === 0),
+        concatMap(() => this.apiService.getZgpPairing(this.gpSince))
+      )
+      .subscribe(answer => {
+        if (answer) {
+          this.receiveGreenPower(answer);
+        }
+      });
+  }
+
+  private receiveGreenPower(answer: ZgpPairing) {
+    // A restarted plugin counts from 0 again
+    const restarted = answer.Seq < this.gpSince;
+    const events = restarted ? [] : this.gpEvents;
+    this.gp = answer;
+    this.gpEvents = [...answer.Events.slice().reverse(), ...events].slice(0, GP_EVENTS_SHOWN);
+    this.gpSince = answer.Seq;
+    if (restarted) {
+      this.gpSince = 0;
+    }
+  }
+
   certified(value: string): string {
     return value === 'yes' ? 'yes' : value === 'no' ? 'no' : 'unknown';
   }
@@ -188,11 +257,13 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
       if (known) {
         known.status = status;
         known.hardware = hardware.ProvisionStatus ? hardware : known.hardware;
+        known.greenPower = known.greenPower || !!hardware.GreenPower;
       } else {
         this.joined.unshift({
           nwkId: hardware.NwkId,
           status,
-          hardware: hardware.ProvisionStatus ? hardware : undefined
+          hardware: hardware.ProvisionStatus ? hardware : undefined,
+          greenPower: !!hardware.GreenPower
         });
       }
       done = done || !!hardware.ProvisionStatus;

@@ -1,7 +1,16 @@
 // Keys whose value is never written to a support bundle. /plugin answers the plugin parameters
 // unfiltered (Mode5 is the Domoticz API URL, Username / Password its credentials), /domoticz-env the
-// Domoticz login, /coordinator the network key.
-const SECRET_KEYS = new Set(['password', 'username', 'mode5', 'webusername', 'webpassword', 'network key']);
+// Domoticz login, /coordinator the network key. /zgp-device-raw already leaves out the Green Power
+// security keys: removed here too, in case an older plugin answers them.
+const SECRET_KEYS = new Set([
+  'password',
+  'username',
+  'mode5',
+  'webusername',
+  'webpassword',
+  'network key',
+  'security_key'
+]);
 const REDACTED = '[removed]';
 
 /**
