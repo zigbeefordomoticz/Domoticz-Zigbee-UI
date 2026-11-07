@@ -10,6 +10,8 @@ import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-ada
 })
 export class AdminComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   action: string;
+  // Pairing tab: Zigbee and Zigbee 3.0 devices, or Zigbee Green Power (?pairing=greenpower)
+  pairing: string;
 
   constructor(private activatedRoute: ActivatedRoute) {
     super();
@@ -19,6 +21,7 @@ export class AdminComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     this.subs.sink = this.activatedRoute.queryParamMap.subscribe(params => {
       // The Admin menu links here with ?action=plugin|pairing|group|coordinator; none opens Plugin
       this.action = params.get('action') || 'plugin';
+      this.pairing = params.get('pairing') || 'zigbee';
     });
   }
 }

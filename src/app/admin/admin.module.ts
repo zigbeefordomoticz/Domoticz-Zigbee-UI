@@ -9,6 +9,7 @@ import { AdminTabsComponent } from './admin-tabs/admin-tabs.component';
 import { AdminProvisioningComponent } from './admin-provisioning/admin-provisioning.component';
 import { AdminGroupsComponent } from './admin-groups/admin-groups.component';
 import { AdminCoordinatorComponent } from './admin-coordinator/admin-coordinator.component';
+import { AdminGreenPowerComponent } from './admin-green-power/admin-green-power.component';
 
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
@@ -19,6 +20,7 @@ import { AdminCoordinatorComponent } from './admin-coordinator/admin-coordinator
     AdminTabsComponent,
     AdminPluginComponent,
     AdminProvisioningComponent,
+    AdminGreenPowerComponent,
     AdminGroupsComponent,
     AdminCoordinatorComponent
   ]

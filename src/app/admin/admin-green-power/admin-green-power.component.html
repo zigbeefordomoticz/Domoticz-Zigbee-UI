@@ -1,0 +1,152 @@
+<div class="provisioning-row">
+  <section class="card pair-card">
+    <div class="card-body">
+      <h2 class="card-title" translate="admin.gp.pair.title"></h2>
+      <p class="hint" translate="admin.gp.pair.subtitle"></p>
+
+      <div class="modes" role="radiogroup" [attr.aria-label]="'admin.gp.type.title' | translate">
+        @for (item of models; track item.Name) {
+          <label class="mode" [class.selected]="model === item.Name">
+            <input
+              type="radio"
+              class="form-check-input"
+              name="gp-type"
+              [value]="item.Name"
+              [(ngModel)]="model"
+              [disabled]="open" />
+            <span>
+              <b>{{ typeLabel(item) }}</b>
+              <span class="hint">{{ typeHint(item) }}</span>
+            </span>
+          </label>
+        }
+        <label class="mode" [class.selected]="model === null">
+          <input
+            type="radio"
+            class="form-check-input"
+            name="gp-type"
+            [value]="null"
+            [(ngModel)]="model"
+            [disabled]="open" />
+          <span>
+            <b translate="admin.gp.type.auto"></b>
+            <span class="hint" translate="admin.gp.type.auto.hint"></span>
+          </span>
+        </label>
+      </div>
+
+      <div class="pair-state">
+        @if (open) {
+          <span class="badge rounded-pill text-bg-success" translate="admin.provisioning.gp.window.opened"></span>
+          <div class="timer" aria-live="polite">{{ left }}</div>
+          <div
+            class="progress"
+            role="progressbar"
+            [attr.aria-valuenow]="progress"
+            aria-valuemin="0"
+            aria-valuemax="100">
+            <div class="progress-bar bg-success" [style.width.%]="progress"></div>
+          </div>
+          <p class="hint mt-2">{{ 'admin.gp.state.type' | translate: { type: pairingAs } }}</p>
+          <div class="actions">
+            <button type="button" class="btn btn-outline-secondary" (click)="stop()">
+              {{ 'admin.provisioning.stop.button' | translate }}
+            </button>
+          </div>
+        } @else {
+          <span class="badge rounded-pill text-bg-light border" translate="admin.provisioning.gp.window.closed"></span>
+          <div class="actions">
+            <button type="button" class="btn btn-success" [disabled]="!feed" (click)="openPairing()">
+              {{ 'admin.provisioning.open.button' | translate }}
+            </button>
+          </div>
+        }
+        @if (feed?.Channel) {
+          <p class="hint mt-2">{{ 'admin.provisioning.gp.channel' | translate: { channel: feed.Channel } }}</p>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="card feed-card">
+    <div class="card-body">
+      <h2 class="card-title" translate="admin.provisioning.joined.title"></h2>
+      <p class="hint" translate="admin.gp.joined.subtitle"></p>
+
+      @if (joined.length === 0) {
+        <p class="empty" translate="admin.provisioning.joined.empty"></p>
+      }
+      @for (item of joined; track item.ieee) {
+        <div class="joined">
+          <div class="joined-head">
+            <div>
+              <b>{{ item.record?.Model || item.srcId }}</b>
+              <span class="font-monospace text-body-secondary"> · {{ item.srcId }}</span>
+            </div>
+            <span
+              class="badge rounded-pill"
+              [class.text-bg-primary]="item.status === 'joining'"
+              [class.text-bg-success]="item.status === 'inDB'"
+              [class.text-bg-warning]="item.status === 'Unexpected'"
+              [class.text-bg-secondary]="item.status === 'removed'">
+              {{
+                (item.status === 'removed' ? 'admin.gp.status.removed' : 'admin.provisioning.status.' + item.status)
+                  | translate
+              }}
+            </span>
+          </div>
+          @if (statusHint(item); as hint) {
+            <p class="hint mb-1">{{ hint | translate }}</p>
+          }
+          @if (item.record; as record) {
+            <dl class="facts">
+              <dt>IEEE</dt>
+              <dd class="font-monospace">{{ record.IEEE }}</dd>
+              <dt translate="admin.provisioning.field.type"></dt>
+              <dd>Green Power · {{ deviceType(record) }}</dd>
+              @if (record.WidgetList?.length) {
+                <dt translate="admin.provisioning.field.widgets"></dt>
+                <dd>{{ record.WidgetList.join(', ') }}</dd>
+              }
+            </dl>
+          }
+        </div>
+      }
+    </div>
+  </section>
+</div>
+
+<section class="card">
+  <div class="card-body">
+    <h2 class="card-title" translate="admin.gp.log.title"></h2>
+    <p class="hint" translate="admin.provisioning.gp.subtitle"></p>
+    <div #terminal class="terminal font-monospace" role="log" aria-live="polite">
+      @if (log.length === 0) {
+        <div class="line muted">{{ 'admin.provisioning.gp.empty' | translate }}</div>
+      }
+      @for (event of log; track event.Seq) {
+        <div
+          class="line"
+          [class.line-window]="event.Event === 'window'"
+          [class.line-step]="event.Event !== 'heard' && event.Event !== 'window'">
+          <span class="time">{{ event.Time * 1000 | date: 'HH:mm:ss' }}</span>
+          @if (event.SrcId) {
+            <span class="src">{{ event.SrcId }}</span>
+          }
+          <span class="text">{{
+            eventText(event) | translate: { command: event.CommandName, model: event.Model }
+          }}</span>
+          @if (event.Rssi !== null && event.Rssi !== undefined) {
+            <span class="muted">{{ event.Rssi }} dBm</span>
+          }
+          @if (event.Proxy) {
+            <span class="muted">{{ 'admin.provisioning.gp.via' | translate: { nwk: event.Proxy } }}</span>
+          }
+          @if (event.Hint) {
+            <div class="hint-line">→ {{ 'admin.provisioning.gp.hint.' + event.Hint | translate }}</div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>
