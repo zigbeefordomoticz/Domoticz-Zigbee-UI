@@ -87,3 +87,40 @@ export interface OtaRequest {
   StartTime?: number;
   EndTime?: number;
 }
+
+/**
+ * A newer firmware the plugin found for a device in the online OTA index
+ * (GET /ota-firmware-available). Versions are decimal strings; url is "N/A" when unknown.
+ */
+export interface FirmwareAvailable {
+  nwkid: string;
+  zdevicename?: string;
+  model?: string;
+  manufacturername?: string;
+  manufacturerid?: string;
+  ieee?: string;
+  fwtype: number | string;
+  currentversion: string;
+  newestversion: string;
+  url: string;
+}
+
+/**
+ * One row per device and firmware type. The plugin keys OTAUpdate by image type: a number while
+ * it runs, a string once reloaded from disk, so after a restart a firmware is listed twice.
+ * The later row is the one found since the restart.
+ */
+export function firmwareAvailableRows(list: FirmwareAvailable[] | null | undefined): FirmwareAvailable[] {
+  const rows = new Map<string, FirmwareAvailable>();
+  for (const fw of Array.isArray(list) ? list : []) {
+    const key = fw.nwkid + '/' + String(fw.fwtype);
+    rows.delete(key);
+    rows.set(key, fw);
+  }
+  return [...rows.values()];
+}
+
+/** The plugin sends "N/A" when the index gave no URL */
+export function isDownloadUrl(value: unknown): value is string {
+  return typeof value === 'string' && /^https?:\/\//.test(value);
+}

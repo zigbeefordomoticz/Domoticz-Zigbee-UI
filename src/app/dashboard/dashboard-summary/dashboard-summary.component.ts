@@ -12,6 +12,7 @@ import { FileSaverService } from 'ngx-filesaver';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DeviceListRequest } from '../device-list';
+import { firmwareAvailableRows } from '@app/shared/models/firmware';
 
 // Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
 const HEALTH_NOT_REACHABLE = 'Not Reachable';
@@ -136,7 +137,7 @@ export class DashboardSummaryComponent implements OnChanges {
         return { group, members, lost };
       })
       .filter(entry => entry.lost.length > 0);
-    const firmware = Array.isArray(this.firmwareAvailable) ? this.firmwareAvailable : [];
+    const firmware = firmwareAvailableRows(this.firmwareAvailable);
     const firmwareDevices = [...new Set(firmware.map(fw => fw.nwkid))].map(nwkid => byNwkId.get(nwkid)).filter(Boolean);
 
     this.figures = this.buildFigures(devices.length, live.length, byNwkId);
@@ -229,6 +230,7 @@ export class DashboardSummaryComponent implements OnChanges {
         category: 'firmware-available',
         tone: 'info',
         title,
+        route: '/admin/firmware/updates',
         detail: this.names(firmwareDevices),
         count: firmware.length,
         devices: firmwareDevices,
