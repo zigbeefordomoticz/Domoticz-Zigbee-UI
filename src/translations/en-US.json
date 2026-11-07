@@ -1658,7 +1658,7 @@
   "admin.gp.closed.notify": "Green Power pairing closed",
   "admin.gp.type.choose": "Choose the device type before opening the pairing.",
   "dashboard.devices.greenpower": "Green Power",
-  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power",
+  "dashboard.kpi.devices.greenpower": "including Green Power: {{count}} (not polled)",
   "device.byname.filter.greenpower": "Green Power",
   "device.byname.greenpower": "Green Power",
   "device.byname.greenpower.readonly": "Read-only: remove it by deleting its widget",

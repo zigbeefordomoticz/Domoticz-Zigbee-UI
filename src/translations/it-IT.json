@@ -1658,7 +1658,7 @@
   "admin.gp.closed.notify": "Associazione Green Power chiusa",
   "admin.gp.type.choose": "Scegli il tipo di dispositivo prima di aprire l'associazione.",
   "dashboard.devices.greenpower": "Green Power",
-  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power",
+  "dashboard.kpi.devices.greenpower": "di cui Green Power: {{count}} (non interrogati)",
   "device.byname.filter.greenpower": "Green Power",
   "device.byname.greenpower": "Green Power",
   "device.byname.greenpower.readonly": "Sola lettura: rimuovilo eliminando il suo widget",

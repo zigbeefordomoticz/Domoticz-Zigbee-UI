@@ -1658,7 +1658,7 @@
   "admin.gp.closed.notify": "Green-Power-Anlernen geschlossen",
   "admin.gp.type.choose": "Wählen Sie den Gerätetyp, bevor Sie das Anlernen öffnen.",
   "dashboard.devices.greenpower": "Green Power",
-  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power",
+  "dashboard.kpi.devices.greenpower": "davon Green Power: {{count}} (nicht abgefragt)",
   "device.byname.filter.greenpower": "Green Power",
   "device.byname.greenpower": "Green Power",
   "device.byname.greenpower.readonly": "Nur lesen: zum Entfernen sein Widget löschen",
