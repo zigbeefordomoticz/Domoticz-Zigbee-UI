@@ -1764,5 +1764,10 @@
   "admin.gp.closed.notify": "Emparejamiento Green Power cerrado",
   "admin.gp.type.choose": "Elija el tipo de dispositivo antes de abrir el emparejamiento.",
   "dashboard.devices.greenpower": "Green Power",
-  "dashboard.kpi.devices.greenpower": "incluidos Green Power: {{count}} (no sondeados)"
+  "dashboard.kpi.devices.greenpower": "incluidos Green Power: {{count}} (no sondeados)",
+  "device.byname.filter.greenpower": "Green Power",
+  "device.byname.greenpower": "Green Power",
+  "device.byname.greenpower.readonly": "Solo lectura: elimínelo borrando su widget",
+  "device.byname.greenpower.notpolled": "No sondeado",
+  "device.byname.greenpower.lastheard": "Último mensaje {{time}}"
 }
