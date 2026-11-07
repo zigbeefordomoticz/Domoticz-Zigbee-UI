@@ -2,31 +2,34 @@
 
 @switch (action) {
   @case ('pairing') {
-    <ul class="nav nav-pills pairing-tabs" [attr.aria-label]="'admin.provisioning.tabs.label' | translate">
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [class.active]="pairing !== 'greenpower'"
-          [attr.aria-current]="pairing !== 'greenpower' ? 'page' : null"
-          routerLink="/admin"
-          [queryParams]="{ action: 'pairing' }"
-          >{{ 'admin.provisioning.tab.zigbee' | translate }}</a
-        >
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          [class.active]="pairing === 'greenpower'"
-          [attr.aria-current]="pairing === 'greenpower' ? 'page' : null"
-          routerLink="/admin"
-          [queryParams]="{ action: 'pairing', pairing: 'greenpower' }"
-          >{{ 'admin.provisioning.tab.greenpower' | translate }}</a
-        >
-      </li>
-    </ul>
-    @if (pairing === 'greenpower') {
+    <!-- Zigbee Green Power only when the coordinator can pair Green Power devices (not ZNP) -->
+    @if (greenPowerSupported) {
+      <ul class="nav nav-pills pairing-tabs" [attr.aria-label]="'admin.provisioning.tabs.label' | translate">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [class.active]="pairing !== 'greenpower'"
+            [attr.aria-current]="pairing !== 'greenpower' ? 'page' : null"
+            routerLink="/admin"
+            [queryParams]="{ action: 'pairing' }"
+            >{{ 'admin.provisioning.tab.zigbee' | translate }}</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [class.active]="pairing === 'greenpower'"
+            [attr.aria-current]="pairing === 'greenpower' ? 'page' : null"
+            routerLink="/admin"
+            [queryParams]="{ action: 'pairing', pairing: 'greenpower' }"
+            >{{ 'admin.provisioning.tab.greenpower' | translate }}</a
+          >
+        </li>
+      </ul>
+    }
+    @if (pairing === 'greenpower' && greenPowerSupported) {
       <app-admin-green-power></app-admin-green-power>
-    } @else {
+    } @else if (pairing !== 'greenpower' || greenPowerSupported === false) {
       <app-admin-provisioning></app-admin-provisioning>
     }
   }

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { LogFile } from '@app/shared/models/log';
+import { greenPowerSupported } from '@app/shared/models/plugin';
 import { TranslateService } from '@ngx-translate/core';
 import { FileSaverService } from 'ngx-filesaver';
 import { ToastrService } from 'ngx-toastr';
@@ -117,6 +118,12 @@ export class ToolsComponent implements OnInit {
       'battery-state'
     );
     this.apiService.getLog().subscribe(logFile => (this.logFile = logFile?.URL ? logFile : null));
+    // No Green Power device data to look at on a coordinator that cannot pair them (ZNP); the bundle keeps it
+    this.apiService.getPlugin().subscribe(plugin => {
+      if (!greenPowerSupported(plugin)) {
+        this.groups.forEach(group => (group.sources = group.sources.filter(item => item.key !== 'zgp-device-raw')));
+      }
+    });
   }
 
   view(source: Source) {
