@@ -1,0 +1,50 @@
+// Green Power log: a terminal, black in both themes, newest line at the bottom
+.terminal {
+  height: 22rem;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  overflow-y: auto;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #d4d4d4;
+  background-color: #0b0b0b;
+  border-radius: var(--bs-border-radius-lg);
+}
+
+.line {
+  overflow-wrap: anywhere;
+
+  > span + span {
+    margin-left: 0.75rem;
+  }
+}
+
+.time {
+  color: #7a7a7a;
+}
+
+.src {
+  color: #4fc1ff;
+}
+
+.text {
+  color: #e6e6e6;
+}
+
+.line-window .text {
+  color: #c586c0;
+}
+
+.line-step .text {
+  font-weight: 600;
+  color: #6adc6a;
+}
+
+.muted {
+  color: #8a8a8a;
+}
+
+.hint-line {
+  padding-left: 5.25rem;
+  color: #e5c07b;
+}

@@ -32,7 +32,18 @@ export interface ZgpPairingEvent {
 export interface ZgpPairing {
   GreenPowerEnable: boolean;
   Channel: number | null;
-  Window: { State: ZgpWindowState | null; Until: number | null };
+  // Remaining: seconds left, from the plugin clock
+  Window: { State: ZgpWindowState | null; Until: number | null; Remaining?: number };
+  // Device type picked for the open window, null: automatic
+  Model?: string | null;
   Seq: number;
   Events: ZgpPairingEvent[];
+}
+
+// GET /zgp-models: a Green Power device type (Conf/ZGPmodel/<Name>.json of the plugin)
+export interface ZgpModel {
+  Name: string;
+  Description: string;
+  Order: number;
+  Widgets: string[];
 }

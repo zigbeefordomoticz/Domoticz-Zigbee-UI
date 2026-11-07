@@ -33,7 +33,7 @@ import { Zlinky } from './../shared/models/zlinky';
 import { LogFile } from './../shared/models/log';
 import { Gamma } from '@app/shared/models/gamma';
 import { Chameleon } from '@app/shared/models/chameleon';
-import { ZgpPairing } from '@app/shared/models/zgp-pairing';
+import { ZgpModel, ZgpPairing } from '@app/shared/models/zgp-pairing';
 
 const routes = {
   devices: '/device',
@@ -99,6 +99,7 @@ const routes = {
   ieee2nwkRaw: '/ieee2nwk-raw',
   zgpDeviceRaw: '/zgp-device-raw',
   zgpPairing: '/zgp-pairing',
+  zgpModels: '/zgp-models',
   help: '/help'
 };
 
@@ -814,6 +815,23 @@ export class ApiService {
   // polled every 2 s, so no error toast
   getZgpPairing(since = 0): Observable<ZgpPairing | null> {
     return this.httpClient.get<ZgpPairing>(routes.zgpPairing + '/' + since).pipe(catchError(() => of(null)));
+  }
+
+  // Opens (0: closes) Green Power commissioning only; the devices it commissions get the type `model`
+  putZgpPairing(duration: number, model: string | null): Observable<any> {
+    return this.httpClient
+      .put(routes.zgpPairing, { Duration: duration, Model: model })
+      .pipe(catchError(error => this.handleError(error)));
+  }
+
+  // Green Power device types (Conf/ZGPmodel of the plugin)
+  getZgpModels(): Observable<ZgpModel[]> {
+    return this.httpClient.get<ZgpModel[]>(routes.zgpModels).pipe(catchError(() => of([])));
+  }
+
+  // One Green Power device of the store, {} when unknown
+  getRawZgpDevice(ieee: string): Observable<any> {
+    return this.httpClient.get(routes.zgpDeviceRaw + '/' + ieee).pipe(catchError(() => of(null)));
   }
 
   getHelp(): Observable<any> {
