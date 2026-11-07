@@ -12,7 +12,7 @@ import { environment } from '@env/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
-import { forkJoin, timer } from 'rxjs';
+import { forkJoin, of, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { PluginStats, Trend } from '../shared/models/plugin-stats';
 import { DeviceListRequest, DeviceListRow, toDeviceListRow } from './device-list';
@@ -425,14 +425,18 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   }
 
   private getStats() {
-    return forkJoin([
-      this.apiService.getPluginStats(),
-      this.apiService.getZDevices(),
-      this.apiService.getPlugin(),
-      this.apiService.getZDeviceName(),
-      this.apiService.getPluginhealth(),
-      this.apiService.getZGroups()
-    ]).pipe(
+    return this.apiService.getPluginhealth().pipe(
+      switchMap(pluginHealth =>
+        forkJoin([
+          this.apiService.getPluginStats(),
+          this.apiService.getZDevices(),
+          this.apiService.getPlugin(),
+          this.apiService.getZDeviceName(),
+          of(pluginHealth),
+          // Without GroupStatus group management is not enabled: the plugin would log an error at each refresh
+          pluginHealth?.GroupStatus === undefined ? of([] as Group[]) : this.apiService.getZGroups()
+        ])
+      ),
       map(([pluginStats, devices, plugin, certified, pluginHealth, groups]) => {
         this.plugin = plugin;
         this.pluginHealth = pluginHealth;
