@@ -1797,5 +1797,6 @@
   "group.page.cancel": "Annuler",
   "management.tabs.devices": "Appareils",
   "management.tabs.groups": "Groupes",
-  "group.page.add.empty": "Tous les appareils qui peuvent rejoindre sont déjà dans ce groupe."
+  "group.page.add.empty": "Tous les appareils qui peuvent rejoindre sont déjà dans ce groupe.",
+  "GreenPowerEnable": "Accepter les appareils Green Power quand l'appairage est ouvert"
 }
