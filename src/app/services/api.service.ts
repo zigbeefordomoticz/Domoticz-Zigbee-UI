@@ -22,6 +22,7 @@ import { Cluster, NewDevice } from '@app/shared/models/new-hardware';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
 import { Relation } from '@app/shared/models/relation';
+import { GroupScenes, Scene } from '@app/shared/models/scene';
 import { Setting, Settings } from '@app/shared/models/setting';
 import { TopologyScan, TopologyScanSummary } from '@app/shared/models/topology-scan';
 import { TranslateService } from '@ngx-translate/core';
@@ -38,6 +39,7 @@ const routes = {
   zDevices: '/zdevice',
   zdeviceRaw: '/zdevice-raw',
   zGroups: '/zgroup',
+  scenes: '/scenes',
   settings: '/setting',
   settingsDebug: '/setting-debug',
   plugin: '/plugin',
@@ -379,11 +381,68 @@ export class ApiService {
     );
   }
 
+  /** Leaves its errors to the caller: the plugin refuses a chosen id with {"error": <code>}, to translate. */
+  createZGroupWithId(groups: any): Observable<any> {
+    return this.httpClient.put(routes.zGroups, groups);
+  }
+
   putZGroups(groups: any): Observable<any> {
     return this.httpClient.put(routes.zGroups, groups).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
+  }
+
+  // Scene calls leave their errors to the caller: the plugin answers {"error": <code>}, to translate
+
+  getAllScenes(): Observable<GroupScenes[]> {
+    return this.httpClient.get<GroupScenes[]>(routes.scenes);
+  }
+
+  getGroupScenes(groupId: string): Observable<GroupScenes> {
+    return this.httpClient.get<GroupScenes>(routes.scenes + '/' + groupId);
+  }
+
+  scanGroupScenes(groupId: string): Observable<GroupScenes> {
+    return this.httpClient.put<GroupScenes>(routes.scenes + '/' + groupId + '/scan', {});
+  }
+
+  /** With a sceneId the capture waits for a scan: the answer is then the group, and its scan gives the outcome. */
+  createScene(
+    groupId: string,
+    scene: { name: string; transitionTime: number; sceneId?: string; comment?: string; members: string[] }
+  ): Observable<Scene | GroupScenes> {
+    return this.httpClient.put<Scene | GroupScenes>(routes.scenes + '/' + groupId, scene);
+  }
+
+  /** members is what the scene keeps: the others forget it, and stay in the group. */
+  editScene(
+    groupId: string,
+    sceneId: string,
+    scene: { name: string; comment: string; members: string[] }
+  ): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId, scene);
+  }
+
+  /** members is what the scene is on after it: the others of the scene forget it. */
+  captureScene(
+    groupId: string,
+    sceneId: string,
+    scene: { transitionTime: number; members: string[] }
+  ): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId + '/capture', scene);
+  }
+
+  recallScene(groupId: string, sceneId: string): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId + '/recall', {});
+  }
+
+  retryScene(groupId: string, sceneId: string): Observable<Scene> {
+    return this.httpClient.put<Scene>(routes.scenes + '/' + groupId + '/' + sceneId + '/retry', {});
+  }
+
+  deleteScene(groupId: string, sceneId: string): Observable<object> {
+    return this.httpClient.delete(routes.scenes + '/' + groupId + '/' + sceneId);
   }
 
   getCoordinator(): Observable<any> {
