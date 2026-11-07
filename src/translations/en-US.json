@@ -1607,5 +1607,11 @@
   "group.page.cancel": "Cancel",
   "management.tabs.devices": "Devices",
   "management.tabs.groups": "Groups",
-  "group.page.add.empty": "Every device that can join is already in this group."
+  "group.page.add.empty": "Every device that can join is already in this group.",
+  "admin.provisioning.greenpower": "Green Power",
+  "admin.provisioning.hint.gp.joining": "Paired. The plugin is creating its widgets.",
+  "admin.provisioning.hint.gp.Failed": "The device was removed before its widgets were created. Pair it again.",
+  "admin.provisioning.hint.gp.Unexpected": "No configuration gives this Green Power device a widget. Share the plugin log with the support.",
+  "tools.data.zgp-device-raw": "Green Power devices (raw)",
+  "tools.data.zgp-device-raw.hint": "What the plugin keeps per Green Power device, without the security keys"
 }
