@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "pas vu récemment",
   "dashboard.devices.notReachable": "perdu",
   "dashboard.devices.others": "indéfini",
-  "dashboard.health.comment": "Vivant = objets pour lesquels un message a été reçu récemment<br>Désactivé = objets qui sont désactivés<br>Perdu = objets qui ne sont plus sur le réseau<br>Pas vu récemment = objets sans aucun message depuis {{hours}} heures (Paramètres → HealthTimeOut, 0 = désactivé ; un objet peut avoir son propre délai)<br>Indéfini = objets qui sont dans un état indéterminé",
+  "dashboard.health.comment": "Vivant = objets pour lesquels un message a été reçu récemment<br>Désactivé = objets qui sont désactivés<br>Perdu = objets qui ne sont plus sur le réseau<br>Pas vu récemment = objets sans aucun message depuis {{hours}} heures (Paramètres → HealthTimeOut, 0 = désactivé ; un objet peut avoir son propre délai)<br>Indéfini = objets qui sont dans un état indéterminé<br>Green Power = appareils Green Power : le plugin ne leur envoie jamais rien, ils n'ont donc pas d'état de santé",
   "dashboard.traffic.title": "Envoi & réception",
   "dashboard.trafic.label": "Messages envoyés et reçus",
   "dashboard.trafic.send": "Tx",
@@ -41,7 +41,7 @@
   "dashboard.devices.label": "Objets",
   "dashboard.devices.routers": "routeurs",
   "dashboard.devices.enddevice": "objets terminaux",
-  "dashboard.devices.comment": "Routeurs = objets alimentés sur secteur qui participent au maillage du réseau.<br>Objets terminaux = objets n'étant pas capable de participer au maillage (très souvent sur batterie, mais dans quelques cas ils peuvent être alimenté par une source électrique de faible puissance).",
+  "dashboard.devices.comment": "Routeurs = objets alimentés sur secteur qui participent au maillage du réseau.<br>Objets terminaux = objets n'étant pas capable de participer au maillage (très souvent sur batterie, mais dans quelques cas ils peuvent être alimenté par une source électrique de faible puissance).<br>Green Power = appareils qui ne rejoignent pas le réseau : ils envoient seulement de courtes trames, captées par le coordinateur ou un routeur",
   "dashboard.battery.title": "Batterie",
   "dashboard.devices.battery.label": "Objets sur batterie",
   "dashboard.devices.battery.inf.15": "< 15%",
@@ -1952,5 +1952,7 @@
   "admin.gp.status.removed": "Retiré",
   "admin.gp.opened.notify": "Appairage Green Power ouvert pour 4 minutes",
   "admin.gp.closed.notify": "Appairage Green Power fermé",
-  "admin.gp.type.choose": "Choisissez le type d'appareil avant d'ouvrir l'appairage."
+  "admin.gp.type.choose": "Choisissez le type d'appareil avant d'ouvrir l'appairage.",
+  "dashboard.devices.greenpower": "Green Power",
+  "dashboard.kpi.devices.greenpower": "dont Green Power : {{count}} (non interrogés)"
 }

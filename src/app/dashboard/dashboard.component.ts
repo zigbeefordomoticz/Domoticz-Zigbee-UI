@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart } from 'angular-highcharts';
 import { forkJoin, of, timer } from 'rxjs';
-import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
 import { PluginStats, Trend } from '../shared/models/plugin-stats';
 import { DeviceListRequest, DeviceListRow, toDeviceListRow } from './device-list';
 import { hasIntervalCounts, messagesPerMinute } from './traffic-rate';
@@ -44,8 +44,25 @@ const COLORS = {
   unknown: '#adb5bd',
   disabled: 'var(--bs-secondary)',
   neutral: 'var(--bs-primary)',
-  neutralLight: '#9ec5fe'
+  neutralLight: '#9ec5fe',
+  greenPower: 'var(--bs-teal)'
 };
+
+/**
+ * A Green Power device of /zgp-device-raw as a row of the device lists. It has no
+ * /zdevice-name record (no Details window) and no network address of its own:
+ * its NWK is the low half of its source ID, which may equal a Zigbee device's.
+ */
+function toGreenPowerDevice(record: any) {
+  const srcId =
+    typeof record?.src_id === 'number' ? '0x' + record.src_id.toString(16).toUpperCase().padStart(8, '0') : '';
+  return {
+    _NwkId: '',
+    IEEE: record?.IEEE ?? '',
+    Model: record?.Model || ('Green Power ' + srcId).trim(),
+    GreenPower: true
+  };
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -76,6 +93,8 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   healthsNotSeen: any;
   healthsNotReachable: any;
   healthsOthers: any = {};
+  // Green Power devices (/zgp-device-raw): never polled, so no health status of their own
+  greenPower: any[] = [];
   pluginStats: PluginStats;
   devicesOther: any;
   certifiedDevices: any;
@@ -385,14 +404,16 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           segment('dashboard.devices.notseen', COLORS.attention, this.healthsNotSeen),
           segment('dashboard.devices.notReachable', COLORS.problem, this.healthsNotReachable),
           segment('dashboard.devices.others', COLORS.unknown, this.healthsOthers),
-          segment('dashboard.devices.disabled', COLORS.disabled, this.healthsDisabled)
+          segment('dashboard.devices.disabled', COLORS.disabled, this.healthsDisabled),
+          segment('dashboard.devices.greenpower', COLORS.greenPower, this.greenPower)
         ],
         '',
         { hours: this.healthTimeOutHours }
       ),
       group('dashboard.device.title', 'dashboard.devices.comment', [
         segment('dashboard.devices.routers', COLORS.neutral, this.routers),
-        segment('dashboard.devices.enddevice', COLORS.neutralLight, this.devicesOther)
+        segment('dashboard.devices.enddevice', COLORS.neutralLight, this.devicesOther),
+        segment('dashboard.devices.greenpower', COLORS.greenPower, this.greenPower)
       ]),
       group(
         'dashboard.battery.title',
@@ -434,16 +455,19 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
           this.apiService.getZDeviceName(),
           of(pluginHealth),
           // Without GroupStatus group management is not enabled: the plugin would log an error at each refresh
-          pluginHealth?.GroupStatus === undefined ? of([] as Group[]) : this.apiService.getZGroups()
+          pluginHealth?.GroupStatus === undefined ? of([] as Group[]) : this.apiService.getZGroups(),
+          // A plugin without Green Power has no such route: the dashboard goes on without them
+          this.apiService.getRawZgpDevices().pipe(catchError(() => of([])))
         ])
       ),
-      map(([pluginStats, devices, plugin, certified, pluginHealth, groups]) => {
+      map(([pluginStats, devices, plugin, certified, pluginHealth, groups, greenPower]) => {
         this.plugin = plugin;
         this.pluginHealth = pluginHealth;
         this.groups = Array.isArray(groups) ? groups : [];
         this.pluginStats = pluginStats;
         this.devices = devices ? devices : [];
         this.certified = certified ? certified : [];
+        this.greenPower = (Array.isArray(greenPower) ? greenPower : []).map(toGreenPowerDevice);
         // While the radio starts, the plugin answers without a channel: ask again until it has one
         if (this.coordinator && this.coordinator.Channel == null) {
           this.apiService.getCoordinator().subscribe(coordinator => (this.coordinator = coordinator));

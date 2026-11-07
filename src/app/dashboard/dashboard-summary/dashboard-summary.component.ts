@@ -56,6 +56,8 @@ interface AttentionItem {
 export class DashboardSummaryComponent implements OnChanges {
   @Input() pluginStats: PluginStats;
   @Input() devices: any[] = [];
+  // Green Power devices: never polled, so no health status; counted as OK in "Devices live"
+  @Input() greenPowerCount = 0;
   @Input() certified: any[] = [];
   @Input() plugin: Plugin;
   @Input() pluginHealth: any;
@@ -270,11 +272,15 @@ export class DashboardSummaryComponent implements OnChanges {
     const figures: KeyFigure[] = [
       {
         label: this.t('dashboard.kpi.devices'),
-        value: live + ' / ' + total,
+        // A Green Power device is never polled, so it cannot be "not live": it counts as OK on both sides
+        value: live + this.greenPowerCount + ' / ' + (total + this.greenPowerCount),
         detail:
-          live === total
+          (live === total
             ? this.t('dashboard.kpi.devices.all')
-            : this.t('dashboard.kpi.devices.notlive', { count: total - live }),
+            : this.t('dashboard.kpi.devices.notlive', { count: total - live })) +
+          (this.greenPowerCount
+            ? ' · ' + this.t('dashboard.kpi.devices.greenpower', { count: this.greenPowerCount })
+            : ''),
         tone: live === total ? 'success' : 'warning'
       },
       {

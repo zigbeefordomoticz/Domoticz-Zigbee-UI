@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "not seen recently",
   "dashboard.devices.notReachable": "lost",
   "dashboard.devices.others": "unknown",
-  "dashboard.health.comment": "Live = devices alive<br>Lost = devices away from the network<br>Not seen recently = devices with no message for {{hours}} hours (Settings → HealthTimeOut, 0 = off; a device can have its own delay)<br>Unknown = devices with status unknown",
+  "dashboard.health.comment": "Live = devices alive<br>Lost = devices away from the network<br>Not seen recently = devices with no message for {{hours}} hours (Settings → HealthTimeOut, 0 = off; a device can have its own delay)<br>Unknown = devices with status unknown<br>Green Power = Green Power devices: the plugin never sends them anything, so they have no health status",
   "dashboard.traffic.title": "Send & Receive",
   "dashboard.trafic.label": "Send / Receive messages",
   "dashboard.trafic.send": "Tx",
@@ -41,7 +41,7 @@
   "dashboard.devices.label": "Devices",
   "dashboard.devices.routers": "routers",
   "dashboard.devices.enddevice": "end devices",
-  "dashboard.devices.comment": "Routers = main powered device which participates in the mesh network.<br>End device = device which is not capable of routing messages, and which is not listening while idle (most of the time, it is a battery based device)",
+  "dashboard.devices.comment": "Routers = main powered device which participates in the mesh network.<br>End device = device which is not capable of routing messages, and which is not listening while idle (most of the time, it is a battery based device)<br>Green Power = devices that do not join the network: they only send short frames, picked up by the coordinator or a router",
   "dashboard.battery.title": "Battery",
   "dashboard.devices.battery.label": "Battery",
   "dashboard.devices.battery.inf.15": "< 15%",
@@ -1762,5 +1762,7 @@
   "admin.gp.status.removed": "Removed",
   "admin.gp.opened.notify": "Green Power pairing open for 4 minutes",
   "admin.gp.closed.notify": "Green Power pairing closed",
-  "admin.gp.type.choose": "Choose the device type before opening the pairing."
+  "admin.gp.type.choose": "Choose the device type before opening the pairing.",
+  "dashboard.devices.greenpower": "Green Power",
+  "dashboard.kpi.devices.greenpower": "including Green Power: {{count}} (not polled)"
 }

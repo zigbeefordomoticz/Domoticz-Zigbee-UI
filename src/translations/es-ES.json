@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "No visto recientemente",
   "dashboard.devices.notReachable": "Perdido",
   "dashboard.devices.others": "Desconocido",
-  "dashboard.health.comment": "Vivo = cantidad de dispositivos activos<br>Perdido = cantidad de dispositivos fuera de la red<br>No visto recientemente = dispositivos sin ningún mensaje desde hace {{hours}} horas (Configuración → HealthTimeOut, 0 = desactivado; un dispositivo puede tener su propio plazo)<br>Desconocido = cantidad de dispositivos con estado desconocido",
+  "dashboard.health.comment": "Vivo = cantidad de dispositivos activos<br>Perdido = cantidad de dispositivos fuera de la red<br>No visto recientemente = dispositivos sin ningún mensaje desde hace {{hours}} horas (Configuración → HealthTimeOut, 0 = desactivado; un dispositivo puede tener su propio plazo)<br>Desconocido = cantidad de dispositivos con estado desconocido<br>Green Power = dispositivos Green Power: el plugin nunca les envía nada, por lo que no tienen estado de salud",
   "dashboard.traffic.title": "Enviar y Recibir",
   "dashboard.trafic.label": "Enviar / Recibir mensajes",
   "dashboard.trafic.send": "Tx",
@@ -41,7 +41,7 @@
   "dashboard.devices.label": "Dispositivos",
   "dashboard.devices.routers": "Enrutadores",
   "dashboard.devices.enddevice": "Dispositivos finales",
-  "dashboard.devices.comment": "Enrutadores = Dispositivos alimentados por la red que participan en el mallado de la red.<br>Objetos terminales = Dispositivos que no pueden participar en el mallado (frecuentemente los con batería, pero en algunos casos pueden ser alimentados por una fuente de baja potencia o sin neutral).",
+  "dashboard.devices.comment": "Enrutadores = Dispositivos alimentados por la red que participan en el mallado de la red.<br>Objetos terminales = Dispositivos que no pueden participar en el mallado (frecuentemente los con batería, pero en algunos casos pueden ser alimentados por una fuente de baja potencia o sin neutral).<br>Green Power = dispositivos que no se unen a la red: solo envían tramas cortas, captadas por el coordinador o un router",
   "dashboard.battery.title": "Batería",
   "dashboard.devices.battery.label": "Batería",
   "dashboard.devices.battery.inf.15": "< 15%",
@@ -1762,5 +1762,7 @@
   "admin.gp.status.removed": "Eliminado",
   "admin.gp.opened.notify": "Emparejamiento Green Power abierto durante 4 minutos",
   "admin.gp.closed.notify": "Emparejamiento Green Power cerrado",
-  "admin.gp.type.choose": "Elija el tipo de dispositivo antes de abrir el emparejamiento."
+  "admin.gp.type.choose": "Elija el tipo de dispositivo antes de abrir el emparejamiento.",
+  "dashboard.devices.greenpower": "Green Power",
+  "dashboard.kpi.devices.greenpower": "incluidos Green Power: {{count}} (no sondeados)"
 }
