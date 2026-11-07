@@ -6,8 +6,9 @@ import { Setting, Settings } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
-// Logging modules of the plugin (VerboseLogging in PluginConf.py) sorted for people; anything not
-// listed lands in "Other", so a module added by the plugin still shows
+// Logging modules of the plugin (VerboseLogging in PluginConf.py) grouped for people; anything not
+// listed lands in "Other", so a module added by the plugin still shows. Within a group the switches
+// are shown in alphabetical order of the module name, whatever the order below
 const CATEGORIES: { key: string; modules: string[] }[] = [
   {
     key: 'options',
@@ -47,6 +48,7 @@ const CATEGORIES: { key: string; modules: string[] }[] = [
       'CustomDevicePolling',
       'PollControl',
       'Groups',
+      'GreenPower',
       'Scene',
       'OTA',
       'z4dCertifiedDevices'
@@ -183,6 +185,9 @@ const PRESETS: { key: string; modules: string[] }[] = [
 // Not switches: shown in "Limit the log"
 const LIMITS = ['MatchingNwkId', 'LQIthreshold', 'loggingBackupCount', 'loggingMaxMegaBytes'];
 const ALL_DEVICES = 'ffff';
+
+// Module names as people look for them: case ignored, Transport8002 after Transport8000
+const BY_NAME = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
 
 interface Category {
   key: string;
@@ -334,11 +339,12 @@ export class DebugSettingsComponent implements OnInit {
         settings.forEach(setting => placed.add(setting.Name));
         return { key: category.key, settings };
       });
-      const rest = switches.filter(setting => !placed.has(setting.Name)).sort((a, b) => a.Name.localeCompare(b.Name));
+      const rest = switches.filter(setting => !placed.has(setting.Name));
       // The Python loggers of zigpy and its radio libraries, named "Python/<logger>"
       this.categories.push({ key: 'libraries', settings: rest.filter(setting => setting.Name.startsWith('Python/')) });
       this.categories.push({ key: 'other', settings: rest.filter(setting => !setting.Name.startsWith('Python/')) });
       this.categories = this.categories.filter(category => category.settings.length);
+      this.categories.forEach(category => category.settings.sort((a, b) => BY_NAME.compare(a.Name, b.Name)));
     });
   }
 

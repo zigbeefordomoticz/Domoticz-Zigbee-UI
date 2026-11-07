@@ -1713,6 +1713,7 @@
   "group.page.id.invalid": "Eine Gruppen-ID besteht aus vier Hexadezimalziffern, z. B. 0a2b.",
   "group.page.id.reserved": "Diese ID ist reserviert: 0000, fff8 bis ffff und die Ping-Gruppe können nicht verwendet werden.",
   "group.page.id.inuse": "Eine andere Gruppe verwendet diese ID bereits.",
+  "GreenPowerEnable": "Green-Power-Geräte annehmen, wenn das Anlernen offen ist",
   "admin.provisioning.greenpower": "Green Power",
   "admin.provisioning.hint.gp.joining": "Gekoppelt. Das Plugin erstellt seine Widgets.",
   "admin.provisioning.hint.gp.Failed": "Das Gerät wurde entfernt, bevor seine Widgets erstellt wurden. Koppeln Sie es erneut.",

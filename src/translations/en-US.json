@@ -1713,6 +1713,7 @@
   "group.page.id.invalid": "A group id is four hexadecimal digits, such as 0a2b.",
   "group.page.id.reserved": "This id is reserved: 0000, fff8 to ffff and the ping group cannot be used.",
   "group.page.id.inuse": "Another group already uses this id.",
+  "GreenPowerEnable": "Accept Green Power devices when pairing is open",
   "admin.provisioning.greenpower": "Green Power",
   "admin.provisioning.hint.gp.joining": "Paired. The plugin is creating its widgets.",
   "admin.provisioning.hint.gp.Failed": "The device was removed before its widgets were created. Pair it again.",
