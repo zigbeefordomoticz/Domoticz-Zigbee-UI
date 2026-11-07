@@ -1607,5 +1607,6 @@
   "group.page.cancel": "Cancelar",
   "management.tabs.devices": "Dispositivos",
   "management.tabs.groups": "Grupos",
-  "group.page.add.empty": "Todos los dispositivos que pueden unirse ya están en este grupo."
+  "group.page.add.empty": "Todos los dispositivos que pueden unirse ya están en este grupo.",
+  "GreenPowerEnable": "Aceptar dispositivos Green Power cuando el emparejamiento está abierto"
 }

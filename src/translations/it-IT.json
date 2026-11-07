@@ -1607,5 +1607,6 @@
   "group.page.cancel": "Annulla",
   "management.tabs.devices": "Dispositivi",
   "management.tabs.groups": "Gruppi",
-  "group.page.add.empty": "Tutti i dispositivi che possono aderire sono già in questo gruppo."
+  "group.page.add.empty": "Tutti i dispositivi che possono aderire sono già in questo gruppo.",
+  "GreenPowerEnable": "Accetta i dispositivi Green Power quando l'associazione è aperta"
 }

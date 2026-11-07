@@ -1607,5 +1607,6 @@
   "group.page.cancel": "Annuleren",
   "management.tabs.devices": "Apparaten",
   "management.tabs.groups": "Groepen",
-  "group.page.add.empty": "Alle apparaten die kunnen deelnemen zitten al in deze groep."
+  "group.page.add.empty": "Alle apparaten die kunnen deelnemen zitten al in deze groep.",
+  "GreenPowerEnable": "Green Power-apparaten accepteren wanneer koppelen open staat"
 }
