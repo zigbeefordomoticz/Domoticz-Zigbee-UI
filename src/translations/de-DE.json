@@ -1655,5 +1655,6 @@
   "admin.gp.joined.subtitle": "Die Green-Power-Geräte, die gekoppelt werden, solange diese Seite offen ist.",
   "admin.gp.status.removed": "Entfernt",
   "admin.gp.opened.notify": "Green-Power-Anlernen für 4 Minuten geöffnet",
-  "admin.gp.closed.notify": "Green-Power-Anlernen geschlossen"
+  "admin.gp.closed.notify": "Green-Power-Anlernen geschlossen",
+  "admin.gp.type.choose": "Wählen Sie den Gerätetyp, bevor Sie das Anlernen öffnen."
 }

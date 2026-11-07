@@ -1845,5 +1845,6 @@
   "admin.gp.joined.subtitle": "Les appareils Green Power appairés tant que cette page est ouverte.",
   "admin.gp.status.removed": "Retiré",
   "admin.gp.opened.notify": "Appairage Green Power ouvert pour 4 minutes",
-  "admin.gp.closed.notify": "Appairage Green Power fermé"
+  "admin.gp.closed.notify": "Appairage Green Power fermé",
+  "admin.gp.type.choose": "Choisissez le type d'appareil avant d'ouvrir l'appairage."
 }

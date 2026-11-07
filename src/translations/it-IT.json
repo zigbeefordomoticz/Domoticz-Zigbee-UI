@@ -1655,5 +1655,6 @@
   "admin.gp.joined.subtitle": "I dispositivi Green Power associati mentre questa pagina è aperta.",
   "admin.gp.status.removed": "Rimosso",
   "admin.gp.opened.notify": "Associazione Green Power aperta per 4 minuti",
-  "admin.gp.closed.notify": "Associazione Green Power chiusa"
+  "admin.gp.closed.notify": "Associazione Green Power chiusa",
+  "admin.gp.type.choose": "Scegli il tipo di dispositivo prima di aprire l'associazione."
 }

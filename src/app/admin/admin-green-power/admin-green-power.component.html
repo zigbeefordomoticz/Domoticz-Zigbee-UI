@@ -56,10 +56,13 @@
         } @else {
           <span class="badge rounded-pill text-bg-light border" translate="admin.provisioning.gp.window.closed"></span>
           <div class="actions">
-            <button type="button" class="btn btn-success" [disabled]="!feed" (click)="openPairing()">
+            <button type="button" class="btn btn-success" [disabled]="!feed || !typePicked" (click)="openPairing()">
               {{ 'admin.provisioning.open.button' | translate }}
             </button>
           </div>
+          @if (!typePicked) {
+            <p class="hint mt-2" translate="admin.gp.type.choose"></p>
+          }
         }
         @if (feed?.Channel) {
           <p class="hint mt-2">{{ 'admin.provisioning.gp.channel' | translate: { channel: feed.Channel } }}</p>

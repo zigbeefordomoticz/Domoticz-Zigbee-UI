@@ -51,8 +51,8 @@ export class AdminGreenPowerComponent extends UnsubscribeOnDestroyAdapter implem
   @ViewChild('terminal') terminal: ElementRef<HTMLElement>;
 
   models: ZgpModel[] = [];
-  // Picked device type, null: automatic
-  model: string | null = null;
+  // Picked device type, null: automatic, undefined: none picked yet (Open stays disabled)
+  model: string | null | undefined = undefined;
   feed: ZgpPairing | null = null;
   // Oldest first, as a terminal
   log: ZgpPairingEvent[] = [];
@@ -74,7 +74,6 @@ export class AdminGreenPowerComponent extends UnsubscribeOnDestroyAdapter implem
   ngOnInit() {
     this.apiService.getZgpModels().subscribe(models => {
       this.models = models ?? [];
-      this.model = this.models[0]?.Name ?? null;
     });
     this.subs.sink = timer(0, POLL_PERIOD)
       .pipe(
@@ -107,8 +106,15 @@ export class AdminGreenPowerComponent extends UnsubscribeOnDestroyAdapter implem
     return model ? this.typeLabel(model) : this.translate.instant('admin.gp.type.auto');
   }
 
+  get typePicked(): boolean {
+    return this.model !== undefined;
+  }
+
   openPairing() {
-    this.apiService.putZgpPairing(GP_WINDOW, this.model).subscribe(() => {
+    if (!this.typePicked) {
+      return;
+    }
+    this.apiService.putZgpPairing(GP_WINDOW, this.model ?? null).subscribe(() => {
       this.toastr.success(this.translate.instant('admin.gp.opened.notify'));
       this.refresh();
     });

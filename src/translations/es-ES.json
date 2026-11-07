@@ -1655,5 +1655,6 @@
   "admin.gp.joined.subtitle": "Los dispositivos Green Power emparejados mientras esta página está abierta.",
   "admin.gp.status.removed": "Eliminado",
   "admin.gp.opened.notify": "Emparejamiento Green Power abierto durante 4 minutos",
-  "admin.gp.closed.notify": "Emparejamiento Green Power cerrado"
+  "admin.gp.closed.notify": "Emparejamiento Green Power cerrado",
+  "admin.gp.type.choose": "Elija el tipo de dispositivo antes de abrir el emparejamiento."
 }
