@@ -1658,5 +1658,5 @@
   "admin.gp.closed.notify": "Green-Power-Anlernen geschlossen",
   "admin.gp.type.choose": "Wählen Sie den Gerätetyp, bevor Sie das Anlernen öffnen.",
   "dashboard.devices.greenpower": "Green Power",
-  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power"
+  "dashboard.kpi.devices.greenpower": "davon Green Power: {{count}} (nicht abgefragt)"
 }

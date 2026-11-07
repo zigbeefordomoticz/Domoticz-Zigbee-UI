@@ -1658,5 +1658,5 @@
   "admin.gp.closed.notify": "Green Power-koppelen gesloten",
   "admin.gp.type.choose": "Kies het apparaattype voordat u het koppelen opent.",
   "dashboard.devices.greenpower": "Green Power",
-  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power"
+  "dashboard.kpi.devices.greenpower": "waarvan Green Power: {{count}} (niet bevraagd)"
 }
