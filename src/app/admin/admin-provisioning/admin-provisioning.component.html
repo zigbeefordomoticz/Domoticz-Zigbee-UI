@@ -92,11 +92,14 @@
         <div class="joined">
           <div class="joined-head">
             <div>
-              @if (deviceOf(item.nwkId)?.ZDeviceName || item.hardware?.Model; as title) {
+              @if (titleOf(item); as title) {
                 <b>{{ title }}</b>
                 <span class="font-monospace text-body-secondary"> · {{ item.nwkId }}</span>
               } @else {
                 <b class="font-monospace">{{ item.nwkId }}</b>
+              }
+              @if (item.greenPower) {
+                <span class="badge rounded-pill text-bg-info ms-2" translate="admin.provisioning.greenpower"></span>
               }
             </div>
             <span
@@ -109,7 +112,7 @@
             </span>
           </div>
           @if (item.status !== 'inDB') {
-            <p class="hint mb-1">{{ 'admin.provisioning.hint.' + item.status | translate }}</p>
+            <p class="hint mb-1">{{ hintOf(item) | translate }}</p>
           }
           @if (item.hardware; as hw) {
             <dl class="facts">
@@ -138,9 +141,9 @@
                   }
                 </dd>
               }
-              @if (deviceOf(item.nwkId)?.WidgetList?.length) {
+              @if (widgetsOf(item).length) {
                 <dt translate="admin.provisioning.field.widgets"></dt>
-                <dd>{{ deviceOf(item.nwkId).WidgetList.join(', ') }}</dd>
+                <dd>{{ widgetsOf(item).join(', ') }}</dd>
               }
             </dl>
           }

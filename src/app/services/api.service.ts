@@ -94,6 +94,7 @@ const routes = {
   chameleonTicmeter: '/chameleon-ticmeter',
   otaFirmwareAvailable: '/ota-firmware-available',
   ieee2nwkRaw: '/ieee2nwk-raw',
+  zgpDeviceRaw: '/zgp-device-raw',
   help: '/help'
 };
 
@@ -741,6 +742,11 @@ export class ApiService {
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );
+  }
+
+  // Green Power devices: the plugin's store, without the security keys
+  getRawZgpDevices(): Observable<any[]> {
+    return this.httpClient.get<any[]>(routes.zgpDeviceRaw).pipe(catchError(error => this.handleError(error)));
   }
 
   getHelp(): Observable<any> {

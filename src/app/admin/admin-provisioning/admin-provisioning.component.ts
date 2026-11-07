@@ -23,6 +23,8 @@ interface JoinedDevice {
   nwkId: string;
   status: JoinStatus;
   hardware?: NewHardware;
+  // A Green Power device: commissioned at once, then the plugin creates its widgets
+  greenPower?: boolean;
 }
 
 /**
@@ -33,6 +35,9 @@ interface JoinedDevice {
  * discovery (NwkId only) and, once, the ones done (with ProvisionStatus). This page keeps the done
  * ones until it is left. /new-hrdwr/enable empties that queue and opens pairing for 4 minutes.
  * Leaving the page does not close pairing.
+ *
+ * A Green Power device comes with GreenPower set. It is not in /zdevice-name: its model and widgets
+ * come with the /rcv-nw-hrdwr answer.
  */
 @Component({
   selector: 'app-admin-provisioning',
@@ -144,6 +149,19 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
     return this.devices.find(device => device._NwkId === nwkId);
   }
 
+  // A Green Power device shares no NwkId with /zdevice-name: name and widgets come with its entry
+  titleOf(item: JoinedDevice): string | undefined {
+    return (item.greenPower ? undefined : this.deviceOf(item.nwkId)?.ZDeviceName) || item.hardware?.Model;
+  }
+
+  widgetsOf(item: JoinedDevice): string[] {
+    return (item.greenPower ? item.hardware?.WidgetList : this.deviceOf(item.nwkId)?.WidgetList) ?? [];
+  }
+
+  hintOf(item: JoinedDevice): string {
+    return 'admin.provisioning.hint.' + (item.greenPower ? 'gp.' : '') + item.status;
+  }
+
   certified(value: string): string {
     return value === 'yes' ? 'yes' : value === 'no' ? 'no' : 'unknown';
   }
@@ -188,11 +206,13 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
       if (known) {
         known.status = status;
         known.hardware = hardware.ProvisionStatus ? hardware : known.hardware;
+        known.greenPower = known.greenPower || !!hardware.GreenPower;
       } else {
         this.joined.unshift({
           nwkId: hardware.NwkId,
           status,
-          hardware: hardware.ProvisionStatus ? hardware : undefined
+          hardware: hardware.ProvisionStatus ? hardware : undefined,
+          greenPower: !!hardware.GreenPower
         });
       }
       done = done || !!hardware.ProvisionStatus;

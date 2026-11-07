@@ -1797,5 +1797,11 @@
   "group.page.cancel": "Annuler",
   "management.tabs.devices": "Appareils",
   "management.tabs.groups": "Groupes",
-  "group.page.add.empty": "Tous les appareils qui peuvent rejoindre sont déjà dans ce groupe."
+  "group.page.add.empty": "Tous les appareils qui peuvent rejoindre sont déjà dans ce groupe.",
+  "admin.provisioning.greenpower": "Green Power",
+  "admin.provisioning.hint.gp.joining": "Appairé. Le plugin crée ses widgets.",
+  "admin.provisioning.hint.gp.Failed": "L'appareil a été retiré avant la création de ses widgets. Appairez-le de nouveau.",
+  "admin.provisioning.hint.gp.Unexpected": "Aucune configuration ne donne de widget à cet appareil Green Power. Partagez le log du plugin avec le support.",
+  "tools.data.zgp-device-raw": "Appareils Green Power (brut)",
+  "tools.data.zgp-device-raw.hint": "Ce que le plugin garde par appareil Green Power, sans les clés de sécurité"
 }

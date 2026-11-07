@@ -13,6 +13,9 @@ export class NewHardware {
   PluginCertified: string;
   Ep: Ep[];
   device: DeviceByName;
+  // Green Power device: not in /zdevice-name, so the plugin gives its widgets here
+  GreenPower?: boolean;
+  WidgetList?: string[];
 }
 
 export interface Cluster {

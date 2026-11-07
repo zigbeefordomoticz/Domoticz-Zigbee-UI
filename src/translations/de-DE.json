@@ -1607,5 +1607,11 @@
   "group.page.cancel": "Abbrechen",
   "management.tabs.devices": "Geräte",
   "management.tabs.groups": "Gruppen",
-  "group.page.add.empty": "Alle Geräte, die beitreten können, sind bereits in dieser Gruppe."
+  "group.page.add.empty": "Alle Geräte, die beitreten können, sind bereits in dieser Gruppe.",
+  "admin.provisioning.greenpower": "Green Power",
+  "admin.provisioning.hint.gp.joining": "Gekoppelt. Das Plugin erstellt seine Widgets.",
+  "admin.provisioning.hint.gp.Failed": "Das Gerät wurde entfernt, bevor seine Widgets erstellt wurden. Koppeln Sie es erneut.",
+  "admin.provisioning.hint.gp.Unexpected": "Keine Konfiguration gibt diesem Green-Power-Gerät ein Widget. Teilen Sie das Plugin-Protokoll mit dem Support.",
+  "tools.data.zgp-device-raw": "Green-Power-Geräte (Rohdaten)",
+  "tools.data.zgp-device-raw.hint": "Was das Plugin je Green-Power-Gerät speichert, ohne die Sicherheitsschlüssel"
 }
