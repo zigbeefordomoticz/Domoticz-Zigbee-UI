@@ -30,7 +30,8 @@ interface RouterRow {
  * Rows come from /zgroup-list-available-device (main-powered devices whose widgets can be in a
  * group), names and models from /zdevice-name, memberships from /zgroup. A scan only queues the
  * requests: /plugin-health GroupStatus is "scan" while they are sent, then "ready"; the routers
- * answer over the next minutes. GroupStatus is missing when group management is off.
+ * answer over the next minutes. GroupStatus is missing when group management is not enabled, and
+ * Starting until the plugin has started it.
  */
 @Component({
   selector: 'app-admin-groups',
@@ -42,6 +43,7 @@ export class AdminGroupsComponent extends UnsubscribeOnDestroyAdapter implements
   rows: RouterRow[] = [];
   loaded = false;
   enabled = true;
+  starting = false;
   scanning = false;
   selected = new Set<string>();
   search = '';
@@ -60,7 +62,8 @@ export class AdminGroupsComponent extends UnsubscribeOnDestroyAdapter implements
 
   ngOnInit() {
     this.apiService.getPluginhealth().subscribe(health => {
-      this.enabled = health?.GroupStatus !== undefined;
+      this.starting = health?.GroupStatus === 'Starting';
+      this.enabled = health?.GroupStatus !== undefined && !this.starting;
       this.scanning = health?.GroupStatus === 'scan';
       if (this.enabled) {
         this.load();

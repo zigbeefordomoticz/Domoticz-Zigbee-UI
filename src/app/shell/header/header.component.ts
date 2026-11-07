@@ -45,7 +45,7 @@ export class HeaderComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     super();
   }
 
-  /** Management opens Devices; it stays marked on both of its tabs, Devices and Groups. */
+  /** Management opens Devices; it stays marked on both of its tabs, Devices and Groups & Scenes. */
   get managementActive(): boolean {
     const path = this.router.url.split(/[?#]/)[0];
     return ['/device', '/group'].some(page => path === page || path.startsWith(page + '/'));
