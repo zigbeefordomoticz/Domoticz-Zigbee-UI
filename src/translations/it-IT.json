@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "non visto di recente",
   "dashboard.devices.notReachable": "perso",
   "dashboard.devices.others": "sconosciuto",
-  "dashboard.health.comment": "Attivo = dispositivi online<br>Perso = dispositivi fuori rete<br>Non visto di recente = dispositivi senza alcun messaggio da {{hours}} ore (Impostazioni → HealthTimeOut, 0 = disattivato; un dispositivo può avere un proprio ritardo)<br>Sconosciuto = dispositivi con stato sconosciuto",
+  "dashboard.health.comment": "Attivo = dispositivi online<br>Perso = dispositivi fuori rete<br>Non visto di recente = dispositivi senza alcun messaggio da {{hours}} ore (Impostazioni → HealthTimeOut, 0 = disattivato; un dispositivo può avere un proprio ritardo)<br>Sconosciuto = dispositivi con stato sconosciuto<br>Green Power = dispositivi Green Power: il plugin non invia mai loro nulla, quindi non hanno uno stato di salute",
   "dashboard.traffic.title": "Invio e Ricezione",
   "dashboard.trafic.label": "Messaggi Inviati / Ricevuti",
   "dashboard.trafic.send": "Tx",
@@ -41,7 +41,7 @@
   "dashboard.devices.label": "Dispositivi",
   "dashboard.devices.routers": "router",
   "dashboard.devices.enddevice": "dispositivi terminali",
-  "dashboard.devices.comment": "Router = dispositivi alimentati dalla rete che partecipano alla rete mesh.<br>Dispositivo terminale = dispositivo che non è in grado di instradare messaggi e non è in ascolto quando inattivo (nella maggior parte dei casi è un dispositivo a batteria)",
+  "dashboard.devices.comment": "Router = dispositivi alimentati dalla rete che partecipano alla rete mesh.<br>Dispositivo terminale = dispositivo che non è in grado di instradare messaggi e non è in ascolto quando inattivo (nella maggior parte dei casi è un dispositivo a batteria)<br>Green Power = dispositivi che non si uniscono alla rete: inviano solo brevi frame, ricevuti dal coordinatore o da un router",
   "dashboard.battery.title": "Batteria",
   "dashboard.devices.battery.label": "Batteria",
   "dashboard.devices.battery.inf.15": "< 15%",
@@ -1656,5 +1656,7 @@
   "admin.gp.status.removed": "Rimosso",
   "admin.gp.opened.notify": "Associazione Green Power aperta per 4 minuti",
   "admin.gp.closed.notify": "Associazione Green Power chiusa",
-  "admin.gp.type.choose": "Scegli il tipo di dispositivo prima di aprire l'associazione."
+  "admin.gp.type.choose": "Scegli il tipo di dispositivo prima di aprire l'associazione.",
+  "dashboard.devices.greenpower": "Green Power",
+  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power"
 }

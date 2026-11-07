@@ -56,6 +56,8 @@ interface AttentionItem {
 export class DashboardSummaryComponent implements OnChanges {
   @Input() pluginStats: PluginStats;
   @Input() devices: any[] = [];
+  // Green Power devices: counted apart, they are never polled and have no health status
+  @Input() greenPowerCount = 0;
   @Input() certified: any[] = [];
   @Input() plugin: Plugin;
   @Input() pluginHealth: any;
@@ -272,9 +274,12 @@ export class DashboardSummaryComponent implements OnChanges {
         label: this.t('dashboard.kpi.devices'),
         value: live + ' / ' + total,
         detail:
-          live === total
+          (live === total
             ? this.t('dashboard.kpi.devices.all')
-            : this.t('dashboard.kpi.devices.notlive', { count: total - live }),
+            : this.t('dashboard.kpi.devices.notlive', { count: total - live })) +
+          (this.greenPowerCount
+            ? ' · ' + this.t('dashboard.kpi.devices.greenpower', { count: this.greenPowerCount })
+            : ''),
         tone: live === total ? 'success' : 'warning'
       },
       {

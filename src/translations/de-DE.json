@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "zuletzt nicht gesehen",
   "dashboard.devices.notReachable": "verloren",
   "dashboard.devices.others": "unbekannt",
-  "dashboard.health.comment": "Aktiv = Geräte online<br>Verloren = Geräte außer Netzwerk<br>Zuletzt nicht gesehen = Geräte ohne Nachricht seit {{hours}} Stunden (Einstellungen → HealthTimeOut, 0 = aus; ein Gerät kann eine eigene Frist haben)<br>Unbekannt = Geräte mit unbekanntem Status",
+  "dashboard.health.comment": "Aktiv = Geräte online<br>Verloren = Geräte außer Netzwerk<br>Zuletzt nicht gesehen = Geräte ohne Nachricht seit {{hours}} Stunden (Einstellungen → HealthTimeOut, 0 = aus; ein Gerät kann eine eigene Frist haben)<br>Unbekannt = Geräte mit unbekanntem Status<br>Green Power = Green-Power-Geräte: Das Plugin sendet ihnen nie etwas, daher haben sie keinen Gesundheitsstatus",
   "dashboard.traffic.title": "Senden & Empfangen",
   "dashboard.trafic.label": "Sende- / Empfangsnachrichten",
   "dashboard.trafic.send": "Tx",
@@ -41,7 +41,7 @@
   "dashboard.devices.label": "Geräte",
   "dashboard.devices.routers": "Router",
   "dashboard.devices.enddevice": "Endgeräte",
-  "dashboard.devices.comment": "Router = netzgebundene Geräte, die am Mesh-Netzwerk teilnehmen.<br>Endgerät = Gerät, das keine Nachrichten weiterleiten kann und im Ruhezustand nicht lauscht (meistens batteriebetrieben)",
+  "dashboard.devices.comment": "Router = netzgebundene Geräte, die am Mesh-Netzwerk teilnehmen.<br>Endgerät = Gerät, das keine Nachrichten weiterleiten kann und im Ruhezustand nicht lauscht (meistens batteriebetrieben)<br>Green Power = Geräte, die dem Netzwerk nicht beitreten: Sie senden nur kurze Frames, die vom Koordinator oder einem Router empfangen werden",
   "dashboard.battery.title": "Batterie",
   "dashboard.devices.battery.label": "Batterie",
   "dashboard.devices.battery.inf.15": "< 15%",
@@ -1656,5 +1656,7 @@
   "admin.gp.status.removed": "Entfernt",
   "admin.gp.opened.notify": "Green-Power-Anlernen für 4 Minuten geöffnet",
   "admin.gp.closed.notify": "Green-Power-Anlernen geschlossen",
-  "admin.gp.type.choose": "Wählen Sie den Gerätetyp, bevor Sie das Anlernen öffnen."
+  "admin.gp.type.choose": "Wählen Sie den Gerätetyp, bevor Sie das Anlernen öffnen.",
+  "dashboard.devices.greenpower": "Green Power",
+  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power"
 }

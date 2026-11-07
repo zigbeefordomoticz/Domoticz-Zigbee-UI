@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "recent niet gezien",
   "dashboard.devices.notReachable": "offline",
   "dashboard.devices.others": "onbekend",
-  "dashboard.health.comment": "Live = apparaten online<br>Offline = apparaten zijn niet bereikbaar<br>Recent niet gezien = apparaten zonder bericht sinds {{hours}} uur (Instellingen → HealthTimeOut, 0 = uit; een apparaat kan een eigen termijn hebben)<br>Onbekend = status apparaten onbekend",
+  "dashboard.health.comment": "Live = apparaten online<br>Offline = apparaten zijn niet bereikbaar<br>Recent niet gezien = apparaten zonder bericht sinds {{hours}} uur (Instellingen → HealthTimeOut, 0 = uit; een apparaat kan een eigen termijn hebben)<br>Onbekend = status apparaten onbekend<br>Green Power = Green Power-apparaten: de plugin stuurt ze nooit iets, dus ze hebben geen gezondheidsstatus",
   "dashboard.traffic.title": "Verzonden & Ontvangen",
   "dashboard.trafic.label": "Verzonden/Ontvangen berichten",
   "dashboard.trafic.send": "Tx",
@@ -41,7 +41,7 @@
   "dashboard.devices.label": "Apparaten",
   "dashboard.devices.routers": "routers",
   "dashboard.devices.enddevice": "eindapparaat",
-  "dashboard.devices.comment": "Router is een hoofdapparaat dat deelneemt aan het mesh-netwerk.<br>Eindapparaat is een apparaat op batterijen dat geen berichten kan sturen, en geen niet bereikbaar is wanneer inactief.",
+  "dashboard.devices.comment": "Router is een hoofdapparaat dat deelneemt aan het mesh-netwerk.<br>Eindapparaat is een apparaat op batterijen dat geen berichten kan sturen, en geen niet bereikbaar is wanneer inactief.<br>Green Power = apparaten die niet aan het netwerk deelnemen: ze sturen alleen korte frames, opgevangen door de coördinator of een router",
   "dashboard.battery.title": "Batterij",
   "dashboard.devices.battery.label": "Batterij",
   "dashboard.devices.battery.inf.15": "< 15%",
@@ -1656,5 +1656,7 @@
   "admin.gp.status.removed": "Verwijderd",
   "admin.gp.opened.notify": "Green Power-koppelen open voor 4 minuten",
   "admin.gp.closed.notify": "Green Power-koppelen gesloten",
-  "admin.gp.type.choose": "Kies het apparaattype voordat u het koppelen opent."
+  "admin.gp.type.choose": "Kies het apparaattype voordat u het koppelen opent.",
+  "dashboard.devices.greenpower": "Green Power",
+  "dashboard.kpi.devices.greenpower": "+ {{count}} Green Power"
 }
