@@ -3,38 +3,44 @@ import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { ZDevices } from '@app/shared/models/device';
+import type { GroupEndpoint } from '@app/shared/models/group';
 import { DevicesAvailable, Group } from '@app/shared/models/group';
+import { GroupScenes, SceneRef } from '@app/shared/models/scene';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin, of, timer } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Subscription, forkJoin, of, timer } from 'rxjs';
+import { catchError, concatMap } from 'rxjs/operators';
+import {
+  POLL_WHILE_PENDING_MS,
+  healthTone,
+  isSectionFolded,
+  saveSectionFolded,
+  sceneMemberKey,
+  sceneNeedsAttention,
+  sceneWorkRunning
+} from './scene-helpers';
+
+const NATIVE_SCENES_SETTING = 'enableNativeScenes';
+const FOLDED_SECTION = 'members';
+
+// One to four hex digits, as typed: the plugin takes four. Above 0xfff7 is reserved by the ZCL
+const GROUP_ID_INPUT = /^[0-9a-f]{1,4}$/i;
+const MAX_GROUP_ID = 0xfff7;
+// What the plugin refuses a chosen id with, as translation keys
+const GROUP_ID_ERRORS: { [code: string]: string } = {
+  GROUP_ID_INVALID: 'group.page.id.invalid',
+  GROUP_ID_RESERVED: 'group.page.id.reserved',
+  GROUP_ID_IN_USE: 'group.page.id.inuse'
+};
 
 // Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
-const HEALTH_TONE: { [health: string]: string } = {
-  Live: 'success',
-  TimedOut: 'warning',
-  'Not seen last 24hours': 'warning',
-  'Not Reachable': 'danger',
-  Disabled: 'secondary'
-};
 const NOT_REACHED = ['Not Reachable', 'TimedOut', 'Not seen last 24hours'];
 
 // After a save the plugin changes a membership only when the device answers: read the groups again a few times
 const REREAD_AFTER_SAVE_MS = [0, 3000, 8000];
+const SCAN_POLL_MS = 5000;
 
-/** One device endpoint, the unit a group is made of. */
-interface Endpoint {
-  key: string;
-  nwkId: string;
-  ep: string;
-  ieee: string;
-  widgets: string[];
-  deviceName: string;
-  model: string;
-  health: string;
-  // false when the plugin does not offer it for groups now (battery device, IKEA remote, not ready…)
-  groupable: boolean;
-}
+type Endpoint = GroupEndpoint;
 
 interface DraftMember extends Endpoint {
   status: 'kept' | 'added' | 'removed';
@@ -42,6 +48,8 @@ interface DraftMember extends Endpoint {
 
 interface Draft {
   id: string | null;
+  // The id asked for a new group, as typed. Empty: the plugin chooses
+  requestedId: string;
   name: string;
   coordinator: boolean;
   members: DraftMember[];
@@ -77,8 +85,20 @@ interface GroupRow {
 })
 export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
   enabled = true;
+  starting = false;
   loaded = false;
   scanStatus: string | null = null;
+
+  // Native scenes: nothing calls /scenes before the setting says so. Null while there is nothing to show,
+  // as on a plugin not restarted since the setting changed
+  scenesEnabled = false;
+  sceneGroups: GroupScenes[] | null = null;
+  byScene = false;
+  focusScene: SceneRef | null = null;
+  endpoints = new Map<string, Endpoint>();
+  membersCollapsed = isSectionFolded(FOLDED_SECTION);
+
+  readonly healthTone = healthTone;
 
   rows: GroupRow[] = [];
   groupable = new Map<string, Endpoint>();
@@ -99,6 +119,9 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
   restartNeeded = false;
 
   private devices = new Map<string, ZDevices>();
+  private scanPoll: Subscription | null = null;
+  private sceneRead: Subscription | null = null;
+  private scenePoll: Subscription | null = null;
 
   constructor(
     private apiService: ApiService,
@@ -111,15 +134,124 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   ngOnInit() {
     this.apiService.getPluginhealth().subscribe(health => {
-      // GroupStatus is missing when group management is off; /zgroup then answers nothing useful
-      this.enabled = health?.GroupStatus !== undefined;
+      // GroupStatus is missing when group management is not enabled, and Starting until the plugin
+      // has started it: /zgroup then answers nothing useful
+      this.starting = health?.GroupStatus === 'Starting';
+      this.enabled = health?.GroupStatus !== undefined && !this.starting;
       this.scanStatus = health?.GroupStatus ?? null;
       if (this.enabled) {
         this.load();
+        if (this.scanStatus === 'scan') {
+          this.followScan();
+        }
+        this.readScenesSetting();
       } else {
         this.loaded = true;
       }
     });
+  }
+
+  // ---- membership scan --------------------------------------------------------------------------
+
+  /** As in Admin › Group: it asks every router, and only queues the requests. */
+  scanGroups(): void {
+    this.apiService.getRescanGroup().subscribe(() => {
+      this.toastr.success(this.translate.instant('api.global.succes.scanlaunched.notify'));
+      this.scanStatus = 'scan';
+      this.followScan();
+      this.apiService.getRestartNeeded().subscribe(restart => {
+        if (restart?.RestartNeeded === 1) {
+          this.headerService.setRestart(true);
+        }
+      });
+    });
+  }
+
+  // GroupStatus is "scan" while the plugin sends the requests; the groups are read again once it is done
+  private followScan(): void {
+    this.scanPoll?.unsubscribe();
+    this.scanPoll = timer(SCAN_POLL_MS, SCAN_POLL_MS)
+      .pipe(concatMap(() => this.apiService.getPluginhealth()))
+      .subscribe(health => {
+        this.scanStatus = health?.GroupStatus ?? null;
+        if (this.scanStatus !== 'scan') {
+          this.scanPoll?.unsubscribe();
+          this.scanPoll = null;
+          this.load();
+        }
+      });
+    this.subs.sink = this.scanPoll;
+  }
+
+  // ---- scenes -----------------------------------------------------------------------------------
+
+  private readScenesSetting(): void {
+    this.subs.sink = this.apiService.getSettings().subscribe(settings => {
+      const setting = (settings || [])
+        .flatMap(theme => theme.ListOfSettings || [])
+        .find(candidate => candidate.Name === NATIVE_SCENES_SETTING);
+      this.scenesEnabled =
+        !!setting && !['0', 'false'].includes(String(setting.current_value)) && !!setting.current_value;
+      this.readScenes();
+    });
+  }
+
+  /** Read again while a capture or a scan goes on: both end on the plugin side. */
+  readScenes(): void {
+    if (!this.scenesEnabled) {
+      return;
+    }
+    this.scenePoll?.unsubscribe();
+    this.sceneRead?.unsubscribe();
+    this.sceneRead = this.apiService.getAllScenes().subscribe({
+      next: groups => {
+        this.sceneGroups = groups || [];
+        if (this.sceneGroups.some(sceneWorkRunning)) {
+          this.scenePoll = timer(POLL_WHILE_PENDING_MS).subscribe(() => this.readScenes());
+          this.subs.sink = this.scenePoll;
+        }
+      },
+      error: error => {
+        if (error?.error?.error === 'SCENES_DISABLED') {
+          this.sceneGroups = null;
+          this.byScene = false;
+        }
+      }
+    });
+    this.subs.sink = this.sceneRead;
+  }
+
+  showGroups(): void {
+    this.byScene = false;
+    this.focusScene = null;
+  }
+
+  showScenes(): void {
+    this.byScene = true;
+    this.readScenes();
+  }
+
+  /** From the view by scene to the group, where a scene is changed. */
+  openScene(scene: SceneRef): void {
+    this.focusScene = scene;
+    this.byScene = false;
+    this.select(scene.groupId);
+  }
+
+  sceneCountOf(groupId: string): number {
+    return this.sceneGroups?.find(group => group.groupId === groupId)?.scenes.length ?? 0;
+  }
+
+  get sceneCount(): number {
+    return (this.sceneGroups || []).reduce((count, group) => count + group.scenes.length, 0);
+  }
+
+  get groupsWithScenes(): number {
+    return (this.sceneGroups || []).filter(group => group.scenes.length).length;
+  }
+
+  get scenesToCheck(): number {
+    return (this.sceneGroups || []).flatMap(group => group.scenes).filter(sceneNeedsAttention).length;
   }
 
   // ---- figures ----------------------------------------------------------------------------------
@@ -190,12 +322,48 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     );
   }
 
+  /** A new group always shows them: choosing its members is the point. */
+  get membersHidden(): boolean {
+    return this.membersCollapsed && !!this.draft?.id;
+  }
+
+  toggleMembers(): void {
+    this.membersCollapsed = !this.membersCollapsed;
+    saveSectionFolded(FOLDED_SECTION, this.membersCollapsed);
+  }
+
   get membersAfterSave(): number {
     return this.draft ? this.draft.members.filter(member => member.status !== 'removed').length : 0;
   }
 
   get valid(): boolean {
-    return !!this.draft && !!this.draft.name.trim() && (this.membersAfterSave > 0 || this.draft.coordinator);
+    return (
+      !!this.draft &&
+      !!this.draft.name.trim() &&
+      !this.requestedIdProblem &&
+      (this.membersAfterSave > 0 || this.draft.coordinator)
+    );
+  }
+
+  /** The id asked for a new group, as the plugin wants it. */
+  get requestedId(): string | null {
+    const id = this.draft?.requestedId.trim().toLowerCase();
+    return id ? id.padStart(4, '0') : null;
+  }
+
+  /** A translation key. The plugin also refuses its ping group, which the page does not know. */
+  get requestedIdProblem(): string | null {
+    const id = this.requestedId;
+    if (!id) {
+      return null;
+    }
+    if (!GROUP_ID_INPUT.test(id)) {
+      return 'group.page.id.invalid';
+    }
+    if (parseInt(id, 16) === 0 || parseInt(id, 16) > MAX_GROUP_ID) {
+      return 'group.page.id.reserved';
+    }
+    return this.rows.some(row => row.group._GroupId === id) ? 'group.page.id.inuse' : null;
   }
 
   /** Every endpoint that can still join, by name; typing narrows the list, an empty field shows them all. */
@@ -287,7 +455,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     const body = draft.id
       ? this.rows.map(row => (row.group._GroupId === draft.id ? this.payloadOfDraft(draft) : this.payloadOf(row)))
       : [this.payloadOfDraft(draft)];
-    this.send(body, draft.id, draft.name.trim());
+    this.send(body, draft.id ?? this.requestedId, draft.name.trim());
   }
 
   delete(): void {
@@ -303,10 +471,6 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     );
   }
 
-  healthTone(health: string): string {
-    return HEALTH_TONE[health] ?? 'secondary';
-  }
-
   // ---- data ------------------------------------------------------------------------------------
 
   private load(keepId: string | null = this.draft?.id ?? null, newName: string | null = null): void {
@@ -320,7 +484,14 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
       this.rows = (Array.isArray(groups) ? groups : [])
         .map(group => this.toRow(group))
         .sort((a, b) => a.group._GroupId.localeCompare(b.group._GroupId));
+      this.endpoints = new Map(
+        [...this.rows.flatMap(row => row.members), ...this.groupable.values()].map(endpoint => [
+          sceneMemberKey(endpoint.ieee, endpoint.ep),
+          endpoint
+        ])
+      );
       this.loaded = true;
+      this.readScenes();
 
       // A new group has no id until the plugin gives it one: find it by its name, highest id first
       const created = newName
@@ -338,7 +509,8 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
 
   private send(body: object[], id: string | null, newName: string | null): void {
     this.saving = true;
-    this.apiService.putZGroups(body).subscribe({
+    const chosenId = !!this.requestedId;
+    (chosenId ? this.apiService.createZGroupWithId(body) : this.apiService.putZGroups(body)).subscribe({
       next: () => {
         this.saving = false;
         this.sent = true;
@@ -355,21 +527,42 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
           this.subs.sink = timer(delay).subscribe(() => this.load(id, newName && !id ? newName : null));
         });
       },
-      error: () => (this.saving = false)
+      error: error => {
+        this.saving = false;
+        if (chosenId) {
+          const key = GROUP_ID_ERRORS[error?.error?.error];
+          this.toastr.error(
+            key ? this.translate.instant(key) : error?.status + ' ' + error?.statusText,
+            this.translate.instant('api.global.error.notify')
+          );
+        }
+      }
     });
   }
 
   private open(id: string | 'new' | null): void {
+    if (this.focusScene?.groupId !== id) {
+      this.focusScene = null;
+    }
     this.confirmDelete = false;
     this.addSearch = '';
     if (id === 'new') {
-      this.draft = { id: null, name: '', coordinator: false, members: [], baseName: '', baseCoordinator: false };
+      this.draft = {
+        id: null,
+        requestedId: '',
+        name: '',
+        coordinator: false,
+        members: [],
+        baseName: '',
+        baseCoordinator: false
+      };
       return;
     }
     const row = this.rows.find(other => other.group._GroupId === id);
     this.draft = row
       ? {
           id: row.group._GroupId,
+          requestedId: '',
           name: row.group.GroupName,
           coordinator: row.coordinator,
           members: row.members.map(member => ({ ...member, status: 'kept' as const })),
@@ -467,6 +660,8 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
     }
     return {
       ...(draft.id ? { _GroupId: draft.id } : {}),
+      // Never as _GroupId: the plugin skips an unknown one, then removes every group not in the list
+      ...(this.requestedId ? { requestedGroupId: this.requestedId } : {}),
       GroupName: draft.name.trim(),
       coordinatorInside: draft.coordinator,
       devicesSelected
