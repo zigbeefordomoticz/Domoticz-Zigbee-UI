@@ -1712,5 +1712,6 @@
   "group.page.id.hint": "Leer lassen, damit das Plugin eine wählt. Geben Sie vier Hexadezimalziffern ein, z. B. 0a2b, passend zu einem Gerät mit fester Gruppe.",
   "group.page.id.invalid": "Eine Gruppen-ID besteht aus vier Hexadezimalziffern, z. B. 0a2b.",
   "group.page.id.reserved": "Diese ID ist reserviert: 0000, fff8 bis ffff und die Ping-Gruppe können nicht verwendet werden.",
-  "group.page.id.inuse": "Eine andere Gruppe verwendet diese ID bereits."
+  "group.page.id.inuse": "Eine andere Gruppe verwendet diese ID bereits.",
+  "GreenPowerEnable": "Green-Power-Geräte annehmen, wenn das Anlernen offen ist"
 }

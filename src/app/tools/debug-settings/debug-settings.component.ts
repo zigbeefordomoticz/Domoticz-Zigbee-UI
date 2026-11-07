@@ -48,6 +48,7 @@ const CATEGORIES: { key: string; modules: string[] }[] = [
       'CustomDevicePolling',
       'PollControl',
       'Groups',
+      'GreenPower',
       'Scene',
       'OTA',
       'z4dCertifiedDevices'

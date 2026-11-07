@@ -1712,5 +1712,6 @@
   "group.page.id.hint": "Lasciare vuoto per farlo scegliere al plugin. Inserire quattro cifre esadecimali, ad esempio 0a2b, per corrispondere a un dispositivo impostato su un gruppo fisso.",
   "group.page.id.invalid": "Un id gruppo è composto da quattro cifre esadecimali, ad esempio 0a2b.",
   "group.page.id.reserved": "Questo id è riservato: 0000, da fff8 a ffff e il gruppo di ping non possono essere usati.",
-  "group.page.id.inuse": "Un altro gruppo usa già questo id."
+  "group.page.id.inuse": "Un altro gruppo usa già questo id.",
+  "GreenPowerEnable": "Accetta i dispositivi Green Power quando l'associazione è aperta"
 }

@@ -1712,5 +1712,6 @@
   "group.page.id.hint": "Laat leeg om de plugin te laten kiezen. Voer vier hexadecimale cijfers in, bijvoorbeeld 0a2b, om aan te sluiten op een apparaat met een vaste groep.",
   "group.page.id.invalid": "Een groeps-id bestaat uit vier hexadecimale cijfers, bijvoorbeeld 0a2b.",
   "group.page.id.reserved": "Deze id is gereserveerd: 0000, fff8 tot ffff en de ping-groep kunnen niet worden gebruikt.",
-  "group.page.id.inuse": "Een andere groep gebruikt deze id al."
+  "group.page.id.inuse": "Een andere groep gebruikt deze id al.",
+  "GreenPowerEnable": "Green Power-apparaten accepteren wanneer koppelen open staat"
 }

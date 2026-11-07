@@ -1902,5 +1902,6 @@
   "group.page.id.hint": "Laissez vide pour que le plugin le choisisse. Saisissez quatre chiffres hexadécimaux, par exemple 0a2b, pour correspondre à un appareil réglé sur un groupe fixe.",
   "group.page.id.invalid": "Un id de groupe comporte quatre chiffres hexadécimaux, par exemple 0a2b.",
   "group.page.id.reserved": "Cet id est réservé : 0000, fff8 à ffff et le groupe de ping ne peuvent pas être utilisés.",
-  "group.page.id.inuse": "Un autre groupe utilise déjà cet id."
+  "group.page.id.inuse": "Un autre groupe utilise déjà cet id.",
+  "GreenPowerEnable": "Accepter les appareils Green Power quand l'appairage est ouvert"
 }
