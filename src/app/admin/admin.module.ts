@@ -10,6 +10,8 @@ import { AdminProvisioningComponent } from './admin-provisioning/admin-provision
 import { AdminGroupsComponent } from './admin-groups/admin-groups.component';
 import { AdminCoordinatorComponent } from './admin-coordinator/admin-coordinator.component';
 import { AdminGreenPowerComponent } from './admin-green-power/admin-green-power.component';
+import { FirmwareUpdatesComponent } from './firmware-updates/firmware-updates.component';
+import { FirmwareWarningComponent } from './firmware-warning/firmware-warning.component';
 
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
@@ -22,7 +24,9 @@ import { AdminGreenPowerComponent } from './admin-green-power/admin-green-power.
     AdminProvisioningComponent,
     AdminGreenPowerComponent,
     AdminGroupsComponent,
-    AdminCoordinatorComponent
+    AdminCoordinatorComponent,
+    FirmwareUpdatesComponent,
+    FirmwareWarningComponent
   ]
 })
 export class AdminModule {}
