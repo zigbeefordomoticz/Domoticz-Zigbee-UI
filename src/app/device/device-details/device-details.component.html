@@ -106,6 +106,46 @@
       </dd>
       <dt>{{ 'device.details.health' | translate }}</dt>
       <dd>{{ device.Health | healthLabel | translate }}</dd>
+      <dt>{{ 'device.details.lastseen' | translate }}</dt>
+      <dd>
+        @if (lastSeen) {
+          {{ lastSeen.date }} <span class="text-body-secondary">· {{ lastSeen.ago }}</span>
+        } @else if (lastSeen === null) {
+          <span class="text-body-secondary">{{ 'device.details.lastseen.never' | translate }}</span>
+        } @else {
+          {{ loading ? '…' : '—' }}
+        }
+      </dd>
+      @if (battery) {
+        <dt>{{ 'device.details.battery' | translate }}</dt>
+        <dd>
+          @if (battery.level) {
+            {{ battery.level }}
+          }
+          @if (battery.updated) {
+            <span [class.text-warning-emphasis]="battery.stale" [class.text-body-secondary]="!battery.stale">
+              @if (battery.level) {
+                ·
+              }
+              {{ 'device.details.battery.updated' | translate: { time: battery.updated.date } }} ·
+              {{ battery.updated.ago }}
+              @if (battery.stale) {
+                <i
+                  class="fas fa-triangle-exclamation ms-1"
+                  [title]="'device.details.battery.stale' | translate"
+                  [attr.aria-label]="'device.details.battery.stale' | translate"></i>
+              }
+            </span>
+          } @else {
+            <span class="text-body-secondary">
+              @if (battery.level) {
+                ·
+              }
+              {{ 'device.details.battery.none' | translate }}</span
+            >
+          }
+        </dd>
+      }
     </dl>
 
     <!-- One chart or two, centred against the facts -->
