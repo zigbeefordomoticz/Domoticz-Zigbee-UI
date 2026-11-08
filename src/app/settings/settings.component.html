@@ -1,31 +1,75 @@
-<div class="settings-head">
-  <input
-    type="search"
-    class="form-control search"
-    [(ngModel)]="search"
-    [placeholder]="'settings.page.search' | translate"
-    [attr.aria-label]="'settings.page.search' | translate" />
-  <div class="form-check form-switch m-0">
-    <input class="form-check-input" type="checkbox" role="switch" id="settings-advanced" [(ngModel)]="advanced" />
-    <label class="form-check-label" for="settings-advanced" translate="settings.page.advanced"></label>
-  </div>
-  <a
-    class="ms-auto"
-    target="_blank"
-    rel="noopener"
-    href="https://zigbeefordomoticz.github.io/wiki/en-eng/WebUI_Settings"
-    >{{ 'settings.page.wiki' | translate }}</a
-  >
-</div>
+<div class="settings-page" [class.with-bar]="changes.length">
+  <div class="settings-head">
+    <input
+      type="search"
+      class="form-control search"
+      [(ngModel)]="search"
+      [placeholder]="'settings.page.search' | translate"
+      [attr.aria-label]="'settings.page.search' | translate" />
 
-<div class="settings-layout">
-  <nav class="themes" [attr.aria-label]="'settings.page.themes' | translate">
+    <div class="btn-group mode" role="group" [attr.aria-label]="'settings.page.mode.label' | translate">
+      <input
+        type="radio"
+        class="btn-check"
+        name="settings-mode"
+        id="settings-mode-essentials"
+        [checked]="mode === 'essentials'"
+        (change)="setMode('essentials')" />
+      <label
+        class="btn btn-outline-primary"
+        for="settings-mode-essentials"
+        translate="settings.page.mode.essentials"></label>
+      <input
+        type="radio"
+        class="btn-check"
+        name="settings-mode"
+        id="settings-mode-all"
+        [checked]="mode === 'all'"
+        (change)="setMode('all')" />
+      <label class="btn btn-outline-primary" for="settings-mode-all" translate="settings.page.mode.all"></label>
+    </div>
+
+    <div class="filters" role="group" [attr.aria-label]="'settings.page.filter.label' | translate">
+      <button
+        type="button"
+        class="chip"
+        [class.active]="onlyChanged"
+        [attr.aria-pressed]="onlyChanged"
+        (click)="onlyChanged = !onlyChanged">
+        {{ 'settings.page.filter.changed' | translate }}
+        <span class="count">{{ changedFromDefault }}</span>
+      </button>
+      <button
+        type="button"
+        class="chip"
+        [class.active]="onlyRestart"
+        [attr.aria-pressed]="onlyRestart"
+        (click)="onlyRestart = !onlyRestart">
+        {{ 'settings.page.filter.restart' | translate }}
+      </button>
+    </div>
+
+    <div class="head-links">
+      <a target="_blank" rel="noopener" href="https://zigbeefordomoticz.github.io/wiki/en-eng/WebUI_Settings">{{
+        'settings.page.wiki' | translate
+      }}</a>
+      <button
+        type="button"
+        class="btn btn-link p-0 align-baseline"
+        [title]="'settings.page.defaults.hint' | translate"
+        (click)="allToDefaults()">
+        {{ 'settings.page.defaults' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <nav class="sections" [attr.aria-label]="'settings.page.themes' | translate">
     @for (item of visibleThemes; track item._Theme) {
       <button
         type="button"
-        class="theme"
-        [class.active]="!search && theme === item._Theme"
-        [attr.aria-current]="!search && theme === item._Theme ? 'true' : null"
+        class="section"
+        [class.active]="!filtering && theme === item._Theme"
+        [attr.aria-current]="!filtering && theme === item._Theme ? 'true' : null"
         (click)="selectTheme(item._Theme)">
         <span [innerHTML]="'setting.header.' + item._Theme | translate"></span>
         @if (changedIn(item._Theme); as count) {
@@ -35,127 +79,247 @@
     }
   </nav>
 
-  <section class="main">
-    <div class="main-head">
-      @if (search.trim()) {
-        <h2>
+  @if (filtering) {
+    <div class="results-head">
+      <h2>
+        @if (search.trim()) {
           {{
-            (shown.length ? 'settings.page.results' : 'settings.page.noresult')
-              | translate: { count: shown.length, term: search.trim() }
+            (matchCount ? 'settings.page.results' : 'settings.page.noresult')
+              | translate: { count: matchCount, term: search.trim() }
           }}
-        </h2>
-      } @else if (theme) {
-        <h2 [innerHTML]="'setting.header.' + theme | translate"></h2>
-        <p class="hint" [innerHTML]="'setting.subtitle.' + theme | translate"></p>
-      }
+        } @else {
+          {{
+            (matchCount ? 'settings.page.filter.results' : 'settings.page.filter.none')
+              | translate: { count: matchCount }
+          }}
+        }
+      </h2>
+      <button type="button" class="btn btn-link btn-sm p-0" (click)="clearFilters()">
+        {{ 'settings.page.filter.clear' | translate }}
+      </button>
     </div>
+  }
 
-    @for (row of shown; track row.setting.Name) {
-      <div class="item" [class.changed]="changed(row)" [class.item-path]="row.setting.DataType === 'path'">
-        <div class="item-text">
-          <label class="item-label" [for]="'setting-' + row.setting.Name">{{ label(row) }}</label>
-          <div class="item-meta">
-            <span class="name">{{ row.setting.Name }}</span>
-            @if (search.trim()) {
-              <span class="tag" [innerHTML]="'setting.header.' + row.theme | translate"></span>
+  @for (block of blocks; track block.theme) {
+    <section class="block" [attr.aria-labelledby]="'block-' + block.theme">
+      <header class="block-head">
+        <h2 [id]="'block-' + block.theme" [innerHTML]="'setting.header.' + block.theme | translate"></h2>
+        @if (!filtering) {
+          <p class="hint" [innerHTML]="'setting.subtitle.' + block.theme | translate"></p>
+        }
+        @if (showIndex(block)) {
+          <nav class="index" [attr.aria-label]="'settings.page.index' | translate">
+            <span class="index-label">{{ 'settings.page.index' | translate }}</span>
+            @for (card of block.cards; track card.id) {
+              <button type="button" class="index-link" [class.index-danger]="card.danger" (click)="goTo(card)">
+                {{ groupLabel(card) }}
+              </button>
             }
-            @if (row.setting.Advanced) {
-              <span class="tag" translate="settings.page.badge.advanced"></span>
-            }
-            @if (level(row.setting); as restart) {
-              <span class="tag tag-restart">{{ 'settings.page.badge.restart.' + restart | translate }}</span>
-            }
-          </div>
-        </div>
-        <div class="item-control">
-          @switch (row.setting.DataType) {
-            @case ('bool') {
-              <div class="form-check form-switch m-0">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  [id]="'setting-' + row.setting.Name"
-                  [(ngModel)]="values[row.setting.Name]" />
+          </nav>
+        }
+      </header>
+
+      <div class="cards">
+        @for (card of block.cards; track card.id) {
+          <div class="setting-card" [id]="card.id" [class.danger]="card.danger">
+            @if (card.group || card.danger) {
+              <div class="card-head">
+                <h3>{{ groupLabel(card) }}</h3>
+                @if (card.danger) {
+                  <p class="hint" translate="settings.page.danger.hint"></p>
+                }
               </div>
             }
-            @case ('list') {
-              <select class="form-select" [id]="'setting-' + row.setting.Name" [(ngModel)]="values[row.setting.Name]">
-                @for (option of row.options; track option.label) {
-                  <option [ngValue]="option.value">{{ option.label }}</option>
-                }
-              </select>
-            }
-            @case ('int') {
-              <input
-                class="form-control narrow"
-                type="number"
-                [id]="'setting-' + row.setting.Name"
-                [class.is-invalid]="!isValid(row)"
-                [(ngModel)]="values[row.setting.Name]" />
-            }
-            @case ('hex') {
-              <input
-                class="form-control narrow font-monospace"
-                type="text"
-                [id]="'setting-' + row.setting.Name"
-                [class.is-invalid]="!isValid(row)"
-                [(ngModel)]="values[row.setting.Name]" />
-            }
-            @case ('path') {
-              <input
-                class="form-control wide font-monospace"
-                type="text"
-                spellcheck="false"
-                [id]="'setting-' + row.setting.Name"
-                [title]="values[row.setting.Name] || ''"
-                [(ngModel)]="values[row.setting.Name]" />
-            }
-            @default {
-              <input
-                class="form-control wide"
-                type="text"
-                [id]="'setting-' + row.setting.Name"
-                [(ngModel)]="values[row.setting.Name]" />
-            }
-          }
-          @if (!isValid(row)) {
-            <small class="text-danger" translate="settings.page.invalid"></small>
-          } @else if (differsFromDefault(row)) {
-            <small class="default">
-              {{ 'settings.page.default' | translate: { value: display(row, row.setting.default_value) } }} ·
-              <button type="button" class="btn btn-link btn-sm p-0 align-baseline" (click)="resetToDefault(row)">
-                {{ 'settings.page.reset' | translate }}
-              </button>
-            </small>
-          }
-        </div>
-      </div>
-    }
-  </section>
 
-  <aside class="card review" [attr.aria-label]="'settings.page.review.label' | translate">
-    <div class="review-head">
-      <h2>{{ 'settings.page.review.title' | translate: { count: changes.length } }}</h2>
-    </div>
-    @for (change of changes; track change.row.setting.Name) {
-      <div class="review-item">
-        <span class="name">{{ change.row.setting.Name }}</span>
-        <span>{{ label(change.row) }}:</span>
-        <span class="old">{{ display(change.row, change.from) }}</span>
-        →
-        <b>{{ display(change.row, change.to) }}</b>
+            @if (isFolded(card)) {
+              <div class="card-folded">
+                <span>{{ 'settings.page.danger.count' | translate: { count: card.rows.length } }}</span>
+                <button type="button" class="btn btn-outline-danger btn-sm" (click)="toggle(card)">
+                  {{ 'settings.page.card.show' | translate }}
+                </button>
+              </div>
+            } @else {
+              @for (row of card.rows; track row.setting.Name; let i = $index) {
+                @if (subGroup(card, i); as sub) {
+                  <div class="sub-group">{{ sub }}</div>
+                }
+                <div
+                  class="item"
+                  [class.changed]="changed(row)"
+                  [class.item-wide]="row.setting.DataType === 'path' || row.setting.DataType === 'url'">
+                  <div class="item-text">
+                    <label class="item-label" [for]="'setting-' + row.setting.Name" [title]="row.setting.Name">{{
+                      label(row)
+                    }}</label>
+                    <div class="item-meta">
+                      @if (search.trim()) {
+                        <span class="name">{{ row.setting.Name }}</span>
+                      }
+                      @if (mode === 'all' && row.setting.Advanced) {
+                        <span class="tag" translate="settings.page.badge.advanced"></span>
+                      }
+                      @if (row.setting.OneShot) {
+                        <span class="tag tag-once" translate="settings.page.badge.oneshot"></span>
+                      }
+                      @if (level(row.setting); as restart) {
+                        <span class="tag tag-restart">{{ 'settings.page.badge.restart.' + restart | translate }}</span>
+                      }
+                      @if (range(row.setting); as text) {
+                        <span class="range">{{ text }}</span>
+                      }
+                    </div>
+                  </div>
+                  <div class="item-control">
+                    @switch (row.setting.DataType) {
+                      @case ('bool') {
+                        <div class="form-check form-switch m-0">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            [id]="'setting-' + row.setting.Name"
+                            [(ngModel)]="values[row.setting.Name]" />
+                        </div>
+                      }
+                      @case ('list') {
+                        <select
+                          class="form-select"
+                          [id]="'setting-' + row.setting.Name"
+                          [(ngModel)]="values[row.setting.Name]">
+                          @for (option of row.options; track option.label) {
+                            <option [ngValue]="option.value">{{ option.label }}</option>
+                          }
+                        </select>
+                      }
+                      @case ('hex') {
+                        <input
+                          class="form-control narrow font-monospace"
+                          type="text"
+                          spellcheck="false"
+                          [id]="'setting-' + row.setting.Name"
+                          [class.is-invalid]="!isValid(row)"
+                          [(ngModel)]="values[row.setting.Name]" />
+                      }
+                      @case ('path') {
+                        <input
+                          class="form-control wide font-monospace"
+                          type="text"
+                          spellcheck="false"
+                          [id]="'setting-' + row.setting.Name"
+                          [title]="values[row.setting.Name] || ''"
+                          [(ngModel)]="values[row.setting.Name]" />
+                      }
+                      @case ('url') {
+                        <input
+                          class="form-control wide font-monospace"
+                          type="url"
+                          spellcheck="false"
+                          [id]="'setting-' + row.setting.Name"
+                          [class.is-invalid]="!isValid(row)"
+                          [title]="values[row.setting.Name] || ''"
+                          [(ngModel)]="values[row.setting.Name]" />
+                      }
+                      @default {
+                        @if (numeric(row.setting)) {
+                          <div class="input-group number">
+                            <input
+                              class="form-control"
+                              type="number"
+                              inputmode="decimal"
+                              [id]="'setting-' + row.setting.Name"
+                              [attr.min]="row.setting.Min ?? null"
+                              [attr.max]="row.setting.Max ?? null"
+                              [attr.step]="step(row.setting)"
+                              [class.is-invalid]="!isValid(row)"
+                              [(ngModel)]="values[row.setting.Name]" />
+                            @if (unit(row.setting); as text) {
+                              <span class="input-group-text">{{ text }}</span>
+                            }
+                          </div>
+                        } @else {
+                          <input
+                            class="form-control wide"
+                            type="text"
+                            [id]="'setting-' + row.setting.Name"
+                            [(ngModel)]="values[row.setting.Name]" />
+                        }
+                      }
+                    }
+                    @if (!isValid(row)) {
+                      <small class="text-danger" translate="settings.page.invalid"></small>
+                    } @else if (differsFromDefault(row)) {
+                      <small class="default">
+                        {{ 'settings.page.default' | translate: { value: display(row, row.setting.default_value) } }} ·
+                        <button
+                          type="button"
+                          class="btn btn-link btn-sm p-0 align-baseline"
+                          (click)="resetToDefault(row)">
+                          {{ 'settings.page.reset' | translate }}
+                        </button>
+                      </small>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (card.folded.length) {
+                <div class="card-foot" [class.card-foot-only]="!card.rows.length">
+                  @if (!card.rows.length) {
+                    <span class="hint m-0">{{
+                      'settings.page.card.folded' | translate: { count: card.folded.length }
+                    }}</span>
+                  }
+                  <button type="button" class="btn btn-link p-0" (click)="toggle(card)">
+                    {{
+                      (card.rows.length ? 'settings.page.card.more' : 'settings.page.card.show')
+                        | translate: { count: card.folded.length }
+                    }}
+                  </button>
+                </div>
+              } @else if (isOpen(card) && !filtering && (card.danger || mode === 'essentials')) {
+                <div class="card-foot">
+                  <button type="button" class="btn btn-link p-0" (click)="toggle(card)">
+                    {{ (card.danger ? 'settings.page.card.hide' : 'settings.page.card.less') | translate }}
+                  </button>
+                </div>
+              }
+            }
+          </div>
+        }
       </div>
-    } @empty {
-      <p class="hint px-3" translate="settings.page.review.none"></p>
-    }
-    @if (impact) {
-      <div class="impact" [class.impact-high]="impact > 1">
-        {{ 'settings.page.review.impact.' + impact | translate }}
+    </section>
+  }
+</div>
+
+@if (changes.length) {
+  <div class="save-bar" role="region" [attr.aria-label]="'settings.page.review.label' | translate">
+    @if (reviewOpen) {
+      <div class="review-list">
+        @for (change of changes; track change.row.setting.Name) {
+          <div class="review-item">
+            <span>{{ label(change.row) }}</span>
+            <span class="review-values">
+              <span class="old">{{ display(change.row, change.from) }}</span>
+              →
+              <b>{{ display(change.row, change.to) }}</b>
+            </span>
+          </div>
+        }
       </div>
     }
-    @if (changes.length) {
-      <div class="review-actions">
+    <div class="save-bar-main">
+      <div class="summary">
+        <b>{{ 'settings.page.bar.changes' | translate: { count: changes.length } }}</b>
+        @if (impact > 1) {
+          <span class="impact impact-high">{{ 'settings.page.review.impact.' + impact | translate }}</span>
+        } @else if (restartChanges) {
+          <span class="impact">{{ 'settings.page.bar.restart' | translate: { count: restartChanges } }}</span>
+        }
+      </div>
+      <div class="bar-actions">
+        <button type="button" class="btn btn-link" [attr.aria-expanded]="reviewOpen" (click)="reviewOpen = !reviewOpen">
+          {{ (reviewOpen ? 'settings.page.bar.hide' : 'settings.page.bar.review') | translate }}
+        </button>
         <button type="button" class="btn btn-outline-secondary" (click)="discard()">
           {{ 'settings.page.discard' | translate }}
         </button>
@@ -163,15 +327,39 @@
           {{ 'settings.page.save' | translate: { count: changes.length } }}
         </button>
       </div>
-    }
-    <div class="review-foot">
-      <button type="button" class="btn btn-link btn-sm px-0" (click)="allToDefaults()">
-        {{ 'settings.page.defaults' | translate }}
-      </button>
-      <p class="hint" translate="settings.page.defaults.hint"></p>
     </div>
-  </aside>
-</div>
+  </div>
+}
+
+<ng-template #contentDanger let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-danger-title" translate="settings.page.danger.confirm.title"></h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p translate="settings.page.danger.confirm.subject"></p>
+    <ul class="mb-0">
+      @for (change of dangerChanges; track change.row.setting.Name) {
+        <li>
+          {{ label(change.row) }}: <span class="old">{{ display(change.row, change.from) }}</span> →
+          <b>{{ display(change.row, change.to) }}</b>
+        </li>
+      }
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="modal.dismiss('cancel')"
+      translate="settings.page.danger.confirm.cancel"></button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.close(true)"
+      translate="settings.page.danger.confirm.save"></button>
+  </div>
+</ng-template>
 
 <ng-template #contentRestart let-modal>
   <div class="modal-header">
