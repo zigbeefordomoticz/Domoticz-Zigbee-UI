@@ -38,4 +38,11 @@ export interface Plugin {
   CoordinatorIEEE?: string;
   NetworkDevices: Array<any>;
   DistributionInfos: Array<string>;
+  // False when the coordinator cannot pair Green Power devices (ZNP); missing from plugins without Green Power
+  GreenPowerSupported?: boolean;
+}
+
+/** Green Power pages are shown only when the plugin says its coordinator can pair Green Power devices */
+export function greenPowerSupported(plugin?: Plugin | null): boolean {
+  return plugin?.GreenPowerSupported === true;
 }
