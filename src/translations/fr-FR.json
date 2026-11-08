@@ -1442,6 +1442,7 @@
   "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
   "ZigpyTopologyReport": "Active l'utilisation du scan de topologie zigpy",
   "ZigpyTopologyReportAutoBackup": "Sauvegarde les scan topologie interne zigpy",
+  "ZigpyTopologyAssociatedDevices": "Collecter aussi les équipements associés de chaque routeur après un scan de topologie (quelques minutes de plus)",
 
   "manufacturer.gamma.header": "Gamma Troniques TICMeter - Système de récupération des données de consommation électrique",
   "manufacturer.gamma.subtitle": "Liste des données récupérées par le TICMeter selectionné <a target='_blank' href='https://www.enedis.fr/media/2122/download'>Sorties de télé-information client des appareils de comptage Linky</a>.",

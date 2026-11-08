@@ -1442,6 +1442,7 @@
   "manufacturer.zlinky.PROTOCOL_LINKY_7": "Mode standard triphasé producteur",
   "ZigpyTopologyReport": "Abilita l'uso dello scanner di topologia Zigpy",
   "ZigpyTopologyReportAutoBackup": "Esegui automaticamente il backup delle scansioni di topologia attivate automaticamente",
+  "ZigpyTopologyAssociatedDevices": "Raccogli anche i dispositivi associati di ogni router dopo una scansione della topologia (qualche minuto in più)",
   "GroupLevelWithOnOff": "Invia Move to Level con On/Off per i gruppi",
   "TrackingEraticValue": "Registra i valori di attributo ricevuti fuori dall'intervallo previsto",
   "HealthTimeOut": "Secondi senza alcun messaggio prima che un dispositivo sia segnato come non visto di recente (0 = disattivato). Un dispositivo può avere un proprio valore, parametro del dispositivo HealthTimeOut",
