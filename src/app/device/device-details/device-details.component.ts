@@ -20,6 +20,17 @@ const CHART_HEIGHT = 40;
 const BAR_WIDTH = 12;
 const SLOTS = 10;
 
+// The plugin's battery report counts as old after a week, as in its own battery statistics (/battery-state)
+const BATTERY_STALE_SECONDS = 7 * 24 * 3600;
+
+const RELATIVE_UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
+  ['year', 365 * 24 * 3600],
+  ['month', 30 * 24 * 3600],
+  ['day', 24 * 3600],
+  ['hour', 3600],
+  ['minute', 60]
+];
+
 export type DetailsAction = 'parameters' | 'remove';
 
 /** A note from the model configuration: text, or a link when the value is a URL. */
@@ -100,6 +111,11 @@ export class DeviceDetailsComponent implements OnInit {
   // The device's Blakadder page from the same notes; { } when it has none; null without DeviceConfInfo (older plugin)
   blakadder: { url?: string; text?: string } | null = null;
   readonly blakadderNew = BLAKADDER_NEW;
+  // Stamp.LastSeen: the last message from the device, on the plugin's clock (updated at most every 2 minutes);
+  // null when never seen, undefined while loading
+  lastSeen: { date: string; ago: string } | null | undefined = undefined;
+  // Battery-powered devices only (PowerSource, node descriptor, or a battery reading); null otherwise
+  battery: { level: string; updated: { date: string; ago: string } | null; stale: boolean } | null = null;
 
   constructor(
     public modal: NgbActiveModal,
@@ -208,6 +224,8 @@ export class DeviceDetailsComponent implements OnInit {
       this.charts.push(this.signalChart('rssi', rssi));
     }
     this.descriptor = decodeNodeDescriptor(record._rawNodeDescriptor);
+    this.lastSeen = this.when(record.Stamp?.LastSeen);
+    this.battery = this.readBattery(record);
     if (typeof record.ReceivedZDO === 'number' || typeof record.ReceivedZCL === 'number') {
       this.received = { zdo: this.count(record.ReceivedZDO), zcl: this.count(record.ReceivedZCL) };
     }
@@ -299,6 +317,39 @@ export class DeviceDetailsComponent implements OnInit {
   /** Height of a value on the chart, the full scale (floor to ceiling) kept so devices compare. */
   private barHeight(value: number, scale: (typeof SIGNAL)[SignalKind]): number {
     return Math.min(1, Math.max(0, (value - scale.floor) / (scale.ceiling - scale.floor))) * CHART_HEIGHT;
+  }
+
+  /**
+   * Level and last report of a battery-powered device. The plugin keeps "" or {} in Battery until a first
+   * reading, and sets BatteryUpdateTime (epoch seconds) on every battery report.
+   */
+  private readBattery(record: any): DeviceDetailsComponent['battery'] {
+    const level = record.Battery;
+    const hasLevel = typeof level === 'number' || (typeof level === 'string' && level.trim() !== '');
+    const updatedAt = typeof record.BatteryUpdateTime === 'number' ? record.BatteryUpdateTime : 0;
+    const batteryPowered =
+      record.PowerSource === 'Battery' || this.descriptor?.mainsPowered === false || hasLevel || updatedAt > 0;
+    if (!batteryPowered) {
+      return null;
+    }
+    return {
+      level: hasLevel ? (isNaN(Number(level)) ? String(level) : `${Number(level)} %`) : '',
+      updated: this.when(updatedAt),
+      stale: updatedAt > 0 && Date.now() / 1000 - updatedAt > BATTERY_STALE_SECONDS
+    };
+  }
+
+  /** An epoch-seconds time as a short date and time, and how long ago, in the UI language; null for 0 / none. */
+  private when(seconds: unknown): { date: string; ago: string } | null {
+    if (typeof seconds !== 'number' || !Number.isFinite(seconds) || seconds <= 0) {
+      return null;
+    }
+    const lang = this.translate.currentLang || this.locale;
+    const date = new Date(seconds * 1000).toLocaleString(lang, { dateStyle: 'short', timeStyle: 'short' });
+    const elapsed = Math.max(0, Date.now() / 1000 - seconds);
+    const [unit, size] = RELATIVE_UNITS.find(([, size]) => elapsed >= size) ?? ['minute', 60];
+    const ago = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' }).format(-Math.floor(elapsed / size), unit);
+    return { date, ago };
   }
 
   private count(value: unknown): number {
