@@ -162,7 +162,9 @@ not treat the dependency set as free to move.
 - `.github/dependabot.yml` **no longer pins anything.** The `ignore` block
   existed only because Angular was stuck at 17.3 and was removed with the
   upgrade. Do not reintroduce it without a reason that will still hold in six
-  months.
+  months. The `exclude-patterns` on the version-update groups are not a
+  suppression: they route the Angular-coupled set to `angular` /
+  `angular-major` (see the comment block in the file).
 - **Never bump an Angular package on its own.** Angular, `@angular-devkit`,
   `@angular-eslint`, `primeng`, `ng-bootstrap`, `ng-select`, `ngx-*` and
   `zone.js` move together or not at all. A PR that moves part of the set fails
@@ -171,7 +173,7 @@ not treat the dependency set as free to move.
   the only release in its 23.x line that supports Angular 21. Do not widen it to
   a caret — that resolves to 23.11.0, which requires Angular 22.
 - **Angular 22 is the next step and is blocked** on `ngx-toastr`, which has no
-  Angular 22 release. Dependabot will raise a red Angular 22 pull request;
+  Angular 22 release. Dependabot will raise a red Angular 22 pull request (`angular-major` group);
   that is expected signal, not something to suppress.
 - **Two angular-eslint rules are off on purpose** — `prefer-standalone` and
   `prefer-inject`, with reasons recorded in `.eslintrc.json`. Running

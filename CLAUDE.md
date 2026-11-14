@@ -344,6 +344,13 @@ Read this before touching `package.json`.
   17.3, and both were removed with the upgrade. Do not reintroduce them without
   a reason that will still be true in six months; the history of why they were
   a trap is in the closing comments on #247, #250 and #255.
+- **Version updates are split Angular-coupled / other × minor+patch / major.**
+  The `angular`, `npm-development` and `npm-production` groups take minor and
+  patch updates and should be mergeable. `angular-major` and `npm-major` take
+  the majors. The version-update groups use `exclude-patterns` for the
+  Angular-coupled set; this is not the old suppression: without it a group with
+  no `patterns` outranks the `angular` pattern group, which then receives
+  nothing. The reasons are in the comment block of `.github/dependabot.yml`.
 - **Security updates are grouped** into one pull request via the `npm-security`
   group rather than one per advisory.
 - **Never move an Angular-coupled package on its own.** Angular,
@@ -357,7 +364,7 @@ reason: **`ngx-toastr` has no Angular 22 release.** Its latest (20.0.5) peers
 `@angular/core: ^21.0.0`.
 
 Expect Dependabot to raise a red Angular 22 version-update pull request in the
-`angular` group. **That is not a bug and should not be suppressed** — it is the
+`angular-major` group. **That is not a bug and should not be suppressed** — it is the
 reminder that this is the next piece of work. Close it, or leave it, but do not
 add an `ignore` entry for it.
 
