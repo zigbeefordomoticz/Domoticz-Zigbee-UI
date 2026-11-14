@@ -54,7 +54,7 @@
     "subsink": "^1.0.2",
     "svg2pdf.js": "^2.8.1",
     "tslib": "^2.6.2",
-    "zone.js": "~0.15.1"
+    "zone.js": "~0.16.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^21.2.29",
