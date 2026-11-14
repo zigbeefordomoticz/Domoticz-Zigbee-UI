@@ -22,8 +22,8 @@ updates:
       # That is how this repository once accumulated 35 open PRs, nearly all of
       # them transitive build-time dependencies. Collapse them into a single PR.
       #
-      # There is deliberately no exclude-patterns and no ignore block any more.
-      # Both existed because Angular was pinned at 17.3 and Dependabot kept
+      # There is deliberately no exclude-patterns on this group and no ignore
+      # block. Both existed because Angular was pinned at 17.3 and Dependabot kept
       # proposing Angular hoists that could not install; the history is in the
       # closing comments on #247, #250 and #255 if it is ever needed. The
       # Angular 17 -> 21 upgrade removed the reason, so the suppression went
@@ -40,8 +40,8 @@ updates:
       # install against Angular 21. #264 was exactly that: a one-line bump of
       # build-angular from 21.2.26 to 22.2.2, failing npm ci with ERESOLVE.
       #
-      # Note it arrives through THIS group, not the `angular` version-update
-      # group below, because Dependabot reaches it as a security fix.
+      # Note it arrives through THIS group, not the `angular-major`
+      # version-update group below, because Dependabot reaches it as a security fix.
       #
       # Do not suppress it. It is honest signal: ngx-toastr has no Angular 22
       # release (its latest peers @angular/core ^21.0.0), so Angular cannot move
@@ -56,17 +56,105 @@ updates:
         patterns:
           - '*'
 
-      # Angular and its satellites move as one unit; a PR that bumps part of the
-      # toolchain on its own cannot build.
+      # Version updates are split along two axes: Angular-coupled or not, and
+      # major or not. Two Dependabot rules shape this, both checked against
+      # dependabot-core (updater/lib/dependabot/dependency_group_engine.rb and
+      # updater/lib/dependabot/updater/pattern_specificity_calculator.rb):
+      #
+      # 1. A group without `patterns` (the dependency-type groups) outranks a
+      #    wildcard pattern group. Until 2026-11 the `angular` group therefore
+      #    never received a single package: the job log says "Skipping
+      #    @angular/core for group 'angular' - belongs to more specific group
+      #    'npm-production'". Angular 22 rode inside the npm-production and
+      #    npm-development PRs together with every other major bump, and
+      #    those two PRs were closed red every week (#289/#290, #326/#327,
+      #    #356/#357, #372/#373). So the dependency-type groups and npm-major
+      #    exclude the Angular-coupled set explicitly; exclusion is checked
+      #    before specificity.
+      #
+      # 2. Groups whose update-types do not overlap are complementary, not
+      #    competing. Without a major group, a major update that falls outside
+      #    a minor+patch group is raised as an individual PR, one per package.
+      #    The two -major groups collect them instead.
+      #
+      # Expected result: angular, npm-development and npm-production stay
+      # green and mergeable. angular-major is the red Angular 22 PR, blocked
+      # on ngx-toastr (see "Dependency State" in CLAUDE.md); leave it as the
+      # reminder or close it, but do not suppress it. npm-major collects the
+      # remaining majors (eslint, highcharts, ...), each its own piece of work.
+      #
+      # The Angular-coupled set is the one AGENTS.md says must move together.
+      # Keep the four lists below identical.
       angular:
         applies-to: version-updates
+        update-types: ['minor', 'patch']
         patterns:
           - '@angular*'
+          - '@ng-bootstrap/*'
+          - '@ng-select/*'
+          - '@ngx-translate/*'
+          - '@swimlane/ngx-charts'
+          - 'angular-highcharts'
+          - 'ngx-*'
+          - 'primeng'
+          - 'zone.js'
+
+      angular-major:
+        applies-to: version-updates
+        update-types: ['major']
+        patterns:
+          - '@angular*'
+          - '@ng-bootstrap/*'
+          - '@ng-select/*'
+          - '@ngx-translate/*'
+          - '@swimlane/ngx-charts'
+          - 'angular-highcharts'
+          - 'ngx-*'
+          - 'primeng'
+          - 'zone.js'
 
       npm-development:
         applies-to: version-updates
+        update-types: ['minor', 'patch']
         dependency-type: 'development'
+        exclude-patterns:
+          - '@angular*'
+          - '@ng-bootstrap/*'
+          - '@ng-select/*'
+          - '@ngx-translate/*'
+          - '@swimlane/ngx-charts'
+          - 'angular-highcharts'
+          - 'ngx-*'
+          - 'primeng'
+          - 'zone.js'
 
       npm-production:
         applies-to: version-updates
+        update-types: ['minor', 'patch']
         dependency-type: 'production'
+        exclude-patterns:
+          - '@angular*'
+          - '@ng-bootstrap/*'
+          - '@ng-select/*'
+          - '@ngx-translate/*'
+          - '@swimlane/ngx-charts'
+          - 'angular-highcharts'
+          - 'ngx-*'
+          - 'primeng'
+          - 'zone.js'
+
+      npm-major:
+        applies-to: version-updates
+        update-types: ['major']
+        patterns:
+          - '*'
+        exclude-patterns:
+          - '@angular*'
+          - '@ng-bootstrap/*'
+          - '@ng-select/*'
+          - '@ngx-translate/*'
+          - '@swimlane/ngx-charts'
+          - 'angular-highcharts'
+          - 'ngx-*'
+          - 'primeng'
+          - 'zone.js'
