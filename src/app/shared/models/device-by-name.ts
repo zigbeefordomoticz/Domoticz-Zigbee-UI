@@ -14,7 +14,7 @@ export interface DeviceByName {
   LQI?: number;
   RSSI?: number;
   CertifiedDevice?: boolean;
-  // Set by the UI on a Green Power device of /zgp-device-raw: listed read-only, never sent back
+  // Set by the UI on a Green Power device of /zgp-device-raw: no name or parameters, never sent back
   GreenPower?: boolean;
   // Green Power: time of the last frame (epoch seconds)
   LastSeen?: number;

@@ -31,6 +31,18 @@ const RELATIVE_UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
   ['minute', 60]
 ];
 
+/** An epoch-seconds time as a short date and time, and how long ago, in `lang`; null for 0 / none. */
+export function whenSeen(seconds: unknown, lang: string): { date: string; ago: string } | null {
+  if (typeof seconds !== 'number' || !Number.isFinite(seconds) || seconds <= 0) {
+    return null;
+  }
+  const date = new Date(seconds * 1000).toLocaleString(lang, { dateStyle: 'short', timeStyle: 'short' });
+  const elapsed = Math.max(0, Date.now() / 1000 - seconds);
+  const [unit, size] = RELATIVE_UNITS.find(([, size]) => elapsed >= size) ?? ['minute', 60];
+  const ago = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' }).format(-Math.floor(elapsed / size), unit);
+  return { date, ago };
+}
+
 export type DetailsAction = 'parameters' | 'remove';
 
 /** A note from the model configuration: text, or a link when the value is a URL. */
@@ -341,15 +353,7 @@ export class DeviceDetailsComponent implements OnInit {
 
   /** An epoch-seconds time as a short date and time, and how long ago, in the UI language; null for 0 / none. */
   private when(seconds: unknown): { date: string; ago: string } | null {
-    if (typeof seconds !== 'number' || !Number.isFinite(seconds) || seconds <= 0) {
-      return null;
-    }
-    const lang = this.translate.currentLang || this.locale;
-    const date = new Date(seconds * 1000).toLocaleString(lang, { dateStyle: 'short', timeStyle: 'short' });
-    const elapsed = Math.max(0, Date.now() / 1000 - seconds);
-    const [unit, size] = RELATIVE_UNITS.find(([, size]) => elapsed >= size) ?? ['minute', 60];
-    const ago = new Intl.RelativeTimeFormat(lang, { numeric: 'auto' }).format(-Math.floor(elapsed / size), unit);
-    return { date, ago };
+    return whenSeen(seconds, this.translate.currentLang || this.locale);
   }
 
   private count(value: unknown): number {

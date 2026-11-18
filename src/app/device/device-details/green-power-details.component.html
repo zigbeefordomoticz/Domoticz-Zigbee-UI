@@ -1,0 +1,133 @@
+<div class="modal-header align-items-start">
+  <div class="title">
+    <h2 class="modal-title h5 mb-1 text-truncate" id="device-details-title">{{ title }}</h2>
+    <div class="d-flex flex-wrap align-items-center gap-2 small text-body-secondary">
+      <span class="badge rounded-pill text-bg-info" translate="device.byname.greenpower"></span>
+      <span class="font-monospace">{{ srcId }}</span>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="btn-close"
+    [attr.aria-label]="'device.details.close' | translate"
+    (click)="modal.dismiss('cross')"></button>
+</div>
+
+<div class="modal-body d-flex flex-column gap-4">
+  @if (loading) {
+    <span class="text-body-secondary">…</span>
+  } @else if (failed) {
+    <div class="alert alert-warning py-2 mb-0 small">{{ 'device.gp.missing' | translate }}</div>
+  } @else {
+    <div class="d-flex flex-wrap gap-4">
+      <dl class="facts mb-0">
+        <dt>{{ 'device.gp.srcid' | translate }}</dt>
+        <dd class="font-monospace">{{ srcId }}</dd>
+        <dt>IEEE</dt>
+        <dd class="font-monospace">{{ record.IEEE }}</dd>
+        <dt>{{ 'device.gp.alias' | translate }}</dt>
+        <dd class="font-monospace">{{ record.nwk || '—' }}</dd>
+        <dt>{{ 'device.gp.devicetype' | translate }}</dt>
+        <dd>{{ deviceType }}</dd>
+        <dt>{{ 'device.gp.manufacturer' | translate }}</dt>
+        <dd>
+          @if (manufacturer) {
+            <span class="font-monospace">{{ manufacturer }}</span>
+          } @else {
+            <span class="text-body-secondary fst-italic">{{ 'device.gp.notdeclared' | translate }}</span>
+          }
+        </dd>
+        <dt>{{ 'device.gp.commands' | translate }}</dt>
+        <dd>
+          @if (commands) {
+            <span class="font-monospace">{{ commands }}</span>
+          } @else {
+            <span class="text-body-secondary fst-italic">{{ 'device.gp.notdeclared' | translate }}</span>
+          }
+        </dd>
+      </dl>
+      <dl class="facts mb-0">
+        <dt>{{ 'device.gp.model' | translate }}</dt>
+        <dd>
+          @if (record.Model) {
+            {{ modelLabel(record.Model) }}
+          } @else {
+            <span class="text-body-secondary fst-italic">{{ 'device.gp.model.none' | translate }}</span>
+          }
+        </dd>
+        <dt>{{ 'device.gp.widgets' | translate }}</dt>
+        <dd>
+          @for (widget of widgets; track widget) {
+            <div>{{ widget }}</div>
+          } @empty {
+            <span class="text-warning-emphasis">{{ 'device.gp.widgets.none' | translate }}</span>
+          }
+        </dd>
+        <dt>{{ 'device.gp.security' | translate }}</dt>
+        <dd>{{ security }}</dd>
+        <dt>{{ 'device.gp.framecounter' | translate }}</dt>
+        <dd>{{ record.frame_counter ?? '—' }}</dd>
+        <dt>{{ 'device.gp.commissioned' | translate }}</dt>
+        <dd>
+          @if (commissioned) {
+            {{ commissioned.date }} <span class="text-body-secondary">({{ commissioned.ago }})</span>
+          } @else {
+            —
+          }
+        </dd>
+        <dt>{{ 'device.gp.lastheard' | translate }}</dt>
+        <dd>
+          @if (lastHeard) {
+            {{ lastHeard.date }} <span class="text-body-secondary">({{ lastHeard.ago }})</span>
+          } @else {
+            —
+          }
+        </dd>
+        <dt>LQI</dt>
+        <dd>{{ record.LQI ?? '—' }}</dd>
+      </dl>
+    </div>
+
+    @if (actions && !hasWidgets) {
+      <section aria-labelledby="gp-details-type">
+        <h3 class="section-title" id="gp-details-type">{{ 'device.gp.type.title' | translate }}</h3>
+        <p class="small text-body-secondary mb-2">{{ 'device.gp.type.help' | translate }}</p>
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <select
+            class="form-select form-select-sm w-auto"
+            [(ngModel)]="model"
+            [disabled]="saving || !models.length"
+            [attr.aria-label]="'device.gp.type.title' | translate">
+            <option value="">{{ 'device.gp.type.pick' | translate }}</option>
+            @for (option of models; track option.Name) {
+              <option [value]="option.Name">{{ option.Description || option.Name }}</option>
+            }
+          </select>
+          <button type="button" class="btn btn-sm btn-primary" [disabled]="!model || saving" (click)="setType()">
+            <i class="fas fa-wand-magic-sparkles me-1" aria-hidden="true"></i>{{ 'device.gp.type.apply' | translate }}
+          </button>
+        </div>
+      </section>
+    }
+  }
+</div>
+
+<div class="modal-footer" [class.justify-content-between]="actions">
+  @if (actions) {
+    <div class="d-flex flex-wrap align-items-center gap-2 remove">
+      <button
+        type="button"
+        class="btn btn-outline-danger"
+        [disabled]="loading || failed || hasWidgets"
+        (click)="close('remove')">
+        <i class="fas fa-trash me-1" aria-hidden="true"></i>{{ 'device.details.remove' | translate }}
+      </button>
+      @if (hasWidgets) {
+        <span class="small text-body-secondary">{{ 'device.gp.remove.help' | translate }}</span>
+      }
+    </div>
+  }
+  <button type="button" class="btn btn-primary" (click)="modal.dismiss('close')">
+    {{ 'device.details.close' | translate }}
+  </button>
+</div>
