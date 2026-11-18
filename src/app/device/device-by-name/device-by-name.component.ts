@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { DetailsAction, DeviceDetailsComponent } from '../device-details/device-details.component';
+import { GreenPowerDetailsAction, GreenPowerDetailsComponent } from '../device-details/green-power-details.component';
 import { DeviceParamEditorComponent } from '../device-param-editor/device-param-editor.component';
 import { parsePluginParam } from '../device-param-editor/plugin-param';
 
@@ -49,7 +50,7 @@ interface DeviceRow {
   attention: boolean;
   // Only a device that failed pairing, is not in Domoticz or has no widget can be removed
   removable: boolean;
-  // Green Power: read-only, no details, name, parameters or removal (they act on ListOfDevices)
+  // Green Power: its own details window; no name or parameters (they act on ListOfDevices)
   greenPower: boolean;
 }
 
@@ -61,7 +62,7 @@ interface DeviceRow {
 })
 export class DeviceByNameComponent implements OnChanges {
   @Input() devices: DeviceByName[];
-  // Green Power devices, read-only rows: removed by deleting their widget
+  // Green Power devices: removed from their details window when they have no widget, else with their last widget
   @Input() greenPower: DeviceByName[] = [];
   rows: DeviceRow[] = [];
   visibleRows: DeviceRow[] = [];
@@ -126,10 +127,11 @@ export class DeviceByNameComponent implements OnChanges {
   /** A click on the row, outside its buttons and inputs, or Enter on the focused row. */
   openDetails(event: Event, row: DeviceRow) {
     const target = event.target as HTMLElement;
-    if (row.greenPower) {
+    if (event.type === 'keydown' ? target !== event.currentTarget : target.closest('button, a, input, .input-group')) {
       return;
     }
-    if (event.type === 'keydown' ? target !== event.currentTarget : target.closest('button, a, input, .input-group')) {
+    if (row.greenPower) {
+      this.openGreenPowerDetails(row);
       return;
     }
     const details = this.modalService.open(DeviceDetailsComponent, {
@@ -145,6 +147,25 @@ export class DeviceByNameComponent implements OnChanges {
         if (action === 'parameters') {
           this.editParameters(row);
         } else if (action === 'remove') {
+          this.rowToDelete = row.device;
+          this.open(this.removeConfirm);
+        }
+      },
+      (): void => undefined
+    );
+  }
+
+  /** Green Power details: a device without widgets can get a device type or be removed there. */
+  private openGreenPowerDetails(row: DeviceRow) {
+    const details = this.modalService.open(GreenPowerDetailsComponent, {
+      size: 'lg',
+      scrollable: true,
+      ariaLabelledBy: 'device-details-title'
+    });
+    details.componentInstance.device = row.device;
+    details.result.then(
+      (action: GreenPowerDetailsAction) => {
+        if (action === 'remove') {
           this.rowToDelete = row.device;
           this.open(this.removeConfirm);
         }
@@ -181,7 +202,11 @@ export class DeviceByNameComponent implements OnChanges {
   }
 
   delete() {
-    this.apiService.deleteZDeviceName(this.rowToDelete._NwkId).subscribe(() => {
+    // A Green Power device is not in the plugin's device list: its own route, by IEEE
+    const removal = this.rowToDelete.GreenPower
+      ? this.apiService.deleteZgpDevice(this.rowToDelete.IEEE)
+      : this.apiService.deleteZDeviceName(this.rowToDelete._NwkId);
+    removal.subscribe(() => {
       this.rows = this.rows.filter(row => row.device !== this.rowToDelete);
       this.toastr.success(this.translate.instant('device.details.removed'));
       this.rowToDelete = null;
@@ -316,7 +341,8 @@ export class DeviceByNameComponent implements OnChanges {
       statusWarning: '',
       paramCount: 0,
       attention: false,
-      removable: false,
+      // Only without widgets: a Green Power device with widgets goes with its last widget, in Domoticz
+      removable: (device.WidgetList ?? []).length === 0,
       greenPower: true
     };
   }

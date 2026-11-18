@@ -100,6 +100,7 @@ const routes = {
   zgpDeviceRaw: '/zgp-device-raw',
   zgpPairing: '/zgp-pairing',
   zgpModels: '/zgp-models',
+  zgpDevice: '/zgp-device',
   help: '/help'
 };
 
@@ -832,6 +833,18 @@ export class ApiService {
   // One Green Power device of the store, {} when unknown
   getRawZgpDevice(ieee: string): Observable<any> {
     return this.httpClient.get(routes.zgpDeviceRaw + '/' + ieee).pipe(catchError(() => of(null)));
+  }
+
+  // Gives a Green Power device without widgets a device type; the plugin creates its widgets at the next heartbeat
+  putZgpDeviceModel(ieee: string, model: string): Observable<any> {
+    return this.httpClient
+      .put(routes.zgpDevice + '/' + ieee, { Model: model })
+      .pipe(catchError(error => this.handleError(error)));
+  }
+
+  // Removes a Green Power device without widgets (one with widgets goes with its last widget, in Domoticz)
+  deleteZgpDevice(ieee: string): Observable<any> {
+    return this.httpClient.delete(routes.zgpDevice + '/' + ieee).pipe(catchError(error => this.handleError(error)));
   }
 
   getHelp(): Observable<any> {

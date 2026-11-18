@@ -79,11 +79,11 @@
         </ng-template>
         <ng-template pTemplate="body" let-row>
           <!-- A click outside the name and Parameters buttons opens the details; Enter when the row has the focus -->
-          <!-- Green Power rows are read-only: no details, name, parameters or removal -->
+          <!-- Green Power rows open their own details; no name or parameters -->
           <tr
-            [class.device-row]="!row.greenPower"
-            [attr.tabindex]="row.greenPower ? null : 0"
-            [attr.aria-label]="row.greenPower ? null : ('device.details.row.open' | translate: { name: row.name })"
+            class="device-row"
+            tabindex="0"
+            [attr.aria-label]="'device.details.row.open' | translate: { name: row.name }"
             (click)="openDetails($event, row)"
             (keydown.enter)="openDetails($event, row)">
             <td>
@@ -156,9 +156,14 @@
               <div
                 class="small"
                 [class.text-success]="row.device.CertifiedDevice && !row.greenPower"
-                [class.text-body-secondary]="row.greenPower"
-                [class.text-warning-emphasis]="!row.device.CertifiedDevice">
-                @if (row.greenPower) {
+                [class.text-body-secondary]="row.greenPower && row.widgetCount > 0"
+                [class.text-warning-emphasis]="
+                  !row.device.CertifiedDevice || (row.greenPower && row.widgetCount === 0)
+                ">
+                @if (row.greenPower && row.widgetCount === 0) {
+                  <i class="fas fa-triangle-exclamation me-1" aria-hidden="true"></i
+                  >{{ 'device.byname.greenpower.nowidget' | translate }}
+                } @else if (row.greenPower) {
                   {{ 'device.byname.greenpower.readonly' | translate }}
                 } @else if (row.device.CertifiedDevice) {
                   <i class="fas fa-check me-1" aria-hidden="true"></i>{{ 'device.byname.optimized' | translate }}
