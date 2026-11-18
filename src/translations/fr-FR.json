@@ -2041,5 +2041,11 @@
   "admin.firmware.updates.col.download": "Fichier du firmware",
   "admin.firmware.warning.title": "Les mises à jour de firmware sont à vos risques et périls",
   "admin.firmware.warning.text": "Les fichiers de firmware sont faits par le fabricant de chaque appareil, pas par Zigbee for Domoticz. Une mise à jour peut échouer et rendre un appareil inutilisable (« briqué »), parfois définitivement. Zigbee for Domoticz et ses contributeurs déclinent toute responsabilité pour un appareil endommagé par une mise à jour de firmware, comme pour les fichiers de firmware. Ne mettez à jour qu'en cas de besoin, gardez l'appareil alimenté (pile neuve) et près d'un routeur jusqu'à la fin, et n'interrompez pas le transfert.",
-  "admin.firmware.warning.accept": "J'ai compris : je mets à jour mes appareils à mes risques et périls"
+  "admin.firmware.warning.accept": "J'ai compris : je mets à jour mes appareils à mes risques et périls",
+  "admin.gp.type.GreenPower-4Buttons": "Interrupteur 4 boutons, 2 interrupteurs",
+  "admin.gp.type.GreenPower-4Buttons.hint": "Gauche Haut / Bas et droite Haut / Bas : deux widgets On/Off",
+  "admin.gp.type.GreenPower-6Buttons": "Interrupteur 4 boutons, 3 interrupteurs",
+  "admin.gp.type.GreenPower-6Buttons.hint": "Gauche, droite, et les deux boutons ensemble, chacun Haut / Bas : trois widgets On/Off",
+  "admin.gp.type.GreenPower-2Buttons": "Interrupteur 4 boutons, bascule unique",
+  "admin.gp.type.GreenPower-2Buttons.hint": "Une bascule, Haut / Bas : un widget On/Off"
 }

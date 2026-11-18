@@ -1851,5 +1851,11 @@
   "admin.firmware.updates.col.download": "Firmwarebestand",
   "admin.firmware.warning.title": "Firmware-updates zijn op eigen risico",
   "admin.firmware.warning.text": "Firmwarebestanden worden gemaakt door de fabrikant van elk apparaat, niet door Zigbee for Domoticz. Een update kan mislukken en een apparaat onbruikbaar maken (\"bricked\"), soms voorgoed. Zigbee for Domoticz en zijn bijdragers aanvaarden geen enkele verantwoordelijkheid voor een apparaat dat door een firmware-update beschadigd raakt, noch voor de firmwarebestanden. Werk alleen bij als het nodig is, houd het apparaat tot het einde van stroom voorzien (verse batterij) en dicht bij een router, en onderbreek de overdracht niet.",
-  "admin.firmware.warning.accept": "Ik begrijp het: ik werk mijn apparaten bij op eigen risico"
+  "admin.firmware.warning.accept": "Ik begrijp het: ik werk mijn apparaten bij op eigen risico",
+  "admin.gp.type.GreenPower-4Buttons": "Schakelaar met 4 knoppen, 2 schakelaars",
+  "admin.gp.type.GreenPower-4Buttons.hint": "Links Omhoog / Omlaag en rechts Omhoog / Omlaag: twee aan/uit-widgets",
+  "admin.gp.type.GreenPower-6Buttons": "Schakelaar met 4 knoppen, 3 schakelaars",
+  "admin.gp.type.GreenPower-6Buttons.hint": "Links, rechts en beide knoppen samen, elk Omhoog / Omlaag: drie aan/uit-widgets",
+  "admin.gp.type.GreenPower-2Buttons": "Schakelaar met 4 knoppen, één wip",
+  "admin.gp.type.GreenPower-2Buttons.hint": "Eén wip, Omhoog / Omlaag: één aan/uit-widget"
 }

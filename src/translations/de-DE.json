@@ -1851,5 +1851,11 @@
   "admin.firmware.updates.col.download": "Firmware-Datei",
   "admin.firmware.warning.title": "Firmware-Updates erfolgen auf eigene Gefahr",
   "admin.firmware.warning.text": "Firmware-Dateien stammen vom Hersteller des jeweiligen Geräts, nicht von Zigbee for Domoticz. Ein Update kann fehlschlagen und ein Gerät unbrauchbar machen (\"Brick\"), manchmal endgültig. Zigbee for Domoticz und seine Mitwirkenden übernehmen keine Verantwortung für ein durch ein Firmware-Update beschädigtes Gerät, ebenso wenig für die Firmware-Dateien. Aktualisieren Sie nur bei Bedarf, halten Sie das Gerät bis zum Ende mit Strom versorgt (frische Batterie) und in der Nähe eines Routers, und unterbrechen Sie die Übertragung nicht.",
-  "admin.firmware.warning.accept": "Ich habe verstanden: Ich aktualisiere meine Geräte auf eigene Gefahr"
+  "admin.firmware.warning.accept": "Ich habe verstanden: Ich aktualisiere meine Geräte auf eigene Gefahr",
+  "admin.gp.type.GreenPower-4Buttons": "4-Tasten-Schalter, 2 Schalter",
+  "admin.gp.type.GreenPower-4Buttons.hint": "Links Auf / Ab und rechts Auf / Ab: zwei Ein/Aus-Widgets",
+  "admin.gp.type.GreenPower-6Buttons": "4-Tasten-Schalter, 3 Schalter",
+  "admin.gp.type.GreenPower-6Buttons.hint": "Links, rechts und beide Tasten zusammen, jeweils Auf / Ab: drei Ein/Aus-Widgets",
+  "admin.gp.type.GreenPower-2Buttons": "4-Tasten-Schalter, eine Wippe",
+  "admin.gp.type.GreenPower-2Buttons.hint": "Eine Wippe, Auf / Ab: ein Ein/Aus-Widget"
 }

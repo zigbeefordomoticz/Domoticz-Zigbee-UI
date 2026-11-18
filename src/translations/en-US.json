@@ -1851,5 +1851,11 @@
   "admin.firmware.updates.col.download": "Firmware file",
   "admin.firmware.warning.title": "Firmware updates are at your own risk",
   "admin.firmware.warning.text": "Firmware files are made by each device's manufacturer, not by Zigbee for Domoticz. An update can fail and leave a device unusable (\"bricked\"), sometimes for good. Zigbee for Domoticz and its contributors accept no responsibility for a device damaged by a firmware update, nor for the firmware files. Update only when you need to, keep the device powered (fresh battery) and close to a router until the end, and do not interrupt the transfer.",
-  "admin.firmware.warning.accept": "I understand: I update my devices at my own risk"
+  "admin.firmware.warning.accept": "I understand: I update my devices at my own risk",
+  "admin.gp.type.GreenPower-4Buttons": "4-button switch, 2 switches",
+  "admin.gp.type.GreenPower-4Buttons.hint": "Left Up / Down and right Up / Down: two On/Off widgets",
+  "admin.gp.type.GreenPower-6Buttons": "4-button switch, 3 switches",
+  "admin.gp.type.GreenPower-6Buttons.hint": "Left, right, and both buttons together, each Up / Down: three On/Off widgets",
+  "admin.gp.type.GreenPower-2Buttons": "4-button switch, single rocker",
+  "admin.gp.type.GreenPower-2Buttons.hint": "One rocker, Up / Down: one On/Off widget"
 }
