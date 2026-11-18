@@ -4,22 +4,8 @@
       <h2 class="card-title" translate="admin.gp.pair.title"></h2>
       <p class="hint" translate="admin.gp.pair.subtitle"></p>
 
+      <!-- Automatic first and always in view; the device types under it scroll when there are many -->
       <div class="modes" role="radiogroup" [attr.aria-label]="'admin.gp.type.title' | translate">
-        @for (item of models; track item.Name) {
-          <label class="mode" [class.selected]="model === item.Name">
-            <input
-              type="radio"
-              class="form-check-input"
-              name="gp-type"
-              [value]="item.Name"
-              [(ngModel)]="model"
-              [disabled]="open" />
-            <span>
-              <b>{{ typeLabel(item) }}</b>
-              <span class="hint">{{ typeHint(item) }}</span>
-            </span>
-          </label>
-        }
         <label class="mode" [class.selected]="model === null">
           <input
             type="radio"
@@ -33,6 +19,25 @@
             <span class="hint" translate="admin.gp.type.auto.hint"></span>
           </span>
         </label>
+        @if (models.length) {
+          <div class="type-list">
+            @for (item of models; track item.Name) {
+              <label class="mode" [class.selected]="model === item.Name">
+                <input
+                  type="radio"
+                  class="form-check-input"
+                  name="gp-type"
+                  [value]="item.Name"
+                  [(ngModel)]="model"
+                  [disabled]="open" />
+                <span>
+                  <b>{{ typeLabel(item) }}</b>
+                  <span class="hint">{{ typeHint(item) }}</span>
+                </span>
+              </label>
+            }
+          </div>
+        }
       </div>
 
       <div class="pair-state">

@@ -48,3 +48,14 @@
   padding-left: 5.25rem;
   color: #e5c07b;
 }
+
+// Device types under Automatic: about four in view, a scroll bar beyond
+.type-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  max-height: 19rem;
+  padding-right: 0.25rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
