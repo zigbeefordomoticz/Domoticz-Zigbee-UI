@@ -1878,5 +1878,11 @@
   "device.gp.type.pick": "Kies een apparaattype",
   "device.gp.type.apply": "Widgets aanmaken",
   "device.gp.type.set": "Apparaattype {{type}} ingesteld: de widgets worden binnen een minuut aangemaakt.",
-  "device.gp.remove.help": "Een Green Power-apparaat met widgets verwijder je door het laatste widget in Domoticz te verwijderen."
+  "device.gp.remove.help": "Een Green Power-apparaat met widgets verwijder je door het laatste widget in Domoticz te verwijderen.",
+  "admin.gp.type.GreenPower-4Buttons": "Schakelaar met 4 knoppen, 2 schakelaars",
+  "admin.gp.type.GreenPower-4Buttons.hint": "Links Omhoog / Omlaag en rechts Omhoog / Omlaag: twee aan/uit-widgets",
+  "admin.gp.type.GreenPower-6Buttons": "Schakelaar met 4 knoppen, 3 schakelaars",
+  "admin.gp.type.GreenPower-6Buttons.hint": "Links, rechts en beide knoppen samen, elk Omhoog / Omlaag: drie aan/uit-widgets",
+  "admin.gp.type.GreenPower-2Buttons": "Schakelaar met 4 knoppen, één wip",
+  "admin.gp.type.GreenPower-2Buttons.hint": "Eén wip, Omhoog / Omlaag: één aan/uit-widget"
 }

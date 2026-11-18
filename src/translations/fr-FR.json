@@ -2068,5 +2068,11 @@
   "device.gp.type.pick": "Choisir un type d'équipement",
   "device.gp.type.apply": "Créer les widgets",
   "device.gp.type.set": "Type d'équipement {{type}} enregistré : les widgets sont créés dans la minute.",
-  "device.gp.remove.help": "Un équipement Green Power qui a des widgets se supprime en supprimant son dernier widget dans Domoticz."
+  "device.gp.remove.help": "Un équipement Green Power qui a des widgets se supprime en supprimant son dernier widget dans Domoticz.",
+  "admin.gp.type.GreenPower-4Buttons": "Interrupteur 4 boutons, 2 interrupteurs",
+  "admin.gp.type.GreenPower-4Buttons.hint": "Gauche Haut / Bas et droite Haut / Bas : deux widgets On/Off",
+  "admin.gp.type.GreenPower-6Buttons": "Interrupteur 4 boutons, 3 interrupteurs",
+  "admin.gp.type.GreenPower-6Buttons.hint": "Gauche, droite, et les deux boutons ensemble, chacun Haut / Bas : trois widgets On/Off",
+  "admin.gp.type.GreenPower-2Buttons": "Interrupteur 4 boutons, bascule unique",
+  "admin.gp.type.GreenPower-2Buttons.hint": "Une bascule, Haut / Bas : un widget On/Off"
 }

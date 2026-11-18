@@ -1878,5 +1878,11 @@
   "device.gp.type.pick": "Gerätetyp wählen",
   "device.gp.type.apply": "Widgets anlegen",
   "device.gp.type.set": "Gerätetyp {{type}} gesetzt: die Widgets werden innerhalb einer Minute angelegt.",
-  "device.gp.remove.help": "Ein Green-Power-Gerät mit Widgets wird entfernt, indem man sein letztes Widget in Domoticz löscht."
+  "device.gp.remove.help": "Ein Green-Power-Gerät mit Widgets wird entfernt, indem man sein letztes Widget in Domoticz löscht.",
+  "admin.gp.type.GreenPower-4Buttons": "4-Tasten-Schalter, 2 Schalter",
+  "admin.gp.type.GreenPower-4Buttons.hint": "Links Auf / Ab und rechts Auf / Ab: zwei Ein/Aus-Widgets",
+  "admin.gp.type.GreenPower-6Buttons": "4-Tasten-Schalter, 3 Schalter",
+  "admin.gp.type.GreenPower-6Buttons.hint": "Links, rechts und beide Tasten zusammen, jeweils Auf / Ab: drei Ein/Aus-Widgets",
+  "admin.gp.type.GreenPower-2Buttons": "4-Tasten-Schalter, eine Wippe",
+  "admin.gp.type.GreenPower-2Buttons.hint": "Eine Wippe, Auf / Ab: ein Ein/Aus-Widget"
 }
