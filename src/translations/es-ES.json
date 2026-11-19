@@ -1207,7 +1207,7 @@
   "tools.debug.modules.title": "Módulos",
   "tools.debug.modules.on": "{{count}} módulos escriben mensajes de depuración",
   "tools.debug.search": "Buscar un módulo",
-  "tools.debug.alloff": "Desactivar todos",
+  "tools.debug.defaults": "Restaurar valores predeterminados",
   "tools.debug.cat.options": "Opciones de registro",
   "tools.debug.cat.devices": "Dispositivos y emparejamiento",
   "tools.debug.cat.messages": "Mensajes Zigbee y clústeres",

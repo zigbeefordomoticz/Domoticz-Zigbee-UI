@@ -1207,7 +1207,7 @@
   "tools.debug.modules.title": "Modules",
   "tools.debug.modules.on": "{{count}} modules schrijven debugberichten",
   "tools.debug.search": "Zoek een module",
-  "tools.debug.alloff": "Alles uitzetten",
+  "tools.debug.defaults": "Standaardwaarden herstellen",
   "tools.debug.cat.options": "Logopties",
   "tools.debug.cat.devices": "Apparaten en koppelen",
   "tools.debug.cat.messages": "Zigbee-berichten en clusters",

@@ -1207,7 +1207,7 @@
   "tools.debug.modules.title": "Module",
   "tools.debug.modules.on": "{{count}} Module schreiben Debug-Meldungen",
   "tools.debug.search": "Modul suchen",
-  "tools.debug.alloff": "Alle ausschalten",
+  "tools.debug.defaults": "Standardwerte wiederherstellen",
   "tools.debug.cat.options": "Protokolloptionen",
   "tools.debug.cat.devices": "Geräte und Kopplung",
   "tools.debug.cat.messages": "Zigbee-Meldungen und Cluster",

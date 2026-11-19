@@ -219,6 +219,7 @@ export class DebugSettingsComponent implements OnInit {
   readonly presets = PRESETS;
 
   private initial: Record<string, any> = {};
+  private defaults: Record<string, any> = {};
 
   constructor(
     private apiService: ApiService,
@@ -277,8 +278,23 @@ export class DebugSettingsComponent implements OnInit {
     return modules.filter(name => name in this.values).join(', ');
   }
 
-  allOff() {
-    this.categories.forEach(category => category.settings.forEach(setting => (this.values[setting.Name] = false)));
+  // Back to the plugin defaults rather than all off: enablePluginLogging, logDeviceUpdate and
+  // NXPExtendedErrorCode default to on, and enablePluginLogging off sends the plugin log to the
+  // Domoticz log after the next restart. The device filter goes back to all devices too
+  get resettable(): string[] {
+    return this.categories
+      .flatMap(category => category.settings.map(setting => setting.Name))
+      .concat('MatchingNwkId')
+      .filter(name => name in this.defaults);
+  }
+
+  get atDefaults(): boolean {
+    return this.resettable.every(name => String(this.values[name]) === String(this.defaults[name]));
+  }
+
+  restoreDefaults() {
+    this.resettable.forEach(name => (this.values[name] = this.defaults[name]));
+    this.matching = this.parseMatching(this.values.MatchingNwkId);
   }
 
   setMatching(nwkIds: string[]) {
@@ -322,10 +338,11 @@ export class DebugSettingsComponent implements OnInit {
     this.apiService.getSettingsDebug().subscribe((themes: Settings[]) => {
       this.settings = (themes ?? []).flatMap(theme => theme.ListOfSettings ?? []);
       this.initial = {};
+      this.defaults = {};
       this.settings.forEach(setting => {
         const value = setting.current_value !== '' ? setting.current_value : setting.default_value;
-        this.initial[setting.Name] =
-          setting.DataType === 'bool' ? value === true || value === 1 || value === '1' : value;
+        this.initial[setting.Name] = this.typed(setting, value);
+        this.defaults[setting.Name] = this.typed(setting, setting.default_value);
       });
       this.values = { ...this.initial };
       this.matching = this.parseMatching(this.values.MatchingNwkId);
@@ -346,6 +363,10 @@ export class DebugSettingsComponent implements OnInit {
       this.categories = this.categories.filter(category => category.settings.length);
       this.categories.forEach(category => category.settings.sort((a, b) => BY_NAME.compare(a.Name, b.Name)));
     });
+  }
+
+  private typed(setting: Setting, value: any): any {
+    return setting.DataType === 'bool' ? value === true || value === 1 || value === '1' : value;
   }
 
   private parseMatching(value: any): string[] {

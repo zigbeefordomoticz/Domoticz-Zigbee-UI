@@ -76,8 +76,8 @@
         [(ngModel)]="search"
         [placeholder]="'tools.debug.search' | translate"
         [attr.aria-label]="'tools.debug.search' | translate" />
-      <button type="button" class="btn btn-link" [disabled]="!enabled.length" (click)="allOff()">
-        {{ 'tools.debug.alloff' | translate }}
+      <button type="button" class="btn btn-link" [disabled]="atDefaults" (click)="restoreDefaults()">
+        {{ 'tools.debug.defaults' | translate }}
       </button>
     </div>
   </div>
