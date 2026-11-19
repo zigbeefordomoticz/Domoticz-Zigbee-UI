@@ -1207,7 +1207,7 @@
   "tools.debug.modules.title": "Modules",
   "tools.debug.modules.on": "{{count}} modules écrivent des messages de debug",
   "tools.debug.search": "Rechercher un module",
-  "tools.debug.alloff": "Tout désactiver",
+  "tools.debug.defaults": "Rétablir les valeurs par défaut",
   "tools.debug.cat.options": "Options de log",
   "tools.debug.cat.devices": "Appareils et appairage",
   "tools.debug.cat.messages": "Messages Zigbee et clusters",
