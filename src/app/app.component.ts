@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { I18nService, Logger, untilDestroyed } from '@app/core';
@@ -13,6 +13,8 @@ import { UnsubscribeOnDestroyAdapter } from './shared/adapter/unsubscribe-adapte
 import { HotkeysService } from '@ngneat/hotkeys';
 
 const log = new Logger('App');
+
+const WIKI_LINK_SELECTOR = 'a[href^="https://zigbeefordomoticz.github.io/wiki"]';
 
 @Component({
   selector: 'app-root',
@@ -86,6 +88,31 @@ export class AppComponent extends UnsubscribeOnDestroyAdapter implements OnInit,
         })
       );
     });
+  }
+
+  /**
+   * Tag links to the wiki with a Matomo campaign, so the wiki analytics can
+   * tell visits coming from the WebUI apart, and from which screen.
+   * Rewrites the href just before the browser follows it, so it also covers
+   * links rendered from translations through [innerHTML].
+   * mousedown: left, middle and right click (open in a new tab).
+   * click: keyboard activation.
+   */
+  @HostListener('document:mousedown', ['$event'])
+  @HostListener('document:click', ['$event'])
+  tagWikiLink(event: Event) {
+    const target = event.target as Element | null;
+    const anchor = target?.closest?.(WIKI_LINK_SELECTOR) as HTMLAnchorElement | null;
+    if (!anchor) {
+      return;
+    }
+    const url = new URL(anchor.href);
+    if (url.searchParams.has('mtm_campaign')) {
+      return;
+    }
+    url.searchParams.set('mtm_campaign', 'webui');
+    url.searchParams.set('mtm_kwd', this.router.url.split(/[?#]/)[0] || '/');
+    anchor.href = url.toString();
   }
 
   private setTitle() {
