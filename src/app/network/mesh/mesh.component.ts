@@ -86,7 +86,9 @@ export class MeshComponent extends UnsubscribeOnDestroyAdapter implements OnInit
             nwkid,
             zdeviceId: device.ZDeviceID,
             profileId: device.ProfileID,
-            endpoints: device.Epv2
+            endpoints: device.Epv2,
+            // What the device configuration declares, from a plugin that serves it
+            configured: device.DeviceConfIdentity
           });
           if (type) {
             types.set(nwkid, type);

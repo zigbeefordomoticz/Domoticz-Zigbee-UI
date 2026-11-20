@@ -100,6 +100,14 @@
               >({{ 'device.details.endpoint' | translate: { ep: deviceEndpoint } }})</span
             >
           }
+          @if (deviceConfigured) {
+            <span class="text-body-secondary">· {{ 'device.details.deviceid.configured' | translate }}</span>
+            @if (deviceReportedId) {
+              <span class="text-body-secondary">
+                · {{ 'device.details.deviceid.reported' | translate: { id: deviceReportedId } }}</span
+              >
+            }
+          }
         } @else {
           {{ loading ? '…' : '—' }}
         }

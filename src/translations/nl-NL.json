@@ -1884,5 +1884,9 @@
   "admin.gp.type.GreenPower-6Buttons": "Schakelaar met 4 knoppen, 3 schakelaars",
   "admin.gp.type.GreenPower-6Buttons.hint": "Links, rechts en beide knoppen samen, elk Omhoog / Omlaag: drie aan/uit-widgets",
   "admin.gp.type.GreenPower-2Buttons": "Schakelaar met 4 knoppen, één wip",
-  "admin.gp.type.GreenPower-2Buttons.hint": "Eén wip, Omhoog / Omlaag: één aan/uit-widget"
+  "admin.gp.type.GreenPower-2Buttons.hint": "Eén wip, Omhoog / Omlaag: één aan/uit-widget",
+  "device.details.deviceid.configured": "volgens de apparaatconfiguratie",
+  "device.details.deviceid.reported": "gemeld: 0x{{id}}",
+  "network.mesh.node.zdeviceid.configured": "volgens de apparaatconfiguratie",
+  "network.mesh.node.zdeviceid.reported": "gemeld: 0x{{id}}"
 }

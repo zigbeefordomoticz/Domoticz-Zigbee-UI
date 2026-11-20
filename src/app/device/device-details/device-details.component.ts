@@ -110,6 +110,10 @@ export class DeviceDetailsComponent implements OnInit {
   deviceId = '';
   deviceLabel = '';
   deviceEndpoint = '';
+  // The device id is the one the model configuration declares (plugin "DeviceConfIdentity"), and what the
+  // device reported instead when it differs
+  deviceConfigured = false;
+  deviceReportedId = '';
   // RollingLQI (link quality the coordinator measured on the frames received from the device), always; then
   // RollingRSSI (the device RSSI zigpy reports), only when the radio library fills it
   charts: SignalChart[] = [];
@@ -141,7 +145,7 @@ export class DeviceDetailsComponent implements OnInit {
   ngOnInit() {
     this.apiService.getRawZDevice(this.device._NwkId).subscribe({
       next: answer => {
-        this.read(answer?.Device);
+        this.read(answer?.Device, answer?.DeviceConfIdentity);
         this.notes = this.confNotes(answer?.DeviceConfInfo);
         this.blakadder = this.blakadderPage(answer?.DeviceConfInfo);
       },
@@ -207,7 +211,7 @@ export class DeviceDetailsComponent implements OnInit {
     this.modal.close(action);
   }
 
-  private read(record: any) {
+  private read(record: any, configured?: unknown) {
     this.loading = false;
     if (!record || typeof record !== 'object') {
       this.failed = true;
@@ -220,7 +224,8 @@ export class DeviceDetailsComponent implements OnInit {
       nwkid: this.device._NwkId,
       zdeviceId: record.ZDeviceID,
       profileId: record.ProfileID,
-      endpoints: record.Epv2
+      endpoints: record.Epv2,
+      configured
     });
     if (type) {
       this.profileId = type.profileId;
@@ -228,6 +233,8 @@ export class DeviceDetailsComponent implements OnInit {
       this.deviceId = type.id;
       this.deviceLabel = type.label ?? '';
       this.deviceEndpoint = type.endpoint ?? '';
+      this.deviceConfigured = !!type.configured;
+      this.deviceReportedId = type.reportedId ?? '';
     }
 
     this.charts = [this.signalChart('lqi', rollingLqi(record.RollingLQI))];
