@@ -1884,5 +1884,9 @@
   "admin.gp.type.GreenPower-6Buttons": "Interruptor de 4 botones, 3 interruptores",
   "admin.gp.type.GreenPower-6Buttons.hint": "Izquierda, derecha y ambos botones juntos, cada uno Arriba / Abajo: tres widgets On/Off",
   "admin.gp.type.GreenPower-2Buttons": "Interruptor de 4 botones, balancín único",
-  "admin.gp.type.GreenPower-2Buttons.hint": "Un balancín, Arriba / Abajo: un widget On/Off"
+  "admin.gp.type.GreenPower-2Buttons.hint": "Un balancín, Arriba / Abajo: un widget On/Off",
+  "device.details.deviceid.configured": "según la configuración del dispositivo",
+  "device.details.deviceid.reported": "informado: 0x{{id}}",
+  "network.mesh.node.zdeviceid.configured": "según la configuración del dispositivo",
+  "network.mesh.node.zdeviceid.reported": "informado: 0x{{id}}"
 }

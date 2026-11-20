@@ -1884,5 +1884,9 @@
   "admin.gp.type.GreenPower-6Buttons": "4-Tasten-Schalter, 3 Schalter",
   "admin.gp.type.GreenPower-6Buttons.hint": "Links, rechts und beide Tasten zusammen, jeweils Auf / Ab: drei Ein/Aus-Widgets",
   "admin.gp.type.GreenPower-2Buttons": "4-Tasten-Schalter, eine Wippe",
-  "admin.gp.type.GreenPower-2Buttons.hint": "Eine Wippe, Auf / Ab: ein Ein/Aus-Widget"
+  "admin.gp.type.GreenPower-2Buttons.hint": "Eine Wippe, Auf / Ab: ein Ein/Aus-Widget",
+  "device.details.deviceid.configured": "laut Gerätekonfiguration",
+  "device.details.deviceid.reported": "gemeldet: 0x{{id}}",
+  "network.mesh.node.zdeviceid.configured": "laut Gerätekonfiguration",
+  "network.mesh.node.zdeviceid.reported": "gemeldet: 0x{{id}}"
 }
