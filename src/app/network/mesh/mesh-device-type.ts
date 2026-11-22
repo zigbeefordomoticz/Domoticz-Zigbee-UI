@@ -20,6 +20,13 @@ import { MESH_ICONS } from './mesh-icons';
  * `0x0200` is a colour light, so a ZDeviceID without its ProfileID is
  * ambiguous. An absent profile is read as ZHA, which is what all but a handful
  * of devices use.
+ *
+ * **A device configuration can say better.** Some devices report a
+ * manufacturer-private id: CASAIA's CPR412-E roller shutter module reports
+ * `0xc412`, its model number. Its configuration then declares the id the device
+ * is to be taken for (`"ZDeviceID": "0202"`), which the plugin serves as
+ * `DeviceConfIdentity` and which wins over anything the device reported. The
+ * reported id is kept beside it, so the panel can still show what arrived.
  */
 
 /**
@@ -103,6 +110,14 @@ export interface MeshDeviceType {
   family?: MeshDeviceFamily;
   /** The Zigbee device description, in the plugin's wording. Not translated. */
   label?: string;
+  /** True when `id` is the one the device configuration declares rather than one the device reported. */
+  configured?: boolean;
+  /**
+   * With `configured`: the id the device reported, four lowercase hex digits,
+   * when it differs from the configured one. Absent when they agree or when
+   * the device reported none.
+   */
+  reportedId?: string;
 }
 
 /** What the plugin keeps per device, reduced to what is needed here. */
@@ -116,6 +131,12 @@ export interface MeshDeviceIdentity {
    * each simple descriptor. This is the reliable half — see `candidates()`.
    */
   endpoints?: unknown;
+  /**
+   * `DeviceConfIdentity`: `{ ZDeviceID?, ProfileID? }` as the device
+   * configuration declares them. `{}` when it declares none, absent from a
+   * plugin too old to serve it.
+   */
+  configured?: unknown;
 }
 
 type Entry = [MeshDeviceFamily, string];
@@ -304,7 +325,12 @@ function namedProfile(profileId: number | null): boolean {
 
 /**
  * Resolve one device's ZDeviceID. `undefined` only when it reported none at
- * all, anywhere.
+ * all, anywhere, and its configuration declares none either.
+ *
+ * A ZDeviceID the device configuration declares wins outright: it is there
+ * because what the device reports does not say what it is. The reported id
+ * the panel would otherwise have shown is kept as `reportedId` when it
+ * differs.
  *
  * The candidate that wins is the first that a table names, preferring one
  * reported under a profile the tables were written for: Develco's plugs carry
@@ -324,30 +350,65 @@ function namedProfile(profileId: number | null): boolean {
  */
 export function resolveDeviceType(identity: MeshDeviceIdentity | undefined): MeshDeviceType | undefined {
   const reported = candidates(identity);
-  if (!reported.length) {
-    return undefined;
-  }
 
   const named = reported.filter(candidate => namedProfile(candidate.profileId));
   const ranked = [...named, ...reported.filter(candidate => !namedProfile(candidate.profileId))];
-
   const chosen = ranked.find(candidate => lookup(candidate)) ?? ranked[0];
-  const match = lookup(chosen);
 
+  const configured = configuredCandidate(identity?.configured, chosen);
+  if (configured) {
+    const type = describe(configured);
+    type.configured = true;
+    if (chosen && chosen.id !== configured.id) {
+      type.reportedId = hex4(chosen.id);
+    }
+    return type;
+  }
+
+  return chosen ? describe(chosen) : undefined;
+}
+
+/**
+ * The id the device configuration declares, as a candidate, or `null`.
+ *
+ * A configuration naming no profile keeps the one the device reported with
+ * the id it would otherwise have shown: the CPR412-E declares only
+ * `"ZDeviceID": "0202"`, and its reported `0x0104` is what makes that a
+ * Window Covering Device rather than a ZLL id.
+ */
+function configuredCandidate(configured: unknown, reported: Candidate | undefined): Candidate | null {
+  if (!configured || typeof configured !== 'object') {
+    return null;
+  }
+  const fields = configured as Record<string, unknown>;
+  const id = hexField(fields.ZDeviceID);
+  if (id === null) {
+    return null;
+  }
+  return { id, profileId: hexField(fields.ProfileID) ?? reported?.profileId ?? null };
+}
+
+/** A candidate as the panel shows it, named when a table knows its id. */
+function describe(candidate: Candidate): MeshDeviceType {
+  const match = lookup(candidate);
   const type: MeshDeviceType = {
-    id: chosen.id.toString(16).padStart(4, '0'),
-    profileId: chosen.profileId === null ? '' : chosen.profileId.toString(16).padStart(4, '0')
+    id: hex4(candidate.id),
+    profileId: candidate.profileId === null ? '' : hex4(candidate.profileId)
   };
-  if (chosen.endpoint) {
-    type.endpoint = chosen.endpoint;
+  if (candidate.endpoint) {
+    type.endpoint = candidate.endpoint;
   }
   if (match) {
     type.profile = match[0];
     type.family = match[1][0];
     type.label = match[1][1];
   }
-
   return type;
+}
+
+/** Four lowercase hex digits, as the plugin spells ids. */
+function hex4(value: number): string {
+  return value.toString(16).padStart(4, '0');
 }
 
 /** Every family has a glyph, and every glyph exists. Guards a typo in the tables. */

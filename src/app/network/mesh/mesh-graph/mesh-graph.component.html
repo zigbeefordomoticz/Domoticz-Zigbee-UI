@@ -597,6 +597,17 @@
                         <span class="font-monospace">{{ selectedDeviceType.endpoint }}</span></span
                       >
                     }
+                    @if (selectedDeviceType.configured) {
+                      <span class="text-muted ms-1"
+                        >· {{ 'network.mesh.node.zdeviceid.configured' | translate }}
+                        @if (selectedDeviceType.reportedId) {
+                          ·
+                          {{
+                            'network.mesh.node.zdeviceid.reported' | translate: { id: selectedDeviceType.reportedId }
+                          }}
+                        }
+                      </span>
+                    }
                   } @else if (selectedDeviceType) {
                     <span class="font-monospace">0x{{ selectedDeviceType.id }}</span>
                     @if (selectedDeviceType.profileId) {
@@ -611,7 +622,19 @@
                         <span class="font-monospace">{{ selectedDeviceType.endpoint }}</span></span
                       >
                     }
-                    <span class="text-muted ms-1" translate="network.mesh.node.zdeviceid.unnamed"></span>
+                    @if (selectedDeviceType.configured) {
+                      <span class="text-muted ms-1"
+                        >· {{ 'network.mesh.node.zdeviceid.configured' | translate }}
+                        @if (selectedDeviceType.reportedId) {
+                          ·
+                          {{
+                            'network.mesh.node.zdeviceid.reported' | translate: { id: selectedDeviceType.reportedId }
+                          }}
+                        }
+                      </span>
+                    } @else {
+                      <span class="text-muted ms-1" translate="network.mesh.node.zdeviceid.unnamed"></span>
+                    }
                   } @else {
                     <span class="text-muted" translate="network.mesh.node.zdeviceid.unknown"></span>
                   }

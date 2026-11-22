@@ -1884,5 +1884,9 @@
   "admin.gp.type.GreenPower-6Buttons": "4-button switch, 3 switches",
   "admin.gp.type.GreenPower-6Buttons.hint": "Left, right, and both buttons together, each Up / Down: three On/Off widgets",
   "admin.gp.type.GreenPower-2Buttons": "4-button switch, single rocker",
-  "admin.gp.type.GreenPower-2Buttons.hint": "One rocker, Up / Down: one On/Off widget"
+  "admin.gp.type.GreenPower-2Buttons.hint": "One rocker, Up / Down: one On/Off widget",
+  "device.details.deviceid.configured": "from the device configuration",
+  "device.details.deviceid.reported": "reported 0x{{id}}",
+  "network.mesh.node.zdeviceid.configured": "from the device configuration",
+  "network.mesh.node.zdeviceid.reported": "reported 0x{{id}}"
 }
