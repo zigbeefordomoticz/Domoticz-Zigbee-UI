@@ -75,7 +75,7 @@
     "https-proxy-agent": "^7.0.4",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
-    "prettier": "^3.10.0",
+    "prettier": "^3.10.1",
     "pretty-quick": "^4.2.2",
     "stylelint": "^16.2.1",
     "stylelint-config-recommended-scss": "^14.0.0",
