@@ -742,7 +742,7 @@
   "admin.provisioning.reset.title": "Vollständigen Reset vorbereiten",
   "admin.provisioning.reset.hint": "Vor dem Zurücksetzen des Geräts ausführen. Wenn es wieder beitritt, führt das Plugin eine vollständige Erkennung durch.",
   "admin.provisioning.recreate.title": "Widgets neu erstellen",
-  "admin.provisioning.recreate.hint": "Verwendet die neueste Konfiguration. Entfernen Sie danach die alten Widgets in Domoticz.",
+  "admin.provisioning.recreate.hint": "Erstellt die fehlenden Widgets aus der neuesten Konfiguration und behält die vorhandenen. Löschen Sie nie alle Widgets eines Geräts in Domoticz: Das Entfernen des letzten lässt das Gerät das Zigbee-Netz verlassen.",
   "admin.status.groupscan": "Gruppenscan läuft",
   "admin.status.scanning": "Suche läuft",
   "admin.groups.off.title": "Die Gruppenverwaltung ist nicht aktiviert",

@@ -742,7 +742,7 @@
   "admin.provisioning.reset.title": "Préparer une réinitialisation complète",
   "admin.provisioning.reset.hint": "À faire avant de réinitialiser l'appareil. Quand il rejoint, le plugin refait une découverte complète.",
   "admin.provisioning.recreate.title": "Recréer les widgets",
-  "admin.provisioning.recreate.hint": "Utilise la configuration la plus récente. Supprimez ensuite les anciens widgets dans Domoticz.",
+  "admin.provisioning.recreate.hint": "Crée les widgets manquants à partir de la configuration la plus récente et garde ceux qui existent. Ne supprimez jamais tous les widgets d'un appareil dans Domoticz : supprimer le dernier fait quitter le réseau Zigbee à l'appareil.",
   "admin.status.groupscan": "Analyse des groupes en cours",
   "admin.status.scanning": "Analyse en cours",
   "admin.groups.off.title": "La gestion des groupes n'est pas activée",
