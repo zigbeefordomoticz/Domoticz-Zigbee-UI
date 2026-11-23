@@ -339,11 +339,13 @@ Read this before touching `package.json`.
   `highcharts`; its 22.x needs Angular 22. `follow-redirects`, `glob` and `minimatch` remain
   too, all build-time. `npm audit fix` without `--force` rewrites the lockfile
   well beyond the advisory, so update the named package instead.
-- **`.github/dependabot.yml` no longer pins anything.** The `ignore` block and
-  the group's `exclude-patterns` both existed only because Angular was stuck at
-  17.3, and both were removed with the upgrade. Do not reintroduce them without
-  a reason that will still be true in six months; the history of why they were
-  a trap is in the closing comments on #247, #250 and #255.
+- **`.github/dependabot.yml` no longer pins Angular.** The Angular `ignore`
+  block and the group's `exclude-patterns` both existed only because Angular was
+  stuck at 17.3, and both were removed with the upgrade. Do not reintroduce them
+  without a reason that will still be true in six months; the history of why
+  they were a trap is in the closing comments on #247, #250 and #255. The one
+  `ignore` entry left keeps `@types/node` majors out: the typings follow the
+  Node version CI builds with (22). Remove it when CI moves to Node 24.
 - **Version updates are split Angular-coupled / other × minor+patch / major.**
   The `angular`, `npm-development` and `npm-production` groups take minor and
   patch updates and should be mergeable. `angular-major` and `npm-major` take
@@ -354,8 +356,8 @@ Read this before touching `package.json`.
 - **Security updates are grouped** into one pull request via the `npm-security`
   group rather than one per advisory.
 - **Never move an Angular-coupled package on its own.** Angular,
-  `@angular-devkit`, `@angular-eslint`, `primeng`, `ng-bootstrap`, `ng-select`,
-  `ngx-*` and `zone.js` move together or not at all.
+  `@angular-devkit`, `@angular-eslint`, `primeng`, `@primeuix/*`, `ng-bootstrap`,
+  `ng-select`, `ngx-*` and `zone.js` move together or not at all.
 
 ### Angular 22 is the next step, and it is blocked
 

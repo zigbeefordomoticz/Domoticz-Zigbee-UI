@@ -159,16 +159,18 @@ not treat the dependency set as free to move.
   `@ngtools/webpack` keeps an interface import alive (angular/angular-cli#34580,
   fix merged after 21.2.29). Use `import type` for interfaces that are
   `extends`-ed or re-exported. See `admin/firmware/firmware.component.ts`.
-- `.github/dependabot.yml` **no longer pins anything.** The `ignore` block
-  existed only because Angular was stuck at 17.3 and was removed with the
+- `.github/dependabot.yml` **no longer pins Angular.** The Angular `ignore`
+  block existed only because Angular was stuck at 17.3 and was removed with the
   upgrade. Do not reintroduce it without a reason that will still hold in six
-  months. The `exclude-patterns` on the version-update groups are not a
-  suppression: they route the Angular-coupled set to `angular` /
-  `angular-major` (see the comment block in the file).
+  months. The one `ignore` entry left keeps `@types/node` on the Node major CI
+  builds with (22); remove it when CI moves to Node 24. The `exclude-patterns`
+  on the version-update groups are not a suppression: they route the
+  Angular-coupled set to `angular` / `angular-major` (see the comment block in
+  the file).
 - **Never bump an Angular package on its own.** Angular, `@angular-devkit`,
-  `@angular-eslint`, `primeng`, `ng-bootstrap`, `ng-select`, `ngx-*` and
-  `zone.js` move together or not at all. A PR that moves part of the set fails
-  `npm ci` with `ERESOLVE`.
+  `@angular-eslint`, `primeng`, `@primeuix/*`, `ng-bootstrap`, `ng-select`,
+  `ngx-*` and `zone.js` move together or not at all. A PR that moves part of
+  the set fails `npm ci` with `ERESOLVE`.
 - **`@ng-select/ng-select` is pinned to exactly `23.0.0`** with no range. It is
   the only release in its 23.x line that supports Angular 21. Do not widen it to
   a caret — that resolves to 23.11.0, which requires Angular 22.
@@ -239,5 +241,6 @@ Consequences for agents:
 - ❌ Do not commit directly to `beta` — it publishes
 - ❌ Do not claim tests pass; there are none
 - ❌ Do not bundle unrelated changes into one pull request
-- ❌ Do not reintroduce `ignore` entries in `.github/dependabot.yml`
+- ❌ Do not reintroduce `ignore` entries for Angular-coupled packages in
+  `.github/dependabot.yml`
 - ❌ Do not run `eslint --fix` for `prefer-standalone`; it breaks the build

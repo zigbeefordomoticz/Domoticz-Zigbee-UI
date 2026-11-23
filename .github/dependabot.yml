@@ -22,12 +22,12 @@ updates:
       # That is how this repository once accumulated 35 open PRs, nearly all of
       # them transitive build-time dependencies. Collapse them into a single PR.
       #
-      # There is deliberately no exclude-patterns on this group and no ignore
-      # block. Both existed because Angular was pinned at 17.3 and Dependabot kept
-      # proposing Angular hoists that could not install; the history is in the
-      # closing comments on #247, #250 and #255 if it is ever needed. The
-      # Angular 17 -> 21 upgrade removed the reason, so the suppression went
-      # with it.
+      # There is deliberately no exclude-patterns on this group, and no ignore
+      # entry for any Angular package. Both existed because Angular was pinned
+      # at 17.3 and Dependabot kept proposing Angular hoists that could not
+      # install; the history is in the closing comments on #247, #250 and #255
+      # if it is ever needed. The Angular 17 -> 21 upgrade removed the reason,
+      # so the suppression went with it.
       #
       # The group forms normally again, and it does raise PRs. #264 appeared
       # within minutes of the upgrade reaching beta.
@@ -84,7 +84,10 @@ updates:
       # remaining majors (eslint, highcharts, ...), each its own piece of work.
       #
       # The Angular-coupled set is the one AGENTS.md says must move together.
-      # Keep the four lists below identical.
+      # `@primeuix/*` belongs to it: each primeng major pins its own
+      # @primeuix/styles / styled line (primeng 21 -> styles ^2, styled ^0.7;
+      # @primeuix/themes 3 needs styled ^1.2, i.e. primeng 22).
+      # Keep the five lists below identical.
       angular:
         applies-to: version-updates
         update-types: ['minor', 'patch']
@@ -97,6 +100,7 @@ updates:
           - 'angular-highcharts'
           - 'ngx-*'
           - 'primeng'
+          - '@primeuix/*'
           - 'zone.js'
 
       angular-major:
@@ -111,6 +115,7 @@ updates:
           - 'angular-highcharts'
           - 'ngx-*'
           - 'primeng'
+          - '@primeuix/*'
           - 'zone.js'
 
       npm-development:
@@ -126,6 +131,7 @@ updates:
           - 'angular-highcharts'
           - 'ngx-*'
           - 'primeng'
+          - '@primeuix/*'
           - 'zone.js'
 
       npm-production:
@@ -141,6 +147,7 @@ updates:
           - 'angular-highcharts'
           - 'ngx-*'
           - 'primeng'
+          - '@primeuix/*'
           - 'zone.js'
 
       npm-major:
@@ -157,4 +164,14 @@ updates:
           - 'angular-highcharts'
           - 'ngx-*'
           - 'primeng'
+          - '@primeuix/*'
           - 'zone.js'
+
+    # Not a suppression of the kind removed with the Angular 17 pin (see the
+    # npm-security comment above): @types/node follows the Node version CI
+    # builds with (build.yml matrix: 22), so its majors would type APIs the
+    # runtime does not have. Minor and patch updates of 22.x still arrive.
+    # Remove this entry when CI moves to Node 24.
+    ignore:
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
