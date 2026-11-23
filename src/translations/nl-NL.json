@@ -742,7 +742,7 @@
   "admin.provisioning.reset.title": "Een volledige reset voorbereiden",
   "admin.provisioning.reset.hint": "Doe dit voordat u het apparaat reset. Als het opnieuw verbindt, doet de plug-in een volledige detectie.",
   "admin.provisioning.recreate.title": "Widgets opnieuw maken",
-  "admin.provisioning.recreate.hint": "Gebruikt de nieuwste configuratie. Verwijder daarna de oude widgets in Domoticz.",
+  "admin.provisioning.recreate.hint": "Maakt de ontbrekende widgets aan volgens de nieuwste configuratie en behoudt de bestaande. Verwijder nooit alle widgets van een apparaat in Domoticz: als u de laatste verwijdert, verlaat het apparaat het Zigbee-netwerk.",
   "admin.status.groupscan": "Groepsscan bezig",
   "admin.status.scanning": "Bezig met scannen",
   "admin.groups.off.title": "Groepsbeheer is niet ingeschakeld",

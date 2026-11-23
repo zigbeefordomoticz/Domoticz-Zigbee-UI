@@ -742,7 +742,7 @@
   "admin.provisioning.reset.title": "Preparar un reinicio completo",
   "admin.provisioning.reset.hint": "Hágalo antes de reiniciar el dispositivo. Cuando se vuelva a unir, el plugin rehace una detección completa.",
   "admin.provisioning.recreate.title": "Volver a crear los widgets",
-  "admin.provisioning.recreate.hint": "Usa la configuración más reciente. Después elimine los widgets antiguos en Domoticz.",
+  "admin.provisioning.recreate.hint": "Crea los widgets que faltan a partir de la configuración más reciente y conserva los existentes. No elimine nunca todos los widgets de un dispositivo en Domoticz: quitar el último hace que el dispositivo abandone la red Zigbee.",
   "admin.status.groupscan": "Escaneo de grupos en curso",
   "admin.status.scanning": "Escaneando",
   "admin.groups.off.title": "La gestión de grupos no está activada",
