@@ -6,7 +6,7 @@ import { Capabilities } from '@app/shared/models/capabilities';
 import { CasaiaDevice, UpdateCasaiaDevice } from '@app/shared/models/casaia-device';
 import { Command } from '@app/shared/models/command';
 import { CommandZigpy } from '@app/shared/models/command-zigpy';
-import { Configure, Edit } from '@app/shared/models/configure-reporting';
+import { Configure, Edit, ReportingRead } from '@app/shared/models/configure-reporting';
 import { Device, ZDevices } from '@app/shared/models/device';
 import { DeviceBind } from '@app/shared/models/device-bind';
 import { DeviceByName } from '@app/shared/models/device-by-name';
@@ -90,6 +90,7 @@ const routes = {
   pluginUpgrade: '/plugin-upgrade',
   configureReporting: '/cfgrpt-ondemand-config',
   demandConfigureReporting: '/cfgrpt-ondemand',
+  readReporting: '/cfgrpt-read',
   zlinky: '/zlinky',
   pluginLog: '/plugin-log',
   deviceNonOptimized: '/non-optmize-device-configuration',
@@ -736,6 +737,21 @@ export class ApiService {
 
   getTriggerConfigureReporting(_NwkId: string): Observable<any> {
     return this.httpClient.get(routes.demandConfigureReporting + '/' + _NwkId).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  // Asks the device how its attributes report; the answers are stored by the plugin, read with getReportingRead()
+  putReportingRead(nwkId: string): Observable<any> {
+    return this.httpClient.put(routes.readReporting + '/' + nwkId, {}).pipe(
+      map((body: any) => body),
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  getReportingRead(nwkId: string): Observable<ReportingRead> {
+    return this.httpClient.get(routes.readReporting + '/' + nwkId).pipe(
       map((body: any) => body),
       catchError(error => this.handleError(error))
     );

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { BindingTable, BindingTableEntry } from '@app/shared/models/binding';
-import { Configure, Info } from '@app/shared/models/configure-reporting';
+import { Configure, Info, ReportingRead, ReportingRecord } from '@app/shared/models/configure-reporting';
 import { ZDevices } from '@app/shared/models/device';
 import { DeviceBind } from '@app/shared/models/device-bind';
 import { Plugin } from '@app/shared/models/plugin';
@@ -37,6 +37,11 @@ const CHANGE_DIGITS: Record<string, number> = {
   e2: 8
 };
 const MAX_INTERVAL = 0xffff;
+// ZCL status of a read: reports, and no reporting configured for the attribute
+const READ_OK = '00';
+const READ_NOT_CONFIGURED = '8b';
+
+type ReadField = 'MinInterval' | 'MaxInterval' | 'Change';
 
 interface Binding {
   label: string;
@@ -56,6 +61,8 @@ interface ClusterRow {
   name: string;
   bindings: Binding[];
   reports: ReportRow[];
+  // Read on the device, with no reporting configuration in the plugin on this endpoint
+  deviceOnly: ReportingRecord[];
 }
 
 /**
@@ -65,6 +72,7 @@ interface ClusterRow {
  * Binding table: /binding-table-req asks the device, the plugin stores the answer, /binding-table-disp
  * reads it. Reporting: /cfgrpt-ondemand-config/<nwkid> (min / max intervals and change in hex, the change
  * as long as its data type), saved whole with PUT; /cfgrpt-ondemand sends it to the device again.
+ * /cfgrpt-read/<nwkid>: how the device itself says it reports, PUT to ask it, GET what it answered.
  */
 @Component({
   selector: 'app-binding',
@@ -75,6 +83,8 @@ interface ClusterRow {
 export class BindingComponent implements OnInit {
   @ViewChild('panel') panelRef: ElementRef<HTMLElement>;
 
+  readonly readFields: ReadField[] = ['MinInterval', 'MaxInterval', 'Change'];
+
   plugin: Plugin;
   devices: ZDevices[] = [];
   search = '';
@@ -82,6 +92,7 @@ export class BindingComponent implements OnInit {
   rows: ClusterRow[] = [];
   table: BindingTable = null;
   reporting: Configure[] = null;
+  read: ReportingRead = null;
   bindable = new Set<string>();
   coordinatorIeee: string = null;
   loading = false;
@@ -135,6 +146,7 @@ export class BindingComponent implements OnInit {
     this.adding = null;
     this.table = null;
     this.reporting = null;
+    this.read = null;
     this.rows = [];
     this.loading = true;
     this.readTable();
@@ -143,6 +155,7 @@ export class BindingComponent implements OnInit {
         this.reporting = Array.isArray(config) ? config : [];
         this.build();
       });
+      this.readReporting();
     }
     this.build();
     // On a phone the device comes after the whole list: bring it into sight
@@ -165,6 +178,23 @@ export class BindingComponent implements OnInit {
           next: () => {
             if (this.device?._NwkId === nwkId) {
               this.readTable();
+            }
+          }
+        });
+    });
+  }
+
+  // Asks the device how its attributes report, then reads what it answered so far
+  requestReporting() {
+    const nwkId = this.device._NwkId;
+    this.apiService.putReportingRead(nwkId).subscribe(() => {
+      this.toastr.success(this.translate.instant('tools.bind.read.asked'));
+      timer(3000, 5000)
+        .pipe(take(3))
+        .subscribe({
+          next: () => {
+            if (this.device?._NwkId === nwkId) {
+              this.readReporting();
             }
           }
         });
@@ -282,6 +312,43 @@ export class BindingComponent implements OnInit {
     });
   }
 
+  // What the device answered for an attribute of this row
+  deviceRecord(row: ClusterRow, attribute: string): ReportingRecord | undefined {
+    return this.read?.Records.find(
+      record => record.Ep === row.ep && record.ClusterId === row.id && record.Attribute === attribute
+    );
+  }
+
+  reads(record: ReportingRecord | undefined): boolean {
+    return record?.Status === READ_OK;
+  }
+
+  // Translation key for an attribute the device gives no reporting for
+  readProblem(record: ReportingRecord): string {
+    return record.Status === READ_NOT_CONFIGURED ? 'tools.bind.read.notconfigured' : 'tools.bind.read.status';
+  }
+
+  deviceValue(record: ReportingRecord, field: ReadField): string {
+    const number = parseInt(record[field], 16);
+    return isNaN(number) ? '—' : String(number);
+  }
+
+  // The device does not report as saved in the plugin
+  differs(report: ReportRow, record: ReportingRecord, field: ReadField): boolean {
+    return parseInt(report.original[field], 16) !== parseInt(record[field], 16);
+  }
+
+  private readReporting() {
+    const nwkId = this.device._NwkId;
+    this.apiService.getReportingRead(nwkId).subscribe(read => {
+      if (this.device?._NwkId !== nwkId) {
+        return;
+      }
+      this.read = Array.isArray(read?.Records) ? read : null;
+      this.build();
+    });
+  }
+
   private readTable() {
     const nwkId = this.device._NwkId;
     this.apiService.getBindingTable(nwkId).subscribe(table => {
@@ -299,11 +366,13 @@ export class BindingComponent implements OnInit {
     if (!this.device) {
       return;
     }
+    // A table read while values are being edited: what they are compared to stays what is saved in the plugin
+    const originals = new Map(this.rows.flatMap(row => row.reports).map(report => [report.info, report.original]));
     const rows: ClusterRow[] = [];
     const rowFor = (ep: string, id: string, name = '') => {
       let row = rows.find(item => item.ep === ep && item.id === id);
       if (!row) {
-        row = { ep, id, name, bindings: [], reports: [] };
+        row = { ep, id, name, bindings: [], reports: [], deviceOnly: [] };
         rows.push(row);
       }
       if (name && !row.name) {
@@ -339,12 +408,21 @@ export class BindingComponent implements OnInit {
       (cluster.Attributes ?? []).forEach(attribute => {
         const info = attribute.Infos?.[0];
         if (info) {
-          row.reports.push({ attribute: attribute.Attribute, info, original: { ...info } });
+          row.reports.push({ attribute: attribute.Attribute, info, original: originals.get(info) ?? { ...info } });
         }
       });
     });
+    (this.read?.Records ?? []).forEach(record => {
+      if (record.Status !== READ_OK && record.Status !== READ_NOT_CONFIGURED) {
+        return;
+      }
+      const row = rowFor(record.Ep, record.ClusterId);
+      if (!row.reports.some(report => report.attribute === record.Attribute)) {
+        row.deviceOnly.push(record);
+      }
+    });
     this.rows = rows
-      .filter(row => this.bindable.has(row.id) || row.bindings.length || row.reports.length)
+      .filter(row => this.bindable.has(row.id) || row.bindings.length || row.reports.length || row.deviceOnly.length)
       .sort((a, b) => a.ep.localeCompare(b.ep) || a.id.localeCompare(b.id));
   }
 
