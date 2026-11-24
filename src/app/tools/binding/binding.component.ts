@@ -238,8 +238,10 @@ export class BindingComponent implements OnInit {
 
   changed(report: ReportRow): boolean {
     return (['MinInterval', 'MaxInterval', 'Change'] as (keyof Info)[]).some(
+      // Object.is: a value missing on both sides (no Change on a discrete attribute) is NaN twice, not a change
       field =>
-        parseInt(report.info[field], 16) !== parseInt(report.original[field], 16) || report.info[field] === 'invalid'
+        !Object.is(parseInt(report.info[field], 16), parseInt(report.original[field], 16)) ||
+        report.info[field] === 'invalid'
     );
   }
 
