@@ -258,10 +258,13 @@ export class BindingComponent implements OnInit {
     );
   }
 
+  // The plugin stores the configuration, and sends it to the device on request only
   saveReporting() {
-    this.apiService.putConfigureReporting(this.device._NwkId, this.reporting).subscribe(() => {
+    const nwkId = this.device._NwkId;
+    this.apiService.putConfigureReporting(nwkId, this.reporting).subscribe(() => {
       this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
       this.rows.forEach(row => row.reports.forEach(report => (report.original = { ...report.info })));
+      this.sendReporting(nwkId);
     });
   }
 
@@ -269,9 +272,9 @@ export class BindingComponent implements OnInit {
     this.rows.forEach(row => row.reports.forEach(report => Object.assign(report.info, report.original)));
   }
 
-  sendReporting() {
+  sendReporting(nwkId = this.device._NwkId) {
     this.apiService
-      .getTriggerConfigureReporting(this.device._NwkId)
+      .getTriggerConfigureReporting(nwkId)
       .subscribe(() => this.toastr.success(this.translate.instant('tools.bind.report.sent')));
   }
 
