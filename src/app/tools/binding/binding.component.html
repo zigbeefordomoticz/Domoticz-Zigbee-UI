@@ -40,10 +40,18 @@
             @if (table) {
               {{
                 'tools.bind.table.read'
-                  | translate: { date: (table.TimeStamp * 1000 | date: 'dd/MM HH:mm'), status: table.Status }
+                  | translate: { date: (table.TimeStamp * 1000 | date: 'dd/MM/yyyy HH:mm'), status: table.Status }
               }}
             } @else {
               {{ 'tools.bind.table.none' | translate }}
+            }
+            @if (zigpy) {
+              ·
+              @if (read?.TimeStamp) {
+                {{ 'tools.bind.read.date' | translate: { date: (read.TimeStamp * 1000 | date: 'dd/MM/yyyy HH:mm') } }}
+              } @else {
+                {{ 'tools.bind.read.none' | translate }}
+              }
             }
           </span>
         </div>
@@ -52,6 +60,9 @@
             {{ 'tools.bind.table.request' | translate }}
           </button>
           @if (zigpy) {
+            <button type="button" class="btn btn-outline-secondary" (click)="requestReporting()">
+              {{ 'tools.bind.read.request' | translate }}
+            </button>
             <button type="button" class="btn btn-outline-secondary" (click)="sendReporting()">
               {{ 'tools.bind.report.send' | translate }}
             </button>
@@ -137,12 +148,16 @@
                   </td>
                 </tr>
                 @for (report of row.reports; track report.attribute) {
+                  @let record = deviceRecord(row, report.attribute);
                   <tr class="report" [class.changed]="changed(report)">
                     <td class="attr">
                       <span class="font-monospace">{{ report.attribute }}</span>
                     </td>
                     <td>
                       <span class="sub">{{ 'tools.bind.type' | translate: { type: report.info.DataType } }}</span>
+                      @if (record && !reads(record)) {
+                        <span class="sub">{{ readProblem(record) | translate: { status: record.Status } }}</span>
+                      }
                     </td>
                     <td>
                       <input
@@ -153,6 +168,11 @@
                         [attr.aria-label]="
                           ('tools.bind.col.min' | translate) + ' ' + row.id + '/' + report.attribute
                         " />
+                      <ng-container
+                        *ngTemplateOutlet="
+                          onDevice;
+                          context: { report: report, record: record, field: 'MinInterval' }
+                        "></ng-container>
                     </td>
                     <td>
                       <input
@@ -163,6 +183,11 @@
                         [attr.aria-label]="
                           ('tools.bind.col.max' | translate) + ' ' + row.id + '/' + report.attribute
                         " />
+                      <ng-container
+                        *ngTemplateOutlet="
+                          onDevice;
+                          context: { report: report, record: record, field: 'MaxInterval' }
+                        "></ng-container>
                     </td>
                     <td>
                       @if (changeEditable(report)) {
@@ -173,10 +198,38 @@
                           [attr.aria-label]="
                             ('tools.bind.col.change' | translate) + ' ' + row.id + '/' + report.attribute
                           " />
+                        <ng-container
+                          *ngTemplateOutlet="
+                            onDevice;
+                            context: { report: report, record: record, field: 'Change' }
+                          "></ng-container>
                       } @else {
                         <span class="sub">—</span>
                       }
                     </td>
+                  </tr>
+                }
+                @for (record of row.deviceOnly; track record.Attribute) {
+                  <tr class="report">
+                    <td class="attr">
+                      <span class="font-monospace">{{ record.Attribute }}</span>
+                    </td>
+                    <td [attr.colspan]="reads(record) ? 1 : 4">
+                      @if (reads(record)) {
+                        <span class="sub">{{ 'tools.bind.type' | translate: { type: record.DataType } }}</span>
+                      } @else {
+                        <span class="sub">{{ readProblem(record) | translate: { status: record.Status } }}</span>
+                      }
+                    </td>
+                    @if (reads(record)) {
+                      @for (field of readFields; track field) {
+                        <td>
+                          <span class="sub">{{
+                            'tools.bind.read.value' | translate: { value: deviceValue(record, field) }
+                          }}</span>
+                        </td>
+                      }
+                    }
                   </tr>
                 }
               }
@@ -206,3 +259,14 @@
     }
   </section>
 </div>
+
+<ng-template #onDevice let-report="report" let-record="record" let-field="field">
+  @if (reads(record)) {
+    <span
+      class="sub"
+      [class.differs]="differs(report, record, field)"
+      [title]="differs(report, record, field) ? ('tools.bind.read.differs' | translate) : ''">
+      {{ 'tools.bind.read.value' | translate: { value: deviceValue(record, field) } }}
+    </span>
+  }
+</ng-template>

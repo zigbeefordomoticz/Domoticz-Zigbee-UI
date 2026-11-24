@@ -153,6 +153,11 @@ tr.report.changed td {
   font-family: var(--bs-font-monospace);
 }
 
+.sub.differs {
+  font-weight: 600;
+  color: var(--bs-warning-text-emphasis);
+}
+
 .foot {
   display: flex;
   flex-wrap: wrap;

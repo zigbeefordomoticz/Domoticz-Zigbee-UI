@@ -30,3 +30,21 @@ export class ClusterToDisplay {
   maxInterval: string;
   change: string;
 }
+
+// How one attribute reports, as the device answered (/cfgrpt-read): intervals and change only when Status is 00
+export interface ReportingRecord {
+  Ep: string;
+  ClusterId: string;
+  Attribute: string;
+  Status?: string;
+  TimeStamp?: number;
+  DataType?: string;
+  MinInterval?: string;
+  MaxInterval?: string;
+  Change?: string;
+}
+
+export interface ReportingRead {
+  TimeStamp: number | null;
+  Records: ReportingRecord[];
+}
