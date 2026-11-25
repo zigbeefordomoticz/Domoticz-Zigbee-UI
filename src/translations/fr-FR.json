@@ -1244,6 +1244,7 @@
   "tools.errors.version": "Version du plugin",
   "tools.errors.firmware": "Firmware du coordinateur",
   "tools.errors.context": "Contexte",
+  "tools.copy.failed": "Rien n'a été copié : le navigateur a refusé. Utilisez plutôt le téléchargement.",
   "tools.errors.copy": "Copier pour une issue GitHub",
   "tools.errors.copied": "Copié, prêt à coller dans une issue",
   "tools.errors.pick": "Choisissez une erreur à gauche pour voir son détail.",

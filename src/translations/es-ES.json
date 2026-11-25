@@ -1244,6 +1244,7 @@
   "tools.errors.version": "Versión del plugin",
   "tools.errors.firmware": "Firmware del coordinador",
   "tools.errors.context": "Contexto",
+  "tools.copy.failed": "No se ha copiado nada: el navegador lo ha rechazado. Use la descarga en su lugar.",
   "tools.errors.copy": "Copiar como texto de issue de GitHub",
   "tools.errors.copied": "Copiado, listo para pegar en una issue",
   "tools.errors.pick": "Elija un error a la izquierda para ver sus detalles.",
