@@ -33,7 +33,7 @@ interface JoinedGpd {
 }
 
 /**
- * Admin → Provisionning → Zigbee Green Power: pair a Green Power device.
+ * Admin → Provisioning → Zigbee Green Power: pair a Green Power device.
  *
  * Most Green Power devices tell nothing about themselves when they pair, so the user picks the device
  * type first (/zgp-models, Conf/ZGPmodel of the plugin). Open sends PUT /zgp-pairing, which opens
