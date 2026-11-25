@@ -1,22 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { extract } from '@app/core';
-import { BindingComponent } from './binding/binding.component';
-import { CommandComponent } from './command/command.component';
 import { DebugSettingsComponent } from './debug-settings/debug-settings.component';
 import { ErrorComponent } from './error/error.component';
 import { ToolsComponent } from './tools.component';
 
 const routes: Routes = [
-  { path: 'command', component: CommandComponent, data: { title: extract('command') } },
   { path: 'debug', component: DebugSettingsComponent, data: { title: extract('debug') } },
-  { path: 'binding', component: BindingComponent, data: { title: extract('binding') } },
   { path: 'link', component: ToolsComponent, data: { title: extract('tools') } },
   { path: 'error', component: ErrorComponent, data: { title: extract('error') } },
   // The Tools menu entry opens the first tab
   { path: '', redirectTo: 'link', pathMatch: 'full' },
-  // Reporting is part of Binding / Reporting; the former address still works
-  { path: 'configure', redirectTo: 'binding', pathMatch: 'full' }
+  // Command and Binding / Reporting are Admin tabs; their former addresses still work
+  { path: 'command', redirectTo: '/admin/command', pathMatch: 'full' },
+  { path: 'binding', redirectTo: '/admin/binding', pathMatch: 'full' },
+  { path: 'configure', redirectTo: '/admin/binding', pathMatch: 'full' }
 ];
 
 @NgModule({

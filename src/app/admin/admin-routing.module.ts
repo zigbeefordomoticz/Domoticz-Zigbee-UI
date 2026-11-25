@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { extract } from '@app/core';
 import { AdminComponent } from './admin.component';
+import { BindingComponent } from './binding/binding.component';
+import { CommandComponent } from './command/command.component';
 import { FirmwareComponent } from './firmware/firmware.component';
 import { FirmwareUpdatesComponent } from './firmware-updates/firmware-updates.component';
 
@@ -10,6 +12,8 @@ const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
   { path: '', component: AdminComponent, data: { title: extract('admin') } },
   { path: 'firmware', component: FirmwareComponent, data: { title: extract('admin.firmware') } },
+  { path: 'command', component: CommandComponent, data: { title: extract('tools.command') } },
+  { path: 'binding', component: BindingComponent, data: { title: extract('tools.tabs.bindrep') } },
   // Opened from the dashboard's "Firmware update available"
   { path: 'firmware/updates', component: FirmwareUpdatesComponent, data: { title: extract('admin.firmware.updates') } }
 ];

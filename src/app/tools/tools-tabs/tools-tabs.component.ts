@@ -18,8 +18,6 @@ export class ToolsTabsComponent extends UnsubscribeOnDestroyAdapter implements O
 
   readonly tabs: { path: string; label: string }[] = [
     { path: 'link', label: 'tools.tabs.data' },
-    { path: 'command', label: 'tools.command' },
-    { path: 'binding', label: 'tools.tabs.bindrep' },
     { path: 'debug', label: 'tools.debug' },
     { path: 'error', label: 'tools.tabs.errors' }
   ];
