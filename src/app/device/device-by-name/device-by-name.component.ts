@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnChanges, SimpleChanges, TemplateRef, Vi
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
+import { deviceState, isDisabled, isNotHeard, LOW_BATTERY, pairingProblem } from '@app/shared/utils/device-state';
 import { healthTone } from '@app/shared/utils/health-label.pipe';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,8 +26,6 @@ const HEALTH_RANK: { [health: string]: number } = {
   Disabled: 3,
   Live: 4
 };
-// Same threshold as the dashboard "Battery below 15 %" item
-const LOW_BATTERY = 15;
 // Above any battery level: mains powered devices sort after battery ones
 const MAINS_SORT = 1000;
 
@@ -47,6 +46,7 @@ interface DeviceRow {
   healthTone: string;
   statusWarning: string;
   paramCount: number;
+  disabled: boolean;
   attention: boolean;
   // Only a device that failed pairing, is not in Domoticz or has no widget can be removed
   removable: boolean;
@@ -78,10 +78,11 @@ export class DeviceByNameComponent implements OnChanges {
   private readonly filterTests: { [id in Filter]: (row: DeviceRow) => boolean } = {
     all: () => true,
     attention: row => row.attention,
-    notoptimized: row => !row.greenPower && !row.device.CertifiedDevice,
-    disabled: row => row.device.Health === 'Disabled',
-    routers: row => row.router,
-    enddevices: row => !row.router && !row.greenPower,
+    // Disabled devices are in their own chip only, as on the Dashboard
+    notoptimized: row => !row.greenPower && !row.disabled && !row.device.CertifiedDevice,
+    disabled: row => row.disabled,
+    routers: row => !row.disabled && row.router,
+    enddevices: row => !row.disabled && !row.router && !row.greenPower,
     greenpower: row => row.greenPower
   };
 
@@ -295,14 +296,8 @@ export class DeviceByNameComponent implements OnChanges {
     const battery = mains || isNaN(level) ? null : level;
     const lowBattery = battery !== null && battery <= LOW_BATTERY;
     const consistency = device.ConsistencyCheck;
-    const statusWarning =
-      consistency === 'Bad Pairing'
-        ? 'device.byname.status.badpairing'
-        : consistency === 'not in DZ'
-          ? 'device.byname.status.notindz'
-          : device.Status && device.Status !== 'inDB'
-            ? 'device.byname.status.other'
-            : '';
+    const statusWarning = pairingProblem(device);
+    const disabled = isDisabled(device);
     const healthRank = HEALTH_RANK[device.Health ?? ''] ?? HEALTH_RANK.unknown;
     return {
       greenPower: false,
@@ -319,7 +314,8 @@ export class DeviceByNameComponent implements OnChanges {
       healthTone: healthTone(device.Health),
       statusWarning,
       paramCount: this.paramKeys(device.Param).filter(key => key !== 'Disabled').length,
-      attention: healthRank < HEALTH_RANK.unknown || lowBattery || statusWarning !== '',
+      disabled,
+      attention: !disabled && (isNotHeard(deviceState(device)) || lowBattery || statusWarning !== ''),
       removable: consistency === 'not in DZ' || consistency === 'Bad Pairing' || (device.WidgetList ?? []).length === 0
     };
   }
@@ -340,6 +336,7 @@ export class DeviceByNameComponent implements OnChanges {
       healthTone: healthTone(''),
       statusWarning: '',
       paramCount: 0,
+      disabled: false,
       attention: false,
       // Only without widgets: a Green Power device with widgets goes with its last widget, in Domoticz
       removable: (device.WidgetList ?? []).length === 0,

@@ -1,6 +1,6 @@
 <div class="figures" role="status">
   <div class="figure">
-    <div class="figure-label"><span class="dot dot-success"></span>{{ 'dashboard.kpi.plugin' | translate }}</div>
+    <div class="figure-label"><span class="dot dot-{{ pluginTone }}"></span>{{ 'dashboard.kpi.plugin' | translate }}</div>
     @if (identity?.release) {
       <div class="figure-value text-truncate">{{ identity?.version || '—' }}</div>
       <div class="figure-detail text-truncate">{{ identity?.branch }}</div>
@@ -14,23 +14,23 @@
     }
   </div>
   <div class="figure">
-    <div class="figure-label"><span class="dot dot-success"></span>{{ 'admin.status.radio' | translate }}</div>
+    <div class="figure-label"><span class="dot dot-{{ coordinatorTone }}"></span>{{ 'admin.status.radio' | translate }}</div>
     <div class="figure-value text-truncate">{{ plugin?.CoordinatorModel || '—' }}</div>
     <div class="figure-detail text-truncate">{{ radio }}</div>
   </div>
   <div class="figure">
-    <div class="figure-label"><span class="dot dot-success"></span>{{ 'admin.status.firmware' | translate }}</div>
+    <div class="figure-label"><span class="dot dot-{{ coordinatorTone }}"></span>{{ 'admin.status.firmware' | translate }}</div>
     <div class="figure-value text-truncate" [title]="firmware">{{ firmware }}</div>
     <div class="figure-detail" translate="admin.status.firmware.detail"></div>
   </div>
   <div class="figure">
-    <div class="figure-label"><span class="dot dot-success"></span>{{ 'admin.status.channel' | translate }}</div>
+    <div class="figure-label"><span class="dot dot-{{ coordinatorTone }}"></span>{{ 'admin.status.channel' | translate }}</div>
     <div class="figure-value">{{ channel ?? '—' }}</div>
     <div class="figure-detail">{{ channel !== null ? megahertz + ' MHz' : '' }}</div>
   </div>
   <a class="figure" routerLink="/admin" [queryParams]="{ action: 'pairing' }">
     <div class="figure-label">
-      <span class="dot" [class.dot-success]="pairingOpen" [class.dot-muted]="!pairingOpen"></span>
+      <span class="dot" [class.dot-success]="pairingOpen" [class.dot-secondary]="!pairingOpen"></span>
       {{ 'admin.status.pairing' | translate }}
     </div>
     @if (pairingPermanent) {

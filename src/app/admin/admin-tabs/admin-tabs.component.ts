@@ -2,7 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { Plugin } from '@app/shared/models/plugin';
+import { runningTransfers } from '@app/shared/utils/ota-transfers';
 import { coordinatorChannel, pluginIdentity, PluginIdentity } from '@app/shared/utils/plugin-identity';
+import { coordinatorTone, pluginTone, Tone } from '@app/shared/utils/status-tone';
 import { pairingLeft, PairingStateService, PERMIT_TO_JOIN_PERMANENT } from '../pairing-state.service';
 
 /**
@@ -21,6 +23,8 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
 
   plugin: Plugin;
   identity: PluginIdentity;
+  pluginTone: Tone = 'secondary';
+  coordinatorTone: Tone = 'secondary';
   channel: number | null = null;
   permitToJoin: number | null = null;
   otaDevice: string | null = null;
@@ -46,13 +50,16 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
     this.apiService.getPlugin().subscribe(plugin => {
       this.plugin = plugin;
       this.identity = pluginIdentity(plugin);
+      this.pluginTone = pluginTone(plugin);
     });
     this.apiService.getCoordinator().subscribe(coordinator => (this.channel = coordinatorChannel(coordinator)));
     this.subs.sink = this.pairingState.seconds$.subscribe(seconds => (this.permitToJoin = seconds));
     this.pairingState.refresh().subscribe();
     this.apiService.getPluginhealth().subscribe(health => {
-      this.otaDevice = health?.OTAupdateDevice || null;
-      this.otaProgress = health?.OTAupdateProgress ?? null;
+      this.coordinatorTone = coordinatorTone(health);
+      const transfers = runningTransfers(health);
+      this.otaDevice = transfers.map(transfer => transfer.nwkid).join(', ') || null;
+      this.otaProgress = transfers.map(transfer => transfer.progress).join(', ');
       this.groupScan = health?.GroupStatus === 'scan';
     });
     this.apiService.getRestartNeeded().subscribe(result => (this.restartNeeded = result?.RestartNeeded ?? 0));

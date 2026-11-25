@@ -6,13 +6,14 @@ import { ZDevices } from '@app/shared/models/device';
 import type { GroupEndpoint } from '@app/shared/models/group';
 import { DevicesAvailable, Group } from '@app/shared/models/group';
 import { GroupScenes, SceneRef } from '@app/shared/models/scene';
+import { healthState, isNotHeard } from '@app/shared/utils/device-state';
+import { healthTone } from '@app/shared/utils/health-label.pipe';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription, forkJoin, of, timer } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
 import {
   POLL_WHILE_PENDING_MS,
-  healthTone,
   isSectionFolded,
   saveSectionFolded,
   sceneMemberKey,
@@ -32,9 +33,6 @@ const GROUP_ID_ERRORS: { [code: string]: string } = {
   GROUP_ID_RESERVED: 'group.page.id.reserved',
   GROUP_ID_IN_USE: 'group.page.id.inuse'
 };
-
-// Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
-const NOT_REACHED = ['Not Reachable', 'TimedOut', 'Not seen last 24hours'];
 
 // After a save the plugin changes a membership only when the device answers: read the groups again a few times
 const REREAD_AFTER_SAVE_MS = [0, 3000, 8000];
@@ -610,7 +608,7 @@ export class GroupComponent extends UnsubscribeOnDestroyAdapter implements OnIni
       group,
       members,
       coordinator,
-      down: members.filter(member => NOT_REACHED.includes(member.health)).length
+      down: members.filter(member => isNotHeard(healthState(member.health))).length
     };
   }
 

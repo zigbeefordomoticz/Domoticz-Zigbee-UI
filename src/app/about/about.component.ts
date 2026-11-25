@@ -5,6 +5,7 @@ import { catchError, map, startWith } from 'rxjs/operators';
 import { I18nService } from '@app/core';
 import { ApiService } from '@app/services/api.service';
 import { Plugin } from '@app/shared/models/plugin';
+import { pluginLabel } from '@app/shared/utils/plugin-identity';
 
 // A credit line: contributors, optionally qualified by the language they translated.
 interface Credit {
@@ -92,11 +93,11 @@ export class AboutComponent implements OnInit {
     // Ask the plugin rather than rely on sessionStorage, which is empty when
     // /about is the first page opened in a tab. ApiService already reports a
     // failure, so keep whatever version was stored.
-    const stored = (JSON.parse(sessionStorage.getItem('plugin')) as Plugin)?.PluginVersion;
+    const stored = JSON.parse(sessionStorage.getItem('plugin')) as Plugin;
     this.version$ = this.apiService.getPlugin().pipe(
-      map(plugin => plugin?.PluginVersion),
+      map(pluginLabel),
       catchError(() => EMPTY),
-      startWith(stored)
+      startWith(stored ? pluginLabel(stored) : '')
     );
   }
 
