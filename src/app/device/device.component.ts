@@ -1,35 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '@app/services/api.service';
-import { DeviceByName } from '@app/shared/models/device-by-name';
+import { DeviceByName, toGreenPowerRow } from '@app/shared/models/device-by-name';
 import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-/**
- * A Green Power device of /zgp-device-raw as a row of the device table. Its NWK is the low
- * half of its source ID and may equal a Zigbee device's, so the row is keyed by the source ID.
- */
-function toGreenPowerRow(record: any): DeviceByName {
-  const srcId =
-    typeof record?.src_id === 'number'
-      ? '0x' + record.src_id.toString(16).toUpperCase().padStart(8, '0')
-      : String(record?.IEEE ?? '');
-  return {
-    IEEE: record?.IEEE ?? '',
-    MacCapa: [],
-    Model: record?.Model || '',
-    Health: '',
-    Status: 'inDB',
-    WidgetList: Array.isArray(record?.WidgetList) ? record.WidgetList : [],
-    ZDeviceName: '',
-    _NwkId: srcId,
-    LQI: typeof record?.LQI === 'number' ? record.LQI : undefined,
-    LastSeen: typeof record?.LastSeen === 'number' ? record.LastSeen : undefined,
-    CertifiedDevice: true,
-    GreenPower: true
-  };
-}
 
 @Component({
   selector: 'app-device',
