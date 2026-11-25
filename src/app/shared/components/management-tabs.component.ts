@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 /**
- * Tabs on top of the Management pages, as on Admin, Network and Tools: Devices (/device) and Groups (/group).
+ * Tabs of the Management pages, under their key figures as on Admin and Network: Devices (/device) and Groups (/group).
  *
  * The two pages stay separate lazy-loaded modules; each shows these tabs with its own one marked active.
  */

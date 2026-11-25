@@ -1,5 +1,6 @@
-<app-management-tabs active="device"></app-management-tabs>
-
 <form [formGroup]="form">
-  <app-device-by-name [devices]="devices" [greenPower]="greenPower"></app-device-by-name>
+  <!-- The tabs go between the key figures and the list, as on Network and Admin -->
+  <app-device-by-name [devices]="devices" [greenPower]="greenPower">
+    <app-management-tabs active="device"></app-management-tabs>
+  </app-device-by-name>
 </form>
