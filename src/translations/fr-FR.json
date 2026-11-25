@@ -2093,5 +2093,15 @@
   "device.byname.filter.weaklink": "Lien faible",
   "device.byname.fig.lowbattery": "sur {{count}} objets sur batterie, à {{limit}} % ou moins",
   "device.byname.fig.weaklink": "objets vivants avec un LQI inférieur à {{limit}}",
-  "device.byname.fig.optimized": "{{count}} non optimisés"
+  "device.byname.fig.optimized": "{{count}} non optimisés",
+  "manufacturer.zlinky": "ZLinky",
+  "manufacturer.gamma": "TICMeter",
+  "manufacturer.chameleon": "Chameleon",
+  "manufacturer.gamma.EAIT": "Énergie active injectée totale",
+  "manufacturer.gamma.SINSTI": "Puissance apparente Instantanée injectée",
+  "manufacturer.gamma.HCHC": "Index Heures Creuses",
+  "manufacturer.gamma.HCHP": "Index Heures Pleines",
+  "manufacturer.chameleon.SMAXSN1-1": "Puissance apparente max. soutirée n-1 phase 1",
+  "manufacturer.chameleon.OPTARIF": "Option tarifaire",
+  "manufacturer.chameleon.LTARF": "Libellé tarif fournisseur en cours"
 }
