@@ -984,7 +984,7 @@
   "BackupFullDevices": "backup device information",
   "BellowsNoMoreEndDeviceChildren": "Disable direct pairing on Coordinator",
   "BellowsSourceRouting": "Enable Zigbee Source routing mecanishm",
-  "pingDevices": "Ping main-powered devices regularly to vérify their health",
+  "pingDevices": "Ping main-powered devices regularly to verify their health",
   "GroupOnBattery": "Enable group creation to a battery devices",
   "deviceOffWhenTimeOut": "Switch device to Off when network Timeout",
   "checkConfigurationReporting": "Check the device Report configuration regularly",
