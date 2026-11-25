@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { ZDevices } from '@app/shared/models/device';
-import { DeviceByName } from '@app/shared/models/device-by-name';
+import { DeviceByName, toGreenPowerRow } from '@app/shared/models/device-by-name';
 import { NewDevice, NewHardware } from '@app/shared/models/new-hardware';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription, timer } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { of, Subscription, timer } from 'rxjs';
+import { catchError, concatMap } from 'rxjs/operators';
 import {
   pairingLeft,
   PairingStateService,
@@ -39,6 +39,9 @@ interface JoinedDevice {
  * A Green Power device comes with GreenPower set. It is not in /zdevice-name: its model and widgets
  * come with the /rcv-nw-hrdwr answer (when GreenPowerEnable opens Green Power with the Zigbee pairing).
  * Green Power pairing itself has its own page (AdminGreenPowerComponent).
+ *
+ * The devices already paired are those of /zdevice-name and the Green Power ones of /zgp-device-raw:
+ * these only have their widgets recreated, a full reset (redo the discovery) does not exist for them.
  */
 @Component({
   selector: 'app-admin-provisioning',
@@ -53,6 +56,9 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
   seconds: number | null = null;
   joined: JoinedDevice[] = [];
   devices: DeviceByName[] = [];
+  // Of the list of devices already paired: the Zigbee ones, then the Green Power ones
+  greenPower: DeviceByName[] = [];
+  paired: DeviceByName[] = [];
   device: string = null;
 
   private polling: Subscription;
@@ -105,6 +111,10 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
     return this.mode === 'all' || !!this.router;
   }
 
+  get greenPowerDevice(): DeviceByName | undefined {
+    return this.greenPower.find(device => device._NwkId === this.device);
+  }
+
   openPairing() {
     if (this.mode === 'all') {
       // Empties the plugin's queue and opens pairing everywhere for 4 minutes
@@ -135,9 +145,11 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
   }
 
   recreateWidgets() {
-    this.apiService
-      .putRecreateWidgets(this.device)
-      .subscribe(() => this.toastr.success(this.translate.instant('admin.recreate.notify')));
+    const greenPower = this.greenPowerDevice;
+    const request = greenPower
+      ? this.apiService.putRecreateGreenPowerWidgets(greenPower.IEEE)
+      : this.apiService.putRecreateWidgets(this.device);
+    request.subscribe(() => this.toastr.success(this.translate.instant('admin.recreate.notify')));
   }
 
   // Found by name, NwkId or model
@@ -225,6 +237,25 @@ export class AdminProvisioningComponent extends UnsubscribeOnDestroyAdapter impl
   }
 
   private loadDevices() {
-    this.apiService.getZDeviceName().subscribe(devices => (this.devices = devices ?? []));
+    this.apiService.getZDeviceName().subscribe(devices => {
+      this.devices = devices ?? [];
+      this.listPaired();
+    });
+    // A plugin without Green Power has no such route: the list goes on without them
+    this.apiService
+      .getRawZgpDevices()
+      .pipe(catchError(() => of([])))
+      .subscribe(records => {
+        this.greenPower = (Array.isArray(records) ? records : []).map(toGreenPowerRow);
+        this.listPaired();
+      });
+  }
+
+  // A Green Power device has no name: its model, as in Devices
+  private listPaired() {
+    this.paired = [
+      ...this.devices,
+      ...this.greenPower.map(device => ({ ...device, ZDeviceName: device.Model || device._NwkId }))
+    ];
   }
 }

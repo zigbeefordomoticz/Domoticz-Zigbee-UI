@@ -728,6 +728,13 @@ export class ApiService {
     );
   }
 
+  // By IEEE: the NwkId of a Green Power device is an alias, which a Zigbee device can also hold
+  putRecreateGreenPowerWidgets(ieee: string): Observable<any> {
+    return this.httpClient
+      .put(routes.recreateWidgets, { IEEE: ieee })
+      .pipe(catchError(error => this.handleError(error)));
+  }
+
   getBatteryState(): Observable<any> {
     return this.httpClient.get(routes.batteryState).pipe(
       map((body: any) => body),

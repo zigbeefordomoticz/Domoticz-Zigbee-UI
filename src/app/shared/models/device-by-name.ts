@@ -19,3 +19,28 @@ export interface DeviceByName {
   // Green Power: time of the last frame (epoch seconds)
   LastSeen?: number;
 }
+
+/**
+ * A Green Power device of /zgp-device-raw as a row of a device list. Its NWK is the low
+ * half of its source ID and may equal a Zigbee device's, so the row is keyed by the source ID.
+ */
+export function toGreenPowerRow(record: any): DeviceByName {
+  const srcId =
+    typeof record?.src_id === 'number'
+      ? '0x' + record.src_id.toString(16).toUpperCase().padStart(8, '0')
+      : String(record?.IEEE ?? '');
+  return {
+    IEEE: record?.IEEE ?? '',
+    MacCapa: [],
+    Model: record?.Model || '',
+    Health: '',
+    Status: 'inDB',
+    WidgetList: Array.isArray(record?.WidgetList) ? record.WidgetList : [],
+    ZDeviceName: '',
+    _NwkId: srcId,
+    LQI: typeof record?.LQI === 'number' ? record.LQI : undefined,
+    LastSeen: typeof record?.LastSeen === 'number' ? record.LastSeen : undefined,
+    CertifiedDevice: true,
+    GreenPower: true
+  };
+}

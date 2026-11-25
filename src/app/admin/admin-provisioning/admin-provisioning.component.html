@@ -159,7 +159,7 @@
     <p class="hint" translate="admin.provisioning.paired.subtitle"></p>
     <ng-select
       class="device-select"
-      [items]="devices"
+      [items]="paired"
       bindLabel="ZDeviceName"
       bindValue="_NwkId"
       [(ngModel)]="device"
@@ -169,19 +169,34 @@
       [attr.aria-label]="'admin.provisioning.paired.placeholder' | translate">
       <ng-template ng-option-tmp let-item="item">
         {{ item.ZDeviceName }}
-        <span class="text-body-secondary">· {{ item._NwkId }}{{ item.Model ? ' · ' + item.Model : '' }}</span>
+        @if (item.GreenPower) {
+          @if (item.ZDeviceName !== item._NwkId) {
+            <span class="text-body-secondary">· {{ item._NwkId }}</span>
+          }
+          <span class="badge rounded-pill text-bg-info ms-2" translate="device.byname.greenpower"></span>
+        } @else {
+          <span class="text-body-secondary">· {{ item._NwkId }}{{ item.Model ? ' · ' + item.Model : '' }}</span>
+        }
+      </ng-template>
+      <ng-template ng-label-tmp let-item="item">
+        {{ item.ZDeviceName }}
+        @if (item.GreenPower && item.ZDeviceName !== item._NwkId) {
+          <span class="text-body-secondary">· {{ item._NwkId }}</span>
+        }
       </ng-template>
     </ng-select>
 
-    <div class="action-row">
-      <div>
-        <b translate="admin.provisioning.reset.title"></b>
-        <span class="hint" translate="admin.provisioning.reset.hint"></span>
+    @if (!greenPowerDevice) {
+      <div class="action-row">
+        <div>
+          <b translate="admin.provisioning.reset.title"></b>
+          <span class="hint" translate="admin.provisioning.reset.hint"></span>
+        </div>
+        <button type="button" class="btn btn-outline-secondary" [disabled]="!device" (click)="fullReset()">
+          {{ 'admin.fullreset.button' | translate }}
+        </button>
       </div>
-      <button type="button" class="btn btn-outline-secondary" [disabled]="!device" (click)="fullReset()">
-        {{ 'admin.fullreset.button' | translate }}
-      </button>
-    </div>
+    }
     <div class="action-row">
       <div>
         <b translate="admin.provisioning.recreate.title"></b>
