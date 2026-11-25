@@ -17,7 +17,7 @@ import { devicesTone, Tone } from '@app/shared/utils/status-tone';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { DetailsAction, DeviceDetailsComponent } from '../device-details/device-details.component';
 import { GreenPowerDetailsAction, GreenPowerDetailsComponent } from '../device-details/green-power-details.component';
@@ -192,8 +192,10 @@ export class DeviceByNameComponent extends UnsubscribeOnDestroyAdapter implement
     details.componentInstance.device = row.device;
     details.componentInstance.canRemove = row.removable;
     details.componentInstance.healthTone = row.healthTone;
-    details.result.then(
-      (action: DetailsAction) => {
+    // The window hides the page scroll bar until it has faded out. The panel saves that state and puts it back when
+    // it closes, so opened any earlier it would leave the page without a scroll bar.
+    Promise.all([details.result, firstValueFrom(details.hidden)]).then(
+      ([action]: [DetailsAction, void]) => {
         if (action === 'parameters') {
           this.editParameters(row);
         } else if (action === 'remove') {
