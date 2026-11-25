@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
@@ -59,6 +60,7 @@ export class ToolsComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    private clipboard: Clipboard,
     private headerService: HeaderService,
     private fileSaverService: FileSaverService,
     private toastr: ToastrService,
@@ -162,9 +164,12 @@ export class ToolsComponent implements OnInit {
   }
 
   copy() {
-    navigator.clipboard
-      ?.writeText(JSON.stringify(redact(this.json), null, 2))
-      .then(() => this.toastr.success(this.translate.instant('tools.data.copied')));
+    // CDK, not navigator.clipboard: browsers offer the latter over HTTPS or localhost only
+    if (this.clipboard.copy(JSON.stringify(redact(this.json), null, 2))) {
+      this.toastr.success(this.translate.instant('tools.data.copied'));
+    } else {
+      this.toastr.error(this.translate.instant('tools.copy.failed'));
+    }
   }
 
   toggleBundle(key: string) {

@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
@@ -55,6 +56,7 @@ export class ErrorComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    private clipboard: Clipboard,
     private headerService: HeaderService,
     private modalService: NgbModal,
     private fileSaverService: FileSaverService,
@@ -137,9 +139,12 @@ export class ErrorComponent implements OnInit {
       `- Plugin health: ${error.health} · pairing open: ${error.permitToJoin ? 'yes' : 'no'}`,
       error.context ? ['', '```json', JSON.stringify(redact(error.context), null, 2), '```'].join('\n') : null
     ].filter(line => line !== null);
-    navigator.clipboard
-      ?.writeText(lines.join('\n'))
-      .then(() => this.toastr.success(this.translate.instant('tools.errors.copied')));
+    // CDK, not navigator.clipboard: browsers offer the latter over HTTPS or localhost only
+    if (this.clipboard.copy(lines.join('\n'))) {
+      this.toastr.success(this.translate.instant('tools.errors.copied'));
+    } else {
+      this.toastr.error(this.translate.instant('tools.copy.failed'));
+    }
   }
 
   confirmClear() {

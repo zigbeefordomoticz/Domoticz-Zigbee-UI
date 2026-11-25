@@ -1244,6 +1244,7 @@
   "tools.errors.version": "Plugin-Version",
   "tools.errors.firmware": "Koordinator-Firmware",
   "tools.errors.context": "Kontext",
+  "tools.copy.failed": "Es wurde nichts kopiert: Der Browser hat abgelehnt. Verwenden Sie stattdessen den Download.",
   "tools.errors.copy": "Als GitHub-Issue-Text kopieren",
   "tools.errors.copied": "Kopiert, bereit zum Einfügen in ein Issue",
   "tools.errors.pick": "Wählen Sie links einen Fehler, um die Details zu sehen.",

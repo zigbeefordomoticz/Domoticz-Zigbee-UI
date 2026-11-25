@@ -1244,6 +1244,7 @@
   "tools.errors.version": "Versie van de plug-in",
   "tools.errors.firmware": "Firmware van de coördinator",
   "tools.errors.context": "Context",
+  "tools.copy.failed": "Er is niets gekopieerd: de browser weigerde. Gebruik in plaats daarvan de download.",
   "tools.errors.copy": "Kopiëren als tekst voor een GitHub-issue",
   "tools.errors.copied": "Gekopieerd, klaar om in een issue te plakken",
   "tools.errors.pick": "Kies links een fout om de details te zien.",

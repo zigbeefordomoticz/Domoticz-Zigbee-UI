@@ -1244,6 +1244,7 @@
   "tools.errors.version": "Plugin version",
   "tools.errors.firmware": "Coordinator firmware",
   "tools.errors.context": "Context",
+  "tools.copy.failed": "Nothing was copied: the browser refused. Use the download instead.",
   "tools.errors.copy": "Copy as GitHub issue text",
   "tools.errors.copied": "Copied, ready to paste in an issue",
   "tools.errors.pick": "Choose an error on the left to see its details.",
