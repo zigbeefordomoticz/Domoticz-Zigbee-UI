@@ -78,10 +78,10 @@ src/
 | `/device`       | `device`       | Device list, detail, per-device parameters          |
 | `/group`        | `group`        | Zigbee group creation and membership                |
 | `/network`      | `network`      | Topology, mesh graph, interference reports          |
-| `/admin`        | `admin`        | Coordinator administration, OTA firmware            |
+| `/admin`        | `admin`        | Coordinator, OTA firmware, commands, binding        |
 | `/settings`     | `settings`     | Plugin settings editor                              |
 | `/manufacturer` | `manufacturer` | Vendor panels: CASA.iA, ZLinky, TICmeter, Chameleon |
-| `/tools`        | `tools`        | Diagnostics, raw commands, binding, debug settings  |
+| `/tools`        | `tools`        | Plugin data, debug settings, errors                 |
 | `/about`        | `about`        | About pages                                         |
 
 ---

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { Plugin } from '@app/shared/models/plugin';
@@ -18,8 +18,9 @@ import { pairingLeft, PairingStateService, PERMIT_TO_JOIN_PERMANENT } from '../p
   styleUrls: ['../../shared/page-tabs.scss'],
   standalone: false
 })
-export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnChanges, AfterViewInit {
   @Input() active: string;
+  @ViewChild('tabBar') tabBar: ElementRef<HTMLElement>;
 
   plugin: Plugin;
   identity: PluginIdentity;
@@ -37,6 +38,13 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
     { action: 'pairing', label: 'admin.pairing' },
     { action: 'group', label: 'admin.group' },
     { action: 'coordinator', label: 'admin.coordinator' }
+  ];
+
+  // Tabs with their own address: /admin/<path>
+  readonly pages = [
+    { path: 'firmware', label: 'admin.firmware' },
+    { path: 'command', label: 'tools.command' },
+    { path: 'binding', label: 'tools.tabs.bindrep' }
   ];
 
   constructor(
@@ -63,6 +71,26 @@ export class AdminTabsComponent extends UnsubscribeOnDestroyAdapter implements O
       this.groupScan = health?.GroupStatus === 'scan';
     });
     this.apiService.getRestartNeeded().subscribe(result => (this.restartNeeded = result?.RestartNeeded ?? 0));
+  }
+
+  ngOnChanges() {
+    this.showActiveTab();
+  }
+
+  ngAfterViewInit() {
+    this.showActiveTab();
+  }
+
+  // On a phone the tabs scroll sideways: bring the active one into sight, without moving the page
+  private showActiveTab() {
+    setTimeout(() => {
+      const bar = this.tabBar?.nativeElement;
+      const tab = bar?.querySelector<HTMLElement>('.active');
+      if (tab) {
+        const offset = tab.getBoundingClientRect().left - bar.getBoundingClientRect().left;
+        bar.scrollLeft += offset - (bar.clientWidth - tab.clientWidth) / 2;
+      }
+    });
   }
 
   // The library zigpy talks to the radio with, from the coordinator chosen in Domoticz (Mode1)

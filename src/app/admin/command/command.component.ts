@@ -19,7 +19,7 @@ interface SentCommand {
 }
 
 /**
- * Tools → Command: pick a device, then use the commands the plugin offers for it (/dev-cap), grouped
+ * Admin → Command: pick a device, then use the commands the plugin offers for it (/dev-cap), grouped
  * by the widget type they act on, or send a raw Zigbee frame to it (zigpy radios).
  *
  * /dev-command reads Value as hex whenever it is made of hex digits only (is_hex(str(Value)) on

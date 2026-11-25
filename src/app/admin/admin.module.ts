@@ -12,6 +12,9 @@ import { AdminCoordinatorComponent } from './admin-coordinator/admin-coordinator
 import { AdminGreenPowerComponent } from './admin-green-power/admin-green-power.component';
 import { FirmwareUpdatesComponent } from './firmware-updates/firmware-updates.component';
 import { FirmwareWarningComponent } from './firmware-warning/firmware-warning.component';
+import { BindingComponent } from './binding/binding.component';
+import { CommandComponent } from './command/command.component';
+import { RawCommandComponent } from './command/raw-command/raw-command.component';
 
 @NgModule({
   imports: [AdminRoutingModule, SharedModule],
@@ -26,7 +29,10 @@ import { FirmwareWarningComponent } from './firmware-warning/firmware-warning.co
     AdminGroupsComponent,
     AdminCoordinatorComponent,
     FirmwareUpdatesComponent,
-    FirmwareWarningComponent
+    FirmwareWarningComponent,
+    CommandComponent,
+    RawCommandComponent,
+    BindingComponent
   ]
 })
 export class AdminModule {}

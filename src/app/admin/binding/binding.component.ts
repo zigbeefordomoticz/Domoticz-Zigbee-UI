@@ -66,7 +66,7 @@ interface ClusterRow {
 }
 
 /**
- * Tools → Binding / Reporting, device first: for each endpoint and cluster of the device, what it is bound
+ * Admin → Binding / Reporting, device first: for each endpoint and cluster of the device, what it is bound
  * to (from its binding table) and, on zigpy radios, how its attributes report.
  *
  * Binding table: /binding-table-req asks the device, the plugin stores the answer, /binding-table-disp
