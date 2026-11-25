@@ -7,6 +7,7 @@ import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Group } from '@app/shared/models/group';
 import { Plugin } from '@app/shared/models/plugin';
 import { Setting } from '@app/shared/models/setting';
+import { deviceState, DeviceState, isDisabled, LOW_BATTERY } from '@app/shared/utils/device-state';
 import { DeviceDetailsComponent } from '@app/device/device-details/device-details.component';
 import { environment } from '@env/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -90,6 +91,7 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
   routers: any;
   healthsLive: any;
   healthsDisabled: any;
+  healthsTimedOut: any;
   healthsNotSeen: any;
   healthsNotReachable: any;
   healthsOthers: any = {};
@@ -400,11 +402,12 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         'dashboard.health.title',
         'dashboard.health.comment',
         [
-          segment('dashboard.devices.live', COLORS.good, this.healthsLive),
-          segment('dashboard.devices.notseen', COLORS.attention, this.healthsNotSeen),
-          segment('dashboard.devices.notReachable', COLORS.problem, this.healthsNotReachable),
-          segment('dashboard.devices.others', COLORS.unknown, this.healthsOthers),
-          segment('dashboard.devices.disabled', COLORS.disabled, this.healthsDisabled),
+          segment('device.health.live', COLORS.good, this.healthsLive),
+          segment('device.health.notseen', COLORS.attention, this.healthsNotSeen),
+          segment('device.health.timedout', COLORS.attention, this.healthsTimedOut),
+          segment('device.health.notreachable', COLORS.problem, this.healthsNotReachable),
+          segment('device.health.unknown', COLORS.unknown, this.healthsOthers),
+          segment('device.health.disabled', COLORS.disabled, this.healthsDisabled),
           segment('dashboard.devices.greenpower', COLORS.greenPower, this.greenPower)
         ],
         '',
@@ -474,58 +477,34 @@ export class DashboardComponent extends UnsubscribeOnDestroyAdapter implements O
         }
         this.createChart();
 
-        this.routers = this.devices.filter(
-          (router: any) => router.LogicalType === 'Router' && router.Health !== 'Disabled'
-        );
-        this.devicesOther = this.devices.filter(
-          (router: any) => router.LogicalType !== 'Router' && router.Health !== 'Disabled'
-        );
+        const enabled = this.devices.filter((device: any) => !isDisabled(device));
+        const inState = (state: DeviceState) => this.devices.filter((device: any) => deviceState(device) === state);
+        this.routers = enabled.filter((device: any) => device.LogicalType === 'Router');
+        this.devicesOther = enabled.filter((device: any) => device.LogicalType !== 'Router');
 
-        this.healthsLive = this.devices.filter((device: any) => device.Health === 'Live' && device.Status !== 'notDB');
-        this.healthsDisabled = this.devices.filter(
-          (device: any) => device.Health === 'Disabled' || device.Status === 'notDB'
-        );
-        this.healthsNotReachable = this.devices.filter((device: any) => {
-          return (device.Health === 'Not Reachable' && device.Status !== 'notDB') || device.Status === 'Leave';
-        });
-        this.healthsNotSeen = this.devices.filter((device: any) => {
-          return device.Health === 'Not seen last 24hours' && device.Status !== 'notDB';
-        });
-        this.healthsOthers = this.devices.filter((device: any) => {
-          return (
-            device.Health !== 'Not seen last 24hours' &&
-            device.Health !== 'Not Reachable' &&
-            device.Health !== 'Live' &&
-            device.Status !== 'notDB' &&
-            device.Status !== 'Leave' &&
-            device.Health !== 'Disabled'
-          );
-        });
+        this.healthsLive = inState('live');
+        this.healthsDisabled = inState('disabled');
+        this.healthsNotReachable = inState('notreachable');
+        this.healthsNotSeen = inState('notseen');
+        this.healthsTimedOut = inState('timedout');
+        this.healthsOthers = inState('unknown');
 
         // A battery device that has not reported yet has Battery "": that is no level, not "< 15 %"
-        const devicesOnBattery = this.devices.filter(
+        const devicesOnBattery = enabled.filter(
           (device: any) =>
             device.PowerSource === 'Battery' &&
-            device.Status !== 'notDB' &&
             device.Battery !== '' &&
             device.Battery !== null &&
             device.Battery !== undefined
         );
-        this.battery1 = devicesOnBattery.filter((device: any) => device.Battery <= 15 && device.Health !== 'Disabled');
-        this.battery2 = devicesOnBattery.filter(
-          (device: any) => device.Battery > 15 && device.Battery <= 35 && device.Health !== 'Disabled'
-        );
-        this.battery3 = devicesOnBattery.filter(
-          (device: any) => device.Battery > 35 && device.Battery <= 75 && device.Health !== 'Disabled'
-        );
-        this.battery4 = devicesOnBattery.filter((device: any) => device.Battery > 75 && device.Health !== 'Disabled');
+        this.battery1 = devicesOnBattery.filter((device: any) => device.Battery <= LOW_BATTERY);
+        this.battery2 = devicesOnBattery.filter((device: any) => device.Battery > LOW_BATTERY && device.Battery <= 35);
+        this.battery3 = devicesOnBattery.filter((device: any) => device.Battery > 35 && device.Battery <= 75);
+        this.battery4 = devicesOnBattery.filter((device: any) => device.Battery > 75);
 
-        this.certifiedDevices = this.certified.filter(
-          (device: any) => device.CertifiedDevice && device.Health !== 'Disabled'
-        );
-        this.notCertifiedDevices = this.certified.filter(
-          (device: any) => !device.CertifiedDevice && device.Health !== 'Disabled'
-        );
+        const enabledCertified = this.certified.filter((device: any) => !isDisabled(device));
+        this.certifiedDevices = enabledCertified.filter((device: any) => device.CertifiedDevice);
+        this.notCertifiedDevices = enabledCertified.filter((device: any) => !device.CertifiedDevice);
 
         this.buildDeviceGroups();
         this.buildSinceStart();

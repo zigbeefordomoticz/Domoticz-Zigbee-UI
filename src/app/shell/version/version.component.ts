@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderService } from '@app/services/header-service';
+import { pluginLabel } from '@app/shared/utils/plugin-identity';
 import { environment } from '@env/environment';
 import { forkJoin, Observable, Subscription, timer } from 'rxjs';
 import { filter, map, retry, share, switchMap, takeUntil } from 'rxjs/operators';
@@ -29,6 +30,8 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
   fork$: Observable<any>;
   poll = false;
   fork: any;
+
+  readonly pluginLabel = pluginLabel;
 
   private topologyPoll: Subscription;
 

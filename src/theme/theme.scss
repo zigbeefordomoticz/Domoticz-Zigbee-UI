@@ -291,3 +291,18 @@ a {
   background: var(--bs-secondary-bg);
   color: var(--bs-secondary-color);
 }
+
+// Status dot of a key figure (Dashboard, Management, Network, Admin); tones in shared/utils/status-tone.ts
+.dot {
+  display: inline-block;
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+@each $tone in success, warning, danger, info, secondary {
+  .dot-#{$tone} {
+    background-color: var(--bs-#{$tone});
+  }
+}

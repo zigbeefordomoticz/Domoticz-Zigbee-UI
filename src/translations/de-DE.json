@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "zuletzt nicht gesehen",
   "dashboard.devices.notReachable": "verloren",
   "dashboard.devices.others": "unbekannt",
-  "dashboard.health.comment": "Aktiv = Geräte online<br>Verloren = Geräte außer Netzwerk<br>Zuletzt nicht gesehen = Geräte ohne Nachricht seit {{hours}} Stunden (Einstellungen → HealthTimeOut, 0 = aus; ein Gerät kann eine eigene Frist haben)<br>Unbekannt = Geräte mit unbekanntem Status<br>Green Power = Green-Power-Geräte: Das Plugin sendet ihnen nie etwas, daher haben sie keinen Gesundheitsstatus",
+  "dashboard.health.comment": "Aktiv = Geräte online<br>Nicht erreichbar = Geräte außer Netzwerk<br>Zuletzt nicht gesehen = Geräte ohne Nachricht seit {{hours}} Stunden (Einstellungen → HealthTimeOut, 0 = aus; ein Gerät kann eine eigene Frist haben)<br>Zeitüberschreitung = Geräte ohne Nachricht länger als Einstellungen → ForceDeviceTimedOut_afterXhours<br>Unbekannt = Geräte mit unbekanntem Status<br>Green Power = Green-Power-Geräte: Das Plugin sendet ihnen nie etwas, daher haben sie keinen Gesundheitsstatus",
   "dashboard.traffic.title": "Senden & Empfangen",
   "dashboard.trafic.label": "Sende- / Empfangsnachrichten",
   "dashboard.trafic.send": "Tx",
@@ -1896,5 +1896,7 @@
   "device.details.deviceid.configured": "laut Gerätekonfiguration",
   "device.details.deviceid.reported": "gemeldet: 0x{{id}}",
   "network.mesh.node.zdeviceid.configured": "laut Gerätekonfiguration",
-  "network.mesh.node.zdeviceid.reported": "gemeldet: 0x{{id}}"
+  "network.mesh.node.zdeviceid.reported": "gemeldet: 0x{{id}}",
+  "dashboard.kpi.devices.disabled": "{{count}} deaktiviert",
+  "dashboard.attention.pairing": "Kopplung nicht abgeschlossen"
 }

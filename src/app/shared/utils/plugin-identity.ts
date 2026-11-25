@@ -28,6 +28,12 @@ export function pluginIdentity(plugin: Plugin): PluginIdentity {
   };
 }
 
+/** The plugin on one line (footer, About): the version of a release, else the branch and its commit. */
+export function pluginLabel(plugin: Plugin): string {
+  const id = pluginIdentity(plugin);
+  return id.release ? id.version || '' : id.gitBranch ? id.gitBranch + ' (' + id.commit + ')' : id.commit;
+}
+
 // The plugin sends the channel as a number; only its placeholder without a coordinator sends hex ("0b")
 export function coordinatorChannel(coordinator: any): number | null {
   const value = coordinator?.Channel;

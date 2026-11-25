@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "pas vu récemment",
   "dashboard.devices.notReachable": "perdu",
   "dashboard.devices.others": "indéfini",
-  "dashboard.health.comment": "Vivant = objets pour lesquels un message a été reçu récemment<br>Désactivé = objets qui sont désactivés<br>Perdu = objets qui ne sont plus sur le réseau<br>Pas vu récemment = objets sans aucun message depuis {{hours}} heures (Paramètres → HealthTimeOut, 0 = désactivé ; un objet peut avoir son propre délai)<br>Indéfini = objets qui sont dans un état indéterminé<br>Green Power = appareils Green Power : le plugin ne leur envoie jamais rien, ils n'ont donc pas d'état de santé",
+  "dashboard.health.comment": "Vivant = objets pour lesquels un message a été reçu récemment<br>Désactivé = objets qui sont désactivés<br>Injoignable = objets qui ne sont plus sur le réseau<br>Pas vu récemment = objets sans aucun message depuis {{hours}} heures (Paramètres → HealthTimeOut, 0 = désactivé ; un objet peut avoir son propre délai)<br>Expiré = objets sans aucun message depuis plus longtemps que Paramètres → ForceDeviceTimedOut_afterXhours<br>Inconnu = objets qui sont dans un état indéterminé<br>Green Power = appareils Green Power : le plugin ne leur envoie jamais rien, ils n'ont donc pas d'état de santé",
   "dashboard.traffic.title": "Envoi & réception",
   "dashboard.trafic.label": "Messages envoyés et reçus",
   "dashboard.trafic.send": "Tx",
@@ -2086,5 +2086,7 @@
   "device.details.deviceid.configured": "d'après la configuration de l'appareil",
   "device.details.deviceid.reported": "communiqué : 0x{{id}}",
   "network.mesh.node.zdeviceid.configured": "d'après la configuration de l'appareil",
-  "network.mesh.node.zdeviceid.reported": "communiqué : 0x{{id}}"
+  "network.mesh.node.zdeviceid.reported": "communiqué : 0x{{id}}",
+  "dashboard.kpi.devices.disabled": "{{count}} désactivés",
+  "dashboard.attention.pairing": "Appairage incomplet"
 }

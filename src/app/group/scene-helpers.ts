@@ -25,15 +25,6 @@ const KNOWN_ERRORS = [
   'COORDINATOR_BUSY'
 ];
 
-// Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
-const HEALTH_TONE: { [health: string]: string } = {
-  Live: 'success',
-  TimedOut: 'warning',
-  'Not seen last 24hours': 'warning',
-  'Not Reachable': 'danger',
-  Disabled: 'secondary'
-};
-
 /** The sections of the group editor a viewer folded. Only a convenience: without storage they are all open. */
 export function isSectionFolded(section: string): boolean {
   try {
@@ -53,10 +44,6 @@ export function saveSectionFolded(section: string, folded: boolean): void {
   } catch {
     // Folded for this visit only
   }
-}
-
-export function healthTone(health: string): string {
-  return HEALTH_TONE[health] ?? 'secondary';
 }
 
 export function sceneNeedsAttention(scene: Scene): boolean {

@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "recent niet gezien",
   "dashboard.devices.notReachable": "offline",
   "dashboard.devices.others": "onbekend",
-  "dashboard.health.comment": "Live = apparaten online<br>Offline = apparaten zijn niet bereikbaar<br>Recent niet gezien = apparaten zonder bericht sinds {{hours}} uur (Instellingen → HealthTimeOut, 0 = uit; een apparaat kan een eigen termijn hebben)<br>Onbekend = status apparaten onbekend<br>Green Power = Green Power-apparaten: de plugin stuurt ze nooit iets, dus ze hebben geen gezondheidsstatus",
+  "dashboard.health.comment": "Live = apparaten online<br>Niet bereikbaar = apparaten zijn niet bereikbaar<br>Recent niet gezien = apparaten zonder bericht sinds {{hours}} uur (Instellingen → HealthTimeOut, 0 = uit; een apparaat kan een eigen termijn hebben)<br>Time-out = apparaten zonder bericht langer dan Instellingen → ForceDeviceTimedOut_afterXhours<br>Onbekend = status apparaten onbekend<br>Green Power = Green Power-apparaten: de plugin stuurt ze nooit iets, dus ze hebben geen gezondheidsstatus",
   "dashboard.traffic.title": "Verzonden & Ontvangen",
   "dashboard.trafic.label": "Verzonden/Ontvangen berichten",
   "dashboard.trafic.send": "Tx",
@@ -1896,5 +1896,7 @@
   "device.details.deviceid.configured": "volgens de apparaatconfiguratie",
   "device.details.deviceid.reported": "gemeld: 0x{{id}}",
   "network.mesh.node.zdeviceid.configured": "volgens de apparaatconfiguratie",
-  "network.mesh.node.zdeviceid.reported": "gemeld: 0x{{id}}"
+  "network.mesh.node.zdeviceid.reported": "gemeld: 0x{{id}}",
+  "dashboard.kpi.devices.disabled": "{{count}} uitgeschakeld",
+  "dashboard.attention.pairing": "Koppeling niet voltooid"
 }

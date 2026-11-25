@@ -88,7 +88,7 @@
               [ngbPopover]="popContentPlugin"
               popoverTitle="{{ 'dashboard.plugin.update.available.title' | translate }}">
               <span translate="dashboard.plugin.version"></span>
-              {{ fork.plugin.PluginVersion }}
+              {{ pluginLabel(fork.plugin) }}
               @if (fork.plugin.CertifiedDbVersion) {
                 <span>[{{ fork.plugin.CertifiedDbVersion }}]</span>
               }
@@ -110,7 +110,7 @@
         @if (!fork.plugin?.PluginUpdate) {
           <div class="order-4 p-2 text-white">
             <span translate="dashboard.plugin.version"></span>
-            {{ fork.plugin.PluginVersion }}
+            {{ pluginLabel(fork.plugin) }}
             @if (fork.plugin.CertifiedDbVersion) {
               <span>[{{ fork.plugin.CertifiedDbVersion }}]</span>
             }

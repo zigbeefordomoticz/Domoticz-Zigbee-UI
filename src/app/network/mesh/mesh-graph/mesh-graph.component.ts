@@ -18,6 +18,7 @@ import {
   TopologyScanNode,
   TopologyScanRoute
 } from '@app/shared/models/topology-scan';
+import { healthState, isNotHeard } from '@app/shared/utils/device-state';
 import { TranslateService } from '@ngx-translate/core';
 import cytoscape from 'cytoscape';
 import {
@@ -57,8 +58,6 @@ const COLOUR_UNKNOWN = '#868e96';
 const COLOUR_STALE = '#ffc107';
 
 /** Health values of `/zdevice-name`, which the scan repeats per node. */
-const HEALTH_UNREACHABLE = 'Not Reachable';
-const HEALTH_STALE = 'Not seen last 24hours';
 
 /**
  * Which edges to draw, and every mode needs its table in the scan's `tables`.
@@ -851,7 +850,8 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
 
   /** Severity order: health first, then how the scan went, then nothing to say. */
   private stateOf(node: TopologyScanNode): NodeState {
-    if (node.health === HEALTH_UNREACHABLE) {
+    const state = healthState(node.health);
+    if (state === 'notreachable') {
       return 'unreachable';
     }
     if (node.scan_status === 'timeout') {
@@ -860,7 +860,7 @@ export class MeshGraphComponent extends UnsubscribeOnDestroyAdapter implements O
     if (node.scan_status === 'not_scanned') {
       return 'not_scanned';
     }
-    return node.health === HEALTH_STALE ? 'stale' : 'ok';
+    return isNotHeard(state) ? 'stale' : 'ok';
   }
 
   /**

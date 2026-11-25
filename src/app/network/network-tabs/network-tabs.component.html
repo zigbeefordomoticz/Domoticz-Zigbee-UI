@@ -1,11 +1,11 @@
 <div class="figures" role="status">
   <a class="figure" routerLink="/admin" [queryParams]="{ action: 'coordinator' }">
-    <div class="figure-label"><span class="dot dot-success"></span>{{ 'admin.status.channel' | translate }}</div>
+    <div class="figure-label"><span class="dot dot-{{ coordinatorTone }}"></span>{{ 'admin.status.channel' | translate }}</div>
     <div class="figure-value">{{ channel ?? '—' }}</div>
     <div class="figure-detail">{{ channel !== null ? megahertz + ' MHz' : '' }}</div>
   </a>
   <div class="figure">
-    <div class="figure-label"><span class="dot dot-success"></span>{{ 'network.status.devices' | translate }}</div>
+    <div class="figure-label"><span class="dot dot-{{ devicesTone }}"></span>{{ 'network.status.devices' | translate }}</div>
     <div class="figure-value">{{ routers !== null ? routers + endDevices : '—' }}</div>
     <div class="figure-detail">
       @if (routers !== null) {
@@ -19,7 +19,7 @@
         class="dot"
         [class.dot-info]="scanRunning"
         [class.dot-success]="!scanRunning && lastScan"
-        [class.dot-muted]="!scanRunning && !lastScan"></span>
+        [class.dot-secondary]="!scanRunning && !lastScan"></span>
       {{ 'network.status.topology' | translate }}
     </div>
     @if (scanRunning) {
@@ -44,7 +44,7 @@
   </a>
   <a class="figure" routerLink="/network" [queryParams]="{ view: 'interference' }">
     <div class="figure-label">
-      <span class="dot" [class.dot-success]="lastInterference" [class.dot-muted]="!lastInterference"></span>
+      <span class="dot" [class.dot-success]="lastInterference" [class.dot-secondary]="!lastInterference"></span>
       {{ 'network.status.interference' | translate }}
     </div>
     @if (lastInterference) {

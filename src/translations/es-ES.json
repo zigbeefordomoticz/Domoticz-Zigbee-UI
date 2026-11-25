@@ -15,7 +15,7 @@
   "dashboard.devices.notseen": "No visto recientemente",
   "dashboard.devices.notReachable": "Perdido",
   "dashboard.devices.others": "Desconocido",
-  "dashboard.health.comment": "Vivo = cantidad de dispositivos activos<br>Perdido = cantidad de dispositivos fuera de la red<br>No visto recientemente = dispositivos sin ningún mensaje desde hace {{hours}} horas (Configuración → HealthTimeOut, 0 = desactivado; un dispositivo puede tener su propio plazo)<br>Desconocido = cantidad de dispositivos con estado desconocido<br>Green Power = dispositivos Green Power: el plugin nunca les envía nada, por lo que no tienen estado de salud",
+  "dashboard.health.comment": "Vivo = cantidad de dispositivos activos<br>No alcanzable = cantidad de dispositivos fuera de la red<br>No visto recientemente = dispositivos sin ningún mensaje desde hace {{hours}} horas (Configuración → HealthTimeOut, 0 = desactivado; un dispositivo puede tener su propio plazo)<br>Tiempo agotado = dispositivos sin ningún mensaje desde hace más tiempo que Configuración → ForceDeviceTimedOut_afterXhours<br>Desconocido = cantidad de dispositivos con estado desconocido<br>Green Power = dispositivos Green Power: el plugin nunca les envía nada, por lo que no tienen estado de salud",
   "dashboard.traffic.title": "Enviar y Recibir",
   "dashboard.trafic.label": "Enviar / Recibir mensajes",
   "dashboard.trafic.send": "Tx",
@@ -1896,5 +1896,7 @@
   "device.details.deviceid.configured": "según la configuración del dispositivo",
   "device.details.deviceid.reported": "informado: 0x{{id}}",
   "network.mesh.node.zdeviceid.configured": "según la configuración del dispositivo",
-  "network.mesh.node.zdeviceid.reported": "informado: 0x{{id}}"
+  "network.mesh.node.zdeviceid.reported": "informado: 0x{{id}}",
+  "dashboard.kpi.devices.disabled": "{{count}} deshabilitados",
+  "dashboard.attention.pairing": "Emparejamiento no completado"
 }

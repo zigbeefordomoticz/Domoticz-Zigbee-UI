@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { TopologyScanSummary } from '@app/shared/models/topology-scan';
+import { countDevices, isDisabled } from '@app/shared/utils/device-state';
 import { coordinatorChannel } from '@app/shared/utils/plugin-identity';
+import { coordinatorTone, devicesTone, Tone } from '@app/shared/utils/status-tone';
 
 /**
  * Key figures and tabs on top of the Network page, as on Admin.
@@ -23,6 +25,8 @@ export class NetworkTabsComponent implements OnInit {
   channel: number | null = null;
   routers: number | null = null;
   endDevices: number | null = null;
+  coordinatorTone: Tone = 'secondary';
+  devicesTone: Tone = 'secondary';
   lastScan: TopologyScanSummary | null = null;
   scansRead = false;
   scanRunning = false;
@@ -43,7 +47,8 @@ export class NetworkTabsComponent implements OnInit {
 
     // Counted as on the Dashboard: disabled devices left out
     this.apiService.getZDevices().subscribe(devices => {
-      const enabled = (devices || []).filter(device => device.Health !== 'Disabled');
+      const enabled = (devices || []).filter(device => !isDisabled(device));
+      this.devicesTone = devicesTone(countDevices(enabled));
       this.routers = enabled.filter(device => device.LogicalType === 'Router').length;
       this.endDevices = enabled.length - this.routers;
     });
@@ -56,7 +61,10 @@ export class NetworkTabsComponent implements OnInit {
       this.scansRead = true;
     });
 
-    this.apiService.getPluginhealth().subscribe(health => (this.scanRunning = !!health?.Topology));
+    this.apiService.getPluginhealth().subscribe(health => {
+      this.scanRunning = !!health?.Topology;
+      this.coordinatorTone = coordinatorTone(health);
+    });
 
     this.refreshInterference();
   }

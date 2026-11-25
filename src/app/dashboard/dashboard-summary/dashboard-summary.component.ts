@@ -6,20 +6,24 @@ import { HeaderService } from '@app/services/header-service';
 import { Group } from '@app/shared/models/group';
 import { Plugin } from '@app/shared/models/plugin';
 import { PluginStats } from '@app/shared/models/plugin-stats';
+import {
+  countDevices,
+  deviceState,
+  healthState,
+  isDisabled,
+  isNotHeard,
+  LOW_BATTERY,
+  pairingProblem
+} from '@app/shared/utils/device-state';
+import { runningTransfers } from '@app/shared/utils/ota-transfers';
 import { coordinatorChannel, pluginIdentity } from '@app/shared/utils/plugin-identity';
+import { coordinatorTone, devicesTone, pluginTone, Tone } from '@app/shared/utils/status-tone';
 import { TranslateService } from '@ngx-translate/core';
 import { FileSaverService } from 'ngx-filesaver';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DeviceListRequest } from '../device-list';
 import { firmwareAvailableRows } from '@app/shared/models/firmware';
-
-// Plugin Health values, compared verbatim (see shared/utils/health-label.pipe.ts)
-const HEALTH_NOT_REACHABLE = 'Not Reachable';
-const HEALTH_NOT_SEEN = 'Not seen last 24hours';
-const LOW_BATTERY = 15;
-
-type Tone = 'success' | 'warning' | 'danger' | 'info' | 'secondary';
 
 interface KeyFigure {
   label: string;
@@ -106,41 +110,35 @@ export class DashboardSummaryComponent implements OnChanges {
 
   private build() {
     const devices = Array.isArray(this.devices) ? this.devices : [];
-    const inDb = (device: any) => device.Status !== 'notDB';
     const byNwkId = new Map(devices.map(device => [device._NwkId, device]));
 
-    const live = devices.filter(device => device.Health === 'Live' && inDb(device));
-    const notReachable = devices.filter(
-      device => (device.Health === HEALTH_NOT_REACHABLE && inDb(device)) || device.Status === 'Leave'
-    );
-    const notSeen = devices.filter(device => device.Health === HEALTH_NOT_SEEN && inDb(device));
+    const notReachable = devices.filter(device => deviceState(device) === 'notreachable');
+    const notSeen = devices.filter(device => deviceState(device) === 'notseen');
+    const timedOut = devices.filter(device => deviceState(device) === 'timedout');
     const lowBattery = devices
       .filter(
         device =>
           device.PowerSource === 'Battery' &&
-          inDb(device) &&
-          device.Health !== 'Disabled' &&
+          !isDisabled(device) &&
           device.Battery !== '' &&
           device.Battery !== null &&
           Number(device.Battery) <= LOW_BATTERY
       )
       .sort((a, b) => Number(a.Battery) - Number(b.Battery));
-    const notOptimized = (Array.isArray(this.certified) ? this.certified : []).filter(
-      device => !device.CertifiedDevice && device.Health !== 'Disabled'
-    );
+    const certified = (Array.isArray(this.certified) ? this.certified : []).filter(device => !isDisabled(device));
+    const notOptimized = certified.filter(device => !device.CertifiedDevice);
+    const badlyPaired = certified.filter(device => pairingProblem(device));
     const degradedGroups = (Array.isArray(this.groups) ? this.groups : [])
       .map(group => {
         const members = (group.Devices ?? []).map(member => byNwkId.get(member._NwkId)).filter(Boolean);
-        const lost = members.filter(
-          device => device.Health === HEALTH_NOT_REACHABLE || device.Health === HEALTH_NOT_SEEN
-        );
+        const lost = members.filter(device => isNotHeard(healthState(device.Health)));
         return { group, members, lost };
       })
       .filter(entry => entry.lost.length > 0);
     const firmware = firmwareAvailableRows(this.firmwareAvailable);
     const firmwareDevices = [...new Set(firmware.map(fw => fw.nwkid))].map(nwkid => byNwkId.get(nwkid)).filter(Boolean);
 
-    this.figures = this.buildFigures(devices.length, live.length, byNwkId);
+    this.figures = this.buildFigures(devices, byNwkId);
 
     const items: AttentionItem[] = [];
     const devicesItem = (category: string, tone: Tone, title: string, list: any[], detail = this.names(list)) => {
@@ -191,6 +189,12 @@ export class DashboardSummaryComponent implements OnChanges {
         this.t('dashboard.attention.notseen', { hours: this.healthTimeOutHours }),
         notSeen
       );
+    }
+    if (timedOut.length) {
+      devicesItem('timed-out', 'warning', this.t('device.health.timedout'), timedOut);
+    }
+    if (badlyPaired.length) {
+      devicesItem('pairing', 'warning', this.t('dashboard.attention.pairing'), badlyPaired);
     }
     if (degradedGroups.length) {
       const title = this.t('dashboard.attention.groups');
@@ -254,36 +258,34 @@ export class DashboardSummaryComponent implements OnChanges {
     this.items = items;
   }
 
-  private buildFigures(total: number, live: number, byNwkId: Map<string, any>): KeyFigure[] {
+  private buildFigures(devices: any[], byNwkId: Map<string, any>): KeyFigure[] {
+    const counts = countDevices(devices);
+    const notLive = counts.enabled - counts.live;
     const stats = this.pluginStats;
     const acked = stats.APSAck ?? 0;
     // A unicast not acknowledged is counted in APSNck; APSFailure is not incremented by the plugin
     const failed = stats.APSNck ?? 0;
     const delivery = acked + failed > 0 ? (acked * 100) / (acked + failed) : null;
 
-    // One "<nwkid>" / "<progress>" pair per transfer, comma separated when several run at once.
-    // Progress is "<n>%" while blocks flow; "Success", "Aborted", "Failed"... stay after the end.
-    const otaDevices = String(this.pluginHealth?.OTAupdateDevice ?? '').split(',');
-    const otaTransfers = String(this.pluginHealth?.OTAupdateProgress ?? '')
-      .split(',')
-      .map((progress, index) => ({ progress: progress.trim(), nwkid: (otaDevices[index] ?? '').trim() }))
-      .filter(transfer => transfer.progress.endsWith('%'))
-      .map(transfer => (byNwkId.get(transfer.nwkid)?.ZDeviceName || transfer.nwkid) + ' ' + transfer.progress);
+    const otaTransfers = runningTransfers(this.pluginHealth).map(
+      transfer => (byNwkId.get(transfer.nwkid)?.ZDeviceName || transfer.nwkid) + ' ' + transfer.progress
+    );
     const otaRunning = otaTransfers.length > 0;
 
     const figures: KeyFigure[] = [
       {
         label: this.t('dashboard.kpi.devices'),
         // A Green Power device is never polled, so it cannot be "not live": it counts as OK on both sides
-        value: live + this.greenPowerCount + ' / ' + (total + this.greenPowerCount),
+        value: counts.live + this.greenPowerCount + ' / ' + (counts.enabled + this.greenPowerCount),
         detail:
-          (live === total
+          (notLive === 0
             ? this.t('dashboard.kpi.devices.all')
-            : this.t('dashboard.kpi.devices.notlive', { count: total - live })) +
+            : this.t('dashboard.kpi.devices.notlive', { count: notLive })) +
+          (counts.disabled ? ' · ' + this.t('dashboard.kpi.devices.disabled', { count: counts.disabled }) : '') +
           (this.greenPowerCount
             ? ' · ' + this.t('dashboard.kpi.devices.greenpower', { count: this.greenPowerCount })
             : ''),
-        tone: live === total ? 'success' : 'warning'
+        tone: devicesTone(counts)
       },
       {
         label: this.t('dashboard.kpi.received'),
@@ -308,7 +310,7 @@ export class DashboardSummaryComponent implements OnChanges {
           firmware: this.plugin?.CoordinatorFirmwareVersion || '—',
           channel: this.channel() ?? '—'
         }),
-        tone: 'success'
+        tone: coordinatorTone(this.pluginHealth)
       },
       this.pluginFigure(),
       {
@@ -340,7 +342,7 @@ export class DashboardSummaryComponent implements OnChanges {
       label: this.t('dashboard.kpi.plugin'),
       value: id.release ? id.version || '—' : id.gitBranch || this.t('dashboard.kpi.plugin.detached'),
       detail: id.release ? id.branch || '—' : this.t('dashboard.kpi.plugin.commit', { commit: id.commit }),
-      tone: id.release ? 'secondary' : 'warning'
+      tone: pluginTone(this.plugin)
     };
   }
 
