@@ -1,4 +1,4 @@
-@if (rows.length > 0) {
+@if (!loaded || rows.length > 0) {
   <div class="figures" role="group" [attr.aria-label]="'device.byname.filter.label' | translate">
     @for (figure of figures; track figure.filter) {
       <button
@@ -6,6 +6,7 @@
         class="figure"
         [class.figure-active]="filter === figure.filter && figure.filter !== 'all'"
         [attr.aria-pressed]="filter === figure.filter"
+        [disabled]="!loaded"
         (click)="toggleFilter(figure.filter)">
         <span class="figure-label"><span class="dot dot-{{ figure.tone }}"></span>{{ figure.label }}</span>
         <span class="figure-value">{{ figure.value }}</span>
@@ -14,6 +15,9 @@
     }
   </div>
 }
+
+<!-- The tabs of the page -->
+<ng-content></ng-content>
 
 <div class="card">
   <div class="card-header fw-bold">

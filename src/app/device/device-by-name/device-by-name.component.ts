@@ -55,7 +55,7 @@ type Filter =
 // Chips shown only when they have something to list
 const OPTIONAL_FILTERS: Filter[] = ['lowbattery', 'weaklink', 'greenpower'];
 
-/** A key figure on top of the list; a click shows the devices it counts. */
+/** A key figure on top of the page; a click shows the devices it counts. */
 interface KeyFigure {
   filter: Filter;
   label: string;
@@ -331,6 +331,11 @@ export class DeviceByNameComponent extends UnsubscribeOnDestroyAdapter implement
     this.figures = this.buildFigures();
   }
 
+  /** The plugin answered: before that, the figures hold their place without a value. */
+  get loaded(): boolean {
+    return Array.isArray(this.devices);
+  }
+
   /** Same rules and words as the Dashboard (shared/utils/device-state.ts). */
   private buildFigures(): KeyFigure[] {
     const t = (key: string, params?: object): string => this.translate.instant(key, params);
@@ -356,7 +361,7 @@ export class DeviceByNameComponent extends UnsubscribeOnDestroyAdapter implement
     const lowBattery = count('lowbattery');
     const weakLink = count('weaklink');
     const notOptimized = count('notoptimized');
-    return [
+    const figures: KeyFigure[] = [
       {
         filter: 'all',
         label: t('dashboard.kpi.devices'),
@@ -399,6 +404,9 @@ export class DeviceByNameComponent extends UnsubscribeOnDestroyAdapter implement
         tone: notOptimized ? 'warning' : 'success'
       }
     ];
+    return this.loaded
+      ? figures
+      : figures.map(figure => ({ ...figure, value: '—', detail: '', tone: 'secondary' as Tone }));
   }
 
   private toRow(device: DeviceByName): DeviceRow {

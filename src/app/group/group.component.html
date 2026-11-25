@@ -1,26 +1,4 @@
-<app-management-tabs active="group"></app-management-tabs>
-
-<div class="page-head">
-  <p class="lead-text">{{ 'group.page.lead' | translate }}</p>
-  <a href="https://zigbeefordomoticz.github.io/wiki/en-eng/WebUI_Management#group-management" target="_blank">{{
-    'group.page.help' | translate
-  }}</a>
-</div>
-
-@if (starting) {
-  <div class="alert alert-info" role="status">
-    <b translate="admin.groups.starting.title"></b>
-    <div translate="admin.groups.starting.text"></div>
-  </div>
-} @else if (!enabled) {
-  <div class="alert alert-warning d-flex flex-wrap gap-2 align-items-center justify-content-between" role="status">
-    <div>
-      <b translate="admin.groups.off.title"></b>
-      <div translate="admin.groups.off.text"></div>
-    </div>
-    <a class="btn btn-outline-dark" routerLink="/settings">{{ 'admin.groups.off.link' | translate }}</a>
-  </div>
-} @else {
+@if (!starting && enabled) {
   <div class="figures" role="status">
     <div class="figure">
       <div class="figure-label"><span class="dot dot-secondary"></span>{{ 'group.page.fig.groups' | translate }}</div>
@@ -87,7 +65,32 @@
       </div>
     </div>
   </div>
+}
 
+<!-- The tabs go under the key figures, as on Network and Admin -->
+<app-management-tabs active="group"></app-management-tabs>
+
+<div class="page-head">
+  <p class="lead-text">{{ 'group.page.lead' | translate }}</p>
+  <a href="https://zigbeefordomoticz.github.io/wiki/en-eng/WebUI_Management#group-management" target="_blank">{{
+    'group.page.help' | translate
+  }}</a>
+</div>
+
+@if (starting) {
+  <div class="alert alert-info" role="status">
+    <b translate="admin.groups.starting.title"></b>
+    <div translate="admin.groups.starting.text"></div>
+  </div>
+} @else if (!enabled) {
+  <div class="alert alert-warning d-flex flex-wrap gap-2 align-items-center justify-content-between" role="status">
+    <div>
+      <b translate="admin.groups.off.title"></b>
+      <div translate="admin.groups.off.text"></div>
+    </div>
+    <a class="btn btn-outline-dark" routerLink="/settings">{{ 'admin.groups.off.link' | translate }}</a>
+  </div>
+} @else {
   @if (sent) {
     <div class="alert alert-info d-flex gap-2 align-items-start" role="status">
       <i class="fa fa-circle-info mt-1" aria-hidden="true"></i>
