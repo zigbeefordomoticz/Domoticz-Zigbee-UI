@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { HeaderService } from '@app/services/header-service';
 import { DeviceByName } from '@app/shared/models/device-by-name';
 import { Setting, Settings } from '@app/shared/models/setting';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { ALL_DEVICES, currentValue, debugSettings, parseMatching, typedValue } from '../debug-state';
+import { ToolsTabsComponent } from '../tools-tabs/tools-tabs.component';
 
 // Logging modules of the plugin (VerboseLogging in PluginConf.py) grouped for people; anything not
 // listed lands in "Other", so a module added by the plugin still shows. Within a group the switches
@@ -184,7 +186,6 @@ const PRESETS: { key: string; modules: string[] }[] = [
 
 // Not switches: shown in "Limit the log"
 const LIMITS = ['MatchingNwkId', 'LQIthreshold', 'loggingBackupCount', 'loggingMaxMegaBytes'];
-const ALL_DEVICES = 'ffff';
 
 // Module names as people look for them: case ignored, Transport8002 after Transport8000
 const BY_NAME = new Intl.Collator('en', { sensitivity: 'base', numeric: true });
@@ -208,6 +209,8 @@ interface Category {
   standalone: false
 })
 export class DebugSettingsComponent implements OnInit {
+  @ViewChild(ToolsTabsComponent) tabs: ToolsTabsComponent;
+
   settings: Setting[] = [];
   categories: Category[] = [];
   values: Record<string, any> = {};
@@ -294,7 +297,7 @@ export class DebugSettingsComponent implements OnInit {
 
   restoreDefaults() {
     this.resettable.forEach(name => (this.values[name] = this.defaults[name]));
-    this.matching = this.parseMatching(this.values.MatchingNwkId);
+    this.matching = parseMatching(this.values.MatchingNwkId);
   }
 
   setMatching(nwkIds: string[]) {
@@ -308,7 +311,7 @@ export class DebugSettingsComponent implements OnInit {
 
   discard() {
     this.values = { ...this.initial };
-    this.matching = this.parseMatching(this.values.MatchingNwkId);
+    this.matching = parseMatching(this.values.MatchingNwkId);
   }
 
   save() {
@@ -323,6 +326,7 @@ export class DebugSettingsComponent implements OnInit {
         this.saving = false;
         this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
         this.load();
+        this.tabs?.refreshDebug();
         this.apiService.getRestartNeeded().subscribe(restart => {
           if (restart?.RestartNeeded > 0) {
             this.headerService.setRestart(true);
@@ -336,16 +340,15 @@ export class DebugSettingsComponent implements OnInit {
 
   private load() {
     this.apiService.getSettingsDebug().subscribe((themes: Settings[]) => {
-      this.settings = (themes ?? []).flatMap(theme => theme.ListOfSettings ?? []);
+      this.settings = debugSettings(themes);
       this.initial = {};
       this.defaults = {};
       this.settings.forEach(setting => {
-        const value = setting.current_value !== '' ? setting.current_value : setting.default_value;
-        this.initial[setting.Name] = this.typed(setting, value);
-        this.defaults[setting.Name] = this.typed(setting, setting.default_value);
+        this.initial[setting.Name] = currentValue(setting);
+        this.defaults[setting.Name] = typedValue(setting, setting.default_value);
       });
       this.values = { ...this.initial };
-      this.matching = this.parseMatching(this.values.MatchingNwkId);
+      this.matching = parseMatching(this.values.MatchingNwkId);
 
       const switches = this.settings.filter(setting => setting.DataType === 'bool');
       const placed = new Set<string>();
@@ -363,17 +366,5 @@ export class DebugSettingsComponent implements OnInit {
       this.categories = this.categories.filter(category => category.settings.length);
       this.categories.forEach(category => category.settings.sort((a, b) => BY_NAME.compare(a.Name, b.Name)));
     });
-  }
-
-  private typed(setting: Setting, value: any): any {
-    return setting.DataType === 'bool' ? value === true || value === 1 || value === '1' : value;
-  }
-
-  private parseMatching(value: any): string[] {
-    return String(value ?? ALL_DEVICES)
-      .toLowerCase()
-      .split(',')
-      .map(item => item.trim())
-      .filter(item => item && item !== ALL_DEVICES);
   }
 }

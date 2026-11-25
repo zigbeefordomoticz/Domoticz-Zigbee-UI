@@ -1,7 +1,57 @@
-<nav class="tools-tabs" [attr.aria-label]="'tools.tabs.label' | translate">
+<div class="figures" role="status">
+  <div class="figure">
+    <div class="figure-label">
+      <span class="dot dot-{{ pluginTone }}"></span>{{ 'dashboard.kpi.plugin' | translate }}
+    </div>
+    @if (identity && !identity.release) {
+      <div class="figure-value text-truncate" [title]="identity.gitBranch">
+        {{ identity.gitBranch || ('dashboard.kpi.plugin.detached' | translate) }}
+      </div>
+      <div class="figure-detail">{{ 'dashboard.kpi.plugin.commit' | translate: { commit: identity.commit } }}</div>
+    } @else {
+      <div class="figure-value text-truncate">{{ identity?.version || '—' }}</div>
+      <div class="figure-detail text-truncate">{{ identity?.branch }}</div>
+    }
+  </div>
+  <div class="figure">
+    <div class="figure-label"><span class="dot dot-secondary"></span>{{ 'tools.fig.certified' | translate }}</div>
+    <div class="figure-value text-truncate">{{ plugin?.CertifiedDbVersion || '—' }}</div>
+    <div class="figure-detail" translate="tools.fig.certified.detail"></div>
+  </div>
+  <a class="figure" routerLink="/tools/debug">
+    <div class="figure-label">
+      <span
+        class="dot"
+        [class.dot-info]="debug && !debug.atDefaults"
+        [class.dot-secondary]="!debug || debug.atDefaults">
+      </span>
+      {{ 'tools.fig.debug' | translate }}
+    </div>
+    <div class="figure-value">{{ debug ? debug.on : '—' }}</div>
+    <div class="figure-detail">
+      @if (debug?.atDefaults) {
+        {{ 'tools.fig.debug.defaults' | translate }}
+      } @else if (debug?.devices) {
+        {{ 'tools.fig.debug.devices' | translate: { count: debug.devices } }}
+      } @else if (debug) {
+        {{ 'tools.debug.devices.all' | translate }}
+      }
+    </div>
+  </a>
+  <a class="figure" routerLink="/tools/error" [class.figure-warning]="newErrors">
+    <div class="figure-label">
+      <span class="dot" [class.dot-danger]="newErrors" [class.dot-success]="!newErrors"></span>
+      {{ 'tools.tabs.errors' | translate }}
+    </div>
+    <div class="figure-value">{{ (newErrors ? 'tools.tabs.newerrors' : 'tools.fig.errors.none') | translate }}</div>
+    <div class="figure-detail">{{ 'tools.fig.errors.detail' | translate }} →</div>
+  </a>
+</div>
+
+<nav class="page-tabs" [attr.aria-label]="'tools.tabs.label' | translate">
   @for (tab of tabs; track tab.path) {
     <a
-      class="tools-tab"
+      class="page-tab"
       [class.active]="active === tab.path"
       [attr.aria-current]="active === tab.path ? 'page' : null"
       [routerLink]="['/tools', tab.path]"

@@ -2092,5 +2092,18 @@
   "manufacturer.gamma.HCHP": "Index Heures Pleines",
   "manufacturer.chameleon.SMAXSN1-1": "Puissance apparente max. soutirée n-1 phase 1",
   "manufacturer.chameleon.OPTARIF": "Option tarifaire",
-  "manufacturer.chameleon.LTARF": "Libellé tarif fournisseur en cours"
+  "manufacturer.chameleon.LTARF": "Libellé tarif fournisseur en cours",
+  "settings.fig.sections": "in {{count}} sections",
+  "settings.fig.changed": "show only these",
+  "settings.fig.restart": "show only these",
+  "settings.fig.pending": "Pending restart",
+  "settings.fig.pending.needed": "Needed",
+  "settings.fig.pending.none": "None",
+  "tools.fig.certified": "Certified devices",
+  "tools.fig.certified.detail": "database version",
+  "tools.fig.debug": "Debug modules on",
+  "tools.fig.debug.defaults": "logging as by default",
+  "tools.fig.debug.devices": "devices logged: {{count}}",
+  "tools.fig.errors.none": "None new",
+  "tools.fig.errors.detail": "Error history"
 }

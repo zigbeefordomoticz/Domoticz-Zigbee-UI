@@ -1,4 +1,4 @@
-// Key figures and tabs on top of a page made of tabs (Admin, Network): one row on a wide screen, wrapping
+// Key figures and tabs on top of a page made of tabs (Admin, Network, Settings, Tools): one row on a wide screen, wrapping
 // down to two on a phone, as on the Dashboard
 .figures {
   display: flex;
@@ -90,4 +90,10 @@ button.figure:hover,
     color: var(--bs-body-color);
     border-bottom-color: var(--bs-primary);
   }
+}
+
+// A tab that changes what the page shows, without an address of its own
+button.page-tab {
+  background: none;
+  border-width: 0 0 2px;
 }
