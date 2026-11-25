@@ -1898,5 +1898,10 @@
   "network.mesh.node.zdeviceid.configured": "from the device configuration",
   "network.mesh.node.zdeviceid.reported": "reported 0x{{id}}",
   "dashboard.kpi.devices.disabled": "{{count}} disabled",
-  "dashboard.attention.pairing": "Pairing not complete"
+  "dashboard.attention.pairing": "Pairing not complete",
+  "device.byname.filter.lowbattery": "Low battery",
+  "device.byname.filter.weaklink": "Weak link",
+  "device.byname.fig.lowbattery": "of {{count}} battery devices, at {{limit}} % or less",
+  "device.byname.fig.weaklink": "live devices with an LQI under {{limit}}",
+  "device.byname.fig.optimized": "{{count}} not optimized"
 }

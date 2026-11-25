@@ -66,6 +66,9 @@ a.figure:hover {
 }
 
 .figure-label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--bs-secondary-color);

@@ -1898,5 +1898,10 @@
   "network.mesh.node.zdeviceid.configured": "laut Gerätekonfiguration",
   "network.mesh.node.zdeviceid.reported": "gemeldet: 0x{{id}}",
   "dashboard.kpi.devices.disabled": "{{count}} deaktiviert",
-  "dashboard.attention.pairing": "Kopplung nicht abgeschlossen"
+  "dashboard.attention.pairing": "Kopplung nicht abgeschlossen",
+  "device.byname.filter.lowbattery": "Batterie schwach",
+  "device.byname.filter.weaklink": "Schwache Verbindung",
+  "device.byname.fig.lowbattery": "von {{count}} Batteriegeräten, {{limit}} % oder weniger",
+  "device.byname.fig.weaklink": "aktive Geräte mit einem LQI unter {{limit}}",
+  "device.byname.fig.optimized": "{{count}} nicht optimiert"
 }

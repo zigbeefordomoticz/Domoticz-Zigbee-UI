@@ -18,8 +18,21 @@
   border-radius: var(--bs-border-radius-lg);
 }
 
-a.figure:hover {
+// A figure that filters the list under it
+button.figure {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+
+a.figure:hover,
+button.figure:hover,
+.figure-active {
   border-color: var(--bs-primary);
+}
+
+.figure-active {
+  box-shadow: inset 0 0 0 1px var(--bs-primary);
 }
 
 .figure-warning {

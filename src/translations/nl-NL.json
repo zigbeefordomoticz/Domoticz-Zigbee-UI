@@ -1898,5 +1898,10 @@
   "network.mesh.node.zdeviceid.configured": "volgens de apparaatconfiguratie",
   "network.mesh.node.zdeviceid.reported": "gemeld: 0x{{id}}",
   "dashboard.kpi.devices.disabled": "{{count}} uitgeschakeld",
-  "dashboard.attention.pairing": "Koppeling niet voltooid"
+  "dashboard.attention.pairing": "Koppeling niet voltooid",
+  "device.byname.filter.lowbattery": "Batterij bijna leeg",
+  "device.byname.filter.weaklink": "Zwakke verbinding",
+  "device.byname.fig.lowbattery": "van {{count}} batterijapparaten, {{limit}} % of minder",
+  "device.byname.fig.weaklink": "live apparaten met een LQI onder {{limit}}",
+  "device.byname.fig.optimized": "{{count}} niet geoptimaliseerd"
 }

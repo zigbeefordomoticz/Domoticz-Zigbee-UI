@@ -23,7 +23,7 @@
 } @else {
   <div class="figures" role="status">
     <div class="figure">
-      <div class="figure-label">{{ 'group.page.fig.groups' | translate }}</div>
+      <div class="figure-label"><span class="dot dot-secondary"></span>{{ 'group.page.fig.groups' | translate }}</div>
       <div class="figure-value">{{ loaded ? rows.length : '—' }}</div>
       <div class="figure-detail">
         @if (loaded) {
@@ -33,7 +33,10 @@
     </div>
     @if (sceneGroups) {
       <div class="figure">
-        <div class="figure-label">{{ 'group.page.fig.scenes' | translate }}</div>
+        <div class="figure-label">
+          <span class="dot dot-{{ scenesToCheck ? 'warning' : 'secondary' }}"></span
+          >{{ 'group.page.fig.scenes' | translate }}
+        </div>
         <div class="figure-value">{{ sceneCount }}</div>
         <div class="figure-detail">
           {{ 'group.page.fig.scenes.detail' | translate: { count: groupsWithScenes } }}
@@ -44,7 +47,7 @@
       </div>
     }
     <div class="figure">
-      <div class="figure-label">{{ 'group.page.fig.devices' | translate }}</div>
+      <div class="figure-label"><span class="dot dot-secondary"></span>{{ 'group.page.fig.devices' | translate }}</div>
       <div class="figure-value">{{ loaded ? devicesInAGroup : '—' }}</div>
       <div class="figure-detail">
         @if (loaded) {
@@ -53,7 +56,10 @@
       </div>
     </div>
     <div class="figure" [class.figure-warning]="groupsNeedingAttention > 0">
-      <div class="figure-label">{{ 'group.page.fig.attention' | translate }}</div>
+      <div class="figure-label">
+        <span class="dot dot-{{ !loaded ? 'secondary' : groupsNeedingAttention ? 'warning' : 'success' }}"></span
+        >{{ 'group.page.fig.attention' | translate }}
+      </div>
       <div class="figure-value">{{ loaded ? groupsNeedingAttention : '—' }}</div>
       <div class="figure-detail">
         @if (loaded) {
@@ -62,7 +68,10 @@
       </div>
     </div>
     <div class="figure">
-      <div class="figure-label">{{ 'group.page.fig.scan' | translate }}</div>
+      <div class="figure-label">
+        <span class="dot dot-{{ scanStatus === 'scan' ? 'info' : 'secondary' }}"></span
+        >{{ 'group.page.fig.scan' | translate }}
+      </div>
       <div class="figure-value">
         {{ (scanStatus === 'scan' ? 'group.page.fig.scan.running' : 'group.page.fig.scan.ready') | translate }}
       </div>

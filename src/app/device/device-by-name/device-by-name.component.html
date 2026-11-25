@@ -1,3 +1,20 @@
+@if (rows.length > 0) {
+  <div class="figures" role="group" [attr.aria-label]="'device.byname.filter.label' | translate">
+    @for (figure of figures; track figure.filter) {
+      <button
+        type="button"
+        class="figure"
+        [class.figure-active]="filter === figure.filter && figure.filter !== 'all'"
+        [attr.aria-pressed]="filter === figure.filter"
+        (click)="toggleFilter(figure.filter)">
+        <span class="figure-label"><span class="dot dot-{{ figure.tone }}"></span>{{ figure.label }}</span>
+        <span class="figure-value">{{ figure.value }}</span>
+        <span class="figure-detail">{{ figure.detail }}</span>
+      </button>
+    }
+  </div>
+}
+
 <div class="card">
   <div class="card-header fw-bold">
     {{ 'device.byname.header' | translate }}
