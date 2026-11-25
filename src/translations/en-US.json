@@ -580,7 +580,7 @@
   "network.stats.detail.visu.chart.y-axis": "Interference level",
   "network.stats.detail.visu.chart.x-axis": "Channel",
   "admin": "Admin",
-  "admin.pairing": "Provisionning",
+  "admin.pairing": "Provisioning",
   "admin.permittojoin.label": "Accept new hardware",
   "admin.permittojoin.on.notify": "Accept new hardware On",
   "admin.permittojoin.off.notify": "Accept new hardware Off",
