@@ -1898,5 +1898,10 @@
   "network.mesh.node.zdeviceid.configured": "según la configuración del dispositivo",
   "network.mesh.node.zdeviceid.reported": "informado: 0x{{id}}",
   "dashboard.kpi.devices.disabled": "{{count}} deshabilitados",
-  "dashboard.attention.pairing": "Emparejamiento no completado"
+  "dashboard.attention.pairing": "Emparejamiento no completado",
+  "device.byname.filter.lowbattery": "Batería baja",
+  "device.byname.filter.weaklink": "Enlace débil",
+  "device.byname.fig.lowbattery": "de {{count}} dispositivos con batería, al {{limit}} % o menos",
+  "device.byname.fig.weaklink": "dispositivos vivos con un LQI inferior a {{limit}}",
+  "device.byname.fig.optimized": "{{count}} no optimizados"
 }

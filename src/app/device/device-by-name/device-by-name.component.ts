@@ -1,9 +1,19 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { Logger } from '@app/core';
 import { ApiService } from '@app/services/api.service';
+import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { DeviceByName } from '@app/shared/models/device-by-name';
-import { deviceState, isDisabled, isNotHeard, LOW_BATTERY, pairingProblem } from '@app/shared/utils/device-state';
+import {
+  countDevices,
+  deviceState,
+  DeviceState,
+  isDisabled,
+  isNotHeard,
+  LOW_BATTERY,
+  pairingProblem
+} from '@app/shared/utils/device-state';
 import { healthTone } from '@app/shared/utils/health-label.pipe';
+import { devicesTone, Tone } from '@app/shared/utils/status-tone';
 import { NgbModal, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -26,10 +36,33 @@ const HEALTH_RANK: { [health: string]: number } = {
   Disabled: 3,
   Live: 4
 };
+// Below it the LQI bar is red
+const WEAK_LQI = 40;
 // Above any battery level: mains powered devices sort after battery ones
 const MAINS_SORT = 1000;
 
-type Filter = 'all' | 'attention' | 'notoptimized' | 'disabled' | 'routers' | 'enddevices' | 'greenpower';
+type Filter =
+  | 'all'
+  | 'attention'
+  | 'lowbattery'
+  | 'weaklink'
+  | 'notoptimized'
+  | 'disabled'
+  | 'routers'
+  | 'enddevices'
+  | 'greenpower';
+
+// Chips shown only when they have something to list
+const OPTIONAL_FILTERS: Filter[] = ['lowbattery', 'weaklink', 'greenpower'];
+
+/** A key figure on top of the list; a click shows the devices it counts. */
+interface KeyFigure {
+  filter: Filter;
+  label: string;
+  value: string;
+  detail: string;
+  tone: Tone;
+}
 
 /** One table row: the device as the plugin sent it, plus what the columns sort and filter on. */
 interface DeviceRow {
@@ -48,6 +81,7 @@ interface DeviceRow {
   paramCount: number;
   disabled: boolean;
   attention: boolean;
+  weakLink: boolean;
   // Only a device that failed pairing, is not in Domoticz or has no widget can be removed
   removable: boolean;
   // Green Power: its own details window; no name or parameters (they act on ListOfDevices)
@@ -57,15 +91,16 @@ interface DeviceRow {
 @Component({
   selector: 'app-device-by-name',
   templateUrl: './device-by-name.component.html',
-  styleUrls: ['./device-by-name.component.scss'],
+  styleUrls: ['../../shared/page-tabs.scss', './device-by-name.component.scss'],
   standalone: false
 })
-export class DeviceByNameComponent implements OnChanges {
+export class DeviceByNameComponent extends UnsubscribeOnDestroyAdapter implements OnChanges, OnInit {
   @Input() devices: DeviceByName[];
   // Green Power devices: removed from their details window when they have no widget, else with their last widget
   @Input() greenPower: DeviceByName[] = [];
   rows: DeviceRow[] = [];
   visibleRows: DeviceRow[] = [];
+  figures: KeyFigure[] = [];
   filters: { id: Filter; count: number }[] = [];
   filter: Filter = 'all';
   // The device whose name is being edited in its row, and the text typed so far
@@ -78,6 +113,8 @@ export class DeviceByNameComponent implements OnChanges {
   private readonly filterTests: { [id in Filter]: (row: DeviceRow) => boolean } = {
     all: () => true,
     attention: row => row.attention,
+    lowbattery: row => !row.disabled && row.lowBattery,
+    weaklink: row => row.weakLink,
     // Disabled devices are in their own chip only, as on the Dashboard
     notoptimized: row => !row.greenPower && !row.disabled && !row.device.CertifiedDevice,
     disabled: row => row.disabled,
@@ -100,7 +137,14 @@ export class DeviceByNameComponent implements OnChanges {
     private modalService: NgbModal,
     private offcanvas: NgbOffcanvas,
     private toastr: ToastrService
-  ) {}
+  ) {
+    super();
+  }
+
+  // The figures are translated once built: again in another language
+  ngOnInit(): void {
+    this.subs.sink = this.translate.onLangChange.subscribe(() => (this.figures = this.buildFigures()));
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.devices || changes.greenPower) {
@@ -115,6 +159,11 @@ export class DeviceByNameComponent implements OnChanges {
   setFilter(filter: Filter) {
     this.filter = filter;
     this.applyFilter();
+  }
+
+  /** A click on a key figure: its devices, or all of them again. */
+  toggleFilter(filter: Filter) {
+    this.setFilter(this.filter === filter ? 'all' : filter);
   }
 
   open(content: any) {
@@ -275,11 +324,81 @@ export class DeviceByNameComponent implements OnChanges {
   }
 
   private applyFilter() {
-    // The Green Power chip only when there is one
     this.filters = (Object.keys(this.filterTests) as Filter[])
       .map(id => ({ id, count: this.rows.filter(this.filterTests[id]).length }))
-      .filter(chip => chip.id !== 'greenpower' || chip.count > 0);
+      .filter(chip => chip.count > 0 || chip.id === this.filter || !OPTIONAL_FILTERS.includes(chip.id));
     this.visibleRows = this.rows.filter(this.filterTests[this.filter]);
+    this.figures = this.buildFigures();
+  }
+
+  /** Same rules and words as the Dashboard (shared/utils/device-state.ts). */
+  private buildFigures(): KeyFigure[] {
+    const t = (key: string, params?: object): string => this.translate.instant(key, params);
+    const count = (filter: Filter) => this.rows.filter(this.filterTests[filter]).length;
+    const rows = this.rows.filter(row => !row.greenPower);
+    const enabled = rows.filter(row => !row.disabled);
+    const counts = countDevices(rows.map(row => row.device));
+    const notLive = counts.enabled - counts.live;
+    // Never polled, so it cannot be "not live": it counts on both sides
+    const greenPower = this.rows.length - rows.length;
+
+    const inState = (state: DeviceState) => enabled.filter(row => deviceState(row.device) === state).length;
+    const notReachable = inState('notreachable');
+    const reasons = [
+      { label: 'device.health.notreachable', count: notReachable },
+      { label: 'device.health.notseen', count: inState('notseen') },
+      { label: 'device.health.timedout', count: inState('timedout') },
+      { label: 'device.byname.filter.lowbattery', count: count('lowbattery') },
+      { label: 'dashboard.attention.pairing', count: enabled.filter(row => row.statusWarning).length }
+    ].filter(reason => reason.count > 0);
+
+    const attention = count('attention');
+    const lowBattery = count('lowbattery');
+    const weakLink = count('weaklink');
+    const notOptimized = count('notoptimized');
+    return [
+      {
+        filter: 'all',
+        label: t('dashboard.kpi.devices'),
+        value: counts.live + greenPower + ' / ' + (counts.enabled + greenPower),
+        detail:
+          (notLive === 0 ? t('dashboard.kpi.devices.all') : t('dashboard.kpi.devices.notlive', { count: notLive })) +
+          (counts.disabled ? ' · ' + t('dashboard.kpi.devices.disabled', { count: counts.disabled }) : '') +
+          (greenPower ? ' · ' + t('dashboard.kpi.devices.greenpower', { count: greenPower }) : ''),
+        tone: devicesTone(counts)
+      },
+      {
+        filter: 'attention',
+        label: t('device.byname.filter.attention'),
+        value: String(attention),
+        detail: reasons.map(reason => t(reason.label) + ': ' + reason.count).join(' · '),
+        tone: notReachable ? 'danger' : attention ? 'warning' : 'success'
+      },
+      {
+        filter: 'lowbattery',
+        label: t('device.byname.filter.lowbattery'),
+        value: String(lowBattery),
+        detail: t('device.byname.fig.lowbattery', {
+          count: enabled.filter(row => row.battery !== null).length,
+          limit: LOW_BATTERY
+        }),
+        tone: lowBattery ? 'warning' : 'success'
+      },
+      {
+        filter: 'weaklink',
+        label: t('device.byname.filter.weaklink'),
+        value: String(weakLink),
+        detail: t('device.byname.fig.weaklink', { limit: WEAK_LQI }),
+        tone: weakLink ? 'warning' : 'success'
+      },
+      {
+        filter: 'notoptimized',
+        label: t('dashboard.optimized.title'),
+        value: enabled.length - notOptimized + ' / ' + enabled.length,
+        detail: t('device.byname.fig.optimized', { count: notOptimized }),
+        tone: notOptimized ? 'warning' : 'success'
+      }
+    ];
   }
 
   private toRow(device: DeviceByName): DeviceRow {
@@ -315,6 +434,8 @@ export class DeviceByNameComponent implements OnChanges {
       statusWarning,
       paramCount: this.paramKeys(device.Param).filter(key => key !== 'Disabled').length,
       disabled,
+      // LQI 0 is no reading; a device not heard is counted for that
+      weakLink: deviceState(device) === 'live' && Number(device.LQI) > 0 && Number(device.LQI) < WEAK_LQI,
       attention: !disabled && (isNotHeard(deviceState(device)) || lowBattery || statusWarning !== ''),
       removable: consistency === 'not in DZ' || consistency === 'Bad Pairing' || (device.WidgetList ?? []).length === 0
     };
@@ -337,6 +458,7 @@ export class DeviceByNameComponent implements OnChanges {
       statusWarning: '',
       paramCount: 0,
       disabled: false,
+      weakLink: false,
       attention: false,
       // Only without widgets: a Green Power device with widgets goes with its last widget, in Domoticz
       removable: (device.WidgetList ?? []).length === 0,
