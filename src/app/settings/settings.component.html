@@ -1,4 +1,75 @@
 <div class="settings-page" [class.with-bar]="changes.length">
+  <div class="figures" role="group" [attr.aria-label]="'settings.page.filter.label' | translate">
+    <button type="button" class="figure" [attr.aria-pressed]="!filtering" (click)="clearFilters()">
+      <span class="figure-label"><span class="dot dot-secondary"></span>{{ 'settings' | translate }}</span>
+      <span class="figure-value">{{ loaded ? shownCount : '—' }}</span>
+      <span class="figure-detail">
+        @if (loaded) {
+          {{ 'settings.fig.sections' | translate: { count: visibleThemes.length } }}
+        }
+      </span>
+    </button>
+    <button
+      type="button"
+      class="figure"
+      [class.figure-active]="onlyChanged"
+      [attr.aria-pressed]="onlyChanged"
+      (click)="onlyChanged = !onlyChanged">
+      <span class="figure-label">
+        <span class="dot" [class.dot-info]="changedFromDefault" [class.dot-secondary]="!changedFromDefault"></span>
+        {{ 'settings.page.filter.changed' | translate }}
+      </span>
+      <span class="figure-value">{{ loaded ? changedFromDefault : '—' }}</span>
+      <span class="figure-detail" translate="settings.fig.changed"></span>
+    </button>
+    <button
+      type="button"
+      class="figure"
+      [class.figure-active]="onlyRestart"
+      [attr.aria-pressed]="onlyRestart"
+      (click)="onlyRestart = !onlyRestart">
+      <span class="figure-label">
+        <span class="dot dot-secondary"></span>{{ 'settings.page.filter.restart' | translate }}
+      </span>
+      <span class="figure-value">{{ loaded ? restartCount : '—' }}</span>
+      <span class="figure-detail" translate="settings.fig.restart"></span>
+    </button>
+    <a
+      class="figure"
+      routerLink="/admin"
+      [queryParams]="{ action: 'plugin' }"
+      [class.figure-warning]="restartNeeded > 0">
+      <div class="figure-label">
+        <span class="dot" [class.dot-warning]="restartNeeded > 0" [class.dot-secondary]="!(restartNeeded > 0)"></span>
+        {{ 'settings.fig.pending' | translate }}
+      </div>
+      <div class="figure-value">
+        @if (restartNeeded === null) {
+          —
+        } @else {
+          {{ (restartNeeded > 0 ? 'settings.fig.pending.needed' : 'settings.fig.pending.none') | translate }}
+        }
+      </div>
+      <div class="figure-detail">{{ 'admin' | translate }} › {{ 'admin.plugin' | translate }} →</div>
+    </a>
+  </div>
+
+  <nav class="page-tabs" [attr.aria-label]="'settings.page.themes' | translate">
+    @for (item of visibleThemes; track item._Theme) {
+      <button
+        type="button"
+        class="page-tab"
+        [class.active]="!filtering && theme === item._Theme"
+        [attr.aria-current]="!filtering && theme === item._Theme ? 'true' : null"
+        (click)="selectTheme(item._Theme)">
+        <span [innerHTML]="'setting.header.' + item._Theme | translate"></span>
+        @if (changedIn(item._Theme); as count) {
+          <span class="count">{{ count }}</span>
+        }
+      </button>
+    }
+  </nav>
+
   <div class="settings-head">
     <input
       type="search"
@@ -29,26 +100,6 @@
       <label class="btn btn-outline-primary" for="settings-mode-all" translate="settings.page.mode.all"></label>
     </div>
 
-    <div class="filters" role="group" [attr.aria-label]="'settings.page.filter.label' | translate">
-      <button
-        type="button"
-        class="chip"
-        [class.active]="onlyChanged"
-        [attr.aria-pressed]="onlyChanged"
-        (click)="onlyChanged = !onlyChanged">
-        {{ 'settings.page.filter.changed' | translate }}
-        <span class="count">{{ changedFromDefault }}</span>
-      </button>
-      <button
-        type="button"
-        class="chip"
-        [class.active]="onlyRestart"
-        [attr.aria-pressed]="onlyRestart"
-        (click)="onlyRestart = !onlyRestart">
-        {{ 'settings.page.filter.restart' | translate }}
-      </button>
-    </div>
-
     <div class="head-links">
       <a target="_blank" rel="noopener" href="https://zigbeefordomoticz.github.io/wiki/en-eng/WebUI_Settings">{{
         'settings.page.wiki' | translate
@@ -62,22 +113,6 @@
       </button>
     </div>
   </div>
-
-  <nav class="sections" [attr.aria-label]="'settings.page.themes' | translate">
-    @for (item of visibleThemes; track item._Theme) {
-      <button
-        type="button"
-        class="section"
-        [class.active]="!filtering && theme === item._Theme"
-        [attr.aria-current]="!filtering && theme === item._Theme ? 'true' : null"
-        (click)="selectTheme(item._Theme)">
-        <span [innerHTML]="'setting.header.' + item._Theme | translate"></span>
-        @if (changedIn(item._Theme); as count) {
-          <span class="count">{{ count }}</span>
-        }
-      </button>
-    }
-  </nav>
 
   @if (filtering) {
     <div class="results-head">

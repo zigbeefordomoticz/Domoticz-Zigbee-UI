@@ -74,7 +74,7 @@ const INDEX_MIN_CARDS = 4;
 const MODE_KEY = 'z4d.settings.mode';
 
 /**
- * Settings: one section at a time, its settings grouped into cards, or the matches of a search or
+ * Settings: key figures, then one tab per section. One section shows at a time, its settings grouped into cards, or the matches of a search or
  * filter across every section. A sticky bar lists what will be saved.
  *
  * The plugin may describe each setting with optional keys (Group, Unit, Min, Max, Step, DependsOn,
@@ -87,7 +87,7 @@ const MODE_KEY = 'z4d.settings.mode';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+  styleUrls: ['../shared/page-tabs.scss', './settings.component.scss'],
   standalone: false
 })
 export class SettingsComponent implements OnInit {
@@ -106,6 +106,9 @@ export class SettingsComponent implements OnInit {
   values: Record<string, any> = {};
   saving = false;
   reviewOpen = false;
+  loaded = false;
+  // Null until the plugin answers; then the highest level among the saved settings that wait for a restart
+  restartNeeded: number | null = null;
   // Cards whose advanced settings, or whose danger settings, the user asked to see
   opened = new Set<string>();
 
@@ -129,6 +132,7 @@ export class SettingsComponent implements OnInit {
       // No storage (private window): keep the default
     }
     this.load();
+    this.readRestartNeeded();
   }
 
   // Search or a filter: the matches of every section instead of the selected one
@@ -164,6 +168,14 @@ export class SettingsComponent implements OnInit {
 
   get changedFromDefault(): number {
     return this.rows.filter(row => this.isShown(row) && this.differsFromDefault(row)).length;
+  }
+
+  get shownCount(): number {
+    return this.rows.filter(row => this.isShown(row)).length;
+  }
+
+  get restartCount(): number {
+    return this.rows.filter(row => this.isShown(row) && this.level(row.setting) > 0).length;
   }
 
   get changes(): Change[] {
@@ -394,9 +406,16 @@ export class SettingsComponent implements OnInit {
         this.reviewOpen = false;
         this.toastr.success(this.translate.instant('api.global.succes.saved.notify'));
         this.load();
-        this.apiService.getRestartNeeded().subscribe(restart => this.askRestart(restart?.RestartNeeded));
+        this.readRestartNeeded(level => this.askRestart(level));
       },
       error: () => (this.saving = false)
+    });
+  }
+
+  private readRestartNeeded(then?: (level: number) => void) {
+    this.apiService.getRestartNeeded().subscribe(restart => {
+      this.restartNeeded = restart?.RestartNeeded ?? 0;
+      then?.(this.restartNeeded);
     });
   }
 
@@ -424,6 +443,7 @@ export class SettingsComponent implements OnInit {
         })
       );
       this.values = { ...this.initial };
+      this.loaded = true;
       if (!this.theme || !this.visibleThemes.some(theme => theme._Theme === this.theme)) {
         this.theme = this.visibleThemes[0]?._Theme ?? null;
       }
