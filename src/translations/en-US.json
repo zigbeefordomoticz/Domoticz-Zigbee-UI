@@ -2108,11 +2108,15 @@
   "wifi.overlap.show": "Wi-Fi channels shown",
   "wifi.overlap.preset.usual": "1, 6 and 11 (most common)",
   "wifi.overlap.preset.europe": "1, 5, 9 and 13",
-  "wifi.overlap.only": "My access point: channel {{channel}}",
+  "wifi.overlap.only": "Channel {{channel}}",
   "wifi.overlap.wifi": "Wi-Fi {{channel}}",
   "wifi.overlap.legend.clear": "Clear of the Wi-Fi channels shown",
   "wifi.overlap.status.under": "Zigbee channel {{channel}} is under Wi-Fi channel {{wifi}}.",
   "wifi.overlap.status.clear": "Zigbee channel {{channel}} is clear of the Wi-Fi channels shown.",
   "wifi.overlap.advice": "Zigbee and Wi-Fi share the 2.4 GHz band. One Wi-Fi channel spreads over about 20 MHz, the width of four Zigbee channels: keep the Zigbee channel out from under the channel of your Wi-Fi access point (and of strong neighbouring ones). Your router's Wi-Fi settings show its channel; set it to a fixed channel rather than automatic, so it cannot move onto your Zigbee channel.",
-  "wifi.overlap.note": "Wi-Fi channels 12 and 13 (allowed in Europe) cover Zigbee 22 to 26, and a 40 MHz Wi-Fi channel covers about eight Zigbee channels. Some devices do not work on Zigbee channel 26."
+  "wifi.overlap.note": "Wi-Fi channels 12 and 13 (allowed in Europe) cover Zigbee 22 to 26, and a 40 MHz Wi-Fi channel covers about eight Zigbee channels. Some devices do not work on Zigbee channel 26.",
+  "wifi.overlap.ap": "My access point",
+  "wifi.overlap.ap.none": "Not given",
+  "wifi.overlap.band.mine": "My access point: Wi-Fi {{channel}}",
+  "wifi.overlap.status.mine": "Zigbee channel {{channel}} is under your access point (Wi-Fi {{wifi}}): move one of them."
 }

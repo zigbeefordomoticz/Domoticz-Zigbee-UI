@@ -90,6 +90,13 @@
     border-radius: var(--bs-border-radius-sm);
   }
 
+  // The user's own access point
+  .wifi-band.mine {
+    font-weight: 600;
+    color: var(--bs-warning-text-emphasis);
+    background-color: var(--bs-warning-bg-subtle);
+  }
+
   // Zigbee channel under none of the Wi-Fi channels shown
   th.clear {
     color: var(--bs-success-text-emphasis);

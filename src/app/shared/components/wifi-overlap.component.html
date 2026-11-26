@@ -1,20 +1,33 @@
 <div class="wifi-overlap">
   <div class="head">
     <span class="key"><i class="swatch" aria-hidden="true"></i>{{ 'wifi.overlap.legend.clear' | translate }}</span>
-    <label class="pick">
-      <span translate="wifi.overlap.show"></span>
-      <select class="form-select form-select-sm" [ngModel]="wifi.choice" (ngModelChange)="wifi.pick($event)">
-        <option value="usual">{{ 'wifi.overlap.preset.usual' | translate }}</option>
-        <option value="europe">{{ 'wifi.overlap.preset.europe' | translate }}</option>
-        @for (w of wifiChannels; track w) {
-          <option [value]="'' + w">{{ 'wifi.overlap.only' | translate: { channel: w } }}</option>
-        }
-      </select>
-    </label>
+    <div class="picks">
+      <label class="pick">
+        <span translate="wifi.overlap.show"></span>
+        <select class="form-select form-select-sm" [ngModel]="wifi.preset" (ngModelChange)="wifi.pickPreset($event)">
+          <option value="usual">{{ 'wifi.overlap.preset.usual' | translate }}</option>
+          <option value="europe">{{ 'wifi.overlap.preset.europe' | translate }}</option>
+        </select>
+      </label>
+      <label class="pick">
+        <span translate="wifi.overlap.ap"></span>
+        <select class="form-select form-select-sm" [ngModel]="apValue" (ngModelChange)="wifi.pickAp($event)">
+          <option value="">{{ 'wifi.overlap.ap.none' | translate }}</option>
+          @for (w of wifiChannels; track w) {
+            <option [value]="'' + w">{{ 'wifi.overlap.only' | translate: { channel: w } }}</option>
+          }
+        </select>
+      </label>
+    </div>
   </div>
 
   @for (c of checked; track c) {
-    @if (wifi.under(c).length) {
+    @if (wifi.underAp(c)) {
+      <p class="status under">
+        <i class="fa fa-triangle-exclamation" aria-hidden="true"></i>
+        {{ 'wifi.overlap.status.mine' | translate: { channel: c, wifi: wifi.ap } }}
+      </p>
+    } @else if (wifi.under(c).length) {
       <p class="status under">
         <i class="fa fa-triangle-exclamation" aria-hidden="true"></i>
         {{ 'wifi.overlap.status.under' | translate: { channel: c, wifi: wifi.under(c).join(', ') } }}
