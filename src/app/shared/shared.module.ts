@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CustomIconComponent } from './components/custom-icon.component';
 import { ManagementTabsComponent } from './components/management-tabs.component';
+import { WifiOverlapComponent } from './components/wifi-overlap.component';
 import { nl2brPipe } from './utils/nl2br.pipe';
 import { HealthLabelPipe } from './utils/health-label.pipe';
 import { TableModule } from 'primeng/table';
@@ -17,8 +18,8 @@ import { DialogModule } from 'primeng/dialog';
 import { SliderModule } from 'primeng/slider';
 
 @NgModule({
-  imports: [CommonModule, NgSelectModule, TranslateModule, RouterModule],
-  declarations: [nl2brPipe, HealthLabelPipe, CustomIconComponent, ManagementTabsComponent],
+  imports: [CommonModule, FormsModule, NgSelectModule, TranslateModule, RouterModule],
+  declarations: [nl2brPipe, HealthLabelPipe, CustomIconComponent, ManagementTabsComponent, WifiOverlapComponent],
   providers: [DatePipe],
   exports: [
     CommonModule,
@@ -35,6 +36,7 @@ import { SliderModule } from 'primeng/slider';
     DatePipe,
     CustomIconComponent,
     ManagementTabsComponent,
+    WifiOverlapComponent,
     NgxSpinnerModule,
     nl2brPipe,
     HealthLabelPipe

@@ -185,9 +185,10 @@
         <span><i class="band-d"></i>121–160</span>
         <span><i class="band-e"></i>161–255</span>
         <span><i class="current-key"></i>{{ 'network.interference.legend.channel' | translate }}</span>
-        <span>{{ 'network.interference.wifi' | translate }}</span>
       </div>
     }
+
+    <app-wifi-overlap [current]="channel"></app-wifi-overlap>
   </div>
 
   @if (quietest.length) {

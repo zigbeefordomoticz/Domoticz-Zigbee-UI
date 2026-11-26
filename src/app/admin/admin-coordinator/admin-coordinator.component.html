@@ -96,10 +96,11 @@
             >{{ 'admin.coord.channel.selected' | translate: { channel: selected } }}</span
           >
         }
-        <span translate="admin.coord.channel.wifi"></span>
       </div>
 
-      <div class="alert alert-warning small mb-3" role="note">
+      <app-wifi-overlap [current]="channel" [selected]="selected"></app-wifi-overlap>
+
+      <div class="alert alert-warning small mt-3 mb-3" role="note">
         <b translate="admin.coord.channel.warning.title"></b>
         {{ 'admin.coord.channel.warning' | translate }}
       </div>
