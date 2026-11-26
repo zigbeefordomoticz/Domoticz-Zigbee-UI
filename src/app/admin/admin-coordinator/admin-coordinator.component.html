@@ -125,17 +125,20 @@
 <!-- Wi-Fi channels over the 16 channel columns. A cell spanning n columns grows n times as much as one column and
      starts from the n - 1 gaps it covers, so it lines up with the bars and the buttons. -->
 <ng-template #wifiBands>
-  <div class="wifi-bands">
-    @for (cell of wifi.cells; track cell.start) {
-      <span
-        [class.wifi-band]="cell.channel !== null"
-        [style.flex]="cell.span + ' ' + cell.span + ' ' + (cell.span - 1) * 0.375 + 'rem'">
-        @if (cell.channel !== null) {
-          {{ 'wifi.overlap.wifi' | translate: { channel: cell.channel } }}
-        }
-      </span>
-    }
-  </div>
+  @for (row of wifi.rows; track $index) {
+    <div class="wifi-bands">
+      @for (cell of row; track cell.start) {
+        <span
+          [class.wifi-band]="cell.channel !== null"
+          [class.mine]="cell.mine"
+          [style.flex]="cell.span + ' ' + cell.span + ' ' + (cell.span - 1) * 0.375 + 'rem'">
+          @if (cell.channel !== null) {
+            {{ (cell.mine ? 'wifi.overlap.band.mine' : 'wifi.overlap.wifi') | translate: { channel: cell.channel } }}
+          }
+        </span>
+      }
+    </div>
+  }
 </ng-template>
 
 <ng-template #channelModal let-modal>

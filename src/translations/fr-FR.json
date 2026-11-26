@@ -2119,11 +2119,15 @@
   "wifi.overlap.show": "Canaux Wi-Fi affichés",
   "wifi.overlap.preset.usual": "1, 6 et 11 (les plus courants)",
   "wifi.overlap.preset.europe": "1, 5, 9 et 13",
-  "wifi.overlap.only": "Mon point d'accès : canal {{channel}}",
+  "wifi.overlap.only": "Canal {{channel}}",
   "wifi.overlap.wifi": "Wi-Fi {{channel}}",
   "wifi.overlap.legend.clear": "Hors des canaux Wi-Fi affichés",
   "wifi.overlap.status.under": "Le canal Zigbee {{channel}} est sous le canal Wi-Fi {{wifi}}.",
   "wifi.overlap.status.clear": "Le canal Zigbee {{channel}} est hors des canaux Wi-Fi affichés.",
   "wifi.overlap.advice": "Zigbee et Wi-Fi partagent la bande des 2,4 GHz. Un canal Wi-Fi occupe environ 20 MHz, la largeur de quatre canaux Zigbee : gardez le canal Zigbee hors du canal de votre point d'accès Wi-Fi (et de ceux des voisins captés fortement). Les réglages Wi-Fi de votre box indiquent son canal ; fixez-le plutôt que de le laisser en automatique, pour qu'il ne vienne pas sur votre canal Zigbee.",
-  "wifi.overlap.note": "Les canaux Wi-Fi 12 et 13 (autorisés en Europe) couvrent les canaux Zigbee 22 à 26, et un canal Wi-Fi de 40 MHz couvre environ huit canaux Zigbee. Certains appareils ne fonctionnent pas sur le canal Zigbee 26."
+  "wifi.overlap.note": "Les canaux Wi-Fi 12 et 13 (autorisés en Europe) couvrent les canaux Zigbee 22 à 26, et un canal Wi-Fi de 40 MHz couvre environ huit canaux Zigbee. Certains appareils ne fonctionnent pas sur le canal Zigbee 26.",
+  "wifi.overlap.ap": "Mon point d'accès",
+  "wifi.overlap.ap.none": "Non indiqué",
+  "wifi.overlap.band.mine": "Mon point d'accès : Wi-Fi {{channel}}",
+  "wifi.overlap.status.mine": "Le canal Zigbee {{channel}} est sous votre point d'accès (Wi-Fi {{wifi}}) : déplacez l'un des deux."
 }

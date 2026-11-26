@@ -85,6 +85,11 @@
   > span {
     min-width: 0;
   }
+
+  // Second row: the user's access point
+  & + & {
+    margin-top: 0.25rem;
+  }
 }
 
 .wifi-band {
@@ -97,6 +102,13 @@
   text-overflow: ellipsis;
   background-color: var(--bs-secondary-bg);
   border-radius: var(--bs-border-radius-sm);
+
+  // The user's own access point
+  &.mine {
+    font-weight: 600;
+    color: var(--bs-warning-text-emphasis);
+    background-color: var(--bs-warning-bg-subtle);
+  }
 }
 
 .chart {

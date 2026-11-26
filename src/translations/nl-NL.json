@@ -2108,11 +2108,15 @@
   "wifi.overlap.show": "Getoonde wifi-kanalen",
   "wifi.overlap.preset.usual": "1, 6 en 11 (meest gebruikt)",
   "wifi.overlap.preset.europe": "1, 5, 9 en 13",
-  "wifi.overlap.only": "Mijn access point: kanaal {{channel}}",
+  "wifi.overlap.only": "Kanaal {{channel}}",
   "wifi.overlap.wifi": "Wifi {{channel}}",
   "wifi.overlap.legend.clear": "Vrij van de getoonde wifi-kanalen",
   "wifi.overlap.status.under": "Zigbee-kanaal {{channel}} ligt onder wifi-kanaal {{wifi}}.",
   "wifi.overlap.status.clear": "Zigbee-kanaal {{channel}} is vrij van de getoonde wifi-kanalen.",
   "wifi.overlap.advice": "Zigbee en wifi delen de 2,4 GHz-band. Eén wifi-kanaal beslaat ongeveer 20 MHz, de breedte van vier Zigbee-kanalen: houd het Zigbee-kanaal buiten het kanaal van je wifi-access point (en van sterke netwerken van de buren). De wifi-instellingen van je router tonen het kanaal; zet het op een vast kanaal in plaats van automatisch, zodat het niet naar je Zigbee-kanaal verschuift.",
-  "wifi.overlap.note": "Wifi-kanalen 12 en 13 (toegestaan in Europa) bedekken Zigbee-kanalen 22 tot 26, en een wifi-kanaal van 40 MHz bedekt ongeveer acht Zigbee-kanalen. Sommige apparaten werken niet op Zigbee-kanaal 26."
+  "wifi.overlap.note": "Wifi-kanalen 12 en 13 (toegestaan in Europa) bedekken Zigbee-kanalen 22 tot 26, en een wifi-kanaal van 40 MHz bedekt ongeveer acht Zigbee-kanalen. Sommige apparaten werken niet op Zigbee-kanaal 26.",
+  "wifi.overlap.ap": "Mijn access point",
+  "wifi.overlap.ap.none": "Niet opgegeven",
+  "wifi.overlap.band.mine": "Mijn access point: wifi {{channel}}",
+  "wifi.overlap.status.mine": "Zigbee-kanaal {{channel}} ligt onder je access point (wifi {{wifi}}): verplaats een van beide."
 }

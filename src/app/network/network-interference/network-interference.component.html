@@ -65,19 +65,24 @@
       <div class="heatmap-box">
         <table class="heatmap">
           <thead>
-            <tr class="wifi-row">
-              <td class="row-head"></td>
-              @for (cell of wifi.cells; track cell.start) {
-                @if (cell.channel !== null) {
-                  <th scope="colgroup" class="wifi-band" [attr.colspan]="cell.span">
-                    {{ 'wifi.overlap.wifi' | translate: { channel: cell.channel } }}
-                  </th>
-                } @else {
-                  <td></td>
+            @for (row of wifi.rows; track $index) {
+              <tr class="wifi-row">
+                <td class="row-head"></td>
+                @for (cell of row; track cell.start) {
+                  @if (cell.channel !== null) {
+                    <th scope="colgroup" class="wifi-band" [class.mine]="cell.mine" [attr.colspan]="cell.span">
+                      {{
+                        (cell.mine ? 'wifi.overlap.band.mine' : 'wifi.overlap.wifi')
+                          | translate: { channel: cell.channel }
+                      }}
+                    </th>
+                  } @else {
+                    <td></td>
+                  }
                 }
-              }
-              <td></td>
-            </tr>
+                <td></td>
+              </tr>
+            }
             <tr>
               <th scope="col" class="row-head">{{ 'network.interference.col.scan' | translate }}</th>
               @for (c of channels; track c) {
@@ -155,20 +160,25 @@
       <div class="heatmap-box">
         <table class="heatmap">
           <thead>
-            <tr class="wifi-row">
-              <td class="row-head"></td>
-              <td></td>
-              <td></td>
-              @for (cell of wifi.cells; track cell.start) {
-                @if (cell.channel !== null) {
-                  <th scope="colgroup" class="wifi-band" [attr.colspan]="cell.span">
-                    {{ 'wifi.overlap.wifi' | translate: { channel: cell.channel } }}
-                  </th>
-                } @else {
-                  <td></td>
+            @for (row of wifi.rows; track $index) {
+              <tr class="wifi-row">
+                <td class="row-head"></td>
+                <td></td>
+                <td></td>
+                @for (cell of row; track cell.start) {
+                  @if (cell.channel !== null) {
+                    <th scope="colgroup" class="wifi-band" [class.mine]="cell.mine" [attr.colspan]="cell.span">
+                      {{
+                        (cell.mine ? 'wifi.overlap.band.mine' : 'wifi.overlap.wifi')
+                          | translate: { channel: cell.channel }
+                      }}
+                    </th>
+                  } @else {
+                    <td></td>
+                  }
                 }
-              }
-            </tr>
+              </tr>
+            }
             <tr>
               <th scope="col" class="row-head">{{ 'network.interference.col.router' | translate }}</th>
               <th scope="col">{{ 'network.interference.col.tx' | translate }}</th>

@@ -2108,11 +2108,15 @@
   "wifi.overlap.show": "Angezeigte WLAN-Kanäle",
   "wifi.overlap.preset.usual": "1, 6 und 11 (am häufigsten)",
   "wifi.overlap.preset.europe": "1, 5, 9 und 13",
-  "wifi.overlap.only": "Mein Access Point: Kanal {{channel}}",
+  "wifi.overlap.only": "Kanal {{channel}}",
   "wifi.overlap.wifi": "WLAN {{channel}}",
   "wifi.overlap.legend.clear": "Frei von den angezeigten WLAN-Kanälen",
   "wifi.overlap.status.under": "Zigbee-Kanal {{channel}} liegt unter WLAN-Kanal {{wifi}}.",
   "wifi.overlap.status.clear": "Zigbee-Kanal {{channel}} ist frei von den angezeigten WLAN-Kanälen.",
   "wifi.overlap.advice": "Zigbee und WLAN teilen sich das 2,4-GHz-Band. Ein WLAN-Kanal belegt etwa 20 MHz, die Breite von vier Zigbee-Kanälen: Legen Sie den Zigbee-Kanal nicht unter den Kanal Ihres WLAN-Access-Points (und starker Nachbarnetze). Die WLAN-Einstellungen Ihres Routers zeigen seinen Kanal; stellen Sie einen festen Kanal statt „automatisch“ ein, damit er nicht auf Ihren Zigbee-Kanal wandert.",
-  "wifi.overlap.note": "Die WLAN-Kanäle 12 und 13 (in Europa erlaubt) decken die Zigbee-Kanäle 22 bis 26 ab, und ein 40-MHz-WLAN-Kanal deckt etwa acht Zigbee-Kanäle ab. Manche Geräte funktionieren nicht auf Zigbee-Kanal 26."
+  "wifi.overlap.note": "Die WLAN-Kanäle 12 und 13 (in Europa erlaubt) decken die Zigbee-Kanäle 22 bis 26 ab, und ein 40-MHz-WLAN-Kanal deckt etwa acht Zigbee-Kanäle ab. Manche Geräte funktionieren nicht auf Zigbee-Kanal 26.",
+  "wifi.overlap.ap": "Mein Access Point",
+  "wifi.overlap.ap.none": "Nicht angegeben",
+  "wifi.overlap.band.mine": "Mein Access Point: WLAN {{channel}}",
+  "wifi.overlap.status.mine": "Zigbee-Kanal {{channel}} liegt unter Ihrem Access Point (WLAN {{wifi}}): verlegen Sie einen der beiden."
 }

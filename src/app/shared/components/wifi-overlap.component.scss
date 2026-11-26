@@ -28,6 +28,12 @@
   border-radius: 2px;
 }
 
+.picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
 .pick {
   display: flex;
   gap: 0.5rem;

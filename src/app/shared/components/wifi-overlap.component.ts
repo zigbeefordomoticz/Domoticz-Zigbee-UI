@@ -23,6 +23,11 @@ export class WifiOverlapComponent {
 
   constructor(public wifi: WifiChannelsService) {}
 
+  // The access point select works on strings; '' = not given
+  get apValue(): string {
+    return this.wifi.ap === null ? '' : String(this.wifi.ap);
+  }
+
   // The network's channel, then the one picked for a change when it differs
   get checked(): number[] {
     return [this.current, this.selected === this.current ? null : this.selected].filter(c => c !== null);
