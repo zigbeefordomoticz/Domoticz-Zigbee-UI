@@ -75,10 +75,34 @@
   min-width: 0;
 }
 
+// Wi-Fi channels over the channel columns: the same gap and padding as the bars and the buttons
+.wifi-bands {
+  display: flex;
+  gap: 0.375rem;
+  margin-top: 1rem;
+  padding: 0 0.125rem;
+
+  > span {
+    min-width: 0;
+  }
+}
+
+.wifi-band {
+  padding: 0.375rem 0.25rem;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  color: var(--bs-body-color);
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  background-color: var(--bs-secondary-bg);
+  border-radius: var(--bs-border-radius-sm);
+}
+
 .chart {
   align-items: flex-end;
   height: 9rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   padding: 0 0.125rem;
   border-bottom: 1px solid var(--bs-border-color);
 }
@@ -125,6 +149,12 @@
 
   &:hover:not(:disabled) {
     border-color: var(--bs-border-color);
+  }
+
+  // Under none of the Wi-Fi channels shown
+  &.clear {
+    color: var(--bs-success-text-emphasis);
+    background-color: var(--bs-success-bg-subtle);
   }
 
   &.current {

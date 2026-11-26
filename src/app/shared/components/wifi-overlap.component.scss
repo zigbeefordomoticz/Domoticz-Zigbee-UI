@@ -1,8 +1,6 @@
-// Zigbee channels drawn under the Wi-Fi channels, to scale: 16 slots of 5 MHz
+// Key, Wi-Fi choice, status and advice under a channel table; the Wi-Fi channels are drawn in the table itself
 .wifi-overlap {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--bs-border-color);
+  margin-top: 0.75rem;
 }
 
 .head {
@@ -11,13 +9,23 @@
   gap: 0.5rem 1rem;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
-.title {
-  margin: 0;
-  font-size: 0.9375rem;
-  font-weight: 600;
+.key {
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+}
+
+.swatch {
+  display: inline-block;
+  width: 1.375rem;
+  height: 0.75rem;
+  margin-right: 0.25rem;
+  vertical-align: -0.125rem;
+  background-color: var(--bs-success-bg-subtle);
+  border: 1px solid var(--bs-success-border-subtle);
+  border-radius: 2px;
 }
 
 .pick {
@@ -29,129 +37,6 @@
 
   .form-select {
     width: auto;
-  }
-}
-
-.diagram {
-  min-width: 0;
-}
-
-.umbrellas {
-  position: relative;
-  margin-bottom: 0.375rem;
-}
-
-.umbrella {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.75rem;
-  font-size: 0.75rem;
-  color: var(--bs-body-color);
-  white-space: nowrap;
-  background-color: var(--bs-secondary-bg);
-  border: 1px solid var(--bs-border-color);
-  border-radius: var(--bs-border-radius-sm);
-
-  // Bracket down to the Zigbee channels it covers
-  &::after {
-    position: absolute;
-    right: 0;
-    bottom: -0.375rem;
-    left: 0;
-    height: 0.375rem;
-    content: "";
-    border-right: 1px solid var(--bs-border-color);
-    border-left: 1px solid var(--bs-border-color);
-  }
-
-  &.mine {
-    font-weight: 600;
-    color: var(--bs-warning-text-emphasis);
-    background-color: var(--bs-warning-bg-subtle);
-    border-color: var(--bs-warning-border-subtle);
-  }
-}
-
-.strip {
-  display: flex;
-  gap: 0.125rem;
-}
-
-.slot {
-  display: flex;
-  flex: 1 1 0;
-  align-items: center;
-  justify-content: center;
-  min-width: 0;
-  height: 2.25rem;
-  font-size: 0.75rem;
-  border: 1px solid var(--bs-border-color);
-  border-radius: 3px;
-
-  &.covered {
-    color: var(--bs-secondary-color);
-    background-color: var(--bs-body-bg);
-  }
-
-  &.clear {
-    font-weight: 600;
-    color: var(--bs-success-text-emphasis);
-    background-color: var(--bs-success-bg-subtle);
-    border-color: var(--bs-success-border-subtle);
-  }
-
-  &.current {
-    font-weight: 700;
-    color: var(--bs-body-bg);
-    background-color: var(--bs-emphasis-color);
-    border-color: var(--bs-emphasis-color);
-  }
-
-  &.selected {
-    font-weight: 700;
-    color: var(--bs-primary-text-emphasis);
-    background-color: var(--bs-primary-bg-subtle);
-    border: 2px solid var(--bs-primary);
-  }
-}
-
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem 1rem;
-  margin: 0.625rem 0;
-  font-size: 0.75rem;
-  color: var(--bs-secondary-color);
-}
-
-.swatch {
-  display: inline-block;
-  width: 0.75rem;
-  height: 0.75rem;
-  margin-right: 0.375rem;
-  vertical-align: -0.125rem;
-  border: 1px solid var(--bs-border-color);
-  border-radius: 3px;
-
-  &.clear {
-    background-color: var(--bs-success-bg-subtle);
-    border-color: var(--bs-success-border-subtle);
-  }
-
-  &.covered {
-    background-color: var(--bs-body-bg);
-  }
-
-  &.current {
-    background-color: var(--bs-emphasis-color);
-    border-color: var(--bs-emphasis-color);
-  }
-
-  &.selected {
-    background-color: var(--bs-primary);
-    border-color: var(--bs-primary);
   }
 }
 
