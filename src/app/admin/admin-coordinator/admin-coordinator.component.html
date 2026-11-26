@@ -47,6 +47,7 @@
               | translate: { date: (scanTime * 1000 | date: 'dd/MM/yyyy HH:mm'), count: scanRouters }
           }}
         </p>
+        <ng-container [ngTemplateOutlet]="wifiBands"></ng-container>
         <div class="chart" aria-hidden="true">
           @for (bar of bars; track bar.channel) {
             <div class="column">
@@ -66,6 +67,7 @@
             >{{ 'network' | translate }} › {{ 'network.energy' | translate }}</a
           >
         </p>
+        <ng-container [ngTemplateOutlet]="wifiBands"></ng-container>
       }
 
       <div class="channels" role="group" [attr.aria-label]="'admin.coord.channel.title' | translate">
@@ -75,6 +77,7 @@
             class="channel"
             [class.current]="bar.channel === channel"
             [class.selected]="bar.channel === selected"
+            [class.clear]="wifi.isClear(bar.channel)"
             [attr.aria-pressed]="bar.channel === selected"
             [attr.aria-label]="levelLabel(bar)"
             [title]="levelLabel(bar)"
@@ -118,6 +121,22 @@
     </div>
   </section>
 </div>
+
+<!-- Wi-Fi channels over the 16 channel columns. A cell spanning n columns grows n times as much as one column and
+     starts from the n - 1 gaps it covers, so it lines up with the bars and the buttons. -->
+<ng-template #wifiBands>
+  <div class="wifi-bands">
+    @for (cell of wifi.cells; track cell.start) {
+      <span
+        [class.wifi-band]="cell.channel !== null"
+        [style.flex]="cell.span + ' ' + cell.span + ' ' + (cell.span - 1) * 0.375 + 'rem'">
+        @if (cell.channel !== null) {
+          {{ 'wifi.overlap.wifi' | translate: { channel: cell.channel } }}
+        }
+      </span>
+    }
+  </div>
+</ng-template>
 
 <ng-template #channelModal let-modal>
   <div class="modal-header">

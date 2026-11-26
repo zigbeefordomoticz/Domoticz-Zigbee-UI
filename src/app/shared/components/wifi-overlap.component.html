@@ -1,9 +1,9 @@
 <div class="wifi-overlap">
   <div class="head">
-    <h3 class="title" translate="wifi.overlap.title"></h3>
+    <span class="key"><i class="swatch" aria-hidden="true"></i>{{ 'wifi.overlap.legend.clear' | translate }}</span>
     <label class="pick">
       <span translate="wifi.overlap.show"></span>
-      <select class="form-select form-select-sm" [ngModel]="choice" (ngModelChange)="pick($event)">
+      <select class="form-select form-select-sm" [ngModel]="wifi.choice" (ngModelChange)="wifi.pick($event)">
         <option value="usual">{{ 'wifi.overlap.preset.usual' | translate }}</option>
         <option value="europe">{{ 'wifi.overlap.preset.europe' | translate }}</option>
         @for (w of wifiChannels; track w) {
@@ -13,60 +13,17 @@
     </label>
   </div>
 
-  <!-- Drawn to scale: one slot per Zigbee channel (5 MHz), each Wi-Fi channel 20 MHz wide -->
-  <div class="diagram" aria-hidden="true">
-    <div class="umbrellas" [style.height.rem]="lanes * 2">
-      @for (u of umbrellas; track u.channel) {
-        <div
-          class="umbrella"
-          [class.mine]="mine === u.channel"
-          [style.left.%]="u.left"
-          [style.width.%]="u.width"
-          [style.top.rem]="u.lane * 2">
-          {{ 'wifi.overlap.wifi' | translate: { channel: u.channel } }}
-        </div>
-      }
-    </div>
-    <div class="strip">
-      @for (slot of slots; track slot.channel) {
-        <div
-          class="slot"
-          [class.covered]="slot.under.length"
-          [class.clear]="!slot.under.length"
-          [class.current]="slot.channel === current"
-          [class.selected]="slot.channel === selected">
-          {{ slot.channel }}
-        </div>
-      }
-    </div>
-  </div>
-
-  <div class="legend">
-    <span><i class="swatch clear"></i>{{ 'wifi.overlap.legend.clear' | translate }}</span>
-    <span><i class="swatch covered"></i>{{ 'wifi.overlap.legend.covered' | translate }}</span>
-    @if (current !== null) {
-      <span><i class="swatch current"></i>{{ 'wifi.overlap.legend.current' | translate: { channel: current } }}</span>
-    }
-    @if (selected !== null && selected !== current) {
-      <span
-        ><i class="swatch selected"></i>{{ 'wifi.overlap.legend.selected' | translate: { channel: selected } }}</span
-      >
-    }
-  </div>
-
-  @for (c of [current, selected === current ? null : selected]; track $index) {
-    @if (c !== null) {
-      @if (under(c).length) {
-        <p class="status under">
-          <i class="fa fa-triangle-exclamation" aria-hidden="true"></i>
-          {{ 'wifi.overlap.status.under' | translate: { channel: c, wifi: under(c).join(', ') } }}
-        </p>
-      } @else {
-        <p class="status clear">
-          <i class="fa fa-circle-check" aria-hidden="true"></i>
-          {{ 'wifi.overlap.status.clear' | translate: { channel: c } }}
-        </p>
-      }
+  @for (c of checked; track c) {
+    @if (wifi.under(c).length) {
+      <p class="status under">
+        <i class="fa fa-triangle-exclamation" aria-hidden="true"></i>
+        {{ 'wifi.overlap.status.under' | translate: { channel: c, wifi: wifi.under(c).join(', ') } }}
+      </p>
+    } @else {
+      <p class="status clear">
+        <i class="fa fa-circle-check" aria-hidden="true"></i>
+        {{ 'wifi.overlap.status.clear' | translate: { channel: c } }}
+      </p>
     }
   }
 

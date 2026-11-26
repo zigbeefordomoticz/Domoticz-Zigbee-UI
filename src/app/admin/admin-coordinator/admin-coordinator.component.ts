@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/services/api.service';
 import { Plugin } from '@app/shared/models/plugin';
 import { coordinatorChannel } from '@app/shared/utils/plugin-identity';
+import { WifiChannelsService } from '@app/shared/utils/wifi-channels.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -45,7 +46,8 @@ export class AdminCoordinatorComponent implements OnInit {
     private apiService: ApiService,
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public wifi: WifiChannelsService
   ) {}
 
   ngOnInit() {
@@ -129,12 +131,10 @@ export class AdminCoordinatorComponent implements OnInit {
     });
     // Scaled to the noisiest channel so that quiet ones stay visible
     const max = Math.max(1, ...averages.filter(level => level !== null));
-    this.bars = CHANNELS.map(
-      (channel, i): ChannelBar => ({
-        channel,
-        level: averages[i],
-        height: averages[i] === null ? 0 : Math.max(4, Math.round((averages[i] * 100) / max))
-      })
-    );
+    this.bars = CHANNELS.map((channel, i): ChannelBar => ({
+      channel,
+      level: averages[i],
+      height: averages[i] === null ? 0 : Math.max(4, Math.round((averages[i] * 100) / max))
+    }));
   }
 }

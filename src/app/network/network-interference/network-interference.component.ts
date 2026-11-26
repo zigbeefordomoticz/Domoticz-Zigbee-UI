@@ -3,6 +3,7 @@ import { ApiService } from '@app/services/api.service';
 import { UnsubscribeOnDestroyAdapter } from '@app/shared/adapter/unsubscribe-adapter';
 import { NwkStat } from '@app/shared/models/nwk';
 import { coordinatorChannel } from '@app/shared/utils/plugin-identity';
+import { WifiChannelsService } from '@app/shared/utils/wifi-channels.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin, interval, Observable, of, Subscription } from 'rxjs';
@@ -71,7 +72,8 @@ export class NetworkInterferenceComponent extends UnsubscribeOnDestroyAdapter im
   constructor(
     private apiService: ApiService,
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    public wifi: WifiChannelsService
   ) {
     super();
   }

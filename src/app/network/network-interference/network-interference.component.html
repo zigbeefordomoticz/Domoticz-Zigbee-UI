@@ -65,10 +65,23 @@
       <div class="heatmap-box">
         <table class="heatmap">
           <thead>
+            <tr class="wifi-row">
+              <td class="row-head"></td>
+              @for (cell of wifi.cells; track cell.start) {
+                @if (cell.channel !== null) {
+                  <th scope="colgroup" class="wifi-band" [attr.colspan]="cell.span">
+                    {{ 'wifi.overlap.wifi' | translate: { channel: cell.channel } }}
+                  </th>
+                } @else {
+                  <td></td>
+                }
+              }
+              <td></td>
+            </tr>
             <tr>
               <th scope="col" class="row-head">{{ 'network.interference.col.scan' | translate }}</th>
               @for (c of channels; track c) {
-                <th scope="col" [class.current]="c === channel">{{ c }}</th>
+                <th scope="col" [class.current]="c === channel" [class.clear]="wifi.isClear(c)">{{ c }}</th>
               }
               <th scope="col"><span class="visually-hidden" translate="network.interference.delete"></span></th>
             </tr>
@@ -142,12 +155,26 @@
       <div class="heatmap-box">
         <table class="heatmap">
           <thead>
+            <tr class="wifi-row">
+              <td class="row-head"></td>
+              <td></td>
+              <td></td>
+              @for (cell of wifi.cells; track cell.start) {
+                @if (cell.channel !== null) {
+                  <th scope="colgroup" class="wifi-band" [attr.colspan]="cell.span">
+                    {{ 'wifi.overlap.wifi' | translate: { channel: cell.channel } }}
+                  </th>
+                } @else {
+                  <td></td>
+                }
+              }
+            </tr>
             <tr>
               <th scope="col" class="row-head">{{ 'network.interference.col.router' | translate }}</th>
               <th scope="col">{{ 'network.interference.col.tx' | translate }}</th>
               <th scope="col">{{ 'network.interference.col.fail' | translate }}</th>
               @for (c of channels; track c) {
-                <th scope="col" [class.current]="c === channel">{{ c }}</th>
+                <th scope="col" [class.current]="c === channel" [class.clear]="wifi.isClear(c)">{{ c }}</th>
               }
             </tr>
           </thead>
