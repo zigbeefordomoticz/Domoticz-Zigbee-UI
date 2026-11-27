@@ -341,10 +341,11 @@
   padding-bottom: 1rem;
 }
 
-// What will be saved, at the bottom of the screen while there is something to save
+// What will be saved, at the bottom of the screen while there is something to save,
+// just above the status bar of the shell
 .save-bar {
   position: sticky;
-  bottom: 0;
+  bottom: var(--z4d-status-bar-height, 0);
   z-index: 10;
   margin: 0 -1rem;
   background-color: var(--bs-body-bg);

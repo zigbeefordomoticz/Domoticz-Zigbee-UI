@@ -156,10 +156,10 @@
   }
 }
 
-// Stays in sight while the list scrolls, just above the fixed status footer of the shell
+// Stays in sight while the list scrolls, just above the status bar of the shell
 .save-bar {
   position: sticky;
-  bottom: 2.25rem;
+  bottom: var(--z4d-status-bar-height, 0);
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
