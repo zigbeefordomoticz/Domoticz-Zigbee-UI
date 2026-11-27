@@ -1,6 +1,7 @@
 @if (fork) {
-  <footer class="navbar navbar-fixed-bottom navbar-expand-lg" style="line-height: 1">
+  <footer style="line-height: 1">
     <div
+      #statusBar
       [ngClass]="
         fork.pluginHealth?.HealthFlag === 4
           ? 'bg-primary fixed-bottom'

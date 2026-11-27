@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HeaderService } from '@app/services/header-service';
 import { pluginLabel } from '@app/shared/utils/plugin-identity';
 import { environment } from '@env/environment';
@@ -20,13 +20,23 @@ import { UnsubscribeOnDestroyAdapter } from '../../shared/adapter/unsubscribe-ad
  */
 const TOPOLOGY_REFRESH = 15000;
 
+/**
+ * The height of the status bar, set on the root element for the page to keep
+ * that much room under its content.
+ *
+ * The bar is fixed to the bottom of the window, so it takes no room in the page
+ * and covers whatever ends up behind it. Its height is not a constant: the
+ * items wrap onto a second line when the window is narrow or the labels long.
+ */
+const STATUS_BAR_HEIGHT = '--z4d-status-bar-height';
+
 @Component({
   selector: 'app-version',
   templateUrl: './version.component.html',
   styleUrls: ['./version.component.scss'],
   standalone: false
 })
-export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnInit, OnDestroy {
   fork$: Observable<any>;
   poll = false;
   fork: any;
@@ -34,6 +44,25 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
   readonly pluginLabel = pluginLabel;
 
   private topologyPoll: Subscription;
+  private statusBarSize?: ResizeObserver;
+
+  /** The bar only exists once the plugin has answered, and follows its height from then on. */
+  @ViewChild('statusBar')
+  set statusBar(bar: ElementRef<HTMLElement> | undefined) {
+    this.statusBarSize?.disconnect();
+    this.statusBarSize = undefined;
+    if (!bar) {
+      document.documentElement.style.removeProperty(STATUS_BAR_HEIGHT);
+      return;
+    }
+    this.statusBarSize = new ResizeObserver(() =>
+      document.documentElement.style.setProperty(
+        STATUS_BAR_HEIGHT,
+        `${Math.ceil(bar.nativeElement.getBoundingClientRect().height)}px`
+      )
+    );
+    this.statusBarSize.observe(bar.nativeElement);
+  }
 
   constructor(
     private apiService: ApiService,
@@ -76,6 +105,12 @@ export class VersionComponent extends UnsubscribeOnDestroyAdapter implements OnI
     this.versionService.reload.subscribe(() => {
       this.fork$.subscribe();
     });
+  }
+
+  override ngOnDestroy(): void {
+    this.statusBarSize?.disconnect();
+    document.documentElement.style.removeProperty(STATUS_BAR_HEIGHT);
+    super.ngOnDestroy();
   }
 
   /**

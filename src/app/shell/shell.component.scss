@@ -1,0 +1,5 @@
+// Room under the page for the status bar fixed to the bottom of the window (VersionComponent)
+:host {
+  display: block;
+  padding-bottom: var(--z4d-status-bar-height, 0);
+}
