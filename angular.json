@@ -97,6 +97,25 @@
             "buildTarget": "z4d-plugin:build"
           }
         },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "z4d-plugin:test-build",
+            "tsConfig": "tsconfig.spec.json",
+            "runner": "vitest"
+          }
+        },
+        "test-build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "polyfills": ["src/polyfills.ts"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["./node_modules"]
+            }
+          }
+        },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
