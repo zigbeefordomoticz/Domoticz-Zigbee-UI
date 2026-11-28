@@ -1,0 +1,248 @@
+{
+  "battery-state": {
+    "Verbs": ["GET"]
+  },
+  "bind-lst-cluster": {
+    "Verbs": ["GET"]
+  },
+  "bind-lst-device": {
+    "Verbs": ["GET"]
+  },
+  "binding": {
+    "Verbs": ["PUT"]
+  },
+  "binding-group": {
+    "Verbs": ["PUT"]
+  },
+  "binding-table-disp": {
+    "Verbs": ["GET"]
+  },
+  "binding-table-req": {
+    "Verbs": ["GET"]
+  },
+  "casaia-list-devices": {
+    "Verbs": ["GET"]
+  },
+  "casaia-update-ircode": {
+    "Verbs": ["PUT"]
+  },
+  "cfgrpt-ondemand": {
+    "Verbs": ["GET"]
+  },
+  "cfgrpt-ondemand-config": {
+    "Verbs": ["DELETE", "GET", "PUT"]
+  },
+  "chameleon-ticmeter": {
+    "Verbs": ["GET"]
+  },
+  "change-channel": {
+    "Verbs": ["PUT"]
+  },
+  "change-model": {
+    "Verbs": ["PUT"]
+  },
+  "clear-error-history": {
+    "Verbs": ["GET"]
+  },
+  "coordinator": {
+    "Verbs": ["GET"]
+  },
+  "coordinator-erase-PDM": {
+    "Verbs": ["GET"]
+  },
+  "coordinator-mode": {
+    "Verbs": ["GET"]
+  },
+  "csp-report": {
+    "Verbs": ["POST"]
+  },
+  "dev-cap": {
+    "Verbs": ["GET"]
+  },
+  "dev-command": {
+    "Verbs": ["PUT"]
+  },
+  "device": {
+    "Verbs": ["GET"]
+  },
+  "device-param": {
+    "Verbs": ["GET", "PUT"]
+  },
+  "device-settings-help": {
+    "Verbs": ["GET"]
+  },
+  "domoticz-env": {
+    "Verbs": ["GET"]
+  },
+  "full-reprovisionning": {
+    "Verbs": ["PUT"]
+  },
+  "gamma-troniques-ticmeter": {
+    "Verbs": ["GET"]
+  },
+  "help": {
+    "Verbs": ["GET"]
+  },
+  "ieee2nwk-raw": {
+    "Verbs": ["GET"]
+  },
+  "log-error-history": {
+    "Verbs": ["GET"]
+  },
+  "new-hrdwr": {
+    "Verbs": ["GET"]
+  },
+  "non-optmize-device-configuration": {
+    "Verbs": ["GET"]
+  },
+  "nwk-stat": {
+    "Verbs": ["DELETE", "GET"]
+  },
+  "ota-firmware-available": {
+    "Verbs": ["GET"]
+  },
+  "ota-firmware-device-list": {
+    "Verbs": ["GET"]
+  },
+  "ota-firmware-list": {
+    "Verbs": ["GET"]
+  },
+  "ota-firmware-update": {
+    "Verbs": ["DELETE", "PUT"]
+  },
+  "permit-to-join": {
+    "Verbs": ["GET", "PUT"]
+  },
+  "plugin": {
+    "Verbs": ["GET"]
+  },
+  "plugin-health": {
+    "Verbs": ["GET"]
+  },
+  "plugin-log": {
+    "Verbs": ["GET"]
+  },
+  "plugin-ping": {
+    "Verbs": ["GET"]
+  },
+  "plugin-restart": {
+    "Verbs": ["GET"]
+  },
+  "plugin-stat": {
+    "Verbs": ["GET"]
+  },
+  "plugin-upgrade": {
+    "Verbs": ["GET"]
+  },
+  "raw-command": {
+    "Verbs": ["PUT"]
+  },
+  "raw-zigbee": {
+    "Verbs": ["PUT"]
+  },
+  "rcv-nw-hrdwr": {
+    "Verbs": ["GET"]
+  },
+  "recreate-widgets": {
+    "Verbs": ["PUT"]
+  },
+  "reload-device-conf": {
+    "Verbs": ["GET"]
+  },
+  "req-nwk-full": {
+    "Verbs": ["GET"]
+  },
+  "req-nwk-inter": {
+    "Verbs": ["GET"]
+  },
+  "req-topologie": {
+    "Verbs": ["GET"]
+  },
+  "rescan-groups": {
+    "Verbs": ["GET"]
+  },
+  "restart-needed": {
+    "Verbs": ["GET"]
+  },
+  "scan-device-for-grp": {
+    "Verbs": ["PUT"]
+  },
+  "scenes": {
+    "Verbs": ["DELETE", "GET", "PUT"]
+  },
+  "setting": {
+    "Verbs": ["GET", "PUT"]
+  },
+  "setting-debug": {
+    "Verbs": ["GET", "PUT"]
+  },
+  "sw-reset-coordinator": {
+    "Verbs": ["GET"]
+  },
+  "sw-reset-zigate": {
+    "Verbs": ["GET"]
+  },
+  "topologie": {
+    "Verbs": ["DELETE", "GET"]
+  },
+  "topology-scan": {
+    "Verbs": ["DELETE", "GET"]
+  },
+  "topology-scan-associated-devices": {
+    "Verbs": ["GET"]
+  },
+  "unbinding": {
+    "Verbs": ["PUT"]
+  },
+  "unbinding-group": {
+    "Verbs": ["PUT"]
+  },
+  "upgrade-certified-devices": {
+    "Verbs": ["GET"]
+  },
+  "zdevice": {
+    "Verbs": ["DELETE", "GET"]
+  },
+  "zdevice-name": {
+    "Verbs": ["DELETE", "GET", "PUT"]
+  },
+  "zdevice-raw": {
+    "Verbs": ["GET", "PUT"]
+  },
+  "zgp-device": {
+    "Verbs": ["DELETE", "PUT"]
+  },
+  "zgp-device-raw": {
+    "Verbs": ["GET"]
+  },
+  "zgp-models": {
+    "Verbs": ["GET"]
+  },
+  "zgp-pairing": {
+    "Verbs": ["GET", "PUT"]
+  },
+  "zgroup": {
+    "Verbs": ["GET", "PUT"]
+  },
+  "zgroup-list-available-device": {
+    "Verbs": ["GET"]
+  },
+  "zigate": {
+    "Verbs": ["GET"]
+  },
+  "zigate-erase-PDM": {
+    "Verbs": ["GET"]
+  },
+  "zigate-mode": {
+    "Verbs": ["GET"]
+  },
+  "zigpy-topology-raw": {
+    "Verbs": ["GET"]
+  },
+  "zlinky": {
+    "Verbs": ["GET"]
+  },
+  "zlinky-stge": {
+    "Verbs": ["GET"]
+  }
+}

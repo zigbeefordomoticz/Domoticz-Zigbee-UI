@@ -200,6 +200,11 @@ To add a call:
 3. Add a method returning `Observable<T>`, with
    `.pipe(map(...), catchError(error => this.handleError(error)))` as the
    existing methods do.
+4. Add its row to `CALLS` in `services/api.service.spec.ts` (verb, URL,
+   body); the spec fails on a method without one. The row is also checked
+   against `services/fixtures/plugin-help.stable9.json`, the plugin's
+   `/help` answer: a route the released plugin does not serve yet goes in
+   `NOT_ON_STABLE9` there, with the release that brings it.
 
 If the plugin does not expose the data, that is a **two-repository change**: the
 plugin side ships first, or the UI calls a 404. Say so explicitly rather than
