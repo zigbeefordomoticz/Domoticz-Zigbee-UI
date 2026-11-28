@@ -32,6 +32,7 @@ Before writing or proposing any code change, verify ALL of the following:
 - [ ] Node.js **22** (Angular 21 needs `^20.19.0 || ^22.12.0 || >=24.0.0`; CI builds on 22; Node 20 is end-of-life)
 - [ ] Target branch is `beta`
 - [ ] `npm run lint` passes
+- [ ] `npm run test:ci` passes
 - [ ] `npm run build` passes
 
 ### Architecture
@@ -193,7 +194,8 @@ the five-step upgrade taught about `ng update`.
 - **A push to `beta` deploys to `gh-pages`.** There is no staging step. Treat a
   merge as a release.
 - Never commit directly to `beta`; always use a branch and a pull request.
-- CI runs `npm ci`, `npm run lint` and `npm run build` on every pull request.
+- CI runs `npm ci`, `npm run lint`, `npm run test:ci` and `npm run build` on
+  every pull request.
   A red pull request does not get merged.
 
 ---
@@ -213,18 +215,28 @@ the five-step upgrade taught about `ng update`.
 
 ## 🧪 Testing Reality
 
-There is **no test suite**. There are zero `.spec.ts` files and `angular.json`
-defines no `test` target, so the `test` and `test:ci` scripts in `package.json`
-cannot run.
+Unit tests run with **Vitest** through Angular's `@angular/build:unit-test`
+builder (`ng test`), in Node with jsdom. Coverage is still small.
+
+- `npm test` watches in a terminal; `npm run test:ci` runs once (CI).
+- Specs are `src/**/*.spec.ts`, next to the file they test, compiled with
+  `tsconfig.spec.json`. Import `describe` / `it` / `expect` from `vitest`;
+  there are no globals.
+- The `test-build` target in `angular.json` exists only for the test builder
+  (it needs `@angular/build:application`). The production build still uses
+  `@angular-devkit/build-angular:browser`; do not switch it in a test PR, the
+  `dist/` layout would change.
+- `tsconfig.app.json` excludes `*.spec.ts` and the `worklog` symlink, so
+  neither is compiled into the app.
 
 Consequences for agents:
 
-- Do not claim a change is "tested" because scripts exist.
-- `npm run lint` and `npm run build` are the only automated signals.
+- A passing `test:ci` covers only what the specs cover. Say which specs
+  exercise the change, or that none do.
 - For anything behavioural, say plainly that it needs manual verification
   against a running plugin, and say how.
-- Adding real tests is welcome, but as its own pull request, including the
-  `angular.json` `test` target and the dev dependencies it needs.
+- A bug fix in pure logic (parsers, decoders, `shared/utils`) comes with a
+  spec.
 
 ---
 
@@ -239,7 +251,7 @@ Consequences for agents:
 - ❌ Do not add Zigbee, Domoticz or device logic to this repository
 - ❌ Do not commit your local `proxy.conf.js` target address
 - ❌ Do not commit directly to `beta` — it publishes
-- ❌ Do not claim tests pass; there are none
+- ❌ Do not claim a change is tested when no spec exercises it
 - ❌ Do not bundle unrelated changes into one pull request
 - ❌ Do not reintroduce `ignore` entries for Angular-coupled packages in
   `.github/dependabot.yml`

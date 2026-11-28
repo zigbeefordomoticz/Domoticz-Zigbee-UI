@@ -23,6 +23,7 @@
       "@env/*": ["environments/*"]
     }
   },
+  "exclude": ["src/**/*.spec.ts", "worklog"],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,

@@ -137,6 +137,8 @@ commit yours back**.
 ```bash
 npm start                # dev server on :4200 with the proxy
 npm run lint             # ng lint + stylelint over src/**/*.scss
+npm test                 # unit tests (Vitest), watch mode in a terminal
+npm run test:ci          # unit tests, one run (CI)
 npm run build            # production build to dist/ with --base-href /z4d/
 npm run prettier         # format src/**/*.{ts,js,html,scss}
 npm run prettier:check   # list files that would change
@@ -147,12 +149,21 @@ A Husky `pre-commit` hook runs `npm run lint` and `pretty-quick --staged`.
 
 ### Testing
 
-**There is no test suite.** Zero `.spec.ts` files exist and `angular.json`
-defines no `test` target, so `npm test` and `npm run test:ci` fail. The only
-automated signals are `npm run lint` and `npm run build`.
+Unit tests use **Vitest** through `@angular/build:unit-test` (`ng test`), in
+Node with jsdom; no browser is needed. Specs are `src/**/*.spec.ts` next to the
+file under test, compiled with `tsconfig.spec.json`; import `describe` / `it` /
+`expect` from `vitest` (no globals). A component that is not standalone is
+tested through a standalone host component that imports its module (see
+`shared/utils/health-label.pipe.spec.ts`).
 
-Never describe a change as tested on the strength of those scripts existing.
-For behavioural changes, state what needs manual verification against a running
+The `test` target builds through a separate `test-build` target
+(`@angular/build:application`), because the unit-test builder does not
+support the webpack `browser` builder. The production `build` target is
+unchanged, so `dist/` stays the same.
+
+Coverage is still small: a green `test:ci` says nothing about code no spec
+exercises. Name the specs that cover a change, or say that none do. For
+behavioural changes, state what needs manual verification against a running
 plugin and how to do it.
 
 ### CI/CD
@@ -160,7 +171,8 @@ plugin and how to do it.
 `.github/workflows/build.yml`, Node 22:
 
 - **On `pull_request` against `beta`:** `npm ci --ignore-scripts`,
-  `npm run lint`, `npm run build`. The `Deploy` step is skipped.
+  `npm run lint`, `npm run test:ci`, `npm run build`. The `Deploy` step is
+  skipped.
 - **On `push` to `beta`:** the same, then `Deploy` publishes `dist/` to the
   `gh-pages` branch via `JamesIves/github-pages-deploy-action` with
   `clean: true`.
@@ -465,12 +477,14 @@ Neither blocks anything; both are their own small change:
 
 - Follow `AGENTS.md`, imported at the top of this file (mandatory).
 - One logical change per pull request.
-- `npm run lint` and `npm run build` must pass before you propose a change.
+- `npm run lint`, `npm run test:ci` and `npm run build` must pass before you
+  propose a change.
 - Match the surrounding code: module-based Angular, `ApiService` for all calls,
   translations in all six files.
 - Remember that merging to `beta` publishes to `gh-pages`.
-- Be explicit about what you have verified and what you have not. With no tests
-  in the repository, that distinction is the only thing a reviewer has.
+- Be explicit about what you have verified and what you have not. The unit
+  tests cover little yet, so that distinction is still most of what a reviewer
+  has.
 
 ---
 

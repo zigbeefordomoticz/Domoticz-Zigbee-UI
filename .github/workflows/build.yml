@@ -41,6 +41,9 @@ jobs:
       - name: npm run lint
         run: npm run lint
 
+      - name: npm run test:ci
+        run: npm run test:ci
+
       - name: npm run build prod
         run: npm run build
 
