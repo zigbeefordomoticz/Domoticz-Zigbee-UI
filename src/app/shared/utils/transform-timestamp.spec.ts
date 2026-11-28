@@ -17,9 +17,22 @@ describe('transformToTimestamp', () => {
     expect(transformToTimestamp('Time', epoch + 0.4)).toBe('02/01/2026 03:04:05');
   });
 
-  it('leaves 0 and negative values of a timestamp key as they are', () => {
-    expect(transformToTimestamp('TimeStamp', 0)).toBe(0);
-    expect(transformToTimestamp('TimeStamp', -1)).toBe(-1);
+  it.each(['TimeStamp', 'LastSeen'])('leaves 0 and negative values of %s as they are', key => {
+    // LastSeen 0: a device the plugin has not heard yet (Modules/heartbeat.py), not 1 January 1970
+    expect(transformToTimestamp(key, 0)).toBe(0);
+    expect(transformToTimestamp(key, -1)).toBe(-1);
+  });
+
+  it('works as the JSON.parse reviver of Tools > Data, nested Stamp included', () => {
+    const device = JSON.parse(
+      JSON.stringify({ Model: 'TS0601', Stamp: { LastSeen: 0, LastPing: epoch }, PairingTime: epoch }),
+      transformToTimestamp
+    );
+    expect(device).toEqual({
+      Model: 'TS0601',
+      Stamp: { LastSeen: 0, LastPing: epoch },
+      PairingTime: '02/01/2026 03:04:05'
+    });
   });
 
   it('leaves other keys alone', () => {
